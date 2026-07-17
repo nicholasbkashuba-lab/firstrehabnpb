@@ -427,8 +427,8 @@ def build_home():
 <section class="hero">
   <div class="hero-media">
     <div class="hero-fallback"></div>
-    <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg" onerror="this.remove()">
-      <source src="assets/media/lighthouse.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg?v=3" onerror="this.remove()">
+      <source src="assets/media/lighthouse.mp4?v=3" type="video/mp4">
     </video>
   </div>
   <div class="hero-scrim"></div>
