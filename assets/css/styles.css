@@ -502,3 +502,26 @@ a.tb-item:hover { color: var(--coral); }
 
 /* Podcast cover art */
 img.pod-art { object-fit: cover; padding: 0; border: 1px solid var(--line); }
+
+/* In-page Spotify episode players */
+.pod-card .pod-embed { grid-column: 1 / -1; display: block; border: 0; border-radius: 14px; margin-top: 0.3rem; }
+
+/* ---------- v2.2: Host bios (stacked, detailed) ---------- */
+.hosts-stack { display: flex; flex-direction: column; gap: 1.4rem; margin-bottom: 3rem; }
+.host-bio { display: grid; grid-template-columns: 128px 1fr; gap: 1.6rem; align-items: start;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.7rem 1.8rem; }
+.host-bio img { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid var(--gold); }
+.host-bio h3 { font-size: 1.4rem; margin-bottom: 0.15rem; }
+.host-bio .role { font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral-deep); font-weight: 700; margin-bottom: 0.7rem; }
+.host-bio p { font-size: 0.97rem; color: var(--muted); line-height: 1.65; }
+@media (max-width: 620px) { .host-bio { grid-template-columns: 1fr; justify-items: center; text-align: center; } }
+
+/* ---------- v2.2: Empty media slots degrade cleanly (no placeholder text) ---------- */
+.sm-card.empty, .split-media.empty, .team-photo.empty {
+  background: linear-gradient(150deg, var(--mist), var(--cream));
+  position: relative;
+}
+.sm-card.empty::after, .split-media.empty::after, .team-photo.empty::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(120% 90% at 80% 15%, rgba(233,196,106,0.14), transparent 55%);
+}

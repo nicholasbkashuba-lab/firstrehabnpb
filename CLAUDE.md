@@ -34,3 +34,22 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
 - Keep quotes/testimonials verbatim; don't invent credentials or clinical claims.
 - Intake agent copy lives in `assets/js/intake.js` (STEPS object). It is plain JS served
   to every visitor — never put secret keys in it (the Supabase publishable key is safe by design).
+
+## SEO — keep this maximized on every change
+The build already emits, for every page: a unique `<title>` and meta description, a
+`rel=canonical` URL, Open Graph + Twitter Card tags, MedicalBusiness JSON-LD schema
+(address, hours, geo, 5.0 rating, areaServed), favicons/apple-touch/manifest, `sitemap.xml`,
+and `robots.txt`. When adding or changing pages, preserve all of it:
+
+- Every new page MUST pass a unique `title`, `desc`, and `canonical=` to `head()`.
+  Titles: ~50–60 chars, front-load the keyword + "North Palm Beach". Descriptions: ~150–160 chars.
+- Add every new page's URL to the `pages` list in `build_meta()` so it enters sitemap.xml.
+- Blog posts and condition pages pass `page_type="article"`. Keep one `<h1>` per page
+  (the page hero), with `<h2>`s for structure — never skip heading levels.
+- Keep image `alt` text descriptive and location-aware where natural.
+- Don't remove the JSON-LD block, canonical tags, or the sitemap/robots/manifest generation.
+- If the domain ever changes from firstrehabnpb.com, update `base` in `head()` and `build_meta()`.
+- After any build, sitemap.xml must list every live page and robots.txt must point to it.
+
+Local SEO priorities for this business: "physical therapy North Palm Beach", "hand therapy
+Palm Beach Gardens", "occupational therapy Jupiter FL", plus each condition + location.

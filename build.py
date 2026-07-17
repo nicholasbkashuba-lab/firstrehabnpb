@@ -10,7 +10,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 PHONE = "561-624-4263"
 FAX = "561-840-4234"
 EMAIL = "firstrehabnpb@gmail.com"
-PORTAL = "https://firstrehabapp.vercel.app"
+PORTAL = "https://firstrehabilitationinc.patient.sprypt.com/clinics"
 SPOTIFY = "https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"
 INSTAGRAM = "https://www.instagram.com/firstrehabnpb/"
 FACEBOOK = "https://www.facebook.com/FirstRehabNPB/"
@@ -18,8 +18,10 @@ MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm
 
 # ----------------------------------------------------------------------------
 
-def head(title, desc, depth=0):
+def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cover.jpg", page_type="website"):
     p = "../" * depth
+    base = "https://www.firstrehabnpb.com"
+    canon = f"{base}/{canonical}" if canonical else base + "/"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +29,28 @@ def head(title, desc, depth=0):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
-<link rel="icon" type="image/png" href="{p}assets/media/logo.png">
+<link rel="canonical" href="{canon}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="First Rehabilitation of North Palm Beach">
+<meta name="geo.region" content="US-FL">
+<meta name="geo.placename" content="North Palm Beach">
+<meta property="og:type" content="{page_type}">
+<meta property="og:title" content="{html.escape(title)}">
+<meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:url" content="{canon}">
+<meta property="og:site_name" content="First Rehabilitation of North Palm Beach">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="{base}/{og_image}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{html.escape(title)}">
+<meta name="twitter:description" content="{html.escape(desc)}">
+<meta name="twitter:image" content="{base}/{og_image}">
+<meta name="theme-color" content="#0E3A47">
+<link rel="icon" href="{p}assets/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="{p}site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -39,10 +62,15 @@ def head(title, desc, depth=0):
   "name": "First Rehabilitation of North Palm Beach",
   "description": "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness clinic serving Palm Beach County since 1991.",
   "url": "https://www.firstrehabnpb.com",
+  "logo": "https://www.firstrehabnpb.com/assets/media/logo.png",
+  "image": "https://www.firstrehabnpb.com/assets/media/clinic.jpg",
   "telephone": "+1-561-624-4263",
+  "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
   "foundingDate": "1991",
+  "priceRange": "$$",
   "slogan": "Our People Make the Difference",
+  "medicalSpecialty": ["PhysicalTherapy", "OccupationalTherapy"],
   "address": {{
     "@type": "PostalAddress",
     "streetAddress": "733 US Highway 1, Suite 2A",
@@ -51,11 +79,14 @@ def head(title, desc, depth=0):
     "postalCode": "33408",
     "addressCountry": "US"
   }},
+  "geo": {{ "@type": "GeoCoordinates", "latitude": 26.8234, "longitude": -80.0559 }},
+  "areaServed": ["North Palm Beach", "Palm Beach Gardens", "Jupiter", "Juno Beach", "West Palm Beach", "Palm Beach County"],
   "openingHoursSpecification": {{
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
     "opens": "08:00", "closes": "17:30"
   }},
+  "aggregateRating": {{ "@type": "AggregateRating", "ratingValue": "5.0", "bestRating": "5", "ratingCount": "24" }},
   "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }}</script>
 </head>
@@ -324,8 +355,7 @@ def build_home():
 
     social_cards = "".join(
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener">
-          <img src="assets/social/post-{i}.jpg" alt="First Rehabilitation on Instagram" loading="lazy" onerror="this.parentElement.style.display='none'">
-          <div class="sm-note">Drop <strong>&nbsp;post-{i}.jpg&nbsp;</strong> into assets/social/</div>
+          <img src="assets/social/post-{i}.jpg" alt="Life at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.sm-card').classList.add('empty')">
         </a>''' for i in range(1, 9)
     )
 
@@ -463,8 +493,7 @@ def build_home():
 <section class="section on-paper">
   <div class="wrap split">
     <div class="split-media tilt reveal">
-      <img src="assets/media/clinic.jpg" alt="Inside First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.style.display='none'">
-      <div class="media-note">Drop a clinic or team photo at<br><strong>assets/media/clinic.jpg</strong></div>
+      <img src="assets/media/clinic.jpg" alt="Dr. Dave Kashuba treating a patient at First Rehabilitation" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
     </div>
     <div class="reveal d2">
       <span class="eyebrow">Our Story</span>
@@ -508,7 +537,8 @@ def build_home():
 """
     write("index.html",
           head("First Rehabilitation of North Palm Beach | PT, OT, Hand Therapy & Wellness Since 1991",
-               "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.")
+               "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
+               canonical="", og_image="assets/media/clinic.jpg")
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -615,7 +645,7 @@ def build_services():
 """
         write(f"services/{slug}.html",
               head(f'{s["title"].replace("&amp;","&")} | First Rehabilitation of North Palm Beach',
-                   s["lede"].replace("&amp;", "&"), depth=1)
+                   s["lede"].replace("&amp;", "&"), depth=1, canonical=f"services/{slug}.html")
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -741,7 +771,7 @@ def build_conditions():
 """
     write("treatments/index.html",
           head("What We Treat | First Rehabilitation of North Palm Beach",
-               "Explore the conditions we treat: back, neck, shoulder, knee, hip, foot, ankle, hand & wrist, headaches, post-surgical rehab, workers' comp, and auto accident recovery.", depth=1)
+               "Explore the conditions we treat: back, neck, shoulder, knee, hip, foot, ankle, hand & wrist, headaches, post-surgical rehab, workers' comp, and auto accident recovery.", depth=1, canonical="treatments/index.html")
           + nav(1) + body + footer(1))
 
     for slug, c in CONDITIONS.items():
@@ -778,7 +808,7 @@ def build_conditions():
         name_plain = c["name"].replace("&amp;", "&")
         write(f"treatments/{slug}.html",
               head(f"{name_plain} in North Palm Beach | First Rehabilitation",
-                   c["lede"].replace("&amp;", "&"), depth=1)
+                   c["lede"].replace("&amp;", "&"), depth=1, canonical=f"treatments/{slug}.html", page_type="article")
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -798,8 +828,7 @@ def build_about():
     team_html = "".join(
         f'''<div class="team-card reveal d{i%3+1}">
         <div class="team-photo">
-          <img src="assets/team/{img}" alt="{name}" loading="lazy" onerror="this.style.display='none'">
-          <div class="photo-note">Drop <strong>&nbsp;{img}&nbsp;</strong><br>into assets/team/</div>
+          <img src="assets/team/{img}" alt="{name}, {role} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.team-photo').classList.add('empty')">
         </div>
         <h3>{name}</h3><div class="role">{role}</div><p>{bio}</p></div>'''
         for i, (name, role, bio, img) in enumerate(TEAM)
@@ -824,8 +853,7 @@ def build_about():
       </div>
     </div>
     <div class="split-media tilt2 reveal d2">
-      <img src="assets/media/founder.jpg" alt="David Kashuba, Ph.D., founder of First Rehabilitation" loading="lazy" onerror="this.style.display='none'">
-      <div class="media-note">Drop a founder or clinic photo at<br><strong>assets/media/founder.jpg</strong></div>
+      <img src="assets/media/founder.jpg" alt="First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
     </div>
   </div>
 </section>
@@ -844,7 +872,8 @@ def build_about():
 """
     write("about.html",
           head("About Us | First Rehabilitation of North Palm Beach",
-               "Family-owned since 1991. Meet the team behind First Rehabilitation of North Palm Beach — founder David Kashuba, Ph.D., and our therapists.")
+               "Family-owned since 1991. Meet the team behind First Rehabilitation of North Palm Beach — founder David Kashuba, Ph.D., and our therapists.",
+               canonical="about.html")
           + nav(0) + body + footer(0))
 
 EPISODES = [
@@ -857,13 +886,25 @@ EPISODES = [
 ]
 
 def build_podcast():
-    eps = "".join(
-        f'''<div class="pod-card reveal">
+    import re as _re
+    def _episode_block(num, title, desc, url, label):
+        # Episodes with a Spotify episode URL get an in-page player;
+        # anything else (e.g. "coming Saturday") keeps its action button.
+        m = _re.search(r"open\.spotify\.com/episode/([A-Za-z0-9]+)", url)
+        if m:
+            action = (f'<iframe class="pod-embed" '
+                      f'src="https://open.spotify.com/embed/episode/{m.group(1)}?utm_source=generator&amp;theme=0" '
+                      f'width="100%" height="152" frameborder="0" '
+                      f'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" '
+                      f'loading="lazy" title="{title} — play on-site"></iframe>')
+        else:
+            action = f'<a class="btn btn-ink" href="{url}" target="_blank" rel="noopener">{label}</a>'
+        return f'''<div class="pod-card reveal">
           <img class="pod-art" src="assets/media/podcast-cover.jpg" alt="Pain to Power with Mike and Dave — cover art">
           <div><div class="pod-num">{num}</div><h3>{title}</h3><p>{desc}</p></div>
-          <a class="btn btn-ink" href="{url}" target="_blank" rel="noopener">{label}</a>
-        </div>''' for num, title, desc, url, label in EPISODES
-    )
+          {action}
+        </div>'''
+    eps = "".join(_episode_block(*e) for e in EPISODES)
     body = f"""
 <main>
 {page_hero("The Pain 2 Power Podcast", "Real Conversations That <em class='accent'>Move You Forward</em>",
@@ -876,14 +917,22 @@ def build_podcast():
         <span class="eyebrow">Your Hosts</span>
         <h2>Dave &amp; Mike</h2>
       </div>
-      <div class="hosts-grid">
-        <div class="host-card">
+      <div class="hosts-stack">
+        <div class="host-bio reveal">
           <img src="assets/team/david.jpg" alt="Dr. Dave Kashuba">
-          <div><h3>Dr. Dave Kashuba</h3><div class="role">Host &middot; Founder, First Rehabilitation</div></div>
+          <div>
+            <h3>Dave Kashuba, Ph.D.</h3>
+            <div class="role">Founder &amp; Occupational Therapist</div>
+            <p>Founder of First Rehabilitation and a practicing occupational therapist, Dave has personally guided the care of more than 80,000 patients over 39+ years, bringing a lifetime of hands-on experience to every conversation about healing and resilience.</p>
+          </div>
         </div>
-        <div class="host-card">
+        <div class="host-bio reveal d2">
           <img src="assets/media/mike.jpg" alt="Mike McGann">
-          <div><h3>Mike McGann</h3><div class="role">Co-Host</div></div>
+          <div>
+            <h3>Mike McGann</h3>
+            <div class="role">Co-Host</div>
+            <p>Co-host Mike McGann brings more than 17 years on the Palm Beach County airwaves to the show. He's hosted music and talk programs of nearly every style and now calls Legends 100.3 home — and a lifelong love of the Great American Songbook, sparked by his mom and a little Sinatra at age seven, gives him a storyteller's ear that's perfect for drawing out every guest's journey.</p>
+          </div>
         </div>
       </div>
       <div class="section-head" style="margin-bottom:2rem;">
@@ -908,7 +957,8 @@ def build_podcast():
 """
     write("podcast.html",
           head("Pain 2 Power Podcast | First Rehabilitation of North Palm Beach",
-               "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness. Saturdays on 100.3 Legends Radio and streaming on Spotify.")
+               "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness. Saturdays on 100.3 Legends Radio and streaming on Spotify.",
+               canonical="podcast.html")
           + nav(0) + body + footer(0))
 
 FAQS = [
@@ -945,7 +995,8 @@ def build_faq():
 """
     write("faq.html",
           head("FAQ | First Rehabilitation of North Palm Beach",
-               "Answers to common questions about physical therapy, occupational therapy, hand therapy, insurance, and what to expect at First Rehabilitation of North Palm Beach.")
+               "Answers to common questions about physical therapy, occupational therapy, hand therapy, insurance, and what to expect at First Rehabilitation of North Palm Beach.",
+               canonical="faq.html")
           + nav(0) + body + footer(0))
 
 def build_contact():
@@ -976,7 +1027,8 @@ def build_contact():
 """
     write("contact.html",
           head("Contact | First Rehabilitation of North Palm Beach",
-               "Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call 561-624-4263 to book your appointment.")
+               "Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call 561-624-4263 to book your appointment.",
+               canonical="contact.html")
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -1067,7 +1119,7 @@ def build_blog():
 """
     write("blog/index.html",
           head("Blog | First Rehabilitation of North Palm Beach",
-               "Practical recovery and wellness guidance from the physical, occupational, and hand therapy team at First Rehabilitation of North Palm Beach.", depth=1)
+               "Practical recovery and wellness guidance from the physical, occupational, and hand therapy team at First Rehabilitation of North Palm Beach.", depth=1, canonical="blog/index.html")
           + nav(1) + body + footer(1))
 
     for slug, p in BLOG_POSTS.items():
@@ -1092,7 +1144,7 @@ def build_blog():
 </main>
 """
         write(f"blog/{slug}.html",
-              head(f'{p["title"]} | First Rehabilitation Blog', p["teaser"].replace("&amp;","&"), depth=1)
+              head(f'{p["title"]} | First Rehabilitation Blog', p["teaser"].replace("&amp;","&"), depth=1, canonical=f"blog/{slug}.html", page_type="article")
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -1101,6 +1153,20 @@ def build_blog():
 
 def build_meta():
     base = "https://www.firstrehabnpb.com"
+    write("site.webmanifest", '''{
+  "name": "First Rehabilitation of North Palm Beach",
+  "short_name": "First Rehab",
+  "description": "Physical therapy, occupational therapy, hand therapy & wellness since 1991.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F1E7",
+  "theme_color": "#0E3A47",
+  "icons": [
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
+''')
     pages = ["", "about.html", "contact.html", "faq.html", "podcast.html", "blog/index.html", "treatments/index.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
