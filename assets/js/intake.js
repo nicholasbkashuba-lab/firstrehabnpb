@@ -22,7 +22,6 @@
     supabaseKey: 'sb_publishable_ERdB1Hn8B5cZ74Lq8otSKg_3bSwv5_K',
     table: 'intake_leads',
     notifyEmail: 'firstrehabnpb@gmail.com',
-    chatApi: '/api/chat',
     phone: '561-624-4263',
     phoneHref: 'tel:+15616244263',
     autoOpenDelay: 4500,
@@ -117,27 +116,27 @@
       chips: function () {
         return [
           { label: '📅 Request an appointment', value: 'appointment', cls: 'primary' },
-          { label: '💬 Ask a question', value: 'ai' },
+          { label: '💬 Ask a question', value: 'faq' },
           { label: '👀 Just looking around', value: 'browsing' }
         ];
       },
       accept: function (v) {
         var t = v.toLowerCase();
         if (t.indexOf('appoint') > -1 || t === 'appointment') return { value: 'appointment', echo: 'Request an appointment' };
-        if (t === 'ai' || t === 'question') return { value: 'ai', echo: 'Ask a question' };
+        if (t === 'faq' || t === 'question' || t === 'ask a question') return { value: 'faq', echo: 'Ask a question' };
         if (t === 'browsing' || t.indexOf('looking') > -1 || t.indexOf('brows') > -1) return { value: 'browsing', echo: 'Just looking around' };
-        // Anything else typed here is treated as a question for the AI.
-        flow.data.aiFirst = v;
-        return { value: 'ai', echo: v };
+        // Anything else typed here is a real question — hand it to the front desk.
+        flow.data.pendingTyped = v;
+        return { value: 'faq', echo: v };
       },
       save: 'intent',
       next: function (d) {
         if (d.intent === 'browsing') return 'browse_end';
-        if (d.intent === 'ai') return 'ai';
+        if (d.intent === 'faq') return 'faq';
         return 'topic';
       }
     },
-    ai: { freeform: true },
+    faq: {},
     browse_end: {
       terminal: true,
       prompt: function () {
@@ -146,7 +145,7 @@
       chips: function () {
         return [
           { label: '📅 Actually, book me in', value: 'restart-appointment' },
-          { label: '💬 I do have a question', value: 'ask-ai' }
+          { label: '💬 I do have a question', value: 'ask-faq' }
         ];
       }
     },
@@ -315,67 +314,70 @@
     set(KEYS.draft, { state: flow.state, data: flow.data, t: Date.now() });
   }
 
-  // ---------- AI question mode ----------
-  var aiHistory = [];
+  // ---------- Set-answer FAQ mode (no external AI required) ----------
+  // Curated, always-available answers grounded in the clinic's real facts.
+  // Anything a visitor types that isn't a menu tap is captured as a lead and
+  // emailed to the front desk — so no real question is ever dropped.
+  var FAQ = [
+    { q: 'What services do you offer?',
+      a: 'We offer physical therapy, occupational therapy, certified hand therapy, and an on-site wellness &amp; gym program — all under one roof. We’ve been family-owned since 1991, with a 5.0&#9733; reputation across the Palm Beaches.' },
+    { q: 'Do you take my insurance?',
+      a: 'We accept most major plans — Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network, workers’ comp, and self-pay. Our front desk will gladly verify your exact coverage before your first visit — just call <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>.' },
+    { q: 'Do I need a referral to start?',
+      a: 'In Florida you can usually begin an evaluation without a doctor’s referral, thanks to direct access. Some insurance plans still require one for coverage, so it’s worth a quick call to <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a> so we can check yours.' },
+    { q: 'Where are you located?',
+      a: 'We’re at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 — serving North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach.' },
+    { q: 'What are your hours?',
+      a: 'We’re open Monday through Friday, 8:00&nbsp;AM to 5:30&nbsp;PM, and closed on weekends.' },
+    { q: 'What should I bring to my first visit?',
+      a: 'Bring your photo ID, insurance card, and any referral or imaging paperwork from your doctor, and wear comfortable clothing you can move in. Your first visit is an evaluation — a conversation about your goals plus a movement assessment, often with hands-on treatment that same day.' },
+    { q: 'How much does it cost / do you offer self-pay?',
+      a: 'Your cost depends on your insurance plan and benefits, and yes — we offer self-pay options. For an exact estimate, call our front desk at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>; they’ll verify your coverage and explain any out-of-pocket cost before you start.' },
+    { q: 'What is certified hand therapy?',
+      a: 'Certified hand therapy is specialized care for the hand, wrist, and arm, provided by Laura Drumm, CHT — a Certified Hand Therapist. We treat conditions like carpal tunnel, tendon injuries, fractures, and arthritis, and we fabricate custom splints right in our clinic.' },
+    { q: 'What conditions do you treat?',
+      a: 'We treat a wide range of orthopedic and post-surgical conditions — back and neck pain, sciatica, shoulder, knee and hip pain, hand and wrist injuries, headaches, balance problems, sports injuries, work injuries, and auto-accident recovery. Tell us what’s going on and we’ll point you the right way.' }
+  ];
 
-  function aiChips() {
-    return [
-      { label: '📅 Request an appointment', value: 'restart-appointment' },
-      { label: '📨 Leave a message for the front desk', value: 'frontdesk' }
-    ];
+  function showFaqMenu() {
+    var chips = FAQ.map(function (f, i) { return { label: f.q, value: 'faq:' + i }; });
+    chips.push({ label: '📅 Request an appointment', value: 'restart-appointment', cls: 'primary' });
+    chips.push({ label: '📨 Leave a message for the front desk', value: 'frontdesk' });
+    showChips(chips);
   }
 
-  function aiFallbackText() {
-    return 'I’m having trouble reaching my knowledge base right now — sorry! Our front desk can answer anything at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a> (Mon–Fri 8:00–5:30), or leave them a message below.';
+  function answerFaq(i) {
+    if (busy) return;
+    var f = FAQ[i];
+    if (!f) return;
+    addUser(f.q);
+    botSay([f.a, 'Anything else I can help with?'], false, function () { showFaqMenu(); });
   }
 
-  function aiAsk(text) {
-    busy = true;
-    clearChips();
-    aiHistory.push({ role: 'user', content: text });
-    var typing = el('div', 'fri-msg bot fri-typing', '<i></i><i></i><i></i>');
-    log.appendChild(typing);
-    scrollLog();
-    var finish = function (html) {
-      typing.remove();
-      busy = false;
-      addBotNow('<div class="fri-msg bot">' + html + '</div>', true);
-      showChips(aiChips());
-    };
-    fetch(CFG.chatApi, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: aiHistory.slice(-12) })
-    }).then(function (r) {
-      if (!r.ok) throw new Error('chat ' + r.status);
-      return r.json();
-    }).then(function (data) {
-      var reply = (data && data.reply) ? String(data.reply) : '';
-      if (!reply) throw new Error('empty');
-      aiHistory.push({ role: 'assistant', content: reply });
-      finish(esc(reply).replace(/\n/g, '<br>'));
-    }).catch(function () {
-      aiHistory.pop(); // don't poison history with the unanswered turn
-      finish(aiFallbackText());
-    });
-  }
-
-  function enterAiMode(firstQuestion) {
-    flow.state = 'ai';
-    if (firstQuestion) {
-      aiAsk(firstQuestion);
+  // Turn a typed question into a captured front-desk lead.
+  function startFrontDeskMessage(questionText) {
+    flow.data.intent = 'question';
+    if (questionText) flow.data.message = String(questionText).slice(0, 4000);
+    saveDraft();
+    if (questionText) {
+      botSay(['Great question — I’ll pass it straight to our front desk so they can follow up personally.'], false, function () { runStep('name'); });
     } else {
-      botSay(['Of course — ask me anything about our services, hours, insurance, or the team. 😊'], false, function () {
-        if (window.matchMedia('(min-width: 641px)').matches) input.focus();
-      });
+      runStep('message');
     }
   }
 
+  function enterFaqMode() {
+    flow.state = 'faq';
+    saveDraft();
+    var typed = flow.data.pendingTyped;
+    flow.data.pendingTyped = null;
+    if (typed) { startFrontDeskMessage(typed); return; }
+    botSay(['Happy to help! Tap a question below and I’ll answer right away — or I can take a message for our front desk. 😊'], false, function () { showFaqMenu(); });
+  }
+
   function runStep(stateId, opts) {
-    if (stateId === 'ai') {
-      var q = flow.data.aiFirst;
-      flow.data.aiFirst = null;
-      enterAiMode(q);
+    if (stateId === 'faq') {
+      enterFaqMode();
       return;
     }
     flow.state = stateId;
@@ -392,6 +394,12 @@
     if (busy) return;
     var step = STEPS[flow.state];
     if (!step) return;
+
+    // FAQ menu tap → instant canned answer.
+    if (typeof value === 'string' && value.indexOf('faq:') === 0) {
+      answerFaq(parseInt(value.slice(4), 10));
+      return;
+    }
 
     // Restart shortcuts available from chips
     if (value === 'restart' && flow.state === 'confirm') {
@@ -413,16 +421,16 @@
       runStep('message');
       return;
     }
-    if (value === 'ask-ai') {
+    if (value === 'ask-faq' || value === 'ask-ai') {
       addUser('I have a question');
-      flow.data.intent = 'ai';
-      runStep('ai');
+      flow.data.intent = 'faq';
+      runStep('faq');
       return;
     }
-    // Free-form AI conversation: everything typed goes to the assistant.
-    if (flow.state === 'ai') {
+    // Anything typed while browsing the FAQ becomes a front-desk lead.
+    if (flow.state === 'faq') {
       addUser(echoOverride || value);
-      aiAsk(value);
+      startFrontDeskMessage(value);
       return;
     }
     if (step.terminal) return;
@@ -483,28 +491,46 @@
     });
   }
 
-  // Best-effort email copy to the clinic inbox. Never blocks success.
-  function sendEmailCopy(payload) {
-    try {
-      fetch('https://formsubmit.co/ajax/' + CFG.notifyEmail, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: 'Website inquiry ' + (payload.ref_code || '') + ' — ' + payload.full_name,
-          _template: 'table',
-          Reference: payload.ref_code,
-          Type: payload.intent,
-          Care: payload.topic || '—',
-          Details: payload.message,
-          Name: payload.full_name,
-          Phone: payload.phone,
-          Email: payload.email || '—',
-          'Preferred call time': payload.preferred_time || '—',
-          Insurance: payload.insurance || '—',
-          Page: payload.page
-        })
-      }).catch(function () {});
-    } catch (e) {}
+  // Email the lead to the clinic inbox (firstrehabnpb@gmail.com) via FormSubmit.
+  // Returns a promise so delivery can be tracked independently of the database.
+  function sendEmail(payload) {
+    return fetch('https://formsubmit.co/ajax/' + CFG.notifyEmail, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: (payload.intent === 'question' ? 'Website question ' : 'Appointment request ') + (payload.ref_code || '') + ' — ' + payload.full_name,
+        _template: 'table',
+        Reference: payload.ref_code,
+        Type: payload.intent === 'question' ? 'Question / message' : 'Appointment request',
+        Care: payload.topic || '—',
+        Details: payload.message || '—',
+        Name: payload.full_name,
+        Phone: payload.phone,
+        Email: payload.email || '—',
+        'Preferred call time': payload.preferred_time || '—',
+        Insurance: payload.insurance || '—',
+        Page: payload.page
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('email ' + r.status);
+      return r.json();
+    });
+  }
+
+  // Deliver a lead two ways at once — Supabase (permanent record) and email
+  // (clinic inbox). Resolves if EITHER channel succeeds, so a lead still reaches
+  // the clinic if one path is down; rejects only if both fail (then it's queued).
+  function deliverLead(payload) {
+    return new Promise(function (resolve, reject) {
+      var pending = 2, anyOk = false;
+      function settle(ok) {
+        if (ok) anyOk = true;
+        pending -= 1;
+        if (pending === 0) { anyOk ? resolve() : reject(new Error('delivery failed')); }
+      }
+      sendToSupabase(payload).then(function () { settle(true); }, function () { settle(false); });
+      sendEmail(payload).then(function () { settle(true); }, function () { settle(false); });
+    });
   }
 
   function queueLead(payload) {
@@ -517,8 +543,7 @@
     var q = get(KEYS.queue) || [];
     if (!q.length) return;
     var payload = q[0];
-    sendToSupabase(payload).then(function () {
-      sendEmailCopy(payload);
+    deliverLead(payload).then(function () {
       var rest = (get(KEYS.queue) || []).slice(1);
       if (rest.length) { set(KEYS.queue, rest); flushQueue(); }
       else del(KEYS.queue);
@@ -534,8 +559,7 @@
     log.appendChild(typing);
     scrollLog();
 
-    sendToSupabase(payload).then(function () {
-      sendEmailCopy(payload);
+    deliverLead(payload).then(function () {
       typing.remove();
       busy = false;
       del(KEYS.draft);
@@ -638,8 +662,7 @@
         doneBox.hidden = false;
         doneBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
-      sendToSupabase(payload).then(function () {
-        sendEmailCopy(payload);
+      deliverLead(payload).then(function () {
         finish(false);
       }).catch(function () {
         queueLead(payload);
