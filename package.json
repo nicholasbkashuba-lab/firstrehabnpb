@@ -7,6 +7,6 @@
   },
   "description": "Static site + /api serverless functions for firstrehabnpb.com",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.116.0"
+    "@anthropic-ai/sdk": "^0.112.0"
   }
 }
