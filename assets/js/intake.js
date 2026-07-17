@@ -1,0 +1,563 @@
+/* ============================================================
+   FIRST REHABILITATION — Intake Assistant
+   Chat-style concierge that greets visitors, collects inquiry +
+   contact details, and delivers them to the clinic.
+
+   Data safety, in order:
+     1. Every answer is saved to localStorage immediately (drafts
+        survive refreshes and navigation).
+     2. Submissions insert into Supabase (insert-only anon policy).
+     3. A copy is emailed to the clinic inbox via FormSubmit.
+     4. If the network fails, the lead is queued locally and
+        retried automatically on every page view + when the
+        browser comes back online.
+   ============================================================ */
+(function () {
+  'use strict';
+  if (window.__friLoaded) return;
+  window.__friLoaded = true;
+
+  var CFG = {
+    supabaseUrl: 'https://pclqpthqigsfteyluwqj.supabase.co',
+    supabaseKey: 'sb_publishable_ERdB1Hn8B5cZ74Lq8otSKg_3bSwv5_K',
+    table: 'intake_leads',
+    notifyEmail: 'firstrehabnpb@gmail.com',
+    phone: '561-624-4263',
+    phoneHref: 'tel:+15616244263',
+    autoOpenDelay: 4500,
+    contactPageDelay: 1600
+  };
+
+  var KEYS = { draft: 'fr.intake.draft.v1', queue: 'fr.intake.queue.v1', done: 'fr.intake.done.v1', auto: 'fr.intake.auto.v1' };
+
+  // Resolve asset base from this script's own URL so it works at any page depth.
+  var base = '';
+  var self = document.currentScript || (function () {
+    var s = document.querySelectorAll('script[src]');
+    for (var i = 0; i < s.length; i++) if (/intake\.js/.test(s[i].src)) return s[i];
+    return null;
+  })();
+  if (self && self.src) base = self.src.replace(/assets\/js\/intake\.js.*$/, '');
+
+  // ---------- tiny storage helpers (never throw) ----------
+  function store(kind) {
+    try { return kind === 's' ? window.sessionStorage : window.localStorage; } catch (e) { return null; }
+  }
+  function get(key, kind) {
+    var s = store(kind); if (!s) return null;
+    try { return JSON.parse(s.getItem(key)); } catch (e) { return null; }
+  }
+  function set(key, val, kind) {
+    var s = store(kind); if (!s) return;
+    try { s.setItem(key, JSON.stringify(val)); } catch (e) { /* full/blocked */ }
+  }
+  function del(key, kind) {
+    var s = store(kind); if (!s) return;
+    try { s.removeItem(key); } catch (e) {}
+  }
+
+  // ---------- DOM ----------
+  function el(tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var chatIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+  var closeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+  var sendIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+
+  var root = el('div', 'fri-root');
+  root.innerHTML =
+    '<div class="fri-teaser" role="button" tabindex="0" aria-label="Open chat assistant">' +
+      '<button class="fri-teaser-x" aria-label="Dismiss">&#10005;</button>' +
+      '👋 <strong>Hi there!</strong> Want us to call you about an appointment? I can take your info in under a minute.' +
+    '</div>' +
+    '<button class="fri-launcher" aria-label="Chat with First Rehabilitation" aria-haspopup="dialog">' + chatIcon + '<span class="fri-dot"></span></button>' +
+    '<div class="fri-panel" role="dialog" aria-modal="false" aria-label="First Rehabilitation intake assistant">' +
+      '<div class="fri-head">' +
+        '<img src="' + base + 'assets/media/logo-dark.png" alt="">' +
+        '<div class="fri-who">' +
+          '<div class="fri-title">First Rehab Assistant</div>' +
+          '<div class="fri-sub">Front desk replies within one business day</div>' +
+        '</div>' +
+        '<button class="fri-x" aria-label="Close chat">' + closeIcon + '</button>' +
+      '</div>' +
+      '<div class="fri-log" aria-live="polite"></div>' +
+      '<div class="fri-bar">' +
+        '<input class="fri-input" type="text" maxlength="600" placeholder="Type here&hellip;" aria-label="Your reply">' +
+        '<button class="fri-send" aria-label="Send">' + sendIcon + '</button>' +
+      '</div>' +
+      '<div class="fri-privacy">Private &amp; secure &middot; or call <a href="' + CFG.phoneHref + '" style="color:inherit;font-weight:600;">' + CFG.phone + '</a></div>' +
+    '</div>';
+
+  var teaser, launcher, panel, log, input, sendBtn;
+
+  // ---------- conversation engine ----------
+  var flow = { state: 'intent', data: {} };
+  var busy = false;      // true while bot is "typing"
+  var chipsEl = null;
+
+  var TOPICS = ['Physical Therapy', 'Occupational Therapy', 'Hand Therapy', 'Wellness & Gym', 'Not sure yet'];
+  var INSURERS = ['Medicare', 'Blue Cross', 'Aetna', 'Humana', 'Self-pay', 'Skip'];
+
+  var STEPS = {
+    intent: {
+      prompt: function () {
+        return ['👋 Welcome to First Rehabilitation! I’m the clinic’s virtual assistant. I can take your info and have our front desk call you back — usually the same business day.',
+                'What brings you in today?'];
+      },
+      chips: function () {
+        return [
+          { label: '📅 Request an appointment', value: 'appointment', cls: 'primary' },
+          { label: '❓ I have a question', value: 'question' },
+          { label: '👀 Just looking around', value: 'browsing' }
+        ];
+      },
+      accept: function (v) {
+        var t = v.toLowerCase();
+        if (t.indexOf('appoint') > -1 || t === 'appointment') return { value: 'appointment', echo: 'Request an appointment' };
+        if (t.indexOf('question') > -1 || t === '?') return { value: 'question', echo: 'I have a question' };
+        if (t === 'browsing' || t.indexOf('looking') > -1 || t.indexOf('brows') > -1) return { value: 'browsing', echo: 'Just looking around' };
+        // Anything else typed here is treated as the start of a question.
+        flow.data.message = v;
+        return { value: 'question', echo: v };
+      },
+      save: 'intent',
+      next: function (d) {
+        if (d.intent === 'browsing') return 'browse_end';
+        if (d.intent === 'question') return d.message ? 'name' : 'message';
+        return 'topic';
+      }
+    },
+    browse_end: {
+      terminal: true,
+      prompt: function () {
+        return ['Enjoy the site! I’ll be right here in the corner if anything starts aching. 😊 You can also call us anytime at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>.'];
+      },
+      chips: function () {
+        return [{ label: '📅 Actually, book me in', value: 'restart-appointment' }];
+      }
+    },
+    topic: {
+      prompt: function () { return ['Wonderful — what kind of care are you looking for?']; },
+      chips: function () {
+        return TOPICS.map(function (t) { return { label: t, value: t }; });
+      },
+      accept: function (v) { return { value: v, echo: v }; },
+      save: 'topic',
+      next: function () { return 'message'; }
+    },
+    message: {
+      prompt: function (d) {
+        return d.intent === 'question'
+          ? ['Of course — what would you like to ask? I’ll pass it straight to our team.']
+          : ['Tell me a little about what’s going on — where does it hurt, or what happened? A sentence or two is perfect.'];
+      },
+      accept: function (v) {
+        if (v.length < 2) return { error: 'Could you give me just a few words about it?' };
+        return { value: v, echo: v };
+      },
+      save: 'message',
+      next: function () { return 'name'; }
+    },
+    name: {
+      prompt: function () { return ['Got it, thank you. And who am I passing this along to? (First and last name)']; },
+      accept: function (v) {
+        if (v.replace(/[^a-zA-ZÀ-ɏ]/g, '').length < 2) return { error: 'I didn’t quite catch that — could you type your name?' };
+        return { value: v, echo: v };
+      },
+      save: 'full_name',
+      next: function () { return 'phone'; }
+    },
+    phone: {
+      prompt: function (d) {
+        var first = (d.full_name || '').split(/\s+/)[0];
+        return ['Thanks' + (first ? ', ' + esc(first) : '') + '! What’s the best phone number for our front desk to reach you?'];
+      },
+      accept: function (v) {
+        var digits = v.replace(/\D/g, '');
+        if (digits.length < 10 || digits.length > 15) {
+          return { error: 'Hmm, that doesn’t look like a complete phone number — mind double-checking? (e.g. 561-555-1234)' };
+        }
+        return { value: v, echo: v };
+      },
+      save: 'phone',
+      next: function () { return 'email'; }
+    },
+    email: {
+      prompt: function () { return ['Perfect. And an email address, in case we can’t reach you by phone? <span class="fri-note">Optional — tap Skip if you’d rather not.</span>']; },
+      chips: function () { return [{ label: 'Skip', value: '__skip__' }]; },
+      accept: function (v) {
+        if (v === '__skip__') return { value: '', echo: 'Skip' };
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return { error: 'That email doesn’t look quite right — want to try again, or tap Skip?' };
+        return { value: v, echo: v };
+      },
+      save: 'email',
+      next: function (d) { return d.intent === 'question' ? 'confirm' : 'time'; }
+    },
+    time: {
+      prompt: function () { return ['When’s the best time for us to call? We’re open Mon–Fri, 8:00 AM – 5:30 PM.']; },
+      chips: function () {
+        return [{ label: '☀️ Morning', value: 'Morning' }, { label: '🌤️ Afternoon', value: 'Afternoon' }, { label: 'Anytime', value: 'Anytime' }];
+      },
+      accept: function (v) { return { value: v, echo: v }; },
+      save: 'preferred_time',
+      next: function () { return 'insurance'; }
+    },
+    insurance: {
+      prompt: function () { return ['Last one — who’s your insurance provider? We’ll verify your coverage before we call. <span class="fri-note">Optional.</span>']; },
+      chips: function () {
+        return INSURERS.map(function (t) { return { label: t, value: t === 'Skip' ? '__skip__' : t }; });
+      },
+      accept: function (v) {
+        if (v === '__skip__') return { value: '', echo: 'Skip' };
+        return { value: v, echo: v };
+      },
+      save: 'insurance',
+      next: function () { return 'confirm'; }
+    },
+    confirm: {
+      prompt: function (d) { return [summaryHTML(d), 'Did I get everything right?']; },
+      rawFirst: true,
+      chips: function () {
+        return [{ label: '✓ Send to the clinic', value: 'send', cls: 'primary' }, { label: '↺ Start over', value: 'restart' }];
+      },
+      accept: function (v) {
+        var t = v.toLowerCase();
+        if (t === 'send' || t.indexOf('yes') === 0 || t.indexOf('send') > -1 || t === 'y') return { value: 'send', echo: 'Send it ✓' };
+        if (t === 'restart' || t.indexOf('start over') > -1 || t.indexOf('no') === 0) return { value: 'restart', echo: 'Start over' };
+        return { error: 'Tap “Send to the clinic” when you’re ready — or “Start over” to fix something.' };
+      },
+      next: function () { return null; } // handled specially
+    }
+  };
+
+  function summaryHTML(d) {
+    var rows = [
+      ['For', d.intent === 'question' ? 'A question' : 'Appointment request'],
+      ['Care', d.topic], ['Details', d.message], ['Name', d.full_name],
+      ['Phone', d.phone], ['Email', d.email], ['Call time', d.preferred_time], ['Insurance', d.insurance]
+    ];
+    var html = '<div class="fri-summary">';
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i][1]) html += '<div><span class="k">' + rows[i][0] + '</span><span class="v">' + esc(rows[i][1]) + '</span></div>';
+    }
+    return html + '</div>';
+  }
+
+  function scrollLog() { log.scrollTop = log.scrollHeight; }
+
+  function addUser(text) {
+    log.appendChild(el('div', 'fri-msg user', esc(text)));
+    scrollLog();
+  }
+
+  function addBotNow(html, raw) {
+    var m = el('div', raw ? '' : 'fri-msg bot');
+    m.innerHTML = raw ? html : html; // raw blocks (summary card) carry their own styling
+    if (raw) { var w = el('div'); w.innerHTML = html; m = w.firstChild; }
+    log.appendChild(m);
+    scrollLog();
+    return m;
+  }
+
+  // Queue of bot messages with a typing indicator between them.
+  function botSay(messages, rawFirst, done) {
+    busy = true;
+    clearChips();
+    var i = 0;
+    function nextMsg() {
+      if (i >= messages.length) { busy = false; if (done) done(); return; }
+      var typing = el('div', 'fri-msg bot fri-typing', '<i></i><i></i><i></i>');
+      log.appendChild(typing);
+      scrollLog();
+      var delay = Math.min(350 + messages[i].length * 6, 1100);
+      setTimeout(function () {
+        typing.remove();
+        addBotNow(messages[i], rawFirst && i === 0);
+        i++;
+        nextMsg();
+      }, delay);
+    }
+    nextMsg();
+  }
+
+  function clearChips() {
+    if (chipsEl) { chipsEl.remove(); chipsEl = null; }
+  }
+
+  function showChips(defs) {
+    clearChips();
+    if (!defs || !defs.length) return;
+    chipsEl = el('div', 'fri-chips');
+    defs.forEach(function (c) {
+      var b = el('button', 'fri-chip' + (c.cls ? ' ' + c.cls : ''), esc(c.label));
+      b.addEventListener('click', function () { handleAnswer(c.value, c.label.replace(/^[^\w]*\s*/, '')); });
+      chipsEl.appendChild(b);
+    });
+    log.appendChild(chipsEl);
+    scrollLog();
+  }
+
+  function saveDraft() {
+    set(KEYS.draft, { state: flow.state, data: flow.data, t: Date.now() });
+  }
+
+  function runStep(stateId, opts) {
+    flow.state = stateId;
+    saveDraft();
+    var step = STEPS[stateId];
+    var msgs = step.prompt(flow.data);
+    botSay(msgs, step.rawFirst, function () {
+      if (step.chips) showChips(step.chips(flow.data));
+      if (!step.terminal && !(opts && opts.noFocus) && window.matchMedia('(min-width: 641px)').matches) input.focus();
+    });
+  }
+
+  function handleAnswer(value, echoOverride) {
+    if (busy) return;
+    var step = STEPS[flow.state];
+    if (!step) return;
+
+    // Restart shortcuts available from chips
+    if (value === 'restart' && flow.state === 'confirm') {
+      addUser('Start over');
+      flow.data = {};
+      del(KEYS.draft);
+      runStep('intent');
+      return;
+    }
+    if (value === 'restart-appointment') {
+      addUser('Actually, book me in');
+      flow.data = { intent: 'appointment' };
+      runStep('topic');
+      return;
+    }
+    if (step.terminal) return;
+
+    var res = step.accept ? step.accept(value) : { value: value, echo: value };
+    if (res.error) {
+      addUser(echoOverride || value);
+      botSay([res.error], false, function () { if (step.chips) showChips(step.chips(flow.data)); });
+      return;
+    }
+    addUser(res.echo != null ? res.echo : (echoOverride || value));
+    if (step.save) flow.data[step.save] = res.value;
+    saveDraft();
+
+    if (flow.state === 'confirm' && res.value === 'send') { submit(); return; }
+
+    var nxt = step.next(flow.data);
+    if (nxt) runStep(nxt);
+  }
+
+  // ---------- delivery ----------
+  function refCode() {
+    var abc = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', out = '';
+    for (var i = 0; i < 5; i++) out += abc.charAt(Math.floor(Math.random() * abc.length));
+    return 'FR-' + out;
+  }
+
+  function leadPayload() {
+    var d = flow.data;
+    return {
+      ref_code: d.ref_code,
+      intent: d.intent || 'appointment',
+      topic: d.topic || null,
+      message: (d.message || '').slice(0, 4000),
+      full_name: (d.full_name || '').slice(0, 200),
+      phone: (d.phone || '').slice(0, 40),
+      email: (d.email || '').slice(0, 200) || null,
+      preferred_time: d.preferred_time || null,
+      insurance: d.insurance || null,
+      page: location.pathname,
+      user_agent: (navigator.userAgent || '').slice(0, 300)
+    };
+  }
+
+  function sendToSupabase(payload) {
+    return fetch(CFG.supabaseUrl + '/rest/v1/' + CFG.table, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': CFG.supabaseKey,
+        'Authorization': 'Bearer ' + CFG.supabaseKey,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      if (!r.ok) throw new Error('supabase ' + r.status);
+      return true;
+    });
+  }
+
+  // Best-effort email copy to the clinic inbox. Never blocks success.
+  function sendEmailCopy(payload) {
+    try {
+      fetch('https://formsubmit.co/ajax/' + CFG.notifyEmail, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Website inquiry ' + (payload.ref_code || '') + ' — ' + payload.full_name,
+          _template: 'table',
+          Reference: payload.ref_code,
+          Type: payload.intent,
+          Care: payload.topic || '—',
+          Details: payload.message,
+          Name: payload.full_name,
+          Phone: payload.phone,
+          Email: payload.email || '—',
+          'Preferred call time': payload.preferred_time || '—',
+          Insurance: payload.insurance || '—',
+          Page: payload.page
+        })
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
+  function queueLead(payload) {
+    var q = get(KEYS.queue) || [];
+    q.push(payload);
+    set(KEYS.queue, q.slice(-20)); // keep the queue bounded
+  }
+
+  function flushQueue() {
+    var q = get(KEYS.queue) || [];
+    if (!q.length) return;
+    var payload = q[0];
+    sendToSupabase(payload).then(function () {
+      sendEmailCopy(payload);
+      var rest = (get(KEYS.queue) || []).slice(1);
+      if (rest.length) { set(KEYS.queue, rest); flushQueue(); }
+      else del(KEYS.queue);
+    }).catch(function () { /* still offline — try again later */ });
+  }
+
+  function submit() {
+    flow.data.ref_code = refCode();
+    var payload = leadPayload();
+    busy = true;
+    clearChips();
+    var typing = el('div', 'fri-msg bot fri-typing', '<i></i><i></i><i></i>');
+    log.appendChild(typing);
+    scrollLog();
+
+    sendToSupabase(payload).then(function () {
+      sendEmailCopy(payload);
+      typing.remove();
+      busy = false;
+      del(KEYS.draft);
+      set(KEYS.done, { t: Date.now(), ref: payload.ref_code });
+      flow.state = 'sent';
+      botSay([
+        'Perfect — it’s on its way! 🎉 Your reference number is <strong>' + payload.ref_code + '</strong>.',
+        'Our front desk will call you back within one business day. Need us sooner? We’re at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>, Mon–Fri 8:00–5:30.'
+      ], false, function () {
+        showChips([{ label: '📅 Send another request', value: 'restart-appointment' }]);
+      });
+    }).catch(function () {
+      typing.remove();
+      busy = false;
+      queueLead(payload);
+      del(KEYS.draft);
+      flow.state = 'queued';
+      botSay([
+        'It looks like the connection hiccuped — but don’t worry, <strong>your info is saved safely on this device</strong> and will send itself automatically as soon as the connection returns.',
+        'If it’s urgent, our front desk is at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>.'
+      ]);
+    });
+  }
+
+  // ---------- open / close ----------
+  var started = false;
+  function openPanel(auto) {
+    hideTeaser();
+    root.classList.add('open');
+    if (!started) {
+      started = true;
+      var draft = get(KEYS.draft);
+      if (draft && draft.data && draft.state && STEPS[draft.state] && Date.now() - (draft.t || 0) < 72 * 3600e3) {
+        flow.data = draft.data;
+        botSay(['Welcome back — let’s pick up right where we left off. 😊'], false, function () {
+          runStep(draft.state, { noFocus: auto });
+        });
+      } else {
+        runStep('intent', { noFocus: auto });
+      }
+    }
+    if (!auto) input.focus();
+  }
+  function closePanel() {
+    root.classList.remove('open');
+  }
+  function hideTeaser() {
+    teaser.classList.remove('show');
+  }
+
+  // ---------- boot ----------
+  function boot() {
+    document.body.appendChild(root);
+    teaser = root.querySelector('.fri-teaser');
+    launcher = root.querySelector('.fri-launcher');
+    panel = root.querySelector('.fri-panel');
+    log = root.querySelector('.fri-log');
+    input = root.querySelector('.fri-input');
+    sendBtn = root.querySelector('.fri-send');
+
+    launcher.addEventListener('click', function () { openPanel(false); });
+    root.querySelector('.fri-x').addEventListener('click', closePanel);
+    teaser.addEventListener('click', function (e) {
+      if (e.target.classList.contains('fri-teaser-x')) { hideTeaser(); return; }
+      openPanel(false);
+    });
+    teaser.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(false); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && root.classList.contains('open')) closePanel();
+    });
+
+    function sendInput() {
+      var v = input.value.trim();
+      if (!v || busy) return;
+      input.value = '';
+      handleAnswer(v);
+    }
+    sendBtn.addEventListener('click', sendInput);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); sendInput(); }
+    });
+
+    // Retry any leads that failed to send on a previous visit.
+    flushQueue();
+    window.addEventListener('online', flushQueue);
+
+    // Auto-greet: once per browser session, never after a completed submission.
+    var done = get(KEYS.done);
+    var alreadyAuto = get(KEYS.auto, 's');
+    if (!done && !alreadyAuto) {
+      var isContact = /contact\.html$/.test(location.pathname);
+      var delay = isContact ? CFG.contactPageDelay : CFG.autoOpenDelay;
+      setTimeout(function () {
+        if (root.classList.contains('open')) return;
+        set(KEYS.auto, 1, 's');
+        if (window.matchMedia('(max-width: 640px)').matches) {
+          teaser.classList.add('show');
+          setTimeout(hideTeaser, 14000);
+        } else {
+          openPanel(true);
+        }
+      }, delay);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();

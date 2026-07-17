@@ -14,6 +14,20 @@
 
 Every image slot shows a labeled placeholder until you drop the file in, so you can see exactly what goes where by opening the site.
 
+## The intake assistant
+
+Every page has a chat-style intake assistant (bottom-right). It greets visitors shortly
+after they arrive, and collects: what they need, a short description, name, phone, email,
+preferred call time, and insurance — then delivers the lead two ways at once:
+
+1. **Supabase** — table `intake_leads` in the "First Rehabilitation App" project
+   (supabase.com dashboard → Table Editor). This is the permanent record.
+2. **Email** — a formatted copy to firstrehabnpb@gmail.com via FormSubmit.
+
+No lead can be lost: every answer is saved on the visitor's device as they type, and if
+their connection drops at the moment of submission, the lead is stored locally and re-sent
+automatically the next time they're online on the site.
+
 ## Editing content
 
 All content lives in `build.py` (phone, hours, team bios, condition copy, FAQ, podcast episodes).

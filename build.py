@@ -32,6 +32,7 @@ def head(title, desc, depth=0):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{p}assets/css/styles.css">
+<link rel="stylesheet" href="{p}assets/css/intake.css">
 <script type="application/ld+json">{{
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
@@ -175,6 +176,7 @@ def footer(depth=0):
   </div>
 </footer>
 <script src="{p}assets/js/main.js"></script>
+<script src="{p}assets/js/intake.js" defer></script>
 </body>
 </html>
 """
@@ -322,7 +324,7 @@ def build_home():
 
     social_cards = "".join(
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener">
-          <img src="assets/social/post-{i}.jpg" alt="First Rehabilitation on Instagram" loading="lazy" onerror="this.style.display='none'">
+          <img src="assets/social/post-{i}.jpg" alt="First Rehabilitation on Instagram" loading="lazy" onerror="this.parentElement.style.display='none'">
           <div class="sm-note">Drop <strong>&nbsp;post-{i}.jpg&nbsp;</strong> into assets/social/</div>
         </a>''' for i in range(1, 9)
     )
