@@ -6,8 +6,10 @@
   if (heroVideo) {
     const tryPlay = () => heroVideo.play().catch(() => {});
     tryPlay();
+    heroVideo.addEventListener('canplay', tryPlay);
     document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
     document.addEventListener('click', tryPlay, { once: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
   }
 
   const header = document.querySelector('.site-header');

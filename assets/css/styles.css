@@ -606,3 +606,25 @@ img.pod-art { object-fit: cover; padding: 0; border: 1px solid var(--line); }
 .cht-callout { background: var(--paper); border: 1px solid var(--line-gold); border-left: 4px solid var(--gold); border-radius: var(--radius-lg); padding: 2.2rem 2.4rem; box-shadow: var(--shadow-card); max-width: 860px; }
 .cht-callout h3 { margin-bottom: 0.7rem; }
 .cht-callout p { color: var(--muted); font-size: 1rem; max-width: 70ch; }
+
+/* ---------- Hero: centered readable panel over vivid video ---------- */
+.hero .hero-scrim { background: linear-gradient(180deg, rgba(7,30,39,0.28) 0%, rgba(7,30,39,0.12) 45%, rgba(7,30,39,0.5) 100%); }
+.hero-panel {
+  max-width: 900px; margin: 0 auto; text-align: center;
+  background: rgba(7, 30, 39, 0.74);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid rgba(233, 196, 106, 0.22);
+  border-radius: clamp(18px, 3vw, 34px);
+  padding: clamp(2.2rem, 5vw, 4rem) clamp(1.4rem, 5vw, 4rem);
+  box-shadow: 0 40px 90px -40px rgba(7, 30, 39, 0.85);
+}
+.hero-panel .eyebrow { background: var(--gold); color: var(--ink-deep); padding: 0.6rem 1.8rem; border-radius: 999px; margin-bottom: 1.8rem; }
+.hero-panel .eyebrow::before { display: none; }
+.hero-panel h1 { margin: 0 auto; }
+.hero-panel .hero-sub { margin-left: auto; margin-right: auto; }
+.hero-panel .hero-ctas { justify-content: center; }
+.hero-panel .hero-badges { justify-content: center; }
+.hero .hero-meta { justify-content: center; }
+/* Video must paint ABOVE the gradient placeholder (positioned elements
+   otherwise stack over static ones regardless of DOM order). */
+.hero-media video, .hero-media img { position: relative; z-index: 1; }
