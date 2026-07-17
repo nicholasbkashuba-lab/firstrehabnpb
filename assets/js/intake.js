@@ -172,9 +172,9 @@
       next: function () { return 'name'; }
     },
     name: {
-      prompt: function () { return ['Got it, thank you. And who am I passing this along to? (First and last name)']; },
+      prompt: function () { return ['Great — let’s get your contact details so our front desk can reach you. First, what’s your <strong>first and last name</strong>?']; },
       accept: function (v) {
-        if (v.replace(/[^a-zA-ZÀ-ɏ]/g, '').length < 2) return { error: 'I didn’t quite catch that — could you type your name?' };
+        if (v.replace(/[^a-zA-ZÀ-ɏ]/g, '').length < 2) return { error: 'Please type your first and last name.' };
         return { value: v, echo: v };
       },
       save: 'full_name',
@@ -183,7 +183,7 @@
     phone: {
       prompt: function (d) {
         var first = (d.full_name || '').split(/\s+/)[0];
-        return ['Thanks' + (first ? ', ' + esc(first) : '') + '! What’s the best phone number for our front desk to reach you?'];
+        return ['Thanks' + (first ? ', ' + esc(first) : '') + '! What’s the best <strong>phone number</strong> to reach you at?'];
       },
       accept: function (v) {
         var digits = v.replace(/\D/g, '');
@@ -196,7 +196,7 @@
       next: function () { return 'email'; }
     },
     email: {
-      prompt: function () { return ['Perfect. And an email address, in case we can’t reach you by phone? <span class="fri-note">Optional — tap Skip if you’d rather not.</span>']; },
+      prompt: function () { return ['And your <strong>email address</strong>, in case we can’t reach you by phone? <span class="fri-note">Optional — tap Skip if you’d rather not.</span>']; },
       chips: function () { return [{ label: 'Skip', value: '__skip__' }]; },
       accept: function (v) {
         if (v === '__skip__') return { value: '', echo: 'Skip' };
