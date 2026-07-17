@@ -20,6 +20,7 @@
   "Aetna",
   "Humana",
   "Tricare",
+  "VA Community Care Network (VACCN)",
   "Workers' Compensation",
   "Self-pay"
  ],
@@ -221,7 +222,7 @@
   },
   {
    "q": "Do you accept my insurance?",
-   "a": "We accept most major health insurance plans, including Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, workers' compensation, and self-pay. Call our front desk and we'll gladly verify your specific coverage."
+   "a": "We accept most major health insurance plans, including Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay. Call our front desk and we'll gladly verify your specific coverage."
   },
   {
    "q": "Do I need a referral to start therapy?",

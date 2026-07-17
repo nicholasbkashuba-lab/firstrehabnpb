@@ -32,7 +32,7 @@
       const dd = li.querySelector(':scope > .dropdown');
       if (item && dd) {
         item.addEventListener('click', (e) => {
-          if (window.matchMedia('(max-width: 1160px)').matches) {
+          if (window.matchMedia('(max-width: 1300px)').matches) {
             e.preventDefault();
             li.classList.toggle('open-sub');
           }
@@ -48,8 +48,12 @@
   );
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-  // Seamless marquees & tickers
+  // Seamless marquees & tickers: tag alternating tilts BEFORE cloning so the
+  // pattern stays identical across the loop seam even with an odd item count,
+  // then duplicate the content once — the roll animation travels exactly -50%.
   document.querySelectorAll('.marquee, .ticker').forEach((track) => {
+    Array.from(track.children).forEach((el, i) =>
+      el.classList.add(i % 2 ? 'tilt-b' : 'tilt-a'));
     track.innerHTML += track.innerHTML;
   });
 

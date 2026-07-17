@@ -47,10 +47,10 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cove
 <meta name="twitter:description" content="{html.escape(desc)}">
 <meta name="twitter:image" content="{base}/{og_image}">
 <meta name="theme-color" content="#0E3A47">
-<link rel="icon" href="{p}assets/icons/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png">
+<link rel="icon" href="{p}assets/icons/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png?v=2">
 <link rel="manifest" href="{p}site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -142,8 +142,8 @@ def nav(depth=0, solid=False):
       <li><a class="nav-item" href="{p}faq.html">FAQ</a></li>
       <li><a class="nav-item" href="{p}contact.html">Contact</a></li>
       <li class="nav-portal"><a class="nav-item" href="{PORTAL}" target="_blank" rel="noopener">Portal</a></li>
-      <li class="nav-cta"><a class="btn btn-coral" href="{p}contact.html">Book Appointment</a></li>
     </ul>
+    <a class="btn btn-coral nav-cta-btn" href="{p}contact.html">Book Appointment</a>
   </div>
 </header>
 """
@@ -416,7 +416,7 @@ def build_home():
     bm_json = _json.dumps(bm_data)
 
     ticker = "".join(f"<span>{s}</span>" for s in
-        ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna", "Humana", "Tricare", "Workers' Comp", "Self Pay"])
+        ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna", "Humana", "Tricare", "VA Community Care Network", "Workers' Comp", "Self Pay"])
 
     journey_svg = '''<svg class="journey-path" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
       <path d="M40,80 C240,80 220,170 400,170 C580,170 560,80 740,80 C920,80 900,170 1160,170"/>
@@ -446,12 +446,6 @@ def build_home():
       <div class="hero-ctas">
         <a class="btn btn-coral" href="contact.html">Book Appointment <span class="arr">&rarr;</span></a>
         <a class="btn btn-ghost" href="#pathways">Explore Our Services</a>
-      </div>
-      <div class="hero-badges">
-        <span class="hb">★ 5.0 Google Rated</span>
-        <span class="hb">Medicare Accepted</span>
-        <span class="hb">Family-Owned Since 1991</span>
-        <span class="hb">Certified Hand Therapy</span>
       </div>
     </div>
     <div class="hero-meta">
@@ -1039,8 +1033,7 @@ def build_podcast():
         else:
             action = f'<a class="btn btn-ink" href="{url}" target="_blank" rel="noopener">{label}</a>'
         return f'''<div class="pod-card reveal">
-          <img class="pod-art" src="assets/media/podcast-cover.jpg" alt="Pain to Power with Mike and Dave — cover art">
-          <div><div class="pod-num">{num}</div><h3>{title}</h3><p>{desc}</p></div>
+          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p></div>
           {action}
         </div>'''
     eps = "".join(_episode_block(*e) for e in EPISODES)
@@ -1102,7 +1095,7 @@ def build_podcast():
 
 FAQS = [
     ("What services does First Rehabilitation provide?", "We provide physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program — a full continuum of care under one roof."),
-    ("Do you accept my insurance?", "We accept most major health insurance plans, including Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, workers' compensation, and self-pay. Call our front desk and we'll gladly verify your specific coverage."),
+    ("Do you accept my insurance?", "We accept most major health insurance plans, including Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay. Call our front desk and we'll gladly verify your specific coverage."),
     ("Do I need a referral to start therapy?", "It depends on your insurance plan. Many patients can begin under Florida's direct access provisions, while some plans require a physician referral. Call us and we'll walk you through exactly what your plan needs."),
     ("What should I expect at my first visit?", "Your initial visit includes a movement-based evaluation, a discussion of your activity goals, and a proposed plan of care that may include hands-on treatment and home exercises starting day one."),
     ("How do I schedule an appointment?", "Call us at 561-624-4263 or use the contact page to request an appointment — our team will follow up promptly to find a time that works."),
@@ -1392,7 +1385,8 @@ def build_kb():
             "google_rating": "5.0 stars",
         },
         "insurance_accepted": ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna",
-                               "Humana", "Tricare", "Workers' Compensation", "Self-pay"],
+                               "Humana", "Tricare", "VA Community Care Network (VACCN)",
+                               "Workers' Compensation", "Self-pay"],
         "services": {plain(s["title"]): {"summary": plain(s["lede"]),
                      "includes": [plain(t) for t, _ in s["items"]]} for s in SERVICES.values()},
         "conditions_treated": {plain(c["name"]): [plain(t) for t in c["treats"]] for c in CONDITIONS.values()},
