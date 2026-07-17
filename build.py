@@ -275,12 +275,12 @@ def bodymap_svg():
     spots = [
         ("headache", 150, 45, "Headaches"),
         ("neck", 150, 96, "Neck"),
-        ("shoulder", 205, 116, "Shoulder"),
+        ("shoulder", 95, 116, "Shoulder"),
         ("back", 150, 205, "Back &amp; Spine"),
         ("handwrist", 227, 328, "Hand &amp; Wrist"),
-        ("hip", 190, 316, "Hip"),
+        ("hip", 110, 316, "Hip"),
         ("knee", 172, 442, "Knee"),
-        ("ankle", 161, 570, "Ankle"),
+        ("ankle", 139, 570, "Ankle"),
         ("foot", 172, 598, "Foot"),
     ]
     spot_links = {
