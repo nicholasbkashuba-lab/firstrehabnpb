@@ -20,7 +20,7 @@
       const dd = li.querySelector(':scope > .dropdown');
       if (item && dd) {
         item.addEventListener('click', (e) => {
-          if (window.matchMedia('(max-width: 1080px)').matches) {
+          if (window.matchMedia('(max-width: 1220px)').matches) {
             e.preventDefault();
             li.classList.toggle('open-sub');
           }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact | First Rehabilitation of North Palm Beach</title>
-<meta name="description" content="Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call 561-624-4263 to book your appointment.">
+<meta name="description" content="Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call <a href="tel:+15616244263">561-624-4263</a> to book your appointment.">
 <link rel="canonical" href="https://www.firstrehabnpb.com/contact.html">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="First Rehabilitation of North Palm Beach">
@@ -12,14 +12,14 @@
 <meta name="geo.placename" content="North Palm Beach">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Contact | First Rehabilitation of North Palm Beach">
-<meta property="og:description" content="Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call 561-624-4263 to book your appointment.">
+<meta property="og:description" content="Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call <a href="tel:+15616244263">561-624-4263</a> to book your appointment.">
 <meta property="og:url" content="https://www.firstrehabnpb.com/contact.html">
 <meta property="og:site_name" content="First Rehabilitation of North Palm Beach">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.firstrehabnpb.com/assets/media/podcast-cover.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contact | First Rehabilitation of North Palm Beach">
-<meta name="twitter:description" content="Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call 561-624-4263 to book your appointment.">
+<meta name="twitter:description" content="Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call <a href="tel:+15616244263">561-624-4263</a> to book your appointment.">
 <meta name="twitter:image" content="https://www.firstrehabnpb.com/assets/media/podcast-cover.jpg">
 <meta name="theme-color" content="#0E3A47">
 <link rel="icon" href="assets/icons/favicon.ico" sizes="any">
@@ -63,7 +63,7 @@
     "opens": "08:00", "closes": "17:30"
   },
   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "bestRating": "5", "ratingCount": "24" },
-  "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
+  "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }</script>
 </head>
 <body>
@@ -80,13 +80,11 @@
     <a class="brand" href="index.html">
       <img class="logo-dark-v" src="assets/media/logo-dark.png" alt="First Rehabilitation logo">
       <img class="logo-light-v" src="assets/media/logo.png" alt="First Rehabilitation logo">
-      <span class="brand-text">
-        <span class="brand-name">First Rehabilitation</span>
-        <span class="brand-sub">North Palm Beach &middot; Est. 1991</span>
-      </span>
+      <span class="brand-sub">North Palm Beach &middot; Est. 1991</span>
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-links">
+      <li><a class="nav-item" href="index.html">Home</a></li>
       <li>
         <a class="nav-item" href="services/physical-therapy.html">Services</a>
         <div class="dropdown">
@@ -120,24 +118,64 @@
     <div class="crumbs"><a href="index.html">Home</a> / Contact</div>
     <span class="eyebrow">We're Here to Help</span>
     <h1>Start Your <em class='accent'>Recovery Today</em></h1>
-    <p class="lede">Call, email, or stop by — our front desk will help you verify insurance and find an appointment time that works.</p>
+    <p class="lede">Request an appointment below, call, or stop by — our front desk will help you verify insurance and find a time that works.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap contact-grid">
-    <div class="contact-card reveal">
-      <h3>First Rehabilitation of North Palm Beach</h3>
-      <div class="c-row"><span class="c-label">Address</span><span>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</span></div>
-      <div class="c-row"><span class="c-label">Phone</span><a href="tel:+15616244263">561-624-4263</a></div>
-      <div class="c-row"><span class="c-label">Fax</span><span>561-840-4234</span></div>
-      <div class="c-row"><span class="c-label">Email</span><a href="mailto:firstrehabnpb@gmail.com">firstrehabnpb@gmail.com</a></div>
-      <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday<br>8:00 AM – 5:30 PM</span></div>
-      <div class="c-row"><span class="c-label">Portal</span><a href="https://firstrehabilitationinc.patient.sprypt.com/clinics" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
-      <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
+    <div class="appt-form-card reveal">
+      <h3>Request an Appointment</h3>
+      <p class="af-sub">Tell us a little about what you need and our front desk will call you back within one business day.</p>
+      <form class="appt-form" id="appt-form" novalidate>
+        <div class="af-field">
+          <label for="af-name">Full name *</label>
+          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-phone">Phone *</label>
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+          </div>
+          <div class="af-field">
+            <label for="af-email">Email</label>
+            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="af-reason">Reason for visit *</label>
+          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
+        </div>
+        <div class="af-field">
+          <label for="af-time">Preferred call time</label>
+          <select id="af-time" name="time">
+            <option>Anytime</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+          </select>
+        </div>
+        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
+        <p class="af-error" id="af-error"></p>
+        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="af-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">561-624-4263</a>.</p>
+      </div>
     </div>
     <div class="reveal d2">
-      <iframe class="map-frame" src="https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed" title="Map to First Rehabilitation of North Palm Beach" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="contact-card" style="margin-bottom:1.5rem;">
+        <h3>First Rehabilitation of North Palm Beach</h3>
+        <div class="c-row"><span class="c-label">Address</span><span>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</span></div>
+        <div class="c-row"><span class="c-label">Phone</span><a href="tel:+15616244263">561-624-4263</a></div>
+        <div class="c-row"><span class="c-label">Fax</span><span>561-840-4234</span></div>
+        <div class="c-row"><span class="c-label">Email</span><a href="mailto:firstrehabnpb@gmail.com">firstrehabnpb@gmail.com</a></div>
+        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday<br>8:00 AM – 5:30 PM</span></div>
+        <div class="c-row"><span class="c-label">Portal</span><a href="https://firstrehabilitationinc.patient.sprypt.com/clinics" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
+        <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
+      </div>
+      <iframe class="map-frame" src="https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed" title="Map to First Rehabilitation of North Palm Beach" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="min-height:300px;"></iframe>
     </div>
   </div>
 </section>
@@ -163,6 +201,7 @@
         <div class="brand-name">First Rehabilitation</div>
         <div class="brand-tag">Heal. Strengthen. Thrive.</div>
         <p>Family-owned outpatient rehabilitation serving the Palm Beaches since 1991. Physical therapy, occupational therapy, certified hand therapy, and wellness — all under one roof.</p>
+        <div class="soc-row "><a class="soc-btn" href="https://www.instagram.com/firstrehabnpb/" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a><a class="soc-btn" href="https://www.facebook.com/FirstRehabNPB/" target="_blank" rel="noopener" aria-label="First Rehabilitation on Facebook" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.7h2.6l.4-3h-3V8.4c0-.87.24-1.46 1.49-1.46h1.59V4.25c-.27-.04-1.22-.12-2.32-.12-2.3 0-3.86 1.4-3.86 3.98v2.22H7.8v3h2.6V21h3.1z"/></svg></a><a class="soc-btn" href="https://www.linkedin.com/company/firstrehabnpb" target="_blank" rel="noopener" aria-label="First Rehabilitation on LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.86V20h3.08V8.5zM5.4 3.5a1.78 1.78 0 1 0 0 3.56 1.78 1.78 0 0 0 0-3.56zM20.14 13.28c0-3.3-1.76-4.98-4.1-4.98-1.88 0-2.72 1.03-3.19 1.76V8.5H9.77V20h3.08v-6.07c0-1.6.72-2.55 2.06-2.55 1.29 0 2.15.86 2.15 2.55V20h3.08v-6.72z"/></svg></a><a class="soc-btn" href="https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu" target="_blank" rel="noopener" aria-label="First Rehabilitation on Spotify" title="Spotify"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.44 14.5a.7.7 0 0 1-.96.24c-2.63-1.6-5.94-1.97-9.84-1.08a.7.7 0 1 1-.31-1.37c4.27-.97 7.94-.54 10.87 1.25.33.2.44.63.24.96zm1.3-2.96a.87.87 0 0 1-1.2.3c-3.01-1.85-7.6-2.38-11.16-1.3a.87.87 0 1 1-.5-1.67c4.07-1.23 9.12-.63 12.57 1.48.4.25.53.78.29 1.19zm.12-3.09C14.27 8.3 8.3 8.1 4.86 9.15a1.05 1.05 0 1 1-.6-2c3.94-1.2 10.5-.97 14.63 1.48a1.05 1.05 0 0 1-1.07 1.82z"/></svg></a></div>
       </div>
       <div>
         <h4>Services</h4>
@@ -196,7 +235,7 @@
     </div>
     <div class="footer-base">
       <span>&copy; 2026 First Rehabilitation of North Palm Beach. All rights reserved.</span>
-      <span><a href="https://www.instagram.com/firstrehabnpb/" target="_blank" rel="noopener">Instagram</a> &nbsp;&middot;&nbsp; <a href="https://www.facebook.com/FirstRehabNPB/" target="_blank" rel="noopener">Facebook</a> &nbsp;&middot;&nbsp; <a href="https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu" target="_blank" rel="noopener">Spotify</a></span>
+      <span><a href="https://www.instagram.com/firstrehabnpb/" target="_blank" rel="noopener">Instagram</a> &nbsp;&middot;&nbsp; <a href="https://www.facebook.com/FirstRehabNPB/" target="_blank" rel="noopener">Facebook</a> &nbsp;&middot;&nbsp; <a href="https://www.linkedin.com/company/firstrehabnpb" target="_blank" rel="noopener">LinkedIn</a> &nbsp;&middot;&nbsp; <a href="https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu" target="_blank" rel="noopener">Spotify</a></span>
     </div>
   </div>
 </footer>

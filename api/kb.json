@@ -1,0 +1,259 @@
+{
+ "clinic": {
+  "name": "First Rehabilitation of North Palm Beach",
+  "founded": 1991,
+  "founder": "David (Dave) Kashuba, Ph.D., occupational therapist",
+  "tagline": "Our people make the difference.",
+  "address": "733 US Highway 1, Suite 2A, North Palm Beach, FL 33408",
+  "phone": "561-624-4263",
+  "fax": "561-840-4234",
+  "email": "firstrehabnpb@gmail.com",
+  "hours": "Monday\u2013Friday, 8:00 AM \u2013 5:30 PM. Closed weekends.",
+  "patient_portal": "https://firstrehabilitationinc.patient.sprypt.com/clinics",
+  "service_area": "North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and the greater Palm Beaches",
+  "google_rating": "5.0 stars"
+ },
+ "insurance_accepted": [
+  "Medicare",
+  "Medicare Advantage",
+  "Blue Cross Blue Shield",
+  "Aetna",
+  "Humana",
+  "Tricare",
+  "Workers' Compensation",
+  "Self-pay"
+ ],
+ "services": {
+  "Physical Therapy": {
+   "summary": "Expert, hands-on physical therapy for pain, injuries, and post-surgical recovery \u2014 personalized from your very first visit.",
+   "includes": [
+    "Post-Surgical Rehabilitation",
+    "Sports Injury Recovery",
+    "Balance & Neurological Rehab",
+    "Back & Neck Pain",
+    "Auto & Work Injuries",
+    "Chronic Pain Management"
+   ]
+  },
+  "Occupational Therapy": {
+   "summary": "From dressing and cooking to returning to work \u2014 occupational therapy restores your independence and quality of daily life.",
+   "includes": [
+    "Activities of Daily Living",
+    "Post-Stroke Recovery",
+    "Ergonomics & Adaptive Equipment",
+    "Hand & Upper Extremity Function",
+    "Cognitive Rehabilitation",
+    "Return-to-Work Programs"
+   ]
+  },
+  "Hand Therapy": {
+   "summary": "Certified hand therapy for the wrist, hand, and upper extremity \u2014 one of the most precise and specialized areas of rehabilitation.",
+   "includes": [
+    "Carpal Tunnel & Nerve Conditions",
+    "Arthritis Management",
+    "Tendon & Fracture Rehabilitation",
+    "Custom Splinting & Orthotics",
+    "Lymphedema Care",
+    "Post-Surgical Hand Recovery"
+   ]
+  },
+  "Wellness & Gym": {
+   "summary": "The Palm Beaches' clinic where PT & OT patients can transition into an exclusive on-site wellness program.",
+   "includes": [
+    "Personal Training",
+    "Post-Rehab Exercise",
+    "Sports Performance",
+    "Group Fitness Classes",
+    "Senior Functional Fitness",
+    "Lifestyle & Injury Prevention"
+   ]
+  }
+ },
+ "conditions_treated": {
+  "Back Pain Relief": [
+   "Low back pain and stiffness",
+   "Sciatica and radiating leg pain",
+   "Herniated and bulging discs",
+   "Degenerative disc disease",
+   "Spinal stenosis",
+   "Post-surgical spine recovery",
+   "Muscle strains and spasms"
+  ],
+  "Neck Pain Relief": [
+   "Chronic neck pain and stiffness",
+   "Whiplash-associated disorders",
+   "Cervical radiculopathy (pinched nerve)",
+   "Tension and postural neck pain",
+   "Degenerative changes of the cervical spine",
+   "Pain radiating to the shoulder or arm"
+  ],
+  "Shoulder Pain Relief": [
+   "Rotator cuff strains and repairs",
+   "Frozen shoulder (adhesive capsulitis)",
+   "Shoulder impingement",
+   "Bursitis and tendinitis",
+   "Labral injuries",
+   "Post-surgical shoulder rehabilitation",
+   "Shoulder instability"
+  ],
+  "Knee Pain Relief": [
+   "Knee osteoarthritis",
+   "Total and partial knee replacement rehab",
+   "ACL, MCL, and meniscus injuries",
+   "Patellofemoral pain (runner's knee)",
+   "Tendinitis and bursitis",
+   "Post-surgical knee recovery"
+  ],
+  "Hip Pain Relief": [
+   "Hip osteoarthritis",
+   "Total hip replacement rehabilitation",
+   "Bursitis and tendinopathy",
+   "Labral irritation",
+   "Groin and hip flexor strains",
+   "Gait and balance dysfunction"
+  ],
+  "Foot Pain Relief": [
+   "Plantar fasciitis and heel pain",
+   "Foot and arch pain",
+   "Post-fracture rehabilitation",
+   "Tendinitis of the foot",
+   "Balance and gait dysfunction",
+   "Post-surgical foot recovery"
+  ],
+  "Ankle Pain Relief": [
+   "Acute and chronic ankle sprains",
+   "Chronic ankle instability",
+   "Achilles tendinitis and repair rehab",
+   "Post-fracture rehabilitation",
+   "Stiffness and loss of motion",
+   "Balance deficits after injury"
+  ],
+  "Hand & Wrist Therapy": [
+   "Carpal tunnel syndrome",
+   "Wrist fractures and sprains",
+   "Tendon injuries and repairs",
+   "Trigger finger",
+   "Arthritis of the hand and thumb",
+   "Post-surgical hand rehabilitation",
+   "Lymphedema of the upper extremity"
+  ],
+  "Headache Relief": [
+   "Cervicogenic headaches",
+   "Tension-type headaches",
+   "Headaches after whiplash or concussion",
+   "Neck-related migraine triggers",
+   "Jaw and postural contributions to head pain"
+  ],
+  "Post-Surgical Rehabilitation": [
+   "Total knee and hip replacement",
+   "Shoulder and rotator cuff repair",
+   "Spinal surgery recovery",
+   "Hand and wrist surgery",
+   "Foot and ankle surgery",
+   "Fracture fixation recovery"
+  ],
+  "Workers' Compensation Rehab": [
+   "Lifting and overexertion injuries",
+   "Repetitive strain injuries",
+   "Back and shoulder work injuries",
+   "Hand and upper extremity injuries",
+   "Slip, trip, and fall injuries",
+   "Post-surgical work injury recovery"
+  ],
+  "Auto Accident Recovery": [
+   "Whiplash and neck injuries",
+   "Back and spine injuries",
+   "Shoulder and knee trauma",
+   "Headaches after collision",
+   "Soft tissue strains and sprains",
+   "Anxiety about returning to movement"
+  ]
+ },
+ "team": [
+  {
+   "name": "David Kashuba, Ph.D.",
+   "role": "CEO & Occupational Therapist",
+   "bio": "Founded First Rehabilitation in 1991 and still treats patients hands-on every day \u2014 leading the clinic's comprehensive, high-end approach to rehabilitation across three decades and tens of thousands of recoveries."
+  },
+  {
+   "name": "Nick Kashuba",
+   "role": "Chief Operating Officer",
+   "bio": "Second-generation leadership keeping the clinic's family-owned values \u2014 and its promise that our people make the difference \u2014 at the center of everything we do."
+  },
+  {
+   "name": "Logan Van Sant",
+   "role": "Physical Therapist",
+   "bio": "A wealth of knowledge in the physical therapy world, dedicated to helping patients move and feel their best."
+  },
+  {
+   "name": "Kayla Dorsey, DPT",
+   "role": "Physical Therapist",
+   "bio": "A Doctor of Physical Therapy with over a decade of extensive clinical experience in personalized, hands-on care."
+  },
+  {
+   "name": "Joni Janik",
+   "role": "Occupational Therapist",
+   "bio": "Helps patients reclaim the daily activities that matter most \u2014 restoring independence, confidence, and quality of life."
+  },
+  {
+   "name": "Laura Drumm",
+   "role": "Certified Hand Therapist",
+   "bio": "Leads our certified hand therapy program with surgical-grade precision \u2014 from custom splinting to post-operative tendon protocols and lymphedema care."
+  }
+ ],
+ "podcast": {
+  "name": "Pain 2 Power",
+  "hosts": "Dr. Dave Kashuba and Mike McGann",
+  "airs": "Saturdays 8:30 AM on 100.3 Legends Radio, streaming on Spotify",
+  "episodes": [
+   "Episode 6 \u00b7 Coming Saturday: Dr. Richard Weiner, M.D.",
+   "Episode 5: Logan Van Sant, DPT",
+   "Episode 4: Kayla Dorsey, DPT & Dr. Murray Goldberg, M.D.",
+   "Episode 3: Dr. Timur Urakov, M.D.",
+   "Episode 2: Dr. Tom Saylor, M.D.",
+   "Episode 1: Intro to Dave's Background"
+  ]
+ },
+ "faq": [
+  {
+   "q": "What services does First Rehabilitation provide?",
+   "a": "We provide physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program \u2014 a full continuum of care under one roof."
+  },
+  {
+   "q": "Do you accept my insurance?",
+   "a": "We accept most major health insurance plans, including Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, workers' compensation, and self-pay. Call our front desk and we'll gladly verify your specific coverage."
+  },
+  {
+   "q": "Do I need a referral to start therapy?",
+   "a": "It depends on your insurance plan. Many patients can begin under Florida's direct access provisions, while some plans require a physician referral. Call us and we'll walk you through exactly what your plan needs."
+  },
+  {
+   "q": "What should I expect at my first visit?",
+   "a": "Your initial visit includes a movement-based evaluation, a discussion of your activity goals, and a proposed plan of care that may include hands-on treatment and home exercises starting day one."
+  },
+  {
+   "q": "How do I schedule an appointment?",
+   "a": "Call us at 561-624-4263 or use the contact page to request an appointment \u2014 our team will follow up promptly to find a time that works."
+  },
+  {
+   "q": "What should I wear to my appointments?",
+   "a": "Comfortable clothing you can move in. For lower-body conditions, shorts or loose pants are ideal; for shoulder or arm conditions, a shirt that allows easy access to the area being treated."
+  },
+  {
+   "q": "What is certified hand therapy?",
+   "a": "Certified Hand Therapists (CHTs) complete thousands of hours of specialized training in rehabilitation of the hand, wrist, and upper extremity. Our program, led by Laura Drumm, CHT, includes custom splinting fabricated in-clinic."
+  },
+  {
+   "q": "What is the wellness program?",
+   "a": "Our on-site wellness and gym program lets patients continue training after discharge from therapy \u2014 with personal training, group classes, and senior functional fitness guided by a team that knows your history."
+  },
+  {
+   "q": "Do your therapists work together on my care?",
+   "a": "Yes. When appropriate, our PTs, OTs, and hand therapist coordinate assessments and treatment plans so your recovery reflects a genuine team-based approach."
+  },
+  {
+   "q": "Where are you located?",
+   "a": "733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 \u2014 serving North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and the greater Palm Beaches."
+  }
+ ]
+}

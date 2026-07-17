@@ -14,6 +14,7 @@ PORTAL = "https://firstrehabilitationinc.patient.sprypt.com/clinics"
 SPOTIFY = "https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"
 INSTAGRAM = "https://www.instagram.com/firstrehabnpb/"
 FACEBOOK = "https://www.facebook.com/FirstRehabNPB/"
+LINKEDIN = "https://www.linkedin.com/company/firstrehabnpb"
 MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed"
 
 # ----------------------------------------------------------------------------
@@ -87,7 +88,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cove
     "opens": "08:00", "closes": "17:30"
   }},
   "aggregateRating": {{ "@type": "AggregateRating", "ratingValue": "5.0", "bestRating": "5", "ratingCount": "24" }},
-  "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
+  "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }}</script>
 </head>
 <body>
@@ -125,13 +126,11 @@ def nav(depth=0, solid=False):
     <a class="brand" href="{p}index.html">
       <img class="logo-dark-v" src="{p}assets/media/logo-dark.png" alt="First Rehabilitation logo">
       <img class="logo-light-v" src="{p}assets/media/logo.png" alt="First Rehabilitation logo">
-      <span class="brand-text">
-        <span class="brand-name">First Rehabilitation</span>
-        <span class="brand-sub">North Palm Beach &middot; Est. 1991</span>
-      </span>
+      <span class="brand-sub">North Palm Beach &middot; Est. 1991</span>
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-links">
+      <li><a class="nav-item" href="{p}index.html">Home</a></li>
       <li>
         <a class="nav-item" href="{p}services/physical-therapy.html">Services</a>
         <div class="dropdown">
@@ -157,6 +156,20 @@ def nav(depth=0, solid=False):
 </header>
 """
 
+SOCIAL_ICONS = {
+    "Instagram": (INSTAGRAM, '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>'),
+    "Facebook": (FACEBOOK, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.7h2.6l.4-3h-3V8.4c0-.87.24-1.46 1.49-1.46h1.59V4.25c-.27-.04-1.22-.12-2.32-.12-2.3 0-3.86 1.4-3.86 3.98v2.22H7.8v3h2.6V21h3.1z"/></svg>'),
+    "LinkedIn": (LINKEDIN, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.86V20h3.08V8.5zM5.4 3.5a1.78 1.78 0 1 0 0 3.56 1.78 1.78 0 0 0 0-3.56zM20.14 13.28c0-3.3-1.76-4.98-4.1-4.98-1.88 0-2.72 1.03-3.19 1.76V8.5H9.77V20h3.08v-6.07c0-1.6.72-2.55 2.06-2.55 1.29 0 2.15.86 2.15 2.55V20h3.08v-6.72z"/></svg>'),
+    "Spotify": (SPOTIFY, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.44 14.5a.7.7 0 0 1-.96.24c-2.63-1.6-5.94-1.97-9.84-1.08a.7.7 0 1 1-.31-1.37c4.27-.97 7.94-.54 10.87 1.25.33.2.44.63.24.96zm1.3-2.96a.87.87 0 0 1-1.2.3c-3.01-1.85-7.6-2.38-11.16-1.3a.87.87 0 1 1-.5-1.67c4.07-1.23 9.12-.63 12.57 1.48.4.25.53.78.29 1.19zm.12-3.09C14.27 8.3 8.3 8.1 4.86 9.15a1.05 1.05 0 1 1-.6-2c3.94-1.2 10.5-.97 14.63 1.48a1.05 1.05 0 0 1-1.07 1.82z"/></svg>'),
+}
+
+def social_row(cls=""):
+    links = "".join(
+        f'<a class="soc-btn" href="{url}" target="_blank" rel="noopener" aria-label="First Rehabilitation on {name}" title="{name}">{svg}</a>'
+        for name, (url, svg) in SOCIAL_ICONS.items()
+    )
+    return f'<div class="soc-row {cls}">{links}</div>'
+
 def footer(depth=0):
     p = "../" * depth
     return f"""
@@ -169,6 +182,7 @@ def footer(depth=0):
         <div class="brand-name">First Rehabilitation</div>
         <div class="brand-tag">Heal. Strengthen. Thrive.</div>
         <p>Family-owned outpatient rehabilitation serving the Palm Beaches since 1991. Physical therapy, occupational therapy, certified hand therapy, and wellness — all under one roof.</p>
+        {social_row()}
       </div>
       <div>
         <h4>Services</h4>
@@ -202,7 +216,7 @@ def footer(depth=0):
     </div>
     <div class="footer-base">
       <span>&copy; 2026 First Rehabilitation of North Palm Beach. All rights reserved.</span>
-      <span><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram</a> &nbsp;&middot;&nbsp; <a href="{FACEBOOK}" target="_blank" rel="noopener">Facebook</a> &nbsp;&middot;&nbsp; <a href="{SPOTIFY}" target="_blank" rel="noopener">Spotify</a></span>
+      <span><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram</a> &nbsp;&middot;&nbsp; <a href="{FACEBOOK}" target="_blank" rel="noopener">Facebook</a> &nbsp;&middot;&nbsp; <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a> &nbsp;&middot;&nbsp; <a href="{SPOTIFY}" target="_blank" rel="noopener">Spotify</a></span>
     </div>
   </div>
 </footer>
@@ -240,7 +254,21 @@ def page_hero(eyebrow, title, lede, crumbs_html=""):
 </section>
 """
 
+def linkify_phone(html_out):
+    """Every visible mention of the clinic phone number becomes a tap-to-call link.
+    Existing anchors are protected so we never nest a link inside a link."""
+    import re
+    protected = []
+    def _protect(m):
+        protected.append(m.group(0))
+        return f"\x00{len(protected) - 1}\x00"
+    s = re.sub(r"<(a|script)\b[^>]*>.*?</\1>", _protect, html_out, flags=re.S)
+    s = s.replace(PHONE, f'<a href="tel:+15616244263">{PHONE}</a>')
+    return re.sub(r"\x00(\d+)\x00", lambda m: protected[int(m.group(1))], s)
+
 def write(path, content):
+    if path.endswith(".html"):
+        content = linkify_phone(content)
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     with open(full, "w") as f:
@@ -1003,22 +1031,62 @@ def build_contact():
     body = f"""
 <main>
 {page_hero("We're Here to Help", "Start Your <em class='accent'>Recovery Today</em>",
-  "Call, email, or stop by — our front desk will help you verify insurance and find an appointment time that works.",
+  "Request an appointment below, call, or stop by — our front desk will help you verify insurance and find a time that works.",
   '<div class="crumbs"><a href="index.html">Home</a> / Contact</div>')}
 <section class="section">
   <div class="wrap contact-grid">
-    <div class="contact-card reveal">
-      <h3>First Rehabilitation of North Palm Beach</h3>
-      <div class="c-row"><span class="c-label">Address</span><span>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</span></div>
-      <div class="c-row"><span class="c-label">Phone</span><a href="tel:+15616244263">{PHONE}</a></div>
-      <div class="c-row"><span class="c-label">Fax</span><span>{FAX}</span></div>
-      <div class="c-row"><span class="c-label">Email</span><a href="mailto:{EMAIL}">{EMAIL}</a></div>
-      <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday<br>8:00 AM – 5:30 PM</span></div>
-      <div class="c-row"><span class="c-label">Portal</span><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
-      <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
+    <div class="appt-form-card reveal">
+      <h3>Request an Appointment</h3>
+      <p class="af-sub">Tell us a little about what you need and our front desk will call you back within one business day.</p>
+      <form class="appt-form" id="appt-form" novalidate>
+        <div class="af-field">
+          <label for="af-name">Full name *</label>
+          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-phone">Phone *</label>
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+          </div>
+          <div class="af-field">
+            <label for="af-email">Email</label>
+            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="af-reason">Reason for visit *</label>
+          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
+        </div>
+        <div class="af-field">
+          <label for="af-time">Preferred call time</label>
+          <select id="af-time" name="time">
+            <option>Anytime</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+          </select>
+        </div>
+        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
+        <p class="af-error" id="af-error"></p>
+        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="af-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
+      </div>
     </div>
     <div class="reveal d2">
-      <iframe class="map-frame" src="{MAPS_EMBED}" title="Map to First Rehabilitation of North Palm Beach" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="contact-card" style="margin-bottom:1.5rem;">
+        <h3>First Rehabilitation of North Palm Beach</h3>
+        <div class="c-row"><span class="c-label">Address</span><span>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</span></div>
+        <div class="c-row"><span class="c-label">Phone</span><a href="tel:+15616244263">{PHONE}</a></div>
+        <div class="c-row"><span class="c-label">Fax</span><span>{FAX}</span></div>
+        <div class="c-row"><span class="c-label">Email</span><a href="mailto:{EMAIL}">{EMAIL}</a></div>
+        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday<br>8:00 AM – 5:30 PM</span></div>
+        <div class="c-row"><span class="c-label">Portal</span><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
+        <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
+      </div>
+      <iframe class="map-frame" src="{MAPS_EMBED}" title="Map to First Rehabilitation of North Palm Beach" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="min-height:300px;"></iframe>
     </div>
   </div>
 </section>
@@ -1191,6 +1259,41 @@ def build_meta():
                "Page not found.") + nav(0, solid=True) + body + footer(0))
 
 # ----------------------------------------------------------------------------
+# AI ASSISTANT KNOWLEDGE BASE (api/kb.json — consumed by api/chat.js)
+# ----------------------------------------------------------------------------
+
+def build_kb():
+    import json, re
+    plain = lambda s: re.sub(r"<[^>]+>", "", s).replace("&amp;", "&").replace("&middot;", "·")
+    kb = {
+        "clinic": {
+            "name": "First Rehabilitation of North Palm Beach",
+            "founded": 1991,
+            "founder": "David (Dave) Kashuba, Ph.D., occupational therapist",
+            "tagline": "Our people make the difference.",
+            "address": "733 US Highway 1, Suite 2A, North Palm Beach, FL 33408",
+            "phone": PHONE, "fax": FAX, "email": EMAIL,
+            "hours": "Monday–Friday, 8:00 AM – 5:30 PM. Closed weekends.",
+            "patient_portal": PORTAL,
+            "service_area": "North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and the greater Palm Beaches",
+            "google_rating": "5.0 stars",
+        },
+        "insurance_accepted": ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna",
+                               "Humana", "Tricare", "Workers' Compensation", "Self-pay"],
+        "services": {plain(s["title"]): {"summary": plain(s["lede"]),
+                     "includes": [plain(t) for t, _ in s["items"]]} for s in SERVICES.values()},
+        "conditions_treated": {plain(c["name"]): [plain(t) for t in c["treats"]] for c in CONDITIONS.values()},
+        "team": [{"name": n, "role": plain(r), "bio": plain(b)} for n, r, b, _ in TEAM],
+        "podcast": {
+            "name": "Pain 2 Power", "hosts": "Dr. Dave Kashuba and Mike McGann",
+            "airs": "Saturdays 8:30 AM on 100.3 Legends Radio, streaming on Spotify",
+            "episodes": [plain(f"{n}: {t}") for n, t, _, _, _ in EPISODES],
+        },
+        "faq": [{"q": plain(q), "a": plain(a)} for q, a in FAQS],
+    }
+    write("api/kb.json", json.dumps(kb, indent=1))
+
+# ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     build_home()
@@ -1202,4 +1305,5 @@ if __name__ == "__main__":
     build_contact()
     build_blog()
     build_meta()
+    build_kb()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
