@@ -670,11 +670,12 @@ SERVICE_EXTRAS = {
 }
 
 def build_services():
+    # (path under assets/, object-position for the cover crop)
     svc_photo = {
-        "physical-therapy": "clinic.jpg",
-        "occupational-therapy": "clinic.jpg",
-        "hand-therapy": "clinic.jpg",
-        "wellness": "gym.jpg",
+        "physical-therapy": ("social/post-1.jpg", "center 30%"),
+        "occupational-therapy": ("media/clinic.jpg", "center"),
+        "hand-therapy": ("team/laura.jpg", "center 25%"),
+        "wellness": ("media/gym.jpg", "center"),
     }
     for slug, s in SERVICES.items():
         x = SERVICE_EXTRAS[slug]
@@ -712,7 +713,7 @@ def build_services():
         <div class="mt-2"><a class="btn btn-coral" href="../contact.html">Book an Evaluation <span class="arr">&rarr;</span></a></div>
       </div>
       <div class="split-media tilt2 reveal d2">
-        <img src="../assets/media/{svc_photo[slug]}" alt="{s['title']} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+        <img src="../assets/{svc_photo[slug][0]}" style="object-position:{svc_photo[slug][1]};" alt="{s['title']} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
       </div>
     </div>
   </div>
