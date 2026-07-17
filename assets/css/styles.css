@@ -116,7 +116,7 @@ em.accent { font-style: italic; color: var(--coral-deep); font-weight: 500; }
 .btn:active { transform: translateY(-1px); }
 .btn-coral { background: var(--coral); color: var(--ink-deep); box-shadow: 0 16px 34px -14px rgba(224, 138, 68, 0.75); }
 .btn-coral:hover { background: var(--coral-deep); box-shadow: 0 20px 40px -14px rgba(224, 138, 68, 0.85); }
-.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(246, 241, 231, 0.45); backdrop-filter: blur(4px); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(246, 241, 231, 0.45); }
 .btn-ghost:hover { border-color: var(--gold); color: var(--gold); background: rgba(233,196,106,0.06); }
 .btn-ink { background: var(--ink); color: var(--cream); }
 .btn-ink:hover { background: var(--ink-soft); }
@@ -607,8 +607,9 @@ a.tb-item:hover { color: var(--gold); }
 .hero .hero-scrim { background: linear-gradient(180deg, rgba(7,30,39,0.28) 0%, rgba(7,30,39,0.12) 45%, rgba(7,30,39,0.5) 100%); }
 .hero-panel {
   max-width: 900px; margin: 0 auto; text-align: center;
-  background: rgba(7, 30, 39, 0.74);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  /* No backdrop-filter here: blurring the playing video behind the panel
+     forces a full re-blur every frame and makes playback stutter. */
+  background: rgba(7, 30, 39, 0.82);
   border: 1px solid rgba(233, 196, 106, 0.22);
   border-radius: clamp(18px, 3vw, 34px);
   padding: clamp(2.2rem, 5vw, 4rem) clamp(1.4rem, 5vw, 4rem);

@@ -432,7 +432,6 @@ def build_home():
     </video>
   </div>
   <div class="hero-scrim"></div>
-  <div class="beam-field"><div class="beam"></div><div class="beam b2"></div></div>
   <div class="wrap hero-inner">
     <div class="hero-panel">
       <span class="eyebrow on-dark">Serving Palm Beach County Since 1991</span>
