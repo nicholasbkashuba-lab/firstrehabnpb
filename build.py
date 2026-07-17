@@ -428,7 +428,7 @@ def build_home():
   <div class="hero-media">
     <div class="hero-fallback"></div>
     <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg?v=4">
-      <source src="assets/media/lighthouse.mp4?v=4" type="video/mp4">
+      <source src="assets/media/lighthouse.mp4?v=5" type="video/mp4">
     </video>
   </div>
   <div class="hero-scrim"></div>
