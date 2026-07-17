@@ -33,11 +33,25 @@ automatically the next time they're online on the site.
 All content lives in `build.py` (phone, hours, team bios, condition copy, FAQ, podcast episodes).
 Edit it, run `python3 build.py`, and every page regenerates. Or just hand it back to Claude with your changes.
 
-## Deploying to Vercel
+## Hosting (already set up)
 
-1. Push this folder to a GitHub repo (or drag-and-drop the folder at vercel.com/new)
-2. Framework preset: **Other** — no build command, output directory = root
-3. You'll get a preview URL like `firstrehab-site.vercel.app`
-4. When ready: in Wix's domain settings, point your domain's DNS at Vercel (Vercel shows you the exact A/CNAME records under Project → Settings → Domains)
+The site is deployed on Vercel as project **firstrehab-site** (team "First Rehab"):
 
-The live Wix site stays untouched until you flip DNS.
+- Live URL: https://firstrehab-site-first-rehab.vercel.app
+- The deployment's build step clones this GitHub repo (branch
+  `claude/site-intake-agent-popup-hdfmxw`) and serves it statically, so
+  **publishing an update = push to GitHub, then redeploy the Vercel project**
+  (dashboard → firstrehab-site → Deployments → Redeploy, or ask Claude).
+- If the `.vercel.app` URL shows a Vercel login page, turn off deployment
+  protection: Vercel dashboard → firstrehab-site → Settings → Deployment
+  Protection → set Vercel Authentication to "Only Preview Deployments" (or off).
+
+## Connecting the firstrehabnpb.com domain (kept at Wix)
+
+1. Vercel dashboard → **firstrehab-site** → Settings → **Domains** → add
+   `firstrehabnpb.com` and `www.firstrehabnpb.com`. Vercel displays the exact
+   DNS records to use.
+2. Wix dashboard → **Domains** → firstrehabnpb.com → **DNS Records** → replace
+   the A record for `@` and the CNAME for `www` with the values Vercel showed.
+3. DNS usually flips within an hour. The old Wix site keeps serving until then,
+   so there is no downtime window.
