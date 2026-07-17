@@ -696,6 +696,22 @@ def build_services():
             </div>''' for i, (t, d) in enumerate(x["process"])
         )
         crumbs = f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="physical-therapy.html">Services</a> / {s["title"]}</div>'
+        cht_callout = ""
+        if slug == "hand-therapy":
+            cht_callout = '''
+<section class="section on-cream" style="padding-top:0;">
+  <div class="wrap">
+    <div class="cht-callout reveal">
+      <span class="eyebrow">Why It Matters</span>
+      <h3>Why a Certified Hand Therapist matters</h3>
+      <p>The CHT credential requires thousands of hours of specialized upper-extremity practice and a rigorous
+      national examination — it's one of the most demanding certifications in rehabilitation. It's also why
+      area hand surgeons refer their post-operative patients specifically to certified hand therapists:
+      after tendon repair or fracture, moving too soon risks the repair, and too late costs motion.
+      A CHT walks that line precisely, in coordination with your surgeon.</p>
+    </div>
+  </div>
+</section>'''
         body = f"""
 <main>
 {page_hero("Our Services", s["title"], s["lede"], crumbs)}
@@ -729,7 +745,7 @@ def build_services():
     <div class="svc-feature-grid">{items}</div>
   </div>
 </section>
-
+{cht_callout}
 <section class="section on-ink">
   <div class="beam-field"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
