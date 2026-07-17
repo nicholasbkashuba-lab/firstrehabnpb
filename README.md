@@ -46,18 +46,23 @@ automatically the next time they're online on the site.
 All content lives in `build.py` (phone, hours, team bios, condition copy, FAQ, podcast episodes).
 Edit it, run `python3 build.py`, and every page regenerates. Or just hand it back to Claude with your changes.
 
-## Hosting (already set up)
+## Hosting
 
-The site is deployed on Vercel as project **firstrehab-site** (team "First Rehab"):
+Current live deployment: Vercel project **firstrehab-live** (team "First Rehab") at
+https://firstrehab-live-first-rehab.vercel.app — its build step clones this repo.
+If the URL shows a Vercel login page, turn off deployment protection:
+Vercel dashboard → project → Settings → Deployment Protection → set
+Vercel Authentication to "Only Preview Deployments" (or Disabled).
 
-- Live URL: https://firstrehab-site-first-rehab.vercel.app
-- The deployment's build step clones this GitHub repo (branch
-  `claude/site-intake-agent-popup-hdfmxw`) and serves it statically, so
-  **publishing an update = push to GitHub, then redeploy the Vercel project**
-  (dashboard → firstrehab-site → Deployments → Redeploy, or ask Claude).
-- If the `.vercel.app` URL shows a Vercel login page, turn off deployment
-  protection: Vercel dashboard → firstrehab-site → Settings → Deployment
-  Protection → set Vercel Authentication to "Only Preview Deployments" (or off).
+**Recommended permanent setup — import this repo into Vercel once:**
+1. vercel.com → Add New → Project → Import `nicholasbkashuba-lab/firstrehabnpb`.
+2. Framework preset **Other**, no build command, output directory `.` (root),
+   production branch `claude/site-intake-agent-popup-hdfmxw`.
+3. Settings → Environment Variables → add `ANTHROPIC_API_KEY` (enables the AI
+   assistant; get a key at console.anthropic.com).
+4. Every git push then auto-deploys — no manual redeploys, and the older
+   one-off projects (firstrehab-site, firstrehabnpb, firstrehab, firstrehab-live)
+   can be deleted in the dashboard.
 
 ## Connecting the firstrehabnpb.com domain (kept at Wix)
 
