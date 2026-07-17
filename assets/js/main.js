@@ -1,5 +1,15 @@
 // First Rehabilitation — v2 interactions
 (function () {
+  // Nudge the hero video: some browsers need an explicit play() after load,
+  // and Low Power Mode pauses autoplay until the page is interacted with.
+  const heroVideo = document.querySelector('.hero-media video');
+  if (heroVideo) {
+    const tryPlay = () => heroVideo.play().catch(() => {});
+    tryPlay();
+    document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
+    document.addEventListener('click', tryPlay, { once: true });
+  }
+
   const header = document.querySelector('.site-header');
   const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 40);
   onScroll();

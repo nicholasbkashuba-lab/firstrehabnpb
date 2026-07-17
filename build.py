@@ -377,6 +377,7 @@ def build_home():
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener">
           <img src="assets/social/post-{i}.jpg" alt="Life at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.sm-card').classList.add('empty')">
         </a>''' for i in range(1, 9)
+        if os.path.exists(os.path.join(ROOT, f"assets/social/post-{i}.jpg"))
     )
 
     bm_list = [
@@ -426,7 +427,7 @@ def build_home():
 <section class="hero">
   <div class="hero-media">
     <div class="hero-fallback"></div>
-    <video autoplay muted loop playsinline poster="assets/media/hero-poster.jpg" onerror="this.remove()">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg" onerror="this.remove()">
       <source src="assets/media/lighthouse.mp4" type="video/mp4">
     </video>
   </div>
