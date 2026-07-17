@@ -115,18 +115,10 @@ def nav(depth=0, solid=False):
     cond_links = "".join(f'<a href="{p}treatments/{u}">{n}</a>' for n, u in conditions)
     return f"""
 <header class="{cls}">
-  <div class="topbar">
-    <div class="wrap topbar-row">
-      <span class="tb-item">733 US Highway 1, Suite 2A &middot; North Palm Beach</span>
-      <span class="tb-item">Mon–Fri &middot; 8:00 AM – 5:30 PM</span>
-      <a class="tb-item tb-phone" href="tel:+15616244263">{PHONE}</a>
-    </div>
-  </div>
   <div class="wrap nav-bar">
-    <a class="brand" href="{p}index.html">
-      <img class="logo-dark-v" src="{p}assets/media/logo-dark.png" alt="First Rehabilitation logo">
-      <img class="logo-light-v" src="{p}assets/media/logo.png" alt="First Rehabilitation logo">
-      <span class="brand-sub">North Palm Beach &middot; Est. 1991</span>
+    <a class="brand" href="{p}index.html" aria-label="First Rehabilitation home">
+      <img class="logo-dark-v" src="{p}assets/media/logo-dark.png" alt="First Rehabilitation of North Palm Beach">
+      <img class="logo-light-v" src="{p}assets/media/logo.png" alt="First Rehabilitation of North Palm Beach">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-links">
@@ -141,7 +133,7 @@ def nav(depth=0, solid=False):
         </div>
       </li>
       <li>
-        <a class="nav-item" href="{p}treatments/index.html">What We Treat</a>
+        <a class="nav-item" href="{p}treatments/index.html">Conditions</a>
         <div class="dropdown"><div class="dd-cols">{cond_links}</div></div>
       </li>
       <li><a class="nav-item" href="{p}about.html">About</a></li>
@@ -149,7 +141,7 @@ def nav(depth=0, solid=False):
       <li><a class="nav-item" href="{p}podcast.html">Podcast</a></li>
       <li><a class="nav-item" href="{p}faq.html">FAQ</a></li>
       <li><a class="nav-item" href="{p}contact.html">Contact</a></li>
-      <li><a class="nav-item" href="{PORTAL}" target="_blank" rel="noopener">Patient Portal</a></li>
+      <li class="nav-portal"><a class="nav-item" href="{PORTAL}" target="_blank" rel="noopener">Portal</a></li>
       <li class="nav-cta"><a class="btn btn-coral" href="{p}contact.html">Book Appointment</a></li>
     </ul>
   </div>
@@ -632,40 +624,139 @@ SERVICES = {
     },
 }
 
+
+# Supplemental visual data for service pages
+SERVICE_EXTRAS = {
+    "physical-therapy": {
+        "tagline": "Movement is medicine — and we prescribe it precisely.",
+        "stats": [("35+", "Years treating the Palm Beaches"), ("1-on-1", "Every session, hands-on"), ("Same-day", "Home program from visit one")],
+        "process": [
+            ("Evaluate", "A movement-based assessment pinpoints the patterns driving your pain."),
+            ("Treat", "Skilled manual therapy plus targeted exercise, personalized from day one."),
+            ("Progress", "We advance your plan as you improve — and prove it with measurable gains."),
+            ("Thrive", "Graduate stronger, with the tools to stay pain-free for good."),
+        ],
+    },
+    "occupational-therapy": {
+        "tagline": "Getting you back to the life you actually live.",
+        "stats": [("Daily-life", "Focused on real activities"), ("Whole-person", "Body, hands & mind"), ("Return-to-work", "Programs that get results")],
+        "process": [
+            ("Understand", "We learn how your condition affects your real daily activities and goals."),
+            ("Rebuild", "Task-specific therapy restores strength, coordination, and confidence."),
+            ("Adapt", "Smart strategies and equipment make daily tasks safer and easier."),
+            ("Independence", "You return to the routines and roles that matter most to you."),
+        ],
+    },
+    "hand-therapy": {
+        "tagline": "Surgical-grade precision for the body's most intricate tool.",
+        "stats": [("CHT", "Certified Hand Therapist on staff"), ("In-clinic", "Custom splints fabricated on-site"), ("Surgeon", "Coordinated post-op protocols")],
+        "process": [
+            ("Assess", "A detailed evaluation of motion, strength, and the fine mechanics of your hand."),
+            ("Protect", "Custom orthoses, molded in-clinic, guard healing structures at exactly the right angle."),
+            ("Restore", "Graded motion and strengthening, timed precisely to tissue healing."),
+            ("Refine", "Functional retraining for grip, pinch, and the dexterity your life requires."),
+        ],
+    },
+    "wellness": {
+        "tagline": "Because recovery shouldn't end at discharge.",
+        "stats": [("On-site", "Gym inside the clinic"), ("Guided", "By a team that knows your history"), ("Every age", "From athletes to seniors")],
+        "process": [
+            ("Graduate", "Finish therapy — then keep the momentum instead of losing it."),
+            ("Transition", "Move into a structured program built on your rehab history."),
+            ("Strengthen", "Personal training, classes, and conditioning at your pace."),
+            ("Sustain", "Long-term movement coaching that protects your progress for life."),
+        ],
+    },
+}
+
 def build_services():
+    svc_photo = {
+        "physical-therapy": "clinic.jpg",
+        "occupational-therapy": "clinic.jpg",
+        "hand-therapy": "clinic.jpg",
+        "wellness": "gym.jpg",
+    }
     for slug, s in SERVICES.items():
+        x = SERVICE_EXTRAS[slug]
+        # Numbered feature cards with alternating gold accent
         items = "".join(
-            f'<div class="cond-card reveal"><h3>{t}</h3><p>{d}</p></div>' for t, d in s["items"]
+            f'''<div class="svc-feature reveal">
+              <span class="svc-feature-num">{i+1:02d}</span>
+              <div><h3>{t}</h3><p>{d}</p></div>
+            </div>''' for i, (t, d) in enumerate(s["items"])
         )
-        gym_banner = ""
-        if slug == "wellness":
-            gym_banner = '''<div class="split-media reveal" style="aspect-ratio:16/8;margin-bottom:2.5rem;">
-              <img src="../assets/media/gym.jpg" alt="The wellness gym floor at First Rehabilitation" loading="lazy">
-            </div>'''
+        stats = "".join(
+            f'<div class="svc-stat"><strong>{v}</strong><span>{l}</span></div>' for v, l in x["stats"]
+        )
+        process = "".join(
+            f'''<div class="svc-step reveal d{i%4+1}">
+              <div class="svc-step-dot">{i+1}</div>
+              <h4>{t}</h4><p>{d}</p>
+            </div>''' for i, (t, d) in enumerate(x["process"])
+        )
         crumbs = f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="physical-therapy.html">Services</a> / {s["title"]}</div>'
         body = f"""
 <main>
 {page_hero("Our Services", s["title"], s["lede"], crumbs)}
+
+<div class="ins-strip"><div class="ticker">{"".join(f"<span>{v} &mdash; {l}</span>" for v, l in x["stats"])}</div></div>
+
 <section class="section">
   <div class="wrap">
-  {gym_banner}
-  <div class="two-col">
+    <div class="split" style="margin-bottom:clamp(3rem,6vw,5rem);">
+      <div class="reveal">
+        <span class="eyebrow">{s["title"]}</span>
+        <h2 style="margin-bottom:1rem;"><em class="accent">{x["tagline"]}</em></h2>
+        <p style="font-size:1.08rem;">{s["intro"]}</p>
+        <div class="svc-stats">{stats}</div>
+        <div class="mt-2"><a class="btn btn-coral" href="../contact.html">Book an Evaluation <span class="arr">&rarr;</span></a></div>
+      </div>
+      <div class="split-media tilt2 reveal d2">
+        <img src="../assets/media/{svc_photo[slug]}" alt="{s['title']} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section on-cream">
+  <span class="sec-mark" style="top:2rem;right:3vw;">{['I','II','III','IV'][list(SERVICES).index(slug)]}</span>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What's Included</span>
+      <h2>Every Angle of <em class="accent">{s["title"]}</em></h2>
+    </div>
+    <div class="svc-feature-grid">{items}</div>
+  </div>
+</section>
+
+<section class="section on-ink">
+  <div class="beam-field"><div class="beam" style="opacity:0.5;"></div></div>
+  <div class="wrap" style="position:relative;z-index:1;">
+    <div class="section-head reveal">
+      <span class="eyebrow">How It Works</span>
+      <h2>Your Path Through <em class="accent">{s["title"]}</em></h2>
+      <p class="lede">A clear, four-step journey — you'll always know what phase you're in and what comes next.</p>
+    </div>
+    <div class="svc-process">{process}</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap two-col">
     <div class="prose reveal">
-      <h2><em class="accent">{s["kicker"]}</em></h2>
-      <p>{s["intro"]}</p>
-      <h2>What this program includes</h2>
-      <div class="cond-grid" style="grid-template-columns:1fr;gap:0.9rem;">{items}</div>
+      <h2>What to expect at your first visit</h2>
+      <p>Your first appointment includes a comprehensive movement-based evaluation, an honest conversation about your goals, and a proposed plan of care — with hands-on treatment starting that very first day whenever appropriate. We accept most major insurance plans, including Medicare, and our front desk will gladly verify your coverage before you arrive.</p>
+      <p>You're never a chart number here. Since 1991, our family-owned clinic has treated every patient with the individual attention that earns a 5.0&#9733; reputation across the Palm Beaches.</p>
     </div>
     <aside class="side-card reveal d2">
       <h3>Begin with an evaluation</h3>
-      <p>Your first visit includes a movement-based evaluation, a discussion of your goals, and a clear plan for getting you back to full life.</p>
+      <p>The first step is simple: a conversation and a movement assessment. We'll build the plan together.</p>
       <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
       <div class="side-meta">
         <p>Prefer to call?<br><a href="tel:+15616244263">{PHONE}</a></p>
         <p style="margin-top:0.8rem;">Most major insurance accepted, including Medicare.</p>
       </div>
     </aside>
-  </div>
   </div>
 </section>
 {cta_band(1)}
@@ -1259,6 +1350,8 @@ def build_meta():
                "Page not found.") + nav(0, solid=True) + body + footer(0))
 
 # ----------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------
 # AI ASSISTANT KNOWLEDGE BASE (api/kb.json — consumed by api/chat.js)
 # ----------------------------------------------------------------------------
 
@@ -1292,8 +1385,6 @@ def build_kb():
         "faq": [{"q": plain(q), "a": plain(a)} for q, a in FAQS],
     }
     write("api/kb.json", json.dumps(kb, indent=1))
-
-# ----------------------------------------------------------------------------
 
 if __name__ == "__main__":
     build_home()
