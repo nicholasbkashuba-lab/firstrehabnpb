@@ -643,3 +643,12 @@ a.tb-item:hover { color: var(--gold); }
 
 /* Service-page FAQ sections */
 .svc-faq .faq-list { max-width: 860px; }
+
+/* ---------- SEO/a11y batch: utilities + related links ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.h3-size { font-size: clamp(1.3rem, 2.2vw, 1.7rem); line-height: 1.22; }
+.site-footer .f-head { color: var(--cream); font-family: var(--font-body); font-size: 0.74rem; letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 1.2rem; }
+.svc-step h3 { font-family: var(--font-display); color: var(--cream); font-size: 1.15rem; margin-bottom: 0.35rem; }
+.related-links { margin-top: 1.6rem; font-size: 0.95rem; line-height: 2; }
+.related-links a { font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.related-links a:hover { color: var(--coral-deep); }

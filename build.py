@@ -19,7 +19,7 @@ MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm
 
 # ----------------------------------------------------------------------------
 
-def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cover.jpg", page_type="website", extra_schema=""):
+def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema=""):
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
     canon = f"{base}/{canonical}" if canonical else base + "/"
@@ -117,8 +117,8 @@ def nav(depth=0, solid=False):
 <header class="{cls}">
   <div class="wrap nav-bar">
     <a class="brand" href="{p}index.html" aria-label="First Rehabilitation home">
-      <img class="logo-dark-v" src="{p}assets/media/logo-dark.png" alt="First Rehabilitation of North Palm Beach">
-      <img class="logo-light-v" src="{p}assets/media/logo.png" alt="First Rehabilitation of North Palm Beach">
+      <img class="logo-dark-v" src="{p}assets/media/logo-dark.png" alt="First Rehabilitation of North Palm Beach" width="111" height="68">
+      <img class="logo-light-v" src="{p}assets/media/logo.png" alt="First Rehabilitation of North Palm Beach" width="111" height="68">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-links">
@@ -170,14 +170,14 @@ def footer(depth=0):
   <div class="wrap">
     <div class="footer-grid">
       <div class="f-brand">
-        <img src="{p}assets/media/logo-dark.png" alt="First Rehabilitation logo">
+        <img src="{p}assets/media/logo-dark.png" alt="First Rehabilitation logo" width="111" height="68" loading="lazy">
         <div class="brand-name">First Rehabilitation</div>
         <div class="brand-tag">Heal. Strengthen. Thrive.</div>
         <p>Family-owned outpatient rehabilitation serving the Palm Beaches since 1991. Physical therapy, occupational therapy, certified hand therapy, and wellness — all under one roof.</p>
         {social_row()}
       </div>
       <div>
-        <h4>Services</h4>
+        <h3 class="f-head">Services</h3>
         <ul>
           <li><a href="{p}services/physical-therapy.html">Physical Therapy</a></li>
           <li><a href="{p}services/occupational-therapy.html">Occupational Therapy</a></li>
@@ -186,7 +186,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h3 class="f-head">Explore</h3>
         <ul>
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
           <li><a href="{p}about.html">About Us</a></li>
@@ -197,7 +197,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h4>Visit Us</h4>
+        <h3 class="f-head">Visit Us</h3>
         <ul class="f-contact">
           <li>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</li>
           <li>Phone: <a href="tel:+15616244263">{PHONE}</a></li>
@@ -553,9 +553,10 @@ def build_home():
 </main>
 """
     write("index.html",
-          head("First Rehabilitation of North Palm Beach | PT, OT, Hand Therapy & Wellness Since 1991",
-               "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
-               canonical="", og_image="assets/media/clinic.jpg")
+          head("Physical Therapy North Palm Beach | First Rehabilitation",
+               "Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
+               canonical="", og_image="assets/media/clinic.jpg",
+               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=6" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -689,7 +690,7 @@ def build_services():
         process = "".join(
             f'''<div class="svc-step reveal d{i%4+1}">
               <div class="svc-step-dot">{i+1}</div>
-              <h4>{t}</h4><p>{d}</p>
+              <h3>{t}</h3><p>{d}</p>
             </div>''' for i, (t, d) in enumerate(x["process"])
         )
         crumbs = f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="physical-therapy.html">Services</a> / {s["title"]}</div>'
@@ -709,6 +710,19 @@ def build_services():
     </div>
   </div>
 </section>'''
+        # Conditions treated with this service — internal links for SEO + discovery
+        svc_conds = {
+            "physical-therapy": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hip-pain", "ankle-pain", "post-surgical", "auto-accident"],
+            "occupational-therapy": ["hand-wrist", "post-surgical", "workers-comp"],
+            "hand-therapy": ["hand-wrist", "post-surgical"],
+        }
+        svc_cond_links = ""
+        if slug in svc_conds:
+            links = " &middot; ".join(
+                f'<a href="../treatments/{c}.html">{CONDITIONS[c]["name"]}</a>' for c in svc_conds[slug]
+            )
+            svc_cond_links = f'<p class="related-links reveal"><strong>Conditions we treat with {s["title"].lower()}:</strong> {links}</p>'
+
         # Service-specific FAQ accordion + matching FAQPage JSON-LD for rich results
         svc_faq_html, svc_schema = "", ""
         if slug in SERVICE_FAQS:
@@ -759,6 +773,7 @@ def build_services():
       <h2>Every Angle of <em class="accent">{s["title"]}</em></h2>
     </div>
     <div class="svc-feature-grid">{items}</div>
+    {svc_cond_links}
   </div>
 </section>
 {cht_callout}
@@ -796,10 +811,15 @@ def build_services():
 {cta_band(1)}
 </main>
 """
+        svc_desc = s["lede"].replace("&amp;", "&")
+        if len(svc_desc) <= 115:
+            svc_desc += " Family-owned North Palm Beach clinic since 1991."
+        svc_bc = breadcrumb_schema([("Home", ""), ("Services", "services/physical-therapy.html"),
+                                    (s["title"], f"services/{slug}.html")])
         write(f"services/{slug}.html",
               head(f'{s["title"].replace("&amp;","&")} | First Rehabilitation of North Palm Beach',
-                   s["lede"].replace("&amp;", "&"), depth=1, canonical=f"services/{slug}.html",
-                   extra_schema=svc_schema)
+                   svc_desc, depth=1, canonical=f"services/{slug}.html",
+                   extra_schema=svc_schema + svc_bc)
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -917,6 +937,7 @@ def build_conditions():
   "Twelve specialized treatment pathways — every one beginning with a thorough evaluation and a plan built for you.", crumbs)}
 <section class="section">
   <div class="wrap">
+    <h2 class="sr-only">All Conditions We Treat</h2>
     <div class="cond-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));">{cards}</div>
   </div>
 </section>
@@ -925,11 +946,24 @@ def build_conditions():
 """
     write("treatments/index.html",
           head("What We Treat | First Rehabilitation of North Palm Beach",
-               "Explore the conditions we treat: back, neck, shoulder, knee, hip, foot, ankle, hand & wrist, headaches, post-surgical rehab, workers' comp, and auto accident recovery.", depth=1, canonical="treatments/index.html")
+               "Explore the conditions we treat: back, neck, shoulder, knee, hip, foot, ankle, hand & wrist, headaches, post-surgical rehab, workers' comp, and auto accident recovery.", depth=1, canonical="treatments/index.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("What We Treat", "treatments/index.html")]))
           + nav(1) + body + footer(1))
 
+    cond_slugs = list(CONDITIONS)
+    svc_for = {"hand-wrist": ("hand-therapy", "Certified Hand Therapy"),
+               "workers-comp": ("occupational-therapy", "Occupational Therapy"),
+               "post-surgical": ("physical-therapy", "Physical Therapy")}
     for slug, c in CONDITIONS.items():
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
+        # Related-care internal links: primary service + neighboring conditions
+        i = cond_slugs.index(slug)
+        prev_s, next_s = cond_slugs[i - 1], cond_slugs[(i + 1) % len(cond_slugs)]
+        sv, sv_name = svc_for.get(slug, ("physical-therapy", "Physical Therapy"))
+        rel_links = (f'<p class="related-links"><strong>Related care:</strong> '
+                     f'<a href="../services/{sv}.html">{sv_name}</a> &middot; '
+                     f'<a href="{prev_s}.html">{CONDITIONS[prev_s]["name"]}</a> &middot; '
+                     f'<a href="{next_s}.html">{CONDITIONS[next_s]["name"]}</a></p>')
         crumbs = f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">What We Treat</a> / {c["name"]}</div>'
         body = f"""
 <main>
@@ -942,6 +976,7 @@ def build_conditions():
       <ul class="check-list">{treats}</ul>
       <h2>Our approach</h2>
       <p>{c["approach"]}</p>
+      {rel_links}
       <h2>What to expect at your first visit</h2>
       <p>Your first appointment includes a comprehensive movement-based evaluation, an honest conversation about your goals, and a proposed plan of care — including hands-on treatment that very first day whenever appropriate. We accept most major insurance plans, including Medicare, and our front desk will gladly verify your coverage before you arrive.</p>
     </div>
@@ -960,9 +995,16 @@ def build_conditions():
 </main>
 """
         name_plain = c["name"].replace("&amp;", "&")
+        title_short = {"post-surgical": "Post-Surgical Rehab", "workers-comp": "Workers' Comp Rehab"}.get(slug, name_plain)
+        cond_desc = c["lede"].replace("&amp;", "&")
+        if len(cond_desc) <= 115:
+            cond_desc += " Family-owned North Palm Beach clinic since 1991."
+        cond_bc = breadcrumb_schema([("Home", ""), ("What We Treat", "treatments/index.html"),
+                                     (c["name"], f"treatments/{slug}.html")])
         write(f"treatments/{slug}.html",
-              head(f"{name_plain} in North Palm Beach | First Rehabilitation",
-                   c["lede"].replace("&amp;", "&"), depth=1, canonical=f"treatments/{slug}.html", page_type="article")
+              head(f"{title_short} in North Palm Beach | First Rehabilitation",
+                   cond_desc, depth=1, canonical=f"treatments/{slug}.html", page_type="article",
+                   extra_schema=cond_bc)
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -1027,7 +1069,8 @@ def build_about():
     write("about.html",
           head("About Us | First Rehabilitation of North Palm Beach",
                "Family-owned since 1991. Meet the team behind First Rehabilitation of North Palm Beach — founder David Kashuba, Ph.D., and our therapists.",
-               canonical="about.html")
+               canonical="about.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("About Us", "about.html")]))
           + nav(0) + body + footer(0))
 
 EPISODES = [
@@ -1038,6 +1081,24 @@ EPISODES = [
     ("Episode 2", "Dr. Tom Saylor, M.D.", "The hand is the body's most intricate tool — and repairing it takes a specialist. Hand and upper-extremity surgeon Dr. Tom Saylor joins Dave and Mike to talk about the surgical side of restoring hand function, from carpal tunnel and tendon repairs to complex reconstruction. It's a natural fit for First Rehabilitation, home to a certified hand therapy program, and a fascinating look at how surgeon and therapist work hand-in-hand to bring patients back to full function.", "https://open.spotify.com/episode/1a4jO3BCBrYhYL8KF01hOi", "Listen"),
     ("Episode 1", "Intro to Dave's Background", "The one that started it all. In this first episode, Dr. Dave Kashuba tells his story — how he built First Rehabilitation of North Palm Beach from the ground up in 1991, what nearly four decades and 80,000+ patients have taught him about healing, and the philosophy behind the name Pain 2 Power. Co-host Mike McGann draws out the moments that shaped Dave's approach to care, resilience, and why &ldquo;our people make the difference&rdquo; is more than a tagline.", "https://open.spotify.com/episode/70Yn3oyi2YcesDkivraogc", "Listen"),
 ]
+
+def _podcast_schema():
+    """PodcastSeries + PodcastEpisode JSON-LD from the EPISODES list."""
+    import json as _json
+    series = {"@context": "https://schema.org", "@type": "PodcastSeries",
+              "name": "Pain 2 Power",
+              "description": "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness with some of the sharpest minds in medicine.",
+              "url": "https://www.firstrehabnpb.com/podcast.html",
+              "image": "https://www.firstrehabnpb.com/assets/media/podcast-cover.jpg",
+              "sameAs": SPOTIFY}
+    graph = [series]
+    for num, title, desc, url, label in EPISODES:
+        if "open.spotify.com/episode/" in url:
+            graph.append({"@type": "PodcastEpisode", "name": _faq_plain(title),
+                          "description": _faq_plain(desc), "url": url,
+                          "partOfSeries": {"@type": "PodcastSeries", "name": "Pain 2 Power"}})
+    data = {"@context": "https://schema.org", "@graph": graph}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
 
 def build_podcast():
     import re as _re
@@ -1072,7 +1133,7 @@ def build_podcast():
       </div>
       <div class="hosts-stack">
         <div class="host-bio reveal">
-          <img src="assets/team/david.jpg" alt="Dr. Dave Kashuba">
+          <img src="assets/team/david.jpg" alt="Dr. Dave Kashuba" loading="lazy">
           <div>
             <h3>Dave Kashuba, Ph.D.</h3>
             <div class="role">Founder &amp; Occupational Therapist</div>
@@ -1080,7 +1141,7 @@ def build_podcast():
           </div>
         </div>
         <div class="host-bio reveal d2">
-          <img src="assets/media/mike.jpg" alt="Mike McGann">
+          <img src="assets/media/mike.jpg" alt="Mike McGann" loading="lazy">
           <div>
             <h3>Mike McGann</h3>
             <div class="role">Co-Host</div>
@@ -1111,7 +1172,8 @@ def build_podcast():
     write("podcast.html",
           head("Pain 2 Power Podcast | First Rehabilitation of North Palm Beach",
                "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness. Saturdays on 100.3 Legends Radio and streaming on Spotify.",
-               canonical="podcast.html")
+               canonical="podcast.html", og_image="assets/media/podcast-cover.jpg",
+               extra_schema=_podcast_schema() + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html")]))
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -1332,6 +1394,17 @@ def faq_schema(pairs):
     }
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
 
+def breadcrumb_schema(items):
+    """BreadcrumbList JSON-LD. items = [(name, path-from-root or "" for home)]."""
+    import json as _json
+    base = "https://www.firstrehabnpb.com"
+    data = {"@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": i + 1, "name": _faq_plain(n),
+                 "item": (base + "/" + u) if u else base + "/"}
+                for i, (n, u) in enumerate(items)]}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
 def build_faq():
     jump = "".join(f'<a href="#{sid}">{title}</a>' for sid, title, _pairs in FAQ_SECTIONS)
     sections = ""
@@ -1364,7 +1437,7 @@ def build_faq():
           head("Physical Therapy FAQ | First Rehabilitation North Palm Beach",
                "40+ answers about physical therapy, occupational therapy, hand therapy, insurance, cost, and what to expect at First Rehabilitation of North Palm Beach.",
                canonical="faq.html",
-               extra_schema=faq_schema(FAQS))
+               extra_schema=faq_schema(FAQS) + breadcrumb_schema([("Home", ""), ("FAQ", "faq.html")]))
           + nav(0) + body + footer(0))
 
 def build_contact():
@@ -1376,7 +1449,7 @@ def build_contact():
 <section class="section">
   <div class="wrap contact-grid">
     <div class="appt-form-card reveal">
-      <h3>Request an Appointment</h3>
+      <h2 class="h3-size">Request an Appointment</h2>
       <p class="af-sub">Tell us a little about what you need and our front desk will call you back within one business day.</p>
       <form class="appt-form" id="appt-form" novalidate>
         <div class="af-field">
@@ -1436,7 +1509,8 @@ def build_contact():
     write("contact.html",
           head("Contact | First Rehabilitation of North Palm Beach",
                "Contact First Rehabilitation of North Palm Beach: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408. Call 561-624-4263 to book your appointment.",
-               canonical="contact.html")
+               canonical="contact.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Contact", "contact.html")]))
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -1519,6 +1593,7 @@ def build_blog():
   "Practical guidance from the First Rehabilitation team — recovery, movement, and living well in the Palm Beaches.", crumbs)}
 <section class="section">
   <div class="wrap">
+    <h2 class="sr-only">Latest Articles</h2>
     <div class="cond-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.4rem;">{cards}</div>
   </div>
 </section>
@@ -1527,7 +1602,8 @@ def build_blog():
 """
     write("blog/index.html",
           head("Blog | First Rehabilitation of North Palm Beach",
-               "Practical recovery and wellness guidance from the physical, occupational, and hand therapy team at First Rehabilitation of North Palm Beach.", depth=1, canonical="blog/index.html")
+               "Practical recovery and wellness guidance from the physical, occupational, and hand therapy team at First Rehabilitation of North Palm Beach.", depth=1, canonical="blog/index.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Blog", "blog/index.html")]))
           + nav(1) + body + footer(1))
 
     for slug, p in BLOG_POSTS.items():
@@ -1551,8 +1627,29 @@ def build_blog():
 {cta_band(1)}
 </main>
 """
+        import json as _json
+        from datetime import datetime as _dt
+        seo_titles = {
+            "what-to-expect-first-pt-visit": "Your First PT Visit: What to Expect",
+            "five-morning-habits-back-pain": "Five Morning Habits That Ease Back Pain",
+            "why-hand-therapy-is-different": "Why Hand Therapy Is Its Own Specialty",
+        }
+        iso_date = _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
+        post_schema = '<script type="application/ld+json">' + _json.dumps({
+            "@context": "https://schema.org", "@type": "BlogPosting",
+            "headline": _faq_plain(p["title"]),
+            "description": _faq_plain(p["teaser"]),
+            "datePublished": iso_date, "dateModified": iso_date,
+            "image": "https://www.firstrehabnpb.com/assets/media/hero-poster.jpg",
+            "author": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach"},
+            "publisher": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach",
+                          "logo": {"@type": "ImageObject", "url": "https://www.firstrehabnpb.com/assets/media/logo.png"}},
+            "mainEntityOfPage": f"https://www.firstrehabnpb.com/blog/{slug}.html",
+        }, ensure_ascii=False) + '</script>\n'
+        post_bc = breadcrumb_schema([("Home", ""), ("Blog", "blog/index.html"), (p["title"], f"blog/{slug}.html")])
         write(f"blog/{slug}.html",
-              head(f'{p["title"]} | First Rehabilitation Blog', p["teaser"].replace("&amp;","&"), depth=1, canonical=f"blog/{slug}.html", page_type="article")
+              head(f'{seo_titles.get(slug, p["title"])} | First Rehab Blog', p["teaser"].replace("&amp;","&"), depth=1, canonical=f"blog/{slug}.html", page_type="article",
+                   extra_schema=post_schema + post_bc)
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -1596,7 +1693,8 @@ def build_meta():
 """
     write("404.html",
           head("Page Not Found | First Rehabilitation of North Palm Beach",
-               "Page not found.") + nav(0, solid=True) + body + footer(0))
+               "That page took a wrong turn. Find physical therapy, occupational therapy, hand therapy, and wellness services at First Rehabilitation of North Palm Beach.",
+               extra_schema='<meta name="robots" content="noindex">\n') + nav(0, solid=True) + body + footer(0))
 
 # ----------------------------------------------------------------------------
 
