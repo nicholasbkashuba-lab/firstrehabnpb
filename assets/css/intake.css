@@ -3,7 +3,7 @@
    Chat-style concierge. Shares tokens with styles.css.
    ============================================================ */
 
-.fri-root { position: fixed; right: clamp(14px, 3vw, 26px); bottom: clamp(14px, 3vw, 26px); z-index: 1200; font-family: var(--font-body); }
+.fri-root { position: fixed; right: clamp(14px, 3vw, 26px); bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px)); z-index: 1200; font-family: var(--font-body); }
 
 /* ---------- Launcher ---------- */
 .fri-launcher {
@@ -39,8 +39,9 @@
 .fri-teaser.show { opacity: 1; transform: none; pointer-events: auto; }
 .fri-teaser strong { color: var(--ink); }
 .fri-teaser .fri-teaser-x {
-  position: absolute; top: 6px; right: 8px; background: none; border: none; cursor: pointer;
-  color: var(--muted); font-size: 1rem; line-height: 1; padding: 4px;
+  position: absolute; top: 0; right: 0; background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 1rem; line-height: 1;
+  width: 44px; height: 44px; display: grid; place-items: center;
 }
 .fri-teaser .fri-teaser-x:hover { color: var(--ink); }
 

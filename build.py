@@ -292,6 +292,7 @@ def bodymap_svg():
     }
     spots_svg = "".join(
         f'''<a href="{spot_links[k]}" class="bm-spot" data-bm="{k}" aria-label="{lbl}">
+        <circle class="hit" cx="{x}" cy="{y}" r="17" fill="#000" fill-opacity="0" pointer-events="all"/>
         <circle class="halo" cx="{x}" cy="{y}" r="10"/>
         <circle class="core" cx="{x}" cy="{y}" r="6"/>
         <title>{lbl}</title></a>''' for k, x, y, lbl in spots
