@@ -21,11 +21,19 @@
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
   if (toggle && links) {
-    toggle.addEventListener('click', () => {
-      const open = links.classList.toggle('open');
+    const setOpen = (open) => {
+      links.classList.toggle('open', open);
       toggle.classList.toggle('active', open);
       document.body.classList.toggle('nav-locked', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    toggle.addEventListener('click', () => setOpen(!links.classList.contains('open')));
+    // Escape closes the menu and returns focus to the toggle
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('open')) {
+        setOpen(false);
+        toggle.focus();
+      }
     });
     links.querySelectorAll('li').forEach((li) => {
       const item = li.querySelector(':scope > a.nav-item');
@@ -57,11 +65,15 @@
     track.innerHTML += track.innerHTML;
   });
 
-  // Animated counters
+  // Animated counters (instant for prefers-reduced-motion users)
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
   const runCounter = (el) => {
     const target = parseFloat(el.dataset.count);
     const suffix = el.dataset.suffix || '';
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = target.toLocaleString() + suffix;
+      return;
+    }
     const dur = 1600;
     const start = performance.now();
     const step = (now) => {

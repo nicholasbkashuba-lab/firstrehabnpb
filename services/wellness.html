@@ -70,12 +70,14 @@
 <body>
 
 <header class="site-header">
+  <a class="skip-link" href="#main">Skip to main content</a>
   <div class="wrap nav-bar">
     <a class="brand" href="../index.html" aria-label="First Rehabilitation home">
       <img class="logo-dark-v" src="../assets/media/logo-dark.png" alt="First Rehabilitation of North Palm Beach" width="111" height="68">
       <img class="logo-light-v" src="../assets/media/logo.png" alt="First Rehabilitation of North Palm Beach" width="111" height="68">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="nav-el" aria-label="Main menu">
     <ul class="nav-links">
       <li><a class="nav-item" href="../index.html">Home</a></li>
       <li>
@@ -98,15 +100,16 @@
       <li><a class="nav-item" href="../contact.html">Contact</a></li>
       <li class="nav-portal"><a class="nav-item" href="https://firstrehabilitationinc.patient.sprypt.com/clinics" target="_blank" rel="noopener">Portal</a></li>
     </ul>
+    </nav>
     <a class="btn btn-coral nav-cta-btn" href="../contact.html">Book Appointment</a>
   </div>
 </header>
 
-<main>
+<main id="main">
 
 <section class="page-hero">
   <div class="hero-fallback"></div>
-  <div class="beam-field"><div class="beam" style="opacity:0.5;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap">
     <div class="crumbs"><a href="../index.html">Home</a> / <a href="physical-therapy.html">Services</a> / Wellness &amp; Gym</div>
     <span class="eyebrow">Our Services</span>
@@ -136,7 +139,7 @@
 </section>
 
 <section class="section on-cream">
-  <span class="sec-mark" style="top:2rem;right:3vw;">IV</span>
+  <span class="sec-mark" aria-hidden="true" style="top:2rem;right:3vw;">IV</span>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">What's Included</span>
@@ -166,7 +169,7 @@
 </section>
 
 <section class="section on-ink">
-  <div class="beam-field"><div class="beam" style="opacity:0.5;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
     <div class="section-head reveal">
       <span class="eyebrow">How It Works</span>
@@ -211,7 +214,7 @@
 
 <section class="cta-band">
   <div class="hero-fallback"></div>
-  <div class="beam-field"><div class="beam"></div><div class="beam b2"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam"></div><div class="beam b2"></div></div>
   <div class="wrap cta-inner reveal">
     <h2>Life is too short to <em>live in pain.</em></h2>
     <p>Start your recovery today with a team dedicated to your long-term wellness and total healing.</p>
@@ -222,7 +225,7 @@
 </main>
 
 <footer class="site-footer">
-  <div class="beam-field"><div class="beam" style="opacity:0.35;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.35;"></div></div>
   <div class="wrap">
     <div class="footer-grid">
       <div class="f-brand">

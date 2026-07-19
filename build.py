@@ -115,12 +115,14 @@ def nav(depth=0, solid=False):
     cond_links = "".join(f'<a href="{p}treatments/{u}">{n}</a>' for n, u in conditions)
     return f"""
 <header class="{cls}">
+  <a class="skip-link" href="#main">Skip to main content</a>
   <div class="wrap nav-bar">
     <a class="brand" href="{p}index.html" aria-label="First Rehabilitation home">
       <img class="logo-dark-v" src="{p}assets/media/logo-dark.png" alt="First Rehabilitation of North Palm Beach" width="111" height="68">
       <img class="logo-light-v" src="{p}assets/media/logo.png" alt="First Rehabilitation of North Palm Beach" width="111" height="68">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="nav-el" aria-label="Main menu">
     <ul class="nav-links">
       <li><a class="nav-item" href="{p}index.html">Home</a></li>
       <li>
@@ -143,6 +145,7 @@ def nav(depth=0, solid=False):
       <li><a class="nav-item" href="{p}contact.html">Contact</a></li>
       <li class="nav-portal"><a class="nav-item" href="{PORTAL}" target="_blank" rel="noopener">Portal</a></li>
     </ul>
+    </nav>
     <a class="btn btn-coral nav-cta-btn" href="{p}contact.html">Book Appointment</a>
   </div>
 </header>
@@ -166,7 +169,7 @@ def footer(depth=0):
     p = "../" * depth
     return f"""
 <footer class="site-footer">
-  <div class="beam-field"><div class="beam" style="opacity:0.35;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.35;"></div></div>
   <div class="wrap">
     <div class="footer-grid">
       <div class="f-brand">
@@ -223,7 +226,7 @@ def cta_band(depth=0, heading='Life is too short to <em>live in pain.</em>', sub
     return f"""
 <section class="cta-band">
   <div class="hero-fallback"></div>
-  <div class="beam-field"><div class="beam"></div><div class="beam b2"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam"></div><div class="beam b2"></div></div>
   <div class="wrap cta-inner reveal">
     <h2>{heading}</h2>
     <p>{sub}</p>
@@ -236,7 +239,7 @@ def page_hero(eyebrow, title, lede, crumbs_html=""):
     return f"""
 <section class="page-hero">
   <div class="hero-fallback"></div>
-  <div class="beam-field"><div class="beam" style="opacity:0.5;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap">
     {crumbs_html}
     <span class="eyebrow">{eyebrow}</span>
@@ -261,6 +264,7 @@ def linkify_phone(html_out):
 def write(path, content):
     if path.endswith(".html"):
         content = linkify_phone(content)
+        content = content.replace("<main>", '<main id="main">', 1)
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     with open(full, "w") as f:
@@ -462,7 +466,7 @@ def build_home():
 <div class="ins-strip"><div class="ticker">{ticker}</div></div>
 
 <section class="section" id="pathways">
-  <span class="sec-mark" style="top:2rem; right:2vw;">04</span>
+  <span class="sec-mark" aria-hidden="true" style="top:2rem; right:2vw;">04</span>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">What We Offer</span>
@@ -474,7 +478,7 @@ def build_home():
 </section>
 
 <section class="section on-ink" id="bodymap">
-  <div class="beam-field"><div class="beam" style="opacity:0.55;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.55;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
     <div class="section-head reveal">
       <span class="eyebrow">Where Does It Hurt?</span>
@@ -497,7 +501,7 @@ def build_home():
 </section>
 
 <section class="section on-cream">
-  <span class="sec-mark" style="bottom:2rem; left:2vw;">VI</span>
+  <span class="sec-mark" aria-hidden="true" style="bottom:2rem; left:2vw;">VI</span>
   <div class="wrap">
     <div class="section-head center reveal">
       <span class="eyebrow">The Continuum of Care</span>
@@ -767,7 +771,7 @@ def build_services():
 </section>
 
 <section class="section on-cream">
-  <span class="sec-mark" style="top:2rem;right:3vw;">{['I','II','III','IV'][list(SERVICES).index(slug)]}</span>
+  <span class="sec-mark" aria-hidden="true" style="top:2rem;right:3vw;">{['I','II','III','IV'][list(SERVICES).index(slug)]}</span>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">What's Included</span>
@@ -779,7 +783,7 @@ def build_services():
 </section>
 {cht_callout}
 <section class="section on-ink">
-  <div class="beam-field"><div class="beam" style="opacity:0.5;"></div></div>
+  <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
     <div class="section-head reveal">
       <span class="eyebrow">How It Works</span>
@@ -1055,7 +1059,7 @@ def build_about():
   </div>
 </section>
 <section class="section on-cream">
-  <span class="sec-mark" style="top:2rem; right:2vw;">est.<br>'91</span>
+  <span class="sec-mark" aria-hidden="true" style="top:2rem; right:2vw;">est.<br>'91</span>
   <div class="wrap">
     <div class="section-head center reveal">
       <span class="eyebrow">Meet the Team</span>
@@ -1480,7 +1484,7 @@ def build_contact():
           </select>
         </div>
         <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
-        <p class="af-error" id="af-error"></p>
+        <p class="af-error" id="af-error" role="alert"></p>
         <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
       </form>
       <div class="af-done" id="af-done" hidden>

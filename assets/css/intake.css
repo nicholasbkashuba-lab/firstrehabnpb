@@ -86,7 +86,7 @@
 @keyframes fri-pop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .fri-msg.bot { background: var(--paper); color: var(--text); border: 1px solid var(--line); border-radius: 16px 16px 16px 5px; }
 .fri-msg.user { background: var(--ink); color: var(--cream); border-radius: 16px 16px 5px 16px; margin-left: auto; }
-.fri-msg a { color: var(--coral-deep); font-weight: 600; }
+.fri-msg a { color: #B65717; font-weight: 600; }
 .fri-msg.user a { color: var(--gold); }
 .fri-msg.bot .fri-note { display: block; margin-top: 0.3rem; font-size: 0.8rem; color: var(--muted); }
 
