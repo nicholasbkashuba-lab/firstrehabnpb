@@ -32,7 +32,7 @@
       const dd = li.querySelector(':scope > .dropdown');
       if (item && dd) {
         item.addEventListener('click', (e) => {
-          if (window.matchMedia('(max-width: 1300px)').matches) {
+          if (window.matchMedia('(max-width: 1260px)').matches) {
             e.preventDefault();
             li.classList.toggle('open-sub');
           }

@@ -49,6 +49,7 @@
 .fri-panel {
   position: absolute; right: 0; bottom: 0;
   width: min(392px, calc(100vw - 28px));
+  height: min(636px, calc(100vh - 40px));
   height: min(636px, calc(100svh - 40px));
   display: none; flex-direction: column; overflow: hidden;
   background: var(--cream-soft); border: 1px solid var(--line);
