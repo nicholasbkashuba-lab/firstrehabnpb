@@ -19,7 +19,7 @@ MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm
 
 # ----------------------------------------------------------------------------
 
-def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cover.jpg", page_type="website"):
+def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cover.jpg", page_type="website", extra_schema=""):
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
     canon = f"{base}/{canonical}" if canonical else base + "/"
@@ -90,7 +90,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/podcast-cove
   "aggregateRating": {{ "@type": "AggregateRating", "ratingValue": "5.0", "bestRating": "5", "ratingCount": "24" }},
   "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }}</script>
-</head>
+{extra_schema}</head>
 <body>
 """
 
@@ -709,6 +709,25 @@ def build_services():
     </div>
   </div>
 </section>'''
+        # Service-specific FAQ accordion + matching FAQPage JSON-LD for rich results
+        svc_faq_html, svc_schema = "", ""
+        if slug in SERVICE_FAQS:
+            faq_items = "".join(
+                f'<details class="faq-item reveal"><summary>{q}</summary><div class="faq-a">{a}</div></details>'
+                for q, a in SERVICE_FAQS[slug]
+            )
+            svc_faq_html = f'''
+<section class="section on-cream svc-faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Common Questions</span>
+      <h2>{s["title"]}: Frequently Asked <em class="accent">Questions</em></h2>
+      <p class="lede">Straight answers to what patients ask us most — and if yours isn't here, call 561-624-4263.</p>
+    </div>
+    <div class="faq-list">{faq_items}</div>
+  </div>
+</section>'''
+            svc_schema = faq_schema(SERVICE_FAQS[slug])
         body = f"""
 <main>
 {page_hero("Our Services", s["title"], s["lede"], crumbs)}
@@ -773,12 +792,14 @@ def build_services():
     </aside>
   </div>
 </section>
+{svc_faq_html}
 {cta_band(1)}
 </main>
 """
         write(f"services/{slug}.html",
               head(f'{s["title"].replace("&amp;","&")} | First Rehabilitation of North Palm Beach',
-                   s["lede"].replace("&amp;", "&"), depth=1, canonical=f"services/{slug}.html")
+                   s["lede"].replace("&amp;", "&"), depth=1, canonical=f"services/{slug}.html",
+                   extra_schema=svc_schema)
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -1093,31 +1114,245 @@ def build_podcast():
                canonical="podcast.html")
           + nav(0) + body + footer(0))
 
-FAQS = [
-    ("What services does First Rehabilitation provide?", "We provide physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program — a full continuum of care under one roof."),
-    ("Do you accept my insurance?", "We accept most major health insurance plans, including Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay. Call our front desk and we'll gladly verify your specific coverage."),
-    ("Do I need a referral to start therapy?", "It depends on your insurance plan. Many patients can begin under Florida's direct access provisions, while some plans require a physician referral. Call us and we'll walk you through exactly what your plan needs."),
-    ("What should I expect at my first visit?", "Your initial visit includes a movement-based evaluation, a discussion of your activity goals, and a proposed plan of care that may include hands-on treatment and home exercises starting day one."),
-    ("How do I schedule an appointment?", "Call us at 561-624-4263 or use the contact page to request an appointment — our team will follow up promptly to find a time that works."),
-    ("What should I wear to my appointments?", "Comfortable clothing you can move in. For lower-body conditions, shorts or loose pants are ideal; for shoulder or arm conditions, a shirt that allows easy access to the area being treated."),
-    ("What is certified hand therapy?", "Certified Hand Therapists (CHTs) complete thousands of hours of specialized training in rehabilitation of the hand, wrist, and upper extremity. Our program, led by Laura Drumm, CHT, includes custom splinting fabricated in-clinic."),
-    ("What is the wellness program?", "Our on-site wellness and gym program lets patients continue training after discharge from therapy — with personal training, group classes, and senior functional fitness guided by a team that knows your history."),
-    ("Do your therapists work together on my care?", "Yes. When appropriate, our PTs, OTs, and hand therapist coordinate assessments and treatment plans so your recovery reflects a genuine team-based approach."),
-    ("Where are you located?", "733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 — serving North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and the greater Palm Beaches."),
+# ----------------------------------------------------------------------------
+# FAQ CONTENT — main page (sectioned) + per-service deep dives
+# Answers are plain text (no HTML) so the same source feeds both the visible
+# accordions and the FAQPage JSON-LD. Phone numbers become tap-to-call links
+# automatically via linkify_phone(); the JSON-LD is protected inside <script>.
+# ----------------------------------------------------------------------------
+
+FAQ_SECTIONS = [
+    ("getting-started", "Getting Started", [
+        ("What services does First Rehabilitation offer?",
+         "We offer physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program — a complete continuum of care under one roof. Family-owned since 1991, we treat everything from back pain and post-surgical recovery to hand injuries, work injuries, and auto accident rehabilitation, then help you stay strong after discharge through our wellness program."),
+        ("Do I need a doctor's referral to start physical therapy?",
+         "In many cases, no — Florida is a direct access state, so you can generally begin a physical therapy evaluation without a physician referral. Some insurance plans still require a referral for coverage, and Medicare requires a physician to certify your plan of care, so the safest step is a quick call to 561-624-4263 — our front desk will check exactly what your plan needs before your first visit."),
+        ("How do I schedule my first appointment?",
+         "Call us at 561-624-4263, or request an appointment through the contact page or the chat assistant on this site — our front desk will follow up promptly to verify your insurance and find a time that works. We're open Monday through Friday, 8:00 AM to 5:30 PM, at 733 US Highway 1, Suite 2A in North Palm Beach."),
+        ("What should I bring to my first visit?",
+         "Bring a photo ID, your insurance card, and any paperwork from your physician — a referral or prescription, imaging reports, or post-surgical protocols. If your visit relates to a work or auto injury, bring your claim information too. Our front desk verifies coverage before you arrive, so billing questions never ambush you."),
+        ("What should I wear to therapy?",
+         "Comfortable clothing you can move in, plus supportive shoes like sneakers. For lower-body conditions, shorts or loose pants are ideal; for shoulder, arm, or hand conditions, wear a shirt that gives easy access to the area being treated."),
+        ("What happens during the first evaluation?",
+         "Your first visit is a comprehensive movement-based evaluation: an honest conversation about your history and goals, a hands-on assessment of strength, mobility, and movement patterns, and a proposed plan of care. Whenever appropriate, treatment begins that very first day — and you'll leave knowing what's going on, what the plan is, and what you can start doing at home."),
+        ("How long are appointments?",
+         "Plan on your initial evaluation running longer than a typical follow-up visit, since it includes your history, assessment, and plan of care. Exact visit length depends on your condition and treatment plan — when you schedule, our front desk will tell you how much time to set aside."),
+        ("How many visits will I need?",
+         "It genuinely varies — recovery depends on your condition, how long you've had it, your goals, and how your body responds. After your evaluation, your therapist will propose a plan with an expected visit frequency and honest milestones, then adjust it based on your actual progress rather than a cookie-cutter schedule."),
+    ]),
+    ("insurance-cost", "Insurance &amp; Cost", [
+        ("What insurance plans do you accept?",
+         "We accept most major plans: Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay. Coverage details differ plan to plan, so call 561-624-4263 and our front desk will verify your specific benefits before your first visit."),
+        ("Do you accept Medicare?",
+         "Yes — we accept both Original Medicare and Medicare Advantage plans, and we've cared for Medicare patients since 1991. Medicare covers medically necessary outpatient physical and occupational therapy; our team handles the required physician plan-of-care paperwork with your doctor, and the front desk will explain your benefits before you start."),
+        ("How much does therapy cost without insurance, and do you offer self-pay?",
+         "Yes, we welcome self-pay patients. Rates depend on the type of care you need, so call 561-624-4263 for current self-pay pricing — our front desk will walk you through the cost up front so there are no surprises."),
+        ("Will you verify my insurance benefits before I start?",
+         "Yes, always. Before your first appointment our front desk verifies your coverage and explains what your plan pays for, whether you have a copay or deductible, and whether your plan needs a referral — so you know exactly where you stand before treatment begins."),
+        ("What is a copay, and will I have one?",
+         "A copay is a fixed amount your insurance plan asks you to pay at each visit — the amount is set by your plan, not by the clinic, and some plans have none for therapy. Whether you'll have one depends entirely on your specific coverage, which is exactly what our front desk checks when they verify your benefits — call 561-624-4263 and we'll tell you before your first visit."),
+        ("Do you treat workers' compensation cases?",
+         "Yes — we've handled workers' compensation rehabilitation for decades. Treatment is built around the physical demands of your actual job, and we provide the objective progress documentation your case requires while coordinating with your physician, adjuster, and case manager for a safe return to work."),
+        ("Do you treat auto accident and personal injury cases?",
+         "Yes. Even a minor collision can leave lasting pain, and symptoms often surface days later, so early evaluation matters. We provide comprehensive rehabilitation from whiplash to complex multi-area injuries, document your recovery objectively, and communicate with your physician and representatives as your claim requires."),
+    ]),
+    ("our-services", "Our Services", [
+        ("What is physical therapy, and what does it treat?",
+         "Physical therapy restores strength, mobility, and pain-free movement through skilled, hands-on care and progressive exercise. Our physical therapists treat back and neck pain, joint pain in the shoulder, hip, knee, foot, and ankle, sports and work injuries, balance problems, and post-surgical recovery — always aimed at the cause of the problem, not just the symptoms."),
+        ("What is occupational therapy, and how is it different from physical therapy?",
+         "Occupational therapy helps you do the everyday activities that matter — dressing, cooking, writing, working, caring for your family — while physical therapy focuses on how the body moves: strength, mobility, and pain. The two work hand in hand, and because we offer both under one roof, our PTs and OTs coordinate your care as one team."),
+        ("What is certified hand therapy, and who provides it?",
+         "Certified hand therapy is specialized rehabilitation of the hand, wrist, and upper extremity, provided at First Rehabilitation by Laura Drumm, CHT. The Certified Hand Therapist credential requires thousands of hours of specialized upper-extremity practice plus a rigorous national exam, and our program includes custom splints fabricated right in the clinic."),
+        ("What is the wellness and gym program, and who can join?",
+         "Our on-site wellness and gym program lets you keep training after you finish formal therapy — with personal training, group classes, and senior functional fitness guided by a team that already knows your history. It's the fourth pillar of our continuum of care; call 561-624-4263 to ask about joining."),
+        ("Do you create custom splints?",
+         "Yes — custom splints and orthoses are fabricated right here in our clinic as part of our certified hand therapy program, led by Laura Drumm, CHT. Each one is molded to your hand and adjusted as you heal, in coordination with your physician's protocol when you're recovering from surgery."),
+        ("Can I keep exercising at your facility after I finish therapy?",
+         "Yes — that's exactly what our wellness and gym program is for. When you're discharged from therapy, you can continue training on-site with guidance from the same team that guided your rehab, so the strength you rebuilt doesn't fade when the visits end."),
+    ]),
+    ("conditions", "Conditions We Treat", [
+        ("What conditions do you commonly treat?",
+         "The most common are back and neck pain, shoulder, knee, and hip pain, foot and ankle problems, hand and wrist conditions, headaches, post-surgical recovery, and sports, work, and auto accident injuries. If you don't see your condition listed on our site, call 561-624-4263 — chances are we've treated it in our three-plus decades, and we'll tell you honestly if we're not the right fit."),
+        ("Do you treat back and neck pain?",
+         "Yes — back pain is the single most common reason people come to us, and one of the most treatable. We address low back pain, sciatica, disc problems, stenosis, and neck pain with hands-on manual therapy, targeted strengthening, and movement retraining that treats the cause rather than masking symptoms."),
+        ("Do you provide post-surgical rehabilitation?",
+         "Yes — post-surgical rehab is a core part of our practice, from joint replacements and rotator cuff repairs to spine and hand surgeries. We follow your surgeon's protocol precisely, coordinate on your progress, and pace your recovery to protect the repair while restoring motion and strength on schedule."),
+        ("Do you treat sports injuries?",
+         "Yes. From sprains, strains, and tendon injuries to overuse problems, we rehabilitate athletes and active adults with a progressive plan that restores strength and confidence — then prepares you to return to your sport safely rather than just resting until the pain fades."),
+        ("Do you help with balance problems and fall prevention?",
+         "Yes — balance and fall-prevention training is one of the most valuable things physical therapy offers, especially for older adults. We assess what's contributing to unsteadiness, build strength and stability with targeted exercise, and our senior functional fitness programming in the wellness gym helps you maintain those gains long-term."),
+        ("Can therapy help me avoid surgery?",
+         "Often, yes — for many orthopedic conditions, research supports trying skilled conservative care before elective surgery, and many of our patients improve enough that surgery stops being necessary. It depends on your specific diagnosis, though, and we'll be honest with you: if your progress suggests you'd truly benefit from a surgical consult, we'll say so and coordinate with your physician."),
+        ("Do you treat headaches?",
+         "Yes — many recurring headaches, including tension-type and neck-related (cervicogenic) headaches, are driven by the neck and respond well to physical therapy. We address the joint stiffness, muscle tension, and postural habits that trigger them, with hands-on treatment and a plan you can use at home."),
+    ]),
+    ("what-to-expect", "What to Expect", [
+        ("Does physical therapy hurt?",
+         "The goal of therapy is to reduce pain, not add to it — though working stiff joints and deconditioned muscles can bring some temporary soreness, similar to starting a new exercise program. Your therapist works within your tolerance, explains what each technique should feel like, and adjusts immediately based on your feedback."),
+        ("How soon will I feel results?",
+         "Many patients notice meaningful change within the first few weeks, but the honest answer is that it varies with your condition, how long you've had it, and consistency with your home program. Your therapist will set realistic milestones at your evaluation and track your progress objectively, so you always know whether the plan is working."),
+        ("What is a home exercise program, and do I have to do it?",
+         "It's a short, targeted set of exercises your therapist designs for you to do between visits — and yes, it genuinely matters, because the work you do at home reinforces and accelerates everything we do in the clinic. We keep it realistic for your schedule and update it as you progress."),
+        ("Will I see the same therapist each visit?",
+         "We're a small, family-owned team, and we prioritize continuity — building your recovery on a relationship with a therapist who knows your history is part of how we work. When more than one of our clinicians is involved in your care, it's a coordinated team approach, never an anonymous hand-off."),
+        ("What makes First Rehabilitation different from other clinics?",
+         "We're family-owned and operated since 1991, with one-on-one, hands-on care, a 5.0-star Google rating, and a rare combination under one roof: physical therapy, occupational therapy, certified hand therapy, and a wellness gym to keep you strong after discharge. Our motto says it best — our people make the difference."),
+    ]),
+    ("logistics", "Logistics &amp; Policies", [
+        ("Where are you located, and is there parking?",
+         "We're at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 — convenient to North Palm Beach, Palm Beach Gardens, Juno Beach, Jupiter, and West Palm Beach. Call 561-624-4263 before your first visit and our front desk will point you right to the door, including where to park."),
+        ("What are your hours?",
+         "We're open Monday through Friday from 8:00 AM to 5:30 PM, and closed on weekends. You can reach the front desk at 561-624-4263 during those hours, or send a request through this site anytime."),
+        ("What is your cancellation policy?",
+         "If you can't make a visit, call us at 561-624-4263 as early as you can and we'll reschedule you — consistent attendance is one of the biggest drivers of a good outcome, so we'll always help you find another time. Our front desk will go over scheduling and cancellation details when you book your first appointment."),
+        ("How do I access the patient portal?",
+         "Click the Portal link in the menu at the top of this site — it takes you to our patient portal, powered by SPRY. If you have any trouble logging in, call the front desk at 561-624-4263 and we'll get you set up."),
+        ("How do I ask about my home exercises between visits?",
+         "Just call us at 561-624-4263 — the front desk will get your question to your therapist, so you're never stuck guessing between visits. Bring the question to your next appointment too, and your therapist will review your form in person."),
+        ("Do you offer telehealth?",
+         "The best way to find out is to call 561-624-4263, since availability depends on your needs and your insurance coverage. Most of what we do is hands-on, in-clinic care by design — but if getting to the clinic is a barrier, tell us and we'll figure out the right arrangement together."),
+    ]),
+    ("about", "About Us", [
+        ("How long has First Rehabilitation been in business?",
+         "We've been serving the Palm Beaches since 1991 — more than three decades of family-owned, independent care under the same name and philosophy. Founder Dave Kashuba, Ph.D., an occupational therapist, has personally guided the care of more than 80,000 patients over his career."),
+        ("Who owns and runs the clinic?",
+         "First Rehabilitation is family-owned and operated, founded in 1991 by Dave Kashuba, Ph.D., a practicing occupational therapist. He leads a close-knit team of physical and occupational therapists — including Laura Drumm, CHT, our Certified Hand Therapist — whom you can meet on our About page."),
+        ("What is the Pain 2 Power podcast?",
+         "Pain 2 Power is our podcast, hosted by founder Dr. Dave Kashuba with co-host Mike McGann, covering the world of physical rehab and wellness with some of the sharpest minds in medicine. New episodes air Saturdays at 8:30 AM on 100.3 Legends Radio, and you can listen to every episode right on our Podcast page or on Spotify."),
+        ("What areas do you serve?",
+         "From our North Palm Beach clinic we serve the greater Palm Beaches: North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach. We're centrally located at 733 US Highway 1, Suite 2A, right on US Highway 1."),
+        ("Are you accepting new patients?",
+         "Yes — we're welcoming new patients now. Call 561-624-4263 or request an appointment through this site, and our front desk will verify your insurance and get you scheduled promptly."),
+    ]),
 ]
 
+# Flat list (all sections) — used by the assistant knowledge base and anywhere
+# a simple (question, answer) list is expected.
+FAQS = [qa for _sid, _title, _pairs in FAQ_SECTIONS for qa in _pairs]
+
+# Service-page deep dives. Deliberately service-specific so they complement,
+# rather than duplicate, the broad clinic FAQ above.
+SERVICE_FAQS = {
+    "physical-therapy": [
+        ("What does a physical therapist actually do?",
+         "A physical therapist evaluates how your body moves — strength, mobility, balance, and mechanics — then treats the cause of pain and dysfunction with hands-on techniques, targeted exercise, and movement retraining. At First Rehabilitation that starts with a comprehensive one-on-one evaluation, and treatment usually begins the same day."),
+        ("Do I need a referral to see a physical therapist in Florida?",
+         "Usually not to get started — Florida's direct access law lets you begin a physical therapy evaluation without a physician referral in most cases. Some insurance plans still require a referral for coverage, and Medicare requires a physician to certify your therapy plan of care, so call 561-624-4263 and our front desk will confirm what your plan needs."),
+        ("What conditions does physical therapy treat?",
+         "Physical therapy at our clinic treats back and neck pain, sciatica, shoulder, hip, knee, foot, and ankle pain, arthritis, sports and overuse injuries, balance problems and fall risk, and recovery after surgery — including joint replacements and spine procedures. If you're not sure your condition fits, call 561-624-4263 and we'll give you an honest answer."),
+        ("How is physical therapy different from a chiropractor?",
+         "The biggest difference is the emphasis on active recovery: physical therapy combines hands-on treatment with progressive exercise and movement retraining designed to correct the underlying problem, then discharges you with the tools to stay well. Chiropractic care centers on spinal adjustment. Many patients have benefited from both — but if your goal is lasting strength and independence, that's exactly what physical therapy is built for."),
+        ("Does physical therapy hurt?",
+         "It shouldn't — the purpose of physical therapy is to reduce pain, though some soreness is normal when stiff joints and weak muscles start working again. Your therapist stays within your tolerance, tells you what each technique should feel like, and adapts the plan immediately based on your feedback."),
+        ("How many physical therapy sessions will I need?",
+         "It depends on your condition, its severity, and your goals — a recent ankle sprain and a total knee replacement follow very different timelines. After your first evaluation your therapist will recommend a visit frequency and set honest milestones, then re-assess continually so you're never attending sessions you don't need."),
+        ("Can physical therapy help me avoid surgery?",
+         "In many cases, yes — evidence supports skilled conservative care as the first step for many orthopedic conditions, and a good number of our patients improve enough that surgery is postponed or never needed. It depends on your diagnosis, and we'll always tell you the truth: if therapy isn't moving you forward, we'll coordinate with your physician about next steps."),
+        ("What should I wear and bring to a physical therapy appointment?",
+         "Wear comfortable clothes you can move in — shorts for knee, hip, or ankle conditions, a loose shirt for shoulder problems — plus supportive sneakers. For your first visit, bring a photo ID, your insurance card, and any referral, prescription, or imaging reports from your physician."),
+        ("Is physical therapy covered by Medicare and insurance?",
+         "Yes — medically necessary physical therapy is covered by Medicare and most major insurance plans. We accept Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network, workers' compensation, and self-pay; call 561-624-4263 and our front desk will verify your exact physical therapy benefits before your first visit."),
+        ("How soon after surgery should I start physical therapy?",
+         "That timeline belongs to your surgeon — every procedure has its own protocol, and some begin therapy within days while others protect the repair longer. We follow your surgeon's protocol exactly and coordinate with their office throughout, so bring your post-op paperwork and we'll start you right on schedule."),
+        ("Will I do the same exercises every visit?",
+         "No — your program progresses as you do. Exercises are advanced, swapped, and progressively loaded as your strength and mobility improve, and hands-on treatment evolves with each phase of healing. We re-evaluate constantly, because repeating the same routine forever is the sign of a plan that has stalled."),
+        ("What makes First Rehabilitation's physical therapy different?",
+         "One-on-one, hands-on care from a family-owned clinic that has served the Palm Beaches since 1991 — with a 5.0-star Google rating to show for it. And because occupational therapy, certified hand therapy, and a wellness gym share our roof, your physical therapy plan can flow seamlessly into whatever your recovery needs next, including staying strong after discharge."),
+    ],
+    "occupational-therapy": [
+        ("What is occupational therapy?",
+         "Occupational therapy helps you regain the ability to do the activities that occupy your daily life — dressing, bathing, cooking, writing, working, caring for your family. An occupational therapist rebuilds those skills by treating strength, coordination, and technique together, and adapts tasks or tools when needed so independence comes back faster."),
+        ("What's the difference between occupational therapy and physical therapy?",
+         "Physical therapy restores how your body moves — strength, range of motion, balance, and pain-free mechanics. Occupational therapy restores what you can do with that movement: the real-world daily activities like dressing, cooking, and working. Put simply, PT helps you walk to the kitchen; OT helps you cook the meal once you're there. Many patients benefit from both, and at First Rehabilitation the two teams work side by side."),
+        ("What conditions and situations does occupational therapy help with?",
+         "Occupational therapy helps with stroke recovery, hand and upper-extremity injuries, arthritis that interferes with daily tasks, coordination and cognitive changes, and returning to work after injury — including ergonomic guidance so the problem doesn't come back. If daily life has gotten harder to manage, OT is often the missing piece; call 561-624-4263 to talk it through."),
+        ("Who can benefit from occupational therapy?",
+         "Anyone whose injury, surgery, illness, or age-related changes are getting between them and everyday activities — from a retiree who wants to button a shirt without pain to a worker recovering from an injury who needs to lift confidently again. If a task that matters to you has become difficult, OT can help."),
+        ("Does occupational therapy only deal with work and jobs?",
+         "No — that's the most common misconception about OT. The occupation in occupational therapy means anything that occupies your time: dressing, cooking, hobbies, caring for grandkids, and yes, your job too. OT treats your ability to live your daily life, whether or not you're employed."),
+        ("Does occupational therapy help after a stroke?",
+         "Yes — occupational therapy is a cornerstone of stroke recovery. OT retrains the affected arm and hand, rebuilds daily living skills like dressing and grooming, addresses coordination and cognitive changes, and teaches adaptive techniques that restore independence while recovery continues."),
+        ("Can occupational therapy help with arthritis or difficulty doing everyday tasks?",
+         "Absolutely. OT teaches joint-protection techniques, builds strength and dexterity, and adapts the way you do painful tasks — from opening jars to gripping tools — so arthritis stops dictating your day. Small changes in technique and equipment often make a dramatic difference."),
+        ("Do you provide adaptive equipment recommendations?",
+         "Yes — recommending and training you on adaptive equipment is a normal part of occupational therapy here, from dressing aids and built-up grips to strategies that make home tasks safer. We only recommend what genuinely helps, and we teach you to use it properly rather than just handing you a catalog."),
+        ("Is occupational therapy covered by insurance and Medicare?",
+         "Yes — medically necessary occupational therapy is covered by Medicare and most major plans we accept, including Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network, and workers' compensation. Call 561-624-4263 and our front desk will verify your occupational therapy benefits before you start."),
+        ("Do I need a referral for occupational therapy?",
+         "It depends on your plan and situation — some insurance plans require a physician referral for occupational therapy coverage, while others don't. The fastest way to know is to call 561-624-4263; our front desk will check your plan's requirements and coordinate any needed referral with your doctor."),
+        ("How long does occupational therapy take to work?",
+         "It varies with your condition and goals — some patients feel the difference in daily tasks within a few weeks, while recovery from a stroke or major surgery unfolds over months. Your occupational therapist sets specific functional goals at evaluation, measures progress against them, and adjusts the plan so every visit is earning its keep."),
+        ("How is occupational therapy at First Rehabilitation coordinated with PT and hand therapy?",
+         "As one team under one roof — our founder is an occupational therapist, and our OTs, physical therapists, and Certified Hand Therapist coordinate assessments and treatment plans whenever your recovery needs more than one discipline. You don't carry information between separate clinics; we walk down the hall and talk to each other."),
+    ],
+    "hand-therapy": [
+        ("What is hand therapy?",
+         "Hand therapy is specialized rehabilitation of the hand, wrist, and arm — the body's most intricate machinery, where dozens of small structures must glide and work together. It blends precise exercise, hands-on treatment, and custom splinting to restore function after injury, surgery, or conditions like arthritis and carpal tunnel."),
+        ("What is a Certified Hand Therapist (CHT), and why does it matter?",
+         "A Certified Hand Therapist has completed thousands of hours of specialized upper-extremity practice plus a rigorous national exam — one of the most demanding credentials in rehabilitation. It matters because hand recovery is unforgiving: moving too soon can compromise a surgical repair, and moving too late costs motion. That's why area hand surgeons refer post-operative patients specifically to CHTs; ours is Laura Drumm, CHT, who leads the program."),
+        ("What conditions does hand therapy treat?",
+         "Our hand therapy program treats carpal tunnel syndrome, tendon injuries and repairs, fractures of the hand and wrist, trigger finger, arthritis of the hands and thumbs, nerve conditions, and swelling including lymphedema management. Whether the cause is injury, surgery, or wear over time, treatment is matched precisely to the tissue that's healing."),
+        ("Do you make custom splints or orthoses?",
+         "Yes — custom splints and orthoses are fabricated right in our clinic by our hand therapy program. Each is molded to your hand for your specific condition, adjusted as healing progresses, and built to your surgeon's protocol when you're recovering from surgery."),
+        ("I'm having hand surgery — when should I start hand therapy?",
+         "Your surgeon sets that timeline, and it varies widely by procedure — some repairs begin protected motion within days, while others need a period of immobilization first. We work from your surgeon's protocol and coordinate with their office directly, so ideally get us your surgery details before or right after your procedure, and we'll have your plan and any needed splint ready on schedule."),
+        ("Can hand therapy help carpal tunnel without surgery?",
+         "Often, yes — especially when symptoms are caught early. Conservative care can include custom night splinting, nerve and tendon gliding exercises, activity and ergonomic changes, and symptom management. If your case turns out to need a surgical consult, we'll say so honestly and coordinate with your physician."),
+        ("Can hand therapy help arthritis in my hands and thumbs?",
+         "Yes — hand therapy is one of the most effective conservative treatments for hand and thumb arthritis. Joint-protection techniques, targeted strengthening, custom supportive splints, and smart activity modification can reduce pain and keep you doing the things arthritis threatens to take, from opening jars to gardening and golf."),
+        ("Do you treat the wrist and elbow too, or only the hand?",
+         "We treat the full upper extremity — hand, wrist, forearm, and elbow. The arm works as one connected chain, and conditions like tennis elbow, wrist fractures, and nerve entrapments all fall within our certified hand therapy program's scope."),
+        ("How long does hand therapy recovery take?",
+         "It depends on the condition and, after surgery, on the structure that's healing — tendon and nerve repairs follow strict tissue-healing timelines that can span weeks to months, while many non-surgical conditions improve faster. Your therapist will map the expected phases at your evaluation, pace treatment to the tissue rather than the calendar, and track your progress honestly."),
+        ("Is hand therapy covered by insurance and Medicare?",
+         "Yes — hand therapy is covered like other medically necessary therapy services under Medicare and most major plans we accept, including Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network, and workers' compensation. Call 561-624-4263 and our front desk will verify your specific benefits, including any coverage rules for custom splints."),
+        ("Do I need a referral for hand therapy?",
+         "It depends on your insurance plan, and post-surgical patients typically arrive with a referral and protocol from their surgeon. If you're coming on your own for something like carpal tunnel or arthritis, call 561-624-4263 — our front desk will check whether your plan requires a referral and help arrange one if needed."),
+        ("Why choose a certified hand therapy program over general PT for a hand injury?",
+         "Because the hand's margin for error is small: dozens of tendons, joints, and nerves work in tight quarters, and generic rehab can cost you motion or stress a repair. A Certified Hand Therapist is trained specifically in these structures and their healing timelines — it's why hand surgeons refer their patients to CHTs. At First Rehabilitation, that expertise comes from Laura Drumm, CHT, with custom in-clinic splinting and a full therapy team behind it."),
+    ],
+}
+
+def _faq_plain(s):
+    """Plain-text version of a question/answer for JSON-LD."""
+    import re as _re
+    return html.unescape(_re.sub(r"<[^>]+>", "", s)).strip()
+
+def faq_schema(pairs):
+    """FAQPage JSON-LD <script> for a list of (question, answer) pairs."""
+    import json as _json
+    data = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": _faq_plain(q),
+             "acceptedAnswer": {"@type": "Answer", "text": _faq_plain(a)}}
+            for q, a in pairs
+        ],
+    }
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
 def build_faq():
-    items = "".join(
-        f'<details class="faq-item reveal"><summary>{q}</summary><div class="faq-a">{a}</div></details>'
-        for q, a in FAQS
-    )
+    jump = "".join(f'<a href="#{sid}">{title}</a>' for sid, title, _pairs in FAQ_SECTIONS)
+    sections = ""
+    for sid, title, pairs in FAQ_SECTIONS:
+        items = "".join(
+            f'<details class="faq-item reveal"><summary>{q}</summary><div class="faq-a">{a}</div></details>'
+            for q, a in pairs
+        )
+        sections += f'''
+  <section class="faq-cat" id="{sid}" aria-labelledby="{sid}-h">
+    <div class="faq-cat-head"><h2 id="{sid}-h">{title}</h2><span class="faq-count">{len(pairs)} answers</span></div>
+    <div class="faq-list">{items}</div>
+  </section>'''
     body = f"""
 <main>
 {page_hero("Questions, Answered", "Frequently Asked <em class='accent'>Questions</em>",
-  "Everything you need to know before your first visit — and if you don't see your question, just call us.",
+  "More than forty real answers about therapy, insurance, cost, and what to expect — organized so you can jump straight to what you need. Don't see yours? Just call us.",
   '<div class="crumbs"><a href="index.html">Home</a> / FAQ</div>')}
+<div class="faq-jump-bar"><nav class="faq-jump" aria-label="FAQ categories">{jump}</nav></div>
 <section class="section">
-  <div class="wrap"><div class="faq-list">{items}</div>
+  <div class="wrap">{sections}
   <div class="center mt-3 reveal"><p class="lede" style="margin:0 auto 1.2rem;">Still have a question?</p>
   <a class="btn btn-ink" href="contact.html">Contact Us <span class="arr">&rarr;</span></a></div>
   </div>
@@ -1126,9 +1361,10 @@ def build_faq():
 </main>
 """
     write("faq.html",
-          head("FAQ | First Rehabilitation of North Palm Beach",
-               "Answers to common questions about physical therapy, occupational therapy, hand therapy, insurance, and what to expect at First Rehabilitation of North Palm Beach.",
-               canonical="faq.html")
+          head("Physical Therapy FAQ | First Rehabilitation North Palm Beach",
+               "40+ answers about physical therapy, occupational therapy, hand therapy, insurance, cost, and what to expect at First Rehabilitation of North Palm Beach.",
+               canonical="faq.html",
+               extra_schema=faq_schema(FAQS))
           + nav(0) + body + footer(0))
 
 def build_contact():
@@ -1396,7 +1632,8 @@ def build_kb():
             "airs": "Saturdays 8:30 AM on 100.3 Legends Radio, streaming on Spotify",
             "episodes": [plain(f"{n}: {t}") for n, t, _, _, _ in EPISODES],
         },
-        "faq": [{"q": plain(q), "a": plain(a)} for q, a in FAQS],
+        "faq": [{"q": plain(q), "a": plain(a)} for q, a in
+                FAQS + [qa for pairs in SERVICE_FAQS.values() for qa in pairs]],
     }
     write("api/kb.json", json.dumps(kb, indent=1))
 

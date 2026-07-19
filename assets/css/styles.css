@@ -627,3 +627,19 @@ a.tb-item:hover { color: var(--gold); }
 /* Video must paint ABOVE the gradient placeholder (positioned elements
    otherwise stack over static ones regardless of DOM order). */
 .hero-media video, .hero-media img { position: relative; z-index: 1; }
+
+/* ---------- FAQ: sticky category jump bar + sectioned accordions ---------- */
+.faq-jump-bar { position: sticky; top: 74px; z-index: 60; background: var(--cream-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.faq-jump { display: flex; gap: 0.55rem; overflow-x: auto; max-width: var(--max); margin: 0 auto; padding: 0.8rem var(--pad); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.faq-jump::-webkit-scrollbar { display: none; }
+.faq-jump a { flex-shrink: 0; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.05rem; transition: all 0.25s ease; }
+.faq-jump a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); }
+.faq-cat { max-width: 860px; margin: 0 auto; scroll-margin-top: 165px; }
+.faq-cat + .faq-cat { margin-top: clamp(2.8rem, 5vw, 4.2rem); }
+.faq-cat .faq-list { max-width: none; }
+.faq-cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 2px solid var(--gold); padding-bottom: 0.7rem; margin-bottom: 0.4rem; }
+.faq-cat-head h2 { font-size: clamp(1.45rem, 2.4vw, 1.9rem); }
+.faq-cat-head .faq-count { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+/* Service-page FAQ sections */
+.svc-faq .faq-list { max-width: 860px; }
