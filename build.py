@@ -410,7 +410,7 @@ def build_home():
         '<div class="stars">★★★★★</div>'
         '<blockquote>Our patients say it better than we ever could. Read their words — '
         'unedited, straight from Google.</blockquote>'
-        '<figcaption><a class="btn btn-ink" href="https://www.google.com/maps/search/?api=1&amp;query=First+Rehabilitation+of+North+Palm+Beach+733+US+Highway+1" '
+        '<figcaption><a class="btn btn-ink" href="https://maps.google.com/?cid=3809434844265673488" '
         'target="_blank" rel="noopener">Read our Google reviews <span class="arr">&rarr;</span></a></figcaption>'
         '</figure>'
     )
@@ -563,7 +563,7 @@ def build_home():
       <div class="stat-row">
         <div><strong data-count="39" data-suffix="+">39+</strong><span>Years of Expertise</span></div>
         <div><strong data-count="80000" data-suffix="+">80,000+</strong><span>Patients Treated</span></div>
-        <div><strong>5.0★</strong><span>Google Rating</span></div>
+        <div><strong>4.9★</strong><span>Google Rating</span></div>
         <div><strong>Family</strong><span>Owned &amp; Operated</span></div>
       </div>
       <div class="mt-2"><a class="text-link" href="about.html">Meet our team &rarr;</a></div>
@@ -575,7 +575,7 @@ def build_home():
   <div class="wrap">
     <div class="section-head center reveal">
       <span class="eyebrow">Voices of Recovery</span>
-      <h2>5.0 <span style="color:var(--coral);">★</span> on Google</h2>
+      <h2>4.9 <span style="color:var(--coral);">★</span> on Google</h2>
     </div>
     <div class="quote-grid"{'' if quotes else ' style="grid-template-columns:min(640px,100%);justify-content:center;"'}>{quotes_html}</div>
   </div>
@@ -832,7 +832,7 @@ def build_services():
     <div class="prose reveal">
       <h2>What to expect at your first visit</h2>
       <p>Your first appointment includes a comprehensive movement-based evaluation, an honest conversation about your goals, and a proposed plan of care — with hands-on treatment starting that very first day whenever appropriate. We accept most major insurance plans, including Medicare, and our front desk will gladly verify your coverage before you arrive.</p>
-      <p>You're never a chart number here. Since 1991, our family-owned clinic has treated every patient with the individual attention that earns a 5.0&#9733; reputation across the Palm Beaches.</p>
+      <p>You're never a chart number here. Since 1991, our family-owned clinic has treated every patient with the individual attention that earns a 4.9&#9733; reputation across the Palm Beaches.</p>
     </div>
     <aside class="side-card reveal d2">
       <h3>Begin with an evaluation</h3>
@@ -1020,7 +1020,7 @@ def build_conditions():
     </div>
     <aside class="side-card reveal d2">
       <h3>Start feeling better</h3>
-      <p>Serving the Palm Beaches since 1991 — family-owned, with a 5.0★ Google rating.</p>
+      <p>Serving the Palm Beaches since 1991 — family-owned, with a 4.9★ Google rating.</p>
       <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
       <div class="side-meta">
         <p>Call us directly<br><a href="tel:+15616244263">{PHONE}</a></p>
@@ -1201,7 +1201,7 @@ def build_about():
       <div class="stat-row">
         <div><strong data-count="39" data-suffix="+">39+</strong><span>Years of Expertise</span></div>
         <div><strong data-count="80000" data-suffix="+">80,000+</strong><span>Patients Treated</span></div>
-        <div><strong>5.0★</strong><span>Google Rating</span></div>
+        <div><strong>4.9★</strong><span>Google Rating</span></div>
         <div><strong>Est. 1991</strong><span>Family-Owned</span></div>
       </div>
     </div>
@@ -1376,7 +1376,7 @@ FAQ_CATEGORIES = [
         ("Will I do the same exercises every visit?",
          "No — your program progresses as you do. Exercises are advanced, swapped, and progressively loaded as your strength and mobility improve, and hands-on treatment evolves with each phase of healing. We re-evaluate constantly, because repeating the same routine forever is the sign of a plan that has stalled."),
         ("What makes First Rehabilitation's physical therapy different?",
-         "One-on-one, hands-on care from a family-owned clinic that has served the Palm Beaches since 1991 — with a 5.0-star Google rating to show for it. And because occupational therapy, certified hand therapy, and a wellness gym share our roof, your physical therapy plan can flow seamlessly into whatever your recovery needs next, including staying strong after discharge."),
+         "One-on-one, hands-on care from a family-owned clinic that has served the Palm Beaches since 1991 — with a 4.9-star Google rating to show for it. And because occupational therapy, certified hand therapy, and a wellness gym share our roof, your physical therapy plan can flow seamlessly into whatever your recovery needs next, including staying strong after discharge."),
     ]),
     ("occupational-therapy", "Occupational Therapy", [
         ("What is occupational therapy?",
@@ -1506,7 +1506,7 @@ FAQ_CATEGORIES = [
         ("Who owns and runs the clinic?",
          "First Rehabilitation is family-owned and operated, founded in 1991 by Dave Kashuba, Ph.D., a practicing occupational therapist. He leads a close-knit team of physical and occupational therapists — including Laura Drumm, CHT, our Certified Hand Therapist — whom you can meet on our About page."),
         ("What makes First Rehabilitation different from other clinics?",
-         "We're family-owned and operated since 1991, with one-on-one, hands-on care, a 5.0-star Google rating, and a rare combination under one roof: physical therapy, occupational therapy, certified hand therapy, and a wellness gym to keep you strong after discharge. Our motto says it best — our people make the difference."),
+         "We're family-owned and operated since 1991, with one-on-one, hands-on care, a 4.9-star Google rating, and a rare combination under one roof: physical therapy, occupational therapy, certified hand therapy, and a wellness gym to keep you strong after discharge. Our motto says it best — our people make the difference."),
         ("What is the Pain 2 Power podcast?",
          "Pain 2 Power is our podcast, hosted by founder Dr. Dave Kashuba with co-host Mike McGann, covering the world of physical rehab and wellness with some of the sharpest minds in medicine. New episodes air Saturdays at 8:30 AM on 100.3 Legends Radio — you can listen live at legendsradio.com — and every episode streams on Spotify or right on our Podcast page."),
         ("What areas do you serve?",
@@ -1839,7 +1839,7 @@ def build_blog():
     <article class="prose reveal">{p["body"]}</article>
     <aside class="side-card reveal d2">
       <h3>Talk to a therapist</h3>
-      <p>Questions about your own recovery? Serving the Palm Beaches since 1991 — family-owned, 5.0★ on Google.</p>
+      <p>Questions about your own recovery? Serving the Palm Beaches since 1991 — family-owned, 4.9★ on Google.</p>
       <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
       <div class="side-meta">
         <p>Call us directly<br><a href="tel:+15616244263">{PHONE}</a></p>
