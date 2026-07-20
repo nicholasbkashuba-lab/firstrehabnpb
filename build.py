@@ -59,10 +59,10 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <meta name="twitter:description" content="{html.escape(desc)}">
 <meta name="twitter:image" content="{base}/{og_image}">
 <meta name="theme-color" content="#0E3A47">
-<link rel="icon" href="{p}assets/icons/favicon.ico?v=4" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png?v=4">
-<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png?v=4">
-<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png?v=4">
+<link rel="icon" href="{p}assets/icons/favicon.ico?v=5" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png?v=5">
+<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png?v=5">
+<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png?v=5">
 <link rel="manifest" href="{p}site.webmanifest">
 <link rel="preload" as="font" type="font/woff2" href="{p}assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{p}assets/fonts/inter-latin-400-normal.woff2" crossorigin>
