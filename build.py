@@ -1960,42 +1960,6 @@ OPEN_POSITIONS = [
         "benefits": ["Flexible schedule", "Health/medical insurance", "Opportunities for advancement"],
         "linkedin": "",
     },
-    {
-        "title": "Physical Therapist",
-        "type": "Full-time or Part-time, permanent · On-site",
-        "employment_type": ["FULL_TIME", "PART_TIME"],
-        "location": "North Palm Beach, FL 33408 (in person)",
-        "posted": "2026-07-20",
-        "summary": "Join our orthopedic and sports-medicine focused clinic. Work one-on-one with patients across a full range of conditions, mentored directly by our founder. Licensed PT/DPT.",
-        "responsibilities": [],
-        "qualifications": ["Licensed Physical Therapist (PT or DPT)"],
-        "benefits": [],
-        "linkedin": "",  # paste the LinkedIn PT job URL here to show an "Apply on LinkedIn" button
-    },
-    {
-        "title": "Front Desk / Patient Coordinator",
-        "type": "Full-time, with benefits",
-        "employment_type": ["FULL_TIME"],
-        "location": "North Palm Beach, FL 33408 (in person)",
-        "posted": "2026-07-20",
-        "summary": "Be the welcoming face of our clinic. Full-time with benefits and competitive pay, starting at $35K+. A great fit for an organized, people-first person who thrives in a busy, caring environment.",
-        "responsibilities": [],
-        "qualifications": [],
-        "benefits": [],
-        "linkedin": "",
-    },
-    {
-        "title": "Licensed Massage Therapist",
-        "type": "Flexible",
-        "employment_type": ["OTHER"],
-        "location": "North Palm Beach, FL 33408 (in person)",
-        "posted": "2026-07-20",
-        "summary": "We're seeking a sports-minded, licensed massage therapist interested in building up their practice within an established, busy clinic.",
-        "responsibilities": [],
-        "qualifications": [],
-        "benefits": [],
-        "linkedin": "",
-    },
 ]
 
 def build_careers():
@@ -2010,6 +1974,8 @@ def build_careers():
         ("A team patients know by name", "Read our 4.9★ Google reviews — patients call out our staff by name. That's the culture you'd be joining."),
         ("Four disciplines, one roof", "Physical therapy, occupational therapy, certified hand therapy, and wellness — variety in your caseload, colleagues to learn from."),
         ("Room to grow", "Opportunities for advancement as the practice grows, with part-time-to-full-time paths on select roles."),
+        ("A clinic with a voice", "Our founder co-hosts the Pain 2 Power radio show Saturdays on 100.3 Legends Radio — we educate the community, not just treat it."),
+        ("Rooted across the Palm Beaches", "Patients come to us from North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach — a reputation you'll be proud to represent."),
     ]
     why_html = "".join(
         f'<div class="cond-card reveal d{i%3+1}" style="padding:1.9rem 1.7rem;"><h3>{t}</h3><p>{d}</p></div>'
