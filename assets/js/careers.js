@@ -48,6 +48,7 @@
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         _subject: 'New Job Application: ' + app.position + ' — ' + app.name,
+        _cc: 'nick@firstrehabnpb.com',
         _template: 'table',
         _autoresponse: 'Thank you for applying to First Rehabilitation of North Palm Beach for the ' +
           app.position + ' role. Your application has been received and our team will review it. ' +

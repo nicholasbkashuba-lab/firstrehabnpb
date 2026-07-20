@@ -145,3 +145,6 @@
 @media (prefers-reduced-motion: reduce) {
   .fri-launcher::before { animation: none; opacity: 0; }
 }
+
+.fri-teaser-open { all: unset; cursor: pointer; display: block; font: inherit; color: inherit; }
+.fri-teaser-open:focus-visible { outline: 3px solid #A04E14; outline-offset: 3px; border-radius: 6px; }
