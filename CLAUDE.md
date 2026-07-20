@@ -117,9 +117,11 @@ domain switch (July 2027). Removing them early throws away that equity.
 - Nav collapses ≤1260px (CSS media query AND matchMedia in main.js — keep in sync).
 
 ## Location pages
-LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,juno-beach}.html.
-Honest served-from-NPB content (no fake locations, no invented drive times/parking),
-named clinicians with credentials, Service schema per city, footer "Areas We Serve" links.
+LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
+lake-park,palm-beach,west-palm-beach,riviera-beach}.html. Honest served-from-NPB content
+(no fake locations, no invented drive times/parking), named clinicians with credentials,
+Service schema per city, footer "Areas We Serve" links every city. North Palm Beach
+deliberately has NO location page — the homepage owns that keyword; footer links it to /.
 
 ## Verification pattern
 The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);

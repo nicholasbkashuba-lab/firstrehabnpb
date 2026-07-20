@@ -212,13 +212,14 @@ def footer(depth=0):
         <h3 class="f-head">Areas We Serve</h3>
         <ul>
           <li><a href="{p}locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
-          <li>North Palm Beach</li>
+          <li><a href="{p}index.html">North Palm Beach</a></li>
           <li><a href="{p}locations/juno-beach.html">Juno Beach</a></li>
-          <li><a href="{p}locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
-          <li>Lake Park</li>
-          <li>Palm Beach</li>
-          <li>West Palm Beach</li>
-          <li>Riviera Beach</li>
+          <li><a href="{p}locations/jupiter.html">Jupiter</a></li>
+          <li><a href="{p}locations/tequesta.html">Tequesta</a></li>
+          <li><a href="{p}locations/lake-park.html">Lake Park</a></li>
+          <li><a href="{p}locations/palm-beach.html">Palm Beach</a></li>
+          <li><a href="{p}locations/west-palm-beach.html">West Palm Beach</a></li>
+          <li><a href="{p}locations/riviera-beach.html">Riviera Beach</a></li>
         </ul>
       </div>
       <div>
@@ -1082,13 +1083,68 @@ LOCATIONS = {
     "jupiter": {
         "city": "Jupiter",
         "title": "Physical Therapy Jupiter FL | First Rehabilitation",
-        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Jupiter and Tequesta residents — an easy drive south on US-1 or I-95 to North Palm Beach.",
-        "h1": "Serving <em class='accent'>Jupiter &amp; Tequesta</em>",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Jupiter residents — an easy drive south on US-1 or I-95 to North Palm Beach.",
+        "h1": "Serving <em class='accent'>Jupiter</em>",
         "kicker": "Jupiter",
-        "lede": "Jupiter and Tequesta residents choose First Rehabilitation for care no single-service clinic can match — an easy drive south on US-1 or I-95.",
+        "lede": "Jupiter residents choose First Rehabilitation for care no single-service clinic can match — an easy drive south on US-1 or I-95.",
         "deep": False,
-        "drive": "From Jupiter or Tequesta, we're a straightforward drive south — US-1 through Juno Beach, or I-95 to Northlake Boulevard — to 733 US Highway 1, Suite 2A, North Palm Beach. Call 561-624-4263 and our front desk will point you right to the door.",
+        "drive": "From Jupiter, we're a straightforward drive south — US-1 through Juno Beach, or I-95 to Northlake Boulevard — to 733 US Highway 1, Suite 2A, North Palm Beach. Call 561-624-4263 and our front desk will point you right to the door.",
         "conditions": ["back-pain", "shoulder-pain", "knee-pain", "hand-wrist"],
+    },
+    "tequesta": {
+        "city": "Tequesta",
+        "title": "Physical Therapy Tequesta FL | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Tequesta residents — a scenic drive down US-1 to our North Palm Beach clinic. Since 1991.",
+        "h1": "Serving <em class='accent'>Tequesta</em>",
+        "kicker": "Tequesta",
+        "lede": "From the Village of Tequesta, our family-owned clinic is a simple drive south — and the depth of care under one roof makes the trip worth it.",
+        "deep": False,
+        "drive": "From Tequesta, follow US-1 south through Jupiter and Juno Beach straight to our door at 733 US Highway 1, Suite 2A, North Palm Beach — or take I-95 to Northlake Boulevard. Call 561-624-4263 and our front desk will talk you through directions and parking.",
+        "conditions": ["back-pain", "shoulder-pain", "hip-pain", "post-surgical"],
+    },
+    "lake-park": {
+        "city": "Lake Park",
+        "title": "Physical Therapy Lake Park FL | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Lake Park — we're your next-door neighbor on US-1 in North Palm Beach. Since 1991.",
+        "h1": "Serving <em class='accent'>Lake Park</em>",
+        "kicker": "Lake Park",
+        "lede": "Lake Park is right next door — our clinic sits just up US-1 in North Palm Beach, which makes consistent therapy attendance genuinely easy.",
+        "deep": False,
+        "drive": "Lake Park borders North Palm Beach, so our clinic at 733 US Highway 1, Suite 2A is essentially your neighborhood clinic — straight up US-1. Call 561-624-4263 for directions and parking guidance.",
+        "conditions": ["back-pain", "knee-pain", "workers-comp", "auto-accident"],
+    },
+    "palm-beach": {
+        "city": "Palm Beach",
+        "title": "Physical Therapy Palm Beach FL | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Palm Beach residents — attentive, one-on-one care in North Palm Beach. Family-owned since 1991.",
+        "h1": "Serving <em class='accent'>Palm Beach</em>",
+        "kicker": "Palm Beach",
+        "lede": "Palm Beach residents expect care that is personal, unhurried, and expert. That is exactly how this clinic has run since 1991 — one-on-one, hands-on, and led by the founder.",
+        "deep": False,
+        "drive": "From the island, cross to the mainland and head north on US-1 to 733 US Highway 1, Suite 2A, North Palm Beach. Our front desk at 561-624-4263 will gladly walk you through the easiest route and parking before your first visit.",
+        "conditions": ["post-surgical", "hip-pain", "hand-wrist", "back-pain"],
+    },
+    "west-palm-beach": {
+        "city": "West Palm Beach",
+        "title": "Physical Therapy West Palm Beach | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for West Palm Beach — north on US-1 or I-95 to our family-owned North Palm Beach clinic.",
+        "h1": "Serving <em class='accent'>West Palm Beach</em>",
+        "kicker": "West Palm Beach",
+        "lede": "Plenty of clinics dot West Palm Beach — but patients drive north to us for what few offer: PT, OT, certified hand therapy, and a wellness gym under one family-owned roof.",
+        "deep": False,
+        "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Call 561-624-4263 and our front desk will point you right to the door.",
+        "conditions": ["back-pain", "neck-pain", "auto-accident", "workers-comp", "post-surgical"],
+    },
+    "riviera-beach": {
+        "city": "Riviera Beach",
+        "title": "Physical Therapy Riviera Beach FL | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Riviera Beach and Singer Island — a short drive north on US-1 to North Palm Beach.",
+        "h1": "Serving <em class='accent'>Riviera Beach</em>",
+        "kicker": "Riviera Beach",
+        "lede": "From Riviera Beach and Singer Island, our family-owned clinic is a short, simple drive north — with the kind of one-on-one attention that keeps patients coming back.",
+        "deep": False,
+        "drive": "From Riviera Beach, head north on US-1 past Lake Park to 733 US Highway 1, Suite 2A, North Palm Beach; from Singer Island, cross the Blue Heron bridge and turn north. Call 561-624-4263 for directions and parking guidance.",
+        "conditions": ["knee-pain", "shoulder-pain", "workers-comp", "foot-pain"],
     },
     "juno-beach": {
         "city": "Juno Beach",
@@ -2179,8 +2235,10 @@ VA Community Care Network (VACCN), workers' compensation, self-pay.
 ## Areas served
 North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Lake Park,
 Palm Beach, Palm Beach Shores, Riviera Beach, West Palm Beach.
-Area pages: {base}/locations/palm-beach-gardens.html,
-{base}/locations/jupiter.html, {base}/locations/juno-beach.html
+Area pages: {base}/locations/palm-beach-gardens.html, {base}/locations/jupiter.html,
+{base}/locations/juno-beach.html, {base}/locations/tequesta.html,
+{base}/locations/lake-park.html, {base}/locations/palm-beach.html,
+{base}/locations/west-palm-beach.html, {base}/locations/riviera-beach.html
 
 ## Answers to common questions
 73-question FAQ (referrals, insurance, OT vs PT, certified hand therapy, costs):
