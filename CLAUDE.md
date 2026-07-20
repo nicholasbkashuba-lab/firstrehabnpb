@@ -6,6 +6,10 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
 - **`build.py`** is the single source of truth: all page content, team roster, condition copy,
   blog posts, podcast episodes, contact info. Edit it, then run `python3 build.py` to regenerate
   every page in place.
+- Fonts are SELF-HOSTED in assets/fonts/ (@font-face at top of styles.css, two woff2
+  preloads in head(), 1y immutable cache) — do not re-add Google Fonts links.
+- All CSS/JS links carry build-time content-hash cache-busters (asset_v() in build.py) —
+  never link a stylesheet/script without one; stale-CSS bugs on phones taught us this.
 - `assets/css/styles.css` — the whole design system (deep teal #0E3A47, cream #F6F1E7,
   coral #F4A261, gold #E9C46A; Playfair Display + Inter). Signature elements: rotating
   lighthouse beam on dark sections, film grain, interactive body map, social marquee.
@@ -22,7 +26,9 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
   email firstrehabnpb@gmail.com via FormSubmit — either channel succeeding counts; if both
   fail the lead queues locally + auto-retries. View leads in the Supabase dashboard →
   Table Editor → intake_leads.
-- `assets/media/` — logo.png (light backgrounds), logo-dark.png (dark backgrounds),
+- `assets/media/` — logo.png/logo-dark.png (full-size, schema/OG), logo-nav.png/
+  logo-dark-nav.png (333px, header+footer). Favicons = the FULL wordmark logo on cream
+  (owner insists; no monograms), regenerate via Pillow from logo.png, bump ?v= (now v5).
   hero video renditions (see Hero Video below), hero-poster.jpg, podcast-cover.jpg, photos.
 - `assets/team/` — staff portraits. `assets/social/post-1..8.jpg` — homepage gallery tiles.
 
@@ -112,7 +118,11 @@ domain switch (July 2027). Removing them early throws away that equity.
   overflowing list unreachably) + overscroll-behavior: contain.
 - Marquees/tickers: spacing must be per-item margins (not flex gap) and tilt classes are
   assigned in JS before cloning — both keep the -50% loop seamless.
-- Text accents use --coral-text #B65717 (AA 4.8:1); --coral-deep is for backgrounds only.
+- Text accents use --coral-text #A04E14 (~5.4:1 on cream, axe-verified); --coral-deep is
+  backgrounds only. --muted is #51646C. Outlined .svc-feature-num strokes use #A07514.
+  Do NOT lighten these — the whole site passes axe-core WCAG 2.1 AA (37/37 pages, zero
+  violations); re-run the axe sweep (npm i --no-save axe-core playwright-core, inject
+  axe.min.js per page on http.server 8901 with animations settled) after any color change.
 - Video/img inside .hero-media need position:relative+z-index:1 to paint above .hero-fallback.
 - Nav collapses ≤1260px (CSS media query AND matchMedia in main.js — keep in sync).
 
@@ -160,3 +170,15 @@ secrets to tmp branches; view-only Dropbox share links are acceptable, temporary
   firstrehabnpb, firstrehab, firstrehab-live). Recommended: turn OFF preview Deployment
   Protection (firstrehabnpb-zywd → Settings → Deployment Protection → Vercel
   Authentication) so preview links are shareable — Nick agreed but toggle unconfirmed.
+
+## Careers & applications
+/careers.html driven by OPEN_POSITIONS in build.py (currently COTA only; empty list =
+no-openings message). Applications: assets/js/careers.js → Supabase table
+job_applications (INSERT-only RLS, same project as intake_leads) + FormSubmit email to
+firstrehabnpb@gmail.com CC nick@firstrehabnpb.com, subject "New Job Application: …".
+JobPosting schema per role (validThrough = posted + 60d — bump posted dates to refresh).
+
+## Blog agent
+/blog slash command (.claude/commands/blog.md) + BLOG-PLAYBOOK.md + BLOG-TOPICS.md.
+Posts reviewed by Dr. Dave Kashuba, Ph.D. (byline + reviewedBy schema). Facts only from
+build.py/site/owner input — never web research, never invented stats or testimonials.
