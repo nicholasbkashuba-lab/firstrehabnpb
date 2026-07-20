@@ -18,7 +18,7 @@ something across a table, not like a marketer.
 ## Anatomy of a post (700–1,100 words)
 1. A hook naming the reader's real problem
 2. One h1 title (the page hero), 3–5 h2 sections, scannable paragraphs
-3. Byline: "By The First Rehabilitation Team · Reviewed by our clinical team"
+3. Byline: "By The First Rehabilitation Team · Reviewed by Dr. Dave Kashuba, Ph.D."
    (a named person only when the owner says so)
 4. At least two internal links (service, condition, FAQ, or podcast page)
 5. A close inviting the reader to book an evaluation — phone 561-624-4263

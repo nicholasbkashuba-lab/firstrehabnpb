@@ -1299,7 +1299,7 @@ def build_about():
       </div>
     </div>
     <div class="split-media tilt2 reveal d2">
-      <img src="assets/media/founder.jpg" alt="First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+      <img src="assets/media/founder.jpg" alt="Dr. Dave Kashuba, founder of First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
     </div>
   </div>
 </section>
@@ -1900,7 +1900,7 @@ BLOG_POSTS = {
         "teaser": "An orthopedic surgeon joined our Pain 2 Power podcast to talk knees: what causes the pain, the home exercises that help, and why surgery comes last.",
         "body": """
 <p>If your knees ache on stairs, swell after a walk, or make you think twice about kneeling in the garden, you're in familiar company — knee pain is one of the most common reasons people walk through our doors. On a recent episode of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba sat down with Dr. Richard Weiner, M.D., an orthopedic surgeon he has worked alongside since 1990, to talk about what actually helps a painful knee — and why the operating room is the last stop, not the first.</p>
-<p><em>By The First Rehabilitation Team · Reviewed by our clinical team</em></p>
+<p><em>By The First Rehabilitation Team · Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
 <h2>What's usually behind knee pain</h2>
 <p>Three culprits come up again and again. The most common is osteoarthritis — a gradual wearing of the joint that Dr. Kashuba notes he sometimes sees in patients as young as their mid-thirties, while some ninety-year-olds have none at all. The other two are ligament injuries (a ligament connects bone to bone) and tendon problems such as tendonitis (a tendon connects muscle to bone). Which one you're dealing with changes the plan completely, which is why both doctors kept returning to the same theme: a careful evaluation comes first. As Dr. Weiner put it, "you don't treat an X-ray, you treat the patient."</p>
 <h2>Surgery is the last resort — an orthopedic surgeon says so</h2>
@@ -1992,6 +1992,8 @@ def build_blog():
             "datePublished": iso_date, "dateModified": iso_date,
             "image": "https://www.firstrehabnpb.com/assets/media/hero-poster.jpg",
             "author": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach"},
+            "reviewedBy": {"@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba",
+                           "name": "David Kashuba, Ph.D.", "jobTitle": "CEO & Occupational Therapist"},
             "publisher": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach",
                           "logo": {"@type": "ImageObject", "url": "https://www.firstrehabnpb.com/assets/media/logo.png"}},
             "mainEntityOfPage": f"https://www.firstrehabnpb.com/blog/{slug}.html",
