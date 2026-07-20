@@ -1706,44 +1706,6 @@ def build_meta():
                "That page took a wrong turn. Find physical therapy, occupational therapy, hand therapy, and wellness services at First Rehabilitation of North Palm Beach.",
                extra_schema='<meta name="robots" content="noindex">\n') + nav(0, solid=True) + body + footer(0))
 
-# ----------------------------------------------------------------------------
-
-# ----------------------------------------------------------------------------
-# AI ASSISTANT KNOWLEDGE BASE (api/kb.json — consumed by api/chat.js)
-# ----------------------------------------------------------------------------
-
-def build_kb():
-    import json, re
-    plain = lambda s: re.sub(r"<[^>]+>", "", s).replace("&amp;", "&").replace("&middot;", "·")
-    kb = {
-        "clinic": {
-            "name": "First Rehabilitation of North Palm Beach",
-            "founded": 1991,
-            "founder": "David (Dave) Kashuba, Ph.D., occupational therapist",
-            "tagline": "Our people make the difference.",
-            "address": "733 US Highway 1, Suite 2A, North Palm Beach, FL 33408",
-            "phone": PHONE, "fax": FAX, "email": EMAIL,
-            "hours": "Monday–Friday, 8:00 AM – 5:30 PM. Closed weekends.",
-            "patient_portal": PORTAL,
-            "service_area": "North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and the greater Palm Beaches",
-            "google_rating": "5.0 stars",
-        },
-        "insurance_accepted": ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna",
-                               "Humana", "Tricare", "VA Community Care Network (VACCN)",
-                               "Workers' Compensation", "Self-pay"],
-        "services": {plain(s["title"]): {"summary": plain(s["lede"]),
-                     "includes": [plain(t) for t, _ in s["items"]]} for s in SERVICES.values()},
-        "conditions_treated": {plain(c["name"]): [plain(t) for t in c["treats"]] for c in CONDITIONS.values()},
-        "team": [{"name": n, "role": plain(r), "bio": plain(b)} for n, r, b, _ in TEAM],
-        "podcast": {
-            "name": "Pain 2 Power", "hosts": "Dr. Dave Kashuba and Mike McGann",
-            "airs": "Saturdays 8:30 AM on 100.3 Legends Radio, streaming on Spotify",
-            "episodes": [plain(f"{n}: {t}") for n, t, _, _, _ in EPISODES],
-        },
-        "faq": [{"q": plain(q), "a": plain(a)} for q, a in FAQS],
-    }
-    write("api/kb.json", json.dumps(kb, indent=1))
-
 if __name__ == "__main__":
     build_home()
     build_services()
@@ -1754,5 +1716,4 @@ if __name__ == "__main__":
     build_contact()
     build_blog()
     build_meta()
-    build_kb()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
