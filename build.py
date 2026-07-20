@@ -86,12 +86,16 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   }},
   "geo": {{ "@type": "GeoCoordinates", "latitude": 26.8234, "longitude": -80.0559 }},
   "hasMap": "https://www.google.com/maps/search/?api=1&query=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408",
-  "areaServed": [{{"@type": "City", "name": "North Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Gardens"}}, {{"@type": "City", "name": "Jupiter"}}, {{"@type": "City", "name": "Juno Beach"}}, {{"@type": "City", "name": "Tequesta"}}, {{"@type": "City", "name": "Palm Beach Shores"}}, {{"@type": "City", "name": "Riviera Beach"}}, {{"@type": "City", "name": "West Palm Beach"}}],
-  "openingHoursSpecification": {{
+  "areaServed": [{{"@type": "City", "name": "North Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Gardens"}}, {{"@type": "City", "name": "Jupiter"}}, {{"@type": "City", "name": "Juno Beach"}}, {{"@type": "City", "name": "Tequesta"}}, {{"@type": "City", "name": "Lake Park"}}, {{"@type": "City", "name": "Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Shores"}}, {{"@type": "City", "name": "Riviera Beach"}}, {{"@type": "City", "name": "West Palm Beach"}}],
+  "openingHoursSpecification": [{{
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
     "opens": "08:00", "closes": "17:30"
-  }},
+  }}, {{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Saturday"],
+    "opens": "08:00", "closes": "12:30"
+  }}],
   "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }}</script>
 {extra_schema}</head>
@@ -200,6 +204,7 @@ def footer(depth=0):
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
+          <li><a href="{p}careers.html">Careers</a></li>
           <li><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal</a></li>
         </ul>
       </div>
@@ -207,8 +212,13 @@ def footer(depth=0):
         <h3 class="f-head">Areas We Serve</h3>
         <ul>
           <li><a href="{p}locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
-          <li><a href="{p}locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
+          <li>North Palm Beach</li>
           <li><a href="{p}locations/juno-beach.html">Juno Beach</a></li>
+          <li><a href="{p}locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
+          <li>Lake Park</li>
+          <li>Palm Beach</li>
+          <li>West Palm Beach</li>
+          <li>Riviera Beach</li>
         </ul>
       </div>
       <div>
@@ -479,11 +489,11 @@ def build_home():
     <!-- Sources are attached by main.js via matchMedia so exactly ONE file
          downloads: the 720p mobile encode below 768px, the 1440p above.
          preload="none" keeps the (preloaded) poster painting instantly. -->
-    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=8"
-      data-mp4-full="assets/media/lighthouse-hd.mp4?v=8"
-      data-webm-full="assets/media/lighthouse-hd.webm?v=9"
-      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=9"
-      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=9"></video>
+    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=9"
+      data-mp4-full="assets/media/lighthouse-hd.mp4?v=9"
+      data-webm-full="assets/media/lighthouse-hd.webm?v=10"
+      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=10"
+      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=10"></video>
   </div>
   <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
@@ -607,7 +617,7 @@ def build_home():
           head("Physical Therapy North Palm Beach | First Rehabilitation",
                "Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
                canonical="", og_image="assets/media/clinic.jpg",
-               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=8" fetchpriority="high">\n')
+               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=9" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -1139,7 +1149,7 @@ def build_locations():
     <aside class="side-card reveal d2">
       <h3>Visit us</h3>
       <p>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</p>
-      <p style="margin-top:0.6rem;">Monday&ndash;Friday, 8:00 AM &ndash; 5:30 PM</p>
+      <p style="margin-top:0.6rem;">Monday&ndash;Friday, 8:00 AM &ndash; 5:30 PM<br>Saturday, 8:00 AM &ndash; 12:30 PM</p>
       <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
       <div class="side-meta">
         <p>Call us directly<br><a href="tel:+15616244263">{PHONE}</a></p>
@@ -1459,7 +1469,7 @@ FAQ_CATEGORIES = [
         ("What services does First Rehabilitation offer?",
          "We offer physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program — a complete continuum of care under one roof. Family-owned since 1991, we treat everything from back pain and post-surgical recovery to hand injuries, work injuries, and auto accident rehabilitation, then help you stay strong after discharge through our wellness program."),
         ("How do I schedule my first appointment?",
-         "Call us at 561-624-4263, or request an appointment through the contact page or the chat assistant on this site — our front desk will follow up promptly to verify your insurance and find a time that works. We're open Monday through Friday, 8:00 AM to 5:30 PM, at 733 US Highway 1, Suite 2A in North Palm Beach."),
+         "Call us at 561-624-4263, or request an appointment through the contact page or the chat assistant on this site — our front desk will follow up promptly to verify your insurance and find a time that works. We're open Monday through Friday, 8:00 AM to 5:30 PM, and Saturday, 8:00 AM to 12:30 PM, at 733 US Highway 1, Suite 2A in North Palm Beach. Free consultations are available — call to schedule one."),
         ("What happens during the first evaluation?",
          "Your first visit is a comprehensive movement-based evaluation: an honest conversation about your history and goals, a hands-on assessment of strength, mobility, and movement patterns, and a proposed plan of care. Whenever appropriate, treatment begins that very first day — and you'll leave knowing what's going on, what the plan is, and what you can start doing at home."),
         ("What should I bring to my first visit?",
@@ -1497,9 +1507,9 @@ FAQ_CATEGORIES = [
         ("Where are you located, and is there parking?",
          "We're at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 — convenient to North Palm Beach, Palm Beach Gardens, Juno Beach, Jupiter, and West Palm Beach. Call 561-624-4263 before your first visit and our front desk will point you right to the door, including where to park."),
         ("What are your hours?",
-         "We're open Monday through Friday from 8:00 AM to 5:30 PM, and closed on weekends. You can reach the front desk at 561-624-4263 during those hours, or send a request through this site anytime."),
+         "We're open Monday through Friday from 8:00 AM to 5:30 PM, and Saturday from 8:00 AM to 12:30 PM; we're closed on Sunday. You can reach the front desk at 561-624-4263 during those hours, or send a request through this site anytime."),
         ("Do you offer weekend or evening appointments?",
-         "Our hours are Monday through Friday, 8:00 AM to 5:30 PM, so we don't see patients on weekends. If those hours are tight for your schedule, call 561-624-4263 — our front desk will work with you to find the most workable time during the week."),
+         "Our hours are Monday through Friday, 8:00 AM to 5:30 PM, plus Saturday mornings from 8:00 AM to 12:30 PM. If those hours are tight for your schedule, call 561-624-4263 — our front desk will work with you to find the most workable time."),
         ("What is your cancellation policy?",
          "If you can't make a visit, call us at 561-624-4263 as early as you can and we'll reschedule you — consistent attendance is one of the biggest drivers of a good outcome, so we'll always help you find another time. Our front desk will go over scheduling and cancellation details when you book your first appointment."),
         ("How do I access the patient portal?",
@@ -1725,7 +1735,8 @@ def build_contact():
         <div class="c-row"><span class="c-label">Phone</span><a href="tel:+15616244263">{PHONE}</a></div>
         <div class="c-row"><span class="c-label">Fax</span><span>{FAX}</span></div>
         <div class="c-row"><span class="c-label">Email</span><a href="mailto:{EMAIL}">{EMAIL}</a></div>
-        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday<br>8:00 AM – 5:30 PM</span></div>
+        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday, 8:00 AM – 5:30 PM<br>Saturday, 8:00 AM – 12:30 PM</span></div>
+        <div class="c-row"><span class="c-label">Consults</span><span>Free consultations available — call to schedule</span></div>
         <div class="c-row"><span class="c-label">Portal</span><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
         <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
       </div>
@@ -1917,6 +1928,193 @@ def build_blog():
 # SITEMAP / ROBOTS / 404
 # ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
+# CAREERS
+# ----------------------------------------------------------------------------
+# Edit roles here — layout is automatic. Fields: title, type (display string),
+# employment_type (list, schema.org values: FULL_TIME / PART_TIME / CONTRACTOR /
+# OTHER), location, posted (YYYY-MM-DD; validThrough auto = +60 days), summary,
+# responsibilities[], qualifications[], benefits[], linkedin (optional URL for an
+# "Apply on LinkedIn" secondary button). Empty list = "no openings" message.
+
+OPEN_POSITIONS = [
+    {
+        "title": "Certified Occupational Therapy Assistant (COTA)",
+        "type": "Part-time (20–30 hrs/week), permanent, with benefits — can convert to full-time · On-site · Pay based on experience",
+        "employment_type": ["PART_TIME"],
+        "location": "North Palm Beach, FL 33408 (in person)",
+        "posted": "2026-07-20",
+        "summary": "Join our busy orthopedic therapy center as a Certified Occupational Therapy Assistant. Part-time to start (20–30 hrs/week) with benefits and a path to full-time. Pay based on experience.",
+        "responsibilities": [
+            "Implement treatment plans developed by our Occupational Therapists",
+            "Lead therapeutic exercises and activities with patients",
+            "Guide and support patients through therapy sessions",
+            "Monitor and document patient progress and report changes to the supervising OT",
+            "Collaborate with our multidisciplinary team",
+            "Educate patients and families on at-home techniques",
+            "Maintain accurate patient records",
+        ],
+        "qualifications": [
+            "Occupational Therapy Assistant License (required)",
+            "Previous COTA experience preferred",
+            "Knowledge of anatomy, physiology, medical terminology, occupational health, and acute care",
+            "Strong communication skills",
+            "Team-oriented and organized",
+            "Proficient with electronic medical records",
+        ],
+        "benefits": ["Flexible schedule", "Health/medical insurance", "Opportunities for advancement"],
+        "linkedin": "",
+    },
+]
+
+def build_careers():
+    import json as _json
+    from datetime import datetime as _dt, timedelta as _td
+
+    why_cards = [
+        ("Family-owned since 1991", "Independent and steady for more than three decades — no corporate churn, no revolving door. The founder still walks the floor."),
+        ("39+ years, 80,000+ patients", "A busy, established practice with deep roots in the Palm Beaches — and the patient volume that keeps your skills sharp."),
+        ("Real one-on-one care", "We're not a high-volume mill. You get the time to treat people properly — the reason most of us chose this field in the first place."),
+        ("Mentorship from the founder", "Learn directly from Dr. Dave Kashuba, Ph.D., who personally trains and mentors clinicians who join the team."),
+        ("A team patients know by name", "Read our 4.9★ Google reviews — patients call out our staff by name. That's the culture you'd be joining."),
+        ("Four disciplines, one roof", "Physical therapy, occupational therapy, certified hand therapy, and wellness — variety in your caseload, colleagues to learn from."),
+        ("Room to grow", "Opportunities for advancement as the practice grows, with part-time-to-full-time paths on select roles."),
+        ("A clinic with a voice", "Our founder co-hosts the Pain 2 Power radio show Saturdays on 100.3 Legends Radio — we educate the community, not just treat it."),
+        ("Rooted across the Palm Beaches", "Patients come to us from North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach — a reputation you'll be proud to represent."),
+    ]
+    why_html = "".join(
+        f'<div class="cond-card reveal d{i%3+1}" style="padding:1.9rem 1.7rem;"><h3>{t}</h3><p>{d}</p></div>'
+        for i, (t, d) in enumerate(why_cards)
+    )
+
+    def _job_lists(r):
+        out = ""
+        for label, key in (("Responsibilities", "responsibilities"), ("Qualifications", "qualifications"), ("Benefits", "benefits")):
+            items = r.get(key) or []
+            if items:
+                out += f'<h4>{label}</h4><ul>' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
+        return out
+
+    if OPEN_POSITIONS:
+        jobs_html = "".join(f"""
+      <details class="job reveal">
+        <summary><span class="job-title">{r["title"]}</span><span class="job-meta">{r["type"]}</span></summary>
+        <div class="job-body">
+          <p>{r["summary"]}</p>
+          {_job_lists(r)}
+          <p class="job-loc">{r["location"]}</p>
+          <p class="job-actions"><a class="btn btn-coral" href="#apply" data-role="{r["title"]}">Apply for this role <span class="arr">&rarr;</span></a>{f' <a class="btn btn-ink" href="{r["linkedin"]}" target="_blank" rel="noopener">Apply on LinkedIn</a>' if r.get("linkedin") else ''}</p>
+        </div>
+      </details>""" for r in OPEN_POSITIONS)
+    else:
+        jobs_html = '<p class="lede" style="text-align:center;">No current openings — but we\'re always glad to hear from great people. Send us your resume below and we\'ll keep you in mind.</p>'
+
+    role_options = "".join(f'<option>{r["title"]}</option>' for r in OPEN_POSITIONS) + "<option>General / Future interest</option>"
+
+    body = f"""
+<main>
+{page_hero("Join Our Team", "Grow <em class='accent'>With Us</em>",
+  "A family-owned clinic where clinicians get real time with their patients, mentorship from the founder, and room to grow — serving the Palm Beaches since 1991.",
+  '<div class="crumbs"><a href="index.html">Home</a> / Careers</div>')}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Why First Rehabilitation</span>
+      <h2>Our People Make <em class="accent">the Difference</em></h2>
+      <p class="lede">That's our tagline for patients — and it starts with how we treat the people who work here.</p>
+    </div>
+    <div class="cond-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.4rem;">{why_html}</div>
+  </div>
+</section>
+<section class="section on-cream" id="openings">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Open Positions</span>
+      <h2>Where You Might <em class="accent">Fit In</em></h2>
+    </div>
+    <div class="job-list">{jobs_html}</div>
+  </div>
+</section>
+<section class="section" id="apply">
+  <div class="wrap" style="max-width:760px;">
+    <div class="appt-form-card reveal">
+      <h2 class="h3-size">Apply Now</h2>
+      <p class="af-sub">Applications go straight to our leadership team. We read every one — and if there's no opening that fits today, we'll keep you in mind.</p>
+      <form class="appt-form" id="careers-form" novalidate>
+        <div class="af-field">
+          <label for="cf-name">Full name *</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="cf-email">Email *</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="200">
+          </div>
+          <div class="af-field">
+            <label for="cf-phone">Phone</label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="561-555-1234">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="cf-position">Position *</label>
+          <select id="cf-position" name="position" required>{role_options}</select>
+        </div>
+        <div class="af-field">
+          <label for="cf-resume">Resume link</label>
+          <input id="cf-resume" name="resume_url" type="url" maxlength="500" placeholder="Paste a Google Drive or Dropbox share link">
+          <p class="af-note" style="margin-top:0.4rem;">Tip: in Google Drive or Dropbox, choose "Share &rarr; anyone with the link can view" and paste the link here.</p>
+        </div>
+        <div class="af-field">
+          <label for="cf-message">Short message / cover note</label>
+          <textarea id="cf-message" name="message" maxlength="3000" placeholder="Tell us a little about yourself&hellip;"></textarea>
+        </div>
+        <div class="cf-extra" aria-hidden="true"><label for="cf-website">Website</label><input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="af-note">Please include only the basics — no sensitive personal information. We only need enough to get back to you.</p>
+        <p class="af-error" id="cf-error" role="alert"></p>
+        <button class="btn btn-coral" type="submit">Send Application <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="cf-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Application received</h3>
+        <p>Thank you for your interest in joining First Rehabilitation of North Palm Beach. We've emailed you a confirmation, and our team will be in touch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{cta_band(0, heading='Do work that <em>actually matters.</em>', sub="Every day here ends with people moving better than they arrived. Come be part of that.")}
+</main>
+<script src="assets/js/careers.js" defer></script>
+"""
+
+    org = {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach",
+           "sameAs": "https://www.firstrehabnpb.com/",
+           "logo": "https://www.firstrehabnpb.com/assets/media/logo.png"}
+    place = {"@type": "Place", "address": {"@type": "PostalAddress",
+             "streetAddress": "733 US Highway 1, Suite 2A", "addressLocality": "North Palm Beach",
+             "addressRegion": "FL", "postalCode": "33408", "addressCountry": "US"}}
+    jobs_ld = ""
+    for r in OPEN_POSITIONS:
+        valid = (_dt.strptime(r["posted"], "%Y-%m-%d") + _td(days=60)).strftime("%Y-%m-%d")
+        desc = r["summary"]
+        for label, key in (("Responsibilities", "responsibilities"), ("Qualifications", "qualifications"), ("Benefits", "benefits")):
+            if r.get(key):
+                desc += f" {label}: " + "; ".join(r[key]) + "."
+        jobs_ld += '<script type="application/ld+json">' + _json.dumps({
+            "@context": "https://schema.org", "@type": "JobPosting",
+            "title": r["title"], "description": desc,
+            "datePosted": r["posted"], "validThrough": valid,
+            "employmentType": r["employment_type"],
+            "hiringOrganization": org, "jobLocation": place,
+            "directApply": True,
+        }, ensure_ascii=False) + '</script>\n'
+
+    write("careers.html",
+          head("Careers | First Rehabilitation of North Palm Beach",
+               "Join a family-owned therapy clinic serving the Palm Beaches since 1991. Open roles in PT, OT, front desk, and massage therapy — apply online today.",
+               canonical="careers.html",
+               extra_schema=jobs_ld + breadcrumb_schema([("Home", ""), ("Careers", "careers.html")]))
+          + nav(0) + body + footer(0))
+
 def build_meta():
     base = "https://www.firstrehabnpb.com"
     write("site.webmanifest", '''{
@@ -1933,7 +2131,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "faq.html", "podcast.html", "blog/index.html", "treatments/index.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "podcast.html", "blog/index.html", "treatments/index.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -1958,7 +2156,8 @@ def build_meta():
 ## Key facts
 - Address: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408
 - Phone: 561-624-4263 · Fax: 561-840-4234 · Email: firstrehabnpb@gmail.com
-- Hours: Monday-Friday, 8:00 AM - 5:30 PM
+- Hours: Monday-Friday, 8:00 AM - 5:30 PM; Saturday, 8:00 AM - 12:30 PM
+- Free consultations available (call to schedule)
 - Founded: 1991 (family-owned and operated)
 - Website: {base}/
 
@@ -1978,8 +2177,9 @@ Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare,
 VA Community Care Network (VACCN), workers' compensation, self-pay.
 
 ## Areas served
-North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Palm Beach Shores,
-Riviera Beach, West Palm Beach. Area pages: {base}/locations/palm-beach-gardens.html,
+North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Lake Park,
+Palm Beach, Palm Beach Shores, Riviera Beach, West Palm Beach.
+Area pages: {base}/locations/palm-beach-gardens.html,
 {base}/locations/jupiter.html, {base}/locations/juno-beach.html
 
 ## Answers to common questions
@@ -2017,5 +2217,6 @@ if __name__ == "__main__":
     build_faq()
     build_contact()
     build_blog()
+    build_careers()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
