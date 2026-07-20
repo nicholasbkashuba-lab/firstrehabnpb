@@ -1804,6 +1804,36 @@ BLOG_POSTS = {
 <p>If you're facing hand surgery, dealing with carpal tunnel, or fighting arthritis in your thumbs, ask about our certified hand therapy program — it's one of the things that makes First Rehabilitation different.</p>
 """,
     },
+    "knee-arthritis-before-surgery": {
+        "title": "Knee Pain: What to Try Before You Think About Surgery",
+        "date": "July 2026",
+        "tag": "Knees &amp; Joints",
+        "teaser": "An orthopedic surgeon joined our Pain 2 Power podcast to talk knees: what causes the pain, the home exercises that help, and why surgery comes last.",
+        "body": """
+<p>If your knees ache on stairs, swell after a walk, or make you think twice about kneeling in the garden, you're in familiar company — knee pain is one of the most common reasons people walk through our doors. On a recent episode of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba sat down with Dr. Richard Weiner, M.D., an orthopedic surgeon he has worked alongside since 1990, to talk about what actually helps a painful knee — and why the operating room is the last stop, not the first.</p>
+<p><em>By The First Rehabilitation Team · Reviewed by our clinical team</em></p>
+<h2>What's usually behind knee pain</h2>
+<p>Three culprits come up again and again. The most common is osteoarthritis — a gradual wearing of the joint that Dr. Kashuba notes he sometimes sees in patients as young as their mid-thirties, while some ninety-year-olds have none at all. The other two are ligament injuries (a ligament connects bone to bone) and tendon problems such as tendonitis (a tendon connects muscle to bone). Which one you're dealing with changes the plan completely, which is why both doctors kept returning to the same theme: a careful evaluation comes first. As Dr. Weiner put it, "you don't treat an X-ray, you treat the patient."</p>
+<h2>Surgery is the last resort — an orthopedic surgeon says so</h2>
+<p>It says something when a surgeon spends most of a radio hour talking about how to keep people out of his operating room. Dr. Weiner described the ladder he climbs with his own patients: first, avoiding the activities that aggravate the knee; then therapy — "physical therapy is key because you need to have strong muscles to stabilize the knee to have fewer symptoms" — then medication or targeted injections, and bracing. Surgery only enters the conversation when all of that has genuinely been tried, and he noted that the vast majority of the knee patients he treats never need an operation at all.</p>
+<p>That matches how we work. A <a href="../services/physical-therapy.html">physical therapy</a> plan for a painful knee is built around strengthening the muscles that support the joint — including the hip and ankle, which share the load — so the knee itself has less work to do. You can read more about our approach on our <a href="../treatments/knee-pain.html">knee pain page</a>.</p>
+<h2>The weight-and-knees math worth knowing</h2>
+<p>One number from the episode stuck with us. Citing studies, Dr. Weiner explained that each extra pound of body weight adds roughly five pounds of stress to the knee during activities like squatting and stair climbing — so losing ten pounds can take about fifty pounds of stress off each knee. He listed excess weight among the main risk factors for knee arthritis, alongside genetics and past injuries. None of that is a lecture; it's leverage. Small changes buy your knees real relief.</p>
+<h2>Four simple exercises you can do at home</h2>
+<p>Dr. Kashuba walked listeners through a short routine that needs nothing more than a sturdy chair and a low step stool. Move gently, stay within a comfortable range, and stop if anything sharpens the pain.</p>
+<p><strong>Seated kick-outs.</strong> Sit at the front edge of a chair and slowly straighten one knee out in front of you, then lower it. Work toward three sets of ten on each side, building over time to three sets of twenty.</p>
+<p><strong>Standing knee curls.</strong> Hold the back of the chair, stand tall, and bring one heel up toward your seat as far as comfortable. Same target: three sets of ten, building to twenty.</p>
+<p><strong>Sit-to-stands with a pillow.</strong> Hold a light pillow out in front of you as you stand up from the chair, and keep it reached forward as you sit back down. Reaching forward makes you hinge at the hips — and the joint that starts the movement takes the brunt of the load, which your hips handle far better than your knees.</p>
+<p><strong>Step-stool lean-ins.</strong> With a hand on the chair for balance, place one foot on a low step stool and gently rock your weight forward over that foot, then back. No stepping up — just a slow, controlled lean, repeated.</p>
+<p>Round the routine out with regular walking, which both doctors recommended. And thinking has moved past strict rest: for a cranky knee, gentle movement plus elevation, ice, and light compression tends to serve you better than keeping it perfectly still.</p>
+<h2>When it's time to stop self-treating</h2>
+<p>Home exercise has limits, and knowing them protects you. Get evaluated if your knee pain isn't settling, if swelling or warmth develops, if the knee gives way or locks up, or if symptoms start interfering with your everyday activities — walking, standing, sleeping. And one situation shouldn't wait: a pop followed by sudden pain and a leg you can't stand on is a day for an orthopedic specialist or the hospital, not a stretching session.</p>
+<p>The pattern both doctors agreed on: the sooner a problem is looked at, the easier it usually is to address.</p>
+<h2>Start with an evaluation, not an operation</h2>
+<p>Most knee pain responds to conservative care — and finding out where you stand costs you a phone call. Our therapists evaluate your knee, tell you honestly whether therapy is likely to help, and coordinate with your physician or an orthopedic specialist when you need one. Call us at 561-624-4263, or hear the full conversation on the <a href="../podcast.html">Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>
+""",
+    },
 }
 
 def build_blog():
@@ -1863,6 +1893,7 @@ def build_blog():
             "what-to-expect-first-pt-visit": "Your First PT Visit: What to Expect",
             "five-morning-habits-back-pain": "Five Morning Habits That Ease Back Pain",
             "why-hand-therapy-is-different": "Why Hand Therapy Is Its Own Specialty",
+            "knee-arthritis-before-surgery": "Knee Pain: What to Try Before Surgery",
         }
         iso_date = _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
         post_schema = '<script type="application/ld+json">' + _json.dumps({
