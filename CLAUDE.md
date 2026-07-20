@@ -57,3 +57,11 @@ and `robots.txt`. When adding or changing pages, preserve all of it:
 
 Local SEO priorities for this business: "physical therapy North Palm Beach", "hand therapy
 Palm Beach Gardens", "occupational therapy Jupiter FL", plus each condition + location.
+
+## Redirects — DO NOT REMOVE
+`vercel.json` carries 301 redirects mapping every URL of the old Wix site
+(including the /blank-N condition pages and /service-page/ booking URLs) to its
+new equivalent. These preserve the search rankings earned by the old site.
+Google takes months to transfer ranking signals to the new URLs — keep these
+redirects in place permanently, or at absolute minimum 12 months after the
+domain switch (July 2027). Removing them early throws away that equity.
