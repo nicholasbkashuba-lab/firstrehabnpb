@@ -408,8 +408,6 @@ def build_home():
          "Sandy Stoll", "via Facebook"),
         ("Personal and individual attention from the entire staff. Dave is the BEST and has the BEST staff to rehab even the most difficult problems. I wouldn't go anywhere else!",
          "Barb Ross Kozlow", "via Facebook"),
-        ("My experience with First rehabilitation of North Palm Beach has been amazing. The staff is extremely knowledgeable and teal professional. The entire experience has been phenomenal. Thank you team for getting me better.",
-         "Neil Levine", "via Google"),
     ]
     quotes_html = "".join(
         f'''<figure class="quote-card reveal d{i+1}"><div class="stars">★★★★★</div><blockquote>{q}</blockquote><figcaption><strong>{n}</strong> &nbsp;{c}</figcaption></figure>'''
