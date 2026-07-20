@@ -47,10 +47,10 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <meta name="twitter:description" content="{html.escape(desc)}">
 <meta name="twitter:image" content="{base}/{og_image}">
 <meta name="theme-color" content="#0E3A47">
-<link rel="icon" href="{p}assets/icons/favicon.ico?v=3" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png?v=3">
-<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png?v=3">
-<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png?v=3">
+<link rel="icon" href="{p}assets/icons/favicon.ico?v=4" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{p}assets/icons/icon-32.png?v=4">
+<link rel="icon" type="image/png" sizes="16x16" href="{p}assets/icons/icon-16.png?v=4">
+<link rel="apple-touch-icon" sizes="180x180" href="{p}assets/icons/apple-touch-icon.png?v=4">
 <link rel="manifest" href="{p}site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
