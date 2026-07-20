@@ -86,7 +86,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   }},
   "geo": {{ "@type": "GeoCoordinates", "latitude": 26.8234, "longitude": -80.0559 }},
   "hasMap": "https://www.google.com/maps/search/?api=1&query=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408",
-  "areaServed": [{{"@type": "City", "name": "North Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Gardens"}}, {{"@type": "City", "name": "Jupiter"}}, {{"@type": "City", "name": "Juno Beach"}}, {{"@type": "City", "name": "Tequesta"}}, {{"@type": "City", "name": "Palm Beach Shores"}}, {{"@type": "City", "name": "Riviera Beach"}}, {{"@type": "City", "name": "West Palm Beach"}}],
+  "areaServed": [{{"@type": "City", "name": "North Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Gardens"}}, {{"@type": "City", "name": "Jupiter"}}, {{"@type": "City", "name": "Juno Beach"}}, {{"@type": "City", "name": "Tequesta"}}, {{"@type": "City", "name": "Lake Park"}}, {{"@type": "City", "name": "Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Shores"}}, {{"@type": "City", "name": "Riviera Beach"}}, {{"@type": "City", "name": "West Palm Beach"}}],
   "openingHoursSpecification": [{{
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
@@ -212,8 +212,13 @@ def footer(depth=0):
         <h3 class="f-head">Areas We Serve</h3>
         <ul>
           <li><a href="{p}locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
-          <li><a href="{p}locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
+          <li>North Palm Beach</li>
           <li><a href="{p}locations/juno-beach.html">Juno Beach</a></li>
+          <li><a href="{p}locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
+          <li>Lake Park</li>
+          <li>Palm Beach</li>
+          <li>West Palm Beach</li>
+          <li>Riviera Beach</li>
         </ul>
       </div>
       <div>
@@ -484,11 +489,11 @@ def build_home():
     <!-- Sources are attached by main.js via matchMedia so exactly ONE file
          downloads: the 720p mobile encode below 768px, the 1440p above.
          preload="none" keeps the (preloaded) poster painting instantly. -->
-    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=8"
-      data-mp4-full="assets/media/lighthouse-hd.mp4?v=8"
-      data-webm-full="assets/media/lighthouse-hd.webm?v=9"
-      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=9"
-      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=9"></video>
+    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=9"
+      data-mp4-full="assets/media/lighthouse-hd.mp4?v=9"
+      data-webm-full="assets/media/lighthouse-hd.webm?v=10"
+      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=10"
+      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=10"></video>
   </div>
   <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
@@ -612,7 +617,7 @@ def build_home():
           head("Physical Therapy North Palm Beach | First Rehabilitation",
                "Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
                canonical="", og_image="assets/media/clinic.jpg",
-               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=8" fetchpriority="high">\n')
+               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=9" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -2172,8 +2177,9 @@ Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare,
 VA Community Care Network (VACCN), workers' compensation, self-pay.
 
 ## Areas served
-North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Palm Beach Shores,
-Riviera Beach, West Palm Beach. Area pages: {base}/locations/palm-beach-gardens.html,
+North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Lake Park,
+Palm Beach, Palm Beach Shores, Riviera Beach, West Palm Beach.
+Area pages: {base}/locations/palm-beach-gardens.html,
 {base}/locations/jupiter.html, {base}/locations/juno-beach.html
 
 ## Answers to common questions
