@@ -1,8 +1,26 @@
 // First Rehabilitation — v2 interactions
 (function () {
-  // Nudge the hero video: some browsers need an explicit play() after load,
+  // Hero video: attach exactly ONE rendition based on viewport width —
+  // 720p below 768px, 1440p above — as mp4 (primary) + webm (codec
+  // fallback; browsers only download the first source they support).
+  // Then nudge playback: some browsers need an explicit play() after load,
   // and Low Power Mode pauses autoplay until the page is interacted with.
   const heroVideo = document.querySelector('.hero-media video');
+  if (heroVideo && !heroVideo.querySelector('source') && heroVideo.dataset.mp4Full) {
+    const mobile = window.matchMedia('(max-width: 767px)').matches;
+    const files = [
+      [mobile ? heroVideo.dataset.mp4Mobile : heroVideo.dataset.mp4Full, 'video/mp4'],
+      [mobile ? heroVideo.dataset.webmMobile : heroVideo.dataset.webmFull, 'video/webm'],
+    ];
+    files.forEach(([src, type]) => {
+      if (!src) return;
+      const s = document.createElement('source');
+      s.src = src;
+      s.type = type;
+      heroVideo.appendChild(s);
+    });
+    heroVideo.load();
+  }
   if (heroVideo) {
     const tryPlay = () => heroVideo.play().catch(() => {});
     tryPlay();

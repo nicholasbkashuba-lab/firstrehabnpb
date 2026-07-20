@@ -113,10 +113,14 @@
 <section class="hero">
   <div class="hero-media">
     <div class="hero-fallback"></div>
-    <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg?v=7">
-      <source src="assets/media/lighthouse-hd.mp4?v=7" type="video/mp4" media="(min-width: 900px)">
-      <source src="assets/media/lighthouse.mp4?v=7" type="video/mp4">
-    </video>
+    <!-- Sources are attached by main.js via matchMedia so exactly ONE file
+         downloads: the 720p mobile encode below 768px, the 1440p above.
+         preload="none" keeps the (preloaded) poster painting instantly. -->
+    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=7"
+      data-mp4-full="assets/media/lighthouse-hd.mp4?v=7"
+      data-webm-full="assets/media/lighthouse-hd.webm?v=8"
+      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=8"
+      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=8"></video>
   </div>
   <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
