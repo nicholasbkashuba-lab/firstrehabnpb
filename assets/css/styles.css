@@ -180,13 +180,18 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
   .nav-cta-btn { order: 2; padding: 0.6rem 1.1rem; font-size: 0.84rem; margin-left: auto; margin-right: 0; }
   .nav-links { position: fixed; inset: 0; background: var(--ink-deep); flex-direction: column; justify-content: flex-start; gap: 0.4rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.2,.8,.2,1); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 6.2rem 0 3rem; }
   .nav-links.open { transform: translateX(0); }
+  .nav-links > li { width: 100%; text-align: center; white-space: normal; }
   .nav-links a.nav-item { color: var(--cream) !important; font-size: 1.2rem; font-family: var(--font-display); display: inline-block; padding: 0.45rem 1rem; }
-  .dropdown { position: static; transform: none; opacity: 1; visibility: visible; background: transparent; box-shadow: none; border: none; text-align: center; display: none; padding: 0; }
+  .dropdown { position: static; transform: none; opacity: 1; visibility: visible; background: transparent; box-shadow: none; border: none; text-align: center; display: none; padding: 0; width: 100%; min-width: 0; }
+  .nav-links li:hover > .dropdown, .nav-links li:focus-within > .dropdown { transform: none; }
   .nav-links li.open-sub .dropdown { display: block; }
   .dropdown a { color: rgba(246,241,231,0.7); }
   .dropdown a:hover { background: transparent; color: var(--coral); padding-left: 0.95rem; }
-  .dropdown .dd-cols { grid-template-columns: 1fr; min-width: 0; }
+  .dropdown .dd-cols { grid-template-columns: 1fr; min-width: 0; width: 100%; }
+  .dropdown a { display: block; text-align: center; }
+  .dropdown a:hover { padding-left: 0; }
   body.nav-locked { overflow: hidden; }
+  body.nav-locked .fri-root { display: none; }
   .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: var(--cream); }
   .nav-toggle.active span:nth-child(2) { opacity: 0; }
   .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--cream); }
