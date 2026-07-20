@@ -23,7 +23,7 @@ person ("you"). No hype. No exclamation marks. Structure:
 - One h1 (the page hero renders it — the post body itself contains only h2s)
 - 3–5 `<h2>` sections, scannable paragraphs
 - Byline line right after the opening paragraph:
-  `<p><em>By The First Rehabilitation Team · Reviewed by our clinical team</em></p>`
+  `<p><em>By The First Rehabilitation Team · Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>`
   (use a named author only if the owner specifies one)
 - A close inviting the reader to book an evaluation, with the phone number 561-624-4263
 - Final paragraph, always:

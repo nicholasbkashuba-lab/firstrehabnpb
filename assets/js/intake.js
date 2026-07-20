@@ -75,9 +75,9 @@
 
   var root = el('div', 'fri-root');
   root.innerHTML =
-    '<div class="fri-teaser" role="button" tabindex="0" aria-label="Open chat assistant">' +
+    '<div class="fri-teaser">' +
       '<button class="fri-teaser-x" aria-label="Dismiss">&#10005;</button>' +
-      '👋 <strong>Hi there!</strong> Want us to call you about an appointment? I can take your info in under a minute.' +
+      '<button class="fri-teaser-open">👋 <strong>Hi there!</strong> Want us to call you about an appointment? I can take your info in under a minute.</button>' +
     '</div>' +
     '<button class="fri-launcher" aria-label="Chat with First Rehabilitation" aria-haspopup="dialog">' + chatIcon + '<span class="fri-dot"></span></button>' +
     '<div class="fri-panel" role="dialog" aria-modal="false" aria-label="First Rehabilitation intake assistant">' +
@@ -679,13 +679,8 @@
 
     launcher.addEventListener('click', function () { openPanel(false); });
     root.querySelector('.fri-x').addEventListener('click', closePanel);
-    teaser.addEventListener('click', function (e) {
-      if (e.target.classList.contains('fri-teaser-x')) { hideTeaser(); return; }
-      openPanel(false);
-    });
-    teaser.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(false); }
-    });
+    root.querySelector('.fri-teaser-open').addEventListener('click', function () { openPanel(false); });
+    root.querySelector('.fri-teaser-x').addEventListener('click', hideTeaser);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && root.classList.contains('open')) closePanel();
     });

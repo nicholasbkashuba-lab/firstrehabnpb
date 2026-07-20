@@ -24,12 +24,12 @@
   --paper: #FFFFFF;
   --coral: #F4A261;
   --coral-deep: #DD8340;
-  --coral-text: #B65717; /* WCAG AA text-safe coral (4.6:1 on white) */
+  --coral-text: #A04E14; /* WCAG AA text-safe coral (4.6:1 on white) */
   --gold: #E9C46A;
   --gold-soft: rgba(233, 196, 106, 0.5);
   --mist: #E4ECE9;
   --text: #24393F;
-  --muted: #5E7178;
+  --muted: #51646C;
   --line: rgba(14, 58, 71, 0.13);
   --line-gold: rgba(233, 196, 106, 0.55);
   --shadow-soft: 0 30px 70px -30px rgba(7, 30, 39, 0.45);
@@ -596,7 +596,7 @@ a.tb-item:hover { color: var(--gold); }
   padding: 1.7rem 1.8rem; transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease; }
 .svc-feature:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
 .svc-feature-num { font-family: var(--font-display); font-style: italic; font-size: 1.9rem;
-  color: transparent; -webkit-text-stroke: 1.2px var(--gold); line-height: 1; }
+  color: transparent; -webkit-text-stroke: 1.4px #A07514; line-height: 1; }
 .svc-feature h3 { font-size: 1.18rem; margin-bottom: 0.35rem; }
 .svc-feature p { font-size: 0.95rem; color: var(--muted); }
 
