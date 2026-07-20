@@ -701,3 +701,10 @@ a.tb-item:hover { color: var(--gold); }
   .hero-inner { padding-top: 1.8rem; padding-bottom: 3.2rem; }
   .hero-panel { padding-top: 1.6rem; }
 }
+
+/* ---------- Podcast: featured latest episode + compact mobile show card ---------- */
+.pod-featured-wrap { max-width: 860px; }
+.pod-featured-wrap .pod-card { border-color: var(--line-gold); box-shadow: var(--shadow-card); margin-bottom: 0; }
+@media (max-width: 880px) {
+  .pod-show-embed { height: 200px; }
+}

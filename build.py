@@ -1267,12 +1267,21 @@ def build_podcast():
           <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p></div>
           {action}
         </div>'''
-    eps = "".join(_episode_block(*e) for e in EPISODES)
+    featured = _episode_block(*EPISODES[0])
+    eps = "".join(_episode_block(*e) for e in EPISODES[1:])
     body = f"""
 <main>
 {page_hero("The Pain 2 Power Podcast", "Real Conversations That <em class='accent'>Move You Forward</em>",
   "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness — with some of the sharpest minds in medicine.",
   '<div class="crumbs"><a href="index.html">Home</a> / Podcast</div>')}
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:1.6rem;">
+      <span class="eyebrow">Latest Episode</span>
+    </div>
+    <div class="pod-featured-wrap">{featured}</div>
+  </div>
+</section>
 <section class="section">
   <div class="wrap two-col">
     <div class="reveal">
@@ -1299,7 +1308,7 @@ def build_podcast():
         </div>
       </div>
       <div class="section-head" style="margin-bottom:2rem;">
-        <span class="eyebrow">All Episodes</span>
+        <span class="eyebrow">Previous Episodes</span>
         <h2>Listen &amp; Subscribe</h2>
       </div>
       {eps}
@@ -1307,7 +1316,7 @@ def build_podcast():
     <aside class="side-card reveal d2">
       <h3>Where to listen</h3>
       <p>New episodes air Saturdays at 8:30 AM on <a href="https://legendsradio.com/listen-live/" target="_blank" rel="noopener">100.3 Legends Radio — listen live here</a> — and stream anytime on Spotify.</p>
-      <iframe style="border-radius:14px;margin-top:1.2rem;" src="https://open.spotify.com/embed/show/033A1BQq9qqsygFFCq9SIu?utm_source=generator&amp;theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Pain 2 Power on Spotify"></iframe>
+      <iframe class="pod-show-embed" style="border-radius:14px;margin-top:1.2rem;" src="https://open.spotify.com/embed/show/033A1BQq9qqsygFFCq9SIu?utm_source=generator&amp;theme=0" width="100%" height="352" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Pain 2 Power on Spotify"></iframe>
       <a class="btn btn-coral" href="{SPOTIFY}" target="_blank" rel="noopener">Open in Spotify</a>
       <a class="btn btn-ink" style="margin-top:0.7rem;" href="https://legendsradio.com/listen-live/" target="_blank" rel="noopener">Listen Live on Legends Radio</a>
       <div class="side-meta">
