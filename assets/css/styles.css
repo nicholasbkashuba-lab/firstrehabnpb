@@ -449,7 +449,7 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .footer-grid { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.25fr; gap: 2.6rem; padding-bottom: 3.2rem; border-bottom: 1px solid rgba(246,241,231,0.13); position: relative; z-index: 1; }
 @media (max-width: 880px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 540px) { .footer-grid { grid-template-columns: 1fr; } }
-.f-brand img { height: 62px; margin-bottom: 1rem; }
+.f-brand img { height: 62px; width: auto; margin-bottom: 1rem; }
 .hosts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-bottom: 2.5rem; }
 @media (max-width: 560px) { .hosts-grid { grid-template-columns: 1fr; } }
 .host-card { display: flex; align-items: center; gap: 1.2rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.2rem 1.4rem; }
