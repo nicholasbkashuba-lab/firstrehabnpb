@@ -161,11 +161,15 @@
 
   bubbles.forEach((b, i) => {
     b.addEventListener('click', () => activate(b));
+    // Arrow keys move focus AND switch the active topic, so keyboard users
+    // can flip through categories without pressing Enter each time.
     b.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault();
         const next = bubbles[(i + (e.key === 'ArrowRight' ? 1 : bubbles.length - 1)) % bubbles.length];
         next.focus();
+        activate(next);
+        if (next.scrollIntoView) next.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       }
     });
   });

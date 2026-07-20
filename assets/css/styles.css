@@ -217,9 +217,9 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .hero .hero-sub { max-width: 54ch; color: rgba(246,241,231,0.85); font-size: 1.08rem; opacity: 0; animation: fadeUp 1s ease 0.75s forwards; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 1.1rem; margin-top: 2.4rem; opacity: 0; animation: fadeUp 1s ease 0.9s forwards; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-.hero-meta { display: flex; flex-wrap: wrap; gap: clamp(1.6rem, 4vw, 3.4rem); margin-top: 4rem; padding-top: 1.8rem; border-top: 1px solid rgba(246,241,231,0.2); opacity: 0; animation: fadeUp 1s ease 1.05s forwards; }
+.hero-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(1.4rem, 3.5vw, 3rem); margin-top: 2.2rem; padding: 1.2rem clamp(1.2rem, 3vw, 2.4rem); background: rgba(7, 30, 39, 0.82); border: 1px solid rgba(233, 196, 106, 0.28); border-radius: var(--radius-lg); width: fit-content; margin-left: auto; margin-right: auto; opacity: 0; animation: fadeUp 1s ease 1.05s forwards; }
 .hero-meta div strong { display: block; font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.2rem); color: var(--gold); font-variant-numeric: lining-nums; }
-.hero-meta div span { font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,241,231,0.65); }
+.hero-meta div span { font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,241,231,0.88); }
 .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; opacity: 0.75; }
 .scroll-hint span { display: block; width: 1.5px; height: 52px; background: linear-gradient(var(--gold), transparent); margin: 0 auto; animation: drip 2.4s ease infinite; }
 @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: top; } 56% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
@@ -610,7 +610,7 @@ a.tb-item:hover { color: var(--gold); }
 .cht-callout p { color: var(--muted); font-size: 1rem; max-width: 70ch; }
 
 /* ---------- Hero: centered readable panel over vivid video ---------- */
-.hero .hero-scrim { background: linear-gradient(180deg, rgba(7,30,39,0.28) 0%, rgba(7,30,39,0.12) 45%, rgba(7,30,39,0.5) 100%); }
+.hero .hero-scrim { background: linear-gradient(180deg, rgba(7,30,39,0.68) 0%, rgba(7,30,39,0.22) 16%, rgba(7,30,39,0.12) 45%, rgba(7,30,39,0.5) 100%); }
 .hero-panel {
   max-width: 900px; margin: 0 auto; text-align: center;
   /* No backdrop-filter here: blurring the playing video behind the panel

@@ -432,9 +432,9 @@ def build_home():
 <section class="hero">
   <div class="hero-media">
     <div class="hero-fallback"></div>
-    <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg?v=6">
-      <source src="assets/media/lighthouse-hd.mp4?v=6" type="video/mp4" media="(min-width: 900px)">
-      <source src="assets/media/lighthouse.mp4?v=5" type="video/mp4">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/media/hero-poster.jpg?v=7">
+      <source src="assets/media/lighthouse-hd.mp4?v=7" type="video/mp4" media="(min-width: 900px)">
+      <source src="assets/media/lighthouse.mp4?v=7" type="video/mp4">
     </video>
   </div>
   <div class="hero-scrim"></div>
@@ -560,7 +560,7 @@ def build_home():
           head("Physical Therapy North Palm Beach | First Rehabilitation",
                "Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
                canonical="", og_image="assets/media/clinic.jpg",
-               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=6" fetchpriority="high">\n')
+               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=7" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
