@@ -178,7 +178,7 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
   .site-header.scrolled .brand img { height: 46px; }
   .nav-bar { gap: 0.55rem; }
   .nav-cta-btn { order: 2; padding: 0.6rem 1.1rem; font-size: 0.84rem; margin-left: auto; margin-right: 0; }
-  .nav-links { position: fixed; inset: 0; background: var(--ink-deep); flex-direction: column; justify-content: flex-start; gap: 0.4rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.2,.8,.2,1); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 6.2rem 0 3rem; }
+  .nav-links { position: fixed; inset: 0; background: var(--ink-deep); flex-direction: column; justify-content: flex-start; gap: 0.4rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.2,.8,.2,1); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 6.2rem 0 3rem; }
   .nav-links.open { transform: translateX(0); }
   .nav-links > li { width: 100%; text-align: center; white-space: normal; }
   .nav-links a.nav-item { color: var(--cream) !important; font-size: 1.2rem; font-family: var(--font-display); display: inline-block; padding: 0.45rem 1rem; }
@@ -192,6 +192,11 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
   .dropdown a:hover { padding-left: 0; }
   body.nav-locked { overflow: hidden; }
   body.nav-locked .fri-root { display: none; }
+  /* A backdrop-filter on the header makes it the containing block for
+     fixed descendants, pinning the menu overlay to the header box instead
+     of the viewport (breaks after scrolling, esp. iOS). Drop the filter
+     while the menu is open - the overlay covers the header anyway. */
+  body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: none; }
   .nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: var(--cream); }
   .nav-toggle.active span:nth-child(2) { opacity: 0; }
   .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--cream); }
