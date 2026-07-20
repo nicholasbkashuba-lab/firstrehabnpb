@@ -114,7 +114,9 @@
         runCounter(en.target);
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.2 });
+  // Counters ship with their real final values server-rendered (SEO/no-JS);
+  // the count-up is a progressive enhancement that replays 0 -> target on view.
   document.querySelectorAll('[data-count]').forEach((el) => cio.observe(el));
 
   // Body map: sync hotspot + list hover

@@ -395,14 +395,24 @@ def build_home():
         </a>''' for num, title, kick, desc, tags, url, badge in pathways
     )
 
-    quotes = [
-        ("The personalized care and expert hands of the team at First Rehab made all the difference in my recovery. They truly treat you like family.", "Sarah M.", "North Palm Beach"),
-        ("After my surgery, I was nervous about the rehab process. David and his crew were patient, encouraging, and highly skilled. I'm back to my daily routine faster than expected.", "James R.", "Jupiter"),
-        ("The Hand Therapy program is top-notch. They created custom splints for me and guided my recovery with so much precision. Highly recommend First Rehab!", "Linda K.", "Palm Beach Gardens"),
-    ]
+    # REAL patient quotes only. The three placeholder testimonials that shipped
+    # with the original import ("Sarah M.", "James R.", "Linda K.") had no source
+    # and were removed 2026-07-20 — never publish fabricated testimonials. To
+    # restore the three-card grid, paste VERBATIM Google reviews here as
+    # (exact review text, reviewer name exactly as displayed, city optional)
+    # and rebuild.
+    quotes = []
     quotes_html = "".join(
         f'''<figure class="quote-card reveal d{i+1}"><div class="stars">★★★★★</div><blockquote>{q}</blockquote><figcaption><strong>{n}</strong> &nbsp;{c}</figcaption></figure>'''
         for i, (q, n, c) in enumerate(quotes)
+    ) or (
+        '<figure class="quote-card reveal" style="text-align:center;">'
+        '<div class="stars">★★★★★</div>'
+        '<blockquote>Our patients say it better than we ever could. Read their words — '
+        'unedited, straight from Google.</blockquote>'
+        '<figcaption><a class="btn btn-ink" href="https://www.google.com/maps/search/?api=1&amp;query=First+Rehabilitation+of+North+Palm+Beach+733+US+Highway+1" '
+        'target="_blank" rel="noopener">Read our Google reviews <span class="arr">&rarr;</span></a></figcaption>'
+        '</figure>'
     )
 
     social_cards = "".join(
@@ -485,8 +495,8 @@ def build_home():
       </div>
     </div>
     <div class="hero-meta">
-      <div><strong data-count="35" data-suffix="+">0</strong><span>Years of Expertise</span></div>
-      <div><strong data-count="80000" data-suffix="+">0</strong><span>Patients Treated</span></div>
+      <div><strong data-count="39" data-suffix="+">39+</strong><span>Years of Expertise</span></div>
+      <div><strong data-count="80000" data-suffix="+">80,000+</strong><span>Patients Treated</span></div>
       <div><strong>4-in-1</strong><span>Programs, One Roof</span></div>
       <div><strong>Est. 1991</strong><span>Family-Owned</span></div>
     </div>
@@ -551,8 +561,8 @@ def build_home():
       <h2>Three Decades of Healing, <em class="accent">One Vision</em></h2>
       <p style="margin-top:1.2rem;">Since 1991, First Rehabilitation of North Palm Beach has been a cornerstone of recovery for the Palm Beaches. Founded by David Kashuba, Ph.D., our mission has always been to provide a comprehensive, high-end approach to rehabilitation — healing the body and restoring the spirit.</p>
       <div class="stat-row">
-        <div><strong data-count="35" data-suffix="+">0</strong><span>Years of Expertise</span></div>
-        <div><strong data-count="80000" data-suffix="+">0</strong><span>Patients Treated</span></div>
+        <div><strong data-count="39" data-suffix="+">39+</strong><span>Years of Expertise</span></div>
+        <div><strong data-count="80000" data-suffix="+">80,000+</strong><span>Patients Treated</span></div>
         <div><strong>5.0★</strong><span>Google Rating</span></div>
         <div><strong>Family</strong><span>Owned &amp; Operated</span></div>
       </div>
@@ -567,7 +577,7 @@ def build_home():
       <span class="eyebrow">Voices of Recovery</span>
       <h2>5.0 <span style="color:var(--coral);">★</span> on Google</h2>
     </div>
-    <div class="quote-grid">{quotes_html}</div>
+    <div class="quote-grid"{'' if quotes else ' style="grid-template-columns:min(640px,100%);justify-content:center;"'}>{quotes_html}</div>
   </div>
 </section>
 
@@ -1189,8 +1199,8 @@ def build_about():
       <p style="margin-top:1.2rem;">Since 1991, First Rehabilitation of North Palm Beach has been a cornerstone of recovery for the Palm Beaches. Founded by David Kashuba, Ph.D., our mission has always been to provide a comprehensive, high-end approach to rehabilitation — one that heals the body and restores the spirit.</p>
       <p style="margin-top:1rem;">What makes us different is what happens after therapy ends. Our exclusive on-site wellness program means graduation from PT or OT isn't goodbye — it's a transition into lifelong strength, guided by the same team that got you well.</p>
       <div class="stat-row">
-        <div><strong data-count="35" data-suffix="+">0</strong><span>Years of Expertise</span></div>
-        <div><strong data-count="80000" data-suffix="+">0</strong><span>Patients Treated</span></div>
+        <div><strong data-count="39" data-suffix="+">39+</strong><span>Years of Expertise</span></div>
+        <div><strong data-count="80000" data-suffix="+">80,000+</strong><span>Patients Treated</span></div>
         <div><strong>5.0★</strong><span>Google Rating</span></div>
         <div><strong>Est. 1991</strong><span>Family-Owned</span></div>
       </div>
