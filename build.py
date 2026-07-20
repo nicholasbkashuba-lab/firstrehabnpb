@@ -1892,7 +1892,15 @@ def build_meta():
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     urls = "".join(f"  <url><loc>{base}/{p}</loc></url>\n" for p in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
-    write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n")
+    ai_crawlers = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "PerplexityBot",
+                   "ClaudeBot", "Claude-User", "Google-Extended", "Bingbot",
+                   "DuckDuckBot", "Applebot", "Applebot-Extended", "cohere-ai",
+                   "meta-externalagent"]
+    ai_blocks = "".join(f"User-agent: {ua}\nAllow: /\n\n" for ua in ai_crawlers)
+    write("robots.txt",
+          "# All crawlers welcome, including AI/answer-engine bots (explicit below).\n"
+          "User-agent: *\nAllow: /\n\n"
+          f"{ai_blocks}Sitemap: {base}/sitemap.xml\n")
     write("llms.txt", f'''# First Rehabilitation of North Palm Beach
 
 > Family-owned outpatient rehabilitation clinic in North Palm Beach, Florida, serving

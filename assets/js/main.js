@@ -28,6 +28,11 @@
     document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
     document.addEventListener('click', tryPlay, { once: true });
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+    // The loop attribute should keep it running forever; these are safety nets
+    // for browsers that fire ended anyway or pause the video without user intent
+    // (there are no controls, so any pause is the browser's, not the visitor's).
+    heroVideo.addEventListener('ended', () => { heroVideo.currentTime = 0; tryPlay(); });
+    heroVideo.addEventListener('pause', () => { if (!document.hidden) setTimeout(tryPlay, 300); });
   }
 
   const header = document.querySelector('.site-header');
