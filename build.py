@@ -531,7 +531,6 @@ def build_home():
 </section>
 
 <section class="section on-cream">
-  <span class="sec-mark" aria-hidden="true" style="bottom:2rem; left:2vw;">VI</span>
   <div class="wrap">
     <div class="section-head center reveal">
       <span class="eyebrow">The Continuum of Care</span>
