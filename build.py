@@ -462,11 +462,11 @@ def build_home():
     <!-- Sources are attached by main.js via matchMedia so exactly ONE file
          downloads: the 720p mobile encode below 768px, the 1440p above.
          preload="none" keeps the (preloaded) poster painting instantly. -->
-    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=7"
-      data-mp4-full="assets/media/lighthouse-hd.mp4?v=7"
-      data-webm-full="assets/media/lighthouse-hd.webm?v=8"
-      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=8"
-      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=8"></video>
+    <video autoplay muted loop playsinline preload="none" poster="assets/media/hero-poster.jpg?v=8"
+      data-mp4-full="assets/media/lighthouse-hd.mp4?v=8"
+      data-webm-full="assets/media/lighthouse-hd.webm?v=9"
+      data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=9"
+      data-webm-mobile="assets/media/lighthouse-mobile.webm?v=9"></video>
   </div>
   <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
@@ -591,7 +591,7 @@ def build_home():
           head("Physical Therapy North Palm Beach | First Rehabilitation",
                "Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
                canonical="", og_image="assets/media/clinic.jpg",
-               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=7" fetchpriority="high">\n')
+               extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=8" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
