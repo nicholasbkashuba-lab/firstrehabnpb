@@ -395,13 +395,20 @@ def build_home():
         </a>''' for num, title, kick, desc, tags, url, badge in pathways
     )
 
-    # REAL patient quotes only. The three placeholder testimonials that shipped
-    # with the original import ("Sarah M.", "James R.", "Linda K.") had no source
-    # and were removed 2026-07-20 — never publish fabricated testimonials. To
-    # restore the three-card grid, paste VERBATIM Google reviews here as
-    # (exact review text, reviewer name exactly as displayed, city optional)
-    # and rebuild.
-    quotes = []
+    # REAL patient quotes only — never publish fabricated testimonials. (The
+    # original import shipped three invented placeholders; removed 2026-07-20.)
+    # These are VERBATIM public reviews pulled from the clinic's Birdeye page
+    # (reviews.birdeye.com/first-rehab-148204630280391), which republishes
+    # Google + Facebook reviews. Names exactly as the reviewers signed them;
+    # trims marked with an ellipsis; third field = true source label.
+    quotes = [
+        ("After I broke 5 vertebrae in my neck I thought I'd never get out of pain or build back neck strength. But the pros at FIRST Rehab did it right … my neck is out of pain and strong and healthy. They are personally responsible for getting me back to health!",
+         "Brian F. LaBovick", "via Facebook"),
+        ("This is a 1st class rehab facility with very caring and talented therapists. I had a great experience rehabbing from double knee replacements. Great equipment and their team approach keeps you moving the whole session. I made great progress while there and really enjoyed it!",
+         "Sandy Stoll", "via Facebook"),
+        ("Personal and individual attention from the entire staff. Dave is the BEST and has the BEST staff to rehab even the most difficult problems. I wouldn't go anywhere else!",
+         "Barb Ross Kozlow", "via Facebook"),
+    ]
     quotes_html = "".join(
         f'''<figure class="quote-card reveal d{i+1}"><div class="stars">★★★★★</div><blockquote>{q}</blockquote><figcaption><strong>{n}</strong> &nbsp;{c}</figcaption></figure>'''
         for i, (q, n, c) in enumerate(quotes)
