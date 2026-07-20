@@ -1,34 +1,150 @@
 {
   "trailingSlash": false,
   "redirects": [
-    { "source": "/blank", "destination": "/treatments/post-surgical.html", "statusCode": 301 },
-    { "source": "/blank-1", "destination": "/treatments/back-pain.html", "statusCode": 301 },
-    { "source": "/blank-2", "destination": "/treatments/hip-pain.html", "statusCode": 301 },
-    { "source": "/blank-3", "destination": "/treatments/shoulder-pain.html", "statusCode": 301 },
-    { "source": "/blank-4", "destination": "/treatments/knee-pain.html", "statusCode": 301 },
-    { "source": "/blank-5", "destination": "/treatments/ankle-pain.html", "statusCode": 301 },
-    { "source": "/blank-6", "destination": "/treatments/foot-pain.html", "statusCode": 301 },
-    { "source": "/blank-7", "destination": "/treatments/hand-wrist.html", "statusCode": 301 },
-    { "source": "/blank-8", "destination": "/treatments/workers-comp.html", "statusCode": 301 },
-    { "source": "/blank-9", "destination": "/treatments/auto-accident.html", "statusCode": 301 },
-    { "source": "/blank-10", "destination": "/treatments/headache-relief.html", "statusCode": 301 },
-    { "source": "/blank-11", "destination": "/treatments/neck-pain.html", "statusCode": 301 },
-    { "source": "/physical-therapy", "destination": "/services/physical-therapy.html", "statusCode": 301 },
-    { "source": "/occupational-therapy", "destination": "/services/occupational-therapy.html", "statusCode": 301 },
-    { "source": "/hand-therapy", "destination": "/services/hand-therapy.html", "statusCode": 301 },
-    { "source": "/wellness", "destination": "/services/wellness.html", "statusCode": 301 },
-    { "source": "/what-we-treat", "destination": "/treatments", "statusCode": 301 },
-    { "source": "/about", "destination": "/about.html", "statusCode": 301 },
-    { "source": "/contact", "destination": "/contact.html", "statusCode": 301 },
-    { "source": "/faq", "destination": "/faq.html", "statusCode": 301 },
-    { "source": "/podcast", "destination": "/podcast.html", "statusCode": 301 },
-    { "source": "/blogs", "destination": "/blog", "statusCode": 301 },
-    { "source": "/book-online", "destination": "/contact.html", "statusCode": 301 },
-    { "source": "/blog-feed.xml", "destination": "/blog", "statusCode": 301 },
-    { "source": "/service-page/physical-therapy", "destination": "/services/physical-therapy.html", "statusCode": 301 },
-    { "source": "/service-page/occupational-therapy", "destination": "/services/occupational-therapy.html", "statusCode": 301 },
-    { "source": "/service-page/hand-therapy", "destination": "/services/hand-therapy.html", "statusCode": 301 },
-    { "source": "/service-page/:slug*", "destination": "/services/physical-therapy.html", "statusCode": 301 },
-    { "source": "/post/:slug*", "destination": "/blog", "statusCode": 301 }
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk])",
+      "destination": "/treatments/post-surgical.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-1)",
+      "destination": "/treatments/back-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-2)",
+      "destination": "/treatments/hip-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-3)",
+      "destination": "/treatments/shoulder-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-4)",
+      "destination": "/treatments/knee-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-5)",
+      "destination": "/treatments/ankle-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-6)",
+      "destination": "/treatments/foot-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-7)",
+      "destination": "/treatments/hand-wrist.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-8)",
+      "destination": "/treatments/workers-comp.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-9)",
+      "destination": "/treatments/auto-accident.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-10)",
+      "destination": "/treatments/headache-relief.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Aa][Nn][Kk]-11)",
+      "destination": "/treatments/neck-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Pp][Hh][Yy][Ss][Ii][Cc][Aa][Ll]-[Tt][Hh][Ee][Rr][Aa][Pp][Yy])",
+      "destination": "/services/physical-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Oo][Cc][Cc][Uu][Pp][Aa][Tt][Ii][Oo][Nn][Aa][Ll]-[Tt][Hh][Ee][Rr][Aa][Pp][Yy])",
+      "destination": "/services/occupational-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Hh][Aa][Nn][Dd]-[Tt][Hh][Ee][Rr][Aa][Pp][Yy])",
+      "destination": "/services/hand-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ww][Ee][Ll][Ll][Nn][Ee][Ss][Ss])",
+      "destination": "/services/wellness.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ww][Hh][Aa][Tt]-[Ww][Ee]-[Tt][Rr][Ee][Aa][Tt])",
+      "destination": "/treatments",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Aa][Bb][Oo][Uu][Tt])",
+      "destination": "/about.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Cc][Oo][Nn][Tt][Aa][Cc][Tt])",
+      "destination": "/contact.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ff][Aa][Qq])",
+      "destination": "/faq.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Pp][Oo][Dd][Cc][Aa][Ss][Tt])",
+      "destination": "/podcast.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Oo][Gg][Ss])",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Oo][Oo][Kk]-[Oo][Nn][Ll][Ii][Nn][Ee])",
+      "destination": "/contact.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Bb][Ll][Oo][Gg]-[Ff][Ee][Ee][Dd].[Xx][Mm][Ll])",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/:a([Ss][Ee][Rr][Vv][Ii][Cc][Ee]-[Pp][Aa][Gg][Ee])/:s([Pp][Hh][Yy][Ss][Ii][Cc][Aa][Ll]-[Tt][Hh][Ee][Rr][Aa][Pp][Yy])",
+      "destination": "/services/physical-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:a([Ss][Ee][Rr][Vv][Ii][Cc][Ee]-[Pp][Aa][Gg][Ee])/:s([Oo][Cc][Cc][Uu][Pp][Aa][Tt][Ii][Oo][Nn][Aa][Ll]-[Tt][Hh][Ee][Rr][Aa][Pp][Yy])",
+      "destination": "/services/occupational-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:a([Ss][Ee][Rr][Vv][Ii][Cc][Ee]-[Pp][Aa][Gg][Ee])/:s([Hh][Aa][Nn][Dd]-[Tt][Hh][Ee][Rr][Aa][Pp][Yy])",
+      "destination": "/services/hand-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:a([Ss][Ee][Rr][Vv][Ii][Cc][Ee]-[Pp][Aa][Gg][Ee])/:slug*",
+      "destination": "/services/physical-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:a([Pp][Oo][Ss][Tt])/:slug*",
+      "destination": "/blog",
+      "statusCode": 301
+    }
   ]
 }
