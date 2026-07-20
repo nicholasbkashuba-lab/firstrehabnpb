@@ -315,10 +315,9 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .bodymap-grid { display: grid; grid-template-columns: minmax(280px, 420px) 1fr; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
 @media (max-width: 880px) { .bodymap-grid { grid-template-columns: 1fr; } }
 .bodymap-fig { position: relative; }
-.bodymap-fig svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 24px 40px rgba(0,0,0,0.45)); }
-.bm-silhouette { fill: rgba(246,241,231,0.12); stroke: rgba(233,196,106,0.6); stroke-width: 1.4; }
-.bm-glow { pointer-events: none; }
-.bm-platform { fill: none; stroke: rgba(233,196,106,0.35); stroke-width: 1.2; stroke-dasharray: 3 5; }
+.bodymap-fig svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 18px 32px rgba(0,0,0,0.32)); }
+.bm-silhouette { fill: url(#bmFig); stroke: rgba(246,241,231,0.55); stroke-width: 1.3; }
+.bm-platform { fill: none; stroke: rgba(246,241,231,0.22); stroke-width: 1.1; stroke-dasharray: 3 5; }
 .bm-chip { opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
 .bm-chip rect { fill: rgba(7,30,39,0.92); stroke: rgba(233,196,106,0.55); stroke-width: 1; }
 .bm-chip text { fill: var(--cream); font-family: var(--font-body); font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }

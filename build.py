@@ -329,13 +329,11 @@ def bodymap_svg():
       C70,285 73,260 76,225 C77,190 79,160 79,160 C82,140 86,124 92,118
       C102,108 118,104 132,98 C138,94 144,92 150,92 Z"/>
     """
-    defs = ('<defs><radialGradient id="bmGlow" cx="50%" cy="42%" r="55%">'
-            '<stop offset="0%" stop-color="rgba(233,196,106,0.20)"/>'
-            '<stop offset="60%" stop-color="rgba(233,196,106,0.06)"/>'
-            '<stop offset="100%" stop-color="rgba(233,196,106,0)"/></radialGradient></defs>')
-    glow = '<ellipse class="bm-glow" cx="150" cy="300" rx="130" ry="310" fill="url(#bmGlow)"/>'
+    defs = ('<defs><linearGradient id="bmFig" x1="0" y1="0" x2="0" y2="1">'
+            '<stop offset="0%" stop-color="rgba(246,241,231,0.17)"/>'
+            '<stop offset="100%" stop-color="rgba(246,241,231,0.05)"/></linearGradient></defs>')
     platform = '<ellipse class="bm-platform" cx="150" cy="614" rx="92" ry="14"/>'
-    return f'<svg viewBox="40 0 220 640" role="img" aria-label="Interactive body map — choose where it hurts">{defs}{glow}{platform}{silhouette}{spots_svg}</svg>'
+    return f'<svg viewBox="40 0 220 640" role="img" aria-label="Interactive body map — choose where it hurts">{defs}{platform}{silhouette}{spots_svg}</svg>'
 
 # ----------------------------------------------------------------------------
 # HOME
