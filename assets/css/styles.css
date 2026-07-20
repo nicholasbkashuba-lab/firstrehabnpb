@@ -178,9 +178,9 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
   .site-header.scrolled .brand img { height: 46px; }
   .nav-bar { gap: 0.55rem; }
   .nav-cta-btn { order: 2; padding: 0.6rem 1.1rem; font-size: 0.84rem; margin-left: auto; margin-right: 0; }
-  .nav-links { position: fixed; inset: 0; background: var(--ink-deep); flex-direction: column; justify-content: center; gap: 1.3rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.2,.8,.2,1); overflow-y: auto; padding: 5rem 0; }
+  .nav-links { position: fixed; inset: 0; background: var(--ink-deep); flex-direction: column; justify-content: flex-start; gap: 0.4rem; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.2,.8,.2,1); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 6.2rem 0 3rem; }
   .nav-links.open { transform: translateX(0); }
-  .nav-links a.nav-item { color: var(--cream) !important; font-size: 1.35rem; font-family: var(--font-display); display: inline-block; padding: 0.5rem 1rem; }
+  .nav-links a.nav-item { color: var(--cream) !important; font-size: 1.2rem; font-family: var(--font-display); display: inline-block; padding: 0.45rem 1rem; }
   .dropdown { position: static; transform: none; opacity: 1; visibility: visible; background: transparent; box-shadow: none; border: none; text-align: center; display: none; padding: 0; }
   .nav-links li.open-sub .dropdown { display: block; }
   .dropdown a { color: rgba(246,241,231,0.7); }
@@ -680,3 +680,14 @@ a.tb-item:hover { color: var(--gold); }
 .faq-tool:hover { border-color: var(--gold); background: var(--cream); }
 .faq-hidden { display: none !important; }
 .faq-empty { max-width: 860px; margin: 0 auto 2rem; padding: 1.4rem 1.6rem; background: var(--cream); border: 1px solid var(--line-gold); border-radius: var(--radius); color: var(--muted); }
+
+
+/* ---------- Mobile hero: show the FULL video frame (no crop) ---------- */
+@media (max-width: 767px) {
+  .hero { min-height: auto; display: block; background: var(--ink-deep); padding-top: 86px; }
+  .hero-media { position: relative; inset: auto; width: 100%; aspect-ratio: 16 / 9; }
+  .hero-media video, .hero-media img { width: 100%; height: 100%; }
+  .hero .hero-scrim { display: none; }
+  .hero-inner { padding-top: 1.8rem; padding-bottom: 3.2rem; }
+  .hero-panel { padding-top: 1.6rem; }
+}
