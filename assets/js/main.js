@@ -6,7 +6,8 @@
   // Then nudge playback: some browsers need an explicit play() after load,
   // and Low Power Mode pauses autoplay until the page is interacted with.
   const heroVideo = document.querySelector('.hero-media video');
-  if (heroVideo && !heroVideo.querySelector('source') && heroVideo.dataset.mp4Full) {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (heroVideo && !reducedMotion && !heroVideo.querySelector('source') && heroVideo.dataset.mp4Full) {
     const mobile = window.matchMedia('(max-width: 767px)').matches;
     const files = [
       [mobile ? heroVideo.dataset.mp4Mobile : heroVideo.dataset.mp4Full, 'video/mp4'],
@@ -21,18 +22,31 @@
     });
     heroVideo.load();
   }
-  if (heroVideo) {
-    const tryPlay = () => heroVideo.play().catch(() => {});
+  if (heroVideo && !reducedMotion) {
+    let userPaused = false;
+    const tryPlay = () => { if (!userPaused) heroVideo.play().catch(() => {}); };
     tryPlay();
     heroVideo.addEventListener('canplay', tryPlay);
     document.addEventListener('touchstart', tryPlay, { once: true, passive: true });
     document.addEventListener('click', tryPlay, { once: true });
     document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
-    // The loop attribute should keep it running forever; these are safety nets
-    // for browsers that fire ended anyway or pause the video without user intent
-    // (there are no controls, so any pause is the browser's, not the visitor's).
-    heroVideo.addEventListener('ended', () => { heroVideo.currentTime = 0; tryPlay(); });
-    heroVideo.addEventListener('pause', () => { if (!document.hidden) setTimeout(tryPlay, 300); });
+    // Safety nets for browsers that break the loop attribute or pause without
+    // user intent — but the visible pause button below always wins.
+    heroVideo.addEventListener('ended', () => { if (!userPaused) { heroVideo.currentTime = 0; tryPlay(); } });
+    heroVideo.addEventListener('pause', () => { if (!document.hidden && !userPaused) setTimeout(tryPlay, 300); });
+    const pauseBtn = document.querySelector('.hero-pause');
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userPaused = !userPaused;
+        if (userPaused) { heroVideo.pause(); pauseBtn.innerHTML = '&#9654;'; pauseBtn.setAttribute('aria-label', 'Play background video'); }
+        else { heroVideo.play().catch(() => {}); pauseBtn.innerHTML = '&#10073;&#10073;'; pauseBtn.setAttribute('aria-label', 'Pause background video'); }
+        pauseBtn.setAttribute('aria-pressed', String(userPaused));
+      });
+    }
+  } else if (heroVideo && reducedMotion) {
+    const pauseBtn = document.querySelector('.hero-pause');
+    if (pauseBtn) pauseBtn.hidden = true;
   }
 
   const header = document.querySelector('.site-header');
@@ -62,10 +76,13 @@
       const item = li.querySelector(':scope > a.nav-item');
       const dd = li.querySelector(':scope > .dropdown');
       if (item && dd) {
+        item.setAttribute('aria-haspopup', 'true');
+        item.setAttribute('aria-expanded', 'false');
         item.addEventListener('click', (e) => {
           if (window.matchMedia('(max-width: 1260px)').matches) {
             e.preventDefault();
-            li.classList.toggle('open-sub');
+            const open = li.classList.toggle('open-sub');
+            item.setAttribute('aria-expanded', String(open));
           }
         });
       }
@@ -85,7 +102,14 @@
   document.querySelectorAll('.marquee, .ticker').forEach((track) => {
     Array.from(track.children).forEach((el, i) =>
       el.classList.add(i % 2 ? 'tilt-b' : 'tilt-a'));
+    if (reducedMotion) return; // no animation → no clone → no duplicate content
+    const originals = track.children.length;
     track.innerHTML += track.innerHTML;
+    Array.from(track.children).slice(originals).forEach((el) => {
+      el.setAttribute('aria-hidden', 'true');
+      if (el.tabIndex !== undefined) el.tabIndex = -1;
+      el.querySelectorAll('a, button').forEach((n) => { n.tabIndex = -1; });
+    });
   });
 
   // Animated counters (instant for prefers-reduced-motion users)
@@ -276,3 +300,19 @@
     });
   });
 })();
+
+  // Spotify embeds load only when the visitor asks for them (podcast page).
+  document.querySelectorAll('.pod-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = btn.dataset.embed;
+      iframe.width = '100%';
+      iframe.height = btn.dataset.height || '152';
+      iframe.frameBorder = '0';
+      iframe.style.borderRadius = '14px';
+      iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+      iframe.loading = 'lazy';
+      iframe.title = btn.dataset.title || 'Spotify player';
+      btn.replaceWith(iframe);
+    });
+  });
