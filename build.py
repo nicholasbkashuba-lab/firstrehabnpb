@@ -294,11 +294,22 @@ def bodymap_svg():
         "knee": "treatments/knee-pain.html", "ankle": "treatments/ankle-pain.html",
         "foot": "treatments/foot-pain.html",
     }
+    def _chip(x, y, lbl):
+        """Hover/active label chip inside the SVG, flipped to whichever side fits."""
+        plain = html.unescape(lbl)
+        w = round(len(plain) * 6.6 + 18)
+        rx = x + 15 if x < 150 else x - 15 - w
+        rx = max(42, min(rx, 258 - w))
+        ry = y - 10
+        return (f'<g class="bm-chip"><rect x="{rx}" y="{ry}" width="{w}" height="20" rx="10"/>'
+                f'<text x="{rx + w / 2}" y="{ry + 14}" text-anchor="middle">{lbl}</text></g>')
+
     spots_svg = "".join(
         f'''<a href="{spot_links[k]}" class="bm-spot" data-bm="{k}" aria-label="{lbl}">
         <circle class="hit" cx="{x}" cy="{y}" r="17" fill="#000" fill-opacity="0" pointer-events="all"/>
         <circle class="halo" cx="{x}" cy="{y}" r="10"/>
         <circle class="core" cx="{x}" cy="{y}" r="6"/>
+        {_chip(x, y, lbl)}
         <title>{lbl}</title></a>''' for k, x, y, lbl in spots
     )
     silhouette = """
@@ -318,7 +329,13 @@ def bodymap_svg():
       C70,285 73,260 76,225 C77,190 79,160 79,160 C82,140 86,124 92,118
       C102,108 118,104 132,98 C138,94 144,92 150,92 Z"/>
     """
-    return f'<svg viewBox="40 0 220 640" role="img" aria-label="Interactive body map — choose where it hurts">{silhouette}{spots_svg}</svg>'
+    defs = ('<defs><radialGradient id="bmGlow" cx="50%" cy="42%" r="55%">'
+            '<stop offset="0%" stop-color="rgba(233,196,106,0.20)"/>'
+            '<stop offset="60%" stop-color="rgba(233,196,106,0.06)"/>'
+            '<stop offset="100%" stop-color="rgba(233,196,106,0)"/></radialGradient></defs>')
+    glow = '<ellipse class="bm-glow" cx="150" cy="300" rx="130" ry="310" fill="url(#bmGlow)"/>'
+    platform = '<ellipse class="bm-platform" cx="150" cy="614" rx="92" ry="14"/>'
+    return f'<svg viewBox="40 0 220 640" role="img" aria-label="Interactive body map — choose where it hurts">{defs}{glow}{platform}{silhouette}{spots_svg}</svg>'
 
 # ----------------------------------------------------------------------------
 # HOME

@@ -315,8 +315,14 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .bodymap-grid { display: grid; grid-template-columns: minmax(280px, 420px) 1fr; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
 @media (max-width: 880px) { .bodymap-grid { grid-template-columns: 1fr; } }
 .bodymap-fig { position: relative; }
-.bodymap-fig svg { width: 100%; height: auto; display: block; }
-.bm-silhouette { fill: rgba(246,241,231,0.10); stroke: rgba(233,196,106,0.45); stroke-width: 1.2; }
+.bodymap-fig svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 24px 40px rgba(0,0,0,0.45)); }
+.bm-silhouette { fill: rgba(246,241,231,0.12); stroke: rgba(233,196,106,0.6); stroke-width: 1.4; }
+.bm-glow { pointer-events: none; }
+.bm-platform { fill: none; stroke: rgba(233,196,106,0.35); stroke-width: 1.2; stroke-dasharray: 3 5; }
+.bm-chip { opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
+.bm-chip rect { fill: rgba(7,30,39,0.92); stroke: rgba(233,196,106,0.55); stroke-width: 1; }
+.bm-chip text { fill: var(--cream); font-family: var(--font-body); font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.bm-spot:hover .bm-chip, .bm-spot.hot .bm-chip, .bm-spot:focus .bm-chip { opacity: 1; }
 .bm-spot { cursor: pointer; }
 .bm-spot circle.core { fill: var(--gold); transition: all 0.25s ease; }
 .bm-spot circle.halo { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 0.7; transform-origin: center; transform-box: fill-box; animation: pulse 2.6s ease-out infinite; }
@@ -512,6 +518,7 @@ a.tb-item:hover { color: var(--gold); }
 .bm-panel .bm-cta { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--gold); text-decoration: none; border-bottom: 2px solid rgba(233,196,106,0.5); padding-bottom: 2px; }
 .bm-panel .bm-cta:hover { color: var(--coral); border-color: var(--coral); }
 .bm-panel .cond-tag { color: var(--coral); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.bm-panel { border-top: 3px solid var(--gold); box-shadow: 0 30px 60px -30px rgba(0,0,0,0.55); }
 .bm-panel.flash { animation: panelIn 0.45s cubic-bezier(.2,.8,.2,1); }
 @keyframes panelIn { from { opacity: 0.4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
@@ -633,8 +640,7 @@ a.tb-item:hover { color: var(--gold); }
 
 /* ---------- FAQ: sticky category jump bar + sectioned accordions ---------- */
 .faq-jump-bar { position: sticky; top: 74px; z-index: 60; background: var(--cream-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.faq-jump { display: flex; gap: 0.55rem; overflow-x: auto; max-width: var(--max); margin: 0 auto; padding: 0.8rem var(--pad); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.faq-jump::-webkit-scrollbar { display: none; }
+.faq-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.55rem; max-width: var(--max); margin: 0 auto; padding: 0.8rem var(--pad); }
 .faq-jump a { flex-shrink: 0; display: inline-flex; align-items: center; min-height: 44px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.05rem; transition: all 0.25s ease; }
 .faq-jump a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); }
 .faq-cat { max-width: 860px; margin: 0 auto; scroll-margin-top: 165px; }

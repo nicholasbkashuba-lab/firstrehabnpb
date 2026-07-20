@@ -318,30 +318,25 @@
   // Curated, always-available answers grounded in the clinic's real facts.
   // Anything a visitor types that isn't a menu tap is captured as a lead and
   // emailed to the front desk — so no real question is ever dropped.
+  // A short, friendly menu — five broad questions instead of a wall of
+  // choices, so it stays easy for every visitor. Full detail lives on the
+  // FAQ page; anything typed becomes a front-desk message.
   var FAQ = [
-    { q: 'What services do you offer?',
-      a: 'We offer physical therapy, occupational therapy, certified hand therapy, and an on-site wellness &amp; gym program — all under one roof. We’ve been family-owned since 1991, with a 5.0&#9733; reputation across the Palm Beaches.' },
     { q: 'Do you take my insurance?',
-      a: 'We accept most major plans — Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network, workers’ comp, and self-pay. Our front desk will gladly verify your exact coverage before your first visit — just call <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>.' },
-    { q: 'Do I need a referral to start?',
-      a: 'In Florida you can usually begin an evaluation without a doctor’s referral, thanks to direct access. Some insurance plans still require one for coverage, so it’s worth a quick call to <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a> so we can check yours.' },
-    { q: 'Where are you located?',
-      a: 'We’re at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 — serving North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach.' },
-    { q: 'What are your hours?',
-      a: 'We’re open Monday through Friday, 8:00&nbsp;AM to 5:30&nbsp;PM, and closed on weekends.' },
-    { q: 'What should I bring to my first visit?',
-      a: 'Bring your photo ID, insurance card, and any referral or imaging paperwork from your doctor, and wear comfortable clothing you can move in. Your first visit is an evaluation — a conversation about your goals plus a movement assessment, often with hands-on treatment that same day.' },
-    { q: 'How much does it cost / do you offer self-pay?',
-      a: 'Your cost depends on your insurance plan and benefits, and yes — we offer self-pay options. For an exact estimate, call our front desk at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>; they’ll verify your coverage and explain any out-of-pocket cost before you start.' },
-    { q: 'What is certified hand therapy?',
-      a: 'Certified hand therapy is specialized care for the hand, wrist, and arm, provided by Laura Drumm, CHT — a Certified Hand Therapist. We treat conditions like carpal tunnel, tendon injuries, fractures, and arthritis, and we fabricate custom splints right in our clinic.' },
-    { q: 'What conditions do you treat?',
-      a: 'We treat a wide range of orthopedic and post-surgical conditions — back and neck pain, sciatica, shoulder, knee and hip pain, hand and wrist injuries, headaches, balance problems, sports injuries, work injuries, and auto-accident recovery. Tell us what’s going on and we’ll point you the right way.' }
+      a: 'We accept most major plans — Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers’ comp, and self-pay. Our front desk will gladly verify your exact coverage before your first visit — just call <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a>.' },
+    { q: 'Where are you &amp; when are you open?',
+      a: 'We’re at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 — open Monday through Friday, 8:00&nbsp;AM to 5:30&nbsp;PM. We serve the greater Palm Beaches: North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach.' },
+    { q: 'What happens at my first visit?',
+      a: 'Your first visit is a friendly, thorough evaluation: we talk about your goals, assess your movement hands-on, and build your plan — treatment often starts that same day. Bring your photo ID, insurance card, and any paperwork from your doctor, and wear comfortable clothes you can move in.' },
+    { q: 'What services do you offer?',
+      a: 'We offer physical therapy, occupational therapy, certified hand therapy (led by Laura Drumm, CHT), and an on-site wellness &amp; gym program — all under one roof. Family-owned since 1991, with a 5.0&#9733; reputation across the Palm Beaches.' },
+    { q: 'How much does it cost?',
+      a: 'Your cost depends on your insurance plan and benefits, and yes — we welcome self-pay too. Call our front desk at <a href="' + CFG.phoneHref + '">' + CFG.phone + '</a> and they’ll verify your coverage and explain any out-of-pocket cost before you start, so there are no surprises.' }
   ];
 
   function showFaqMenu() {
-    var chips = FAQ.map(function (f, i) { return { label: f.q, value: 'faq:' + i }; });
-    chips.push({ label: '📅 Request an appointment', value: 'restart-appointment', cls: 'primary' });
+    var chips = [{ label: '📅 Request an appointment', value: 'restart-appointment', cls: 'primary' }];
+    FAQ.forEach(function (f, i) { chips.push({ label: f.q.replace('&amp;', '&'), value: 'faq:' + i }); });
     chips.push({ label: '📨 Leave a message for the front desk', value: 'frontdesk' });
     showChips(chips);
   }

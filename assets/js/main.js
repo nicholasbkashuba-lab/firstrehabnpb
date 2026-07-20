@@ -106,6 +106,29 @@
   });
 })();
 
+// Body map: gentle attract cycle — one point glows at a time (with its
+// label chip) until the visitor interacts, then it hands over control.
+(function () {
+  const fig = document.querySelector('#bodymap .bodymap-fig');
+  const spots = Array.from(document.querySelectorAll('#bodymap .bm-spot'));
+  if (!fig || !spots.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let i = -1;
+  const setHot = (key, on) =>
+    document.querySelectorAll('[data-bm="' + key + '"]').forEach((el) => el.classList.toggle('hot', on));
+  const clearAll = () => spots.forEach((s) => setHot(s.dataset.bm, false));
+  const tick = () => {
+    clearAll();
+    i = (i + 1) % spots.length;
+    setHot(spots[i].dataset.bm, true);
+  };
+  const timer = setInterval(tick, 2400);
+  tick();
+  const stop = () => { clearInterval(timer); clearAll(); };
+  ['pointerdown', 'mouseenter', 'focusin', 'touchstart'].forEach((ev) =>
+    fig.addEventListener(ev, stop, { once: true, passive: true }));
+})();
+
 // FAQ page: category bubbles + live search + expand/collapse.
 // Filtering only toggles visibility — every Q&A stays in the HTML for
 // crawlers and AI engines; the FAQPage schema always matches the source.
