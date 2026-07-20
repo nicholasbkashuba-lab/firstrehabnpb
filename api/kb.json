@@ -54,7 +54,6 @@
     "Arthritis Management",
     "Tendon & Fracture Rehabilitation",
     "Custom Splinting & Orthotics",
-    "Lymphedema Care",
     "Post-Surgical Hand Recovery"
    ]
   },
@@ -135,8 +134,7 @@
    "Tendon injuries and repairs",
    "Trigger finger",
    "Arthritis of the hand and thumb",
-   "Post-surgical hand rehabilitation",
-   "Lymphedema of the upper extremity"
+   "Post-surgical hand rehabilitation"
   ],
   "Headache Relief": [
    "Cervicogenic headaches",
@@ -199,7 +197,7 @@
   {
    "name": "Laura Drumm",
    "role": "Certified Hand Therapist",
-   "bio": "Leads our certified hand therapy program with surgical-grade precision \u2014 from custom splinting to post-operative tendon protocols and lymphedema care."
+   "bio": "Leads our certified hand therapy program with surgical-grade precision \u2014 from custom splinting to post-operative tendon protocols."
   }
  ],
  "podcast": {
@@ -207,7 +205,7 @@
   "hosts": "Dr. Dave Kashuba and Mike McGann",
   "airs": "Saturdays 8:30 AM on 100.3 Legends Radio, streaming on Spotify",
   "episodes": [
-   "Episode 6 \u00b7 Coming Saturday: Dr. Richard Weiner, M.D.",
+   "Episode 6: Dr. Richard Weiner, M.D.",
    "Episode 5: Logan Van Sant, DPT",
    "Episode 4: Kayla Dorsey, DPT & Dr. Murray Goldberg, M.D.",
    "Episode 3: Dr. Timur Urakov, M.D.",
@@ -498,7 +496,7 @@
   },
   {
    "q": "What conditions does hand therapy treat?",
-   "a": "Our hand therapy program treats carpal tunnel syndrome, tendon injuries and repairs, fractures of the hand and wrist, trigger finger, arthritis of the hands and thumbs, nerve conditions, and swelling including lymphedema management. Whether the cause is injury, surgery, or wear over time, treatment is matched precisely to the tissue that's healing."
+   "a": "Our hand therapy program treats carpal tunnel syndrome, tendon injuries and repairs, fractures of the hand and wrist, trigger finger, arthritis of the hands and thumbs, nerve conditions, and post-surgical swelling. Whether the cause is injury, surgery, or wear over time, treatment is matched precisely to the tissue that's healing."
   },
   {
    "q": "Do you make custom splints or orthoses?",

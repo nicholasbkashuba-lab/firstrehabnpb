@@ -466,7 +466,6 @@ def build_home():
 <div class="ins-strip"><div class="ticker">{ticker}</div></div>
 
 <section class="section" id="pathways">
-  <span class="sec-mark" aria-hidden="true" style="top:2rem; right:2vw;">04</span>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">What We Offer</span>
@@ -607,7 +606,6 @@ SERVICES = {
             ("Arthritis Management", "Joint protection strategies, adaptive techniques, and pain-relieving modalities for arthritic hands."),
             ("Tendon &amp; Fracture Rehabilitation", "Careful, protocol-driven recovery after tendon repair, fracture, and complex hand surgery."),
             ("Custom Splinting &amp; Orthotics", "Precision-fabricated splints made in-clinic to protect healing structures and restore function."),
-            ("Lymphedema Care", "Specialized management to reduce swelling and restore comfortable movement."),
             ("Post-Surgical Hand Recovery", "Coordinated care with area hand surgeons for seamless recovery from surgery to full function."),
         ],
     },
@@ -893,7 +891,7 @@ CONDITIONS = {
         "area": "Wrist &amp; Hand",
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
         "intro": "Few areas of the body demand more specialized rehabilitation than the hand. Our certified hand therapy program — led by Laura Drumm, CHT — provides precise, protocol-driven care for conditions and surgeries of the hand, wrist, and forearm, including custom splinting fabricated in-clinic.",
-        "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation", "Lymphedema of the upper extremity"],
+        "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation"],
         "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery.",
     },
     "headache-relief": {
@@ -1022,7 +1020,7 @@ TEAM = [
     ("Logan Van Sant", "Physical Therapist", "A wealth of knowledge in the physical therapy world, dedicated to helping patients move and feel their best.", "logan.jpg"),
     ("Kayla Dorsey, DPT", "Physical Therapist", "A Doctor of Physical Therapy with over a decade of extensive clinical experience in personalized, hands-on care.", "kayla.jpg"),
     ("Joni Janik", "Occupational Therapist", "Helps patients reclaim the daily activities that matter most — restoring independence, confidence, and quality of life.", "joni.jpg"),
-    ("Laura Drumm", "Certified Hand Therapist", "Leads our certified hand therapy program with surgical-grade precision — from custom splinting to post-operative tendon protocols and lymphedema care.", "laura.jpg"),
+    ("Laura Drumm", "Certified Hand Therapist", "Leads our certified hand therapy program with surgical-grade precision — from custom splinting to post-operative tendon protocols.", "laura.jpg"),
 ]
 
 def build_about():
@@ -1079,7 +1077,7 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
-    ("Episode 6 &middot; Coming Saturday", "Dr. Richard Weiner, M.D.", "World-renowned orthopedic surgeon Dr. Richard Weiner joins Dave and Mike for a candid conversation about joint replacement, staying active as you age, and what it really takes to get patients moving pain-free again. With more than 35 years in practice and thousands of hip and knee replacements to his name, Dr. Weiner brings a uniquely technical eye to orthopedic care — shaped by his training in both engineering and medicine at the University of Pennsylvania. A must-listen for anyone considering surgery or determined to avoid it.", SPOTIFY, "Notify Me"),
+    ("Episode 6", "Dr. Richard Weiner, M.D.", "World-renowned orthopedic surgeon Dr. Richard Weiner joins Dave and Mike for a candid conversation about joint replacement, staying active as you age, and what it really takes to get patients moving pain-free again. With more than 35 years in practice and thousands of hip and knee replacements to his name, Dr. Weiner brings a uniquely technical eye to orthopedic care — shaped by his training in both engineering and medicine at the University of Pennsylvania. A must-listen for anyone considering surgery or determined to avoid it.", "https://open.spotify.com/episode/6zhOBEvVnxwH7PvmRAu52e", "Listen"),
     ("Episode 5", "Logan Van Sant, DPT", "Doctor of Physical Therapy Logan Van Sant sits down to share what modern physical therapy really looks like — beyond the stretches and exercises most people expect. Logan digs into how the right movement, at the right time, restores strength and confidence after injury, and why the therapist-patient relationship is at the heart of every successful recovery. A genuine wealth of knowledge from one of the sharp young minds shaping PT today.", "https://open.spotify.com/episode/4HIjJt1f7U7Uv0IJCQnyxr", "Listen"),
     ("Episode 4", "Kayla Dorsey, DPT &amp; Dr. Murray Goldberg, M.D.", "A double-header of expertise. Kayla Dorsey, a Doctor of Physical Therapy with over a decade of hands-on experience, unpacks how personalized, one-on-one care changes recovery outcomes. Then Dr. Murray Goldberg — a board-certified urologist serving Palm Beach County since 1991 — joins to discuss men's health, aging well, and why staying proactive about your body pays off for decades. Two perspectives, one theme: taking ownership of your health.", "https://open.spotify.com/episode/3BRC4CtKqjyOGf1BmJrztj", "Listen"),
     ("Episode 3", "Dr. Timur Urakov, M.D.", "Spine surgery, demystified. Dr. Timur Urakov, Associate Professor of Clinical Medicine at the University of Miami, joins the show to explain how today's spine care has changed — from minimally invasive techniques to the advanced surgical technology now used to treat conditions along the entire spine. He and Dave tackle the questions patients are most afraid to ask about back and neck surgery, and when it is (and isn't) the right call.", "https://open.spotify.com/episode/1d1rzNKiSGdMhHsTHXPBQm", "Listen"),
@@ -1358,7 +1356,7 @@ SERVICE_FAQS = {
         ("What is a Certified Hand Therapist (CHT), and why does it matter?",
          "A Certified Hand Therapist has completed thousands of hours of specialized upper-extremity practice plus a rigorous national exam — one of the most demanding credentials in rehabilitation. It matters because hand recovery is unforgiving: moving too soon can compromise a surgical repair, and moving too late costs motion. That's why area hand surgeons refer post-operative patients specifically to CHTs; ours is Laura Drumm, CHT, who leads the program."),
         ("What conditions does hand therapy treat?",
-         "Our hand therapy program treats carpal tunnel syndrome, tendon injuries and repairs, fractures of the hand and wrist, trigger finger, arthritis of the hands and thumbs, nerve conditions, and swelling including lymphedema management. Whether the cause is injury, surgery, or wear over time, treatment is matched precisely to the tissue that's healing."),
+         "Our hand therapy program treats carpal tunnel syndrome, tendon injuries and repairs, fractures of the hand and wrist, trigger finger, arthritis of the hands and thumbs, nerve conditions, and post-surgical swelling. Whether the cause is injury, surgery, or wear over time, treatment is matched precisely to the tissue that's healing."),
         ("Do you make custom splints or orthoses?",
          "Yes — custom splints and orthoses are fabricated right in our clinic by our hand therapy program. Each is molded to your hand for your specific condition, adjusted as healing progresses, and built to your surgeon's protocol when you're recovering from surgery."),
         ("I'm having hand surgery — when should I start hand therapy?",
