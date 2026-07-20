@@ -60,7 +60,10 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <script type="application/ld+json">{{
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
+  "@id": "https://www.firstrehabnpb.com/#organization",
   "name": "First Rehabilitation of North Palm Beach",
+  "legalName": "First Rehabilitation of North Palm Beach",
+  "alternateName": ["First Rehab NPB", "First Rehabilitation", "First Rehab of North Palm Beach"],
   "description": "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness clinic serving Palm Beach County since 1991.",
   "url": "https://www.firstrehabnpb.com",
   "logo": "https://www.firstrehabnpb.com/assets/media/logo.png",
@@ -69,6 +72,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
   "foundingDate": "1991",
+  "founder": {{ "@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba", "name": "David Kashuba, Ph.D.", "jobTitle": "CEO &amp; Occupational Therapist" }},
   "priceRange": "$$",
   "slogan": "Our People Make the Difference",
   "medicalSpecialty": ["PhysicalTherapy", "OccupationalTherapy"],
@@ -81,13 +85,13 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     "addressCountry": "US"
   }},
   "geo": {{ "@type": "GeoCoordinates", "latitude": 26.8234, "longitude": -80.0559 }},
-  "areaServed": ["North Palm Beach", "Palm Beach Gardens", "Jupiter", "Juno Beach", "West Palm Beach", "Palm Beach County"],
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408",
+  "areaServed": [{{"@type": "City", "name": "North Palm Beach"}}, {{"@type": "City", "name": "Palm Beach Gardens"}}, {{"@type": "City", "name": "Jupiter"}}, {{"@type": "City", "name": "Juno Beach"}}, {{"@type": "City", "name": "Tequesta"}}, {{"@type": "City", "name": "Palm Beach Shores"}}, {{"@type": "City", "name": "Riviera Beach"}}, {{"@type": "City", "name": "West Palm Beach"}}],
   "openingHoursSpecification": {{
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
     "opens": "08:00", "closes": "17:30"
   }},
-  "aggregateRating": {{ "@type": "AggregateRating", "ratingValue": "5.0", "bestRating": "5", "ratingCount": "24" }},
   "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }}</script>
 {extra_schema}</head>
@@ -197,6 +201,14 @@ def footer(depth=0):
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
           <li><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f-head">Areas We Serve</h3>
+        <ul>
+          <li><a href="{p}locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
+          <li><a href="{p}locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
+          <li><a href="{p}locations/juno-beach.html">Juno Beach</a></li>
         </ul>
       </div>
       <div>
@@ -828,7 +840,7 @@ def build_services():
         if len(svc_desc) <= 115:
             svc_desc += " Family-owned North Palm Beach clinic since 1991."
         svc_bc = breadcrumb_schema([("Home", ""), ("Services", "services/physical-therapy.html"),
-                                    (s["title"], f"services/{slug}.html")])
+                                    (s["title"], f"services/{slug}.html")]) + therapy_schema(slug, s["title"], s["lede"])
         write(f"services/{slug}.html",
               head(f'{s["title"].replace("&amp;","&")} | First Rehabilitation of North Palm Beach',
                    svc_desc, depth=1, canonical=f"services/{slug}.html",
@@ -1013,11 +1025,130 @@ def build_conditions():
         if len(cond_desc) <= 115:
             cond_desc += " Family-owned North Palm Beach clinic since 1991."
         cond_bc = breadcrumb_schema([("Home", ""), ("What We Treat", "treatments/index.html"),
-                                     (c["name"], f"treatments/{slug}.html")])
+                                     (c["name"], f"treatments/{slug}.html")]) + condition_schema(slug, c["name"], c["lede"], sv, sv_name)
         write(f"treatments/{slug}.html",
               head(f"{title_short} in North Palm Beach | First Rehabilitation",
                    cond_desc, depth=1, canonical=f"treatments/{slug}.html", page_type="article",
                    extra_schema=cond_bc)
+              + nav(1) + body + footer(1))
+
+
+# ----------------------------------------------------------------------------
+# LOCATION PAGES — genuinely useful area pages served from the NPB clinic
+# ----------------------------------------------------------------------------
+
+LOCATIONS = {
+    "palm-beach-gardens": {
+        "city": "Palm Beach Gardens",
+        "title": "Physical Therapy Palm Beach Gardens | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Palm Beach Gardens — minutes south on US-1 in North Palm Beach. Family-owned since 1991.",
+        "h1": "Serving <em class='accent'>Palm Beach Gardens</em>",
+        "kicker": "Palm Beach Gardens",
+        "lede": "Complete outpatient rehabilitation for Gardens residents — physical therapy, occupational therapy, certified hand therapy, and an on-site wellness gym, minutes away in North Palm Beach.",
+        "deep": True,
+        "drive": "Our clinic sits at 733 US Highway 1, Suite 2A in North Palm Beach — directly south of Palm Beach Gardens, a straight shot down US-1 or Alternate A1A. Most Gardens neighborhoods reach us in one short drive without touching I-95, and our front desk at 561-624-4263 will happily talk you through directions and parking before your first visit.",
+        "conditions": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hand-wrist", "post-surgical"],
+    },
+    "jupiter": {
+        "city": "Jupiter",
+        "title": "Physical Therapy Jupiter FL | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Jupiter and Tequesta residents — an easy drive south on US-1 or I-95 to North Palm Beach.",
+        "h1": "Serving <em class='accent'>Jupiter &amp; Tequesta</em>",
+        "kicker": "Jupiter",
+        "lede": "Jupiter and Tequesta residents choose First Rehabilitation for care no single-service clinic can match — an easy drive south on US-1 or I-95.",
+        "deep": False,
+        "drive": "From Jupiter or Tequesta, we're a straightforward drive south — US-1 through Juno Beach, or I-95 to Northlake Boulevard — to 733 US Highway 1, Suite 2A, North Palm Beach. Call 561-624-4263 and our front desk will point you right to the door.",
+        "conditions": ["back-pain", "shoulder-pain", "knee-pain", "hand-wrist"],
+    },
+    "juno-beach": {
+        "city": "Juno Beach",
+        "title": "Physical Therapy Juno Beach FL | First Rehabilitation",
+        "desc": "Physical therapy, occupational therapy, certified hand therapy, and wellness for Juno Beach — just down US-1 in North Palm Beach. Family-owned since 1991.",
+        "h1": "Serving <em class='accent'>Juno Beach</em>",
+        "kicker": "Juno Beach",
+        "lede": "Juno Beach neighbors are practically next door — our family-owned clinic is just down US-1 in North Palm Beach.",
+        "deep": False,
+        "drive": "Juno Beach sits immediately north of us on US-1 — our clinic at 733 US Highway 1, Suite 2A, North Palm Beach is just a few minutes down the road. Call 561-624-4263 for directions and parking guidance.",
+        "conditions": ["back-pain", "hip-pain", "foot-pain", "post-surgical"],
+    },
+}
+
+def build_locations():
+    import json as _json
+    for slug, L in LOCATIONS.items():
+        crumbs = f'<div class="crumbs"><a href="../index.html">Home</a> / {L["city"]}</div>'
+        cond_links = " &middot; ".join(
+            f'<a href="../treatments/{c}.html">{CONDITIONS[c]["name"]}</a>' for c in L["conditions"]
+        )
+        team_cards = "".join(
+            f'<div class="svc-feature reveal"><span class="svc-feature-num">{i+1:02d}</span>'
+            f'<div><h3>{n}</h3><p><strong>{r}.</strong> {b}</p></div></div>'
+            for i, (n, r, b, _img) in enumerate(TEAM) if L["deep"] or i < 3
+        )
+        deep_extra = ""
+        if L["deep"]:
+            deep_extra = f'''
+<section class="section on-cream">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why Gardens Residents Choose Us</span>
+      <h2>Care No PT-Only Clinic <em class="accent">Can Offer</em></h2>
+      <p class="lede">Plenty of clinics offer physical therapy. Very few pair it with occupational therapy, a Certified Hand Therapist, and a wellness gym under the same roof.</p>
+    </div>
+    <div class="svc-feature-grid">
+      <div class="svc-feature reveal"><span class="svc-feature-num">01</span><div><h3>Occupational Therapy</h3><p>When the goal isn't just moving better but living better — dressing, cooking, working — our OTs restore the daily activities that matter. Led by a founder who is himself an occupational therapist.</p></div></div>
+      <div class="svc-feature reveal"><span class="svc-feature-num">02</span><div><h3>Certified Hand Therapy</h3><p>Laura Drumm, CHT leads one of the area's few certified hand therapy programs — the credential hand surgeons look for post-op — with custom splints fabricated in-clinic.</p></div></div>
+      <div class="svc-feature reveal"><span class="svc-feature-num">03</span><div><h3>On-Site Wellness Gym</h3><p>Recovery shouldn't end at discharge. Keep training in our clinic gym with a team that already knows your history.</p></div></div>
+      <div class="svc-feature reveal"><span class="svc-feature-num">04</span><div><h3>One-on-One Since 1991</h3><p>Family-owned for over three decades, with hands-on, therapist-led sessions — never a hand-off to a tech and a printed sheet.</p></div></div>
+    </div>
+  </div>
+</section>'''
+        body = f"""
+<main>
+{page_hero(L["kicker"], L["h1"], L["lede"], crumbs)}
+<section class="section">
+  <div class="wrap two-col">
+    <div class="prose reveal">
+      <p>{L["lede"]} We accept Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay — and our front desk verifies your coverage before your first visit.</p>
+      <h2>Getting here from {L["city"]}</h2>
+      <p>{L["drive"]}</p>
+      <h2>Our team, by name</h2>
+      <p>Unlike clinics that list no practitioners at all, we're proud to tell you exactly who will guide your recovery: David Kashuba, Ph.D. (CEO &amp; Occupational Therapist, treating patients since 1991), Kayla Dorsey, DPT and Logan Van Sant (Physical Therapists), Joni Janik (Occupational Therapist), and Laura Drumm (Certified Hand Therapist). Meet everyone on our <a href="../about.html">About page</a>.</p>
+      <p class="related-links"><strong>Common conditions we treat for {L["city"]} patients:</strong> {cond_links}</p>
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Visit us</h3>
+      <p>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</p>
+      <p style="margin-top:0.6rem;">Monday&ndash;Friday, 8:00 AM &ndash; 5:30 PM</p>
+      <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
+      <div class="side-meta">
+        <p>Call us directly<br><a href="tel:+15616244263">{PHONE}</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+{deep_extra}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Everything Under One Roof</span>
+      <h2>Four Services, <em class="accent">One Clinic</em></h2>
+    </div>
+    <p class="related-links reveal"><strong>Explore our care:</strong> <a href="../services/physical-therapy.html">Physical Therapy</a> &middot; <a href="../services/occupational-therapy.html">Occupational Therapy</a> &middot; <a href="../services/hand-therapy.html">Certified Hand Therapy</a> &middot; <a href="../services/wellness.html">Wellness &amp; Gym</a> &middot; <a href="../faq.html">Read our FAQ</a></p>
+  </div>
+</section>
+{cta_band(1)}
+</main>
+"""
+        svc_ld = {"@context": "https://schema.org", "@type": "Service",
+                  "@id": f"https://www.firstrehabnpb.com/locations/{slug}.html#service",
+                  "serviceType": "Outpatient rehabilitation (physical, occupational, and certified hand therapy)",
+                  "provider": ORG_REF,
+                  "areaServed": {"@type": "City", "name": L["city"]}}
+        loc_schema = '<script type="application/ld+json">' + _json.dumps(svc_ld, ensure_ascii=False) + '</script>\n'
+        write(f"locations/{slug}.html",
+              head(L["title"], L["desc"], depth=1, canonical=f"locations/{slug}.html",
+                   extra_schema=loc_schema + breadcrumb_schema([("Home", ""), (L["city"], f"locations/{slug}.html")]))
               + nav(1) + body + footer(1))
 
 # ----------------------------------------------------------------------------
@@ -1083,7 +1214,7 @@ def build_about():
           head("About Us | First Rehabilitation of North Palm Beach",
                "Family-owned since 1991. Meet the team behind First Rehabilitation of North Palm Beach — founder David Kashuba, Ph.D., and our therapists.",
                canonical="about.html",
-               extra_schema=breadcrumb_schema([("Home", ""), ("About Us", "about.html")]))
+               extra_schema=person_schema() + breadcrumb_schema([("Home", ""), ("About Us", "about.html")]))
           + nav(0) + body + footer(0))
 
 EPISODES = [
@@ -1099,6 +1230,7 @@ def _podcast_schema():
     """PodcastSeries + PodcastEpisode JSON-LD from the EPISODES list."""
     import json as _json
     series = {"@context": "https://schema.org", "@type": "PodcastSeries",
+              "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
               "name": "Pain 2 Power",
               "description": "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness with some of the sharpest minds in medicine.",
               "url": "https://www.firstrehabnpb.com/podcast.html",
@@ -1383,6 +1515,65 @@ def faq_schema(pairs):
             for q, a in pairs
         ],
     }
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
+ORG_ID = "https://www.firstrehabnpb.com/#organization"
+ORG_REF = {"@id": ORG_ID}
+
+def person_schema():
+    """Person JSON-LD for every named clinician/leader (E-E-A-T)."""
+    import json as _json
+    knows = {
+        "David Kashuba, Ph.D.": ["Occupational Therapy", "Outpatient Rehabilitation", "Clinic Leadership"],
+        "Nick Kashuba": ["Healthcare Operations", "Patient Experience"],
+        "Logan Van Sant": ["Physical Therapy", "Orthopedic Rehabilitation"],
+        "Kayla Dorsey, DPT": ["Physical Therapy", "Orthopedic Rehabilitation", "Post-Surgical Rehabilitation"],
+        "Joni Janik": ["Occupational Therapy", "Activities of Daily Living", "Stroke Recovery"],
+        "Laura Drumm": ["Certified Hand Therapy", "Custom Splinting", "Upper Extremity Rehabilitation"],
+    }
+    creds = {
+        "David Kashuba, Ph.D.": "Ph.D.",
+        "Kayla Dorsey, DPT": "DPT (Doctor of Physical Therapy)",
+        "Laura Drumm": "CHT (Certified Hand Therapist)",
+    }
+    people = []
+    for name, role, bio, _img in TEAM:
+        slug = name.lower().split(",")[0].replace(" ", "-").replace(".", "")
+        p = {"@type": "Person",
+             "@id": f"https://www.firstrehabnpb.com/about.html#{slug}",
+             "name": _faq_plain(name),
+             "jobTitle": _faq_plain(role),
+             "description": _faq_plain(bio),
+             "worksFor": ORG_REF,
+             "knowsAbout": knows.get(name, ["Rehabilitation"])}
+        if name in creds:
+            p["hasCredential"] = {"@type": "EducationalOccupationalCredential", "name": creds[name]}
+        people.append(p)
+    data = {"@context": "https://schema.org", "@graph": people}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
+def therapy_schema(slug, title, lede):
+    """MedicalTherapy JSON-LD for a service page, provided by our org."""
+    import json as _json
+    data = {"@context": "https://schema.org", "@type": "MedicalTherapy",
+            "@id": f"https://www.firstrehabnpb.com/services/{slug}.html#therapy",
+            "name": _faq_plain(title),
+            "description": _faq_plain(lede),
+            "provider": ORG_REF,
+            "areaServed": ["North Palm Beach", "Palm Beach Gardens", "Jupiter", "Juno Beach",
+                           "Tequesta", "Palm Beach Shores", "Riviera Beach", "West Palm Beach"]}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
+def condition_schema(slug, name, lede, svc_slug, svc_name):
+    """MedicalCondition JSON-LD mapping condition -> treatment -> our clinic."""
+    import json as _json
+    data = {"@context": "https://schema.org", "@type": "MedicalCondition",
+            "name": _faq_plain(name),
+            "description": _faq_plain(lede),
+            "possibleTreatment": {"@type": "MedicalTherapy",
+                                  "@id": f"https://www.firstrehabnpb.com/services/{svc_slug}.html#therapy",
+                                  "name": svc_name,
+                                  "provider": ORG_REF}}
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
 
 def breadcrumb_schema(items):
@@ -1684,11 +1875,53 @@ def build_meta():
 ''')
     pages = ["", "about.html", "contact.html", "faq.html", "podcast.html", "blog/index.html", "treatments/index.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
+    pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     urls = "".join(f"  <url><loc>{base}/{p}</loc></url>\n" for p in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n")
+    write("llms.txt", f'''# First Rehabilitation of North Palm Beach
+
+> Family-owned outpatient rehabilitation clinic in North Palm Beach, Florida, serving
+> the Palm Beaches since 1991. NOT affiliated with any similarly named clinic; we are
+> an independent practice founded and led by David Kashuba, Ph.D., occupational therapist.
+
+## Key facts
+- Address: 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408
+- Phone: 561-624-4263 · Fax: 561-840-4234 · Email: firstrehabnpb@gmail.com
+- Hours: Monday-Friday, 8:00 AM - 5:30 PM
+- Founded: 1991 (family-owned and operated)
+- Website: {base}/
+
+## Services (all under one roof)
+- Physical Therapy: {base}/services/physical-therapy.html
+- Occupational Therapy: {base}/services/occupational-therapy.html
+- Certified Hand Therapy (led by Laura Drumm, CHT; custom splints made in-clinic): {base}/services/hand-therapy.html
+- On-site Wellness & Gym program: {base}/services/wellness.html
+
+## Named clinicians (credentials on the About page)
+David Kashuba, Ph.D. (CEO, Occupational Therapist); Kayla Dorsey, DPT and Logan Van Sant
+(Physical Therapists); Joni Janik (Occupational Therapist); Laura Drumm (Certified Hand
+Therapist); Nick Kashuba (COO). About: {base}/about.html
+
+## Insurance accepted
+Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare,
+VA Community Care Network (VACCN), workers' compensation, self-pay.
+
+## Areas served
+North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Palm Beach Shores,
+Riviera Beach, West Palm Beach. Area pages: {base}/locations/palm-beach-gardens.html,
+{base}/locations/jupiter.html, {base}/locations/juno-beach.html
+
+## Answers to common questions
+73-question FAQ (referrals, insurance, OT vs PT, certified hand therapy, costs):
+{base}/faq.html
+
+## Podcast
+Pain 2 Power, hosted by Dr. Dave Kashuba with Mike McGann. Saturdays 8:30 AM on
+100.3 Legends Radio; all episodes: {base}/podcast.html
+''')
 
     body = f"""
 <main>
@@ -1710,6 +1943,7 @@ if __name__ == "__main__":
     build_home()
     build_services()
     build_conditions()
+    build_locations()
     build_about()
     build_podcast()
     build_faq()

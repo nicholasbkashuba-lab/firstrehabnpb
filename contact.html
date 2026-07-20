@@ -35,7 +35,10 @@
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
+  "@id": "https://www.firstrehabnpb.com/#organization",
   "name": "First Rehabilitation of North Palm Beach",
+  "legalName": "First Rehabilitation of North Palm Beach",
+  "alternateName": ["First Rehab NPB", "First Rehabilitation", "First Rehab of North Palm Beach"],
   "description": "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness clinic serving Palm Beach County since 1991.",
   "url": "https://www.firstrehabnpb.com",
   "logo": "https://www.firstrehabnpb.com/assets/media/logo.png",
@@ -44,6 +47,7 @@
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
   "foundingDate": "1991",
+  "founder": { "@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba", "name": "David Kashuba, Ph.D.", "jobTitle": "CEO &amp; Occupational Therapist" },
   "priceRange": "$$",
   "slogan": "Our People Make the Difference",
   "medicalSpecialty": ["PhysicalTherapy", "OccupationalTherapy"],
@@ -56,13 +60,13 @@
     "addressCountry": "US"
   },
   "geo": { "@type": "GeoCoordinates", "latitude": 26.8234, "longitude": -80.0559 },
-  "areaServed": ["North Palm Beach", "Palm Beach Gardens", "Jupiter", "Juno Beach", "West Palm Beach", "Palm Beach County"],
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408",
+  "areaServed": [{"@type": "City", "name": "North Palm Beach"}, {"@type": "City", "name": "Palm Beach Gardens"}, {"@type": "City", "name": "Jupiter"}, {"@type": "City", "name": "Juno Beach"}, {"@type": "City", "name": "Tequesta"}, {"@type": "City", "name": "Palm Beach Shores"}, {"@type": "City", "name": "Riviera Beach"}, {"@type": "City", "name": "West Palm Beach"}],
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
     "opens": "08:00", "closes": "17:30"
   },
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "bestRating": "5", "ratingCount": "24" },
   "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"]
 }</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.firstrehabnpb.com/"}, {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.firstrehabnpb.com/contact.html"}]}</script>
@@ -217,6 +221,14 @@
           <li><a href="podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="faq.html">FAQ</a></li>
           <li><a href="https://firstrehabilitationinc.patient.sprypt.com/clinics" target="_blank" rel="noopener">Patient Portal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f-head">Areas We Serve</h3>
+        <ul>
+          <li><a href="locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
+          <li><a href="locations/jupiter.html">Jupiter &amp; Tequesta</a></li>
+          <li><a href="locations/juno-beach.html">Juno Beach</a></li>
         </ul>
       </div>
       <div>
