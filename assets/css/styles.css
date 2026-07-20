@@ -661,3 +661,17 @@ a.tb-item:hover { color: var(--gold); }
 .skip-link { position: absolute; top: -60px; left: 12px; z-index: 500; background: var(--ink-deep); color: var(--cream); padding: 0.8rem 1.4rem; border-radius: 0 0 12px 12px; font-weight: 600; text-decoration: none; transition: top 0.2s ease; }
 .skip-link:focus { top: 0; }
 .nav-el { display: contents; }
+
+/* ---------- FAQ: filter bubbles, search, expand/collapse ---------- */
+.faq-bubble { flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; font-family: var(--font-body); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: var(--paper); border: 1px solid var(--line-gold); border-radius: 999px; padding: 0.5rem 1.1rem; cursor: pointer; transition: all 0.25s ease; }
+.faq-bubble:hover { border-color: var(--gold); background: var(--cream); }
+.faq-bubble.active { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); }
+.faq-bubble .fb-count { font-weight: 500; opacity: 0.75; letter-spacing: 0; }
+.faq-toolbar { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; justify-content: space-between; max-width: 860px; margin: 0 auto clamp(1.6rem, 3vw, 2.4rem); }
+.faq-search { flex: 1; min-width: 230px; font-family: var(--font-body); font-size: 1rem; color: var(--text); background: var(--paper); border: 1.5px solid var(--line); border-radius: 999px; padding: 0.85rem 1.4rem; transition: border-color 0.25s ease; }
+.faq-search:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(233, 196, 106, 0.25); }
+.faq-tools { display: flex; gap: 0.5rem; }
+.faq-tool { font-family: var(--font-body); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 0.6rem 1.1rem; min-height: 44px; cursor: pointer; transition: all 0.25s ease; }
+.faq-tool:hover { border-color: var(--gold); background: var(--cream); }
+.faq-hidden { display: none !important; }
+.faq-empty { max-width: 860px; margin: 0 auto 2rem; padding: 1.4rem 1.6rem; background: var(--cream); border: 1px solid var(--line-gold); border-radius: var(--radius); color: var(--muted); }

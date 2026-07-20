@@ -215,182 +215,6 @@
  },
  "faq": [
   {
-   "q": "What services does First Rehabilitation offer?",
-   "a": "We offer physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program \u2014 a complete continuum of care under one roof. Family-owned since 1991, we treat everything from back pain and post-surgical recovery to hand injuries, work injuries, and auto accident rehabilitation, then help you stay strong after discharge through our wellness program."
-  },
-  {
-   "q": "Do I need a doctor's referral to start physical therapy?",
-   "a": "In many cases, no \u2014 Florida is a direct access state, so you can generally begin a physical therapy evaluation without a physician referral. Some insurance plans still require a referral for coverage, and Medicare requires a physician to certify your plan of care, so the safest step is a quick call to 561-624-4263 \u2014 our front desk will check exactly what your plan needs before your first visit."
-  },
-  {
-   "q": "How do I schedule my first appointment?",
-   "a": "Call us at 561-624-4263, or request an appointment through the contact page or the chat assistant on this site \u2014 our front desk will follow up promptly to verify your insurance and find a time that works. We're open Monday through Friday, 8:00 AM to 5:30 PM, at 733 US Highway 1, Suite 2A in North Palm Beach."
-  },
-  {
-   "q": "What should I bring to my first visit?",
-   "a": "Bring a photo ID, your insurance card, and any paperwork from your physician \u2014 a referral or prescription, imaging reports, or post-surgical protocols. If your visit relates to a work or auto injury, bring your claim information too. Our front desk verifies coverage before you arrive, so billing questions never ambush you."
-  },
-  {
-   "q": "What should I wear to therapy?",
-   "a": "Comfortable clothing you can move in, plus supportive shoes like sneakers. For lower-body conditions, shorts or loose pants are ideal; for shoulder, arm, or hand conditions, wear a shirt that gives easy access to the area being treated."
-  },
-  {
-   "q": "What happens during the first evaluation?",
-   "a": "Your first visit is a comprehensive movement-based evaluation: an honest conversation about your history and goals, a hands-on assessment of strength, mobility, and movement patterns, and a proposed plan of care. Whenever appropriate, treatment begins that very first day \u2014 and you'll leave knowing what's going on, what the plan is, and what you can start doing at home."
-  },
-  {
-   "q": "How long are appointments?",
-   "a": "Plan on your initial evaluation running longer than a typical follow-up visit, since it includes your history, assessment, and plan of care. Exact visit length depends on your condition and treatment plan \u2014 when you schedule, our front desk will tell you how much time to set aside."
-  },
-  {
-   "q": "How many visits will I need?",
-   "a": "It genuinely varies \u2014 recovery depends on your condition, how long you've had it, your goals, and how your body responds. After your evaluation, your therapist will propose a plan with an expected visit frequency and honest milestones, then adjust it based on your actual progress rather than a cookie-cutter schedule."
-  },
-  {
-   "q": "What insurance plans do you accept?",
-   "a": "We accept most major plans: Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay. Coverage details differ plan to plan, so call 561-624-4263 and our front desk will verify your specific benefits before your first visit."
-  },
-  {
-   "q": "Do you accept Medicare?",
-   "a": "Yes \u2014 we accept both Original Medicare and Medicare Advantage plans, and we've cared for Medicare patients since 1991. Medicare covers medically necessary outpatient physical and occupational therapy; our team handles the required physician plan-of-care paperwork with your doctor, and the front desk will explain your benefits before you start."
-  },
-  {
-   "q": "How much does therapy cost without insurance, and do you offer self-pay?",
-   "a": "Yes, we welcome self-pay patients. Rates depend on the type of care you need, so call 561-624-4263 for current self-pay pricing \u2014 our front desk will walk you through the cost up front so there are no surprises."
-  },
-  {
-   "q": "Will you verify my insurance benefits before I start?",
-   "a": "Yes, always. Before your first appointment our front desk verifies your coverage and explains what your plan pays for, whether you have a copay or deductible, and whether your plan needs a referral \u2014 so you know exactly where you stand before treatment begins."
-  },
-  {
-   "q": "What is a copay, and will I have one?",
-   "a": "A copay is a fixed amount your insurance plan asks you to pay at each visit \u2014 the amount is set by your plan, not by the clinic, and some plans have none for therapy. Whether you'll have one depends entirely on your specific coverage, which is exactly what our front desk checks when they verify your benefits \u2014 call 561-624-4263 and we'll tell you before your first visit."
-  },
-  {
-   "q": "Do you treat workers' compensation cases?",
-   "a": "Yes \u2014 we've handled workers' compensation rehabilitation for decades. Treatment is built around the physical demands of your actual job, and we provide the objective progress documentation your case requires while coordinating with your physician, adjuster, and case manager for a safe return to work."
-  },
-  {
-   "q": "Do you treat auto accident and personal injury cases?",
-   "a": "Yes. Even a minor collision can leave lasting pain, and symptoms often surface days later, so early evaluation matters. We provide comprehensive rehabilitation from whiplash to complex multi-area injuries, document your recovery objectively, and communicate with your physician and representatives as your claim requires."
-  },
-  {
-   "q": "What is physical therapy, and what does it treat?",
-   "a": "Physical therapy restores strength, mobility, and pain-free movement through skilled, hands-on care and progressive exercise. Our physical therapists treat back and neck pain, joint pain in the shoulder, hip, knee, foot, and ankle, sports and work injuries, balance problems, and post-surgical recovery \u2014 always aimed at the cause of the problem, not just the symptoms."
-  },
-  {
-   "q": "What is occupational therapy, and how is it different from physical therapy?",
-   "a": "Occupational therapy helps you do the everyday activities that matter \u2014 dressing, cooking, writing, working, caring for your family \u2014 while physical therapy focuses on how the body moves: strength, mobility, and pain. The two work hand in hand, and because we offer both under one roof, our PTs and OTs coordinate your care as one team."
-  },
-  {
-   "q": "What is certified hand therapy, and who provides it?",
-   "a": "Certified hand therapy is specialized rehabilitation of the hand, wrist, and upper extremity, provided at First Rehabilitation by Laura Drumm, CHT. The Certified Hand Therapist credential requires thousands of hours of specialized upper-extremity practice plus a rigorous national exam, and our program includes custom splints fabricated right in the clinic."
-  },
-  {
-   "q": "What is the wellness and gym program, and who can join?",
-   "a": "Our on-site wellness and gym program lets you keep training after you finish formal therapy \u2014 with personal training, group classes, and senior functional fitness guided by a team that already knows your history. It's the fourth pillar of our continuum of care; call 561-624-4263 to ask about joining."
-  },
-  {
-   "q": "Do you create custom splints?",
-   "a": "Yes \u2014 custom splints and orthoses are fabricated right here in our clinic as part of our certified hand therapy program, led by Laura Drumm, CHT. Each one is molded to your hand and adjusted as you heal, in coordination with your physician's protocol when you're recovering from surgery."
-  },
-  {
-   "q": "Can I keep exercising at your facility after I finish therapy?",
-   "a": "Yes \u2014 that's exactly what our wellness and gym program is for. When you're discharged from therapy, you can continue training on-site with guidance from the same team that guided your rehab, so the strength you rebuilt doesn't fade when the visits end."
-  },
-  {
-   "q": "What conditions do you commonly treat?",
-   "a": "The most common are back and neck pain, shoulder, knee, and hip pain, foot and ankle problems, hand and wrist conditions, headaches, post-surgical recovery, and sports, work, and auto accident injuries. If you don't see your condition listed on our site, call 561-624-4263 \u2014 chances are we've treated it in our three-plus decades, and we'll tell you honestly if we're not the right fit."
-  },
-  {
-   "q": "Do you treat back and neck pain?",
-   "a": "Yes \u2014 back pain is the single most common reason people come to us, and one of the most treatable. We address low back pain, sciatica, disc problems, stenosis, and neck pain with hands-on manual therapy, targeted strengthening, and movement retraining that treats the cause rather than masking symptoms."
-  },
-  {
-   "q": "Do you provide post-surgical rehabilitation?",
-   "a": "Yes \u2014 post-surgical rehab is a core part of our practice, from joint replacements and rotator cuff repairs to spine and hand surgeries. We follow your surgeon's protocol precisely, coordinate on your progress, and pace your recovery to protect the repair while restoring motion and strength on schedule."
-  },
-  {
-   "q": "Do you treat sports injuries?",
-   "a": "Yes. From sprains, strains, and tendon injuries to overuse problems, we rehabilitate athletes and active adults with a progressive plan that restores strength and confidence \u2014 then prepares you to return to your sport safely rather than just resting until the pain fades."
-  },
-  {
-   "q": "Do you help with balance problems and fall prevention?",
-   "a": "Yes \u2014 balance and fall-prevention training is one of the most valuable things physical therapy offers, especially for older adults. We assess what's contributing to unsteadiness, build strength and stability with targeted exercise, and our senior functional fitness programming in the wellness gym helps you maintain those gains long-term."
-  },
-  {
-   "q": "Can therapy help me avoid surgery?",
-   "a": "Often, yes \u2014 for many orthopedic conditions, research supports trying skilled conservative care before elective surgery, and many of our patients improve enough that surgery stops being necessary. It depends on your specific diagnosis, though, and we'll be honest with you: if your progress suggests you'd truly benefit from a surgical consult, we'll say so and coordinate with your physician."
-  },
-  {
-   "q": "Do you treat headaches?",
-   "a": "Yes \u2014 many recurring headaches, including tension-type and neck-related (cervicogenic) headaches, are driven by the neck and respond well to physical therapy. We address the joint stiffness, muscle tension, and postural habits that trigger them, with hands-on treatment and a plan you can use at home."
-  },
-  {
-   "q": "Does physical therapy hurt?",
-   "a": "The goal of therapy is to reduce pain, not add to it \u2014 though working stiff joints and deconditioned muscles can bring some temporary soreness, similar to starting a new exercise program. Your therapist works within your tolerance, explains what each technique should feel like, and adjusts immediately based on your feedback."
-  },
-  {
-   "q": "How soon will I feel results?",
-   "a": "Many patients notice meaningful change within the first few weeks, but the honest answer is that it varies with your condition, how long you've had it, and consistency with your home program. Your therapist will set realistic milestones at your evaluation and track your progress objectively, so you always know whether the plan is working."
-  },
-  {
-   "q": "What is a home exercise program, and do I have to do it?",
-   "a": "It's a short, targeted set of exercises your therapist designs for you to do between visits \u2014 and yes, it genuinely matters, because the work you do at home reinforces and accelerates everything we do in the clinic. We keep it realistic for your schedule and update it as you progress."
-  },
-  {
-   "q": "Will I see the same therapist each visit?",
-   "a": "We're a small, family-owned team, and we prioritize continuity \u2014 building your recovery on a relationship with a therapist who knows your history is part of how we work. When more than one of our clinicians is involved in your care, it's a coordinated team approach, never an anonymous hand-off."
-  },
-  {
-   "q": "What makes First Rehabilitation different from other clinics?",
-   "a": "We're family-owned and operated since 1991, with one-on-one, hands-on care, a 5.0-star Google rating, and a rare combination under one roof: physical therapy, occupational therapy, certified hand therapy, and a wellness gym to keep you strong after discharge. Our motto says it best \u2014 our people make the difference."
-  },
-  {
-   "q": "Where are you located, and is there parking?",
-   "a": "We're at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 \u2014 convenient to North Palm Beach, Palm Beach Gardens, Juno Beach, Jupiter, and West Palm Beach. Call 561-624-4263 before your first visit and our front desk will point you right to the door, including where to park."
-  },
-  {
-   "q": "What are your hours?",
-   "a": "We're open Monday through Friday from 8:00 AM to 5:30 PM, and closed on weekends. You can reach the front desk at 561-624-4263 during those hours, or send a request through this site anytime."
-  },
-  {
-   "q": "What is your cancellation policy?",
-   "a": "If you can't make a visit, call us at 561-624-4263 as early as you can and we'll reschedule you \u2014 consistent attendance is one of the biggest drivers of a good outcome, so we'll always help you find another time. Our front desk will go over scheduling and cancellation details when you book your first appointment."
-  },
-  {
-   "q": "How do I access the patient portal?",
-   "a": "Click the Portal link in the menu at the top of this site \u2014 it takes you to our patient portal, powered by SPRY. If you have any trouble logging in, call the front desk at 561-624-4263 and we'll get you set up."
-  },
-  {
-   "q": "How do I ask about my home exercises between visits?",
-   "a": "Just call us at 561-624-4263 \u2014 the front desk will get your question to your therapist, so you're never stuck guessing between visits. Bring the question to your next appointment too, and your therapist will review your form in person."
-  },
-  {
-   "q": "Do you offer telehealth?",
-   "a": "The best way to find out is to call 561-624-4263, since availability depends on your needs and your insurance coverage. Most of what we do is hands-on, in-clinic care by design \u2014 but if getting to the clinic is a barrier, tell us and we'll figure out the right arrangement together."
-  },
-  {
-   "q": "How long has First Rehabilitation been in business?",
-   "a": "We've been serving the Palm Beaches since 1991 \u2014 more than three decades of family-owned, independent care under the same name and philosophy. Founder Dave Kashuba, Ph.D., an occupational therapist, has personally guided the care of more than 80,000 patients over his career."
-  },
-  {
-   "q": "Who owns and runs the clinic?",
-   "a": "First Rehabilitation is family-owned and operated, founded in 1991 by Dave Kashuba, Ph.D., a practicing occupational therapist. He leads a close-knit team of physical and occupational therapists \u2014 including Laura Drumm, CHT, our Certified Hand Therapist \u2014 whom you can meet on our About page."
-  },
-  {
-   "q": "What is the Pain 2 Power podcast?",
-   "a": "Pain 2 Power is our podcast, hosted by founder Dr. Dave Kashuba with co-host Mike McGann, covering the world of physical rehab and wellness with some of the sharpest minds in medicine. New episodes air Saturdays at 8:30 AM on 100.3 Legends Radio, and you can listen to every episode right on our Podcast page or on Spotify."
-  },
-  {
-   "q": "What areas do you serve?",
-   "a": "From our North Palm Beach clinic we serve the greater Palm Beaches: North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach. We're centrally located at 733 US Highway 1, Suite 2A, right on US Highway 1."
-  },
-  {
-   "q": "Are you accepting new patients?",
-   "a": "Yes \u2014 we're welcoming new patients now. Call 561-624-4263 or request an appointment through this site, and our front desk will verify your insurance and get you scheduled promptly."
-  },
-  {
    "q": "What does a physical therapist actually do?",
    "a": "A physical therapist evaluates how your body moves \u2014 strength, mobility, balance, and mechanics \u2014 then treats the cause of pain and dysfunction with hands-on techniques, targeted exercise, and movement retraining. At First Rehabilitation that starts with a comprehensive one-on-one evaluation, and treatment usually begins the same day."
   },
@@ -400,7 +224,7 @@
   },
   {
    "q": "What conditions does physical therapy treat?",
-   "a": "Physical therapy at our clinic treats back and neck pain, sciatica, shoulder, hip, knee, foot, and ankle pain, arthritis, sports and overuse injuries, balance problems and fall risk, and recovery after surgery \u2014 including joint replacements and spine procedures. If you're not sure your condition fits, call 561-624-4263 and we'll give you an honest answer."
+   "a": "Physical therapy at our clinic treats back and neck pain, sciatica, shoulder, hip, knee, foot, and ankle pain, arthritis, sports and overuse injuries, balance problems and fall risk, headaches driven by the neck, and recovery after surgery \u2014 including joint replacements and spine procedures. If you're not sure your condition fits, call 561-624-4263 and we'll give you an honest answer."
   },
   {
    "q": "How is physical therapy different from a chiropractor?",
@@ -533,6 +357,154 @@
   {
    "q": "Why choose a certified hand therapy program over general PT for a hand injury?",
    "a": "Because the hand's margin for error is small: dozens of tendons, joints, and nerves work in tight quarters, and generic rehab can cost you motion or stress a repair. A Certified Hand Therapist is trained specifically in these structures and their healing timelines \u2014 it's why hand surgeons refer their patients to CHTs. At First Rehabilitation, that expertise comes from Laura Drumm, CHT, with custom in-clinic splinting and a full therapy team behind it."
+  },
+  {
+   "q": "What is the wellness and gym program at First Rehabilitation?",
+   "a": "Our wellness and gym program is an on-site fitness program inside our North Palm Beach clinic, built to keep you strong after formal therapy ends. It includes personal training, post-rehab exercise, group classes, senior functional fitness, and sports performance work \u2014 all guided by a team that knows your rehabilitation history."
+  },
+  {
+   "q": "Do I have to be a patient to join the wellness program?",
+   "a": "The program is designed first as a continuation for our therapy patients, so the team guiding your training already knows your history. If you haven't been a patient with us and you're interested in joining, call 561-624-4263 \u2014 our front desk will walk you through the options."
+  },
+  {
+   "q": "What's included in the wellness program?",
+   "a": "Personal training, post-rehab exercise programs, group classes, senior functional fitness, and sports performance training \u2014 all inside our clinic's on-site gym. Your program is built around your goals and, if you've done therapy with us, your rehab history."
+  },
+  {
+   "q": "Is the wellness program supervised?",
+   "a": "Yes \u2014 training is guided by the First Rehabilitation team in our on-site gym, not left to guesswork. That guidance is the whole point: form, progression, and safety are watched by people who understand how bodies recover and what yours has been through."
+  },
+  {
+   "q": "Who is the wellness program for?",
+   "a": "Every age and stage \u2014 from athletes working on performance to seniors focused on functional fitness and fall prevention. It's especially valuable if you've finished therapy and want to protect the progress you made."
+  },
+  {
+   "q": "How is this different from a regular gym?",
+   "a": "The difference is who's watching: your training is guided by a rehabilitation team that knows your injury history, your surgical repairs, and your limits \u2014 a regular gym doesn't. You get the equipment and the coaching, plus therapists down the hall if a question comes up."
+  },
+  {
+   "q": "How do I join the wellness program, and what does it cost?",
+   "a": "Call 561-624-4263 and our front desk will explain the current options and pricing and help you get started. We keep it simple \u2014 a conversation about your goals, then a program built for you."
+  },
+  {
+   "q": "Can I keep exercising at the clinic after I finish therapy?",
+   "a": "Yes \u2014 that's exactly what our wellness and gym program is for. When you're discharged from therapy, you can continue training on-site with guidance from the same team that guided your rehab, so the strength you rebuilt doesn't fade when the visits end."
+  },
+  {
+   "q": "What services does First Rehabilitation offer?",
+   "a": "We offer physical therapy, occupational therapy, certified hand therapy, and an exclusive on-site wellness and gym program \u2014 a complete continuum of care under one roof. Family-owned since 1991, we treat everything from back pain and post-surgical recovery to hand injuries, work injuries, and auto accident rehabilitation, then help you stay strong after discharge through our wellness program."
+  },
+  {
+   "q": "How do I schedule my first appointment?",
+   "a": "Call us at 561-624-4263, or request an appointment through the contact page or the chat assistant on this site \u2014 our front desk will follow up promptly to verify your insurance and find a time that works. We're open Monday through Friday, 8:00 AM to 5:30 PM, at 733 US Highway 1, Suite 2A in North Palm Beach."
+  },
+  {
+   "q": "What happens during the first evaluation?",
+   "a": "Your first visit is a comprehensive movement-based evaluation: an honest conversation about your history and goals, a hands-on assessment of strength, mobility, and movement patterns, and a proposed plan of care. Whenever appropriate, treatment begins that very first day \u2014 and you'll leave knowing what's going on, what the plan is, and what you can start doing at home."
+  },
+  {
+   "q": "What should I bring to my first visit?",
+   "a": "Bring a photo ID, your insurance card, and any paperwork from your physician \u2014 a referral or prescription, imaging reports, or post-surgical protocols. If your visit relates to a work or auto injury, bring your claim information too. Our front desk verifies coverage before you arrive, so billing questions never ambush you."
+  },
+  {
+   "q": "What should I wear to therapy?",
+   "a": "Comfortable clothing you can move in, plus supportive shoes like sneakers. For lower-body conditions, shorts or loose pants are ideal; for shoulder, arm, or hand conditions, wear a shirt that gives easy access to the area being treated."
+  },
+  {
+   "q": "How long are appointments?",
+   "a": "Plan on your initial evaluation running longer than a typical follow-up visit, since it includes your history, assessment, and plan of care. Exact visit length depends on your condition and treatment plan \u2014 when you schedule, our front desk will tell you how much time to set aside."
+  },
+  {
+   "q": "How many visits will I need?",
+   "a": "It genuinely varies \u2014 recovery depends on your condition, how long you've had it, your goals, and how your body responds. After your evaluation, your therapist will propose a plan with an expected visit frequency and honest milestones, then adjust it based on your actual progress rather than a cookie-cutter schedule."
+  },
+  {
+   "q": "Will I see the same therapist each visit?",
+   "a": "We're a small, family-owned team, and we prioritize continuity \u2014 building your recovery on a relationship with a therapist who knows your history is part of how we work. When more than one of our clinicians is involved in your care, it's a coordinated team approach, never an anonymous hand-off."
+  },
+  {
+   "q": "How soon will I feel results?",
+   "a": "Many patients notice meaningful change within the first few weeks, but the honest answer is that it varies with your condition, how long you've had it, and consistency with your home program. Your therapist will set realistic milestones at your evaluation and track your progress objectively, so you always know whether the plan is working."
+  },
+  {
+   "q": "What is a home exercise program, and do I have to do it?",
+   "a": "It's a short, targeted set of exercises your therapist designs for you to do between visits \u2014 and yes, it genuinely matters, because the work you do at home reinforces and accelerates everything we do in the clinic. We keep it realistic for your schedule and update it as you progress."
+  },
+  {
+   "q": "What insurance plans do you accept?",
+   "a": "We accept most major plans: Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay. Coverage details differ plan to plan, so call 561-624-4263 and our front desk will verify your specific benefits before your first visit."
+  },
+  {
+   "q": "Do you accept Medicare?",
+   "a": "Yes \u2014 we accept both Original Medicare and Medicare Advantage plans, and we've cared for Medicare patients since 1991. Medicare covers medically necessary outpatient physical and occupational therapy; our team handles the required physician plan-of-care paperwork with your doctor, and the front desk will explain your benefits before you start."
+  },
+  {
+   "q": "How much does therapy cost without insurance, and do you offer self-pay?",
+   "a": "Yes, we welcome self-pay patients. Rates depend on the type of care you need, so call 561-624-4263 for current self-pay pricing \u2014 our front desk will walk you through the cost up front so there are no surprises."
+  },
+  {
+   "q": "Will you verify my insurance benefits before I start?",
+   "a": "Yes, always. Before your first appointment our front desk verifies your coverage and explains what your plan pays for, whether you have a copay or deductible, and whether your plan needs a referral \u2014 so you know exactly where you stand before treatment begins."
+  },
+  {
+   "q": "What is a copay, and will I have one?",
+   "a": "A copay is a fixed amount your insurance plan asks you to pay at each visit \u2014 the amount is set by your plan, not by the clinic, and some plans have none for therapy. Whether you'll have one depends entirely on your specific coverage, which is exactly what our front desk checks when they verify your benefits \u2014 call 561-624-4263 and we'll tell you before your first visit."
+  },
+  {
+   "q": "Do you treat workers' compensation cases?",
+   "a": "Yes \u2014 we've handled workers' compensation rehabilitation for decades. Treatment is built around the physical demands of your actual job, and we provide the objective progress documentation your case requires while coordinating with your physician, adjuster, and case manager for a safe return to work."
+  },
+  {
+   "q": "Do you treat auto accident and personal injury cases?",
+   "a": "Yes. Even a minor collision can leave lasting pain, and symptoms often surface days later, so early evaluation matters. We provide comprehensive rehabilitation from whiplash to complex multi-area injuries, document your recovery objectively, and communicate with your physician and representatives as your claim requires."
+  },
+  {
+   "q": "Where are you located, and is there parking?",
+   "a": "We're at 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 \u2014 convenient to North Palm Beach, Palm Beach Gardens, Juno Beach, Jupiter, and West Palm Beach. Call 561-624-4263 before your first visit and our front desk will point you right to the door, including where to park."
+  },
+  {
+   "q": "What are your hours?",
+   "a": "We're open Monday through Friday from 8:00 AM to 5:30 PM, and closed on weekends. You can reach the front desk at 561-624-4263 during those hours, or send a request through this site anytime."
+  },
+  {
+   "q": "Do you offer weekend or evening appointments?",
+   "a": "Our hours are Monday through Friday, 8:00 AM to 5:30 PM, so we don't see patients on weekends. If those hours are tight for your schedule, call 561-624-4263 \u2014 our front desk will work with you to find the most workable time during the week."
+  },
+  {
+   "q": "What is your cancellation policy?",
+   "a": "If you can't make a visit, call us at 561-624-4263 as early as you can and we'll reschedule you \u2014 consistent attendance is one of the biggest drivers of a good outcome, so we'll always help you find another time. Our front desk will go over scheduling and cancellation details when you book your first appointment."
+  },
+  {
+   "q": "How do I access the patient portal?",
+   "a": "Click the Portal link in the menu at the top of this site \u2014 it takes you to our patient portal, powered by SPRY. If you have any trouble logging in, call the front desk at 561-624-4263 and we'll get you set up."
+  },
+  {
+   "q": "How do I ask about my home exercises between visits?",
+   "a": "Just call us at 561-624-4263 \u2014 the front desk will get your question to your therapist, so you're never stuck guessing between visits. Bring the question to your next appointment too, and your therapist will review your form in person."
+  },
+  {
+   "q": "How long has First Rehabilitation been in business?",
+   "a": "We've been serving the Palm Beaches since 1991 \u2014 more than three decades of family-owned, independent care under the same name and philosophy. Founder Dave Kashuba, Ph.D., an occupational therapist, has personally guided the care of more than 80,000 patients over his career."
+  },
+  {
+   "q": "Who owns and runs the clinic?",
+   "a": "First Rehabilitation is family-owned and operated, founded in 1991 by Dave Kashuba, Ph.D., a practicing occupational therapist. He leads a close-knit team of physical and occupational therapists \u2014 including Laura Drumm, CHT, our Certified Hand Therapist \u2014 whom you can meet on our About page."
+  },
+  {
+   "q": "What makes First Rehabilitation different from other clinics?",
+   "a": "We're family-owned and operated since 1991, with one-on-one, hands-on care, a 5.0-star Google rating, and a rare combination under one roof: physical therapy, occupational therapy, certified hand therapy, and a wellness gym to keep you strong after discharge. Our motto says it best \u2014 our people make the difference."
+  },
+  {
+   "q": "What is the Pain 2 Power podcast?",
+   "a": "Pain 2 Power is our podcast, hosted by founder Dr. Dave Kashuba with co-host Mike McGann, covering the world of physical rehab and wellness with some of the sharpest minds in medicine. New episodes air Saturdays at 8:30 AM on 100.3 Legends Radio \u2014 you can listen live at legendsradio.com \u2014 and every episode streams on Spotify or right on our Podcast page."
+  },
+  {
+   "q": "What areas do you serve?",
+   "a": "From our North Palm Beach clinic we serve the greater Palm Beaches: North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, and West Palm Beach. We're centrally located at 733 US Highway 1, Suite 2A, right on US Highway 1."
+  },
+  {
+   "q": "Are you accepting new patients?",
+   "a": "Yes \u2014 we're welcoming new patients now. Call 561-624-4263 or request an appointment through this site, and our front desk will verify your insurance and get you scheduled promptly."
   }
  ]
 }

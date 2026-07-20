@@ -106,6 +106,93 @@
   });
 })();
 
+// FAQ page: category bubbles + live search + expand/collapse.
+// Filtering only toggles visibility — every Q&A stays in the HTML for
+// crawlers and AI engines; the FAQPage schema always matches the source.
+(function () {
+  const bubbles = Array.from(document.querySelectorAll('.faq-bubble'));
+  if (!bubbles.length) return;
+  const items = Array.from(document.querySelectorAll('.faq-item[data-cat]'));
+  const sections = Array.from(document.querySelectorAll('[data-cat-section]'));
+  const live = document.getElementById('faq-live');
+  const search = document.getElementById('faq-search');
+  const empty = document.getElementById('faq-empty');
+  let cat = 'all';
+
+  function apply() {
+    const q = search ? search.value.trim().toLowerCase() : '';
+    let shown = 0;
+    const perCat = {};
+    items.forEach((d) => {
+      const matches = !q || d.textContent.toLowerCase().indexOf(q) > -1;
+      if (matches) perCat[d.dataset.cat] = (perCat[d.dataset.cat] || 0) + 1;
+      const show = matches && (cat === 'all' || d.dataset.cat === cat);
+      d.classList.toggle('faq-hidden', !show);
+      if (show) shown++;
+    });
+    sections.forEach((s) => {
+      const any = s.querySelector('.faq-item:not(.faq-hidden)');
+      s.classList.toggle('faq-hidden', !any);
+    });
+    bubbles.forEach((b) => {
+      const c = b.dataset.cat;
+      let n = 0;
+      if (c === 'all') { for (const k in perCat) n += perCat[k]; }
+      else n = perCat[c] || 0;
+      const el = b.querySelector('.fb-count');
+      if (el) el.textContent = '(' + n + ')';
+    });
+    if (empty) empty.classList.toggle('faq-hidden', shown > 0);
+    if (live) live.textContent = 'Showing ' + shown + ' question' + (shown === 1 ? '' : 's');
+  }
+
+  function activate(b) {
+    cat = b.dataset.cat;
+    bubbles.forEach((x) => {
+      const on = x === b;
+      x.classList.toggle('active', on);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (history.replaceState) {
+      history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat);
+    }
+    apply();
+  }
+
+  bubbles.forEach((b, i) => {
+    b.addEventListener('click', () => activate(b));
+    b.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const next = bubbles[(i + (e.key === 'ArrowRight' ? 1 : bubbles.length - 1)) % bubbles.length];
+        next.focus();
+      }
+    });
+  });
+
+  if (search) {
+    search.addEventListener('input', () => {
+      // searching spans every category, so snap the filter back to All
+      if (search.value && cat !== 'all') activate(bubbles[0]);
+      else apply();
+    });
+  }
+  const ex = document.getElementById('faq-expand');
+  const co = document.getElementById('faq-collapse');
+  if (ex) ex.addEventListener('click', () => items.forEach((d) => { if (!d.classList.contains('faq-hidden')) d.open = true; }));
+  if (co) co.addEventListener('click', () => items.forEach((d) => { d.open = false; }));
+
+  // Deep links: /faq.html#hand-therapy pre-selects that category —
+  // both on load and on later hash-only navigation.
+  function syncToHash(fallback) {
+    const hh = location.hash.replace('#', '');
+    const t = bubbles.filter((b) => b.dataset.cat === hh)[0];
+    if (t) activate(t); else if (fallback) apply();
+  }
+  window.addEventListener('hashchange', () => syncToHash(false));
+  syncToHash(true);
+})();
+
 // Body map: tap-to-learn panel
 (function () {
   const panel = document.getElementById('bm-panel');

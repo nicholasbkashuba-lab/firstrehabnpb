@@ -105,7 +105,7 @@
   var chipsEl = null;
 
   var TOPICS = ['Physical Therapy', 'Occupational Therapy', 'Hand Therapy', 'Wellness & Gym', 'Not sure yet'];
-  var INSURERS = ['Medicare', 'Blue Cross', 'Aetna', 'Humana', 'Self-pay', 'Skip'];
+  var INSURERS = ['Medicare', 'Medicare Advantage', 'Blue Cross Blue Shield', 'Aetna', 'Humana', 'Tricare', 'VA Community Care (VACCN)', 'Workers’ Comp', 'Self-pay', 'Skip'];
 
   var STEPS = {
     intent: {
