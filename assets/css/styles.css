@@ -478,6 +478,25 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .footer-base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.8rem; font-size: 0.82rem; color: rgba(246,241,231,0.5); position: relative; z-index: 1; }
 .footer-base a { font-size: 0.82rem; }
 
+/* ---------- Careers ---------- */
+.job-list { display: grid; gap: 1.1rem; max-width: 880px; margin: 0 auto; }
+.job { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+.job summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1rem; padding: 1.4rem 3.2rem 1.4rem 1.7rem; position: relative; }
+.job summary::-webkit-details-marker { display: none; }
+.job summary::after { content: "+"; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-size: 1.7rem; color: var(--coral-text); transition: transform 0.25s ease; }
+.job[open] summary::after { content: "–"; }
+.job summary:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; border-radius: var(--radius-lg); }
+.job .job-title { font-family: var(--font-display); font-weight: 700; font-size: 1.22rem; color: var(--ink); }
+.job .job-meta { font-size: 0.85rem; color: var(--muted); }
+.job .job-body { padding: 0 1.7rem 1.6rem; border-top: 1px solid var(--line); }
+.job .job-body > p:first-child { padding-top: 1.2rem; }
+.job .job-body h4 { font-family: var(--font-body); font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral-text); margin: 1.2rem 0 0.5rem; }
+.job .job-body ul { margin: 0; padding-left: 1.2rem; }
+.job .job-body li { margin: 0.35rem 0; }
+.job .job-loc { margin-top: 1.1rem; font-size: 0.88rem; color: var(--muted); }
+.job .job-actions { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.cf-extra { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
 /* ---------- Reveal choreography ---------- */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.85s cubic-bezier(.2,.8,.2,1), transform 0.85s cubic-bezier(.2,.8,.2,1); }
 .reveal.in { opacity: 1; transform: none; }
