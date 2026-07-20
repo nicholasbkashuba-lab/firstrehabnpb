@@ -501,7 +501,7 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .job summary::after { content: "+"; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-family: var(--font-display); font-size: 1.7rem; color: var(--coral-text); transition: transform 0.25s ease; }
 .job[open] summary::after { content: "–"; }
 .job summary:focus-visible { outline: 3px solid var(--coral-text); outline-offset: -3px; border-radius: var(--radius-lg); }
-.job .job-title { font-family: var(--font-display); font-weight: 700; font-size: 1.22rem; color: var(--ink); }
+.job .job-title { font-family: var(--font-display); font-weight: 800; font-size: 1.28rem; color: var(--ink-deep); }
 .job .job-meta { font-size: 0.85rem; color: var(--muted); }
 .job .job-body { padding: 0 1.7rem 1.6rem; border-top: 1px solid var(--line); }
 .job .job-body > p:first-child { padding-top: 1.2rem; }
@@ -755,3 +755,10 @@ a.tb-item:hover { color: var(--gold); }
 .pod-facade .pf-play { flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%; background: var(--gold); color: var(--ink-deep); display: grid; place-items: center; font-size: 1.05rem; }
 .pod-facade .pf-label { font-weight: 600; font-size: 0.95rem; }
 .pod-facade .pf-sub { display: block; font-weight: 400; font-size: 0.78rem; color: rgba(246,241,231,0.75); margin-top: 0.2rem; }
+
+/* Mobile: job title on its own bold line, meta beneath */
+@media (max-width: 640px) {
+  .job summary { flex-direction: column; align-items: flex-start; gap: 0.35rem; padding-right: 3rem; }
+  .job .job-title { font-size: 1.22rem; line-height: 1.25; }
+  .job .job-meta { font-size: 0.82rem; }
+}

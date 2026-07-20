@@ -19,6 +19,18 @@ MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm
 
 # ----------------------------------------------------------------------------
 
+
+import hashlib as _hashlib
+def _v(path):
+    """Short content hash for cache-busting static assets (?v=)."""
+    with open(path, "rb") as f:
+        return _hashlib.sha256(f.read()).hexdigest()[:8]
+ASSET_V = {}
+def asset_v(path):
+    if path not in ASSET_V:
+        ASSET_V[path] = _v(path)
+    return ASSET_V[path]
+
 def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema=""):
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
@@ -54,8 +66,8 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <link rel="manifest" href="{p}site.webmanifest">
 <link rel="preload" as="font" type="font/woff2" href="{p}assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{p}assets/fonts/inter-latin-400-normal.woff2" crossorigin>
-<link rel="stylesheet" href="{p}assets/css/styles.css">
-<link rel="stylesheet" href="{p}assets/css/intake.css">
+<link rel="stylesheet" href="{p}assets/css/styles.css?v={asset_v('assets/css/styles.css')}">
+<link rel="stylesheet" href="{p}assets/css/intake.css?v={asset_v('assets/css/intake.css')}">
 <script type="application/ld+json">{{
   "@context": "https://schema.org",
   "@type": ["MedicalClinic", "MedicalBusiness"],
@@ -237,8 +249,8 @@ def footer(depth=0):
     </div>
   </div>
 </footer>
-<script src="{p}assets/js/main.js"></script>
-<script src="{p}assets/js/intake.js" defer></script>
+<script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
+<script src="{p}assets/js/intake.js?v={asset_v('assets/js/intake.js')}" defer></script>
 </body>
 </html>
 """
@@ -2149,7 +2161,7 @@ def build_careers():
 </section>
 {cta_band(0, heading='Do work that <em>actually matters.</em>', sub="Every day here ends with people moving better than they arrived. Come be part of that.")}
 </main>
-<script src="assets/js/careers.js" defer></script>
+<script src="assets/js/careers.js?v={asset_v('assets/js/careers.js')}" defer></script>
 """
 
     org = {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach",
