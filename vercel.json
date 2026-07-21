@@ -183,6 +183,41 @@
       "source": "/:a([Pp][Oo][Ss][Tt])/:slug*",
       "destination": "/blog",
       "statusCode": 301
+    },
+    {
+      "source": "/:p([Rr][Ee][Qq][Uu][Ee][Ss][Tt]-[Aa][Pp][Pp][Oo][Ii][Nn][Tt][Mm][Ee][Nn][Tt])",
+      "destination": "/contact.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Aa][Bb][Oo][Uu][Tt]-5)",
+      "destination": "/about.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Hh][Ee][Aa][Dd][Aa][Cc][Hh][Ee])",
+      "destination": "/treatments/headache-relief.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ww][Oo][Rr][Kk]-[Ii][Nn][Jj][Uu][Rr][Ii][Ee][Ss])",
+      "destination": "/treatments/workers-comp.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ss][Hh][Oo][Uu][Ll][Dd][Ee][Rr]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/shoulder-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Hh][Aa][Nn][Dd]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/hand-wrist.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Gg][Ee][Nn][Ee][Rr][Aa][Ll]-7)",
+      "destination": "/",
+      "statusCode": 301
     }
   ]
 }
