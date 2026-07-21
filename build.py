@@ -517,6 +517,9 @@ def build_home():
       data-mp4-mobile="assets/media/lighthouse-mobile.mp4?v=10"
       data-webm-mobile="assets/media/lighthouse-mobile.webm?v=10"></video>
     <button class="hero-pause" type="button" aria-label="Pause background video" aria-pressed="false">&#10073;&#10073;</button>
+    <a class="hero-credit" href="https://pelicanpix.com" target="_blank" rel="noopener"
+       aria-label="Aerial video by Pelican Pix Real Estate Photography"
+       title="Aerial video by Pelican Pix Real Estate Photography">Pelican&nbsp;Pix</a>
   </div>
   <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
