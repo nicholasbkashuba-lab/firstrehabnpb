@@ -12,7 +12,7 @@ FAX = "561-840-4234"
 EMAIL = "firstrehabnpb@gmail.com"
 PORTAL = "https://firstrehabilitationinc.patient.sprypt.com/clinics"
 SPOTIFY = "https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"
-INSTAGRAM = "https://www.instagram.com/firstrehabnpb/"
+INSTAGRAM = "https://www.instagram.com/firstrehabnpb"
 FACEBOOK = "https://www.facebook.com/FirstRehabNPB/"
 LINKEDIN = "https://www.linkedin.com/company/firstrehabnpb"
 MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed"
@@ -114,7 +114,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     "dayOfWeek": ["Saturday"],
     "opens": "08:00", "closes": "12:30"
   }}],
-  "sameAs": ["https://www.instagram.com/firstrehabnpb/","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu","https://maps.google.com/?cid=3809434844265673488"]
+  "sameAs": ["https://www.instagram.com/firstrehabnpb","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu","https://maps.google.com/?cid=3809434844265673488"]
 }}</script>
 {extra_schema}</head>
 <body>
