@@ -200,17 +200,19 @@ secrets to tmp branches; view-only Dropbox share links are acceptable, temporary
   registrar: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com. Then submit
   sitemap.xml in Google Search Console and update the Google Business Profile link.
 - Click the FormSubmit activation email on the first real lead (check spam).
-- Send Google Business Profile share URL → add to sameAs in the org schema.
+- ~~Send Google Business Profile share URL → add to sameAs~~ DONE — GBP already in the org
+  schema via its canonical CID link (maps.google.com/?cid=3809434844265673488); owner's
+  share.google link resolves to the same listing. No further action.
 - Cross-check the GSC top-pages export against vercel.json redirects when provided.
 - Homepage gallery photos (Dave + guest; team with Celsius) never arrived as files —
   re-request as attachments, then add as assets/social/post-8.jpg, post-9.jpg (extend
   the gallery loop range in build.py if needed).
 - Wellness FAQ answers flagged for owner confirmation: non-patient gym membership,
   pricing, cancellation policy, parking specifics, same-therapist continuity.
-- ~~Vercel Pro~~ DONE 2026-07-20. Still: delete old shim projects (firstrehab-site,
-  firstrehabnpb, firstrehab, firstrehab-live). Recommended: turn OFF preview Deployment
-  Protection (firstrehabnpb-zywd → Settings → Deployment Protection → Vercel
-  Authentication) so preview links are shareable — Nick agreed but toggle unconfirmed.
+- ~~Vercel Pro~~ DONE 2026-07-20. ~~Turn OFF preview Deployment Protection so preview links
+  are shareable~~ DONE 2026-07-21 (owner disabled Vercel Authentication — preview URLs now
+  load without a login). Still: delete old shim projects (firstrehab-site, firstrehabnpb,
+  firstrehab, firstrehab-live).
 
 ## Careers & applications
 /careers.html driven by OPEN_POSITIONS in build.py (currently COTA only; empty list =
