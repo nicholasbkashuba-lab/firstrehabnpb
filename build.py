@@ -455,9 +455,9 @@ def build_home():
     )
 
     social_cards = "".join(
-        f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — clinic photo {i}">
+        f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
           <img src="assets/social/post-{i}.jpg" alt="" loading="lazy" onerror="this.closest('.sm-card').classList.add('empty')">
-        </a>''' for i in range(1, 9)
+        </a>''' for i in range(1, 11)
         if os.path.exists(os.path.join(ROOT, f"assets/social/post-{i}.jpg"))
     )
 
