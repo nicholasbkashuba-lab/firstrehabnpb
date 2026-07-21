@@ -281,10 +281,10 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .pathway:hover { background: linear-gradient(90deg, transparent, rgba(233,196,106,0.07), transparent); }
 .pathway .pw-num {
   font-family: var(--font-display); font-style: italic; font-weight: 500;
-  font-size: clamp(2.6rem, 5vw, 4.2rem); color: transparent; -webkit-text-stroke: 1.3px var(--gold);
+  font-size: clamp(2.6rem, 5vw, 4.2rem); color: transparent; -webkit-text-stroke: 1.5px #A07514;
   transition: color 0.35s ease; line-height: 1;
 }
-.pathway:hover .pw-num { color: var(--gold); }
+.pathway:hover .pw-num { color: #A07514; }
 .pathway h3 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin-bottom: 0.35rem; transition: color 0.3s ease; }
 .pathway:hover h3 { color: var(--coral-text); }
 .pathway .pw-kicker { font-family: var(--font-display); font-style: italic; color: var(--coral-text); font-size: 1.05rem; }
