@@ -88,6 +88,12 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   "priceRange": "$$",
   "slogan": "Our People Make the Difference",
   "medicalSpecialty": ["PhysicalTherapy", "OccupationalTherapy"],
+  "availableService": [
+    {{"@type": "MedicalTherapy", "@id": "https://www.firstrehabnpb.com/services/physical-therapy.html#therapy", "name": "Physical Therapy"}},
+    {{"@type": "MedicalTherapy", "@id": "https://www.firstrehabnpb.com/services/occupational-therapy.html#therapy", "name": "Occupational Therapy"}},
+    {{"@type": "MedicalTherapy", "@id": "https://www.firstrehabnpb.com/services/hand-therapy.html#therapy", "name": "Certified Hand Therapy"}},
+    {{"@type": "MedicalTherapy", "@id": "https://www.firstrehabnpb.com/services/wellness.html#therapy", "name": "Wellness & Gym"}}
+  ],
   "address": {{
     "@type": "PostalAddress",
     "streetAddress": "733 US Highway 1, Suite 2A",
