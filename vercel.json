@@ -40,6 +40,16 @@
   ],
   "redirects": [
     {
+      "source": "/reviews",
+      "destination": "https://search.google.com/local/writereview?placeid=ChIJ3fEUAhCmsYkREHNzv87U3TQ",
+      "statusCode": 302
+    },
+    {
+      "source": "/review",
+      "destination": "https://search.google.com/local/writereview?placeid=ChIJ3fEUAhCmsYkREHNzv87U3TQ",
+      "statusCode": 302
+    },
+    {
       "source": "/:p([Bb][Ll][Aa][Nn][Kk])",
       "destination": "/treatments/post-surgical.html",
       "statusCode": 301
