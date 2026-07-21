@@ -1933,6 +1933,32 @@ BLOG_POSTS = {
 <p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>
 """,
     },
+    "headaches-that-start-in-the-neck": {
+        "title": "The Headache That Starts in Your Neck",
+        "date": "July 2026",
+        "iso": "2026-07-21",
+        "tag": "Headaches &amp; Neck",
+        "teaser": "Many stubborn, recurring headaches really start in the neck. Learn the signs, how physical therapy treats the driver, and when a headache needs a doctor first.",
+        "body": """
+<p>You know the headache before it fully arrives — the dull ache that creeps up from the base of your skull or settles behind one eye by mid-afternoon, then digs in for the rest of the day. You take something, it dulls the edge for a few hours, and by tomorrow the whole cycle starts over, which is exhausting when the pills only ever seem to mask the problem instead of ending it. Here is the idea that surprises a lot of people: for many stubborn, recurring headaches, the real source is not the head at all. It is the neck.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>What "the neck as a headache source" actually means</h2>
+<p>The upper part of your neck and the base of your skull share a crowded, sensitive neighborhood of joints, muscles, and nerves. When the small joints at the very top of the spine get stiff, or the muscles that run from your shoulders up into the back of your head stay tight and overworked, the pain they produce does not always stay put. It can be felt as head pain — across the forehead, around one eye, or wrapping the back of the skull. That is what clinicians mean by referred pain: the trouble is in the neck, but you feel it up top.</p>
+<p>Two common patterns fit this picture. A <strong>cervicogenic headache</strong> is one driven directly by the neck's joints and tissues, often felt on one side and often paired with a stiff, cranky neck. A <strong>tension-type headache</strong> tends to feel like a band of pressure around the head, and it frequently rides along with the same tight muscles and locked-up posture. In real life the two blur together, and the everyday cause is usually the same: sustained position. Hours on a phone, a workday hunched toward a screen, a long drive with your head pushed forward — each one asks the upper neck to hold a load it was never built to hold all day. The joints stiffen, the muscles guard, and the head pain follows.</p>
+<h2>Signs your headache might be neck-driven</h2>
+<p>No article can diagnose you, and these patterns are not a checklist to self-label with. They are simply clues worth having evaluated by a professional. A headache is more likely to have a neck component when it tends to start at the base of the skull or on one side rather than deep in the center of the head. It often builds through the day rather than hitting all at once, and it tends to get worse after a long stretch at a desk or after a drive.</p>
+<p>Another telling pattern is what changes it. Neck-driven headaches frequently ease when you change position or stand up and move, and they flare again when you settle back into the same posture. They often travel with a companion, too — tightness or soreness through the neck and shoulders that you had stopped noticing. If several of these sound familiar, that is a reason to get looked at, not a reason to reach for a diagnosis on your own.</p>
+<h2>What physical therapy actually does about it</h2>
+<p>The point of therapy here is to treat the driver, not just quiet the symptom. It usually starts with skilled hands-on work: a therapist assesses the specific joints of the upper neck, finds the stiff or irritable ones, and uses gentle manual techniques to restore how they move, while releasing the muscles that have been guarding around them. That alone can take pressure off the structures that refer pain into the head.</p>
+<p>More durable relief usually depends on the next step — addressing the reasons the tension keeps rebuilding. That means working on the posture and the strength gaps that let your head drift forward and your neck do all the work: waking up the deep muscles that support the neck, opening the mid-back and shoulders, and adjusting how you sit, drive, and hold your phone. You also leave with simple daily strategies to use between visits, small habits that keep the gains from slipping. You can read more about how we approach this on our <a href="../treatments/headache-relief.html">headache relief page</a>, and because the neck is so often the engine of the problem, the same care overlaps closely with how we treat <a href="../treatments/neck-pain.html">neck pain</a>. Both live under our broader <a href="../services/physical-therapy.html">physical therapy</a> services.</p>
+<h2>When a headache needs a doctor first</h2>
+<p>Physical therapy is a strong option for headaches that come from the neck — but not every headache belongs in that category, and some need medical care right away. A sudden, severe headache that feels like the worst of your life is an emergency and calls for urgent evaluation, not a therapy appointment. So does a headache that arrives with fever, confusion, vision loss, weakness, numbness, or trouble speaking, or one that follows a significant blow to the head.</p>
+<p>If a headache is new, changing in a way that worries you, or simply different from your usual pattern, the responsible first move is to be checked by a physician. Getting the serious causes ruled out is not a detour — it is what makes it safe to then treat the mechanical, neck-driven piece with confidence.</p>
+<h2>Let's find out what's really behind yours</h2>
+<p>If your headaches keep circling back and the medicine only ever buys you a few hours, it is worth learning whether your neck is part of the story. A thorough evaluation can tell us what is driving your pain and whether hands-on care, posture work, and a simple home plan are likely to help. Our family has cared for this community since 1991, and our people make the difference. Call First Rehabilitation of North Palm Beach at <strong>561-624-4263</strong> to book an evaluation, or <a href="../contact.html">request an appointment online</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>
+""",
+    },
 }
 
 def build_blog():
@@ -1993,6 +2019,7 @@ def build_blog():
             "five-morning-habits-back-pain": "Five Morning Habits That Ease Back Pain",
             "why-hand-therapy-is-different": "Why Hand Therapy Is Its Own Specialty",
             "knee-arthritis-before-surgery": "Knee Pain: What to Try Before Surgery",
+            "headaches-that-start-in-the-neck": "Headache Treatment in North Palm Beach: The Neck Link",
         }
         iso_date = p.get("iso") or _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
         post_schema = '<script type="application/ld+json">' + _json.dumps({
