@@ -251,6 +251,9 @@ def footer(depth=0):
 </footer>
 <script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
 <script src="{p}assets/js/intake.js?v={asset_v('assets/js/intake.js')}" defer></script>
+<!-- Vercel Web Analytics (static-site tag; privacy-friendly, cookieless — no banner needed) -->
+<script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments);}};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
 """
