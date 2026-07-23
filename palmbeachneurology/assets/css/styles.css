@@ -829,9 +829,10 @@ a.tb-item:hover { color: var(--gold); }
   color: var(--ink); opacity: 0.28; letter-spacing: 0.04em; }
 .team-photo.empty::after { background: radial-gradient(120% 90% at 78% 14%, rgba(46,156,142,0.16), transparent 55%); }
 
-/* Footer "Areas We Serve" as a tidy two-column list */
-.f-areas { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 1rem; }
-.f-areas li { font-size: 0.9rem; }
+/* Footer "Areas We Serve" — tidy wrapping chips (no awkward mid-name breaks) */
+.f-areas { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.1rem; }
+.f-areas li { font-size: 0.78rem; white-space: nowrap; padding: 0.32rem 0.75rem; line-height: 1;
+  border: 1px solid rgba(246,241,231,0.2); border-radius: 999px; color: rgba(246,241,231,0.82); }
 
 /* Interactive brain / nervous-system map strokes (on dark section) */
 .bm-fissure { fill: none; stroke: rgba(243,236,220,0.42); stroke-width: 1.4; stroke-linecap: round; }
@@ -863,3 +864,26 @@ a.tb-item:hover { color: var(--gold); }
    (3 on top, 2 centered below) instead of leaving a lopsided empty cell. */
 .svc-feature-grid.pillars { display: flex; flex-wrap: wrap; justify-content: center; }
 .svc-feature-grid.pillars .svc-feature { flex: 1 1 320px; max-width: 384px; }
+
+/* Hero neural signals — bright pulses travel along the synapse edges (JS-driven) */
+.hero-spark { fill: rgba(180,240,226,0.95); }
+@media (prefers-reduced-motion: reduce) { .hero-spark { display: none; } }
+
+/* ---------- Electronic new-patient intake form ---------- */
+.np-form { max-width: 860px; margin: 0 auto; }
+.np-section { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 1.8rem 1.9rem; margin-bottom: 1.3rem; box-shadow: var(--shadow-card); }
+.np-section > h3 { display: flex; align-items: baseline; gap: 0.6rem; font-size: 1.15rem; margin-bottom: 1.2rem;
+  padding-bottom: 0.7rem; border-bottom: 2px solid var(--gold); }
+.np-section > h3 .np-num { font-family: var(--font-display); font-style: italic; color: var(--coral-text); font-size: 1.1rem; }
+.np-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.1rem; }
+.np-grid .af-field.full { grid-column: 1 / -1; }
+@media (max-width: 620px) { .np-grid { grid-template-columns: 1fr; } }
+.np-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.55rem 1rem; }
+.np-check { display: flex; align-items: center; gap: 0.55rem; font-size: 0.92rem; color: var(--text); cursor: pointer; }
+.np-check input { width: 17px; height: 17px; accent-color: var(--coral); flex-shrink: 0; }
+.np-privacy { background: var(--cream); border: 1px solid var(--line-gold); border-radius: var(--radius);
+  padding: 1rem 1.2rem; font-size: 0.86rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.6rem; }
+.np-consent { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.92rem; color: var(--text);
+  cursor: pointer; margin-bottom: 1.2rem; }
+.np-consent input { width: 18px; height: 18px; accent-color: var(--coral); margin-top: 0.15rem; flex-shrink: 0; }

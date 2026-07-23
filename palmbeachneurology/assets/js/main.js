@@ -317,34 +317,68 @@
     });
   });
 
-// Appointment request form — validates, delivers via FormSubmit AJAX to the
-// practice inbox (data-endpoint), then shows the thank-you state. The front
-// desk phone number is always shown as a fallback if delivery fails.
+// Email-delivered forms — any <form data-endpoint="…"> (appointment request AND
+// the electronic new-patient intake) validates with native HTML constraints,
+// posts to its FormSubmit endpoint, then reveals its data-done panel. The front
+// desk phone is always shown as a fallback if delivery fails.
 (function () {
-  const form = document.getElementById('appt-form');
-  if (!form) return;
-  const errEl = document.getElementById('af-error');
-  const doneEl = document.getElementById('af-done');
-  const endpoint = form.dataset.endpoint;
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const val = (n) => (form.elements[n] && form.elements[n].value || '').trim();
-    if (!val('name') || !val('phone') || !val('reason')) {
-      if (errEl) { errEl.textContent = 'Please add your name, phone, and reason for visit.'; errEl.style.display = 'block'; }
-      return;
-    }
-    if (errEl) errEl.style.display = 'none';
-    const btn = form.querySelector('button[type="submit"]');
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-    try {
-      if (endpoint) {
+  document.querySelectorAll('form[data-endpoint]').forEach((form) => {
+    const errEl = form.querySelector('.af-error');
+    const doneEl = form.dataset.done ? document.getElementById(form.dataset.done) : null;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (errEl) errEl.style.display = 'none';
+      const btn = form.querySelector('button[type="submit"]');
+      const label = btn && btn.textContent;
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      let ok = true;
+      try {
         const data = new FormData(form);
-        data.append('_subject', 'New appointment request — Palm Beach Neurology');
+        data.append('_subject', form.dataset.subject || 'New submission — Palm Beach Neurology');
         data.append('_template', 'table');
-        await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        await fetch(form.dataset.endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      } catch (_) { ok = false; }
+      if (doneEl) {
+        form.hidden = true;
+        doneEl.hidden = false;
+        doneEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (btn) {
+        btn.textContent = ok ? 'Sent — thank you!' : label;
+        btn.disabled = false;
       }
-    } catch (_) { /* front desk phone is shown either way */ }
-    form.hidden = true;
-    if (doneEl) doneEl.hidden = false;
+    });
   });
+})();
+
+// Hero neural signals — bright pulses fire along the synapse edges, so the hero
+// feels alive without any image or video asset. Reduced-motion users see none.
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const net = document.querySelector('.hero .neuro-net');
+  if (!net) return;
+  const lines = Array.from(net.querySelectorAll('line'));
+  if (!lines.length) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const fire = () => {
+    const ln = lines[Math.floor(Math.random() * lines.length)];
+    const x1 = +ln.getAttribute('x1'), y1 = +ln.getAttribute('y1');
+    const x2 = +ln.getAttribute('x2'), y2 = +ln.getAttribute('y2');
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('r', '3.2');
+    c.setAttribute('class', 'hero-spark');
+    net.appendChild(c);
+    const dur = 850 + Math.random() * 900;
+    let start = null;
+    const step = (t) => {
+      if (!start) start = t;
+      const p = Math.min((t - start) / dur, 1);
+      c.setAttribute('cx', String(x1 + (x2 - x1) * p));
+      c.setAttribute('cy', String(y1 + (y2 - y1) * p));
+      c.setAttribute('opacity', String(Math.sin(p * Math.PI)));
+      if (p < 1) requestAnimationFrame(step); else c.remove();
+    };
+    requestAnimationFrame(step);
+  };
+  setInterval(() => { fire(); if (Math.random() > 0.45) setTimeout(fire, 260); }, 1050);
 })();

@@ -183,6 +183,7 @@ def nav(depth=0, solid=False):
         <a class="nav-item" href="{p}appointments.html">Patients</a>
         <div class="dropdown">
           <a href="{p}appointments.html">Appointments</a>
+          <a href="{p}new-patient-form.html">New Patient Form</a>
           <a href="{p}patient-center.html">Patient Center &amp; Forms</a>
           <a href="{p}faq.html">FAQ</a>
         </div>
@@ -1009,7 +1010,7 @@ def build_appointments():
     <div class="appt-form-card reveal">
       <h2 class="h3-size">Request an Appointment</h2>
       <p class="af-sub">Tell us a little about what you need and our front desk will call you back to confirm.</p>
-      <form class="appt-form" id="appt-form" data-endpoint="https://formsubmit.co/ajax/{EMAIL}" novalidate>
+      <form class="appt-form" id="appt-form" data-endpoint="https://formsubmit.co/ajax/{EMAIL}" data-done="af-done" data-subject="New appointment request — Palm Beach Neurology" novalidate>
         <div class="af-field">
           <label for="af-name">Full name *</label>
           <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
@@ -1541,10 +1542,13 @@ def build_patient_center():
       <h2>What to bring</h2>
       <ul class="check-list">{bring_html}</ul>
       <h2>New patient paperwork</h2>
-      <p>To help your visit go smoothly, you can complete your new-patient paperwork before you arrive —
-      it saves time in the waiting room. If you have questions about any of the forms, call our office
-      at {PHONE}.</p>
-      <p><a class="btn btn-coral" href="{FORMS_PDF}" download>Download New Patient Paperwork (PDF)</a></p>
+      <p>To help your visit go smoothly, complete your new-patient intake before you arrive — it saves
+      time in the waiting room. Fill it out online, or download the PDF packet. Questions about any of
+      the forms? Call our office at {PHONE}.</p>
+      <p style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <a class="btn btn-coral" href="new-patient-form.html">Complete Online Intake <span class="arr">&rarr;</span></a>
+        <a class="btn btn-ink" href="{FORMS_PDF}" download>Download PDF Packet</a>
+      </p>
     </div>
     <aside class="side-card reveal d2">
       <h3>Patient Portal</h3>
@@ -1574,6 +1578,145 @@ def build_patient_center():
           + nav(0) + body + footer(0))
 
 # ============================================================================
+# ELECTRONIC NEW-PATIENT INTAKE FORM
+# ============================================================================
+def build_new_patient_form():
+    hx = ["High blood pressure", "Diabetes", "High cholesterol", "Stroke or TIA", "Seizures / epilepsy",
+          "Migraines / headaches", "Thyroid disease", "Heart disease", "Cancer", "Depression / anxiety",
+          "Sleep disorder", "Head injury / concussion", "Parkinson's", "Multiple sclerosis"]
+    sx = ["Headaches", "Memory changes", "Dizziness / vertigo", "Numbness or tingling", "Weakness",
+          "Seizures", "Tremor", "Trouble walking / balance", "Vision changes", "Sleep problems",
+          "Neck or back pain", "Speech difficulty"]
+    hx_html = "".join(
+        f'<label class="np-check"><input type="checkbox" name="History: {html.escape(_plain(h))}" value="Yes"> {h}</label>'
+        for h in hx)
+    sx_html = "".join(
+        f'<label class="np-check"><input type="checkbox" name="Symptom: {html.escape(_plain(s))}" value="Yes"> {s}</label>'
+        for s in sx)
+    body = f"""
+<main>
+{page_hero("New Patient Intake", "New Patient <em class='accent'>Form</em>",
+  "Complete your intake online before your visit — it saves time in the waiting room and helps your "
+  "neurologist prepare. Prefer paper? You can download the packet instead.",
+  '<div class="crumbs"><a href="index.html">Home</a> / <a href="patient-center.html">Patient Center</a> / New Patient Form</div>')}
+<section class="section">
+  <div class="wrap">
+    <form class="np-form appt-form" id="np-form"
+          data-endpoint="https://formsubmit.co/ajax/{EMAIL}"
+          data-done="np-done"
+          data-subject="New Patient Intake — Palm Beach Neurology" novalidate>
+      <div class="np-privacy">
+        <strong>Before you begin:</strong> please share only what you're comfortable submitting online.
+        This form is emailed securely to our office to help prepare for your visit — you can always finish
+        any details in person. <strong>Do not use this form for a medical emergency — call 911.</strong>
+        Questions? Call us at {PHONE}. Prefer paper? <a href="{FORMS_PDF}" download>Download the PDF packet</a>.
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">01</span> Patient Information</h3>
+        <div class="np-grid">
+          <div class="af-field"><label for="np-first">First name *</label><input id="np-first" name="First name" type="text" required maxlength="80"></div>
+          <div class="af-field"><label for="np-last">Last name *</label><input id="np-last" name="Last name" type="text" required maxlength="80"></div>
+          <div class="af-field"><label for="np-dob">Date of birth *</label><input id="np-dob" name="Date of birth" type="date" required></div>
+          <div class="af-field"><label for="np-sex">Sex</label><select id="np-sex" name="Sex"><option value="">Select…</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select></div>
+          <div class="af-field full"><label for="np-addr">Street address</label><input id="np-addr" name="Address" type="text" autocomplete="street-address" maxlength="160"></div>
+          <div class="af-field"><label for="np-city">City</label><input id="np-city" name="City" type="text" maxlength="80"></div>
+          <div class="af-field"><label for="np-zip">State / ZIP</label><input id="np-zip" name="State and ZIP" type="text" maxlength="40"></div>
+          <div class="af-field"><label for="np-phone">Cell phone *</label><input id="np-phone" name="Cell phone" type="tel" required autocomplete="tel" maxlength="40" placeholder="561-555-1234"></div>
+          <div class="af-field"><label for="np-email">Email *</label><input id="np-email" name="Email" type="email" required autocomplete="email" maxlength="160"></div>
+        </div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">02</span> Emergency Contact</h3>
+        <div class="np-grid">
+          <div class="af-field"><label for="np-ec">Name</label><input id="np-ec" name="Emergency contact name" type="text" maxlength="120"></div>
+          <div class="af-field"><label for="np-ecr">Relationship</label><input id="np-ecr" name="Emergency contact relationship" type="text" maxlength="80"></div>
+          <div class="af-field full"><label for="np-ecp">Phone</label><input id="np-ecp" name="Emergency contact phone" type="tel" maxlength="40"></div>
+        </div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">03</span> Insurance</h3>
+        <div class="np-grid">
+          <div class="af-field"><label for="np-ins">Insurance carrier</label><input id="np-ins" name="Insurance carrier" type="text" maxlength="120"></div>
+          <div class="af-field"><label for="np-mem">Member ID</label><input id="np-mem" name="Member ID" type="text" maxlength="80"></div>
+          <div class="af-field"><label for="np-grp">Group number</label><input id="np-grp" name="Group number" type="text" maxlength="80"></div>
+          <div class="af-field"><label for="np-holder">Policy holder (if not you)</label><input id="np-holder" name="Policy holder" type="text" maxlength="120"></div>
+        </div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">04</span> Physicians &amp; Pharmacy</h3>
+        <div class="np-grid">
+          <div class="af-field"><label for="np-ref">Referring / primary care physician</label><input id="np-ref" name="Referring physician" type="text" maxlength="120"></div>
+          <div class="af-field"><label for="np-refp">Physician phone</label><input id="np-refp" name="Referring physician phone" type="tel" maxlength="40"></div>
+          <div class="af-field full"><label for="np-rx">Preferred pharmacy (name &amp; location)</label><input id="np-rx" name="Pharmacy" type="text" maxlength="160"></div>
+        </div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">05</span> Reason for Visit</h3>
+        <div class="af-field"><label for="np-reason">What brings you in? *</label><textarea id="np-reason" name="Reason for visit" required maxlength="1500" placeholder="Describe your main concern and when it started…"></textarea></div>
+        <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);margin:0.6rem 0 0.7rem;">Symptoms you're experiencing</label>
+        <div class="np-checks">{sx_html}</div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">06</span> Medications &amp; Allergies</h3>
+        <div class="af-field"><label for="np-meds">Current medications &amp; dosages</label><textarea id="np-meds" name="Current medications" maxlength="1500" placeholder="List names and doses, or write &quot;none&quot;…"></textarea></div>
+        <div class="af-field"><label for="np-allerg">Allergies</label><textarea id="np-allerg" name="Allergies" maxlength="800" placeholder="Medication or other allergies, or &quot;none&quot;…"></textarea></div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">07</span> Medical History</h3>
+        <label style="display:block;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.7rem;">Have you had any of the following?</label>
+        <div class="np-checks">{hx_html}</div>
+        <div class="af-field full" style="margin-top:1.1rem;"><label for="np-surg">Past surgeries</label><textarea id="np-surg" name="Past surgeries" maxlength="1000" placeholder="Type and approximate year…"></textarea></div>
+        <div class="af-field full"><label for="np-fam">Family medical history</label><textarea id="np-fam" name="Family history" maxlength="1000" placeholder="Relevant conditions in close relatives…"></textarea></div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">08</span> Social History</h3>
+        <div class="np-grid">
+          <div class="af-field"><label for="np-tob">Tobacco use</label><select id="np-tob" name="Tobacco use"><option value="">Select…</option><option>Never</option><option>Former</option><option>Current</option></select></div>
+          <div class="af-field"><label for="np-alc">Alcohol use</label><select id="np-alc" name="Alcohol use"><option value="">Select…</option><option>None</option><option>Occasional</option><option>Regular</option></select></div>
+          <div class="af-field full"><label for="np-occ">Occupation</label><input id="np-occ" name="Occupation" type="text" maxlength="120"></div>
+        </div>
+      </div>
+
+      <div class="np-section">
+        <h3><span class="np-num">09</span> Consent &amp; Signature</h3>
+        <label class="np-consent"><input type="checkbox" name="Consent" value="I certify the information is accurate" required> I certify that the information above is accurate to the best of my knowledge. *</label>
+        <div class="np-grid">
+          <div class="af-field"><label for="np-sig">Type your full name (signature) *</label><input id="np-sig" name="Signature" type="text" required maxlength="120"></div>
+          <div class="af-field"><label for="np-date">Date *</label><input id="np-date" name="Date" type="date" required></div>
+        </div>
+        <p class="af-error" role="alert"></p>
+        <button class="btn btn-coral" type="submit">Submit Intake Form <span class="arr">&rarr;</span></button>
+      </div>
+    </form>
+    <div class="af-done np-section" id="np-done" hidden style="text-align:center;">
+      <div class="af-check">&#10003;</div>
+      <h3>Thank you — your intake was submitted.</h3>
+      <p style="color:var(--muted);max-width:46ch;margin:0.5rem auto 0;">Our team will review it before your visit.
+      If you don't hear from us within 48 hours, please call <a href="tel:{PHONE_TEL}">{PHONE}</a>.</p>
+    </div>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("new-patient-form.html",
+          head("New Patient Form (Online Intake) | Palm Beach Neurology",
+               "Complete your Palm Beach Neurology new-patient intake online before your visit in West "
+               "Palm Beach, FL. Fast, secure, and mobile-friendly — or download the PDF packet.",
+               canonical="new-patient-form.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Patient Center", "patient-center.html"),
+                                               ("New Patient Form", "new-patient-form.html")]))
+          + nav(0) + body + footer(0))
+
+# ============================================================================
 # META (sitemap / robots / llms / manifest / 404)
 # ============================================================================
 def build_meta():
@@ -1587,7 +1730,7 @@ def build_meta():
     }, indent=2) + "\n")
 
     pages = ["", "services.html", "our-doctors.html", "clinical-research.html", "appointments.html",
-             "patient-center.html", "contact.html", "faq.html", "conditions/index.html"]
+             "patient-center.html", "new-patient-form.html", "contact.html", "faq.html", "conditions/index.html"]
     pages += [f"conditions/{s}.html" for s in CONDITIONS]
     from datetime import date as _date
     lastmod = _date.today().isoformat()
@@ -1660,6 +1803,7 @@ if __name__ == "__main__":
     build_research()
     build_appointments()
     build_patient_center()
+    build_new_patient_form()
     build_contact()
     build_faq()
     build_meta()
