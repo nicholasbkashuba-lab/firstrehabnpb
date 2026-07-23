@@ -316,3 +316,44 @@
       btn.replaceWith(iframe);
     });
   });
+
+// Expandable team profiles (About). Cards are <button>s only when build.py has
+// a real bio for that person; this is inert everywhere else.
+(function () {
+  document.querySelectorAll('button.team-card[data-profile]').forEach((btn) => {
+    const dlg = document.getElementById(btn.dataset.profile);
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    btn.addEventListener('click', () => dlg.showModal());
+    dlg.querySelector('.tp-close').addEventListener('click', () => dlg.close());
+    // Click on the backdrop closes (native dialog leaves this to us).
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  });
+})();
+
+// "Your First Visit" tap-through timeline. Without JS all steps render
+// expanded; this collapses them into an animated step-by-step walkthrough.
+(function () {
+  const wrap = document.querySelector('.fv-steps');
+  if (!wrap) return;
+  const steps = Array.from(wrap.querySelectorAll('.fv-step'));
+  if (!steps.length) return;
+  wrap.classList.add('fv-enhanced');
+  const progress = wrap.querySelector('.fv-progress');
+  function activate(idx) {
+    steps.forEach((s, i) => {
+      s.classList.toggle('active', i === idx);
+      s.classList.toggle('done', i < idx);
+      const b = s.querySelector('h3 button');
+      if (b) b.setAttribute('aria-expanded', i === idx ? 'true' : 'false');
+    });
+    if (progress) {
+      const dot = steps[idx].querySelector('.fv-dot');
+      progress.style.height = (dot.offsetTop + 24) + 'px';
+    }
+  }
+  steps.forEach((s, i) => {
+    const b = s.querySelector('h3 button');
+    if (b) b.addEventListener('click', () => activate(i));
+  });
+  activate(0);
+})();

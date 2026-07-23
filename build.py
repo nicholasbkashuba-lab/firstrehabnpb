@@ -218,6 +218,7 @@ def footer(depth=0):
         <ul>
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
           <li><a href="{p}about.html">About Us</a></li>
+          <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
@@ -1201,8 +1202,8 @@ def build_locations():
         )
         team_cards = "".join(
             f'<div class="svc-feature reveal"><span class="svc-feature-num">{i+1:02d}</span>'
-            f'<div><h3>{n}</h3><p><strong>{r}.</strong> {b}</p></div></div>'
-            for i, (n, r, b, _img) in enumerate(TEAM) if L["deep"] or i < 3
+            f'<div><h3>{t["name"]}</h3><p><strong>{t["role"]}.</strong> {t["blurb"]}</p></div></div>'
+            for i, t in enumerate(TEAM) if L["deep"] or i < 3
         )
         deep_extra = ""
         if L["deep"]:
@@ -1274,24 +1275,61 @@ def build_locations():
 # ABOUT / PODCAST / FAQ / CONTACT
 # ----------------------------------------------------------------------------
 
+# Team roster. `blurb` is the short card text that has always shown on the About
+# page. `bio` / `specialties` / `fun_fact` are the EXPANDED profile fields the
+# owner is collecting from each person — leave them empty ("" / []) until the
+# real content arrives. A card only becomes expandable when `bio` is non-empty;
+# with an empty bio it renders exactly like the original static card. NEVER
+# invent bios, specialties, or fun facts here.
 TEAM = [
-    ("David Kashuba, Ph.D.", "CEO &amp; Occupational Therapist", "Founded First Rehabilitation in 1991 and still treats patients hands-on every day — leading the clinic's comprehensive, high-end approach to rehabilitation across three decades and tens of thousands of recoveries.", "david.jpg"),
-    ("Nick Kashuba", "Chief Operating Officer", "Second-generation leadership keeping the clinic's family-owned values — and its promise that our people make the difference — at the center of everything we do.", "nick.jpg"),
-    ("Logan Van Sant", "Physical Therapist", "A wealth of knowledge in the physical therapy world, dedicated to helping patients move and feel their best.", "logan.jpg"),
-    ("Kayla Dorsey, DPT", "Physical Therapist", "A Doctor of Physical Therapy with over a decade of extensive clinical experience in personalized, hands-on care.", "kayla.jpg"),
-    ("Joni Janik", "Occupational Therapist", "Helps patients reclaim the daily activities that matter most — restoring independence, confidence, and quality of life.", "joni.jpg"),
-    ("Laura Drumm", "Certified Hand Therapist", "Leads our certified hand therapy program with surgical-grade precision — from custom splinting to post-operative tendon protocols.", "laura.jpg"),
+    {"name": "David Kashuba, Ph.D.", "role": "CEO &amp; Occupational Therapist",
+     "blurb": "Founded First Rehabilitation in 1991 and still treats patients hands-on every day — leading the clinic's comprehensive, high-end approach to rehabilitation across three decades and tens of thousands of recoveries.",
+     "img": "david.jpg", "bio": "", "specialties": [], "fun_fact": ""},
+    {"name": "Nick Kashuba", "role": "Chief Operating Officer",
+     "blurb": "Second-generation leadership keeping the clinic's family-owned values — and its promise that our people make the difference — at the center of everything we do.",
+     "img": "nick.jpg", "bio": "", "specialties": [], "fun_fact": ""},
+    {"name": "Logan Van Sant", "role": "Physical Therapist",
+     "blurb": "A wealth of knowledge in the physical therapy world, dedicated to helping patients move and feel their best.",
+     "img": "logan.jpg", "bio": "", "specialties": [], "fun_fact": ""},
+    {"name": "Kayla Dorsey, DPT", "role": "Physical Therapist",
+     "blurb": "A Doctor of Physical Therapy with over a decade of extensive clinical experience in personalized, hands-on care.",
+     "img": "kayla.jpg", "bio": "", "specialties": [], "fun_fact": ""},
+    {"name": "Joni Janik", "role": "Occupational Therapist",
+     "blurb": "Helps patients reclaim the daily activities that matter most — restoring independence, confidence, and quality of life.",
+     "img": "joni.jpg", "bio": "", "specialties": [], "fun_fact": ""},
+    {"name": "Laura Drumm", "role": "Certified Hand Therapist",
+     "blurb": "Leads our certified hand therapy program with surgical-grade precision — from custom splinting to post-operative tendon protocols.",
+     "img": "laura.jpg", "bio": "", "specialties": [], "fun_fact": ""},
 ]
 
 def build_about():
-    team_html = "".join(
-        f'''<div class="team-card reveal d{i%3+1}">
-        <div class="team-photo">
-          <img src="assets/team/{img}" alt="{name}, {role} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.team-photo').classList.add('empty')">
+    # A card is expandable ONLY when the person's long-form bio exists.
+    # Empty bio -> the exact static card the page has always shown, with no
+    # expand affordance. Filling in TEAM[n]["bio"] flips the card on rebuild.
+    def _team_card(i, t):
+        slug = t["name"].lower().split(",")[0].replace(" ", "-").replace(".", "")
+        base = f'''<div class="team-photo">
+          <img src="assets/team/{t["img"]}" alt="{t["name"]}, {t["role"]} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.team-photo').classList.add('empty')">
         </div>
-        <h3>{name}</h3><div class="role">{role}</div><p>{bio}</p></div>'''
-        for i, (name, role, bio, img) in enumerate(TEAM)
-    )
+        <h3>{t["name"]}</h3><div class="role">{t["role"]}</div><p>{t["blurb"]}</p>'''
+        if not t["bio"]:
+            return f'<div class="team-card reveal d{i%3+1}">{base}</div>'
+        spec = ("".join(f'<li>{s}</li>' for s in t["specialties"]))
+        spec_html = f'<h4>Specialties</h4><ul class="tp-specs">{spec}</ul>' if spec else ""
+        fun_html = f'<p class="tp-fun"><strong>Fun fact:</strong> {t["fun_fact"]}</p>' if t["fun_fact"] else ""
+        return f'''<button type="button" class="team-card team-card-open reveal d{i%3+1}" data-profile="tp-{slug}" aria-haspopup="dialog">
+        {base}<span class="tp-more" aria-hidden="true">Read full profile &rarr;</span></button>
+        <dialog class="team-profile" id="tp-{slug}" aria-label="Profile: {t["name"]}">
+          <div class="tp-inner">
+            <button type="button" class="tp-close" aria-label="Close profile">&#10005;</button>
+            <div class="tp-head">
+              <img src="assets/team/{t["img"]}" alt="" loading="lazy">
+              <div><h3>{t["name"]}</h3><div class="role">{t["role"]}</div></div>
+            </div>
+            <div class="tp-body"><p>{t["bio"]}</p>{spec_html}{fun_html}</div>
+          </div>
+        </dialog>'''
+    team_html = "".join(_team_card(i, t) for i, t in enumerate(TEAM))
     body = f"""
 <main>
 {page_hero("Since 1991", "Family-Owned. <em class='accent'>Patient-Devoted.</em>",
@@ -1443,7 +1481,71 @@ def build_podcast():
     </aside>
   </div>
 </section>
+<section class="section on-cream" id="community">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Join the Show</span>
+      <h2>Be Part of <em class="accent">Pain 2 Power</em></h2>
+    </div>
+    <div class="pod-community">
+      <div class="pod-form-card reveal">
+        <h3>Ask Dave</h3>
+        <p>Have a question about pain, recovery, or staying strong as you age? Send it in — Dave may answer it on a future episode.</p>
+        <form class="appt-form" id="ask-dave-form" novalidate>
+          <div class="af-field">
+            <label for="ad-name">Name <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+            <input id="ad-name" name="name" type="text" autocomplete="name" maxlength="200">
+          </div>
+          <div class="af-field">
+            <label for="ad-email">Email <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+            <input id="ad-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+          <div class="af-field">
+            <label for="ad-question">Your question</label>
+            <textarea id="ad-question" name="question" required maxlength="2000" placeholder="e.g. Why does my knee hurt more going down stairs than up?"></textarea>
+          </div>
+          <div class="cf-extra" aria-hidden="true"><label for="ad-website">Website</label><input id="ad-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="af-error" role="alert"></p>
+          <button class="btn btn-coral" type="submit">Send Your Question <span class="arr">&rarr;</span></button>
+        </form>
+        <div class="af-done" id="ask-dave-form-done" hidden>
+          <h3>Question received</h3>
+          <p>Thank you — Dave reads every question, and yours may be answered on a future episode of Pain 2 Power. Tune in Saturdays at 8:30 AM on 100.3 Legends Radio.</p>
+        </div>
+      </div>
+      <div class="pod-form-card reveal d2">
+        <h3>Send Us a Dad Joke</h3>
+        <p>Every episode of Pain 2 Power ends with a dad joke — and we're always hunting for the next groaner. Send us your best.</p>
+        <form class="appt-form" id="dad-joke-form" novalidate>
+          <div class="af-field">
+            <label for="dj-name">First name <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+            <input id="dj-name" name="first_name" type="text" autocomplete="given-name" maxlength="80">
+          </div>
+          <div class="af-field">
+            <label for="dj-joke">Your joke</label>
+            <textarea id="dj-joke" name="joke" required maxlength="500" placeholder="Why don't skeletons fight each other?&#10;They don't have the guts."></textarea>
+          </div>
+          <div class="cf-extra" aria-hidden="true"><label for="dj-website">Website</label><input id="dj-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="af-error" role="alert"></p>
+          <button class="btn btn-ink" type="submit">Submit Your Joke <span class="arr">&rarr;</span></button>
+        </form>
+        <div class="af-done" id="dad-joke-form-done" hidden>
+          <h3>Joke received</h3>
+          <p>Thank you — our panel of highly serious joke judges will take it from here. Listen for it at the end of a future episode.</p>
+        </div>
+      </div>
+    </div>
+    <div class="joke-feed" id="joke-feed" hidden>
+      <div class="section-head center reveal" style="margin-top:1rem;">
+        <span class="eyebrow">From Our Listeners</span>
+        <h2>The Dad Joke <em class="accent">Hall of Fame</em></h2>
+      </div>
+      <div class="joke-list"></div>
+    </div>
+  </div>
+</section>
 {cta_band(0)}
+<script src="assets/js/podcast-extras.js?v={asset_v('assets/js/podcast-extras.js')}" defer></script>
 </main>
 """
     write("podcast.html",
@@ -1668,13 +1770,16 @@ def person_schema():
         "Laura Drumm": "CHT (Certified Hand Therapist)",
     }
     people = []
-    for name, role, bio, _img in TEAM:
+    for t in TEAM:
+        name, role = t["name"], t["role"]
+        # Prefer the real long-form bio once the owner supplies it.
+        desc = t["bio"] or t["blurb"]
         slug = name.lower().split(",")[0].replace(" ", "-").replace(".", "")
         p = {"@type": "Person",
              "@id": f"https://www.firstrehabnpb.com/about.html#{slug}",
              "name": _faq_plain(name),
              "jobTitle": _faq_plain(role),
-             "description": _faq_plain(bio),
+             "description": _faq_plain(desc),
              "worksFor": ORG_REF,
              "knowsAbout": knows.get(name, ["Rehabilitation"])}
         if name in creds:
@@ -2239,6 +2344,106 @@ def build_careers():
                extra_schema=jobs_ld + breadcrumb_schema([("Home", ""), ("Careers", "careers.html")]))
           + nav(0) + body + footer(0))
 
+def build_first_visit():
+    """Your First Visit — step-by-step what-to-expect page.
+    SEO target: "what happens at physical therapy", "first physical therapy
+    appointment", "what to expect physical therapy North Palm Beach".
+    Content cross-links (not duplicates) the what-to-expect blog post."""
+    import json as _json
+    steps = [
+        ("Before you come",
+         '<p>Once your appointment is scheduled, we\'ll email you an intake form. Completing it ahead of time means your first visit starts on time — and starts with therapy, not paperwork.</p>'
+         '<span class="fv-hint">Takes just a few minutes at home</span>'),
+        ("What to bring",
+         '<p>Three things: a photo ID, your insurance card, and your prescription or referral if your physician gave you one. Our front desk verifies your coverage before you arrive, so billing questions never ambush you.</p>'),
+        ("Your evaluation",
+         '<p>You\'ll spend about an hour one-on-one with one of our therapists. They\'ll listen to your story, watch how you move, measure strength and range of motion, and build a plan around your goals — whether that\'s golf, gardening, or picking up a grandchild.</p>'),
+        ("You'll be treated the same day",
+         '<p>Most people assume the first visit is only paperwork and evaluation. Not here.</p>'
+         '<div class="fv-highlight"><strong>Treatment begins on day one.</strong> Most patients receive hands-on care at the very first visit — and leave already knowing what\'s going on, what the plan is, and what to do between visits.</div>'),
+        ("Before you leave",
+         '<p>Your follow-up visits are scheduled before you walk out the door, so your recovery has a rhythm from day one. You\'ll leave with your plan, your home exercises, and your next appointment on the calendar.</p>'),
+    ]
+    steps_html = "".join(
+        f'''<div class="fv-step reveal"><span class="fv-dot" aria-hidden="true"></span>
+        <h3><button type="button" aria-expanded="true">{title}</button></h3>
+        <div class="fv-body">{body}</div></div>'''
+        for title, body in steps
+    )
+    faq_pairs = [
+        ("How long does a first physical therapy visit take?",
+         "Plan on about an hour. Your first visit is a one-on-one evaluation with your therapist — and at First Rehabilitation, treatment usually begins the same day."),
+        ("Will I receive treatment at my first physical therapy appointment?",
+         "Yes — most patients receive hands-on treatment at the very first visit, along with the start of a home program. The first appointment is not just paperwork."),
+        ("What should I bring to my first appointment?",
+         "A photo ID, your insurance card, and your prescription or referral if your physician provided one. We'll email you an intake form to complete ahead of time."),
+        ("What should I wear to physical therapy?",
+         "Loose, comfortable clothing you can move in — and something that gives your therapist access to the area being treated, like shorts for a knee problem or a loose shirt for a shoulder."),
+        ("Where do I park at First Rehabilitation?",
+         "There's a free parking lot right at our building — 733 US Highway 1, Suite 2A, North Palm Beach. Park, walk in, and you're here."),
+    ]
+    faq_ld = '<script type="application/ld+json">' + _json.dumps({
+        "@context": "https://schema.org", "@type": "FAQPage",
+        "mainEntity": [{"@type": "Question", "name": q,
+                        "acceptedAnswer": {"@type": "Answer", "text": a}}
+                       for q, a in faq_pairs]
+    }, ensure_ascii=False) + '</script>\n'
+    faq_html = "".join(
+        f'''<details class="job reveal"><summary><span class="job-title" style="font-size:1.05rem;">{q}</span><span class="job-toggle" aria-hidden="true">+</span></summary>
+        <div class="job-body"><p>{a}</p></div></details>'''
+        for q, a in faq_pairs
+    )
+    body = f"""
+<main>
+{page_hero("Your First Visit", "What to Expect — <em class='accent'>Start to Finish</em>",
+  "No mystery, no surprises: here's exactly how your first physical therapy visit goes at First Rehabilitation of North Palm Beach.",
+  '<div class="crumbs"><a href="index.html">Home</a> / Your First Visit</div>')}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Five Simple Steps</span>
+      <h2>Your Visit, <em class="accent">Step by Step</em></h2>
+    </div>
+    <div class="fv-steps"><span class="fv-progress" aria-hidden="true"></span>{steps_html}</div>
+  </div>
+</section>
+<section class="section on-cream">
+  <div class="wrap two-col">
+    <div class="reveal">
+      <div class="section-head" style="margin-bottom:1.6rem;">
+        <span class="eyebrow">Good to Know</span>
+        <h2>The Practical Details</h2>
+      </div>
+      <div class="fv-highlight" style="margin-bottom:1rem;"><strong>What to wear:</strong> loose, comfortable clothing you can move in — shorts for knee or hip conditions, a loose shirt for shoulders. Your therapist needs easy access to the area being treated.</div>
+      <div class="fv-highlight" style="margin-bottom:1rem;"><strong>Parking:</strong> free lot right at our building. Park, walk in, and you're here.</div>
+      <div class="fv-highlight" style="margin-bottom:1.6rem;"><strong>Arriving:</strong> if you weren't able to finish your intake form at home, come a few minutes early and our front desk will help you complete it.</div>
+      <div class="section-head" style="margin:2.2rem 0 1.2rem;">
+        <h2 style="font-size:1.5rem;">Quick Answers</h2>
+      </div>
+      {faq_html}
+      <p class="related-links reveal" style="margin-top:1.6rem;"><strong>Read more:</strong> <a href="blog/what-to-expect-first-pt-visit.html">Our full first-visit walkthrough on the blog</a> &middot; <a href="faq.html">All 73 patient FAQs</a></p>
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Schedule your first visit</h3>
+      <p>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</p>
+      <p>Mon&ndash;Fri 8:00 AM&ndash;5:30 PM<br>Sat 8:00 AM&ndash;12:30 PM</p>
+      <a class="btn btn-coral" href="contact.html">Schedule Your First Visit</a>
+      <div class="side-meta">
+        <p>Call us directly<br><a href="tel:+15616244263">{PHONE}</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("first-visit.html",
+          head("First Physical Therapy Visit: What to Expect | First Rehab",
+               "What happens at your first physical therapy appointment in North Palm Beach — what to bring, what to wear, and why treatment starts on day one.",
+               canonical="first-visit.html",
+               extra_schema=faq_ld + breadcrumb_schema([("Home", ""), ("Your First Visit", "first-visit.html")]))
+          + nav(0) + body + footer(0))
+
 def build_meta():
     base = "https://www.firstrehabnpb.com"
     write("site.webmanifest", '''{
@@ -2255,7 +2460,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "podcast.html", "blog/index.html", "treatments/index.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "podcast.html", "blog/index.html", "treatments/index.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -2354,5 +2559,6 @@ if __name__ == "__main__":
     build_contact()
     build_blog()
     build_careers()
+    build_first_visit()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
