@@ -116,7 +116,11 @@ def _org_schema_str():
             "North Palm Beach", "Greenacres"]],
         "sameAs": [RESEARCH_URL],
     }
-    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + "</script>"
+    data.pop("@context", None)
+    website = {"@type": "WebSite", "@id": f"{BASE}/#website", "url": BASE + "/",
+               "name": BRAND, "publisher": {"@id": ORG_ID}, "inLanguage": "en-US"}
+    graph = {"@context": "https://schema.org", "@graph": [data, website]}
+    return '<script type="application/ld+json">' + _json.dumps(graph, ensure_ascii=False) + "</script>"
 
 def head(title, desc, depth=0, canonical="", og_image="assets/media/og-cover.jpg",
          page_type="website", extra_schema="", noindex=False):
@@ -255,7 +259,9 @@ def footer(depth=0):
     </div>
   </div>
 </footer>
-<a class="mobile-call" href="tel:{PHONE_TEL}" aria-label="Call {html.escape(BRAND)} now at {PHONE}"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.4 21 3 13.6 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>Call Now</span></a>
+<nav class="mobile-call-nav" aria-label="Call the office">
+  <a class="mobile-call" href="tel:{PHONE_TEL}" aria-label="Call {html.escape(BRAND)} now at {PHONE}"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.4 21 3 13.6 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>Call Now</span></a>
+</nav>
 <script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
 <script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments);}};</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -700,7 +706,7 @@ def build_conditions():
 </main>
 """
     write("conditions/index.html",
-          head("Neurology Conditions in West Palm Beach | Palm Beach Neurology",
+          head("Neurology Conditions | Palm Beach Neurology",
                "Neurologic conditions treated at Palm Beach Neurology in West Palm Beach: migraine, "
                "epilepsy, Parkinson's, Alzheimer's, MS, stroke, neuropathy, and more.",
                depth=1, canonical="conditions/index.html",
@@ -762,7 +768,7 @@ def build_conditions():
 """
         write(f"conditions/{slug}.html",
               head(f"{_plain(c['nav'])} | Palm Beach Neurology",
-                   (_plain(c['lede'])[:150].rsplit(' ', 1)[0] + " — board-certified neurology in West Palm Beach, FL."),
+                   (_plain(c['lede'])[:104].rsplit(' ', 1)[0] + " — Palm Beach Neurology, West Palm Beach FL."),
                    depth=1, canonical=f"conditions/{slug}.html", page_type="article",
                    extra_schema=condition_schema(slug, c) + breadcrumb_schema(
                        [("Home", ""), ("Conditions", "conditions/index.html"), (_plain(c["nav"]), f"conditions/{slug}.html")]))
@@ -931,7 +937,7 @@ def build_doctors():
 </main>
 """
     write("our-doctors.html",
-          head("Our Doctors | Neurologists in West Palm Beach | Palm Beach Neurology",
+          head("Our Doctors | Palm Beach Neurology, West Palm Beach",
                "Meet the board-certified neurologists of Palm Beach Neurology in West Palm Beach, FL — "
                "25+ years caring for the brain, spine, and nervous system.",
                canonical="our-doctors.html",
@@ -1003,7 +1009,7 @@ def build_research():
 </main>
 """
     write("clinical-research.html",
-          head("Clinical Research & Trials | Palm Beach Neurology, West Palm Beach",
+          head("Clinical Research & Trials | Palm Beach Neurology",
                "The Premiere Research Institute at Palm Beach Neurology runs clinical trials in "
                "Alzheimer's, migraine, and MS in West Palm Beach, FL. Learn how to participate.",
                canonical="clinical-research.html",
@@ -1119,7 +1125,7 @@ def build_appointments():
 </main>
 """
     write("appointments.html",
-          head("Request an Appointment | Palm Beach Neurology, West Palm Beach FL",
+          head("Request an Appointment | Palm Beach Neurology",
                "Request a neurology appointment in West Palm Beach — free memory screen or new-patient "
                "visit. Call 561-845-0500 or send a request online. New patients welcome.",
                canonical="appointments.html",
@@ -1490,9 +1496,8 @@ def build_home():
 """
     write("index.html",
           head("Neurologist in West Palm Beach | Palm Beach Neurology",
-               "Board-certified neurology and on-site clinical research in West Palm Beach, FL. "
-               "We treat migraine, epilepsy, Parkinson's, memory loss, MS, stroke & neuropathy. "
-               "New patients welcome — call 561-845-0500.",
+               "Board-certified neurology & clinical research in West Palm Beach, FL — migraine, "
+               "epilepsy, Parkinson's, MS, stroke & neuropathy. New patients welcome.",
                canonical="", og_image="assets/media/og-cover.jpg")
           + nav(0) + body + footer(0))
 
@@ -1557,9 +1562,8 @@ def build_services():
 """
     write("services.html",
           head("Neurology Services in West Palm Beach | Palm Beach Neurology",
-               "Comprehensive neurology services in West Palm Beach: diagnosis, treatment, prevention, "
-               "rehabilitation & education for headache, epilepsy, Parkinson's, memory loss, MS, "
-               "stroke, neuropathy & more.",
+               "Comprehensive neurology in West Palm Beach: diagnosis, treatment, prevention, "
+               "rehabilitation & education for headache, epilepsy, Parkinson's, MS & stroke.",
                canonical="services.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Services", "services.html")]))
           + nav(0) + body + footer(0))
@@ -1779,7 +1783,16 @@ def build_meta():
     pages += [f"conditions/{s}.html" for s in CONDITIONS]
     from datetime import date as _date
     lastmod = _date.today().isoformat()
-    urls = "".join(f"  <url><loc>{BASE}/{p}</loc><lastmod>{lastmod}</lastmod></url>\n" for p in pages)
+    def _prio(p):
+        if p == "":                                   return ("1.0", "weekly")
+        if p.startswith("conditions/") and p != "conditions/index.html": return ("0.8", "monthly")
+        if p in ("services.html", "our-doctors.html", "clinical-research.html", "appointments.html"): return ("0.8", "monthly")
+        return ("0.6", "monthly")
+    urls = ""
+    for p in pages:
+        pr, cf = _prio(p)
+        urls += (f"  <url><loc>{BASE}/{p}</loc><lastmod>{lastmod}</lastmod>"
+                 f"<changefreq>{cf}</changefreq><priority>{pr}</priority></url>\n")
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n")
 
