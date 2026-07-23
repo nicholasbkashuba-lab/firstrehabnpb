@@ -159,6 +159,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/og-cover.jpg
 <link rel="preload" as="font" type="font/woff2" href="{p}assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{p}assets/fonts/inter-latin-400-normal.woff2" crossorigin>
 <link rel="stylesheet" href="{p}assets/css/styles.css?v={asset_v('assets/css/styles.css')}">
+<link rel="stylesheet" href="{p}assets/css/assistant.css?v={asset_v('assets/css/assistant.css')}">
 {_org_schema_str()}
 {extra_schema}</head>
 <body>
@@ -264,6 +265,7 @@ def footer(depth=0):
   <a class="mobile-call" href="tel:{PHONE_TEL}" aria-label="Call {html.escape(BRAND)} now at {PHONE}"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.4 21 3 13.6 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>Call Now</span></a>
 </nav>
 <script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
+<script src="{p}assets/js/assistant.js?v={asset_v('assets/js/assistant.js')}" defer></script>
 <script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments);}};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
