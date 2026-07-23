@@ -849,3 +849,17 @@ a.tb-item:hover { color: var(--gold); }
 /* Stat rows placed on dark sections need light figures (base color is --ink) */
 .on-ink .stat-row div strong { color: var(--cream); }
 .on-ink .stat-row div span { color: rgba(246,241,231,0.7); }
+
+/* "Your First Visit" process steps sit on a LIGHT section on this site, but the
+   base .svc-step type colors were authored for DARK backgrounds (cream text) —
+   restore contrast so the step titles/copy are readable on cream/white. */
+.on-paper .svc-step h3, .on-cream .svc-step h3, .section > .wrap .svc-step h3,
+.on-paper .svc-step h4, .on-cream .svc-step h4 { color: var(--ink); }
+.on-paper .svc-step p, .on-cream .svc-step p, .section > .wrap .svc-step p { color: var(--muted); }
+.on-paper .svc-step-dot { box-shadow: 0 0 0 8px var(--paper); }
+.on-cream .svc-step-dot { box-shadow: 0 0 0 8px var(--cream); }
+
+/* Five pillars: center the wrapping rows so an odd count (5) reads as balanced
+   (3 on top, 2 centered below) instead of leaving a lopsided empty cell. */
+.svc-feature-grid.pillars { display: flex; flex-wrap: wrap; justify-content: center; }
+.svc-feature-grid.pillars .svc-feature { flex: 1 1 320px; max-width: 384px; }

@@ -1487,7 +1487,7 @@ def build_services():
       <p class="lede">Our physicians focus on providing the highest quality of healthcare services
       across every stage of your neurologic care.</p>
     </div>
-    <div class="svc-feature-grid">{pillar_html}</div>
+    <div class="svc-feature-grid pillars">{pillar_html}</div>
   </div>
 </section>
 <section class="section on-cream">
