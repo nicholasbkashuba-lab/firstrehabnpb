@@ -1,0 +1,22 @@
+name: pbn-fetch
+on:
+  push:
+    branches: [pbn-fetch-tmp]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fetch content
+        run: python3 fetch.py || true
+      - name: publish results
+        run: |
+          git config user.name pbn-fetch-bot
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git checkout --orphan pbn-assets-out
+          git rm -rf . >/dev/null 2>&1 || true
+          git add out || true
+          git commit -m "PBN fetched assets" || echo "nothing to commit"
+          git push -f origin pbn-assets-out
