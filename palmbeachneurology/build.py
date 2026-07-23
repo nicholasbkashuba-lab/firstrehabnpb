@@ -200,6 +200,7 @@ def nav(depth=0, solid=False):
         </div>
       </li>
       <li><a class="nav-item" href="{p}contact.html">Contact</a></li>
+      <li class="nav-menu-cta"><a class="btn btn-coral" href="{p}appointments.html">Request Appointment</a></li>
     </ul>
     </nav>
     <a class="btn btn-coral nav-cta-btn" href="{p}appointments.html">Request Appointment</a>

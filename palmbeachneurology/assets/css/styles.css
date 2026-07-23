@@ -198,6 +198,7 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .site-header.scrolled .nav-links a.nav-item, .site-header.solid .nav-links a.nav-item { color: var(--ink); }
 .nav-links a.nav-item:hover { color: var(--coral); }
 .nav-cta-btn { padding: 0.8rem 1.7rem; font-size: 0.95rem; flex-shrink: 0; }
+.nav-menu-cta { display: none; }
 
 .dropdown { position: absolute; top: calc(100% + 16px); left: 50%; transform: translateX(-50%) translateY(10px);
   background: var(--paper); border-radius: 18px; box-shadow: var(--shadow-soft);
@@ -245,6 +246,16 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
   .nav-toggle.active span:nth-child(2) { opacity: 0; }
   .nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--cream); }
   .brand-text { display: none; }
+  /* Prominent Request Appointment button pinned inside the mobile menu overlay */
+  .nav-menu-cta { display: block; margin-top: 1.4rem; }
+  .nav-menu-cta a { display: inline-block; padding: 0.9rem 2.1rem; font-size: 1rem; }
+}
+
+/* On phones the header can't fit logo + CTA + hamburger without clipping;
+   drop the header CTA (the menu carries a Request Appointment button, and the
+   sticky Call Now pill stays visible). */
+@media (max-width: 600px) {
+  .nav-cta-btn { display: none; }
 }
 
 /* ---------- Hero ---------- */
@@ -913,8 +924,10 @@ a.tb-item:hover { color: var(--gold); }
 .site-header.solid .brand-logo-light { display: none; }
 .site-header.scrolled .brand-logo-dark,
 .site-header.solid .brand-logo-dark { display: block; }
-body.nav-locked .brand-logo-light { display: none; }
-body.nav-locked .brand-logo-dark { display: block; }
+/* Menu open: the overlay behind the logo is dark, so use the white-lettering
+   logo even if the header had scrolled to its light (cream) state. */
+body.nav-locked .brand-logo-light { display: block; }
+body.nav-locked .brand-logo-dark { display: none; }
 .f-logo { height: 54px; width: auto; margin-bottom: 0.9rem; display: block; }
 
 /* Team group banner on Our Doctors */
