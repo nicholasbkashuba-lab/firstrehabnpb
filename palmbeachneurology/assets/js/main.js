@@ -269,12 +269,20 @@
   syncToHash(true);
 })();
 
-// Body map: tap-to-learn panel
+// Neuro Explorer: rich detail panel + area filter
 (function () {
+  const section = document.getElementById('bodymap');
   const panel = document.getElementById('bm-panel');
   const dataEl = document.getElementById('bm-data');
-  if (!panel || !dataEl) return;
+  if (!section || !panel || !dataEl) return;
   const DATA = JSON.parse(dataEl.textContent);
+  const svg = section.querySelector('.bm-svg');
+
+  // Respect reduced motion — freeze the traveling signal pulses.
+  if (svg && svg.pauseAnimations && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    try { svg.pauseAnimations(); } catch (e) {}
+  }
+
   const show = (key) => {
     const d = DATA[key];
     if (!d) return;
@@ -284,21 +292,35 @@
     panel.innerHTML =
       '<span class="cond-tag">' + d.tag + '</span>' +
       '<h3>' + d.name + '</h3>' +
+      (d.area ? '<p class="bm-area"><i class="bm-area-ic" aria-hidden="true"></i>' + d.area + '</p>' : '') +
       '<p>' + d.lede + '</p>' +
-      '<ul class="check-list">' + d.treats.map(t => '<li>' + t + '</li>').join('') + '</ul>' +
-      '<a class="bm-cta" href="' + d.url + '">Explore this treatment &rarr;</a>';
-    document.querySelectorAll('#bodymap [data-bm]').forEach(el =>
-      el.classList.toggle('hot', el.dataset.bm === key));
+      (d.treats && d.treats.length
+        ? '<div class="bm-sub">Signs we look for</div><ul class="check-list">' +
+          d.treats.map(t => '<li>' + t + '</li>').join('') + '</ul>' : '') +
+      (d.approach ? '<div class="bm-sub">How we help</div><p class="bm-approach">' + d.approach + '</p>' : '') +
+      '<a class="bm-cta" href="' + d.url + '">Explore this condition &rarr;</a>';
+    section.querySelectorAll('[data-bm]').forEach(el =>
+      el.classList.toggle('active', el.dataset.bm === key));
     if (window.matchMedia('(max-width: 880px)').matches) {
       panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   };
-  document.querySelectorAll('#bodymap [data-bm]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      show(el.dataset.bm);
-    });
+  section.querySelectorAll('[data-bm]').forEach((el) => {
+    el.addEventListener('click', (e) => { e.preventDefault(); show(el.dataset.bm); });
   });
+
+  // Area filter — All / Brain / Spine / Nerves & Muscle
+  const fbtns = Array.from(section.querySelectorAll('.bm-fbtn'));
+  const applyFilter = (f) => {
+    section.querySelectorAll('[data-group]').forEach(el =>
+      el.classList.toggle('dim', !(f === 'all' || el.dataset.group === f)));
+    fbtns.forEach(b => {
+      const on = b.dataset.filter === f;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  };
+  fbtns.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
 })();
 
   // Spotify embeds load only when the visitor asks for them (podcast page).

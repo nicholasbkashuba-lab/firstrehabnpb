@@ -197,6 +197,7 @@ def nav(depth=0, solid=False):
         <div class="dropdown">
           <a href="{p}appointments.html">Appointments</a>
           <a href="{p}patient-center.html">Patient Center &amp; Forms</a>
+          <a href="{p}blog/index.html">Articles &amp; Insights</a>
           <a href="{p}faq.html">FAQ</a>
         </div>
       </li>
@@ -239,6 +240,7 @@ def footer(depth=0):
           <li><a href="{p}clinical-research.html">Clinical Research</a></li>
           <li><a href="{p}appointments.html">Appointments</a></li>
           <li><a href="{p}patient-center.html">Patient Center</a></li>
+          <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
         </ul>
       </div>
@@ -311,6 +313,14 @@ def cta_band(depth=0,
 </section>
 """
 
+def wave_divider(variant="cream"):
+    """Signature EEG-trace section divider (a neurology-specific motif)."""
+    path = ("M0 20 H470 L494 20 L508 9 L520 31 L534 3 L548 33 L562 12 L576 20 "
+            "L600 20 L636 20 H1200")
+    return (f'<div class="wave-divider wave-{variant}" aria-hidden="true">'
+            f'<svg viewBox="0 0 1200 40"><path d="{path}"/>'
+            f'<circle class="wave-spark" cx="534" cy="3" r="4"/></svg></div>')
+
 def page_hero(eyebrow, title, lede, crumbs_html=""):
     return f"""
 <section class="page-hero">
@@ -368,48 +378,63 @@ def neuro_field(opacity=0.6):
 # ----------------------------------------------------------------------------
 # BRAIN / NERVOUS-SYSTEM MAP (interactive)
 # ----------------------------------------------------------------------------
+# Which anatomical structure each hotspot belongs to (drives the Brain/Spine/Nerves filter).
+BM_GROUP = {
+    "migraine": "brain", "memory": "brain", "epilepsy": "brain", "movement": "brain",
+    "stroke": "brain", "ms": "brain", "sleep": "brain",
+    "spine": "spine", "neuropathy": "nerves", "neuromuscular": "nerves",
+}
+BM_LINKS = {
+    "migraine": "conditions/headaches-migraine.html",
+    "memory": "conditions/memory-alzheimers.html",
+    "epilepsy": "conditions/epilepsy-seizures.html",
+    "movement": "conditions/parkinsons-movement.html",
+    "stroke": "conditions/stroke.html",
+    "ms": "conditions/multiple-sclerosis.html",
+    "sleep": "conditions/sleep-disorders.html",
+    "spine": "conditions/back-neck-pain.html",
+    "neuropathy": "conditions/neuropathy.html",
+    "neuromuscular": "conditions/neuromuscular.html",
+}
+
 def brainmap_svg():
-    # (key, x, y, label) — positions over a top-down brain + descending spine
+    """Interactive Neuro Explorer: an anatomical top-down brain + brainstem, spinal
+    cord and peripheral nerves, overlaid with a living neural network (traveling
+    signal pulses), labeled regions, and 10 condition hotspots. Brain-local
+    coordinates are centred on x=170 and shifted right inside a 480-wide viewBox."""
+    # (key, x, y, label) over the figure — brain-local coords (centre x=170)
     spots = [
-        ("migraine",   170,  92, "Headache &amp; Migraine"),
-        ("memory",     120, 150, "Memory &amp; Alzheimer's"),
-        ("epilepsy",   224, 158, "Epilepsy"),
-        ("movement",   170, 205, "Parkinson's"),
-        ("stroke",     108, 214, "Stroke"),
-        ("ms",         236, 118, "Multiple Sclerosis"),
-        ("spine",      170, 384, "Neck &amp; Back"),
-        ("neuropathy", 112, 556, "Neuropathy"),
+        ("migraine",   170,  82, "Headache &amp; Migraine"),
+        ("ms",         232, 118, "Multiple Sclerosis"),
+        ("memory",     110, 150, "Memory &amp; Alzheimer's"),
+        ("epilepsy",   230, 160, "Epilepsy &amp; Seizures"),
+        ("stroke",     106, 212, "Stroke &amp; TIA"),
+        ("movement",   170, 196, "Parkinson's &amp; Movement"),
+        ("sleep",      170, 300, "Sleep Disorders"),
+        ("spine",      170, 396, "Neck &amp; Back Pain"),
+        ("neuropathy", 116, 556, "Neuropathy"),
+        ("neuromuscular", 224, 560, "Neuromuscular"),
     ]
-    spot_links = {
-        "migraine": "conditions/headaches-migraine.html",
-        "memory": "conditions/memory-alzheimers.html",
-        "epilepsy": "conditions/epilepsy-seizures.html",
-        "movement": "conditions/parkinsons-movement.html",
-        "stroke": "conditions/stroke.html",
-        "ms": "conditions/multiple-sclerosis.html",
-        "spine": "conditions/back-neck-pain.html",
-        "neuropathy": "conditions/neuropathy.html",
-    }
 
     def _chip(x, y, lbl):
         plain = html.unescape(lbl)
-        w = round(len(plain) * 6.6 + 18)
-        rx = x + 16 if x < 170 else x - 16 - w
-        rx = max(20, min(rx, 320 - w))
-        ry = y - 10
-        return (f'<g class="bm-chip"><rect x="{rx}" y="{ry}" width="{w}" height="20" rx="10"/>'
-                f'<text x="{rx + w/2}" y="{ry + 14}" text-anchor="middle">{lbl}</text></g>')
+        w = round(len(plain) * 6.5 + 20)
+        rx = x + 18 if x <= 170 else x - 18 - w
+        rx = max(-56, min(rx, 404 - w))
+        ry = y - 11
+        return (f'<g class="bm-chip"><rect x="{rx}" y="{ry}" width="{w}" height="22" rx="11"/>'
+                f'<text x="{rx + w/2}" y="{ry + 15}" text-anchor="middle">{lbl}</text></g>')
 
     spots_svg = "".join(
-        f'''<a href="{spot_links[k]}" class="bm-spot" data-bm="{k}" aria-label="{lbl}">
-        <circle class="hit" cx="{x}" cy="{y}" r="18" fill="#000" fill-opacity="0" pointer-events="all"/>
+        f'''<a href="{BM_LINKS[k]}" class="bm-spot" data-bm="{k}" data-group="{BM_GROUP[k]}" aria-label="{lbl}">
+        <circle class="hit" cx="{x}" cy="{y}" r="19" fill="#000" fill-opacity="0" pointer-events="all"/>
         <circle class="halo" cx="{x}" cy="{y}" r="10"/>
         <circle class="core" cx="{x}" cy="{y}" r="6"/>
         {_chip(x, y, lbl)}
         <title>{lbl}</title></a>''' for k, x, y, lbl in spots
     )
 
-    # Top-down brain: two hemispheres, central fissure, suggested gyri
+    # --- Top-down cerebrum: hemispheres, fissure, richer gyri ---
     brain = """
     <path class="bm-silhouette" d="M170,44
       C210,44 244,60 260,92 C276,122 274,146 268,164
@@ -419,29 +444,74 @@ def brainmap_svg():
       C54,204 58,178 72,164 C66,146 64,122 80,92
       C96,60 130,44 170,44 Z"/>
     <path class="bm-fissure" d="M170,50 C177,96 163,132 170,172 C177,210 165,252 170,300"/>
-    <path class="bm-gyrus" d="M120,86 C108,104 122,116 110,134"/>
-    <path class="bm-gyrus" d="M148,74 C138,96 152,110 142,132"/>
-    <path class="bm-gyrus" d="M220,86 C232,104 218,116 230,134"/>
-    <path class="bm-gyrus" d="M192,74 C202,96 188,110 198,132"/>
-    <path class="bm-gyrus" d="M100,150 C92,168 106,180 96,198"/>
-    <path class="bm-gyrus" d="M240,150 C248,168 234,180 244,198"/>
-    <path class="bm-gyrus" d="M132,196 C124,214 140,224 130,244"/>
-    <path class="bm-gyrus" d="M208,196 C216,214 200,224 210,244"/>
     """
-    # Brainstem + spine (rounded vertebrae) + a peripheral nerve branch
+    gyri = "".join(f'<path class="bm-gyrus" d="{d}"/>' for d in [
+        "M120,86 C108,104 122,116 110,134", "M148,74 C138,96 152,110 142,132",
+        "M220,86 C232,104 218,116 230,134", "M192,74 C202,96 188,110 198,132",
+        "M100,150 C92,168 106,180 96,198", "M240,150 C248,168 234,180 244,198",
+        "M132,196 C124,214 140,224 130,244", "M208,196 C216,214 200,224 210,244",
+        "M96,120 C90,132 100,140 94,152", "M244,120 C250,132 240,140 246,152",
+        "M150,250 C144,262 156,270 150,282", "M190,250 C196,262 184,270 190,282",
+    ])
+
+    # --- Living neural network overlay (nodes, axons, traveling signal pulses) ---
+    N = [(170,80),(128,104),(212,104),(150,132),(190,132),(104,150),(236,150),
+         (132,176),(208,176),(170,158),(120,206),(220,206),(156,224),(184,224),(170,252)]
+    E = [(0,1),(0,2),(1,3),(2,4),(3,9),(4,9),(1,5),(2,6),(3,7),(4,8),(5,7),(6,8),
+         (7,10),(8,11),(9,12),(9,13),(12,10),(13,11),(12,14),(13,14),(10,14),(11,14),(5,10),(6,11)]
+    axons = "".join(
+        f'<path id="bmE{i}" class="bm-axon" d="M{N[a][0]},{N[a][1]} L{N[b][0]},{N[b][1]}"/>'
+        for i, (a, b) in enumerate(E))
+    nodes = "".join(f'<circle class="bm-node" cx="{x}" cy="{y}" r="2.3"/>' for x, y in N)
+    # A handful of pulses ride the axons (paused for reduced-motion via JS).
+    pulse_edges = [(0, 3.4), (5, 4.1), (11, 3.0), (17, 4.6), (20, 3.7), (2, 5.0)]
+    signals = "".join(
+        f'<circle class="bm-signal" r="2.7"><animateMotion dur="{d}s" repeatCount="indefinite" '
+        f'begin="{i*0.6}s"><mpath href="#bmE{ei}"/></animateMotion></circle>'
+        for i, (ei, d) in enumerate(pulse_edges))
+
+    # --- Anatomical region annotations (educational depth; leader line + label) ---
+    def _region(lx, ly, tx, ty, anchor, label):
+        return (f'<g class="bm-region"><line x1="{lx}" y1="{ly}" x2="{tx}" y2="{ty}"/>'
+                f'<circle cx="{tx}" cy="{ty}" r="2"/>'
+                f'<text x="{lx}" y="{ly}" text-anchor="{anchor}">{label}</text></g>')
+    regions = "".join([
+        _region(170, 26, 170, 52, "middle", "Frontal lobe"),
+        _region(20, 132, 82, 138, "start", "Temporal lobe"),
+        _region(322, 128, 258, 138, "end", "Parietal lobe"),
+        _region(322, 250, 244, 250, "end", "Occipital lobe"),
+        _region(322, 322, 188, 322, "end", "Brainstem"),
+        _region(322, 430, 184, 430, "end", "Spinal cord"),
+        _region(322, 542, 214, 552, "end", "Peripheral nerves"),
+    ])
+
+    # --- Brainstem, spinal cord (vertebrae), peripheral nerve fan ---
     stem = '<path class="bm-spine" d="M170,300 C170,320 168,336 170,352"/>'
     verts = "".join(
-        f'<rect class="bm-vert" x="{170-11}" y="{y}" width="22" height="15" rx="6"/>'
+        f'<rect class="bm-vert" x="159" y="{y}" width="22" height="15" rx="6"/>'
         for y in range(356, 520, 22))
-    nerve = ('<path class="bm-nerve" d="M170,470 C150,486 128,500 112,548"/>'
-             '<path class="bm-nerve" d="M170,486 C190,502 210,516 226,560"/>')
+    nerve = "".join(f'<path class="bm-nerve" d="{d}"/>' for d in [
+        "M170,470 C150,486 128,500 112,548", "M170,486 C190,502 210,516 226,560",
+        "M170,452 C154,462 140,470 126,500", "M170,468 C186,478 200,486 214,516",
+        "M170,506 C158,520 150,532 142,566", "M170,506 C182,520 190,532 198,566",
+    ])
 
-    defs = ('<defs><linearGradient id="bmFig" x1="0" y1="0" x2="0" y2="1">'
-            '<stop offset="0%" stop-color="rgba(243,236,220,0.20)"/>'
-            '<stop offset="100%" stop-color="rgba(243,236,220,0.06)"/></linearGradient></defs>')
-    return (f'<svg viewBox="0 0 340 600" role="group" '
+    defs = ('<defs>'
+            '<linearGradient id="bmFig" x1="0" y1="0" x2="0" y2="1">'
+            '<stop offset="0%" stop-color="rgba(243,236,220,0.22)"/>'
+            '<stop offset="100%" stop-color="rgba(243,236,220,0.05)"/></linearGradient>'
+            '<radialGradient id="bmHalo" cx="50%" cy="50%" r="50%">'
+            '<stop offset="0%" stop-color="rgba(46,156,142,0.55)"/>'
+            '<stop offset="100%" stop-color="rgba(46,156,142,0)"/></radialGradient>'
+            '<filter id="bmGlow" x="-60%" y="-60%" width="220%" height="220%">'
+            '<feGaussianBlur stdDeviation="2.4" result="b"/>'
+            '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+            '</defs>')
+    inner = (f'{brain}{gyri}{regions}<g class="bm-network">{axons}{nodes}{signals}</g>'
+             f'{stem}{verts}{nerve}{spots_svg}')
+    return (f'<svg class="bm-svg" viewBox="0 0 480 620" role="group" '
             f'aria-label="Interactive brain and nervous-system map — choose an area of concern">'
-            f'{defs}{brain}{stem}{verts}{nerve}{spots_svg}</svg>')
+            f'{defs}<g transform="translate(70,0)">{inner}</g></svg>')
 
 # ----------------------------------------------------------------------------
 # UTIL
@@ -1304,30 +1374,46 @@ def build_faq():
 # HOME
 # ============================================================================
 def build_home():
-    # Brain-map sidebar list (all conditions incl. list-only extras).
-    # The figure spots use short keys; the JS matches data-bm across figure + list,
-    # so list items get the spot key where one exists (2 list-only entries do not).
-    bm_order = ["headaches-migraine", "memory-alzheimers", "epilepsy-seizures", "parkinsons-movement",
-                "multiple-sclerosis", "stroke", "neuropathy", "back-neck-pain", "sleep-disorders", "neuromuscular"]
+    # --- Neuro Explorer data (all 10 conditions, keyed to figure hotspots) ---
     key_to_slug = {"migraine": "headaches-migraine", "memory": "memory-alzheimers",
                    "epilepsy": "epilepsy-seizures", "movement": "parkinsons-movement",
-                   "stroke": "stroke", "ms": "multiple-sclerosis", "spine": "back-neck-pain",
-                   "neuropathy": "neuropathy"}
-    slug_to_key = {v: k for k, v in key_to_slug.items()}
+                   "stroke": "stroke", "ms": "multiple-sclerosis", "sleep": "sleep-disorders",
+                   "spine": "back-neck-pain", "neuropathy": "neuropathy", "neuromuscular": "neuromuscular"}
+    bm_area = {
+        "migraine": "Cerebrum · pain &amp; vascular pathways",
+        "memory": "Temporal lobe · memory networks",
+        "epilepsy": "Cerebral cortex · electrical activity",
+        "movement": "Basal ganglia · movement circuits",
+        "stroke": "Cerebrum · blood supply",
+        "ms": "Brain &amp; spinal cord · myelin",
+        "sleep": "Brainstem · sleep–wake regulation",
+        "spine": "Spinal cord · nerve roots",
+        "neuropathy": "Peripheral nerves",
+        "neuromuscular": "Nerves &amp; muscle",
+    }
 
-    def _bm_item(slug):
-        c = CONDITIONS[slug]
-        dbm = f' data-bm="{slug_to_key[slug]}"' if slug in slug_to_key else ''
-        return (f'<a class="bm-item"{dbm} href="conditions/{slug}.html">'
-                f'<span>{c["nav"]}</span><span class="bm-tag">{c["tag"]}</span></a>')
-    bm_list_html = "".join(_bm_item(s) for s in bm_order)
+    def _bm_item(key):
+        slug = key_to_slug[key]; c = CONDITIONS[slug]
+        return (f'<a class="bm-item" data-bm="{key}" data-group="{BM_GROUP[key]}" href="conditions/{slug}.html">'
+                f'<span class="bm-item-dot"></span>'
+                f'<span class="bm-item-name">{c["nav"]}</span>'
+                f'<span class="bm-tag">{c["tag"]}</span></a>')
+    bm_order = ["migraine", "memory", "epilepsy", "movement", "ms",
+                "stroke", "sleep", "spine", "neuropathy", "neuromuscular"]
+    bm_list_html = "".join(_bm_item(k) for k in bm_order)
 
     bm_data = {}
     for key, slug in key_to_slug.items():
         c = CONDITIONS[slug]
-        bm_data[key] = {"name": _plain(c["name"]), "tag": _plain(c["tag"]), "lede": _plain(c["lede"]),
-                        "treats": [_plain(s) for s in c["symptoms"][:4]],
-                        "url": f"conditions/{slug}.html"}
+        appr = c.get("approach", [])
+        bm_data[key] = {
+            "name": _plain(c["name"]), "tag": _plain(c["tag"]),
+            "area": _plain(bm_area.get(key, "")), "group": BM_GROUP[key],
+            "lede": _plain(c["lede"]),
+            "treats": [_plain(s) for s in c["symptoms"][:4]],
+            "approach": (_plain(appr[0][0]) + " — " + _plain(appr[0][1])) if appr else "",
+            "url": f"conditions/{slug}.html",
+        }
     bm_json = _json.dumps(bm_data)
 
     ticker = "".join(f"<span>{s}</span>" for s in
@@ -1409,6 +1495,7 @@ def build_home():
   </div>
 </section>
 
+{wave_divider("cream")}
 <section class="section" id="pathways">
   <div class="wrap">
     <div class="section-head reveal">
@@ -1427,8 +1514,14 @@ def build_home():
     <div class="section-head reveal">
       <span class="eyebrow on-dark">Where Does It Start?</span>
       <h2>Explore the <em class="accent">Nervous System</em></h2>
-      <p class="lede">Tap an area of the brain, spine, or nerves to see what we treat there — every
-      pathway begins with a thorough evaluation.</p>
+      <p class="lede">Hover or tap the brain, spine, or nerves — or any condition — to see the area
+      involved, what it does, and how we treat it. Every pathway begins with a thorough evaluation.</p>
+    </div>
+    <div class="bm-filter reveal" role="group" aria-label="Filter conditions by area of the nervous system">
+      <button type="button" class="bm-fbtn is-active" data-filter="all" aria-pressed="true">All areas</button>
+      <button type="button" class="bm-fbtn" data-filter="brain" aria-pressed="false">Brain</button>
+      <button type="button" class="bm-fbtn" data-filter="spine" aria-pressed="false">Spine</button>
+      <button type="button" class="bm-fbtn" data-filter="nerves" aria-pressed="false">Nerves &amp; Muscle</button>
     </div>
     <div class="bodymap-grid three">
       <div class="bodymap-fig reveal">{brainmap_svg()}</div>
@@ -1437,8 +1530,12 @@ def build_home():
         <div class="bm-panel-default">
           <span class="eyebrow on-dark">Your Guide</span>
           <h3>Select a glowing point</h3>
-          <p>Tap any point on the figure — or any condition in the list — and we'll show you what we
-          treat there and how we approach it.</p>
+          <p>Tap any point on the figure — or any condition in the list — and we'll show you the
+          area involved, what it does, and how our neurologists approach it.</p>
+          <div class="bm-legend">
+            <span><i class="lg-signal"></i> Neural signal</span>
+            <span><i class="lg-spot"></i> A condition we treat</span>
+          </div>
         </div>
       </aside>
     </div>
@@ -1771,6 +1868,183 @@ def build_new_patient_form():
 # ============================================================================
 # META (sitemap / robots / llms / manifest / 404)
 # ============================================================================
+# ============================================================================
+# CONTENT — BLOG  (plain-English articles, physician-reviewed; facts only)
+# ============================================================================
+BLOG_POSTS = {
+    "first-neurology-visit": {
+        "title": "What to Expect at Your First Neurology Visit",
+        "date": "July 2026", "iso": "2026-07-22",
+        "tag": "Getting Started",
+        "teaser": "A neurology appointment can feel intimidating. Here is exactly how the first "
+                  "visit works at Palm Beach Neurology — what to bring, what happens, and how to prepare.",
+        "body": """
+<p>If you have never seen a neurologist, the first appointment can feel like a mystery. Neurology covers the brain, spine, and nervous system, and the evaluation is a bit different from a typical office visit. Here is an honest walkthrough so you can arrive relaxed and ready.</p>
+<h2>It begins with your story</h2>
+<p>Before any testing, your neurologist wants to understand what is happening in your own words. When did the symptoms start? What makes them better or worse? How are they affecting your day — your work, your sleep, your independence? For memory concerns, a family member's perspective is invaluable, so a loved one is always welcome to join you. The history you share shapes everything that follows, which is why a new-patient visit is scheduled for about an hour.</p>
+<h2>The neurologic exam</h2>
+<p>Next comes a hands-on examination of how your nervous system is working: strength, reflexes, sensation, coordination, balance, and often your memory and thinking. None of it is painful. Each part helps your neurologist localize where a problem might be coming from — the brain, the spinal cord, the nerves, or the muscles.</p>
+<h2>Testing, only when it will change the plan</h2>
+<p>Depending on what your exam suggests, your neurologist may recommend further testing — an <a href="../conditions/epilepsy-seizures.html">EEG</a> for spells or seizures, an <a href="../conditions/neuropathy.html">EMG and nerve-conduction study</a> for numbness or weakness, or brain and spine imaging. We order tests when the result will genuinely guide your care, not by default.</p>
+<h2>What to bring</h2>
+<p>Please bring your <strong>photo ID</strong>, <strong>insurance card</strong>, a current <strong>medication list</strong>, and any prior imaging (MRI or CT) on disc or through a portal, along with any referral paperwork. Completing your <a href="../patient-center.html">new-patient forms</a> ahead of time saves you paperwork in the waiting room.</p>
+<h2>Leaving with a plan</h2>
+<p>By the end of the visit, the goal is that you understand what is being considered, what the next step is, and how to reach us with questions. If you would like to get started, you can <a href="../appointments.html">request an appointment online</a> — new patients are always welcome.</p>
+""",
+    },
+    "free-memory-screen": {
+        "title": "The Free Memory Screen: A Simple First Step",
+        "date": "July 2026", "iso": "2026-07-21",
+        "tag": "Memory & Aging",
+        "teaser": "Noticed changes in memory — your own or a loved one's? Our no-cost, 30-minute "
+                  "memory screen is a low-pressure way to know whether a fuller look is worthwhile.",
+        "body": """
+<p>Forgetting a name or misplacing keys happens to everyone. But when memory changes start to worry you or the people who know you best, it is hard to know whether it is normal aging or something worth checking. That uncertainty is exactly what a memory screen is designed to ease.</p>
+<h2>What the screen is</h2>
+<p>The Free Memory Screen at Palm Beach Neurology is a <strong>no-cost, confidential, roughly 30-minute check</strong> of memory and thinking. It uses brief, well-established questions and tasks to get a snapshot of how you are doing. It is comfortable, low-pressure, and there is nothing to study for.</p>
+<h2>What it is not</h2>
+<p>A screen is not a diagnosis. A single check cannot, by itself, tell anyone they do or do not have a condition like <a href="../conditions/memory-alzheimers.html">Alzheimer's disease</a>. What it can do is help decide whether a fuller evaluation — with a physician, and sometimes additional testing — is worthwhile. Think of it as a helpful first step, not a final answer.</p>
+<h2>Why earlier is better</h2>
+<p>Many things that affect memory are treatable — from thyroid and vitamin issues to sleep problems, medication side effects, and mood. Sorting out what is going on sooner opens more options, supports better planning, and often brings real peace of mind, whatever the result.</p>
+<h2>Who might consider one</h2>
+<p>Anyone noticing more frequent forgetfulness, trouble following conversations or handling familiar tasks, or a nagging sense that "something has changed" — and any family member who has quietly wondered the same about someone they love. If that is you, call us at <strong>561-845-0500</strong> to ask about scheduling a screen, or <a href="../appointments.html">request an appointment</a>.</p>
+""",
+    },
+    "migraine-beyond-headache": {
+        "title": "Migraine Is More Than a Headache",
+        "date": "July 2026", "iso": "2026-07-20",
+        "tag": "Headache & Migraine",
+        "teaser": "Migraine is a neurologic condition, not just a bad headache — and today's "
+                  "treatments have come a long way. Here is what modern migraine care can look like.",
+        "body": """
+<p>Migraine is one of the most common reasons people see a neurologist, and one of the most misunderstood. It is not simply a strong headache. It is a neurologic condition that can involve throbbing pain, nausea, sensitivity to light and sound, and — for some — visual aura, and it can cost a person entire days. The encouraging news is that migraine care has advanced dramatically.</p>
+<h2>Getting the diagnosis right first</h2>
+<p>Effective treatment starts with a careful diagnosis. Our neurologists distinguish migraine from tension-type, cluster, and secondary headaches, because the plan depends entirely on which one you have. Imaging is ordered when it will change management — not automatically. You can read more on our <a href="../conditions/headaches-migraine.html">headache and migraine page</a>.</p>
+<h2>Two halves of a good plan</h2>
+<p>Most migraine plans have two parts. The first is <strong>acute (rescue) treatment</strong> — a plan that reliably stops an attack so it does not cost you a day. The second is <strong>preventive treatment</strong> for people with frequent or disabling attacks, aimed at making them less frequent and less severe in the first place.</p>
+<h2>Newer, migraine-specific options</h2>
+<p>Treatment is no longer one-size-fits-all. In addition to established medications, there are now therapies developed specifically for migraine — including <strong>CGRP-targeted treatments</strong> and, for chronic migraine, <strong>Botox</strong>. Matching the right option to your pattern is exactly the kind of decision a neurologist is trained to make with you.</p>
+<h2>The everyday levers still matter</h2>
+<p>Identifying triggers, protecting sleep, staying hydrated, managing stress, and avoiding overuse of over-the-counter pain relievers all remain part of good migraine care. They work best alongside — not instead of — a medical plan.</p>
+<h2>When head pain needs urgent care</h2>
+<p>A sudden "worst headache of your life," or a headache with fever, confusion, vision loss, weakness, numbness, or trouble speaking, is an emergency — call 911. For the recurring, disabling headaches that keep circling back, a neurologist can help you get ahead of them. <a href="../appointments.html">Request an appointment</a> to start.</p>
+""",
+    },
+    "clinical-trials-explained": {
+        "title": "Clinical Trials, Explained",
+        "date": "July 2026", "iso": "2026-07-19",
+        "tag": "Research",
+        "teaser": "What is a clinical trial, and why does our practice have a research institute? "
+                  "A plain-English look at how neurology research works — and how it helps patients.",
+        "body": """
+<p>Palm Beach Neurology is home to an on-site research institute, <strong>Premiere Research Institute</strong>, and patients often ask what that actually means for them. Here is a clear, jargon-free explanation of clinical trials and the role they play in advancing neurologic care.</p>
+<h2>What a clinical trial is</h2>
+<p>A clinical trial is a carefully designed, closely monitored study that tests whether a new treatment is safe and helpful. Trials follow strict protocols and oversight to protect participants at every step. They are how promising ideas become tomorrow's approved treatments — which means today's therapies exist because past patients had the option to take part.</p>
+<h2>Why an on-site institute matters</h2>
+<p>Having research under the same roof as clinical care means our physicians stay at the leading edge of neurology, and it can give appropriate patients access to studied therapies that are not yet widely available. We run monitored trials in areas such as <a href="../conditions/memory-alzheimers.html">Alzheimer's disease</a>, <a href="../conditions/headaches-migraine.html">migraine</a>, and <a href="../conditions/multiple-sclerosis.html">multiple sclerosis</a>. You can learn more on our <a href="../clinical-research.html">clinical research page</a>.</p>
+<h2>Is participation right for everyone?</h2>
+<p>Not necessarily — and that is the point of the process. Every study has specific criteria for who can join, designed with safety and good science in mind. Participation is always voluntary, you can ask any question you like, and you may leave a study at any time. Trials also frequently involve close monitoring and study-related care.</p>
+<h2>How to ask what is enrolling</h2>
+<p>Available studies change over time. If you are curious whether a current trial might fit your situation, ask your neurologist, call our research line at <strong>561-851-9400</strong>, or explore <a href="../clinical-research.html">our research program</a>. It costs nothing to ask, and the answer might open a door.</p>
+""",
+    },
+}
+
+def blogpost_schema(slug, p):
+    iso = p.get("iso", "2026-07-01")
+    data = {
+        "@context": "https://schema.org", "@type": "BlogPosting",
+        "headline": _plain(p["title"]),
+        "description": _plain(p["teaser"]),
+        "datePublished": iso, "dateModified": iso,
+        "author": {"@type": "MedicalOrganization", "@id": BASE + "/#organization", "name": LEGAL},
+        "reviewedBy": {"@type": "Physician", "@id": BASE + "/our-doctors.html#paul-winner",
+                       "name": "Paul Winner, DO, FAAN, FAHS"},
+        "publisher": {"@id": BASE + "/#organization"},
+        "mainEntityOfPage": {"@type": "WebPage", "@id": BASE + "/blog/" + slug + ".html"},
+        "url": BASE + "/blog/" + slug + ".html",
+        "image": BASE + "/assets/media/og-cover.jpg",
+        "articleSection": _plain(p["tag"]), "inLanguage": "en-US", "isAccessibleForFree": True,
+    }
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + "</script>\n"
+
+def build_blog():
+    posts = list(BLOG_POSTS.items())
+    # ---- Hub ----
+    cards = "".join(
+        f'''<a class="cond-card reveal d{i%3+1}" href="{slug}.html">
+          <span class="cond-tag">{p["tag"]} &middot; {p["date"]}</span>
+          <h3>{p["title"]}</h3>
+          <p>{_plain(p["teaser"])[:150]}…</p>
+        </a>''' for i, (slug, p) in enumerate(posts))
+    body = f"""
+<main>
+{page_hero("Insights", "Neurology <em class='accent'>Articles</em>",
+  "Plain-English guidance on brain, spine, and nervous-system health from the team at "
+  "Palm Beach Neurology — every article reviewed by our physicians.",
+  '<div class="crumbs"><a href="../index.html">Home</a> / Blog</div>')}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">From Our Team</span>
+      <h2>Latest <em class="accent">Articles</em></h2>
+      <p class="lede">Clear, trustworthy information — reviewed by board-certified neurologists.
+      Helpful background, never a substitute for a visit.</p>
+    </div>
+    <div class="cond-grid">{cards}</div>
+  </div>
+</section>
+{cta_band(1)}
+</main>
+"""
+    write("blog/index.html",
+          head("Neurology Articles &amp; Insights | Palm Beach Neurology",
+               "Plain-English neurology articles from Palm Beach Neurology, West Palm Beach — first "
+               "visits, memory screens, migraine care, and clinical research, reviewed by our physicians.",
+               depth=1, canonical="blog/index.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Blog", "blog/index.html")]))
+          + nav(1) + body + footer(1))
+
+    # ---- Individual posts ----
+    for i, (slug, p) in enumerate(posts):
+        others = [(s2, p2) for s2, p2 in posts if s2 != slug][:3]
+        related = "".join(
+            f'''<a class="cond-card reveal d{j%3+1}" href="{s2}.html">
+              <span class="cond-tag">{p2["tag"]}</span><h3>{p2["title"]}</h3></a>'''
+            for j, (s2, p2) in enumerate(others))
+        post_body = f"""
+<main>
+{page_hero(p["tag"], p["title"], p["teaser"],
+  f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / {p["tag"]}</div>')}
+<section class="section">
+  <div class="wrap prose-wrap">
+    <article class="prose reveal">
+      <p class="post-byline">By the Palm Beach Neurology team &middot; {p["date"]} &middot; <em>Medically reviewed by Dr. Paul Winner, DO, FAAN</em></p>
+      {p["body"]}
+      <p class="post-disclaimer">This article is general information, not medical advice. Every
+      situation is different — please consult a qualified neurologist about yours. In an emergency, call 911.</p>
+      <p style="margin-top:1.6rem;"><a class="btn btn-coral" href="../appointments.html">Request an Appointment <span class="arr">&rarr;</span></a></p>
+    </article>
+  </div>
+</section>
+<section class="section on-cream">
+  <div class="wrap">
+    <div class="section-head center reveal"><span class="eyebrow">Keep Reading</span>
+      <h2>More <em class="accent">Articles</em></h2></div>
+    <div class="cond-grid">{related}</div>
+  </div>
+</section>
+{cta_band(1)}
+</main>
+"""
+        write(f"blog/{slug}.html",
+              head(f"{_plain(p['title'])} | Palm Beach Neurology",
+                   _plain(p["teaser"])[:155],
+                   depth=1, canonical=f"blog/{slug}.html", page_type="article",
+                   extra_schema=blogpost_schema(slug, p) + breadcrumb_schema(
+                       [("Home", ""), ("Blog", "blog/index.html"), (_plain(p["title"]), f"blog/{slug}.html")]))
+              + nav(1) + post_body + footer(1))
+
 def build_meta():
     write("site.webmanifest", _json.dumps({
         "name": LEGAL, "short_name": "PB Neurology",
@@ -1782,8 +2056,9 @@ def build_meta():
     }, indent=2) + "\n")
 
     pages = ["", "services.html", "our-doctors.html", "clinical-research.html", "appointments.html",
-             "patient-center.html", "contact.html", "faq.html", "conditions/index.html"]
+             "patient-center.html", "contact.html", "faq.html", "conditions/index.html", "blog/index.html"]
     pages += [f"conditions/{s}.html" for s in CONDITIONS]
+    pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     from datetime import date as _date
     lastmod = _date.today().isoformat()
     def _prio(p):
@@ -1867,5 +2142,6 @@ if __name__ == "__main__":
     build_patient_center()
     build_contact()
     build_faq()
+    build_blog()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")

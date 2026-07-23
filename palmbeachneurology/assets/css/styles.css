@@ -938,3 +938,200 @@ body.nav-locked .brand-logo-dark { display: none; }
 /* Premiere Research Institute logo on Clinical Research */
 .prem-logo { height: 104px; width: auto; display: block; }
 .prem-inline { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
+
+/* ---------- Blog / articles ---------- */
+.prose-wrap { max-width: 760px; margin: 0 auto; }
+.prose .post-byline { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.8rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line); }
+.prose .post-byline em { color: var(--coral-text); font-style: normal; font-weight: 600; }
+.prose ul { margin: 1rem 0 1rem 1.2rem; }
+.prose li { margin: 0.35rem 0; }
+.prose a:not(.btn) { color: var(--coral-text); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.prose a:not(.btn):hover { color: var(--coral-deep); }
+.prose .post-disclaimer { margin-top: 2rem; padding: 1rem 1.2rem; background: var(--cream); border: 1px solid var(--line-gold); border-radius: 14px; color: var(--muted); font-size: 0.9rem; font-style: italic; }
+
+/* ============================================================
+   SIGNATURE LAYER — bespoke identity (distinct from the base template)
+   Redesigns the shared "tells" into a neurology-specific system:
+   synapse-node kickers, a highlighted accent mark, de-boxed hero
+   stats with hairlines, neural node numerals, a glowing synapse
+   process line, and an EEG-trace section divider.
+   ============================================================ */
+
+/* 1. Kicker: synapse node + label + trailing neural hairline */
+.eyebrow { gap: 0.8rem; letter-spacing: 0.24em; font-size: 0.72rem; }
+.eyebrow::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(231,196,106,0.16), 0 0 12px rgba(231,196,106,0.55);
+  flex: none; animation: syn-pulse 3.2s ease-in-out infinite;
+}
+.eyebrow::after {
+  content: ""; width: clamp(28px, 6vw, 54px); height: 1px; flex: none;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.eyebrow.on-dark::after, .on-ink .eyebrow::after, .page-hero .eyebrow::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+@keyframes syn-pulse { 0%,100% { box-shadow: 0 0 0 4px rgba(231,196,106,0.16), 0 0 10px rgba(231,196,106,0.45); } 50% { box-shadow: 0 0 0 6px rgba(231,196,106,0.05), 0 0 18px rgba(231,196,106,0.75); } }
+@media (prefers-reduced-motion: reduce) { .eyebrow::before { animation: none; } }
+
+/* 2. Accent: a hand-laid gold/sea highlight mark (not just italic color) */
+em.accent {
+  background-image: linear-gradient(115deg, rgba(231,196,106,0.40) 0%, rgba(46,156,142,0.18) 100%);
+  background-repeat: no-repeat; background-position: 0 92%; background-size: 100% 0.32em;
+  padding: 0 0.06em; border-radius: 2px;
+}
+.on-ink em.accent, .section.on-ink em.accent {
+  background-image: linear-gradient(115deg, rgba(231,196,106,0.30) 0%, rgba(46,156,142,0.16) 100%);
+}
+/* keep the oversized hero/page headlines clean — mark only mid-scale accents */
+.hero h1 em.accent, .page-hero h1 em.accent { background-image: none; padding: 0; }
+
+/* 3. Hero stats: de-boxed, centered under the panel, gold hairline separators */
+.hero-meta {
+  background: none; border: none; border-radius: 0; box-shadow: none;
+  padding: 1.5rem 0 0; margin: 2rem auto 0; border-top: 1px solid rgba(231,196,106,0.32);
+  gap: 0; width: fit-content; max-width: 1000px;
+}
+.hero .hero-meta { justify-content: center; }
+.hero-meta div { position: relative; padding: 0 clamp(1.2rem, 3vw, 2.3rem); }
+.hero-meta div + div::before {
+  content: ""; position: absolute; left: 0; top: 14%; height: 72%; width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(231,196,106,0.55), transparent);
+}
+.hero-meta div strong { font-size: clamp(1.8rem, 2.8vw, 2.5rem); }
+/* keep the gold pill eyebrow clean — no synapse dot or trailing hairline inside it */
+.hero-panel .eyebrow::after { display: none; }
+
+/* 4. Numbered rows: neural nodes instead of outlined serif numerals */
+.svc-feature { border-radius: 20px; border-color: rgba(15,58,70,0.1); }
+.svc-feature:hover { box-shadow: 0 26px 60px -34px rgba(8,38,47,0.5); border-color: rgba(231,196,106,0.5); }
+.svc-feature-num {
+  font-family: var(--font-body); font-style: normal; font-weight: 700; font-size: 1rem;
+  color: var(--coral-text); -webkit-text-stroke: 0; line-height: 1;
+  width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 35%, rgba(46,156,142,0.16), rgba(22,112,99,0.06));
+  border: 1px solid rgba(22,112,99,0.28); position: relative;
+}
+.svc-feature-num::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid rgba(231,196,106,0.35); opacity: 0; transition: opacity 0.3s ease;
+}
+.svc-feature:hover .svc-feature-num::after { opacity: 1; }
+
+/* 5. Process: glowing synapse nodes on a dashed neural axon */
+.svc-process::before {
+  background: repeating-linear-gradient(90deg, rgba(231,196,106,0.55) 0 7px, transparent 7px 15px);
+  opacity: 0.8; height: 2px;
+}
+.svc-step-dot {
+  background: radial-gradient(circle at 50% 38%, var(--ink-soft), var(--ink-deep));
+  border: 1.5px solid rgba(231,196,106,0.6);
+  box-shadow: 0 0 0 7px var(--ink-deep), 0 0 22px rgba(46,156,142,0.4);
+}
+.on-cream .svc-step-dot, .on-paper .svc-step-dot { box-shadow: 0 0 0 8px var(--cream), 0 0 22px rgba(46,156,142,0.3); }
+.svc-step:hover .svc-step-dot { box-shadow: 0 0 0 7px var(--ink-deep), 0 0 30px rgba(231,196,106,0.7); }
+
+/* 6. Cards: a subtle bespoke lift (kept close to the beloved look) */
+.cond-card { border-radius: 20px; }
+.cond-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(130% 90% at 100% 0%, rgba(46,156,142,0.08), transparent 55%);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.cond-card:hover::after { opacity: 1; }
+
+/* 7. Signature EEG-trace divider */
+.wave-divider { position: relative; max-width: 780px; height: 40px; margin: 0 auto; padding: 0 var(--pad); }
+.wave-divider svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.wave-divider path { fill: none; stroke: var(--sea); stroke-width: 2; vector-effect: non-scaling-stroke;
+  stroke-linejoin: round; stroke-linecap: round; opacity: 0.55;
+  filter: drop-shadow(0 0 6px rgba(46,156,142,0.35)); }
+.wave-divider .wave-spark { fill: var(--gold); filter: drop-shadow(0 0 6px rgba(231,196,106,0.8)); animation: syn-pulse 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.on-ink .wave-divider path, .cta-band .wave-divider path { stroke: var(--gold); opacity: 0.5; }
+
+/* ============================================================
+   NEURO EXPLORER — enhanced interactive brain / nervous-system map
+   ============================================================ */
+.bm-svg { width: 100%; height: auto; display: block; max-width: 440px; margin: 0 auto; overflow: visible; }
+
+/* Living neural network overlay */
+.bm-network .bm-axon { fill: none; stroke: rgba(46,156,142,0.28); stroke-width: 1; }
+.bm-network .bm-node { fill: rgba(231,196,106,0.55); }
+.bm-network .bm-signal { fill: var(--gold); filter: drop-shadow(0 0 5px rgba(231,196,106,0.9)); }
+.bm-network { pointer-events: none; }
+
+/* Anatomical region annotations (leader line + label) */
+.bm-region line { stroke: rgba(243,236,220,0.28); stroke-width: 1; }
+.bm-region circle { fill: rgba(243,236,220,0.5); }
+.bm-region text { fill: rgba(243,236,220,0.62); font-family: var(--font-body); font-size: 10.5px;
+  font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Cerebellum-free top-down figure textures already themed via base .bm-* rules */
+.bm-vert { fill: rgba(243,236,220,0.12); stroke: rgba(243,236,220,0.4); stroke-width: 1; }
+.bm-spine, .bm-nerve { fill: none; stroke: rgba(243,236,220,0.42); stroke-width: 1.6; stroke-linecap: round; }
+.bm-nerve { stroke: rgba(46,156,142,0.5); stroke-width: 1.3; }
+
+/* Selected (clicked) hotspot — persistent highlight distinct from hover attract */
+.bm-spot.active circle.core { fill: var(--coral); r: 8; }
+.bm-spot.active circle.halo { stroke: var(--coral); opacity: 1; }
+.bm-spot.active .bm-chip { opacity: 1; }
+
+/* Filter segmented control */
+.bm-filter { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 2rem; }
+.bm-fbtn { font-family: var(--font-body); font-size: 0.86rem; font-weight: 600; cursor: pointer;
+  color: rgba(243,236,220,0.82); background: rgba(243,236,220,0.05);
+  border: 1px solid rgba(243,236,220,0.2); border-radius: 999px; padding: 0.5rem 1.15rem;
+  min-height: 42px; transition: all 0.22s ease; }
+.bm-fbtn:hover { border-color: var(--gold-soft); color: var(--cream); }
+.bm-fbtn.is-active { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); }
+
+/* Dimmed (filtered-out) items + spots */
+[data-group].dim { opacity: 0.28; transition: opacity 0.3s ease; }
+.bm-spot { transition: opacity 0.3s ease; }
+.bm-spot.dim { opacity: 0.22; }
+
+/* List items: signal dot + name + tag */
+.bm-item { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.7rem; }
+.bm-item-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold);
+  box-shadow: 0 0 8px rgba(231,196,106,0.6); flex: none; opacity: 0.7; transition: all 0.25s ease; }
+.bm-item:hover .bm-item-dot, .bm-item.hot .bm-item-dot, .bm-item.active .bm-item-dot {
+  background: var(--coral); box-shadow: 0 0 10px rgba(46,156,142,0.8); opacity: 1; transform: scale(1.25); }
+.bm-item.active { background: rgba(231,196,106,0.16); border-color: var(--gold); }
+
+/* Rich panel additions */
+.bm-panel .bm-area { display: flex; align-items: center; gap: 0.5rem; color: var(--gold);
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; margin: 0.1rem 0 0.9rem; }
+.bm-panel .bm-area-ic { width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: radial-gradient(circle, var(--gold), rgba(231,196,106,0.2)); box-shadow: 0 0 8px rgba(231,196,106,0.7); }
+.bm-panel .bm-sub { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(243,236,220,0.6); margin: 1.1rem 0 0.5rem; }
+.bm-panel .bm-approach { color: rgba(243,236,220,0.85); font-size: 0.92rem; }
+.bm-legend { display: flex; flex-wrap: wrap; gap: 1.1rem; margin-top: 1.6rem; padding-top: 1.2rem;
+  border-top: 1px solid rgba(243,236,220,0.14); }
+.bm-legend span { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: rgba(243,236,220,0.72); }
+.bm-legend i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.bm-legend .lg-signal { background: var(--gold); box-shadow: 0 0 8px rgba(231,196,106,0.8); }
+.bm-legend .lg-spot { background: var(--coral); box-shadow: 0 0 8px rgba(46,156,142,0.7); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-network .bm-signal { display: none; }
+}
+
+/* Signature: home "pathway" numerals become neural nodes (not outlined serifs) */
+.pathway { grid-template-columns: 84px 1.15fr 1fr; }
+.pathway .pw-num {
+  font-family: var(--font-body); font-style: normal; font-weight: 700; font-size: 1.12rem;
+  color: var(--coral-text); -webkit-text-stroke: 0; width: 62px; height: 62px; border-radius: 50%;
+  display: grid; place-items: center; line-height: 1; position: relative;
+  background: radial-gradient(circle at 50% 34%, rgba(46,156,142,0.15), rgba(22,112,99,0.05));
+  border: 1px solid rgba(22,112,99,0.3);
+}
+.pathway .pw-num::before { content: ""; position: absolute; inset: -5px; border-radius: 50%;
+  border: 1px solid rgba(231,196,106,0.4); opacity: 0; transition: opacity 0.3s ease; }
+.pathway:hover .pw-num { color: var(--coral-deep);
+  background: radial-gradient(circle at 50% 34%, rgba(46,156,142,0.24), rgba(22,112,99,0.08)); }
+.pathway:hover .pw-num::before { opacity: 1; }
+@media (max-width: 900px) {
+  .pathway { grid-template-columns: 60px 1fr; }
+  .pathway .pw-num { width: 50px; height: 50px; font-size: 1rem; }
+}
