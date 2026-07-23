@@ -173,6 +173,17 @@ def nav(depth=0, solid=False):
     cls = "site-header solid" if solid else "site-header"
     cond_links = "".join(
         f'<a href="{p}conditions/{slug}.html">{c["nav"]}</a>' for slug, c in CONDITIONS.items())
+    # Services: dropdown of dedicated service pages when present, else a plain link.
+    if SERVICES_DATA:
+        svc_dd = (f'<a href="{p}services.html">All Services</a>'
+                  + "".join(f'<a href="{p}services/{s["slug"]}.html">{s["name"]}</a>' for s in SERVICES_DATA))
+        services_li = (f'<li><a class="nav-item" href="{p}services.html">Services</a>'
+                       f'<div class="dropdown"><div class="dd-cols">{svc_dd}</div></div></li>')
+    else:
+        services_li = f'<li><a class="nav-item" href="{p}services.html">Services</a></li>'
+    about_li = f'<li><a class="nav-item" href="{p}about.html">About</a></li>' if ABOUT_DATA else ''
+    patients_extra = (f'<a href="{p}locations/index.html">Areas We Serve</a>' if LOCATIONS_DATA else '') + \
+                     (f'<a href="{p}insurance-billing.html">Insurance &amp; Billing</a>' if INSURANCE_DATA else '')
     return f"""
 <header class="{cls}">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -189,14 +200,16 @@ def nav(depth=0, solid=False):
         <a class="nav-item" href="{p}conditions/index.html">Conditions</a>
         <div class="dropdown"><div class="dd-cols">{cond_links}</div></div>
       </li>
-      <li><a class="nav-item" href="{p}services.html">Services</a></li>
+      {services_li}
       <li><a class="nav-item" href="{p}our-doctors.html">Our Doctors</a></li>
       <li><a class="nav-item" href="{p}clinical-research.html">Research</a></li>
+      {about_li}
       <li>
         <a class="nav-item" href="{p}appointments.html">Patients</a>
         <div class="dropdown">
           <a href="{p}appointments.html">Appointments</a>
           <a href="{p}patient-center.html">Patient Center &amp; Forms</a>
+          {patients_extra}
           <a href="{p}blog/index.html">Articles &amp; Insights</a>
           <a href="{p}faq.html">FAQ</a>
         </div>
@@ -215,9 +228,14 @@ def footer(depth=0):
     cond_links = "".join(
         f'<li><a href="{p}conditions/{slug}.html">{c["nav"]}</a></li>'
         for slug, c in list(CONDITIONS.items())[:7])
-    areas = ["West Palm Beach", "Palm Beach", "Palm Beach Gardens", "Wellington",
-             "Royal Palm Beach", "Lake Worth", "Jupiter", "Boynton Beach"]
-    area_links = "".join(f"<li>{a}</li>" for a in areas)
+    if LOCATIONS_DATA:
+        area_links = "".join(f'<li><a href="{p}locations/{l["slug"]}.html">{l["city"]}</a></li>' for l in LOCATIONS_DATA)
+    else:
+        areas = ["West Palm Beach", "Palm Beach", "Palm Beach Gardens", "Wellington",
+                 "Royal Palm Beach", "Lake Worth", "Jupiter", "Boynton Beach"]
+        area_links = "".join(f"<li>{a}</li>" for a in areas)
+    practice_extra = (f'<li><a href="{p}about.html">About Us</a></li>' if ABOUT_DATA else '') + \
+                     (f'<li><a href="{p}insurance-billing.html">Insurance &amp; Billing</a></li>' if INSURANCE_DATA else '')
     return f"""
 <footer class="site-footer">
   <div class="wrap">
@@ -235,6 +253,7 @@ def footer(depth=0):
       <div>
         <h2 class="f-head">Practice</h2>
         <ul>
+          {practice_extra}
           <li><a href="{p}services.html">Services</a></li>
           <li><a href="{p}our-doctors.html">Our Doctors</a></li>
           <li><a href="{p}clinical-research.html">Clinical Research</a></li>
@@ -2139,6 +2158,232 @@ def build_blog():
                        [("Home", ""), ("Blog", "blog/index.html"), (_plain(p["title"]), f"blog/{slug}.html")]))
               + nav(1) + post_body + footer(1))
 
+# ============================================================================
+# EXPANSION — content loaded from content/*.json (generated + fact-verified),
+# consumed here into location, service, About and insurance pages, plus extra
+# conditions/blog posts merged into the existing dicts. Guarded so the build is
+# valid whether or not the content files are present.
+# ============================================================================
+def _load_content(name):
+    try:
+        with open(os.path.join(ROOT, "content", name), encoding="utf-8") as f:
+            return _json.load(f)
+    except Exception:
+        return None
+
+def mini_faq(faqs):
+    if not faqs:
+        return ""
+    items = "".join(
+        f'<details class="mfq"><summary>{f["q"]}</summary><div class="mfq-a"><p>{f["a"]}</p></div></details>'
+        for f in faqs)
+    return f'<div class="mini-faq">{items}</div>'
+
+def service_schema(s):
+    data = {"@context": "https://schema.org", "@type": s.get("schema_type", "MedicalProcedure"),
+            "name": _plain(s["name"]), "description": _plain(s["desc"]),
+            "url": f"{BASE}/services/{s['slug']}.html"}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + "</script>\n"
+
+def _service_city_schema(city, slug):
+    data = {"@context": "https://schema.org", "@type": "Service", "serviceType": "Neurology",
+            "name": f"Neurology for {city}", "provider": ORG_REF,
+            "areaServed": {"@type": "City", "name": city},
+            "url": f"{BASE}/locations/{slug}.html"}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + "</script>\n"
+
+def build_locations():
+    if not LOCATIONS_DATA:
+        return
+    cards = "".join(
+        f'''<a class="cond-card reveal d{i%3+1}" href="{l["slug"]}.html">
+          <span class="cond-tag">Areas We Serve</span><h3>{l["city"]}</h3>
+          <p>Board-certified neurology for {l["city"]} residents, from our West Palm Beach office.</p></a>'''
+        for i, l in enumerate(LOCATIONS_DATA))
+    hub = f"""
+<main>
+{page_hero("Areas We Serve", "Neurology Across the <em class='accent'>Palm Beaches</em>",
+  "Board-certified neurologic care for communities across Palm Beach County — all delivered from our "
+  "West Palm Beach office.", '<div class="crumbs"><a href="../index.html">Home</a> / Areas We Serve</div>')}
+<section class="section"><div class="wrap"><div class="cond-grid">{cards}</div></div></section>
+{cta_band(1)}
+</main>"""
+    write("locations/index.html",
+          head("Areas We Serve | Palm Beach Neurology, West Palm Beach",
+               "Neurology for West Palm Beach, Palm Beach, Palm Beach Gardens, Jupiter, Wellington & "
+               "more — expert brain, spine & nerve care from Palm Beach Neurology.",
+               depth=1, canonical="locations/index.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Areas We Serve", "locations/index.html")]))
+          + nav(1) + hub + footer(1))
+    cg = "".join(
+        f'<a class="cond-card reveal d{i%3+1}" href="../conditions/{s}.html"><span class="cond-tag">{CONDITIONS[s]["tag"]}</span><h3>{CONDITIONS[s]["nav"]}</h3></a>'
+        for i, s in enumerate(list(CONDITIONS)[:8]))
+    for l in LOCATIONS_DATA:
+        faqs = mini_faq(l.get("faqs", []))
+        body = f"""
+<main>
+{page_hero(l.get("eyebrow", "Areas We Serve"), l["h1"], l["lede"],
+  f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Areas We Serve</a> / {l["city"]}</div>')}
+<section class="section">
+  <div class="wrap two-col">
+    <div class="prose reveal">
+      {l["intro_html"]}
+      <h2>Caring for {l["city"]}</h2>
+      {l["who_html"]}
+      <h2>Getting to our office</h2>
+      {l["access_html"]}
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Request an appointment</h3>
+      <p>New patients from {l["city"]} are welcome. We'll help verify your insurance and find a time that works.</p>
+      <a class="btn btn-coral" href="../appointments.html">Request Appointment <span class="arr">&rarr;</span></a>
+      <div class="side-meta"><p style="margin-bottom:0.4rem;">Prefer to call?</p><a href="tel:{PHONE_TEL}">{PHONE}</a></div>
+    </aside>
+  </div>
+</section>
+<section class="section on-cream">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">What We Treat</span>
+      <h2>Conditions We <em class="accent">Care For</em></h2></div>
+    <div class="cond-grid">{cg}</div>
+    {('<div style="max-width:760px;margin:2.6rem auto 0;">' + faqs + '</div>') if faqs else ''}
+  </div>
+</section>
+{cta_band(1)}
+</main>"""
+        write(f"locations/{l['slug']}.html",
+              head(l["title"], l["desc"], depth=1, canonical=f"locations/{l['slug']}.html",
+                   extra_schema=_service_city_schema(l["city"], l["slug"]) + breadcrumb_schema(
+                       [("Home", ""), ("Areas We Serve", "locations/index.html"), (l["city"], f"locations/{l['slug']}.html")]))
+              + nav(1) + body + footer(1))
+
+def build_service_pages():
+    if not SERVICES_DATA:
+        return
+    for s in SERVICES_DATA:
+        expect = "".join(
+            f'<div class="svc-step reveal d{i%4+1}"><div class="svc-step-dot">{i+1}</div><h3>{e["title"]}</h3><p>{e["desc"]}</p></div>'
+            for i, e in enumerate(s["expect"]))
+        approach = "".join(
+            f'<div class="svc-feature reveal d{i%3+1}"><span class="svc-feature-num">{i+1:02d}</span><div><h3>{a["title"]}</h3><p>{a["desc"]}</p></div></div>'
+            for i, a in enumerate(s["approach"]))
+        faqs = mini_faq(s.get("faqs", []))
+        who = s.get("who_html", "")
+        body = f"""
+<main>
+{page_hero(s.get("eyebrow", "Our Services"), s["h1"], s["lede"],
+  f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="../services.html">Services</a> / {s["name"]}</div>')}
+<section class="section">
+  <div class="wrap two-col">
+    <div class="prose reveal">
+      {s["intro_html"]}
+      <h2>What it is</h2>
+      {s["what_html"]}
+      {('<h2>Who it helps</h2>' + who) if who else ''}
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Ask about {s["name"]}</h3>
+      <p>Our team will explain whether this is right for you and help coordinate scheduling.</p>
+      <a class="btn btn-coral" href="../appointments.html">Request Appointment <span class="arr">&rarr;</span></a>
+      <div class="side-meta"><p style="margin-bottom:0.4rem;">Questions?</p><a href="tel:{PHONE_TEL}">{PHONE}</a></div>
+    </aside>
+  </div>
+</section>
+<section class="section on-ink">
+  {neuro_field(0.5)}
+  <div class="wrap" style="position:relative;z-index:1;">
+    <div class="section-head reveal"><span class="eyebrow on-dark">What to Expect</span>
+      <h2>Your <em class="accent">Experience</em></h2></div>
+    <div class="svc-process">{expect}</div>
+  </div>
+</section>
+<section class="section on-cream">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Our Approach</span>
+      <h2>How We <em class="accent">Do It Well</em></h2></div>
+    <div class="svc-feature-grid">{approach}</div>
+    {('<div style="max-width:760px;margin:2.6rem auto 0;">' + faqs + '</div>') if faqs else ''}
+  </div>
+</section>
+{cta_band(1)}
+</main>"""
+        write(f"services/{s['slug']}.html",
+              head(s["title"], s["desc"], depth=1, canonical=f"services/{s['slug']}.html", page_type="article",
+                   extra_schema=service_schema(s) + breadcrumb_schema(
+                       [("Home", ""), ("Services", "services.html"), (s["name"], f"services/{s['slug']}.html")]))
+              + nav(1) + body + footer(1))
+
+def build_about():
+    if not ABOUT_DATA:
+        return
+    a = ABOUT_DATA
+    values = "".join(
+        f'<div class="svc-feature reveal d{i%3+1}"><span class="svc-feature-num">{i+1:02d}</span><div><h3>{v["title"]}</h3><p>{v["desc"]}</p></div></div>'
+        for i, v in enumerate(a.get("values", [])))
+    why = "".join(
+        f'<div class="svc-feature reveal d{i%3+1}"><span class="svc-feature-num">{i+1:02d}</span><div><h3>{w["title"]}</h3><p>{w["desc"]}</p></div></div>'
+        for i, w in enumerate(a.get("why", [])))
+    body = f"""
+<main>
+{page_hero("About Us", "Our <em class='accent'>Story</em>",
+  "Decades of compassionate neurologic care and research in the Palm Beaches.",
+  '<div class="crumbs"><a href="index.html">Home</a> / About</div>')}
+<section class="section"><div class="wrap prose-wrap"><div class="prose reveal">{a["story_html"]}
+  <p style="margin-top:1.6rem;font-style:italic;color:var(--coral-text);font-size:1.1rem;">{a.get("mission", "")}</p></div></div></section>
+<section class="section on-cream"><div class="wrap">
+  <div class="section-head reveal"><span class="eyebrow">What Guides Us</span><h2>Our <em class="accent">Values</em></h2></div>
+  <div class="svc-feature-grid">{values}</div></div></section>
+<section class="section"><div class="wrap">
+  <div class="section-head reveal"><span class="eyebrow">Why Palm Beach Neurology</span><h2>Care You Can <em class="accent">Trust</em></h2></div>
+  <div class="svc-feature-grid">{why}</div>
+  <div style="text-align:center;margin-top:2.8rem;"><a class="btn btn-coral" href="our-doctors.html">Meet Our Doctors <span class="arr">&rarr;</span></a></div>
+</div></section>
+{cta_band(0)}
+</main>"""
+    write("about.html",
+          head(a["title"], a["desc"], canonical="about.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("About", "about.html")]))
+          + nav(0) + body + footer(0))
+
+def build_insurance():
+    if not INSURANCE_DATA:
+        return
+    ins = INSURANCE_DATA
+    secs = "".join(
+        f'<div class="reveal" style="margin-bottom:2rem;"><h2>{sx["heading"]}</h2>{sx["body_html"]}</div>'
+        for sx in ins.get("sections", []))
+    faqs = mini_faq(ins.get("faqs", []))
+    body = f"""
+<main>
+{page_hero("Patients", "Insurance &amp; <em class='accent'>Billing</em>",
+  "Straightforward answers about coverage, referrals, and costs — with a front-desk team happy to help.",
+  '<div class="crumbs"><a href="index.html">Home</a> / Insurance &amp; Billing</div>')}
+<section class="section"><div class="wrap prose-wrap">
+  <div class="prose reveal">{ins["intro_html"]}</div>
+  <div style="max-width:760px;margin:2.4rem auto 0;">{secs}{faqs}</div>
+</div></section>
+{cta_band(0)}
+</main>"""
+    write("insurance-billing.html",
+          head(ins["title"], ins["desc"], canonical="insurance-billing.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Insurance &amp; Billing", "insurance-billing.html")]))
+          + nav(0) + body + footer(0))
+
+# ---- Load generated content + merge extra conditions/blog posts ----
+LOCATIONS_DATA = _load_content("locations.json") or []
+SERVICES_DATA = _load_content("services.json") or []
+ABOUT_DATA = _load_content("about.json")
+INSURANCE_DATA = _load_content("insurance.json")
+
+for _c in (_load_content("conditions_extra.json") or []):
+    _slug = _c.pop("slug")
+    _c["approach"] = [(_a["title"], _a["desc"]) for _a in _c.get("approach", [])]
+    CONDITIONS[_slug] = _c
+for _p in (_load_content("blog_extra.json") or []):
+    BLOG_POSTS[_p["slug"]] = {"title": _p["title"], "date": _p.get("date", "July 2026"),
+                              "iso": _p.get("iso", "2026-07-18"), "tag": _p["tag"],
+                              "teaser": _p["teaser"], "body": _p["body_html"]}
+
 def build_meta():
     write("site.webmanifest", _json.dumps({
         "name": LEGAL, "short_name": "PB Neurology",
@@ -2154,6 +2399,14 @@ def build_meta():
     pages += [f"conditions/{s}.html" for s in CONDITIONS]
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     pages += [f"doctors/{_doc_slug(d['name'])}.html" for d in DOCTORS]
+    if SERVICES_DATA:
+        pages += [f"services/{s['slug']}.html" for s in SERVICES_DATA]
+    if LOCATIONS_DATA:
+        pages += ["locations/index.html"] + [f"locations/{l['slug']}.html" for l in LOCATIONS_DATA]
+    if ABOUT_DATA:
+        pages += ["about.html"]
+    if INSURANCE_DATA:
+        pages += ["insurance-billing.html"]
     from datetime import date as _date
     lastmod = _date.today().isoformat()
     def _prio(p):
@@ -2239,5 +2492,9 @@ if __name__ == "__main__":
     build_contact()
     build_faq()
     build_blog()
+    build_service_pages()
+    build_locations()
+    build_about()
+    build_insurance()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")

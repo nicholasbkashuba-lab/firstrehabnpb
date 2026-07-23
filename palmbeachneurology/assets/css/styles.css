@@ -1143,3 +1143,19 @@ a.team-photo { display: block; cursor: pointer; }
 .team-card .team-photo img { transition: transform 0.5s cubic-bezier(.2,.8,.2,1); }
 .team-card a.team-photo:hover img { transform: scale(1.04); }
 .team-card .text-link { margin-top: 0.9rem; display: inline-block; }
+
+/* Native <details> FAQ accordion (used on service/location/insurance pages) */
+.mini-faq { border-top: 1px solid var(--line); }
+.mini-faq .mfq { border-bottom: 1px solid var(--line); }
+.mini-faq summary { list-style: none; cursor: pointer; padding: 1.15rem 2.4rem 1.15rem 0; position: relative;
+  font-family: var(--font-display); font-size: 1.12rem; color: var(--ink); font-weight: 600; }
+.mini-faq summary::-webkit-details-marker { display: none; }
+.mini-faq summary::after { content: "+"; position: absolute; right: 0.2rem; top: 50%; transform: translateY(-50%);
+  font-size: 1.5rem; color: var(--coral-text); font-weight: 400; transition: transform 0.3s ease; line-height: 1; }
+.mini-faq .mfq[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.mini-faq summary:hover { color: var(--coral-text); }
+.mini-faq summary:focus-visible { outline: 3px solid var(--coral-text); outline-offset: 3px; border-radius: 4px; }
+.mini-faq .mfq-a { padding: 0 0 1.2rem; }
+.mini-faq .mfq-a p { color: var(--muted); font-size: 0.97rem; line-height: 1.7; }
+.mini-faq .mfq-a a { color: var(--coral-text); font-weight: 600; }
+.on-cream .mini-faq summary { color: var(--ink); }
