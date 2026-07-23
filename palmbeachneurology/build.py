@@ -556,9 +556,28 @@ def linkify_phone(html_out):
     rest = _re.sub(r"\x00(\d+)\x00", lambda m: protected[int(m.group(1))], rest)
     return head_part + rest
 
+# Correct condition-slug guesses that appear in generated copy (applied to every page).
+_SLUG_FIX = {
+    "conditions/concussion.html": "conditions/concussion-tbi.html",
+    "conditions/epilepsy.html": "conditions/epilepsy-seizures.html",
+    "conditions/headache-migraine.html": "conditions/headaches-migraine.html",
+    "conditions/headaches-and-migraine.html": "conditions/headaches-migraine.html",
+    "conditions/memory-loss-alzheimers.html": "conditions/memory-alzheimers.html",
+    "conditions/memory-alzheimers-disease.html": "conditions/memory-alzheimers.html",
+    "conditions/parkinsons-disease.html": "conditions/parkinsons-movement.html",
+    "conditions/parkinsons.html": "conditions/parkinsons-movement.html",
+    "conditions/multiple-sclerosis-ms.html": "conditions/multiple-sclerosis.html",
+    "conditions/stroke-tia.html": "conditions/stroke.html",
+    "conditions/neck-back-pain.html": "conditions/back-neck-pain.html",
+    "conditions/neck-and-back-pain.html": "conditions/back-neck-pain.html",
+    "conditions/sleep.html": "conditions/sleep-disorders.html",
+}
+
 def write(path, content):
     if path.endswith(".html"):
         content = linkify_phone(content)
+        for _a, _b in _SLUG_FIX.items():
+            content = content.replace(_a, _b)
         content = content.replace("<main>", '<main id="main">', 1)
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full) or ".", exist_ok=True)
@@ -2205,7 +2224,12 @@ def build_locations():
 {page_hero("Areas We Serve", "Neurology Across the <em class='accent'>Palm Beaches</em>",
   "Board-certified neurologic care for communities across Palm Beach County — all delivered from our "
   "West Palm Beach office.", '<div class="crumbs"><a href="../index.html">Home</a> / Areas We Serve</div>')}
-<section class="section"><div class="wrap"><div class="cond-grid">{cards}</div></div></section>
+<section class="section"><div class="wrap">
+  <div class="section-head center reveal"><span class="eyebrow">Palm Beach County</span>
+    <h2>Communities We <em class="accent">Serve</em></h2>
+    <p class="lede">Board-certified brain, spine, and nerve care for the whole region — all delivered from our West Palm Beach office.</p></div>
+  <div class="cond-grid">{cards}</div>
+</div></section>
 {cta_band(1)}
 </main>"""
     write("locations/index.html",
@@ -2340,6 +2364,7 @@ def build_about():
 </div></section>
 {cta_band(0)}
 </main>"""
+    body = body.replace('href="../', 'href="')  # About is root-level; content was drafted one folder deep
     write("about.html",
           head(a["title"], a["desc"], canonical="about.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("About", "about.html")]))
@@ -2364,6 +2389,7 @@ def build_insurance():
 </div></section>
 {cta_band(0)}
 </main>"""
+    body = body.replace('href="../', 'href="')  # root-level page; content was drafted one folder deep
     write("insurance-billing.html",
           head(ins["title"], ins["desc"], canonical="insurance-billing.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Insurance &amp; Billing", "insurance-billing.html")]))

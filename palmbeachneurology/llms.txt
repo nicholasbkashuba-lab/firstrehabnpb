@@ -27,6 +27,12 @@ Full services: https://www.palmbeachneurology.com/services.html
 - Neuromuscular Disorders: https://www.palmbeachneurology.com/conditions/neuromuscular.html
 - Sleep Disorders: https://www.palmbeachneurology.com/conditions/sleep-disorders.html
 - Neck & Back Pain, Radiculopathy: https://www.palmbeachneurology.com/conditions/back-neck-pain.html
+- Concussion & Traumatic Brain Injury: https://www.palmbeachneurology.com/conditions/concussion-tbi.html
+- Dizziness & Vertigo: https://www.palmbeachneurology.com/conditions/dizziness-vertigo.html
+- Tremor: https://www.palmbeachneurology.com/conditions/tremor.html
+- Restless Legs Syndrome: https://www.palmbeachneurology.com/conditions/restless-legs.html
+- Trigeminal Neuralgia: https://www.palmbeachneurology.com/conditions/trigeminal-neuralgia.html
+- Bell's Palsy: https://www.palmbeachneurology.com/conditions/bells-palsy.html
 
 ## Clinical research
 Premiere Research Institute — trials in Alzheimer's, migraine, and MS: https://www.palmbeachneurology.com/clinical-research.html
