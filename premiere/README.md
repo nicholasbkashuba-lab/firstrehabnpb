@@ -26,6 +26,14 @@ Why Participate · The Process · stats band · Our Team · mission quote · Com
 (+ "Invite Dr. Paul Winner to speak" form) · Newsletter + Special Edition · FAQ ·
 Enroll / Contact · footer with Instagram / Facebook / TikTok.
 
+## Brand assets
+Built from the client-provided logo (`assets/img/logo-original.jpeg` — the "Discover Hope with
+Premiere Research Institute" tree-brain mark). The tree mark was isolated from its white
+background and exported to a transparent alpha PNG (`mark-mask.png`) used as a CSS mask, so the
+mark recolors itself via `currentColor` — cream/white over the dark hero and footer, slate on the
+light scrolled header. Favicons (`favicon-32.png`, `favicon-512.png`, `apple-touch-icon.png`) are
+the mark on a midnight rounded square. The "Discover Hope with" tagline is kept in the lockup.
+
 ## Content notes / facts used
 - **Address:** 4631 N. Congress Ave, Suite 200, West Palm Beach, FL 33407
 - **Phone:** (561) 851-9400 · **Hours:** Mon–Fri, 9:00 AM – 4:30 PM
