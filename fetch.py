@@ -1,4 +1,4 @@
-import re, os, json, urllib.request, ssl
+import re, os, json, time, urllib.request, ssl
 
 UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', 'Accept': 'text/html,application/xhtml+xml,*/*'}
 ctx = ssl.create_default_context()
@@ -6,8 +6,15 @@ for d in ('out/html', 'out/photos', 'out/bios'):
     os.makedirs(d, exist_ok=True)
 
 
-def get(u, t=45):
-    return urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=t, context=ctx).read()
+def get(u, t=60, tries=3):
+    last = None
+    for _ in range(tries):
+        try:
+            return urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=t, context=ctx).read()
+        except Exception as e:
+            last = e
+            time.sleep(2)
+    raise last
 
 
 pages = {}
@@ -61,17 +68,6 @@ def origurl(u):
     u = u.replace('&amp;', '&')
     return re.split(r'/v1/', u)[0]
 
-
-for k, h in pages.items():
-    m = re.search(r'(?is)<meta[^>]+og:image[^>]+content=["\']([^"\']+)', h)
-    if not m:
-        m = re.search(r'(?is)content=["\']([^"\']+)["\'][^>]*og:image', h)
-    if m:
-        try:
-            open('out/photos/OG-%s.jpg' % k, 'wb').write(get(origurl(m.group(1))))
-            print('OG', k, m.group(1))
-        except Exception as e:
-            print('ogfail', k, repr(e)[:140])
 
 allimg = []
 for h in pages.values():
