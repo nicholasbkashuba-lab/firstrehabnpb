@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Palm Beach Neurology & Premier Research Institute — static site generator.
+Palm Beach Neurology & Premiere Research Institute — static site generator.
 Run `python3 build.py`; every page regenerates in place.
 
 Engineered on the First Rehabilitation of North Palm Beach design system
@@ -35,6 +35,8 @@ TAGLINE = "Stay Sharp. Stay in Control."
 PHONE = "561-845-0500"
 PHONE_TEL = "+15618450500"
 EMAIL = "info@palmbeachneurology.com"             # VERIFY
+FAX = "561-845-0587"
+RESEARCH_PHONE = "561-851-9400"
 ADDR_STREET = "4631 N Congress Ave"
 ADDR_CITY = "West Palm Beach"
 ADDR_STATE = "FL"
@@ -62,7 +64,7 @@ def asset_v(path):
             ASSET_V[path] = "1"
     return ASSET_V[path]
 
-FAVICON_V = "1"
+FAVICON_V = "2"
 
 # ----------------------------------------------------------------------------
 # ORG SCHEMA + <head>
@@ -78,18 +80,26 @@ def _org_schema_str():
         "name": LEGAL,
         "alternateName": ["Palm Beach Neurology", "Premiere Research Institute", "PBN"],
         "description": ("Comprehensive neurology practice in West Palm Beach, Florida — one of the "
-                        "most experienced neurological practices in the country, with 25+ years "
+                        "most experienced neurological practices in the United States, with 25+ years "
                         "caring for the brain, spine, and nervous system, plus an on-site clinical-"
                         "research institute. We treat the patient, not just the disease."),
         "url": BASE + "/",
         "logo": f"{BASE}/assets/media/logo.png",
         "image": f"{BASE}/assets/media/og-cover.jpg",
         "telephone": "+1-" + PHONE,
+        "faxNumber": "+1-" + FAX,
         "email": EMAIL,
         "medicalSpecialty": ["Neurologic"],
         "priceRange": "$$",
         "isAcceptingNewPatients": True,
         "slogan": "Treating the patient, not just the disease.",
+        "openingHoursSpecification": [
+            {"@type": "OpeningHoursSpecification",
+             "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"],
+             "opens": "08:00", "closes": "17:00"},
+            {"@type": "OpeningHoursSpecification",
+             "dayOfWeek": ["Friday"], "opens": "08:00", "closes": "16:30"},
+        ],
         "address": {
             "@type": "PostalAddress",
             "streetAddress": ADDR_STREET,
@@ -109,9 +119,11 @@ def _org_schema_str():
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + "</script>"
 
 def head(title, desc, depth=0, canonical="", og_image="assets/media/og-cover.jpg",
-         page_type="website", extra_schema=""):
+         page_type="website", extra_schema="", noindex=False):
     p = "../" * depth
     canon = f"{BASE}/{canonical}" if canonical else BASE + "/"
+    canon_tag = "" if noindex else f'<link rel="canonical" href="{canon}">\n'
+    robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,8 +131,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/og-cover.jpg
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
-<link rel="canonical" href="{canon}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+{canon_tag}<meta name="robots" content="{robots}">
 <meta name="author" content="{html.escape(LEGAL)}">
 <meta name="geo.region" content="US-FL">
 <meta name="geo.placename" content="West Palm Beach">
@@ -162,11 +173,7 @@ def nav(depth=0, solid=False):
   <a class="skip-link" href="#main">Skip to main content</a>
   <div class="wrap nav-bar">
     <a class="brand" href="{p}index.html" aria-label="{html.escape(BRAND)} home">
-      {brand_mark('nav')}
-      <span class="brand-text">
-        <span class="brand-name">Palm Beach Neurology</span>
-        <span class="brand-sub">Premier Research Institute</span>
-      </span>
+      <img class="brand-logo" src="{p}assets/media/logo.png" alt="{html.escape(BRAND)}" width="204" height="55">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="nav-el" aria-label="Main menu">
@@ -208,18 +215,17 @@ def footer(depth=0):
   <div class="wrap">
     <div class="footer-grid">
       <div class="f-brand">
-        {brand_mark('footer')}
-        <div class="brand-name">Palm Beach Neurology</div>
+        <img class="f-logo" src="{p}assets/media/logo-light.png" alt="{html.escape(BRAND)}" width="216" height="58" loading="lazy">
         <div class="brand-tag">Treating the patient, not just the disease.</div>
         <p>Board-certified neurology and on-site clinical research in West Palm Beach —
         advanced, compassionate care for the brain, spine, and nervous system for more than 25 years.</p>
       </div>
       <div>
-        <h3 class="f-head">Conditions</h3>
+        <h2 class="f-head">Conditions</h2>
         <ul>{cond_links}<li><a href="{p}conditions/index.html">All Conditions &rarr;</a></li></ul>
       </div>
       <div>
-        <h3 class="f-head">Practice</h3>
+        <h2 class="f-head">Practice</h2>
         <ul>
           <li><a href="{p}services.html">Services</a></li>
           <li><a href="{p}our-doctors.html">Our Doctors</a></li>
@@ -230,11 +236,11 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Areas We Serve</h3>
+        <h2 class="f-head">Areas We Serve</h2>
         <ul class="f-areas">{area_links}</ul>
       </div>
       <div>
-        <h3 class="f-head">Visit Us</h3>
+        <h2 class="f-head">Visit Us</h2>
         <ul class="f-contact">
           <li>{ADDR_STREET}<br>{ADDR_CITY}, {ADDR_STATE} {ADDR_ZIP}</li>
           <li>Phone: <a href="tel:{PHONE_TEL}">{PHONE}</a></li>
@@ -542,7 +548,7 @@ CONDITIONS = {
         "approach": [
             ("Thorough cognitive work-up", "Testing plus a search for reversible causes — medications, thyroid, B12, sleep, mood."),
             ("A clear plan for the family", "Diagnosis, expectations, safety, and support — explained without jargon."),
-            ("Access to new therapies", "Disease-modifying options and clinical trials via our Premier Research Institute."),
+            ("Access to new therapies", "Disease-modifying options and clinical trials via our Premiere Research Institute."),
         ],
     },
     "multiple-sclerosis": {
@@ -754,8 +760,8 @@ def build_conditions():
 </main>
 """
         write(f"conditions/{slug}.html",
-              head(f"{_plain(c['nav'])} Treatment in West Palm Beach | Palm Beach Neurology",
-                   f"{_plain(c['lede'])} Board-certified neurology care at Palm Beach Neurology, West Palm Beach FL.",
+              head(f"{_plain(c['nav'])} | Palm Beach Neurology",
+                   (_plain(c['lede'])[:150].rsplit(' ', 1)[0] + " — board-certified neurology in West Palm Beach, FL."),
                    depth=1, canonical=f"conditions/{slug}.html", page_type="article",
                    extra_schema=condition_schema(slug, c) + breadcrumb_schema(
                        [("Home", ""), ("Conditions", "conditions/index.html"), (_plain(c["nav"]), f"conditions/{slug}.html")]))
@@ -764,46 +770,82 @@ def build_conditions():
 # ============================================================================
 # CONTENT — DOCTORS  (roster PENDING OWNER VERIFICATION — see header note)
 # ============================================================================
-# Authoritative roster supplied by the owner from the practice's Our Doctors page.
-# Post-nominals are the doctors' own; focus areas beyond what a fellowship implies
-# (FAHS -> headache, FAAN -> academy fellow) are conservative and can be refined.
+# Authoritative roster + bios pulled verbatim from the practice's own About pages.
+# Photo files live in assets/team/<slug>.jpg where slug = _doc_slug(name).
+# (Sadowsky/Zuniga bios are concise interim summaries pending their verbatim About text.)
 DOCTORS = [
     {"name": "Paul Winner", "creds": "DO, FAAN, FAHS",
      "focus": ["Headache &amp; Migraine", "Clinical Research"],
-     "bio": "A nationally recognized leader in headache medicine and neurological clinical research — "
-            "a Fellow of the American Academy of Neurology and the American Headache Society."},
+     "bio": "Dr. Paul Winner is President of the Florida Association for the Study of Headache and "
+            "Neurologic Disorders, Past-President of the Florida Society of Neurology, and Past-President "
+            "of the American Headache Society. An active member of the American Medical Association, "
+            "American Osteopathic Association, American Academy of Neurology, and American Headache "
+            "Society, he has published numerous journal articles and multiple textbooks for both the "
+            "medical community and the general public, and is a national speaker and educator."},
     {"name": "Reed Stone", "creds": "MD, FAAN",
-     "focus": ["General Neurology"],
-     "bio": "A Fellow of the American Academy of Neurology, bringing broad experience across general "
-            "neurology and a deeply patient-centered approach to care."},
+     "focus": ["Nerve &amp; Muscle", "EMG / NCV", "Spine"],
+     "bio": "Board-certified in Neurology, Dr. Reed Stone has been part of Palm Beach Neurology for over "
+            "38 years. A graduate of Brooklyn College (Biology, Magna Cum Laude), he earned his medical "
+            "degree with honors from Universidad Central Del Este and completed his neurology residency "
+            "at SUNY Downstate Medical Center, where he served as Chief Resident. He specializes in the "
+            "diagnosis and treatment of spine, nerve, and muscle disorders, with expertise in EMG-NCV "
+            "testing, and has extensive experience in medical-legal neurology including workers' "
+            "compensation and personal injury."},
     {"name": "Arnaldo Da Silva", "creds": "MD, FAHS",
-     "focus": ["Headache &amp; Migraine"],
-     "bio": "A Fellow of the American Headache Society, focused on the diagnosis and treatment of "
-            "headache and migraine disorders."},
+     "focus": ["Headache &amp; Migraine", "Neuromodulation"],
+     "bio": "Dr. Arnaldo Neves Da Silva is Co-Director of the Palm Beach Headache Center and is "
+            "board-certified in both Neurology and Headache Medicine, and a Fellow of the American "
+            "Headache Society. Originally from Brazil, he began his career as a neurosurgeon before "
+            "completing fellowships in Neuro-oncology and Radiosurgery at the University of Virginia, a "
+            "Neurology residency at the University of Chicago, and a headache fellowship at the Cleveland "
+            "Clinic. His special interests include cell therapies for migraine, interventional pain "
+            "procedures, and neuromodulation. He is fluent in English, Portuguese, and Spanish."},
     {"name": "Tara Becker", "creds": "MD",
-     "focus": ["General Neurology"],
-     "bio": "Board-certified neurologist providing comprehensive, compassionate evaluation and care "
-            "for conditions of the nervous system."},
+     "focus": ["Epilepsy &amp; Seizures", "EEG"],
+     "bio": "Dr. Tara Becker is dual board-certified in Neurology and Epilepsy. She earned her medical "
+            "degree from the Florida State University College of Medicine, completed her neurology "
+            "residency at the Mayo Clinic in Jacksonville, and pursued fellowship training in Epilepsy "
+            "at the University of Pennsylvania. She specializes in the diagnosis and management of adults "
+            "with epilepsy and seizures, with advanced expertise in EEG including ambulatory continuous "
+            "video EEG monitoring, evaluation for epilepsy surgery, and neuromodulation devices such as "
+            "vagus nerve stimulation (VNS)."},
     {"name": "Robert Coppola", "creds": "DO",
-     "focus": ["General Neurology"],
-     "bio": "Caring for the full range of neurologic conditions with a personalized, patient-first "
-            "approach to diagnosis and long-term management."},
+     "focus": ["Multiple Sclerosis", "Neuro-immunology"],
+     "bio": "Born and raised in Ft. Lauderdale, Dr. Robert Coppola earned his Bachelor of Science in "
+            "Biology with honors and his medical degree from Nova Southeastern University, then completed "
+            "his neurology residency at Larkin Community Hospital in Miami, where he served as Chief "
+            "Resident. He specializes in the diagnosis and management of neurological disorders in "
+            "adults, with a subspecialty focus on multiple sclerosis and related neuro-immunological "
+            "conditions, and completed fellowship training at the University of Miami."},
     {"name": "Manisha Korb", "creds": "MD",
-     "focus": ["General Neurology"],
-     "bio": "Dedicated to thorough diagnosis and individualized, long-term management across the "
-            "breadth of general neurology."},
+     "focus": ["Neuromuscular", "ALS", "EMG"],
+     "bio": "Dr. Manisha Korb is a neuromuscular neurologist, board-certified in both Neurology and "
+            "Electrodiagnostic Medicine. She earned her medical degree from the University of Virginia, "
+            "completed her residency and a neuromuscular electrophysiology fellowship at the University "
+            "of Chicago (where she served as Chief Resident), and spent seven years at UC Irvine as an "
+            "associate clinical professor in a designated MDA and ALS Center. Her interests include SMA, "
+            "neuropathy, GBS, CIDP, ALS, myasthenia gravis, and muscular dystrophy; she performs NCS/EMG, "
+            "Botox for spasticity, skin biopsies, and intrathecal medication administration."},
     {"name": "Michael Alosilla", "creds": "MD",
-     "focus": ["General Neurology"],
-     "bio": "Focused on accurate diagnosis and individualized treatment for patients living with "
-            "neurologic disorders."},
+     "focus": ["Movement Disorders", "Parkinson's &amp; DBS"],
+     "bio": "Dr. Michael Alosilla is a fellowship-trained neurologist subspecializing in Movement "
+            "Disorders. He earned his medical degree from Universidad Peruana Cayetano Heredia in Lima, "
+            "Peru, and completed his fellowship at MedStar Georgetown University Hospital, with advanced "
+            "training in Parkinson's disease, atypical parkinsonian syndromes, dystonia, tremor, and "
+            "ataxia. His interests include movement disorders and neurodegenerative conditions such as "
+            "Lewy body and frontotemporal dementia. He is skilled in botulinum toxin injections, deep "
+            "brain stimulation (DBS) programming, and emerging infusion therapies, and is fluent in "
+            "English and Spanish."},
     {"name": "Carl Sadowsky", "creds": "MD, FAAN",
-     "focus": ["Memory &amp; Cognitive Disorders", "Clinical Research"],
-     "bio": "A Fellow of the American Academy of Neurology with a focus on memory and cognitive "
-            "disorders, including Alzheimer's disease and clinical research."},
+     "focus": ["Memory &amp; Alzheimer's", "Clinical Research"],
+     "bio": "A Fellow of the American Academy of Neurology, Dr. Carl Sadowsky focuses on memory and "
+            "cognitive disorders, including Alzheimer's disease, and is actively involved in clinical "
+            "research advancing new treatments for memory loss."},
     {"name": "Jose Zuniga", "creds": "MD",
      "focus": ["General Neurology"],
-     "bio": "Board-certified neurologist committed to caring for patients with respect, empathy, "
-            "and professionalism."},
+     "bio": "Dr. Jose Zuniga is a board-certified neurologist who cares for the full range of "
+            "neurologic conditions, treating every patient and family with respect, empathy, and "
+            "professionalism."},
 ]
 
 def _doc_slug(name):
@@ -827,17 +869,13 @@ def person_schema():
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + "</script>\n"
 
 def build_doctors():
-    def initials(name):
-        parts = _plain(name).replace(",", "").split()
-        return (parts[0][0] + (parts[1][0] if len(parts) > 1 else "")).upper()
     cards = ""
     for i, d in enumerate(DOCTORS):
+        slug = _doc_slug(d['name'])
         focus = "".join(f"<span>{f}</span>" for f in d["focus"])
         cards += f'''
-        <article class="team-card reveal d{i%3+1}" id="{_doc_slug(d['name'])}">
-          <div class="team-photo empty" role="img" aria-label="Portrait of Dr. {_plain(d['name'])}">
-            <span class="team-initials" aria-hidden="true">{initials(d['name'])}</span>
-          </div>
+        <article class="team-card reveal d{i%3+1}" id="{slug}">
+          <div class="team-photo"><img src="assets/team/{slug}.jpg" alt="Dr. {_plain(d['name'])}, {_plain(d['creds'])}" width="640" height="640" loading="lazy" decoding="async"></div>
           <h3>Dr. {d["name"]}</h3>
           <div class="role">{d["creds"]}</div>
           <div class="pw-tags" style="justify-content:center;margin-top:0.7rem;">{focus}</div>
@@ -846,9 +884,13 @@ def build_doctors():
     body = f"""
 <main>
 {page_hero("Meet the Team", "Our <em class='accent'>Doctors</em>",
-  "Board-certified neurologists with more than 25 years of combined experience caring for the "
-  "brain, spine, and nervous system — right here in West Palm Beach.",
+  "Board-certified neurologists caring for the brain, spine, and nervous system for more than "
+  "25 years — right here in West Palm Beach.",
   '<div class="crumbs"><a href="index.html">Home</a> / Our Doctors</div>')}
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap"><div class="team-banner reveal"><img src="assets/media/team-group.jpg" alt="The Palm Beach Neurology care team" loading="lazy"></div></div>
+</section>"""
+    body += f"""
 <section class="section">
   <div class="wrap">
     <div class="section-head center reveal">
@@ -869,7 +911,7 @@ def build_doctors():
         <span class="eyebrow on-dark">More Than a Clinic</span>
         <h2>A research institute <em class="accent">under the same roof</em></h2>
         <p style="margin-top:1.2rem;">Our physicians are active in clinical research through the
-        Premier Research Institute — giving our patients access to tomorrow's therapies for
+        Premiere Research Institute — giving our patients access to tomorrow's therapies for
         Alzheimer's, migraine, and MS, today.</p>
         <div class="mt-2"><a class="btn btn-ghost" href="clinical-research.html">Explore Clinical Research <span class="arr">&rarr;</span></a></div>
       </div>
@@ -925,11 +967,16 @@ def build_research():
   '<div class="crumbs"><a href="index.html">Home</a> / Clinical Research</div>')}
 <section class="section">
   <div class="wrap">
+    <div class="center reveal" style="margin-bottom:2rem;">
+      <a href="{RESEARCH_URL}" target="_blank" rel="noopener" aria-label="Visit the Premiere Research Institute">
+        <img class="prem-logo" src="assets/media/premiere-research.png" alt="Premiere Research Institute" style="margin:0 auto;" width="230" height="200"></a>
+    </div>
     <div class="section-head reveal">
       <span class="eyebrow">Why It Matters</span>
       <h2>Advancing Neurology, <em class="accent">Right Here</em></h2>
       <p class="lede">Clinical trials are how every treatment we use today came to be. Participating
-      can give you access to investigational therapies and expert oversight — at no cost to you.</p>
+      can give you access to investigational therapies and expert oversight — at no cost to you.
+      To reach the research team directly, call {RESEARCH_PHONE}.</p>
     </div>
     <div class="svc-feature-grid">{trial_cards}</div>
     <p style="max-width:70ch;margin-top:1.6rem;">Participants receive ongoing expert care throughout
@@ -955,7 +1002,7 @@ def build_research():
 </main>
 """
     write("clinical-research.html",
-          head("Clinical Research &amp; Trials | Palm Beach Neurology, West Palm Beach",
+          head("Clinical Research & Trials | Palm Beach Neurology, West Palm Beach",
                "The Premiere Research Institute at Palm Beach Neurology runs clinical trials in "
                "Alzheimer's, migraine, and MS in West Palm Beach, FL. Learn how to participate.",
                canonical="clinical-research.html",
@@ -1017,7 +1064,7 @@ def build_appointments():
         <div class="af-two">
           <div class="af-field">
             <label for="af-phone">Phone *</label>
-            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="Your phone number">
           </div>
           <div class="af-field">
             <label for="af-email">Email</label>
@@ -1060,7 +1107,7 @@ def build_appointments():
         <h3>Palm Beach Neurology</h3>
         <div class="c-row"><span class="c-label">Address</span><span>{ADDR_STREET}<br>{ADDR_CITY}, {ADDR_STATE} {ADDR_ZIP}</span></div>
         <div class="c-row"><span class="c-label">Phone</span><a href="tel:{PHONE_TEL}">{PHONE}</a></div>
-        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday<br>Call for current hours</span></div>
+        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Thursday, 8:00 AM – 5:00 PM<br>Friday, 8:00 AM – 4:30 PM</span></div>
         <div class="c-row"><span class="c-label">Portal</span><a href="{PORTAL}">Patient Portal &rarr;</a></div>
         <a class="btn btn-coral mt-2" href="tel:{PHONE_TEL}">Call to Book <span class="arr">&rarr;</span></a>
       </div>
@@ -1092,12 +1139,13 @@ def build_contact():
   <div class="wrap contact-grid">
     <div class="reveal">
       <div class="contact-card">
-        <h2 class="h3-size">Palm Beach Neurology &amp; Premier Research Institute</h2>
+        <h2 class="h3-size">Palm Beach Neurology &amp; Premiere Research Institute</h2>
         <div class="c-row"><span class="c-label">Address</span><span>{ADDR_STREET}<br>{ADDR_CITY}, {ADDR_STATE} {ADDR_ZIP}</span></div>
         <div class="c-row"><span class="c-label">Phone</span><a href="tel:{PHONE_TEL}">{PHONE}</a></div>
+        <div class="c-row"><span class="c-label">Research</span><span><a href="tel:+15618519400">{RESEARCH_PHONE}</a> · clinical trials</span></div>
+        <div class="c-row"><span class="c-label">Fax</span><span>{FAX}</span></div>
         <div class="c-row"><span class="c-label">Email</span><a href="mailto:{EMAIL}">{EMAIL}</a></div>
-        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Friday · Call for current hours</span></div>
-        <div class="c-row"><span class="c-label">Portal</span><a href="{PORTAL}">Patient Portal &rarr;</a></div>
+        <div class="c-row"><span class="c-label">Hours</span><span>Monday – Thursday, 8 AM – 5 PM · Friday, 8 AM – 4:30 PM</span></div>
         <div class="hero-ctas" style="margin-top:1.6rem;">
           <a class="btn btn-coral" href="appointments.html">Request Appointment <span class="arr">&rarr;</span></a>
           <a class="btn btn-ink" href="tel:{PHONE_TEL}">Call Now</a>
@@ -1163,7 +1211,7 @@ FAQ_CATEGORIES = [
          "(for neuropathy and neuromuscular conditions) as part of the work-up. Ask our team about "
          "what's available and what your evaluation may involve."),
         ("What clinical trials are available?",
-         "Through our on-site Premier Research Institute, we run carefully monitored trials in areas "
+         "Through our on-site Premiere Research Institute, we run carefully monitored trials in areas "
          "such as Alzheimer's, migraine, and MS. Available studies change over time — ask us what's "
          "currently enrolling."),
     ]),
@@ -1286,7 +1334,7 @@ def build_home():
          "to the newest disease-modifying therapies.",
          ["Free Memory Screen", "Alzheimer's", "Dementia"], "conditions/memory-alzheimers.html", ""),
         ("03", "Clinical Research", "Tomorrow's therapies, today.",
-         "Our on-site Premier Research Institute offers carefully monitored trials in Alzheimer's, "
+         "Our on-site Premiere Research Institute offers carefully monitored trials in Alzheimer's, "
          "migraine, and MS — expert oversight, at no cost to participants.",
          ["Alzheimer's", "Migraine", "MS"], "clinical-research.html",
          '<span class="badge-inline">On-site</span>'),
@@ -1397,7 +1445,7 @@ def build_home():
       state-of-the-art techniques with a personal approach — treating the patient, not just the
       disease. Our board-certified neurologists take the time to reach the right diagnosis and build
       a plan around your life.</p>
-      <p>Because we house the Premier Research Institute under the same roof, our patients can reach
+      <p>Because we house the Premiere Research Institute under the same roof, our patients can reach
       tomorrow's therapies today — through carefully monitored clinical trials in Alzheimer's,
       migraine, and MS.</p>
       <div class="stat-row">
@@ -1549,7 +1597,7 @@ def build_patient_center():
     <aside class="side-card reveal d2">
       <h3>Patient Portal</h3>
       <p>Access your information and manage your care online.</p>
-      <a class="btn btn-ink" href="#" aria-label="Patient portal login (link pending)">Portal Login &rarr;</a>
+      <span class="btn btn-ink" style="opacity:0.55;cursor:default;pointer-events:none;" aria-disabled="true">Portal Login — Coming Soon</span>
       <div class="side-meta">
         <p style="margin-bottom:0.4rem;">Ready to schedule?</p>
         <a href="appointments.html" class="text-link">Request an appointment &rarr;</a>
@@ -1566,7 +1614,7 @@ def build_patient_center():
 </main>
 """
     write("patient-center.html",
-          head("Patient Center &amp; New Patient Forms | Palm Beach Neurology",
+          head("Patient Center & New Patient Forms | Palm Beach Neurology",
                "New patient information, downloadable paperwork, patient portal, and what to bring "
                "to your first neurology visit at Palm Beach Neurology in West Palm Beach, FL.",
                canonical="patient-center.html",
@@ -1618,7 +1666,7 @@ def build_new_patient_form():
           <div class="af-field full"><label for="np-addr">Street address</label><input id="np-addr" name="Address" type="text" autocomplete="street-address" maxlength="160"></div>
           <div class="af-field"><label for="np-city">City</label><input id="np-city" name="City" type="text" maxlength="80"></div>
           <div class="af-field"><label for="np-zip">State / ZIP</label><input id="np-zip" name="State and ZIP" type="text" maxlength="40"></div>
-          <div class="af-field"><label for="np-phone">Cell phone *</label><input id="np-phone" name="Cell phone" type="tel" required autocomplete="tel" maxlength="40" placeholder="561-555-1234"></div>
+          <div class="af-field"><label for="np-phone">Cell phone *</label><input id="np-phone" name="Cell phone" type="tel" required autocomplete="tel" maxlength="40" placeholder="Your phone number"></div>
           <div class="af-field"><label for="np-email">Email *</label><input id="np-email" name="Email" type="email" required autocomplete="email" maxlength="160"></div>
         </div>
       </div>
@@ -1751,7 +1799,8 @@ def build_meta():
 
 ## Key facts
 - Address: {ADDR_STREET}, {ADDR_CITY}, {ADDR_STATE} {ADDR_ZIP}
-- Phone: {PHONE}
+- Phone: {PHONE} · Fax: {FAX} · Research (clinical trials): {RESEARCH_PHONE}
+- Hours: Monday-Thursday 8:00 AM-5:00 PM; Friday 8:00 AM-4:30 PM
 - Accepting new patients; free memory screens available
 - Website: {BASE}/
 
@@ -1789,7 +1838,7 @@ Patient Center & new-patient forms: {BASE}/patient-center.html
     write("404.html",
           head("Page Not Found | Palm Beach Neurology",
                "That page took a wrong turn. Find neurology care at Palm Beach Neurology in West Palm Beach, FL.",
-               extra_schema='<meta name="robots" content="noindex">\n') + nav(0, solid=True) + body + footer(0))
+               noindex=True) + nav(0, solid=True) + body + footer(0))
 
 if __name__ == "__main__":
     build_home()

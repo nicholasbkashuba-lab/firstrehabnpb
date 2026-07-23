@@ -26,8 +26,8 @@
   --paper: #FFFFFF;
   /* --coral* names retained from the base system, revalued to the brand
      SEA-GREEN so the hundreds of downstream rules re-theme automatically. */
-  --coral: #1F8A7B;      /* sea-green — primary CTA */
-  --coral-deep: #167063; /* sea-green hover */
+  --coral: #167063;      /* deep sea-green — primary CTA (cream text = 5.05:1, AA) */
+  --coral-deep: #0E5348; /* darker sea-green hover */
   --coral-text: #16685D; /* WCAG AA text-safe sea-green on sand (~4.9:1) */
   --sea: #2E9C8E;        /* luminous sea-green (accents, synapse) */
   --leaf: #6FA84B;       /* brand leaf-green (used sparingly) */
@@ -887,3 +887,32 @@ a.tb-item:hover { color: var(--gold); }
 .np-consent { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.92rem; color: var(--text);
   cursor: pointer; margin-bottom: 1.2rem; }
 .np-consent input { width: 18px; height: 18px; accent-color: var(--coral); margin-top: 0.15rem; flex-shrink: 0; }
+
+/* ============================================================
+   Audit fixes (WCAG AA) + real brand logo + physician photos
+   ============================================================ */
+/* On-dark elements that used --coral (mid green) as TEXT now use gold (light),
+   which passes on the ink surfaces; solid/light header keeps a deep-green accent. */
+.mobile-call { color: var(--cream); }
+.bm-panel .cond-tag { color: var(--gold); }
+.nav-links a.nav-item:hover { color: var(--gold); }
+.site-header.scrolled .nav-links a.nav-item:hover,
+.site-header.solid .nav-links a.nav-item:hover { color: var(--coral-text); }
+.site-footer a:hover { color: var(--gold); text-decoration-color: var(--gold); }
+.crumbs a:hover { color: var(--gold); }
+@media (max-width: 1260px) { .nav-links a.nav-item:hover { color: var(--coral-text); } }
+
+/* Real brand logo (header + footer) replacing the SVG stand-in */
+.brand-logo { height: 46px; width: auto; display: block; transition: height .35s ease; }
+.site-header.scrolled .brand-logo { height: 40px; }
+@media (max-width: 1260px) { .brand-logo { height: 40px; } }
+.f-logo { height: 54px; width: auto; margin-bottom: 0.9rem; display: block; }
+
+/* Team group banner on Our Doctors */
+.team-banner { max-width: 1040px; margin: 0 auto; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-card); border: 1px solid var(--line-gold); }
+.team-banner img { width: 100%; height: auto; display: block; }
+
+/* Premiere Research Institute logo on Clinical Research */
+.prem-logo { height: 104px; width: auto; display: block; }
+.prem-inline { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
