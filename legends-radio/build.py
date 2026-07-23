@@ -17,6 +17,10 @@ import hashlib, json, os, datetime, html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 BASE = "https://www.legendsradio.com"   # canonical production home (see OWNER TO-DOS)
+# Path the site is served from. As a subfolder deploy it MUST be "/legends-radio/" so
+# relative assets resolve even when the URL has no trailing slash (Vercel trailingSlash:false
+# strips it). For a root-domain deploy (legendsradio.com) set this to "/" and rebuild.
+SITE_BASE_PATH = "/legends-radio/"
 BUILT = datetime.date.today().isoformat()
 
 # ---------------------------------------------------------------------------
@@ -427,6 +431,7 @@ def document(filename, title, desc, body, active, extra_schema=None, og_image="l
         "<!doctype html><html lang=\"en\"><head>"
         "<meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+        "<base href=\"" + SITE_BASE_PATH + "\">"
         "<title>" + html.escape(title) + "</title>"
         "<meta name=\"description\" content=\"" + html.escape(desc) + "\">"
         "<link rel=\"canonical\" href=\"" + canonical + "\">"
