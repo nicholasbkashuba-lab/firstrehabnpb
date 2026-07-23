@@ -28,6 +28,9 @@ STATION = {
     "call": "WLML-FM",
     "freq": "100.3",
     "slogan": "Where Legendary Music Lives",
+    "flourish": "The One and Only…",
+    "entertainment": "A Dick Robinson Entertainment Station",
+    "heard": "Heard at 100.3 in Palm Beach County",
     "tagline": "The Great American Songbook — live & local from the Palm Beaches.",
     "market": "West Palm Beach / the Palm Beaches",
     "license_city": "Lake Park, FL",
@@ -48,11 +51,15 @@ STATION = {
     "stream": "https://ice3.securenetsystems.net/WLML",
     "popout": "https://legendsradio.com/listen-live/",
     "instagram": "https://www.instagram.com/legendsradio100.3/",
+    "facebook": "https://www.facebook.com/legendsradio",
+    "twitter": "https://twitter.com/Legends_Radio",
     "soundcloud": "https://soundcloud.com/legendsradio",
     "tunein": "https://tunein.com/radio/Legends-Radio-1003-s218849/",
     "app_ios": "https://apps.apple.com/us/app/legends-radio-100-3-fm/id6575388465",
     "app_android": "https://play.google.com/store/apps/details?id=com.wlml1.player",
     "eventbrite": "https://www.eventbrite.com/o/8860760162",
+    "venue": "Downtown Abacoa Amphitheater · 1267 Main St, Jupiter, FL 33458",
+    "spgas": "Society for the Preservation of the Great American Songbook",
 }
 AREA_SERVED = ["West Palm Beach", "Palm Beach", "North Palm Beach", "Palm Beach Gardens",
                "Jupiter", "Lake Park", "Juno Beach", "Wellington", "Boca Raton", "Stuart"]
@@ -73,8 +80,8 @@ HOSTS = [
         "persons": ["Jill Switzer", "Rich Switzer"],
         "bio": "South Florida's first couple of the Songbook open every weekday. Jill is one of "
                "the region's most sought-after vocalists — a songwriter and published author — while "
-               "Rich is a gifted pianist and composer who has entertained Palm Beach audiences for "
-               "more than thirty years.",
+               "Rich is a gifted pianist and composer. Together they also perform their acclaimed "
+               "cabaret, <em>Supper Club with Jill &amp; Rich</em>.",
     },
     {
         "slug": "walt-pinto", "name": "Walt Pinto", "mono": "WP",
@@ -87,24 +94,42 @@ HOSTS = [
         "slug": "lorna-oconnell", "name": "Lorna O'Connell", "mono": "LO",
         "role": "Weekday Afternoons", "show": "Afternoons with Lorna O'Connell", "slot": "Weekdays · 2–6 PM",
         "persons": ["Lorna O'Connell"],
-        "bio": "Lorna carries the Palm Beaches through the afternoon and into the golden hour with "
-               "warm company and timeless standards, all the way to the drive home.",
+        "bio": "A veteran of the West Palm Beach radio market, Lorna carries the Palm Beaches "
+               "through the afternoon and into the golden hour with warm company and timeless "
+               "standards, all the way to the drive home.",
     },
     {
         "slug": "dick-robinson", "name": "Dick Robinson", "mono": "DR",
         "role": "Founder & Host", "show": "American Standards by the Sea", "slot": "Sat 6–8 PM · Sun 10 AM–12 PM",
         "persons": ["Dick Robinson"],
-        "bio": "A lifelong broadcaster and founder of the Connecticut School of Broadcasting, Dick "
-               "signed Legends on the air in 2014 to preserve the greatest music ever recorded. His "
-               "“American Standards by the Sea” is heard on 70+ stations nationwide.",
+        "bio": "A broadcasting legend with a nearly 70-year career, Dick founded the Connecticut "
+               "School of Broadcasting and signed Legends on the air in 2014 to preserve the greatest "
+               "music ever recorded. He hosts <em>American Standards by the Sea</em> — produced in part "
+               "aboard his motor yacht <em>Airwaves</em> and heard on 75+ stations nationwide — and "
+               "chairs the Society for the Preservation of the Great American Songbook.",
+    },
+    {
+        "slug": "popeye-alexander", "name": "Gregory “Popeye” Alexander", "mono": "GA",
+        "role": "Sunday Nights", "show": "Legends of Jazz", "slot": "Sundays · 8–10 PM",
+        "persons": ["Gregory Alexander"],
+        "bio": "A lifelong jazz musician who leads the International Players Jazz Ensemble, Popeye "
+               "brings deep-cut vocals and instrumentals to Sunday nights — the Songbook's cooler, "
+               "smokier side.",
     },
     {
         "slug": "golf-travel", "name": "Dan Shube & Doris Muscarella", "mono": "G&T",
         "role": "Sunday Mornings", "show": "The Golf & Travel Show", "slot": "Sundays · 7–7:30 AM",
         "persons": ["Dan Shube", "Doris Muscarella"],
         "bio": "Dan Shube — the show's founder with 28+ years on the air — and co-host Doris "
-               "Muscarella deliver destinations, equipment, and expert interviews for the golfer "
-               "and traveler in all of us.",
+               "Muscarella, “The Traveling Golf Diva,” deliver destinations, equipment, and expert "
+               "interviews for the golfer and traveler in all of us.",
+    },
+    {
+        "slug": "sherrye-fenton", "name": "Sherrye Fenton", "mono": "SF",
+        "role": "Inspiration & Talk", "show": "Inspired To Be", "slot": "Weekly · See schedule",
+        "persons": ["Sherrye Fenton"],
+        "bio": "On <em>Inspired To Be</em>, Sherrye brings uplifting conversation, guests, and a dose "
+               "of encouragement to the Legends family — proof the station is about more than the music.",
     },
 ]
 
@@ -114,13 +139,15 @@ HOSTS = [
 # are descriptive commercial-free music blocks (see OWNER TO-DOS).
 # ---------------------------------------------------------------------------
 _OVERNIGHT = {"show": "Nonstop Legends", "host": "Commercial-free standards, all night", "tag": "Overnight"}
+_LATENIGHT = {"show": "Late Nights with Legends", "host": "Dick Robinson · American Standards encores", "tag": "Standards", "slug": "dick-robinson"}
 _WEEKDAY = [
-    {"start": "00:00", "end": "06:00", **_OVERNIGHT},
+    {"start": "00:00", "end": "01:00", **_LATENIGHT},
+    {"start": "01:00", "end": "06:00", **_OVERNIGHT},
     {"start": "06:00", "end": "10:00", "show": "The Morning Lounge", "host": "Jill & Rich Switzer", "tag": "Live", "slug": "jill-rich-switzer"},
     {"start": "10:00", "end": "14:00", "show": "Middays with Walt Pinto", "host": "Walt Pinto · incl. Legends at Lunch @ noon", "tag": "Live", "slug": "walt-pinto"},
     {"start": "14:00", "end": "18:00", "show": "Afternoons with Lorna O'Connell", "host": "Lorna O'Connell", "tag": "Live", "slug": "lorna-oconnell"},
-    {"start": "18:00", "end": "20:00", "show": "Legends Evenings", "host": "Standards after five", "tag": "Music"},
-    {"start": "20:00", "end": "24:00", "show": "Legends After Dark", "host": "Late-night love songs & standards", "tag": "Music"},
+    {"start": "18:00", "end": "23:00", "show": "Legends Evenings", "host": "Standards for the evening", "tag": "Music"},
+    {"start": "23:00", "end": "24:00", **_LATENIGHT},
 ]
 SCHEDULE = {
     1: _WEEKDAY, 2: _WEEKDAY, 3: _WEEKDAY, 4: _WEEKDAY, 5: _WEEKDAY,
@@ -137,7 +164,9 @@ SCHEDULE = {
         {"start": "07:30", "end": "10:00", "show": "Sunday Morning Standards", "host": "An easy start to Sunday", "tag": "Music"},
         {"start": "10:00", "end": "12:00", "show": "American Standards by the Sea", "host": "Dick Robinson", "tag": "Signature", "slug": "dick-robinson"},
         {"start": "12:00", "end": "18:00", "show": "Sunday Serenade", "host": "Afternoon standards", "tag": "Music"},
-        {"start": "18:00", "end": "24:00", "show": "Legends After Dark", "host": "Late-night love songs & standards", "tag": "Music"},
+        {"start": "18:00", "end": "20:00", "show": "Legends Evenings", "host": "Standards for the evening", "tag": "Music"},
+        {"start": "20:00", "end": "22:00", "show": "Legends of Jazz", "host": "Gregory “Popeye” Alexander", "tag": "Jazz", "slug": "popeye-alexander"},
+        {"start": "22:00", "end": "24:00", **_OVERNIGHT},
     ],
 }
 DAYS = [("0", "Sun"), ("1", "Mon"), ("2", "Tue"), ("3", "Wed"), ("4", "Thu"), ("5", "Fri"), ("6", "Sat")]
@@ -151,16 +180,22 @@ SIGNATURE = [
     {"name": "Afternoons with Lorna O'Connell", "host": "Lorna O'Connell", "slot": "Weekdays · 2–6 PM",
      "blurb": "Timeless company from the afternoon through the golden-hour drive home."},
     {"name": "American Standards by the Sea", "host": "Dick Robinson", "slot": "Sat 6–8 PM · Sun 10 AM–12 PM",
-     "blurb": "The internationally-syndicated two-hour salute to Sinatra, Bennett, Streisand and more — heard on 70+ stations."},
+     "blurb": "Dick Robinson's internationally-syndicated salute to Sinatra, Bennett, Streisand and more — produced in part aboard his yacht <em>Airwaves</em> and heard on 75+ stations."},
+    {"name": "Legends of Jazz", "host": "Gregory “Popeye” Alexander", "slot": "Sundays · 8–10 PM",
+     "blurb": "The Songbook's cooler, smokier side — jazz vocals and instrumentals with a real player at the helm."},
     {"name": "The Golf & Travel Show", "host": "Dan Shube & Doris Muscarella", "slot": "Sundays · 7–7:30 AM",
      "blurb": "Destinations, equipment, and expert interviews for the golfer and traveler in all of us."},
+    {"name": "Late Nights with Legends", "host": "Dick Robinson", "slot": "Weeknights · 11 PM–1 AM",
+     "blurb": "Encore hours of American Standards by the Sea to carry you into the small hours."},
+    {"name": "Inspired To Be", "host": "Sherrye Fenton", "slot": "Weekly · See schedule",
+     "blurb": "Uplifting conversation and guests — a reminder that Legends is about companionship as much as music."},
     {"name": "Legends at Lunch", "host": "Daily at noon", "slot": "Weekdays · 12 PM",
      "blurb": "A midday set of the greatest recordings ever made — the perfect soundtrack to your lunch hour."},
 ]
 
 NAV = [("index.html", "Home"), ("listen.html", "Listen Live"), ("shows.html", "Shows"),
-       ("hosts.html", "On-Air"), ("events.html", "Events"), ("about.html", "About"),
-       ("advertise.html", "Advertise"), ("contact.html", "Contact")]
+       ("hosts.html", "On-Air"), ("podcast.html", "On-Demand"), ("events.html", "Events"),
+       ("about.html", "About"), ("advertise.html", "Advertise"), ("contact.html", "Contact")]
 
 # ---------------------------------------------------------------------------
 # ASSET CACHE-BUSTING
@@ -205,6 +240,7 @@ IC = {
     "check": _svg('<path d="M20 6 9 17l-5-5"/>'),
     "insta": _svg('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/>'),
     "facebook": _svg('<path d="M15 3h-3a4 4 0 0 0-4 4v3H5v4h3v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>'),
+    "x": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.53 3H20l-5.9 6.74L21 21h-5.4l-4.23-5.53L6.5 21H4l6.3-7.2L3.3 3h5.53l3.82 5.05zM16.6 19.5h1.37L7.5 4.42H6.03z"/></svg>',
     "soundcloud": _svg('<path d="M4 15v-4M7 16V9M10 16V7M13 16V8a4 4 0 0 1 8 0.5 3 3 0 0 1-.5 6H13"/>'),
     "apple": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2-.1 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.2c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.8zM14.2 6.2c.6-.8 1.1-1.9 1-3-1 0-2.1.6-2.8 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.5 2.8-1.3z"/></svg>',
     "googleplay": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.6 2.3 13.4 12 3.6 21.7a1 1 0 0 1-.6-.9V3.2a1 1 0 0 1 .6-.9zM15 10.4l2.8-2.8 3.6 2a1.2 1.2 0 0 1 0 2.1l-3.6 2L15 13.6 16.4 12 15 10.4zM4.9 22.2 14 13.6l2 1.9-9.2 5.2a1.2 1.2 0 0 1-1.9-.5zM4.9 1.8a1.2 1.2 0 0 1 1.9-.5L16 6.5l-2 1.9z"/></svg>',
@@ -216,11 +252,13 @@ def deco_bar():
 # ---------------------------------------------------------------------------
 # SHARED COMPONENTS
 # ---------------------------------------------------------------------------
-def brand(dark_ok=True):
+def brand():
     return (
         '<a class="brand" href="index.html" aria-label="Legends Radio 100.3 FM home">'
-        '<img class="logo" src="assets/img/legends-emblem.svg" alt="" width="42" height="42" loading="eager">'
-        '<span class="brand-txt"><b>Legends Radio</b><small>100.3 FM · Palm Beaches</small></span>'
+        '<img class="logo" src="assets/img/legends-emblem.svg" alt="" width="46" height="46" loading="eager">'
+        '<span class="brand-txt">'
+        '<span class="brand-word"><span class="brand-script">Legends</span><span class="brand-radio">radio</span></span>'
+        '<small>100.3 FM · Palm Beach County</small></span>'
         '</a>'
     )
 
@@ -275,19 +313,23 @@ def social_links(cls="foot-social"):
     return (
         '<div class="%s">'
         '<a href="%s" target="_blank" rel="noopener" aria-label="Instagram">%s</a>'
+        '<a href="%s" target="_blank" rel="noopener" aria-label="Facebook">%s</a>'
+        '<a href="%s" target="_blank" rel="noopener" aria-label="X (Twitter)">%s</a>'
         '<a href="%s" target="_blank" rel="noopener" aria-label="SoundCloud">%s</a>'
         '<a href="%s" target="_blank" rel="noopener" aria-label="TuneIn">%s</a>'
         '<a href="%s" target="_blank" rel="noopener" aria-label="Apple App Store">%s</a>'
         '<a href="%s" target="_blank" rel="noopener" aria-label="Google Play">%s</a>'
         '</div>'
-    ) % (cls, s["instagram"], IC["insta"], s["soundcloud"], IC["soundcloud"], s["tunein"], IC["radio"],
+    ) % (cls, s["instagram"], IC["insta"], s["facebook"], IC["facebook"], s["twitter"], IC["x"],
+         s["soundcloud"], IC["soundcloud"], s["tunein"], IC["radio"],
          s["app_ios"], IC["apple"], s["app_android"], IC["googleplay"])
 
 def footer():
     s = STATION
     nav_cols = ""
     listen_links = [("listen.html", "Listen Live"), ("shows.html", "Show Schedule"),
-                    ("hosts.html", "On-Air Personalities"), ("events.html", "Events")]
+                    ("hosts.html", "On-Air Personalities"), ("podcast.html", "On-Demand & Podcasts"),
+                    ("events.html", "Events")]
     station_links = [("about.html", "About the Station"), ("advertise.html", "Advertise With Us"),
                      ("contact.html", "Contact"), (s["eventbrite"], "Buy Event Tickets")]
     def col(title, links):
@@ -301,7 +343,9 @@ def footer():
         '<footer class="site-footer"><div class="container"><div class="footer-grid">'
         '<div class="footer-brand">' + brand() +
         '<p>' + s["short"] + ' 100.3 FM is a full-power, live &amp; local station in Florida\'s Palm Beaches, '
-        'devoted to preserving and celebrating the Great American Songbook.</p>' + social_links() + '</div>'
+        'devoted to preserving and celebrating the Great American Songbook.</p>'
+        '<p style="color:var(--gold);font-weight:600;font-size:.82rem;letter-spacing:.03em;margin-top:.9rem">'
+        + s["entertainment"] + ' · ' + s["heard"] + '.</p>' + social_links() + '</div>'
         + col("Listen", listen_links) + col("Station", station_links) +
         '<div class="footer-col footer-contact"><h4>Studio</h4><ul>'
         '<li>' + IC["pin"] + '<a href="' + maps + '" target="_blank" rel="noopener">' + s["addr_street"] + '<br>' +
@@ -312,7 +356,7 @@ def footer():
         '</ul></div>'
         '</div><div class="footer-bottom">'
         '<span>© <span id="year">' + BUILT[:4] + '</span> ' + s["parent"] + ' · ' + s["name"] + ' (' + s["call"] + '). '
-        'Licensed to ' + s["license_city"] + '.</span>'
+        + s["entertainment"] + '. Licensed to ' + s["license_city"] + '.</span>'
         '<span><span class="footer-freq">100.3 FM</span> · ' + s["slogan"] + '</span>'
         '</div></div></footer>'
     )
@@ -494,12 +538,33 @@ def emblem_big():
 EQ7 = '<span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>'
 
 EVENTS = [
-    {"title": "Supper Club with Jill &amp; Rich", "tag": "Live Music", "icon": "note",
-     "blurb": "An intimate evening of the Great American Songbook performed live by Jill &amp; Rich Switzer and friends — dinner, cocktails, and the classics the way they were meant to be heard."},
-    {"title": "Legends Live Broadcasts", "tag": "On Location", "icon": "mic",
-     "blurb": "Catch the station broadcasting live from the Palm Beaches' finest venues, galas, and grand openings — the Songbook, out on the town."},
-    {"title": "Community &amp; Charity", "tag": "Give Back", "icon": "heart",
-     "blurb": "Legends proudly lends its voice to Palm Beach County's cultural institutions and non-profits, on the air and in the room."},
+    {"title": "Live Concerts at Abacoa", "tag": "Free Concert Series", "icon": "ticket",
+     "blurb": "Legends Radio &amp; Robinson Entertainment present a free tribute-concert series at the Downtown Abacoa Amphitheater in Jupiter — showtime 7:30 PM, all ages, with optional Preferred Reserved Seating."},
+    {"title": "American Songbook Tributes", "tag": "On Stage", "icon": "note",
+     "blurb": "From PHD (Petty · Hall &amp; Oates · Steely Dan) to a Chicago tribute and ’60s–’70s celebrations, the concert lineup rotates all season long across the Palm Beaches."},
+    {"title": "Supper Club with Jill &amp; Rich", "tag": "Live Cabaret", "icon": "mic",
+     "blurb": "An intimate evening of the Great American Songbook performed live by morning hosts Jill &amp; Rich Switzer — the classics the way they were meant to be heard."},
+    {"title": "SPGAS Benefactors Gala", "tag": "Black Tie · Give Back", "icon": "heart",
+     "blurb": "The Society for the Preservation of the Great American Songbook's signature gala — honoring legends like Marilyn Maye, from Club Colette to the Kravis Center."},
+]
+
+ON_DEMAND = [
+    {"title": "American Standards by the Sea", "host": "Dick Robinson", "icon": "wave",
+     "blurb": "Dick Robinson's syndicated Songbook program, produced in part aboard the yacht <em>Airwaves</em>. "
+              "Catch encores nightly on <em>Late Nights with Legends</em> — or stream on demand.",
+     "cta": "Listen on SoundCloud", "url": STATION["soundcloud"]},
+    {"title": "The Legends Radio Archive", "host": "On SoundCloud", "icon": "headphones",
+     "blurb": "Interviews, features, and moments from the studio — the station's growing on-demand library, "
+              "free to stream anytime.",
+     "cta": "Browse the archive", "url": STATION["soundcloud"]},
+    {"title": "The Golf &amp; Travel Show", "host": "Dan Shube &amp; Doris Muscarella", "icon": "mic",
+     "blurb": "Destinations, gear, and expert interviews — plus Doris Muscarella's <em>Traveling Golf Diva</em> "
+              "podcast for the golfer and traveler in all of us.",
+     "cta": "Visit the show", "url": "https://thegolfandtravelshow.com/"},
+    {"title": "Inspired To Be", "host": "Sherrye Fenton", "icon": "heart",
+     "blurb": "Uplifting conversation and guests from Sherrye Fenton — companionship for the Legends family, "
+              "available to stream between broadcasts.",
+     "cta": "Follow on SoundCloud", "url": STATION["soundcloud"]},
 ]
 
 def host_card(h, idx=0, full=False):
@@ -568,8 +633,10 @@ def home_page():
         '<div class="hero-vignette" aria-hidden="true"></div>'
         '<div class="container"><div class="hero-inner">'
         '<div class="hero-copy reveal">'
+        '<p class="script-line" style="font-size:clamp(1.9rem,4vw,3rem);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">'
+        'The One and Only…<img class="deco-flag" src="assets/img/legends-flag.svg" alt="" width="46" height="29"></p>'
         '<div class="hero-badge"><span class="freq">100.3 FM</span><span class="sep"></span>'
-        '<small>Live &amp; Local · The Palm Beaches</small></div>'
+        '<small>Live &amp; Local · Palm Beach County</small></div>'
         '<h1>Where <span class="accent">Legendary</span><br>Music Lives</h1>'
         '<p class="hero-sub">The Great American Songbook, on the air 24/7 from Florida\'s Palm Beaches — '
         'Sinatra to Bublé, Ella to Krall, all day and all night.</p>'
@@ -581,7 +648,7 @@ def home_page():
         '</div>'
         '<div class="hero-meta">'
         '<div><b>2014</b><span>On the Air Since</span></div>'
-        '<div><b>70+</b><span>Stations Coast&nbsp;to&nbsp;Coast</span></div>'
+        '<div><b>75+</b><span>Stations Coast&nbsp;to&nbsp;Coast</span></div>'
         '<div><b>24/7</b><span>Worldwide Stream</span></div>'
         '</div></div>'
         '<div class="hero-visual reveal reveal-d2">' + np_card() + '</div>'
@@ -590,7 +657,7 @@ def home_page():
     stats = (
         '<section class="section-tight"><div class="container-wide"><div class="stats">'
         '<div class="stat"><div class="num">100.3</div><div class="lbl">FM · Live &amp; Local</div></div>'
-        '<div class="stat"><div class="num" data-count="70" data-suffix="+"></div><div class="lbl">Syndicated Stations</div></div>'
+        '<div class="stat"><div class="num" data-count="75" data-suffix="+"></div><div class="lbl">Syndicated Stations</div></div>'
         '<div class="stat"><div class="num">2014</div><div class="lbl">On the Air Since</div></div>'
         '<div class="stat"><div class="num">24/7</div><div class="lbl">Worldwide Stream</div></div>'
         '</div></div></section>'
@@ -634,7 +701,7 @@ def home_page():
         '<h2>Legends, live and in the room</h2>'
         '<p class="lede mx-auto">The music leaves the studio all season long across Palm Beach County.</p></div>'
         '<div class="grid grid-3">'
-        + "".join(event_card(e, i) for i, e in enumerate(EVENTS)) +
+        + "".join(event_card(e, i) for i, e in enumerate(EVENTS[:3])) +
         '</div><div class="center mt-4"><a class="btn btn-ghost" href="events.html">All events &amp; tickets ' + IC["arrow"] + '</a></div>'
         '</div></section>'
     )
@@ -811,29 +878,55 @@ def about_page():
         '<div class="split-media reveal"><div class="deco-frame">' + emblem_big() + '</div></div>'
         '<div class="reveal reveal-d1">' + eyebrow("Since 2014") +
         '<h2 style="margin:.7rem 0 1rem">A station built to remember.</h2>'
-        '<p class="lede">Legends Radio was founded by lifelong broadcaster <strong>Dick Robinson</strong> — the '
-        'founder of the Connecticut School of Broadcasting — to bring great music and great companionship back to the airwaves.</p>'
-        '<p style="margin-top:1rem;color:var(--muted)">From the studios in North Palm Beach, Legends 100.3 broadcasts '
-        'the Great American Songbook full-power across the Palm Beaches and worldwide online. Dick’s own '
-        '<em>American Standards by the Sea</em> — a two-hour salute to Sinatra, Bennett, Streisand and the legends — '
-        'is now heard on more than 70 stations nationwide.</p>'
-        '<p style="margin-top:1rem;color:var(--muted)">It’s live, it’s local, and it’s hosted by people who love this '
-        'music as much as the audience does. That’s the difference you can hear.</p>'
+        '<p class="lede">Legends Radio was founded by <strong>Dick Robinson</strong> — a broadcasting legend whose '
+        'nearly 70-year career began in Massachusetts in 1958 and made him one of the biggest DJs in New England at '
+        'WDRC in Hartford. In 1964 he founded the Connecticut School of Broadcasting.</p>'
+        '<p style="margin-top:1rem;color:var(--muted)">In 2014, Robinson Entertainment won the 100.3 frequency and '
+        'signed Legends on the air to bring “great music and great companionship back to the airwaves” — from the '
+        'studios here in North Palm Beach, full-power across the Palm Beaches and streaming worldwide.</p>'
+        '<p style="margin-top:1rem;color:var(--muted)"><strong>Locally owned, family-led.</strong> Dick runs the '
+        'station with his children — James, Jill, and COO Missy Robinson. Not a national network, not a corporate '
+        'boardroom: just a family that loves this music as much as the audience does. That’s the difference you can hear.</p>'
         '</div></div></div></section>'
     )
     quote = (
         '<section class="section surface"><div class="container"><div class="quote reveal">'
         '<div class="mark">&ldquo;</div>'
-        '<blockquote>To preserve and celebrate the greatest music ever recorded — and to present it in a fun, '
-        'upbeat, community-focused way, every single day.</blockquote>'
+        '<blockquote>To celebrate timeless music, honor legendary artists, and serve Palm Beach County with '
+        'integrity, class, and heart.</blockquote>'
         '<cite>— The Legends Radio Mission</cite></div></div></section>'
     )
+    airwaves = (
+        '<section class="section"><div class="container"><div class="split">'
+        '<div class="reveal">' + eyebrow("The Flagship") +
+        '<h2 style="margin:.7rem 0 1rem">American Standards <span class="serif-italic text-gold">by the Sea</span></h2>'
+        '<p class="lede">Dick Robinson’s internationally-syndicated, two-hour salute to Sinatra, Bennett, Streisand '
+        'and the legends — produced in part aboard his motor yacht <em>Airwaves</em>.</p>'
+        '<p style="margin-top:1rem;color:var(--muted)">What began in the Palm Beaches now airs on <strong>75+ stations '
+        'nationwide</strong>. Dick is also Founder &amp; Chairman of the <strong>' + STATION["spgas"] + '</strong> '
+        '(SPGAS), the 501(c)(3) devoted to keeping this music alive for the next generation.</p>'
+        '<div class="mt-3"><a class="link-arrow" href="shows.html">Hear it Sat 6–8 PM &amp; Sun 10 AM–12 PM ' + IC["arrow"] + '</a></div>'
+        '</div>'
+        '<div class="reveal reveal-d1"><div class="deco-frame" style="aspect-ratio:1/1">' + emblem_big() + '</div></div>'
+        '</div></div></section>'
+    )
     facts = (
-        '<section class="section"><div class="container-wide"><div class="stats">'
+        '<section class="section surface"><div class="container-wide"><div class="stats">'
         '<div class="stat"><div class="num">WLML</div><div class="lbl">FM · Lake Park, FL</div></div>'
         '<div class="stat"><div class="num">100.3</div><div class="lbl">Megahertz</div></div>'
-        '<div class="stat"><div class="num" data-count="70" data-suffix="+"></div><div class="lbl">Syndicated Stations</div></div>'
+        '<div class="stat"><div class="num" data-count="75" data-suffix="+"></div><div class="lbl">Syndicated Stations</div></div>'
         '<div class="stat"><div class="num">45+</div><div class="lbl">Our Loyal Audience</div></div>'
+        '</div></div></section>'
+    )
+    partners = ["Palm Beach North Chamber of Commerce", "Abacoa", "Cultural Council for Palm Beach County", STATION["spgas"]]
+    community = (
+        '<section class="section" id="community"><div class="container">'
+        '<div class="section-head center"><span class="eyebrow centered">Community &amp; Partners</span>'
+        '<h2>Rooted in Palm Beach County</h2>'
+        '<p class="lede mx-auto">Legends is a proud member and media partner of the organizations that make the '
+        'Palm Beaches sing — on the air, on stage, and in the community.</p></div>'
+        '<div style="display:flex;flex-wrap:wrap;gap:.9rem;justify-content:center;max-width:820px;margin-inline:auto">'
+        + "".join('<span class="pill" style="font-size:.86rem;padding:.7em 1.2em">%s</span>' % p for p in partners) +
         '</div></div></section>'
     )
     music = (
@@ -845,7 +938,7 @@ def about_page():
         + marquee() +
         '</div></section>'
     )
-    body = hero + story + quote + facts + music + cta_band(
+    body = hero + story + quote + airwaves + facts + community + music + cta_band(
         "This is your station",
         "Live &amp; local in the Palm Beaches, streaming to the world. Come listen.",
         secondary=("hosts.html", "Meet the Team"))
@@ -864,7 +957,8 @@ def events_page():
         + "".join(event_card(e, i) for i, e in enumerate(EVENTS)) + '</div>'
         '<div class="center mt-4"><a class="btn btn-primary btn-lg" href="' + STATION["eventbrite"] + '" target="_blank" rel="noopener">'
         + IC["ticket"] + ' See upcoming dates &amp; get tickets</a>'
-        '<p class="form-note mt-2">Dates are announced on Eventbrite and on the air. Follow us on '
+        '<p class="form-note mt-2">Free concerts at the <strong>Downtown Abacoa Amphitheater</strong>, Jupiter · '
+        'Dates are announced on Eventbrite and on the air. Follow us on '
         '<a href="' + STATION["instagram"] + '" target="_blank" rel="noopener" style="color:var(--gold)">Instagram</a> so you never miss one.</p></div>'
         '</div></section>'
     )
@@ -885,6 +979,36 @@ def events_page():
                     "community nights celebrating the Great American Songbook. Dates & tickets on Eventbrite.",
                     body, "events.html")
 
+def podcast_page():
+    hero = page_hero("On-Demand", "Miss a show? Not anymore.",
+                     "Legends on your schedule — American Standards by the Sea, studio interviews, and specialty "
+                     "shows, streaming free between broadcasts.", "podcast.html")
+    cards = ""
+    for i, p in enumerate(ON_DEMAND):
+        cards += (
+            '<article class="card reveal reveal-d%d" style="display:flex;flex-direction:column">'
+            '<div class="ic" style="width:54px;height:54px;display:grid;place-items:center;border-radius:14px;'
+            'border:1px solid var(--line);background:rgba(231,197,114,.06);color:var(--gold);margin-bottom:1.1rem">%s</div>'
+            '<h3 style="font-size:1.25rem;margin-bottom:.25rem">%s</h3>'
+            '<p style="color:var(--gold);font-weight:600;font-size:.9rem;margin-bottom:.7rem">%s</p>'
+            '<p style="color:var(--muted);font-size:.95rem;flex:1">%s</p>'
+            '<div class="mt-3"><a class="link-arrow" href="%s" target="_blank" rel="noopener">%s %s</a></div>'
+            '</article>'
+        ) % (i % 4, IC[p["icon"]], p["title"], p["host"], p["blurb"], p["url"], p["cta"], IC["external"])
+    grid = ('<section class="section"><div class="container"><div class="grid grid-2">' + cards + '</div>'
+            '<p class="form-note center mt-4">More on the way — the on-demand library grows every week. Follow '
+            '<a href="' + STATION["soundcloud"] + '" target="_blank" rel="noopener" style="color:var(--gold)">SoundCloud</a> '
+            'and <a href="' + STATION["instagram"] + '" target="_blank" rel="noopener" style="color:var(--gold)">Instagram</a> for the latest.</p>'
+            '</div></section>')
+    body = hero + grid + cta_band("Prefer it live?",
+                                  "The Great American Songbook is playing right now on 100.3 FM.",
+                                  secondary=("shows.html", "See the Schedule"))
+    return document("podcast.html",
+                    "On-Demand & Podcasts | Legends Radio 100.3 FM",
+                    "Stream Legends Radio on demand — American Standards by the Sea, the Legends Radio archive, "
+                    "The Golf & Travel Show, and Inspired To Be. Free between broadcasts.",
+                    body, "podcast.html")
+
 def advertise_page():
     hero = page_hero("Advertise", "Reach the Palm Beaches.",
                      "Legends 100.3 delivers a loyal, affluent, engaged audience across the Palm Beaches — on FM, "
@@ -893,7 +1017,7 @@ def advertise_page():
         ("users", "A loyal, affluent audience", "Legends reaches engaged adults 45+ across one of the country’s most affluent markets — listeners who trust the station and stay for hours."),
         ("radio", "Live, local &amp; multi-platform", "One buy reaches listeners on 100.3 FM, the worldwide stream, the iOS &amp; Android apps, and the station’s social channels."),
         ("mic", "Host endorsements that land", "Real hosts, real trust. Live reads and endorsements from voices your customers invite into their day carry weight a banner never will."),
-        ("megaphone", "Syndicated reach", "Programs like <em>American Standards by the Sea</em> extend your message to 70+ stations nationwide."),
+        ("megaphone", "Syndicated reach", "Programs like <em>American Standards by the Sea</em> extend your message to 75+ stations nationwide."),
         ("ticket", "Events &amp; sponsorships", "Put your brand on stage with supper clubs, live broadcasts, and community nights across Palm Beach County."),
         ("heart", "Community goodwill", "Align with a station the Palm Beaches genuinely love — and the causes it champions."),
     ]
@@ -941,7 +1065,7 @@ def why_stats():
         '<section class="section-tight"><div class="container-wide"><div class="stats">'
         '<div class="stat"><div class="num">45+</div><div class="lbl">Core Audience</div></div>'
         '<div class="stat"><div class="num">4</div><div class="lbl">Platforms · FM · Stream · App · Events</div></div>'
-        '<div class="stat"><div class="num" data-count="70" data-suffix="+"></div><div class="lbl">Syndicated Stations</div></div>'
+        '<div class="stat"><div class="num" data-count="75" data-suffix="+"></div><div class="lbl">Syndicated Stations</div></div>'
         '<div class="stat"><div class="num">24/7</div><div class="lbl">Always On</div></div>'
         '</div></div></section>'
     )
@@ -1026,7 +1150,7 @@ def fmt12(hhmm):
 # ===========================================================================
 # SEO FILES
 # ===========================================================================
-PAGES = ["index.html", "listen.html", "shows.html", "hosts.html", "events.html",
+PAGES = ["index.html", "listen.html", "shows.html", "hosts.html", "podcast.html", "events.html",
          "about.html", "advertise.html", "contact.html"]
 
 def build_sitemap():
@@ -1067,8 +1191,9 @@ def main():
     JS_V = asset_v("assets/js/legends.js")
     pages = {
         "index.html": home_page(), "listen.html": listen_page(), "shows.html": shows_page(),
-        "hosts.html": hosts_page(), "events.html": events_page(), "about.html": about_page(),
-        "advertise.html": advertise_page(), "contact.html": contact_page(), "404.html": not_found_page(),
+        "hosts.html": hosts_page(), "podcast.html": podcast_page(), "events.html": events_page(),
+        "about.html": about_page(), "advertise.html": advertise_page(), "contact.html": contact_page(),
+        "404.html": not_found_page(),
     }
     total = 0
     for path, content in pages.items():

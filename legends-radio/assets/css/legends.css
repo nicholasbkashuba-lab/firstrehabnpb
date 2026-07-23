@@ -15,6 +15,7 @@
 @font-face{font-family:"Playfair Display";font-style:normal;font-weight:600;font-display:swap;src:url("../fonts/playfair-display-latin-600-normal.woff2") format("woff2");}
 @font-face{font-family:"Playfair Display";font-style:italic;font-weight:600;font-display:swap;src:url("../fonts/playfair-display-latin-600-italic.woff2") format("woff2");}
 @font-face{font-family:"Playfair Display";font-style:normal;font-weight:700;font-display:swap;src:url("../fonts/playfair-display-latin-700-normal.woff2") format("woff2");}
+@font-face{font-family:"Pinyon Script";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/pinyon-script-latin-400-normal.woff2") format("woff2");}
 
 /* ---------- Tokens -------------------------------------------------------- */
 :root{
@@ -29,8 +30,17 @@
   --brass:#C9A24B;
   --champagne:#F3E7C8;
   --cream:#F7F2E6;        /* body text on dark */
-  --wine:#8A2C38;         /* supper-club oxblood */
-  --wine-bright:#B23D4B;
+  /* Brand crimson (their "radio.com" red) — the primary accent */
+  --red:#C42B39;
+  --red-bright:#EE5C69;   /* red for text/icons on dark (~4.7:1 on ink) */
+  --red-deep:#8E1F2A;
+  --maroon:#7B1E24;       /* "The One and Only…" script */
+  /* Patriotic flag ribbon (their musical-note flag motif) */
+  --flag-red:#C42B39;
+  --flag-white:#F3ECDD;
+  --flag-blue:#26467C;
+  --wine:#8E1F2A;         /* deep brand red (was oxblood) */
+  --wine-bright:#EE5C69;
   --muted:#AEB2CC;        /* secondary text (~7:1 on ink) */
   --muted-2:#7C819E;
   --line:rgba(231,197,114,.16);
@@ -42,6 +52,7 @@
   --radius-sm:12px;
   --radius-lg:26px;
   --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  --script:"Pinyon Script","Snell Roundhand","Apple Chancery",cursive;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --ease:cubic-bezier(.22,1,.36,1);
   --ease-in-out:cubic-bezier(.65,0,.35,1);
@@ -136,8 +147,10 @@ section{position:relative;}
   will-change:transform;
 }
 .btn svg{width:1.15em;height:1.15em;}
-.btn-primary{background:linear-gradient(135deg,var(--gold-bright),var(--gold) 55%,var(--gold-deep));color:#241a06;box-shadow:0 12px 30px -10px rgba(231,197,114,.5);}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 44px -12px rgba(231,197,114,.65);}
+.btn-primary{background:linear-gradient(135deg,var(--red-bright),var(--red) 52%,var(--red-deep));color:#fff;box-shadow:0 12px 30px -10px rgba(196,43,57,.55);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 46px -12px rgba(196,43,57,.72);}
+.btn-gold{background:linear-gradient(135deg,var(--gold-bright),var(--gold) 55%,var(--gold-deep));color:#241a06;box-shadow:0 12px 30px -10px rgba(231,197,114,.5);}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 20px 44px -12px rgba(231,197,114,.65);}
 .btn-ghost{background:rgba(247,242,230,.04);color:var(--cream);border:1px solid var(--line);}
 .btn-ghost:hover{transform:translateY(-3px);border-color:var(--gold);background:rgba(231,197,114,.08);color:#fff;}
 .btn-wine{background:linear-gradient(135deg,var(--wine-bright),var(--wine));color:#fff;box-shadow:0 12px 30px -12px rgba(178,61,75,.6);}
@@ -172,11 +185,21 @@ section{position:relative;}
   border-bottom-color:var(--line);box-shadow:0 10px 40px -20px rgba(0,0,0,.9);
 }
 .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:76px;}
-.brand{display:flex;align-items:center;gap:.7rem;flex-shrink:0;z-index:2;}
-.brand .logo{height:42px;width:auto;}
+.brand{display:flex;align-items:center;gap:.65rem;flex-shrink:0;z-index:2;}
+.brand .logo{height:46px;width:auto;}
 .brand-txt{display:flex;flex-direction:column;line-height:1;}
-.brand-txt b{font-family:var(--serif);font-size:1.28rem;color:#fff;letter-spacing:.01em;font-weight:700;}
-.brand-txt small{font-size:.62rem;letter-spacing:.34em;color:var(--gold);text-transform:uppercase;margin-top:3px;font-weight:600;}
+.brand-word{display:flex;align-items:baseline;gap:.06em;}
+.brand-script{font-family:var(--script);font-weight:400;font-size:1.95rem;color:#fff;line-height:.7;letter-spacing:.01em;}
+.brand-radio{font-family:var(--sans);font-weight:700;font-size:1.05rem;color:var(--red-bright);letter-spacing:-.01em;text-transform:lowercase;}
+.brand-txt small{font-size:.58rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-top:5px;font-weight:600;}
+
+/* Script one-liners ("The One and Only…") */
+.script-line{font-family:var(--script);font-weight:400;line-height:1;color:var(--gold);}
+
+/* Waving flag ribbon (their musical-note flag motif) */
+.deco-flag{display:inline-block;height:1.5em;width:auto;vertical-align:-.28em;transform-origin:left center;animation:flagwave 4.5s var(--ease-in-out) infinite;}
+@keyframes flagwave{0%,100%{transform:rotate(-1.5deg) skewX(0);}50%{transform:rotate(1.5deg) skewX(-5deg);}}
+.brand-flag{height:1.35em;margin-left:.15em;}
 .nav-links{display:flex;align-items:center;gap:.35rem;}
 .nav-links a{
   padding:.5em .82em;border-radius:100px;font-size:.92rem;font-weight:500;color:var(--muted);
@@ -194,7 +217,7 @@ section{position:relative;}
 .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
 .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-@media (max-width:1040px){
+@media (max-width:1180px){
   .nav-toggle{display:flex;}
   .nav-links{
     position:fixed;inset:0;top:0;flex-direction:column;justify-content:flex-start;gap:.4rem;
@@ -488,8 +511,8 @@ section{position:relative;}
 .player::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5;}
 .player-play{
   width:52px;height:52px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:#241a06;
-  box-shadow:0 10px 26px -8px rgba(231,197,114,.6);transition:transform .3s var(--ease);
+  background:linear-gradient(135deg,var(--red-bright),var(--red-deep));color:#fff;
+  box-shadow:0 10px 26px -8px rgba(196,43,57,.6);transition:transform .3s var(--ease);
 }
 .player-play:hover{transform:scale(1.07);}
 .player-play svg{width:22px;height:22px;}

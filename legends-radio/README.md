@@ -69,12 +69,32 @@ Highway 1 Ste 102 North Palm Beach, business line 561-469-6700, request line
   `formsubmit.co/ajax/info@legendsradio.com`. FormSubmit sends a **one-time activation
   email** to that inbox on the first submission (check spam); click it once to turn the
   forms on. (Or swap in a real backend endpoint.)
-- **Schedule** — the named hosted shows above are confirmed. The overnight/weekend
-  **music blocks** (Nonstop Legends, Legends After Dark, etc.) are descriptive
-  placeholders — replace them in `SCHEDULE`/`SIGNATURE` with the station's real grid.
+- **Schedule** — confirmed hosted shows: The Morning Lounge (Jill & Rich Switzer),
+  Middays w/ Walt Pinto (Legends at Lunch @ noon), Afternoons w/ Lorna O'Connell,
+  American Standards by the Sea (Dick Robinson), Legends of Jazz (Gregory "Popeye"
+  Alexander), Late Nights with Legends, The Golf & Travel Show (Dan Shube & Doris
+  Muscarella), Inspired To Be (Sherrye Fenton). The **overnight/weekend music blocks**
+  (Nonstop Legends, Legends Evenings, Saturday Morning Swing, etc.) are descriptive
+  placeholders — replace with the real grid in `SCHEDULE`.
 - **Host photos** — medallions use monogram initials (no fabricated portraits). Add real
   portraits and wire them in when available.
-- **Events** — cards route to the station's Eventbrite (no fabricated dates). Add specific
-  events there or extend the `EVENTS` list.
+- **Events** — cards route to the station's Eventbrite (no fabricated dates). The
+  "Live Concerts at Abacoa" series and tribute acts are real; specific show dates live on
+  Eventbrite (verify before hard-coding any date).
 - **Now Playing** — shows the current *show* (always accurate). If SecureNet exposes a
   CORS-enabled now-playing endpoint, live track/artist metadata could be layered on.
+
+### Confirm with owner (from the 2026-07 research audit)
+The current legendsradio.com blocks bots, so these were third-party-sourced — please verify:
+- **Afternoon-drive host** — sourced as Lorna O'Connell, but older indexed snippets show
+  other names on `/afternoons/`. Confirm the current live host.
+- **"Inspired To Be" (Sherrye Fenton)** air day/time (listed as "Weekly · See schedule").
+- **Overnight hours** outside the confirmed 11 PM–1 AM Late Nights block (assumed automated).
+- **ASbtS affiliate count** — used "75+"; confirm exact number.
+- **Brand assets** — the script wordmark, red palette, and red/white/blue musical-note
+  flag emblem are recreated from the owner-supplied logo; drop in the official vector /
+  exact hex values to make them pixel-perfect.
+- **Excluded as historical (not current on-air):** Angela Manfredi, Steve Ketelaar, Taylor
+  Morgan, Paul Cavenaugh, Toni May — confirm none should be reinstated.
+- **Studio address** — using 760 US Highway 1, Ste 102, North Palm Beach 33408 (license
+  city is Lake Park); confirm the correct public studio/mailing address.
