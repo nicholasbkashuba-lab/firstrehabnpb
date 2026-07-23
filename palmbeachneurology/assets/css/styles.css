@@ -906,6 +906,15 @@ a.tb-item:hover { color: var(--gold); }
 .brand-logo { height: 46px; width: auto; display: block; transition: height .35s ease; }
 .site-header.scrolled .brand-logo { height: 40px; }
 @media (max-width: 1260px) { .brand-logo { height: 40px; } }
+/* Light lettering over the dark hero (transparent header); dark lettering once
+   the header gains its cream band (.scrolled) or is solid (interior/404). */
+.brand-logo-dark { display: none; }
+.site-header.scrolled .brand-logo-light,
+.site-header.solid .brand-logo-light { display: none; }
+.site-header.scrolled .brand-logo-dark,
+.site-header.solid .brand-logo-dark { display: block; }
+body.nav-locked .brand-logo-light { display: none; }
+body.nav-locked .brand-logo-dark { display: block; }
 .f-logo { height: 54px; width: auto; margin-bottom: 0.9rem; display: block; }
 
 /* Team group banner on Our Doctors */

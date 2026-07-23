@@ -173,7 +173,8 @@ def nav(depth=0, solid=False):
   <a class="skip-link" href="#main">Skip to main content</a>
   <div class="wrap nav-bar">
     <a class="brand" href="{p}index.html" aria-label="{html.escape(BRAND)} home">
-      <img class="brand-logo" src="{p}assets/media/logo.png" alt="{html.escape(BRAND)}" width="204" height="55">
+      <img class="brand-logo brand-logo-light" src="{p}assets/media/logo-light.png" alt="{html.escape(BRAND)}" width="204" height="55">
+      <img class="brand-logo brand-logo-dark" src="{p}assets/media/logo.png" alt="{html.escape(BRAND)}" width="204" height="55">
     </a>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="nav-el" aria-label="Main menu">
