@@ -671,6 +671,10 @@ h3{font-size:clamp(1.2rem,1.05rem + .7vw,1.5rem)}
 .issue-meta{flex:1;display:flex;flex-direction:column;line-height:1.25}
 .issue-meta strong{color:#fff;font-family:"Fraunces",serif;font-weight:500;font-size:1rem}
 .issue-meta em{color:var(--dk-muted);font-style:normal;font-size:.84rem;margin-top:.15rem}
+.issue-card.is-pending{cursor:default}
+.issue-card.is-pending:hover{transform:none;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)}
+.issue-soon{flex:0 0 auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--dk-muted);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:.4em .8em;border-radius:100px}
 .issue-note{color:var(--dk-muted);font-size:.82rem;margin-top:1rem;font-style:italic}
 
 /* =========================================================

@@ -65,5 +65,7 @@ education with disclaimers, not medical advice.
 2. **Newsletter issues.** Point each `NEWSLETTER_ISSUES` entry's link at the real PDF/article URL.
 3. **Real photography.** Doctor portraits use elegant monogram avatars by design — swap in headshots
    when available (`assets/team/` + update `DOCTORS`).
-4. **Domain / OG image / analytics.** Set the real canonical domain in `SITE["base"]`, add a wide
-   `og:image`, and drop in an analytics tag if desired.
+4. **Domain / base path / OG image / analytics.** This repo serves the site from a `/premiere/`
+   subfolder, so `build.py` emits all asset/link paths absolute from `ROOT = "/premiere/"` (robust to
+   trailing-slash handling). When Premiere gets its own domain at the web root, set `ROOT = "/"` and
+   `SITE["base"]` to the real domain, then rebuild. Also add a wide `og:image` and an analytics tag if desired.

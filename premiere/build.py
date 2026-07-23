@@ -36,6 +36,12 @@ SOCIAL = {
     "tiktok": "https://www.tiktok.com/@askdrwinner",
 }
 
+# Absolute base path the site is served under. This repo previews the site in a
+# /premiere/ subfolder of the First Rehab deployment, so all asset/link paths are
+# emitted absolute from here (robust to trailing-slash / clean-URL handling).
+# When Premiere gets its own domain at the web root, set this to "/".
+ROOT = "/premiere/"
+
 # Primary nav — (label, href, active-key)
 NAV = [
     ("Clinical Trials", "clinical-trials.html", "trials"),
@@ -228,7 +234,7 @@ def mobile_call(p):
             f'{IC_PHONE}<span>Call {SITE["phone_display"]}</span></a>\n')
 
 def page(path, title, desc, canonical, body, active="", og_image=None, page_type="website", extra_head=""):
-    p = "../" if "/" in path else ""
+    p = ROOT  # absolute base — works at any URL depth and regardless of trailing slash
     doc = head(p, title, desc, canonical, og_image, page_type, extra_head)
     doc += header(p, active)
     doc += body.replace("{p}", p)
@@ -510,9 +516,9 @@ def home_body():
       <div class="about-copy">
         <p class="eyebrow reveal"><span class="eyebrow-dot"></span>Who we are</p>
         <h2 class="reveal">A research institute devoted entirely to the brain.</h2>
-        <p class="lede reveal">Alongside the neurologists of Palm Beach Neurology, our team has spent decades on the
-          front lines of clinical research &mdash; testing the therapies that become tomorrow's standard of care.
-          We exist for one purpose: to move neuroscience forward while giving our neighbors real access to what's next.</p>
+        <p class="lede reveal">Our neurologists work at the front lines of clinical research &mdash; testing the
+          therapies that become tomorrow's standard of care. We exist for one purpose: to move neuroscience forward
+          while giving our neighbors real access to what's next.</p>
         <p class="reveal">Every study we run is reviewed, FDA-regulated, and led by physicians who treat these conditions
           every day. Participants are cared for like patients first and volunteers second &mdash; monitored closely,
           informed fully, and never charged for study-related care.</p>
@@ -548,8 +554,8 @@ def home_body():
     <div class="wrap statband-grid">
       <div class="reveal"><span class="stat-n" data-count="5" data-suffix="">0</span><span class="stat-l">Physician specialists</span></div>
       <div class="reveal"><span class="stat-n" data-count="4" data-suffix="">0</span><span class="stat-l">Neurological focus areas</span></div>
-      <div class="reveal"><span class="stat-n" data-count="30" data-suffix="+">0</span><span class="stat-l">Years advancing neurology</span></div>
-      <div class="reveal"><span class="stat-n" data-count="1" data-prefix="$" data-suffix="00%">0</span><span class="stat-l">Study care covered</span></div>
+      <div class="reveal"><span class="stat-n" data-prefix="$" data-count="0" data-suffix="">0</span><span class="stat-l">Cost to participate</span></div>
+      <div class="reveal"><span class="stat-n" data-count="100" data-suffix="%">0</span><span class="stat-l">Study care covered</span></div>
     </div>
   </section>
 
@@ -790,7 +796,7 @@ def trials_body():
 def about_body():
     body = page_hero(
         "About us", 'A research institute devoted <span class="grad-text">entirely to the brain.</span>',
-        "For decades, our physicians have worked at the frontier of neurology — testing the therapies that become "
+        "Our physicians work at the frontier of neurology — testing the therapies that become "
         "tomorrow's standard of care, right here in West Palm Beach.",
         [("Home", "index.html"), ("About", None)])
     body += f"""  <section class="section about-story">
@@ -800,7 +806,7 @@ def about_body():
         <h2>Where the best care and the next breakthrough share one roof.</h2>
       </div>
       <div class="about-story-body reveal">
-        <p>Premiere Research Institute grew out of a simple conviction held by the neurologists of Palm Beach Neurology:
+        <p>Premiere Research Institute is built on a simple conviction held by our neurologists:
            that the patients they treat every day deserve a real seat at the frontier of medicine. Under the direction
            of Dr. Paul Winner, our team conducts clinical trials for the neurological conditions that affect the most
            families &mdash; Alzheimer's and memory loss, Parkinson's disease, migraine, and multiple sclerosis.</p>
@@ -817,8 +823,8 @@ def about_body():
     <div class="wrap statband-grid">
       <div class="reveal"><span class="stat-n" data-count="5" data-suffix="">0</span><span class="stat-l">Physician specialists</span></div>
       <div class="reveal"><span class="stat-n" data-count="4" data-suffix="">0</span><span class="stat-l">Neurological focus areas</span></div>
-      <div class="reveal"><span class="stat-n" data-count="30" data-suffix="+">0</span><span class="stat-l">Years advancing neurology</span></div>
-      <div class="reveal"><span class="stat-n" data-count="1" data-prefix="$" data-suffix="00%">0</span><span class="stat-l">Study care covered</span></div>
+      <div class="reveal"><span class="stat-n" data-prefix="$" data-count="0" data-suffix="">0</span><span class="stat-l">Cost to participate</span></div>
+      <div class="reveal"><span class="stat-n" data-count="100" data-suffix="%">0</span><span class="stat-l">Study care covered</span></div>
     </div>
   </section>
 {why_grid()}{process_section()}
@@ -901,13 +907,20 @@ NEWSLETTER_ISSUES = [
     ("Special Edition — 2026", "Advanced Alzheimer's care, brain health, and the latest research from Dr. Paul Winner and his team.", "#"),
 ]
 
+def _issue_card(title, desc, link):
+    doc_ic = ('<span class="issue-doc" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24">'
+              '<path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M6 2h8l4 4v16H6z"/>'
+              '<path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M14 2v4h4M9 13h6M9 17h6M9 9h2"/></svg></span>')
+    meta = f'<span class="issue-meta"><strong>{title}</strong><em>{desc}</em></span>'
+    if link and link != "#":
+        arrow = ('<svg class="se-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">'
+                 '<path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>')
+        return f'        <a href="{link}" class="issue-card reveal">\n          {doc_ic}\n          {meta}\n          {arrow}\n        </a>'
+    # no real URL yet — render a non-interactive card so it doesn't look like a broken link
+    return f'        <div class="issue-card is-pending reveal">\n          {doc_ic}\n          {meta}\n          <span class="issue-soon">Coming soon</span>\n        </div>'
+
 def newsletter_body():
-    issues = "\n".join(
-        f"""        <a href="{link}" class="issue-card reveal">
-          <span class="issue-doc" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M6 2h8l4 4v16H6z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M14 2v4h4M9 13h6M9 17h6M9 9h2"/></svg></span>
-          <span class="issue-meta"><strong>{title}</strong><em>{desc}</em></span>
-          <svg class="se-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>""" for title, desc, link in NEWSLETTER_ISSUES)
+    issues = "\n".join(_issue_card(title, desc, link) for title, desc, link in NEWSLETTER_ISSUES)
     perks = [
         ("Clinical trial updates", "Be first to hear when new studies open for Alzheimer's, Parkinson's, migraine, and MS."),
         ("Brain-healthy tips", "Practical, physician-informed guidance on memory, headache, and healthy aging."),
@@ -1210,7 +1223,9 @@ def doctor_page_body(doc):
         facts_html = f'        <ul class="ld-facts doc-facts">\n{chips}\n        </ul>\n'
     role = doc.get("role", doc["spec"])
     title_html = f'{doc["name"]}<span class="dr-suf">, {doc["suf"]}</span>'
-    body = page_hero(role, title_html, doc["short"],
+    # role data may carry entities (e.g. "Migraine &amp; Headache"); unescape so page_hero's
+    # esc() single-escapes it rather than double-escaping to "&amp;amp;"
+    body = page_hero(html.unescape(role), title_html, doc["short"],
                      [("Home", "index.html"), ("Our Team", "team.html"), (doc["name"], None)])
     body += f"""  <section class="section doctor">
     <div class="wrap doctor-grid">
