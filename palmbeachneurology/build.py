@@ -955,11 +955,12 @@ def build_doctors():
         focus = "".join(f"<span>{f}</span>" for f in d["focus"])
         cards += f'''
         <article class="team-card reveal d{i%3+1}" id="{slug}">
-          <div class="team-photo"><img src="assets/team/{slug}.jpg" alt="Dr. {_plain(d['name'])}, {_plain(d['creds'])}" width="640" height="640" loading="lazy" decoding="async"></div>
-          <h3>Dr. {d["name"]}</h3>
+          <a class="team-photo" href="doctors/{slug}.html" aria-label="Dr. {_plain(d['name'])} — full profile"><img src="assets/team/{slug}.jpg" alt="Dr. {_plain(d['name'])}, {_plain(d['creds'])}" width="640" height="640" loading="lazy" decoding="async"></a>
+          <h3><a href="doctors/{slug}.html">Dr. {d["name"]}</a></h3>
           <div class="role">{d["creds"]}</div>
           <div class="pw-tags" style="justify-content:center;margin-top:0.7rem;">{focus}</div>
           <p>{d["bio"]}</p>
+          <a class="text-link" href="doctors/{slug}.html">View full profile &rarr;</a>
         </article>'''
     body = f"""
 <main>
@@ -1016,6 +1017,99 @@ def build_doctors():
                canonical="our-doctors.html",
                extra_schema=person_schema() + breadcrumb_schema([("Home", ""), ("Our Doctors", "our-doctors.html")]))
           + nav(0) + body + footer(0))
+
+# Map a physician's focus/bio keywords to the conditions they most treat (for cross-links).
+_FOCUS_COND = [
+    ("headache", "headaches-migraine"), ("migraine", "headaches-migraine"),
+    ("epilepsy", "epilepsy-seizures"), ("seizure", "epilepsy-seizures"), ("eeg", "epilepsy-seizures"),
+    ("multiple sclerosis", "multiple-sclerosis"), ("immunolog", "multiple-sclerosis"),
+    ("movement", "parkinsons-movement"), ("parkinson", "parkinsons-movement"), ("dbs", "parkinsons-movement"),
+    ("tremor", "parkinsons-movement"),
+    ("memory", "memory-alzheimers"), ("alzheimer", "memory-alzheimers"), ("cognit", "memory-alzheimers"),
+    ("neuromuscular", "neuromuscular"), ("als", "neuromuscular"), ("myasthenia", "neuromuscular"),
+    ("emg", "neuropathy"), ("nerve", "neuropathy"), ("neuropathy", "neuropathy"),
+    ("spine", "back-neck-pain"), ("stroke", "stroke"), ("sleep", "sleep-disorders"),
+]
+
+def _doctor_conditions(d):
+    hay = (" ".join(d["focus"]) + " " + d["bio"]).lower()
+    slugs = []
+    for kw, slug in _FOCUS_COND:
+        if kw in hay and slug in CONDITIONS and slug not in slugs:
+            slugs.append(slug)
+    return slugs[:6]
+
+def build_doctor_pages():
+    for d in DOCTORS:
+        slug = _doc_slug(d["name"])
+        name = _plain(d["name"])
+        creds = _plain(d["creds"])
+        focus_chips = "".join(f"<span>{f}</span>" for f in d["focus"])
+        conds = _doctor_conditions(d)
+        cond_links = "".join(
+            f'<a class="cond-card reveal d{i%3+1}" href="../conditions/{s}.html">'
+            f'<span class="cond-tag">{CONDITIONS[s]["tag"]}</span><h3>{CONDITIONS[s]["nav"]}</h3></a>'
+            for i, s in enumerate(conds))
+        conds_section = f"""
+<section class="section on-cream">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Areas of Focus</span>
+      <h2>Conditions Dr. {name.split()[-1]} <em class="accent">Treats</em></h2>
+    </div>
+    <div class="cond-grid">{cond_links}</div>
+  </div>
+</section>""" if cond_links else ""
+        lede = f"{creds} · " + ", ".join(_plain(f) for f in d["focus"])
+        physician = {
+            "@context": "https://schema.org", "@type": "Physician",
+            "@id": f"{BASE}/doctors/{slug}.html#physician",
+            "name": "Dr. " + name, "honorificPrefix": "Dr.", "honorificSuffix": creds,
+            "jobTitle": "Neurologist", "medicalSpecialty": "Neurologic",
+            "description": _plain(d["bio"]), "image": f"{BASE}/assets/team/{slug}.jpg",
+            "url": f"{BASE}/doctors/{slug}.html", "worksFor": ORG_REF,
+            "sameAs": f"{BASE}/our-doctors.html#{slug}",
+        }
+        physician_schema = ('<script type="application/ld+json">'
+                            + _json.dumps(physician, ensure_ascii=False) + "</script>\n")
+        body = f"""
+<main>
+{page_hero("Neurologist", f"Dr. {name}", lede,
+  f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="../our-doctors.html">Our Doctors</a> / Dr. {name}</div>')}
+<section class="section">
+  <div class="wrap two-col">
+    <div class="prose reveal">
+      <h2>About Dr. {name}</h2>
+      <p>{d["bio"]}</p>
+      <div class="pw-tags" style="margin:1.6rem 0 0.4rem;">{focus_chips}</div>
+      <p style="margin-top:1.4rem;">New patients are welcome. To see Dr. {name.split()[-1]},
+      <a class="text-link" href="../appointments.html">request an appointment &rarr;</a> or call
+      <a class="text-link" href="tel:{PHONE_TEL}">{PHONE}</a>.</p>
+    </div>
+    <aside class="side-card reveal d2">
+      <div class="team-photo" style="margin-bottom:1.2rem;"><img src="../assets/team/{slug}.jpg" alt="Dr. {name}, {creds}" width="640" height="640" loading="lazy" decoding="async"></div>
+      <h3>Dr. {name}</h3>
+      <div class="role" style="color:var(--coral-text);font-weight:700;margin-bottom:0.4rem;">{creds}</div>
+      <a class="btn btn-coral" href="../appointments.html">Request Appointment <span class="arr">&rarr;</span></a>
+      <div class="side-meta">
+        <p style="margin-bottom:0.4rem;">Prefer to call?</p>
+        <a href="tel:{PHONE_TEL}">{PHONE}</a>
+      </div>
+    </aside>
+  </div>
+</section>
+{conds_section}
+{cta_band(1)}
+</main>
+"""
+        write(f"doctors/{slug}.html",
+              head(f"Dr. {name}, {creds} | Palm Beach Neurology",
+                   (f"Dr. {name}, {creds} — " + ", ".join(_plain(f) for f in d["focus"])
+                    + f" at Palm Beach Neurology, West Palm Beach FL.")[:158],
+                   depth=1, canonical=f"doctors/{slug}.html", page_type="article",
+                   extra_schema=physician_schema + breadcrumb_schema(
+                       [("Home", ""), ("Our Doctors", "our-doctors.html"), ("Dr. " + name, f"doctors/{slug}.html")]))
+              + nav(1) + body + footer(1))
 
 # ============================================================================
 # CLINICAL RESEARCH
@@ -2059,6 +2153,7 @@ def build_meta():
              "patient-center.html", "contact.html", "faq.html", "conditions/index.html", "blog/index.html"]
     pages += [f"conditions/{s}.html" for s in CONDITIONS]
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
+    pages += [f"doctors/{_doc_slug(d['name'])}.html" for d in DOCTORS]
     from datetime import date as _date
     lastmod = _date.today().isoformat()
     def _prio(p):
@@ -2137,6 +2232,7 @@ if __name__ == "__main__":
     build_conditions()
     build_services()
     build_doctors()
+    build_doctor_pages()
     build_research()
     build_appointments()
     build_patient_center()
