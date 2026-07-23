@@ -1374,7 +1374,8 @@ def build_podcast():
             action = (f'<button class="pod-facade" type="button" style="height:152px;" '
                       f'data-embed="https://open.spotify.com/embed/episode/{m.group(1)}?utm_source=generator&amp;theme=0" '
                       f'data-height="152" data-title="{title} — play on-site">'
-                      f'<span class="pf-play" aria-hidden="true">&#9654;</span>'
+                      f'<span class="pf-art"><img src="assets/media/podcast-cover.jpg" alt="" loading="lazy" width="108" height="108">'
+                      f'<span class="pf-play" aria-hidden="true">&#9654;</span></span>'
                       f'<span class="pf-label">Play this episode<span class="pf-sub">Streams from Spotify — loads when you press play</span></span>'
                       f'</button>')
         else:
