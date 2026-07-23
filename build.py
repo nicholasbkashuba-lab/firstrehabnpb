@@ -219,6 +219,7 @@ def footer(depth=0):
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
           <li><a href="{p}about.html">About Us</a></li>
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
+          <li><a href="{p}body-map/index.html">Interactive Body Map</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
@@ -2444,6 +2445,323 @@ def build_first_visit():
                extra_schema=faq_ld + breadcrumb_schema([("Home", ""), ("Your First Visit", "first-visit.html")]))
           + nav(0) + body + footer(0))
 
+# ----------------------------------------------------------------------------
+# INTERACTIVE BODY MAP  (Feature 1 — knee pilot)
+# ----------------------------------------------------------------------------
+# Level 1: full-body navigator (9 regions). Level 2: layered joint anatomy with
+# tissue toggles. Level 3: per-structure page — what it does, conditions, how we
+# treat, condition overlays that alter the illustration, and a "schedule" CTA.
+# Everything is data-driven so the remaining 8 regions are pure content once the
+# knee style is approved. NOTE: all anatomy/condition copy below is authored for
+# clinician review before production (flagged to the owner) — plain-language,
+# conservative, no invented statistics, no promised outcomes.
+
+# Level-1 regions. `active` gates the pilot: only the knee is wired end-to-end.
+# `cx,cy` = hotspot centre on the 300x640 body silhouette.
+BODY_REGIONS = [
+    ("cervical", "Neck", 150, 92, False),
+    ("shoulder", "Shoulder", 104, 150, False),
+    ("elbow", "Elbow", 84, 236, False),
+    ("hand-wrist", "Hand &amp; Wrist", 70, 312, False),
+    ("back", "Back", 168, 214, False),
+    ("hip", "Hip", 120, 300, False),
+    ("knee", "Knee", 126, 436, True),
+    ("ankle", "Ankle", 118, 556, False),
+    ("foot", "Foot", 112, 596, False),
+]
+
+TISSUE_LEGEND = [
+    ("bone", "Bone"), ("cartilage", "Cartilage"), ("meniscus", "Meniscus"),
+    ("ligament", "Ligament"), ("tendon", "Tendon"), ("muscle", "Muscle"),
+]
+
+# Knee structures. layer -> which tissue toggle it belongs to. overlay -> id of a
+# condition illustration variant (rendered as a hidden <g> in the SVG).
+KNEE = {
+    "slug": "knee", "name": "Knee", "view": "Anterior (front) view",
+    "intro": "Your knee is where the thigh bone, shin bone, and kneecap meet — held together and cushioned by ligaments, cartilage, and tendons. Tap a tissue layer to isolate it, or tap any structure to learn what it does and what can go wrong.",
+    "structures": [
+        {"id": "s-acl", "name": "Anterior cruciate ligament", "common": "ACL", "layer": "ligament",
+         "does": "The ACL runs through the center of the knee and keeps your shin bone from sliding too far forward on your thigh bone. It's a big reason the knee feels steady when you turn, pivot, or plant your foot.",
+         "conditions": [
+            {"name": "ACL tear", "overlay": "acl-tear",
+             "what": "ACL tears often happen with no contact at all — a sudden stop, a cut, or an awkward landing. Many people feel or hear a pop, then notice swelling within a few hours and a knee that feels like it might give way.",
+             "treat": "We build strength in the muscles around the knee and hip to restore stability and confidence. If the ligament is reconstructed surgically, structured physical therapy is essential to a full return — and some people do well with rehabilitation alone. We help you understand your options and coordinate with your surgeon."}]},
+        {"id": "s-pcl", "name": "Posterior cruciate ligament", "common": "PCL", "layer": "ligament",
+         "does": "The PCL sits just behind the ACL and stops your shin bone from sliding too far backward. It helps control the knee as you walk down stairs or a slope.",
+         "conditions": [
+            {"name": "PCL injury",
+             "what": "PCL injuries usually come from a direct blow to the front of a bent knee — a dashboard in a car accident, or a hard fall onto the knee. They can be easy to miss, because the swelling is often milder than an ACL tear.",
+             "treat": "Most PCL injuries are managed well without surgery. We focus on quadriceps strength to support the knee, along with a graded return to your activities."}]},
+        {"id": "s-mcl", "name": "Medial collateral ligament", "common": "MCL", "layer": "ligament",
+         "does": "The MCL runs along the inner side of your knee and keeps it from buckling inward. It's the knee's main defense against a force coming from the outside.",
+         "conditions": [
+            {"name": "MCL sprain or tear",
+             "what": "MCL injuries typically follow a blow to the outside of the knee or a twist, leaving the inner knee tender and sore. Because the MCL has a good blood supply, it often heals well.",
+             "treat": "Most MCL sprains recover with physical therapy and, when helpful, a supportive brace — we restore motion first, then rebuild strength and stability."}]},
+        {"id": "s-lcl", "name": "Lateral collateral ligament", "common": "LCL", "layer": "ligament",
+         "does": "The LCL runs along the outer side of your knee and keeps it from bowing outward. It works with the other ligaments to keep the joint steady.",
+         "conditions": [
+            {"name": "LCL sprain",
+             "what": "LCL injuries are less common and usually follow a blow to the inside of the knee or a hyperextension. You may feel tenderness and a sense of instability on the outer side.",
+             "treat": "Milder sprains respond well to physical therapy focused on strength and control. More severe or combined injuries may need a surgeon's input, and we help you get the right evaluation."}]},
+        {"id": "s-medial-meniscus", "name": "Meniscus", "common": "medial &amp; lateral", "layer": "meniscus",
+         "does": "Your two menisci are C-shaped cushions of tough cartilage that sit between the thigh and shin bones. They absorb shock, spread your weight across the joint, and help keep the knee stable.",
+         "conditions": [
+            {"name": "Meniscus tear", "overlay": "meniscus-tear",
+             "what": "Meniscus tears happen two ways: a twist during sport or work, or gradual wear as we age. Common signs are pain along the joint line, swelling, and sometimes catching or a knee that briefly locks.",
+             "treat": "Many meniscus tears — especially wear-related ones — improve with physical therapy that restores motion and builds the muscles supporting the knee, often avoiding surgery. When a repair or trim is needed, we guide your recovery afterward."}]},
+        {"id": "s-femoral-cartilage", "name": "Articular cartilage", "common": None, "layer": "cartilage",
+         "does": "Articular cartilage is the smooth, slippery coating on the ends of your bones that lets the knee glide with almost no friction. It has no nerve supply of its own, so wear can quietly progress before it's felt.",
+         "conditions": [
+            {"name": "Knee osteoarthritis", "overlay": "arthritis",
+             "what": "Osteoarthritis is the gradual thinning of that smooth cartilage, leaving stiffness, aching, and sometimes swelling that's worse after activity or a long rest.",
+             "treat": "Physical therapy is one of the most effective first steps: strengthening the muscles around the knee and hip takes load off the joint and eases pain. For advanced arthritis treated with a knee replacement, our rehabilitation guides you back to walking, stairs, and daily life."},
+            {"name": "Patellofemoral (kneecap) pain",
+             "what": "Pain around or under the kneecap — often felt on stairs, squatting, or after sitting a while — is one of the most common knee complaints, especially in active people.",
+             "treat": "We look at how the hip, thigh, and foot are sharing the load, then correct the strength and movement patterns that pull unevenly on the kneecap."}]},
+        {"id": "s-patellar-tendon", "name": "Patellar tendon", "common": None, "layer": "tendon",
+         "does": "The patellar tendon connects your kneecap to your shin bone and delivers the force from your thigh muscles that straightens the knee — in every step, jump, and stand-up.",
+         "conditions": [
+            {"name": "Patellar tendinitis (jumper's knee)",
+             "what": "Overuse — especially jumping or repeated loading — can irritate the tendon just below the kneecap, causing pain that warms up with activity but returns afterward.",
+             "treat": "Tendons respond to the right kind of loading. We build a progressive strengthening program that rebuilds the tendon's tolerance and gets you back to your activity."}]},
+    ],
+}
+
+# Guided "help me find my issue" decision tree (tap-through, no free text). For
+# the pilot every branch resolves to the knee; the framework generalizes to all
+# regions once built. Copy is deliberately non-diagnostic.
+GUIDED_INTRO = "A few quick taps to point you toward the right part of the map. This is educational only — it is not a diagnosis or medical advice."
+
+def _knee_svg(active=None, isolate=None, overlay=None):
+    """The layered, tagged knee SVG. State (highlight / layer isolation /
+    condition overlay) is applied via data-* on the root so it works with or
+    without JS; main body-map.js toggles the same attributes live."""
+    root_attrs = 'class="bm-svg" viewBox="0 0 320 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Right knee, anterior view"'
+    if active: root_attrs += f' data-active="{active}"'
+    if isolate: root_attrs += f' data-isolate="{isolate}"'
+    if overlay: root_attrs += f' data-overlay="{overlay}"'
+    return f'''<svg {root_attrs}>
+<defs>
+<linearGradient id="gBone" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#FBF6EA"/><stop offset=".55" stop-color="#F1E6CD"/><stop offset="1" stop-color="#E3D3AE"/></linearGradient>
+<linearGradient id="gBoneL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FEFBF3"/><stop offset="1" stop-color="#E7D8B6"/></linearGradient>
+<linearGradient id="gCart" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E1EAEC"/><stop offset="1" stop-color="#BECDD1"/></linearGradient>
+<linearGradient id="gMen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CAD7DB"/><stop offset="1" stop-color="#9FB1B7"/></linearGradient>
+<linearGradient id="gLig" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4ECD6"/><stop offset="1" stop-color="#E0D0A9"/></linearGradient>
+<linearGradient id="gTen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFD79A"/><stop offset="1" stop-color="#D9B85F"/></linearGradient>
+<linearGradient id="gMus" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="#D08A72"/><stop offset="1" stop-color="#A9563F"/></linearGradient>
+<filter id="bmSh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="3.4" flood-color="#0E3A47" flood-opacity="0.16"/></filter>
+</defs>
+<g id="layer-muscle" class="bm-layer" data-layer="muscle" fill="url(#gMus)" stroke="#8c4735" stroke-width="1.3" opacity=".92">
+<path id="s-quadriceps" class="bm-part" data-layer="muscle" d="M116,20 C102,54 102,96 118,130 C130,156 152,168 160,168 C168,168 190,156 202,130 C218,96 218,54 204,20 C182,38 138,38 116,20Z"/>
+<path id="s-gastroc-med" class="bm-part" data-layer="muscle" d="M90,486 C78,520 82,556 102,572 L126,572 C118,536 116,506 124,478 C110,474 98,476 90,486Z"/>
+<path id="s-gastroc-lat" class="bm-part" data-layer="muscle" d="M232,478 C240,506 238,536 230,572 L206,572 C226,556 230,520 218,486 C210,476 222,474 232,478Z"/>
+</g>
+<g id="layer-bone" class="bm-layer" data-layer="bone" stroke="#0E3A47" stroke-width="2.4" stroke-linejoin="round" filter="url(#bmSh)">
+<path id="s-femur" class="bm-part" data-layer="bone" fill="url(#gBone)" d="M132,18 C128,90 125,156 122,200 C121,224 117,242 108,256 C96,266 88,280 90,294 C92,310 106,320 122,316 C134,313 142,302 146,290 C150,280 156,276 160,276 C164,276 170,280 174,290 C178,302 186,313 198,316 C214,320 228,310 230,294 C232,280 224,266 212,256 C203,242 199,224 198,200 C195,156 192,90 188,18 C170,32 150,32 132,18Z"/>
+<path id="s-tibia" class="bm-part" data-layer="bone" fill="url(#gBone)" d="M90,336 C90,329 94,324 102,323 L134,322 C141,312 179,312 186,322 L218,323 C226,324 230,329 230,336 C224,340 220,346 220,354 C218,432 212,510 208,584 L112,584 C108,510 102,432 100,354 C100,346 96,340 90,336Z"/>
+<path id="s-fibula" class="bm-part" data-layer="bone" fill="url(#gBoneL)" d="M232,340 C246,337 258,348 254,364 C252,376 242,382 234,378 C234,440 236,506 236,584 L222,584 C221,506 221,438 223,378 C220,364 220,346 232,340Z"/>
+</g>
+<g id="layer-cartilage" class="bm-layer" data-layer="cartilage" fill="url(#gCart)" stroke="#8497a0" stroke-width="1.1">
+<path id="s-femoral-cartilage" class="bm-part" data-part="s-femoral-cartilage" data-layer="cartilage" d="M90,294 C92,310 106,321 122,317 C134,314 142,303 146,291 C138,296 128,298 120,297 C108,296 96,292 90,294Z M174,291 C178,303 186,314 198,317 C214,321 228,310 230,294 C224,292 212,296 200,297 C192,298 182,296 174,291Z"/>
+<path id="s-tibial-cartilage" class="bm-part" data-part="s-femoral-cartilage" data-layer="cartilage" d="M100,324 L134,323 C141,314 179,314 186,323 L220,324 C222,328 222,332 220,335 L186,334 C179,327 141,327 134,334 L100,335 C98,332 98,327 100,324Z"/>
+</g>
+<g id="layer-meniscus" class="bm-layer" data-layer="meniscus" fill="url(#gMen)" stroke="#6f858c" stroke-width="1">
+<path id="s-medial-meniscus" class="bm-part" data-part="s-medial-meniscus" data-layer="meniscus" d="M98,325 C110,320 128,321 138,327 C130,334 112,335 100,332 C96,331 94,327 98,325Z"/>
+<path id="s-lateral-meniscus" class="bm-part" data-part="s-medial-meniscus" data-layer="meniscus" d="M182,327 C192,321 210,320 222,325 C226,327 224,331 220,332 C208,335 190,334 182,327Z"/>
+</g>
+<g id="layer-ligament" class="bm-layer" data-layer="ligament" fill="url(#gLig)" stroke="#b09a5d" stroke-width="1.2">
+<path id="s-acl-part" class="bm-part" data-part="s-acl" data-layer="ligament" d="M186,280 C176,294 160,310 136,324 C141,328 149,327 155,323 C178,308 190,291 196,280 C193,277 189,277 186,280Z"/>
+<path id="s-pcl-part" class="bm-part" data-part="s-pcl" data-layer="ligament" d="M134,280 C144,294 160,310 182,324 C177,328 169,327 164,323 C142,308 130,291 125,280 C128,277 131,277 134,280Z"/>
+<path id="s-mcl-part" class="bm-part" data-part="s-mcl" data-layer="ligament" d="M92,262 C85,298 85,348 92,394 C99,398 107,394 109,388 C103,348 103,300 107,266 C101,258 96,258 92,262Z"/>
+<path id="s-lcl-part" class="bm-part" data-part="s-lcl" data-layer="ligament" d="M226,266 C232,300 240,336 248,358 C254,356 257,350 256,344 C248,320 240,292 236,264 C231,259 226,260 226,266Z"/>
+</g>
+<g id="layer-tendon" class="bm-layer" data-layer="tendon" fill="url(#gTen)" stroke="#a07514" stroke-width="1.3">
+<path id="s-quadriceps-tendon" class="bm-part" data-layer="tendon" d="M130,130 C127,160 129,188 134,210 L186,210 C191,188 193,160 190,130 C172,142 148,142 130,130Z"/>
+<path id="s-patellar-tendon-part" class="bm-part" data-part="s-patellar-tendon" data-layer="tendon" d="M142,300 C141,332 143,362 147,388 L173,388 C177,362 179,332 178,300 C168,308 152,308 142,300Z"/>
+</g>
+<g id="layer-patella"><ellipse id="s-patella" cx="160" cy="252" rx="32" ry="44" fill="url(#gBone)" stroke="#0E3A47" stroke-width="1.8" opacity=".48"/></g>
+<!-- condition overlays: hidden unless the svg's data-overlay matches -->
+<g class="bm-overlay" data-for="acl-tear" fill="none" stroke="#C0392B" stroke-width="3" stroke-linecap="round">
+<path d="M150,296 l14,10 M150,306 l14,-10" /></g>
+<g class="bm-overlay" data-for="meniscus-tear" fill="none" stroke="#C0392B" stroke-width="2.4" stroke-linecap="round">
+<path d="M108,326 l10,3 M114,323 l6,7"/></g>
+<g class="bm-overlay" data-for="arthritis">
+<path d="M100,326 L220,326 L220,332 L100,332 Z" fill="#C0392B" opacity="0.42"/>
+<circle cx="160" cy="329" r="30" fill="#C0392B" opacity="0.12"/></g>
+</svg>'''
+
+def _bm_legend():
+    sw = "".join(
+        f'<span class="bm-leg"><span class="bm-leg-sw t-{tid}"></span>{name}</span>'
+        for tid, name in TISSUE_LEGEND)
+    return f'<div class="bm-legend" aria-hidden="true">{sw}</div>'
+
+def _bm_layer_toggles():
+    btns = "".join(
+        f'<button type="button" class="bm-tog" data-layer-toggle="{tid}"><span class="bm-leg-sw t-{tid}"></span>{name}</button>'
+        for tid, name in TISSUE_LEGEND)
+    return (f'<div class="bm-toggles" role="group" aria-label="Show a tissue layer">'
+            f'<button type="button" class="bm-tog is-on" data-layer-toggle="all">All tissues</button>{btns}</div>')
+
+def _body_svg():
+    """Level-1 stylized anterior body silhouette with 9 region hotspots."""
+    spots = ""
+    for rid, name, cx, cy, active in BODY_REGIONS:
+        dot = (f'<span class="bm-spot-dot" style="left:{cx/300*100:.2f}%;top:{cy/640*100:.2f}%;">'
+               f'<span class="bm-spot-pulse"></span></span>')
+        if active:
+            label = name.replace("&amp;", "and")
+            spots += (f'<a class="bm-spot is-active" data-region="{rid}" href="{rid}.html" '
+                      f'aria-label="Explore the {label.lower()}">{dot}</a>')
+        else:
+            # not yet wired — a purely visual marker, hidden from assistive tech
+            spots += f'<span class="bm-spot is-soon" data-region="{rid}" aria-hidden="true">{dot}</span>'
+    body = ('<svg class="bm-body" viewBox="0 0 300 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+            '<defs><linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1">'
+            '<stop offset="0" stop-color="#FBF6EA"/><stop offset="1" stop-color="#EBDFC4"/></linearGradient></defs>'
+            '<path fill="url(#gBody)" stroke="#0E3A47" stroke-width="2.2" stroke-linejoin="round" d="'
+            'M150,24 C133,24 122,38 122,58 C122,74 130,86 140,92 C120,98 108,110 104,132 '
+            'C99,158 96,186 74,300 C70,322 60,330 52,332 C44,334 40,340 46,346 C54,352 66,346 72,330 '
+            'C86,270 92,214 100,190 C100,236 96,266 94,300 C92,350 96,404 104,470 C106,510 104,556 106,596 '
+            'C107,614 112,624 122,624 C132,624 136,614 136,596 C138,548 140,500 146,458 '
+            'C148,444 152,444 154,458 C160,500 162,548 164,596 C164,614 168,624 178,624 '
+            'C188,624 193,614 194,596 C196,556 194,510 196,470 C204,404 208,350 206,300 '
+            'C204,266 200,236 200,190 C208,214 214,270 228,330 C234,346 246,352 254,346 '
+            'C260,340 256,334 248,332 C240,330 230,322 226,300 C204,186 201,158 196,132 '
+            'C192,110 180,98 160,92 C170,86 178,74 178,58 C178,38 167,24 150,24Z"/></svg>')
+    return f'<div class="bm-body-wrap">{body}{spots}</div>'
+
+def build_body_map():
+    crumb1 = '<div class="crumbs"><a href="../index.html">Home</a> / Body Map</div>'
+    region_list = "".join(
+        (f'<a class="bm-region-chip" href="{rid}.html">{name}</a>' if active
+         else f'<span class="bm-region-chip is-soon">{name}</span>')
+        for rid, name, cx, cy, active in BODY_REGIONS)
+    # ---- Guided flow (tap-through) ----
+    guided = f'''<section class="section on-cream" id="guided">
+  <div class="wrap">
+    <div class="section-head center reveal"><span class="eyebrow">Not sure where to start?</span><h2>Help Me Find <em class="accent">My Issue</em></h2></div>
+    <div class="bm-guide reveal" data-guide>
+      <p class="bm-guide-disc">{GUIDED_INTRO}</p>
+      <div class="bm-guide-stage" aria-live="polite"></div>
+    </div>
+  </div>
+</section>'''
+    l1 = f"""
+<main>
+{page_hero("Interactive Body Map", "Explore Your Body, <em class='accent'>One Tap at a Time</em>",
+  "Tap where it hurts to see the anatomy, understand common conditions, and learn how our therapists treat them. Educational only — not a diagnosis.", crumb1)}
+<section class="section">
+  <div class="wrap">
+    <div class="bm-l1">
+      <div class="bm-l1-map reveal">{_body_svg()}</div>
+      <div class="bm-l1-side reveal d2">
+        <h2>Where does it hurt?</h2>
+        <p class="bm-note">This is our pilot region — the <strong>knee</strong> is fully explorable now, with the other areas rolling out next.</p>
+        <div class="bm-region-chips">{region_list}</div>
+        <a class="bm-jump" href="#guided">Not sure where it hurts? Help me find it &darr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+{guided}
+{cta_band(1)}
+</main>
+<script src="../assets/js/body-map.js?v={asset_v('assets/js/body-map.js')}" defer></script>
+"""
+    write("body-map/index.html",
+          head("Interactive Body Map | First Rehabilitation of North Palm Beach",
+               "Explore an interactive anatomy map: tap a body region to see the structures, common conditions, and how physical therapy in North Palm Beach treats them.",
+               depth=1, canonical="body-map/index.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Body Map", "body-map/index.html")]))
+          + nav(1) + l1 + footer(1))
+
+    # ---- Level 2: knee ----
+    k = KNEE
+    crumb2 = f'<div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Body Map</a> / {k["name"]}</div>'
+    struct_list = "".join(
+        f'''<a class="bm-struct" href="{k["slug"]}/{s["id"].replace("s-","")}.html" data-part="{s["id"]}">
+        <span class="bm-struct-sw t-{s["layer"]}"></span>
+        <span class="bm-struct-name">{s["name"]}{f' <em>({s["common"]})</em>' if s["common"] else ''}</span></a>'''
+        for s in k["structures"])
+    l2 = f"""
+<main>
+{page_hero(f'{k["name"]} &middot; Body Map', f'The {k["name"]} — <em class="accent">Layer by Layer</em>', k["intro"], crumb2)}
+<section class="section">
+  <div class="wrap">
+    <div class="bm-l2">
+      <div class="bm-stage reveal">
+        {_knee_svg()}
+        {_bm_legend()}
+      </div>
+      <div class="bm-l2-side reveal d2">
+        {_bm_layer_toggles()}
+        <h2 style="margin-top:1.4rem;">Structures</h2>
+        <div class="bm-struct-list">{struct_list}</div>
+        <a class="btn btn-coral" href="../contact.html" style="margin-top:1.4rem;">Schedule an Evaluation <span class="arr">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+{cta_band(1)}
+</main>
+<script src="../assets/js/body-map.js?v={asset_v('assets/js/body-map.js')}" defer></script>
+"""
+    write(f'body-map/{k["slug"]}.html',
+          head(f'{k["name"]} Anatomy & Conditions | Body Map | First Rehab',
+               f'Explore {k["name"].lower()} anatomy — ligaments, cartilage, meniscus, and tendons — the conditions that affect them, and how First Rehabilitation of North Palm Beach treats each.',
+               depth=1, canonical=f'body-map/{k["slug"]}.html',
+               extra_schema=breadcrumb_schema([("Home", ""), ("Body Map", "body-map/index.html"), (k["name"], f'body-map/{k["slug"]}.html')]))
+          + nav(1) + l2 + footer(1))
+
+    # ---- Level 3: one page per structure ----
+    for s in k["structures"]:
+        sslug = s["id"].replace("s-", "")
+        crumb3 = (f'<div class="crumbs"><a href="../../index.html">Home</a> / '
+                  f'<a href="../index.html">Body Map</a> / <a href="../{k["slug"]}.html">{k["name"]}</a> / {s["name"]}</div>')
+        conds = ""
+        for c in s["conditions"]:
+            ov = f' data-set-overlay="{c["overlay"]}"' if c.get("overlay") else ""
+            conds += f'''<article class="bm-cond reveal"{ov}>
+            <h3>{c["name"]}</h3>
+            <p class="bm-cond-what">{c["what"]}</p>
+            <p class="bm-cond-treat"><span class="bm-cond-tag">How we treat it</span>{c["treat"]}</p>
+            </article>'''
+        title_common = f' ({s["common"]})' if s["common"] else ''
+        l3 = f"""
+<main>
+{page_hero(f'{k["name"]} &middot; Structure', f'{s["name"]}<em class="accent">{title_common}</em>', s["does"], crumb3)}
+<section class="section">
+  <div class="wrap bm-l3">
+    <div class="bm-stage reveal">
+      {_knee_svg(active=s["id"])}
+      {_bm_legend()}
+      <p class="bm-stage-cap">Highlighted: {s["name"]}. Select a condition below to see how it changes the joint.</p>
+    </div>
+    <div class="bm-l3-side reveal d2">
+      <div class="section-head" style="margin-bottom:1rem;"><span class="eyebrow">Common conditions</span><h2>What Can Go Wrong</h2></div>
+      {conds}
+      <div class="bm-l3-cta">
+        <p>Knee pain rarely fixes itself — and most of it responds to skilled <a href="../../services/physical-therapy.html">physical therapy</a>. Our therapists evaluate your knee and build a plan around your goals.</p>
+        <a class="btn btn-coral" href="../../contact.html">Schedule an Evaluation <span class="arr">&rarr;</span></a>
+        <p class="bm-l3-links">See also: <a href="../../treatments/knee-pain.html">Knee pain program</a> &middot; <a href="../{k["slug"]}.html">&larr; Back to the {k["name"].lower()}</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{cta_band(2)}
+</main>
+<script src="../../assets/js/body-map.js?v={asset_v('assets/js/body-map.js')}" defer></script>
+"""
+        write(f'body-map/{k["slug"]}/{sslug}.html',
+              head(f'{s["name"]}{title_common} — {k["name"]} | First Rehab Body Map',
+                   f'What the {s["name"].lower()} does, the conditions that affect it, and how First Rehabilitation of North Palm Beach treats them with physical therapy.',
+                   depth=2, canonical=f'body-map/{k["slug"]}/{sslug}.html', page_type="article",
+                   extra_schema=breadcrumb_schema([("Home", ""), ("Body Map", "body-map/index.html"), (k["name"], f'body-map/{k["slug"]}.html'), (s["name"], f'body-map/{k["slug"]}/{sslug}.html')]))
+              + nav(2) + l3 + footer(2))
+
 def build_meta():
     base = "https://www.firstrehabnpb.com"
     write("site.webmanifest", '''{
@@ -2461,6 +2779,8 @@ def build_meta():
 }
 ''')
     pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "podcast.html", "blog/index.html", "treatments/index.html"]
+    pages += ["body-map/index.html", f'body-map/{KNEE["slug"]}.html']
+    pages += [f'body-map/{KNEE["slug"]}/{s["id"].replace("s-","")}.html' for s in KNEE["structures"]]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -2560,5 +2880,6 @@ if __name__ == "__main__":
     build_blog()
     build_careers()
     build_first_visit()
+    build_body_map()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")

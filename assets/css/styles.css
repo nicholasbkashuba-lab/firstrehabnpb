@@ -842,3 +842,106 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
 .fv-step .fv-hint { display: inline-block; margin-top: 0.3rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--coral-text); }
 .fv-highlight { background: var(--cream); border: 1px solid var(--line-gold); border-radius: 12px; padding: 0.8rem 1rem; margin-top: 0.5rem; font-size: 0.94rem; }
 @media (max-width: 560px) { .fv-step { padding-left: 62px; } .fv-step h3 button { font-size: 1.12rem; } }
+
+/* ================= INTERACTIVE BODY MAP ================= */
+/* Tissue swatch colors (shared with legend + toggles) */
+.bm-leg-sw, .bm-struct-sw { display:inline-block; width:16px; height:16px; border-radius:4px; border:1.5px solid var(--teal); flex-shrink:0; vertical-align:middle; }
+.t-bone{background:linear-gradient(#FBF6EA,#E3D3AE)} .t-cartilage{background:linear-gradient(#E1EAEC,#BECDD1)}
+.t-meniscus{background:linear-gradient(#CAD7DB,#9FB1B7)} .t-ligament{background:linear-gradient(#F4ECD6,#E0D0A9)}
+.t-tendon{background:linear-gradient(#EFD79A,#D9B85F)} .t-muscle{background:linear-gradient(#D08A72,#A9563F)}
+
+/* ---- Level 1 ---- */
+.bm-l1 { display:grid; grid-template-columns: 1fr 1fr; gap:2.4rem; align-items:center; }
+@media (max-width:820px){ .bm-l1{ grid-template-columns:1fr; gap:1.4rem; } }
+.bm-body-wrap { position:relative; max-width:340px; margin:0 auto; }
+.bm-body { width:100%; height:auto; display:block; filter:drop-shadow(0 24px 50px rgba(14,58,71,.22)); }
+.bm-spot { position:absolute; inset:0; display:block; }
+.bm-spot-dot { position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%;
+  background:var(--coral); border:2.5px solid #fff; box-shadow:0 4px 12px rgba(14,58,71,.35); cursor:pointer;
+  transition:transform .2s ease, background .2s ease; }
+a.bm-spot .bm-spot-dot:hover, a.bm-spot:focus-visible .bm-spot-dot { transform:scale(1.22); background:var(--coral-deep,#d9822b); }
+.bm-spot.is-active .bm-spot-dot { background:var(--coral); }
+.bm-spot.is-soon .bm-spot-dot { background:#b9c3c7; cursor:default; box-shadow:none; }
+.bm-spot-pulse { position:absolute; inset:-6px; border-radius:50%; border:2px solid var(--coral); opacity:0; }
+.bm-spot.is-active .bm-spot-pulse { animation:bmPulse 2.4s ease-out infinite; }
+@keyframes bmPulse { 0%{transform:scale(.6);opacity:.7} 100%{transform:scale(1.9);opacity:0} }
+@media (prefers-reduced-motion: reduce){ .bm-spot-pulse{animation:none} }
+.bm-l1-side h2 { margin-bottom:.6rem; }
+.bm-note { font-size:.94rem; color:var(--muted); margin-bottom:1.2rem; }
+.bm-region-chips { display:flex; flex-wrap:wrap; gap:.55rem; }
+.bm-region-chip { font-size:.9rem; font-weight:600; padding:.42em 1em; border-radius:999px; border:1.5px solid var(--line-gold); background:var(--paper); color:var(--ink); text-decoration:none; transition:all .2s ease; }
+a.bm-region-chip:hover { background:var(--ink); color:var(--cream); border-color:var(--ink); }
+.bm-region-chip.is-soon { color:var(--muted); border-style:dashed; cursor:default; }
+
+/* ---- Level 2 & 3 shared stage ---- */
+.bm-l2, .bm-l3 { display:grid; grid-template-columns: minmax(0,1.05fr) 1fr; gap:2.2rem; align-items:start; }
+@media (max-width:860px){ .bm-l2, .bm-l3 { grid-template-columns:1fr; gap:1.4rem; } }
+.bm-stage { background:radial-gradient(120% 120% at 50% 8%,#fffefb,#faf5eb); border:1px solid var(--line); border-radius:var(--radius-lg); padding:1rem 1rem 1.2rem; position:sticky; top:96px; }
+@media (max-width:860px){ .bm-stage{ position:static; } }
+.bm-svg { width:100%; height:auto; display:block; touch-action:pinch-zoom; }
+.bm-part { transition:opacity .25s ease, filter .25s ease; cursor:pointer; }
+.bm-part.is-hi { filter:drop-shadow(0 0 5px rgba(244,162,97,.9)); }
+/* layer isolation */
+.bm-svg[data-isolate] .bm-layer { opacity:.24; transition:opacity .28s ease; }
+.bm-svg[data-isolate="bone"] [data-layer="bone"], .bm-svg[data-isolate="cartilage"] [data-layer="cartilage"],
+.bm-svg[data-isolate="meniscus"] [data-layer="meniscus"], .bm-svg[data-isolate="ligament"] [data-layer="ligament"],
+.bm-svg[data-isolate="tendon"] [data-layer="tendon"], .bm-svg[data-isolate="muscle"] [data-layer="muscle"] { opacity:1; }
+/* single-structure highlight (Level 3, works with no JS) */
+.bm-svg[data-active] .bm-part { opacity:.3; }
+.bm-svg[data-active="s-acl"] [data-part="s-acl"], .bm-svg[data-active="s-pcl"] [data-part="s-pcl"],
+.bm-svg[data-active="s-mcl"] [data-part="s-mcl"], .bm-svg[data-active="s-lcl"] [data-part="s-lcl"],
+.bm-svg[data-active="s-medial-meniscus"] [data-part="s-medial-meniscus"],
+.bm-svg[data-active="s-femoral-cartilage"] [data-part="s-femoral-cartilage"],
+.bm-svg[data-active="s-patellar-tendon"] [data-part="s-patellar-tendon"] { opacity:1; filter:drop-shadow(0 0 6px rgba(244,162,97,.85)); }
+/* condition overlays */
+.bm-overlay { opacity:0; transition:opacity .3s ease; pointer-events:none; }
+.bm-svg[data-overlay="acl-tear"] [data-for="acl-tear"], .bm-svg[data-overlay="meniscus-tear"] [data-for="meniscus-tear"],
+.bm-svg[data-overlay="arthritis"] [data-for="arthritis"] { opacity:1; }
+
+.bm-legend { display:flex; flex-wrap:wrap; gap:.5rem 1rem; justify-content:center; margin-top:.6rem; padding-top:.8rem; border-top:1px solid var(--line); }
+.bm-leg { display:inline-flex; align-items:center; gap:.4rem; font-size:.78rem; color:var(--muted); font-weight:600; }
+.bm-stage-cap { font-size:.82rem; color:var(--muted); text-align:center; margin-top:.7rem; }
+
+.bm-toggles { display:flex; flex-wrap:wrap; gap:.5rem; }
+.bm-tog { display:inline-flex; align-items:center; gap:.45rem; font-size:.85rem; font-weight:600; font-family:var(--font-body); padding:.42em .9em; border-radius:999px; border:1.5px solid var(--line); background:var(--paper); color:var(--ink); cursor:pointer; transition:all .2s ease; }
+.bm-tog:hover { border-color:var(--line-gold); }
+.bm-tog.is-on { background:var(--ink); color:var(--cream); border-color:var(--ink); }
+.bm-tog.is-on .bm-leg-sw { border-color:var(--cream); }
+
+.bm-struct-list { display:flex; flex-direction:column; gap:.5rem; }
+.bm-struct { display:flex; align-items:center; gap:.7rem; padding:.7rem .9rem; border:1px solid var(--line); border-radius:12px; background:var(--paper); text-decoration:none; color:var(--ink); transition:all .18s ease; }
+.bm-struct:hover, .bm-struct.is-hover, .bm-struct:focus-visible { border-color:var(--line-gold); background:var(--cream); transform:translateX(3px); }
+.bm-struct-name { font-weight:600; font-size:.95rem; } .bm-struct-name em { color:var(--muted); font-style:normal; font-weight:400; }
+
+/* ---- Level 3 conditions ---- */
+.bm-l3-side .bm-cond { background:var(--paper); border:1px solid var(--line); border-left:3px solid var(--coral); border-radius:14px; padding:1.1rem 1.2rem; margin-bottom:1rem; transition:box-shadow .2s ease, border-color .2s ease; }
+.bm-cond[role=button]{ cursor:pointer; } .bm-cond.is-showing { border-left-color:var(--gold); box-shadow:var(--shadow-card); }
+.bm-cond h3 { font-size:1.12rem; margin-bottom:.4rem; }
+.bm-cond-what { font-size:.94rem; color:var(--ink-soft); line-height:1.6; }
+.bm-cond-treat { font-size:.94rem; color:var(--ink-soft); line-height:1.6; margin-top:.7rem; }
+.bm-cond-tag { display:block; font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral-text); margin-bottom:.2rem; }
+.bm-l3-cta { margin-top:1.4rem; padding:1.3rem 1.4rem; background:var(--cream); border:1px solid var(--line-gold); border-radius:var(--radius-lg); }
+.bm-l3-cta p { font-size:.95rem; color:var(--ink-soft); margin-bottom:1rem; }
+.bm-l3-links { font-size:.86rem; color:var(--muted); margin-top:1rem; margin-bottom:0; }
+
+/* ---- Guided flow ---- */
+.bm-guide { max-width:640px; margin:0 auto; }
+.bm-guide-disc { font-size:.82rem; color:var(--muted); text-align:center; margin-bottom:1.2rem; font-style:italic; }
+.bm-guide-card { background:var(--paper); border:1px solid var(--line-gold); border-radius:var(--radius-lg); padding:1.6rem 1.7rem; box-shadow:var(--shadow-soft); animation:bmFade .3s ease; }
+@keyframes bmFade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.bm-guide-q { font-family:var(--font-display); font-weight:700; font-size:1.25rem; margin-bottom:1.1rem; }
+.bm-guide-opts { display:flex; flex-direction:column; gap:.6rem; }
+.bm-guide-opt { text-align:left; font-family:var(--font-body); font-size:1rem; font-weight:600; padding:.85rem 1.1rem; border:1.5px solid var(--line); border-radius:12px; background:var(--cream); color:var(--ink); cursor:pointer; transition:all .18s ease; }
+.bm-guide-opt:hover, .bm-guide-opt:focus-visible { border-color:var(--coral); background:#fff; transform:translateX(4px); }
+.bm-guide-result h3 { font-size:1.4rem; margin-bottom:.5rem; }
+.bm-guide-result > p { color:var(--ink-soft); line-height:1.6; }
+.bm-guide-actions { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:1.2rem; }
+.bm-guide-restart { margin-top:1rem; background:none; border:0; color:var(--coral-text); font-weight:700; font-size:.88rem; cursor:pointer; font-family:var(--font-body); }
+
+/* ---- Level transitions ---- */
+.bm-entering main, main.bm-entering { opacity:0; transform:scale(.985); }
+main.bm-leaving { opacity:0; transform:scale(.99); transition:opacity .22s ease, transform .22s ease; }
+main { transition:opacity .3s ease, transform .3s ease; }
+@media (prefers-reduced-motion: reduce){ main{transition:none} main.bm-leaving,.bm-entering main{opacity:1;transform:none} }
+.bm-jump { display:inline-block; margin-top:1.2rem; color:var(--coral-text); font-weight:700; font-size:.95rem; text-decoration:none; }
+.bm-jump:hover, .bm-jump:focus-visible { text-decoration:underline; }
