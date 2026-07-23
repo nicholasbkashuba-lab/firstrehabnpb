@@ -878,7 +878,7 @@ def build_conditions():
 </main>
 """
         write(f"conditions/{slug}.html",
-              head(f"{_plain(c['nav'])} | Palm Beach Neurology",
+              head(f"{_plain(c['nav'])} | Neurologists in West Palm Beach, FL",
                    (_plain(c['lede'])[:104].rsplit(' ', 1)[0] + " — Palm Beach Neurology, West Palm Beach FL."),
                    depth=1, canonical=f"conditions/{slug}.html", page_type="article",
                    extra_schema=condition_schema(slug, c) + breadcrumb_schema(
@@ -1143,7 +1143,7 @@ def build_doctor_pages():
         write(f"doctors/{slug}.html",
               head(f"Dr. {name}, {creds} | Palm Beach Neurology",
                    (f"Dr. {name}, {creds} — " + ", ".join(_plain(f) for f in d["focus"])
-                    + f" at Palm Beach Neurology, West Palm Beach FL.")[:158],
+                    + ". Board-certified neurologic care at Palm Beach Neurology in West Palm Beach, FL; new patients welcome.")[:160],
                    depth=1, canonical=f"doctors/{slug}.html", page_type="article",
                    extra_schema=physician_schema + breadcrumb_schema(
                        [("Home", ""), ("Our Doctors", "our-doctors.html"), ("Dr. " + name, f"doctors/{slug}.html")]))
