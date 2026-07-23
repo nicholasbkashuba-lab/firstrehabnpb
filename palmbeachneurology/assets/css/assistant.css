@@ -108,6 +108,7 @@
   padding: 0.62rem 1.15rem; cursor: pointer; min-height: 44px;
   transition: all 0.22s ease;
 }
+a.pbn-chip { text-decoration: none; display: inline-flex; align-items: center; }
 .pbn-chip:hover { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); transform: translateY(-2px); }
 .pbn-chip.primary { background: var(--coral); border-color: var(--coral); color: var(--cream); }
 .pbn-chip.primary:hover { background: var(--coral-deep); border-color: var(--coral-deep); color: var(--cream); }

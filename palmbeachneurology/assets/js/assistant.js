@@ -154,8 +154,16 @@
     if (!defs || !defs.length) return;
     chipsEl = el('div', 'pbn-chips');
     defs.forEach(function (c) {
-      var b = el('button', 'pbn-chip' + (c.cls ? ' ' + c.cls : ''), esc(c.label));
-      b.addEventListener('click', function () { onChip(c); });
+      var b;
+      if (c.href) {
+        // Real links (appointment form, phone) — work on the live site and let
+        // the preview bundle's router intercept .html navigation.
+        b = el('a', 'pbn-chip' + (c.cls ? ' ' + c.cls : ''), esc(c.label));
+        b.setAttribute('href', c.href);
+      } else {
+        b = el('button', 'pbn-chip' + (c.cls ? ' ' + c.cls : ''), esc(c.label));
+        b.addEventListener('click', function () { onChip(c); });
+      }
       chipsEl.appendChild(b);
     });
     log.appendChild(chipsEl);
@@ -166,7 +174,7 @@
   function mainMenu() {
     var chips = [{ label: '📅 Request an appointment', value: 'appointment', cls: 'primary' }];
     FAQ.forEach(function (f, i) { chips.push({ label: f.q.replace(/&amp;/g, '&'), value: 'faq:' + i }); });
-    chips.push({ label: '📞 Call the office', value: 'call' });
+    chips.push({ label: '📞 Call the office', href: CFG.phoneHref });
     showChips(chips);
   }
 
@@ -191,8 +199,8 @@
       A_APPT
     ], function () {
       showChips([
-        { label: '📝 Open the appointment form', value: 'go:appt', cls: 'primary' },
-        { label: '📞 Call ' + CFG.phone, value: 'call' },
+        { label: '📝 Open the appointment form', href: apptUrl, cls: 'primary' },
+        { label: '📞 Call ' + CFG.phone, href: CFG.phoneHref },
         { label: '← Back to questions', value: 'menu' }
       ]);
     });
@@ -203,8 +211,6 @@
     var v = c.value;
     if (v.indexOf('faq:') === 0) { answerFaq(parseInt(v.slice(4), 10)); return; }
     if (v === 'appointment') { goAppointment(); return; }
-    if (v === 'go:appt') { window.location.href = apptUrl; return; }
-    if (v === 'call') { window.location.href = CFG.phoneHref; return; }
     if (v === 'menu') { addUser('Back to questions'); botSay(['Sure — here’s what I can help with:'], function () { mainMenu(); }); return; }
   }
 
