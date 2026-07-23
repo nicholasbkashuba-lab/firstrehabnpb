@@ -10,7 +10,7 @@
   --navy:#0e2a47;
   --deep:#123b63;
   --teal:#2fd7e0;
-  --teal-ink:#0a8b93;      /* teal that passes AA on paper */
+  --teal-ink:#0a757c;      /* teal text — ~5:1 AA on paper/cream/white */
   --violet:#6d5efc;
   --amber:#f2a65a;
   --amber-deep:#c9772a;
@@ -741,10 +741,66 @@ h3{font-size:clamp(1.2rem,1.05rem + .7vw,1.5rem)}
 .article-cta .btn{flex:0 0 auto}
 
 /* =========================================================
+   TEAM CARD link + DOCTOR detail pages
+   ========================================================= */
+.tcard{position:relative;display:flex;flex-direction:column}
+.tcard > p{flex:1}
+.tcard-more{margin-top:1rem;display:inline-flex;align-items:center;gap:.4em;font-weight:600;
+  color:var(--teal-ink);font-size:.9rem;transition:gap .3s var(--ease)}
+.tcard-more::after{content:"";position:absolute;inset:0}
+.tcard:hover .tcard-more{gap:.7em}
+
+.dr-suf{font-family:"Inter",sans-serif;font-weight:500;font-size:.46em;color:rgba(255,255,255,.72);
+  letter-spacing:.02em;white-space:nowrap}
+.doctor{background:var(--paper)}
+.doctor-grid{display:grid;grid-template-columns:320px 1fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+.doctor-aside{position:sticky;top:calc(var(--header-h) + 20px);background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:clamp(1.6rem,3vw,2.2rem);box-shadow:var(--shadow)}
+.doctor-portrait{position:relative;aspect-ratio:1;border-radius:20px;display:grid;place-items:center;
+  margin-bottom:1.4rem;overflow:hidden;background:radial-gradient(120% 120% at 30% 20%,#173e63,var(--midnight))}
+.doctor-portrait span:first-child{position:relative;z-index:1;font-family:"Fraunces",serif;font-size:3.4rem;font-weight:300;color:#fff}
+.doctor-portrait .ld-ring{position:absolute;inset:14px;border-radius:16px;border:1.5px solid rgba(47,215,224,.35)}
+.doctor-portrait::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 70% 90%,rgba(109,94,252,.45),transparent 60%)}
+.doctor-aside .ld-role{color:var(--teal-ink);font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.3rem}
+.doctor-spec{font-family:"Fraunces",serif;font-size:1.15rem;color:var(--ink);margin-bottom:1.4rem}
+.doctor-focus-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:.7rem}
+.doc-focus{list-style:none;padding:0;margin:0 0 1.5rem;display:grid;gap:.7rem}
+.doc-focus li{display:flex;align-items:flex-start;gap:.7rem;font-size:.94rem;color:var(--body)}
+.doc-facts{margin-bottom:1.5rem}
+.doctor-body > p{color:var(--body);font-size:1.08rem;line-height:1.78;margin-bottom:1.2rem}
+.doctor-body > p:first-child{font-size:1.2rem;color:var(--ink);line-height:1.65}
+.doctor-back{margin-top:1rem}
+
+/* =========================================================
+   404
+   ========================================================= */
+.notfound{background:var(--paper);text-align:center}
+.notfound-inner{max-width:640px;margin-inline:auto}
+.notfound-label{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:1rem}
+.notfound-links{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-bottom:2rem}
+.notfound-links a{padding:.5em 1.1em;border-radius:100px;border:1px solid var(--line);background:var(--card);
+  font-weight:600;font-size:.92rem;color:var(--ink);transition:border-color .25s var(--ease),color .25s var(--ease),transform .25s var(--ease)}
+.notfound-links a:hover{border-color:var(--teal-ink);color:var(--teal-ink);transform:translateY(-2px)}
+
+/* =========================================================
+   MOBILE sticky Call button (phones only)
+   ========================================================= */
+.mobile-call{display:none}
+@media (max-width:767px){
+  .mobile-call{display:inline-flex;align-items:center;gap:.5em;position:fixed;z-index:90;
+    left:50%;bottom:16px;transform:translateX(-50%);white-space:nowrap;
+    padding:.82em 1.5em;border-radius:100px;font-weight:700;color:var(--midnight);
+    background:var(--grad-neural);box-shadow:0 12px 30px -8px rgba(47,215,224,.6),0 4px 12px rgba(8,23,38,.3)}
+  .mobile-call svg{color:var(--midnight)}
+  body.nav-open .mobile-call{display:none}
+}
+
+/* =========================================================
    REVEAL ANIMATION
    ========================================================= */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.reveal.in{opacity:1;transform:none}
+/* reveal only hides when JS is available (html.js), so no-JS users still see content */
+html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+html.js .reveal.in{opacity:1;transform:none}
 
 /* =========================================================
    RESPONSIVE
@@ -761,9 +817,9 @@ h3{font-size:clamp(1.2rem,1.05rem + .7vw,1.5rem)}
   .nav,.header-cta{display:none}
   .nav-toggle{display:flex}
   .about-grid,.process-grid,.faq-grid,.enroll-grid,.events-grid,.news-grid,
-  .trials-intro-inner,.about-story-grid{grid-template-columns:1fr}
+  .trials-intro-inner,.about-story-grid,.doctor-grid{grid-template-columns:1fr}
   .news-fields{grid-template-columns:1fr 1fr}
-  .process-intro,.faq-intro{position:static}
+  .process-intro,.faq-intro,.doctor-aside{position:static}
   .trial-grid,.trial-detail.alt .trial-grid{flex-direction:column;text-align:center}
   .trial-visual{flex:0 0 auto;width:min(100%,300px);margin-inline:auto}
   .trial-copy .about-points{display:inline-block;text-align:left}
@@ -811,7 +867,7 @@ h3{font-size:clamp(1.2rem,1.05rem + .7vw,1.5rem)}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
     transition-duration:.001ms !important;scroll-behavior:auto !important}
-  .reveal{opacity:1;transform:none}
+  html.js .reveal{opacity:1;transform:none}
   .marquee-track{animation:none;justify-content:center}
   .scroll-cue{display:none}
 }

@@ -54,6 +54,8 @@ IC_PHONE = ('<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
             'd="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>')
 IC_ARROW = ('<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" '
             'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>')
+IC_BACK = ('<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" '
+           'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M11 6l-6 6 6 6"/></svg>')
 
 def icon_condition(key):
     icons = {
@@ -100,6 +102,7 @@ def head(p, title, desc, canonical, og_image=None, page_type="website", extra_he
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
+<script>document.documentElement.classList.add('js')</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{esc(title)}</title>
@@ -220,12 +223,17 @@ def footer(p):
 </footer>
 """
 
+def mobile_call(p):
+    return (f'\n<a class="mobile-call" href="tel:{SITE["phone_href"]}" aria-label="Call Premiere Research Institute">'
+            f'{IC_PHONE}<span>Call {SITE["phone_display"]}</span></a>\n')
+
 def page(path, title, desc, canonical, body, active="", og_image=None, page_type="website", extra_head=""):
     p = "../" if "/" in path else ""
     doc = head(p, title, desc, canonical, og_image, page_type, extra_head)
     doc += header(p, active)
     doc += body.replace("{p}", p)
     doc += footer(p)
+    doc += mobile_call(p)
     doc += f'\n<script src="{p}assets/js/main.js" defer></script>\n</body>\n</html>\n'
     out = os.path.join(HERE, path)
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -329,37 +337,86 @@ def process_section():
   </section>
 """
 
-# 5-physician roster (monogram, name, suffix, specialty, bio)
+# Director (feature card + detail page)
+LEAD = {
+    "mono": "PW", "name": "Paul Winner", "suf": "DO, FAAN, FAHS", "slug": "paul-winner",
+    "role": "Senior Director",
+    "spec": "Headache Medicine &amp; Neurology",
+    "cred": "Senior Director, Premiere Research Institute &middot; Palm Beach Memory Disorder Center &middot; Palm Beach Headache Center",
+    "short": "A nationally recognized leader in headache medicine and neurology, directing our research and two specialized Palm Beach centers.",
+    "bio": [
+        "Dr. Paul Winner is a nationally recognized leader in neurology and headache medicine and the Senior Director of Premiere Research Institute. He also directs the Palm Beach Memory Disorder Center and the Palm Beach Headache Center &mdash; bringing expertise in both cognitive and headache disorders under one roof.",
+        "As a Fellow of the American Academy of Neurology (FAAN) and the American Headache Society (FAHS), Dr. Winner has helped guide the clinical development of therapies now used for migraine and neurological disease. He leads Premiere's research with a conviction that shapes everything we do: that the best care and the next breakthrough should live under the same roof.",
+        "A frequent speaker and educator, Dr. Winner shares the latest in Alzheimer's care, brain health, and neurological research with patients, caregivers, and communities across the region.",
+    ],
+    "focus": ["Headache &amp; migraine medicine", "Cognitive &amp; memory disorders", "Clinical research leadership"],
+    "facts": [("FAAN", "American Academy of Neurology"), ("FAHS", "American Headache Society"), ("3", "Palm Beach centers directed")],
+}
+
+# 4 physician specialists (feature cards + detail pages)
 DOCTORS = [
-    ("RS", "Reed Stone", "MD, FAAN", "Neuromuscular Specialties",
-     "Board-certified neurologist focused on the nerve and muscle conditions that affect strength, sensation, and mobility — guiding studies and care for people living with neuromuscular disease."),
-    ("AD", "Arnaldo Da Silva", "MD", "Migraine &amp; Headache",
-     "Specialist in migraine and headache medicine, helping guide acute and preventive treatment studies for chronic and episodic patients seeking lasting relief."),
-    ("RC", "Robert Coppola", "DO", "Cognitive, Memory Loss &amp; MS",
-     "Specialist in cognitive and memory disorders and multiple sclerosis — from early evaluation through ongoing, attentive care and research participation."),
-    ("MA", "Michael Alosilla", "MD", "Movement Disorders",
-     "Movement-disorders specialist focused on Parkinson's disease and the related conditions that affect coordination, balance, and control."),
+    {"mono": "RS", "name": "Reed Stone", "suf": "MD, FAAN", "slug": "reed-stone",
+     "spec": "Neuromuscular Specialties", "role": "Neuromuscular Specialist",
+     "short": "Board-certified neurologist focused on the nerve and muscle conditions that affect strength, sensation, and mobility.",
+     "bio": [
+        "Dr. Reed Stone is a board-certified neurologist whose work centers on neuromuscular medicine &mdash; the disorders that affect the nerves and muscles responsible for strength, sensation, and movement. As a Fellow of the American Academy of Neurology, he brings a careful, evidence-minded approach to both patient care and clinical research.",
+        "At Premiere Research Institute, Dr. Stone helps evaluate therapies for neurological conditions, guiding participants through studies with the same attention he brings to the exam room. His focus is on clarity and comfort &mdash; making sure patients and families understand every step.",
+     ],
+     "focus": ["Neuromuscular disorders", "Nerve &amp; muscle conditions", "Clinical research participation"]},
+    {"mono": "AD", "name": "Arnaldo Da Silva", "suf": "MD", "slug": "arnaldo-da-silva",
+     "spec": "Migraine &amp; Headache", "role": "Migraine &amp; Headache Specialist",
+     "short": "Specialist in migraine and headache medicine, helping guide acute and preventive treatment studies for chronic and episodic patients.",
+     "bio": [
+        "Dr. Arnaldo Da Silva specializes in migraine and headache medicine &mdash; an area where new therapies have transformed what's possible for patients in recent years. He works closely with people whose lives are disrupted by frequent or severe headache, helping them explore both prevention and relief.",
+        "As part of the Premiere Research Institute team, Dr. Da Silva helps guide acute and preventive migraine studies, bringing emerging treatments within reach for the chronic and episodic patients who need them most.",
+     ],
+     "focus": ["Migraine &mdash; chronic &amp; episodic", "Acute &amp; preventive treatment", "Headache clinical trials"]},
+    {"mono": "RC", "name": "Robert Coppola", "suf": "DO", "slug": "robert-coppola",
+     "spec": "Cognitive, Memory Loss &amp; MS", "role": "Cognitive &amp; MS Specialist",
+     "short": "Specialist in cognitive and memory disorders and multiple sclerosis, from early evaluation through ongoing, attentive care.",
+     "bio": [
+        "Dr. Robert Coppola focuses on cognitive and memory disorders and multiple sclerosis &mdash; conditions where early evaluation and ongoing, attentive care can make a meaningful difference. He partners with patients and families through diagnosis, treatment, and, when appropriate, research participation.",
+        "At Premiere Research Institute, Dr. Coppola contributes to memory and MS studies, helping translate promising science into real options for the people he cares for.",
+     ],
+     "focus": ["Cognitive &amp; memory disorders", "Multiple sclerosis", "Memory &amp; MS research"]},
+    {"mono": "MA", "name": "Michael Alosilla", "suf": "MD", "slug": "michael-alosilla",
+     "spec": "Movement Disorders", "role": "Movement-Disorders Specialist",
+     "short": "Movement-disorders specialist focused on Parkinson's disease and the related conditions that affect coordination and control.",
+     "bio": [
+        "Dr. Michael Alosilla is a movement-disorders specialist with a focus on Parkinson's disease and related conditions that affect coordination, balance, and control. He works to help patients maintain function and quality of life as they navigate these diagnoses.",
+        "As an investigator at Premiere Research Institute, Dr. Alosilla helps evaluate new therapies for Parkinson's and movement disorders, guiding participants with expertise and care throughout each study.",
+     ],
+     "focus": ["Parkinson's disease", "Movement disorders", "Parkinson's clinical trials"]},
 ]
 
+def render_tcards():
+    out = []
+    for d in DOCTORS:
+        out.append(f"""        <article class="tcard reveal">
+          <div class="tcard-portrait" aria-hidden="true"><span>{d['mono']}</span></div>
+          <h3>{d['name']}, <span class="tc-suf">{d['suf']}</span></h3>
+          <p class="tc-role">{d['spec']}</p>
+          <p>{d['short']}</p>
+          <a href="{{p}}team/{d['slug']}.html" class="tcard-more">Read bio {IC_ARROW}</a>
+        </article>""")
+    return "\n".join(out)
+
 def lead_doctor():
-    return """      <article class="lead-doctor reveal">
+    facts = "\n".join(f"            <li><strong>{a}</strong> {b}</li>" for a, b in LEAD["facts"])
+    return f"""      <article class="lead-doctor reveal">
         <div class="ld-portrait" aria-hidden="true">
-          <span class="ld-monogram">PW</span>
+          <span class="ld-monogram">{LEAD['mono']}</span>
           <span class="ld-ring"></span>
         </div>
         <div class="ld-body">
-          <p class="ld-role">Senior Director</p>
-          <h3>Paul Winner, DO, FAAN, FAHS</h3>
-          <p class="ld-cred">Senior Director, Premiere Research Institute &middot; Palm Beach Memory Disorder Center &middot; Palm Beach Headache Center</p>
-          <p>A nationally recognized leader in headache medicine and neurology, Dr. Winner directs our research
-             and leads both the Palm Beach Memory Disorder Center and the Palm Beach Headache Center. He has helped
-             guide the clinical development of therapies for migraine and neurological disease, and leads our work
-             with a simple conviction: that the best care and the next breakthrough should live under the same roof.</p>
+          <p class="ld-role">{LEAD['role']}</p>
+          <h3>{LEAD['name']}, {LEAD['suf']}</h3>
+          <p class="ld-cred">{LEAD['cred']}</p>
+          <p>{LEAD['bio'][0]}</p>
           <ul class="ld-facts">
-            <li><strong>FAAN</strong> American Academy of Neurology</li>
-            <li><strong>FAHS</strong> American Headache Society</li>
-            <li><strong>3</strong> Palm Beach centers directed</li>
+{facts}
           </ul>
+          <a href="{{p}}team/{LEAD['slug']}.html" class="link-arrow" style="margin-top:1.4rem">Read Dr. Winner's full bio {IC_ARROW}</a>
         </div>
       </article>
 """
@@ -368,13 +425,7 @@ def lead_doctor():
 # HOME PAGE
 # ----------------------------------------------------------------------------
 def home_body():
-    docs = "\n".join(
-        f"""        <article class="tcard reveal">
-          <div class="tcard-portrait" aria-hidden="true"><span>{m}</span></div>
-          <h3>{name}, <span class="tc-suf">{suf}</span></h3>
-          <p class="tc-role">{spec}</p>
-          <p>{bio}</p>
-        </article>""" for m, name, suf, spec, bio in DOCTORS)
+    docs = render_tcards()
     rcards = ""
     conds = [
         ("alz", "Alzheimer's &amp; Memory Loss", "From mild cognitive impairment to moderate Alzheimer's, our memory studies test the next generation of disease-modifying and symptom therapies."),
@@ -786,13 +837,7 @@ def about_body():
 # TEAM PAGE
 # ----------------------------------------------------------------------------
 def team_body():
-    docs = "\n".join(
-        f"""        <article class="tcard reveal">
-          <div class="tcard-portrait" aria-hidden="true"><span>{m}</span></div>
-          <h3>{name}, <span class="tc-suf">{suf}</span></h3>
-          <p class="tc-role">{spec}</p>
-          <p>{bio}</p>
-        </article>""" for m, name, suf, spec, bio in DOCTORS)
+    docs = render_tcards()
     staff = [
         ("Physician Investigators", "Board-certified neurologists serving as principal and sub-investigators across our Alzheimer's, Parkinson's, migraine, and MS studies."),
         ("Research Coordinators", "Dedicated study coordinators who guide you from first call through every visit — your consistent point of contact and advocate."),
@@ -940,6 +985,50 @@ def contact_body():
 # BLOG
 # ----------------------------------------------------------------------------
 BLOG_POSTS = [
+    {
+        "slug": "living-well-with-parkinsons-movement",
+        "title": "Living Well with Parkinson's: Everyday Movement Strategies",
+        "category": "Movement Disorders",
+        "tint": "violet",
+        "date": "2026-07-22",
+        "read": "6 min read",
+        "excerpt": "A Parkinson's diagnosis changes a lot — but daily habits still matter. Here are gentle, practical ways many people stay active and engaged.",
+        "body": [
+            ("p", "A diagnosis of Parkinson's disease can feel overwhelming, but it doesn't erase the many things you can do to support your health day to day. While every person's experience is different, movement, routine, and a strong care team are themes that come up again and again."),
+            ("h2", "Movement is medicine — within reason"),
+            ("p", "Regular physical activity is widely encouraged for people with Parkinson's, and many find that staying active helps with mobility, balance, and mood. What that looks like varies from person to person &mdash; walking, stretching, dance, tai chi, and physical therapy are all commonly recommended. The right plan for you is a conversation to have with your physician or a physical therapist who knows your situation."),
+            ("h2", "Small adjustments at home"),
+            ("p", "Simple changes can make daily life smoother: removing loose rugs and clutter to reduce fall risk, adding good lighting, using chairs with firm arms, and giving yourself extra time for tasks that have become harder. These aren't signs of giving up &mdash; they're smart ways to protect your energy and independence."),
+            ("h2", "Build a care team"),
+            ("p", "Parkinson's is best managed by a team. Alongside a neurologist, that may include physical, occupational, and speech therapists, plus the family and friends who support you. Keeping notes on your symptoms &mdash; when they're better or worse, and how medications are working &mdash; helps your care team fine-tune your plan over time."),
+            ("h2", "Where research fits in"),
+            ("p", "Clinical trials continue to explore new therapies for the motor and non-motor symptoms of Parkinson's. For some people, participating offers access to emerging treatments and close monitoring; for all who take part, it helps move the science forward. Whether research is right for you is worth discussing with your care team."),
+            ("p", "This article is for general education and is not medical advice. Always talk with your physician before changing your activity or treatment. To ask about Parkinson's research at Premiere Research Institute, call (561) 851-9400."),
+        ],
+    },
+    {
+        "slug": "caring-for-a-loved-one-with-memory-loss",
+        "title": "Caring for a Loved One with Memory Loss: Where to Begin",
+        "category": "Caregiving",
+        "tint": "amber",
+        "date": "2026-07-18",
+        "read": "6 min read",
+        "excerpt": "Becoming a caregiver is rarely something we plan for. If someone you love is facing memory loss, here's a gentle place to start.",
+        "body": [
+            ("p", "When a spouse, parent, or friend begins to struggle with memory, the people closest to them often become caregivers before they ever use that word. It can be tender, tiring, and deeply meaningful work &mdash; and you don't have to figure it out all at once."),
+            ("h2", "Lean on structure and routine"),
+            ("p", "Predictable routines can ease anxiety for someone with memory changes. Keeping meals, activities, and sleep on a steady schedule, writing down important information, and simplifying choices can all help the day feel more manageable for both of you."),
+            ("h2", "Communicate with patience"),
+            ("p", "Short, clear sentences, a calm tone, and a little extra time go a long way. When memory falters, meeting your loved one where they are &mdash; rather than correcting every detail &mdash; often reduces frustration on both sides. Connection matters more than getting the facts exactly right."),
+            ("h2", "Take care of yourself, too"),
+            ("p", "Caregiver burnout is real, and caring for yourself isn't selfish &mdash; it's what makes sustained caregiving possible. Accept help when it's offered, protect a little time for yourself, and remember that asking for support is a sign of strength, not failure."),
+            ("h2", "You're not alone"),
+            ("p", "Support groups, community programs, and educational resources exist precisely because so many families walk this road. Connecting with others who understand can bring both practical tips and real comfort."),
+            ("h2", "Consider a professional evaluation"),
+            ("p", "If memory changes are new or worsening, a conversation with a physician is a good next step. Many causes of memory change are treatable, and when an evaluation points toward a condition like Alzheimer's, earlier answers open more options &mdash; including access to clinical research."),
+            ("p", "This article is for general education and is not medical advice. For guidance specific to your loved one, speak with a qualified clinician. To ask about memory and Alzheimer's research at Premiere Research Institute, call (561) 851-9400."),
+        ],
+    },
     {
         "slug": "what-to-expect-clinical-trial",
         "title": "What to Expect When You Join a Clinical Trial",
@@ -1110,6 +1199,56 @@ def blog_post_body(post):
     return body
 
 # ----------------------------------------------------------------------------
+# DOCTOR DETAIL PAGES
+# ----------------------------------------------------------------------------
+def doctor_page_body(doc):
+    bio = "\n".join(f"        <p>{para}</p>" for para in doc["bio"])
+    focus = "\n".join(f"          <li><span class=\"tick\" aria-hidden=\"true\"></span>{f}</li>" for f in doc["focus"])
+    facts_html = ""
+    if doc.get("facts"):
+        chips = "\n".join(f"          <li><strong>{a}</strong> {b}</li>" for a, b in doc["facts"])
+        facts_html = f'        <ul class="ld-facts doc-facts">\n{chips}\n        </ul>\n'
+    role = doc.get("role", doc["spec"])
+    title_html = f'{doc["name"]}<span class="dr-suf">, {doc["suf"]}</span>'
+    body = page_hero(role, title_html, doc["short"],
+                     [("Home", "index.html"), ("Our Team", "team.html"), (doc["name"], None)])
+    body += f"""  <section class="section doctor">
+    <div class="wrap doctor-grid">
+      <aside class="doctor-aside reveal">
+        <div class="doctor-portrait" aria-hidden="true"><span>{doc['mono']}</span><span class="ld-ring"></span></div>
+        <p class="ld-role">{role}</p>
+        <p class="doctor-spec">{doc['spec']}</p>
+        <p class="doctor-focus-label">Focus areas</p>
+        <ul class="doc-focus">
+{focus}
+        </ul>
+{facts_html}        <a href="{{p}}contact.html" class="btn btn-primary btn-block">See if you qualify</a>
+      </aside>
+      <div class="doctor-body reveal">
+{bio}
+        <a href="{{p}}team.html" class="link-arrow doctor-back">{IC_BACK} Back to our team</a>
+      </div>
+    </div>
+  </section>
+{cta_band()}"""
+    return f"<main>\n{body}</main>\n"
+
+def not_found_body():
+    links = "".join(f'<a href="{{p}}{href}">{esc(label)}</a>' for label, href, key in NAV)
+    body = page_hero("Page not found", '404 &mdash; this page has <span class="grad-text">wandered off.</span>',
+                     "The page you're looking for may have moved or no longer exists. Let's get you back on track.",
+                     [("Home", "index.html"), ("Not found", None)])
+    body += f"""  <section class="section notfound">
+    <div class="wrap notfound-inner">
+      <p class="notfound-label reveal">Try one of these instead</p>
+      <nav class="notfound-links reveal" aria-label="Site">{links}<a href="{{p}}contact.html">Contact</a></nav>
+      <a href="{{p}}index.html" class="btn btn-primary btn-lg reveal">Back to home</a>
+    </div>
+  </section>
+"""
+    return f"<main>\n{body}</main>\n"
+
+# ----------------------------------------------------------------------------
 # SITEMAP + ROBOTS
 # ----------------------------------------------------------------------------
 def build_meta(pages):
@@ -1169,6 +1308,16 @@ def main():
             f"{post['title']} | Premiere Research Institute",
             post["excerpt"],
             f"blog/{post['slug']}.html", blog_post_body(post), active="blog", page_type="article"))
+    for doc in [LEAD] + DOCTORS:
+        clean = doc["name"] + ", " + doc["suf"]
+        pages.append(page(f"team/{doc['slug']}.html",
+            f"{clean} | Premiere Research Institute",
+            doc["short"].replace("&amp;", "and").replace("&mdash;", "-"),
+            f"team/{doc['slug']}.html", doctor_page_body(doc), active="team", page_type="profile"))
+    # 404 — generated but deliberately kept out of the sitemap
+    page("404.html", "Page Not Found | Premiere Research Institute",
+         "The page you're looking for may have moved. Return to Premiere Research Institute.",
+         "404.html", not_found_body(), active="")
     build_meta(pages)
     print(f"Built {len(pages)} pages:")
     for p in pages:
