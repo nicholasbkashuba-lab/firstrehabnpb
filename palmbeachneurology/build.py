@@ -183,7 +183,6 @@ def nav(depth=0, solid=False):
         <a class="nav-item" href="{p}appointments.html">Patients</a>
         <div class="dropdown">
           <a href="{p}appointments.html">Appointments</a>
-          <a href="{p}new-patient-form.html">New Patient Form</a>
           <a href="{p}patient-center.html">Patient Center &amp; Forms</a>
           <a href="{p}faq.html">FAQ</a>
         </div>
@@ -1542,13 +1541,10 @@ def build_patient_center():
       <h2>What to bring</h2>
       <ul class="check-list">{bring_html}</ul>
       <h2>New patient paperwork</h2>
-      <p>To help your visit go smoothly, complete your new-patient intake before you arrive — it saves
-      time in the waiting room. Fill it out online, or download the PDF packet. Questions about any of
-      the forms? Call our office at {PHONE}.</p>
-      <p style="display:flex;gap:0.8rem;flex-wrap:wrap;">
-        <a class="btn btn-coral" href="new-patient-form.html">Complete Online Intake <span class="arr">&rarr;</span></a>
-        <a class="btn btn-ink" href="{FORMS_PDF}" download>Download PDF Packet</a>
-      </p>
+      <p>To help your visit go smoothly, you can complete your new-patient paperwork before you arrive —
+      it saves time in the waiting room. If you have questions about any of the forms, call our office
+      at {PHONE}.</p>
+      <p><a class="btn btn-coral" href="{FORMS_PDF}" download>Download New Patient Paperwork (PDF)</a></p>
     </div>
     <aside class="side-card reveal d2">
       <h3>Patient Portal</h3>
@@ -1730,7 +1726,7 @@ def build_meta():
     }, indent=2) + "\n")
 
     pages = ["", "services.html", "our-doctors.html", "clinical-research.html", "appointments.html",
-             "patient-center.html", "new-patient-form.html", "contact.html", "faq.html", "conditions/index.html"]
+             "patient-center.html", "contact.html", "faq.html", "conditions/index.html"]
     pages += [f"conditions/{s}.html" for s in CONDITIONS]
     from datetime import date as _date
     lastmod = _date.today().isoformat()
@@ -1803,7 +1799,6 @@ if __name__ == "__main__":
     build_research()
     build_appointments()
     build_patient_center()
-    build_new_patient_form()
     build_contact()
     build_faq()
     build_meta()
