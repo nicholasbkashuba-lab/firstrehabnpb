@@ -1371,13 +1371,14 @@ def build_podcast():
         # anything else (e.g. "coming Saturday") keeps its action button.
         m = _re.search(r"open\.spotify\.com/episode/([A-Za-z0-9]+)", url)
         if m:
-            action = (f'<button class="pod-facade" type="button" style="height:152px;" '
-                      f'data-embed="https://open.spotify.com/embed/episode/{m.group(1)}?utm_source=generator&amp;theme=0" '
-                      f'data-height="152" data-title="{title} — play on-site">'
-                      f'<span class="pf-art"><img src="assets/media/podcast-cover.jpg" alt="" loading="lazy" width="108" height="108">'
-                      f'<span class="pf-play" aria-hidden="true">&#9654;</span></span>'
-                      f'<span class="pf-label">Play this episode<span class="pf-sub">Streams from Spotify — loads when you press play</span></span>'
-                      f'</button>')
+            # Full Spotify episode player, shown by default (cover, date, length,
+            # Save). loading="lazy" defers each iframe until it scrolls near view,
+            # so the six players don't all load at once on page open.
+            action = (f'<iframe class="pod-embed" '
+                      f'src="https://open.spotify.com/embed/episode/{m.group(1)}?utm_source=generator&amp;theme=0" '
+                      f'width="100%" height="152" frameborder="0" loading="lazy" style="border-radius:14px;" '
+                      f'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" '
+                      f'title="{title} — Pain 2 Power on Spotify"></iframe>')
         else:
             action = f'<a class="btn btn-ink" href="{url}" target="_blank" rel="noopener">{label}</a>'
         return f'''<div class="pod-card reveal">

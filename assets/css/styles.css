@@ -777,12 +777,6 @@ a.tb-item:hover { color: var(--gold); }
 .pod-facade .pf-play { flex-shrink: 0; width: 46px; height: 46px; border-radius: 50%; background: var(--gold); color: var(--ink-deep); display: grid; place-items: center; font-size: 1.05rem; }
 .pod-facade .pf-label { font-weight: 600; font-size: 0.95rem; }
 .pod-facade .pf-sub { display: block; font-weight: 400; font-size: 0.78rem; color: rgba(246,241,231,0.75); margin-top: 0.2rem; }
-/* Podcast cover art as the episode thumbnail — logo always visible, play button overlaid. */
-.pod-facade .pf-art { position: relative; flex-shrink: 0; width: 108px; height: 108px; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 18px -8px rgba(7,30,39,0.7); }
-.pod-facade .pf-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pod-facade .pf-art .pf-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 3px 12px rgba(7,30,39,0.6); }
-.pod-facade:hover .pf-art .pf-play { transform: translate(-50%,-50%) scale(1.08); }
-@media (max-width: 720px) { .pod-facade .pf-art { width: 84px; height: 84px; } }
 
 /* Mobile: job title on its own bold line, meta beneath */
 @media (max-width: 640px) {
