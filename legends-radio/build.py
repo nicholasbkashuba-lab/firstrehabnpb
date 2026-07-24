@@ -158,7 +158,7 @@ SCHEDULE = {
     6: [  # Saturday
         {"start": "00:00", "end": "08:00", **_OVERNIGHT},
         {"start": "08:00", "end": "08:30", "show": "Saturday Morning Swing", "host": "Big band & swing", "tag": "Music"},
-        {"start": "08:30", "end": "09:00", "show": "Pain 2 Power", "host": "Health, healing & mindset", "tag": "Talk"},
+        {"start": "08:30", "end": "09:00", "show": "Pain 2 Power", "host": "Mike McCannon & David Kashuba", "tag": "Talk"},
         {"start": "09:00", "end": "12:00", "show": "Saturday Morning Swing", "host": "Big band & swing", "tag": "Music"},
         {"start": "12:00", "end": "18:00", "show": "Legends Weekend", "host": "The best of the Songbook", "tag": "Music"},
         {"start": "18:00", "end": "20:00", "show": "American Standards by the Sea", "host": "Dick Robinson", "tag": "Signature", "slug": "dick-robinson"},
@@ -195,7 +195,7 @@ SIGNATURE = [
      "blurb": "Encore hours of American Standards by the Sea to carry you into the small hours."},
     {"name": "Inspired To Be", "host": "Sherrye Fenton", "slot": "Weekly · See schedule",
      "blurb": "Uplifting conversation and guests — a reminder that Legends is about companionship as much as music."},
-    {"name": "Pain 2 Power", "host": "Health & mindset", "slot": "Saturdays · 8:30 AM",
+    {"name": "Pain 2 Power", "host": "Mike McCannon & David Kashuba", "slot": "Saturdays · 8:30 AM",
      "blurb": "A weekly dose of health, healing, and the mindset to turn pain into power — Legends' hometown wellness half-hour."},
     {"name": "Legends at Lunch", "host": "Daily at noon", "slot": "Weekdays · 12 PM",
      "blurb": "A midday set of the greatest recordings ever made — the perfect soundtrack to your lunch hour."},

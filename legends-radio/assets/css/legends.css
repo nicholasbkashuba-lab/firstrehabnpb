@@ -222,14 +222,17 @@ section{position:relative;}
   .nav-cta{display:none;}   /* declutter mobile header — CTA lives in the menu + sticky player */
   .nav-links{
     position:fixed;inset:0;top:0;flex-direction:column;justify-content:flex-start;gap:.4rem;
-    padding:6rem 8vw 3rem;background:linear-gradient(180deg,var(--night),var(--ink));
-    transform:translateX(100%);transition:transform .5s var(--ease);z-index:1;overflow-y:auto;
+    padding:5rem 8vw 2.5rem;background:linear-gradient(180deg,var(--night),var(--ink));
+    transform:translateX(100%);transition:transform .5s var(--ease);z-index:70;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   }
   .nav-links.open{transform:translateX(0);}
-  .nav-links a{width:100%;font-size:1.5rem;font-family:var(--serif);padding:.7em 0;border-bottom:1px solid var(--line-2);color:var(--cream);}
+  .nav-links a{width:100%;font-size:1.35rem;font-family:var(--serif);padding:.55em 0;border-bottom:1px solid var(--line-2);color:var(--cream);}
   .nav-links a::after{display:none;}
   .nav-links a.mobile-only-cta{display:inline-flex;width:auto;font-family:var(--sans);font-size:1rem;padding:.8em 1.6em;border-bottom:none;color:#241a06;margin-top:1.5rem;}
   body.nav-open{overflow:hidden;}
+  /* stop the blurred header from clipping the fixed overlay to its own box, and clear the player */
+  body.nav-open .site-header{backdrop-filter:none;-webkit-backdrop-filter:none;z-index:80;}
+  body.nav-open .player{display:none;}
 }
 
 /* ==========================================================================
