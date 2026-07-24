@@ -784,3 +784,61 @@ a.tb-item:hover { color: var(--gold); }
   .job .job-title { font-size: 1.22rem; line-height: 1.25; }
   .job .job-meta { font-size: 0.82rem; }
 }
+
+/* ---------- Expandable team profiles (About) ---------- */
+/* Cards are <button>s ONLY when a real bio exists in build.py; otherwise the
+   static card markup is unchanged. Dialog = native, focus-trapped, Escape closes. */
+button.team-card { border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; width: 100%; }
+button.team-card .tp-more { display: inline-block; margin-top: 0.7rem; font-size: 0.82rem; font-weight: 700; color: var(--coral-text); letter-spacing: 0.04em; }
+button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-decoration: underline; }
+.team-profile { border: 1px solid var(--line-gold); border-radius: var(--radius-lg); padding: 0; max-width: min(560px, 92vw); width: 100%; background: var(--paper); color: var(--ink); box-shadow: 0 40px 90px -30px rgba(7,30,39,0.55); }
+.team-profile::backdrop { background: rgba(7,30,39,0.55); backdrop-filter: blur(3px); }
+.team-profile[open] { animation: tp-pop 0.28s cubic-bezier(.2,.8,.2,1); }
+@keyframes tp-pop { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
+.tp-inner { padding: 1.8rem 1.9rem 1.9rem; position: relative; }
+.tp-close { position: absolute; top: 0.7rem; right: 0.7rem; width: 44px; height: 44px; border: 0; background: none; color: var(--muted); font-size: 1.05rem; cursor: pointer; border-radius: 50%; display: grid; place-items: center; }
+.tp-close:hover, .tp-close:focus-visible { background: var(--mist); color: var(--ink); }
+.tp-head { display: flex; align-items: center; gap: 1.1rem; margin-bottom: 1rem; padding-right: 2.4rem; }
+.tp-head img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 2px solid var(--line-gold); }
+.tp-head h3 { font-size: 1.35rem; margin: 0; }
+.tp-head .role { font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral-text); font-weight: 700; margin-top: 0.3rem; }
+.tp-body p { font-size: 0.97rem; line-height: 1.65; color: var(--ink-soft); }
+.tp-body h4 { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 1.1rem 0 0.45rem; }
+.tp-specs { list-style: none; display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0; }
+.tp-specs li { font-size: 0.82rem; font-weight: 600; background: var(--mist); border: 1px solid var(--line); border-radius: 999px; padding: 0.28em 0.85em; }
+.tp-fun { margin-top: 1.05rem; background: var(--cream); border-left: 3px solid var(--gold); border-radius: 10px; padding: 0.75rem 0.95rem; font-size: 0.92rem; }
+@media (max-width: 560px) { .tp-inner { padding: 1.4rem 1.2rem 1.5rem; } .tp-head img { width: 66px; height: 66px; } }
+
+/* ---------- Podcast community: Ask Dave + Dad Jokes ---------- */
+.pod-community { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; align-items: start; }
+@media (max-width: 860px) { .pod-community { grid-template-columns: 1fr; } }
+.pod-form-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.7rem 1.8rem 1.8rem; position: relative; overflow: hidden; }
+.pod-form-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold) 0%, var(--coral) 45%, rgba(244,162,97,0) 90%); }
+.pod-form-card h3 { font-size: 1.3rem; margin-bottom: 0.35rem; }
+.pod-form-card > p { font-size: 0.92rem; color: var(--muted); margin-bottom: 1.1rem; }
+.joke-feed { margin-top: 2.4rem; }
+.joke-feed[hidden] { display: none; }
+.joke-card { background: var(--cream); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 14px; padding: 0.95rem 1.15rem; margin-bottom: 0.8rem; }
+.joke-card p { font-size: 0.97rem; line-height: 1.55; }
+.joke-card .joke-by { display: block; margin-top: 0.4rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral-text); }
+
+/* ---------- Your First Visit: step timeline ---------- */
+.fv-steps { counter-reset: fv; max-width: 760px; margin: 0 auto; position: relative; }
+.fv-steps::before { content: ""; position: absolute; left: 25px; top: 14px; bottom: 14px; width: 3px; background: var(--line); border-radius: 2px; }
+.fv-progress { position: absolute; left: 25px; top: 14px; width: 3px; background: linear-gradient(var(--coral), var(--gold)); border-radius: 2px; height: 0; transition: height 0.45s cubic-bezier(.2,.8,.2,1); }
+.fv-step { position: relative; padding: 0 0 1.1rem 74px; }
+.fv-step .fv-dot { counter-increment: fv; position: absolute; left: 4px; top: 4px; width: 46px; height: 46px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--muted); transition: all 0.3s ease; z-index: 1; }
+.fv-step .fv-dot::before { content: counter(fv); }
+.fv-step.done .fv-dot, .fv-step.active .fv-dot { background: var(--ink); border-color: var(--gold); color: var(--gold); }
+.fv-step h3 { margin: 0; }
+.fv-step h3 button { all: unset; cursor: pointer; display: block; width: 100%; font-family: var(--font-display); font-weight: 700; font-size: 1.28rem; color: var(--ink); padding: 0.55rem 0 0.35rem; }
+.fv-step h3 button:hover, .fv-step h3 button:focus-visible { color: var(--coral-text); }
+/* Without JS every step stays expanded (content always readable + indexable);
+   main.js adds .fv-enhanced to enable the tap-through collapse behavior. */
+.fv-step .fv-body { overflow: hidden; transition: max-height 0.4s cubic-bezier(.2,.8,.2,1), opacity 0.3s ease; }
+.fv-enhanced .fv-step .fv-body { max-height: 0; opacity: 0; }
+.fv-enhanced .fv-step.active .fv-body { max-height: 400px; opacity: 1; }
+.fv-step .fv-body p { font-size: 0.97rem; color: var(--ink-soft); line-height: 1.65; padding-bottom: 0.4rem; }
+.fv-step .fv-hint { display: inline-block; margin-top: 0.3rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--coral-text); }
+.fv-highlight { background: var(--cream); border: 1px solid var(--line-gold); border-radius: 12px; padding: 0.8rem 1rem; margin-top: 0.5rem; font-size: 0.94rem; }
+@media (max-width: 560px) { .fv-step { padding-left: 62px; } .fv-step h3 button { font-size: 1.12rem; } }

@@ -27,7 +27,7 @@
     });
   });
 
-  function setError(msg) { errEl.textContent = msg || ''; }
+  function setError(msg) { errEl.textContent = msg || ''; errEl.style.display = msg ? 'block' : 'none'; }
 
   function sendToSupabase(app) {
     return fetch(CFG.supabaseUrl + '/rest/v1/' + CFG.table, {

@@ -29,7 +29,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin-400-normal.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=cd5a095e">
+<link rel="stylesheet" href="assets/css/styles.css?v=40b2f599">
 <link rel="stylesheet" href="assets/css/intake.css?v=97f4dab1">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -202,6 +202,69 @@
     </aside>
   </div>
 </section>
+<section class="section on-cream" id="community">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Join the Show</span>
+      <h2>Be Part of <em class="accent">Pain 2 Power</em></h2>
+    </div>
+    <div class="pod-community">
+      <div class="pod-form-card reveal">
+        <h3>Ask Dave</h3>
+        <p>Have a question about pain, recovery, or staying strong as you age? Send it in — Dave may answer it on a future episode.</p>
+        <form class="appt-form" id="ask-dave-form" novalidate>
+          <div class="af-field">
+            <label for="ad-name">Name <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+            <input id="ad-name" name="name" type="text" autocomplete="name" maxlength="200">
+          </div>
+          <div class="af-field">
+            <label for="ad-email">Email <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+            <input id="ad-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+          <div class="af-field">
+            <label for="ad-question">Your question</label>
+            <textarea id="ad-question" name="question" required maxlength="2000" placeholder="e.g. Why does my knee hurt more going down stairs than up?"></textarea>
+          </div>
+          <div class="cf-extra" aria-hidden="true"><label for="ad-website">Website</label><input id="ad-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="af-error" role="alert"></p>
+          <button class="btn btn-coral" type="submit">Send Your Question <span class="arr">&rarr;</span></button>
+        </form>
+        <div class="af-done" id="ask-dave-form-done" hidden>
+          <h3>Question received</h3>
+          <p>Thank you — Dave reads every question, and yours may be answered on a future episode of Pain 2 Power. Tune in Saturdays at 8:30 AM on 100.3 Legends Radio.</p>
+        </div>
+      </div>
+      <div class="pod-form-card reveal d2">
+        <h3>Send Us a Dad Joke</h3>
+        <p>Every episode of Pain 2 Power ends with a dad joke — and we're always hunting for the next groaner. Send us your best.</p>
+        <form class="appt-form" id="dad-joke-form" novalidate>
+          <div class="af-field">
+            <label for="dj-name">First name <span style="font-weight:400;color:var(--muted);">(optional)</span></label>
+            <input id="dj-name" name="first_name" type="text" autocomplete="given-name" maxlength="80">
+          </div>
+          <div class="af-field">
+            <label for="dj-joke">Your joke</label>
+            <textarea id="dj-joke" name="joke" required maxlength="500" placeholder="Why don't skeletons fight each other?&#10;They don't have the guts."></textarea>
+          </div>
+          <div class="cf-extra" aria-hidden="true"><label for="dj-website">Website</label><input id="dj-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="af-error" role="alert"></p>
+          <button class="btn btn-ink" type="submit">Submit Your Joke <span class="arr">&rarr;</span></button>
+        </form>
+        <div class="af-done" id="dad-joke-form-done" hidden>
+          <h3>Joke received</h3>
+          <p>Thank you — our panel of highly serious joke judges will take it from here. Listen for it at the end of a future episode.</p>
+        </div>
+      </div>
+    </div>
+    <div class="joke-feed" id="joke-feed" hidden>
+      <div class="section-head center reveal" style="margin-top:1rem;">
+        <span class="eyebrow">From Our Listeners</span>
+        <h2>The Dad Joke <em class="accent">Hall of Fame</em></h2>
+      </div>
+      <div class="joke-list"></div>
+    </div>
+  </div>
+</section>
 
 <section class="cta-band">
   <div class="hero-fallback"></div>
@@ -213,6 +276,7 @@
   </div>
 </section>
 
+<script src="assets/js/podcast-extras.js?v=e8c574da" defer></script>
 </main>
 
 <footer class="site-footer">
@@ -239,6 +303,7 @@
         <ul>
           <li><a href="treatments/index.html">What We Treat</a></li>
           <li><a href="about.html">About Us</a></li>
+          <li><a href="first-visit.html">Your First Visit</a></li>
           <li><a href="blog/index.html">Blog</a></li>
           <li><a href="podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="faq.html">FAQ</a></li>
@@ -277,7 +342,7 @@
   </div>
 </footer>
 <a class="mobile-call" href="tel:+15616244263" aria-label="Call First Rehabilitation now at 561-624-4263"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.4 21 3 13.6 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>Call Now</span></a>
-<script src="assets/js/main.js?v=de20af97"></script>
+<script src="assets/js/main.js?v=e4009e13"></script>
 <script src="assets/js/intake.js?v=ebfef7c4" defer></script>
 <!-- Vercel Web Analytics (static-site tag; privacy-friendly, cookieless — no banner needed) -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
