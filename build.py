@@ -2070,6 +2070,39 @@ BLOG_POSTS = {
 <p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>
 """,
     },
+    "cartilage-transplant-knee-explained": {
+        "title": "Cartilage Transplants: Rebuilding a Knee Instead of Replacing It",
+        "date": "July 2026",
+        "iso": "2026-07-28",
+        "tag": "Knees &amp; Joints",
+        "teaser": "A sports medicine surgeon joined our Pain 2 Power podcast to explain cartilage transplants — who they help, what recovery looks like, and why rehab decides the outcome.",
+        "body": """
+<p>Most people hear two options for a worn-out knee: live with it, or replace the whole joint. On a recent episode of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba and Mike McGann sat down with Dr. Rami Elkhechen, M.D., a fellowship-trained sports medicine orthopedic surgeon now with NYU Langone Health, to talk about a third path — one where the goal isn't to replace your knee with metal and plastic, but to rebuild the cartilage you were born with.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Why cartilage is the part worth protecting</h2>
+<p>Dr. Elkhechen uses an analogy that sticks. Cartilage, he says, is "the gold in a vault at a bank." The ligaments, tendons, and meniscus around it are the security system — the guards and the alarm. They matter enormously, but they exist to protect the gold. "Once the cartilage is gone," he explained, "the supporting structures become secondary."</p>
+<p>Here's the catch, and Dave raised it directly on the show: cartilage has no nerve endings. You can wear it down for years without feeling a thing, which is why so many people don't arrive until the problem is already advanced. As Dave put it, by the time someone shows up with pain, the trouble has often reached the bone underneath.</p>
+<h2>The signs worth getting checked</h2>
+<p>Because cartilage itself can't hurt, the early clues are indirect. Dr. Elkhechen pointed to two in particular. The first is <strong>swelling inside the joint</strong> — a build-up of fluid that seems to come from nowhere. The second is simpler: <strong>you can't do your normal activity anymore</strong>. If you're active and something you enjoy has become off-limits, that's reason enough to have it looked at.</p>
+<p>After a specific tweak or twist, his advice was measured, not alarmist: give it a few days of rest, ice, and anti-inflammatories. If the pain settles, you likely don't need an office visit. If it lingers, that's when to come in. And his broader point was about timing — get evaluated early, because even if there's nothing to do yet, it can be monitored so the window for treatment doesn't quietly close.</p>
+<h2>What a cartilage transplant actually involves</h2>
+<p>Before any of this, Dr. Elkhechen was emphatic about the order of operations: it starts with X-rays and a hands-on physical exam, often an MRI, and then <em>non-operative</em> treatment. "We tend to try non-operative treatment as often and as much as we can before we indicate any patients for any type of surgical management," he said, adding that conservative care is frequently successful on its own.</p>
+<p>When a transplant is the right call, it happens in two stages. In the first — an outpatient procedure that can take around thirty minutes — the surgeon looks inside the knee with a small camera and, if the damage fits the criteria, harvests a piece of cartilage "almost a small Tic Tac sized" from a part of the joint that doesn't need it. That sample goes to a lab where your own cells are grown on a scaffold, a process that takes roughly six weeks. A second, more involved procedure then implants the new cartilage into the damaged area.</p>
+<p>Who's a candidate? Generally people up to about age 55 — sometimes 60 in good health, subject to insurance approval — and, importantly, those with <strong>small, focal areas of damage</strong>. A contained lesion is far more treatable than widespread, end-stage arthritis. Mike drew out the distinction that matters most: a knee replacement is a genuinely successful operation, but the joint always feels somewhat different afterward. A transplant aims to restore your own anatomy.</p>
+<h2>Rehab is not the afterthought — it's the outcome</h2>
+<p>This is where the conversation came home for us. "Cartilage loves range of motion," Dr. Elkhechen said, and gentle motion begins almost immediately after surgery. Weight-bearing and high-impact activity are a different story: those are held back deliberately so the new cells can take hold. Recovery timelines depend on where and how large the lesion is — damage under the kneecap may allow weight-bearing almost right away with the knee held straight, while other areas typically take <strong>eight to twelve weeks</strong> to reach full weight-bearing.</p>
+<p>Meanwhile, therapy isn't idle. That waiting period is spent on range of motion and on strengthening the muscles around the knee — the ones, in his words, "supporting that gold." That's exactly the work our <a href="../services/physical-therapy.html">physical therapy</a> team does after surgery, and you can read more about our approach on the <a href="../treatments/knee-pain.html">knee pain page</a>.</p>
+<h2>Prehab: getting strong before the operation</h2>
+<p>Dave asked about prehab — rehabilitation <em>before</em> surgery — and Dr. Elkhechen does it routinely, especially with ACL patients, strengthening the quadriceps and hip abductors ahead of time. His reasoning applies well beyond one procedure: "The stronger your base is as you're coming in, in terms of strength and your activity level, you're probably going to come out the other side much better in terms of recovery."</p>
+<p>He also made a point we'd underline twice. Patients who understand their diagnosis and their therapy plan do better: "If they're not on board with treatment, that treatment is less likely to succeed." Knowing the what and the why isn't a nicety — it changes results.</p>
+<h2>What you can do to protect your knees now</h2>
+<p>Asked what prevents this kind of damage in the first place, Dave pointed to the knee's stabilizers — particularly the vastus medialis (the VMO) on the inner knee, which helps track the kneecap. His guidance was to strengthen the whole quadriceps and work the muscles both above and below the joint, including the glutes and calves.</p>
+<p>One exercise he shared on air: lie on your back with your knees comfortably bent and both feet flat on the floor or bed. Lift your hips upward, pause at the top, and squeeze the glute muscles — three sets of ten. Move gently, stay within a comfortable range, and stop if anything sharpens the pain.</p>
+<h2>Start with an evaluation</h2>
+<p>Whether your knee needs surgery, prehab, or simply a smarter strengthening plan, the honest answer starts with someone looking at it. Our therapists evaluate your knee, tell you plainly whether therapy is likely to help, and coordinate with your physician or an orthopedic specialist when you need one. Call First Rehabilitation of North Palm Beach at <strong>561-624-4263</strong>, <a href="../contact.html">request an appointment online</a>, or hear the full conversation on the <a href="../podcast.html">Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>
+""",
+    },
 }
 
 def build_blog():
@@ -2131,6 +2164,7 @@ def build_blog():
             "why-hand-therapy-is-different": "Why Hand Therapy Is Its Own Specialty",
             "knee-arthritis-before-surgery": "Knee Pain: What to Try Before Surgery",
             "headaches-that-start-in-the-neck": "Headache Treatment in North Palm Beach: The Neck Link",
+            "cartilage-transplant-knee-explained": "Cartilage Transplants: An Alternative to Knee Replacement",
         }
         iso_date = p.get("iso") or _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
         post_schema = '<script type="application/ld+json">' + _json.dumps({
