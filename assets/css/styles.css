@@ -880,12 +880,21 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
    z-index stays under .fri-root (1200) so the assistant always wins the corner. */
 .p2p-mini { position: fixed; z-index: 1199;
   right: calc(clamp(14px, 3vw, 26px) + 74px);
-  bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px) + 5px); }
-.p2p-btn { width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: grid; place-items: center;
-  background: linear-gradient(150deg, var(--coral), #d9822b); color: var(--ink-deep);
-  border: 1px solid rgba(233,196,106,.7); box-shadow: 0 14px 32px -12px rgba(7,30,39,.6);
+  bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px) + 3px); }
+/* Button face is the Pain 2 Power cover art, ringed in gold to match the
+   assistant launcher, with a small play badge so it still reads as playable. */
+.p2p-btn { position: relative; width: 56px; height: 56px; border-radius: 50%; cursor: pointer; padding: 0;
+  overflow: visible; background: var(--ink-deep);
+  border: 2px solid var(--gold); box-shadow: 0 14px 32px -12px rgba(7,30,39,.65);
   transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease; }
+.p2p-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; transition: filter .25s ease; }
+.p2p-play { position: absolute; right: -3px; bottom: -3px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--coral); color: var(--ink-deep); display: grid; place-items: center;
+  border: 2px solid var(--paper); box-shadow: 0 3px 8px rgba(7,30,39,.4); transition: transform .25s cubic-bezier(.2,.8,.2,1); }
 .p2p-btn:hover, .p2p-btn:focus-visible { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 40px -12px rgba(7,30,39,.7); }
+.p2p-btn:hover img, .p2p-btn:focus-visible img { filter: brightness(1.08); }
+.p2p-btn:hover .p2p-play, .p2p-btn:focus-visible .p2p-play { transform: scale(1.12); }
+.p2p-mini.is-open .p2p-play { transform: scale(.9); }
 .p2p-mini.is-open .p2p-btn { transform: scale(.92); }
 /* Panel is viewport-anchored so it never overflows a phone screen. */
 .p2p-panel { position: fixed; right: clamp(14px, 3vw, 26px);
