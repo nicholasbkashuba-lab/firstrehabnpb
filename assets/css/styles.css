@@ -878,12 +878,15 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
 /* ============ PAIN 2 POWER FLOATING MINI-PLAYER ============ */
 /* Sits just left of the intake launcher (bottom-left is the Call Now pill).
    z-index stays under .fri-root (1200) so the assistant always wins the corner. */
-.p2p-mini { position: fixed; z-index: 1199;
+/* Matched to the intake launcher: same 62px diameter and same bottom baseline,
+   so the two sit as an even pair. 12px gutter between them. */
+.p2p-mini { position: fixed; z-index: 1199; display: flex; /* flex kills the inline-block
+  descender gap that would otherwise lift the button ~8px off the shared baseline */
   right: calc(clamp(14px, 3vw, 26px) + 74px);
-  bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px) + 3px); }
+  bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px)); }
 /* Button face is the Pain 2 Power cover art, ringed in gold to match the
    assistant launcher, with a small play badge so it still reads as playable. */
-.p2p-btn { position: relative; width: 56px; height: 56px; border-radius: 50%; cursor: pointer; padding: 0;
+.p2p-btn { position: relative; width: 62px; height: 62px; border-radius: 50%; cursor: pointer; padding: 0;
   overflow: visible; background: var(--ink-deep);
   border: 2px solid var(--gold); box-shadow: 0 14px 32px -12px rgba(7,30,39,.65);
   transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease; }
