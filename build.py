@@ -225,7 +225,7 @@ def p2p_mini(depth=0):
   </div>
   <button class="p2p-btn" type="button" aria-expanded="false" aria-controls="p2p-panel"
           title="Play the latest Pain 2 Power episode">
-    <img src="{p}assets/media/p2p-badge.jpg?v={asset_v('assets/media/p2p-badge.jpg')}" alt="" width="56" height="56" loading="lazy">
+    <img src="{p}assets/media/p2p-badge.jpg?v={asset_v('assets/media/p2p-badge.jpg')}" alt="" width="62" height="62" loading="lazy">
     <span class="p2p-play" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
     </span>
