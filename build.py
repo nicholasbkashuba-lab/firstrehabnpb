@@ -167,7 +167,13 @@ def nav(depth=0, solid=False):
       </li>
       <li><a class="nav-item" href="{p}about.html">About</a></li>
       <li><a class="nav-item" href="{p}blog/index.html">Blog</a></li>
-      <li><a class="nav-item" href="{p}podcast.html">Podcast</a></li>
+      <li>
+        <a class="nav-item" href="{p}podcast.html">Podcast</a>
+        <div class="dropdown">
+          <a href="{p}podcast.html">Audio Episodes</a>
+          <a href="{p}videos.html">Video Episodes</a>
+        </div>
+      </li>
       <li><a class="nav-item" href="{p}faq.html">FAQ</a></li>
       <li><a class="nav-item" href="{p}contact.html">Contact</a></li>
       <li class="nav-portal"><a class="nav-item" href="{PORTAL}" target="_blank" rel="noopener">Portal</a></li>
@@ -2497,24 +2503,33 @@ VIDEOS = [
         "title": "Shoulder Pain, Rotator Cuffs &amp; Replacements",
         "guest": "Dr. Ryan Simovitch",
         "teaser": "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Dave and Mike sit down with Dr. Ryan Simovitch to talk rotator cuffs, shoulder replacements, and what actually helps.",
+        # Optional. Set while the radio broadcast is still upcoming; delete the
+        # line once the episode has aired.
+        "airs": "Airs Sat, Aug 1 &middot; 8:30 AM",
     },
 ]
 
 def _video_card(v, featured=False):
-    thumb = f'https://i.ytimg.com/vi/{v["id"]}/hqdefault.jpg'
+    # maxresdefault is the 1280x720 thumbnail; hqdefault (480x360) is far too
+    # small for the featured player and renders visibly soft. Not every upload
+    # has a maxres frame, so fall back automatically if it 404s.
+    thumb = f'https://i.ytimg.com/vi/{v["id"]}/maxresdefault.jpg'
+    fallback = f'https://i.ytimg.com/vi/{v["id"]}/hqdefault.jpg'
     watch = f'https://www.youtube.com/watch?v={v["id"]}'
     embed = f'https://www.youtube-nocookie.com/embed/{v["id"]}?autoplay=1&amp;rel=0'
     guest = f'<span class="vid-guest">{v["guest"]}</span>' if v.get("guest") else ""
+    airs = f'<span class="vid-airs">{v["airs"]}</span>' if v.get("airs") else ""
     cls = "vid-card is-featured" if featured else "vid-card"
     return f'''<article class="{cls} reveal">
       <button class="vid-facade" type="button" data-embed="{embed}"
         data-title="{v["title"]} — Pain 2 Power on YouTube">
-        <img src="{thumb}" alt="" loading="lazy" width="480" height="360">
+        <img src="{thumb}" alt="" loading="lazy" width="1280" height="720"
+             onerror="this.onerror=null;this.src='{fallback}'">
         <span class="vid-play" aria-hidden="true"><svg viewBox="0 0 68 48"><path class="vp-bg" d="M66.5 7.7c-.8-2.9-3.1-5.2-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7c-2.9.8-5.2 3.1-6 6C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 3.1 5.2 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7c2.9-.8 5.2-3.1 6-6C68 35 68 24 68 24s0-11-1.5-16.3z"/><path class="vp-tri" d="M45 24 27 14v20z"/></svg></span>
         <span class="sr-only">Play: {v["title"]}</span>
       </button>
       <div class="vid-body">
-        <span class="vid-ep">{v["ep"]}</span>
+        <span class="vid-ep">{v["ep"]}</span>{airs}
         <h3>{v["title"]}</h3>
         {guest}
         <p>{v["teaser"]}</p>
@@ -2531,7 +2546,7 @@ def _video_schema():
             "@type": "VideoObject",
             "name": _faq_plain(f'{v["ep"]}: {v["title"]}'),
             "description": _faq_plain(v["teaser"]),
-            "thumbnailUrl": f'https://i.ytimg.com/vi/{v["id"]}/hqdefault.jpg',
+            "thumbnailUrl": f'https://i.ytimg.com/vi/{v["id"]}/maxresdefault.jpg',
             "embedUrl": f'https://www.youtube.com/embed/{v["id"]}',
             "contentUrl": f'https://www.youtube.com/watch?v={v["id"]}',
             "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
