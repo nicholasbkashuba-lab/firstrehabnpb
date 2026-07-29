@@ -1426,7 +1426,7 @@ EPISODES = [
     ("Episode 4", "Kayla Dorsey, DPT &amp; Dr. Murray Goldberg, M.D.", "A double-header of expertise. Kayla Dorsey, a Doctor of Physical Therapy with over a decade of hands-on experience, unpacks how personalized, one-on-one care changes recovery outcomes. Then Dr. Murray Goldberg — a board-certified urologist serving Palm Beach County since 1991 — joins to discuss men's health, aging well, and why staying proactive about your body pays off for decades. Two perspectives, one theme: taking ownership of your health.", "https://open.spotify.com/episode/3BRC4CtKqjyOGf1BmJrztj", "Listen"),
     ("Episode 3", "Dr. Timur Urakov, M.D.", "Spine surgery, demystified. Dr. Timur Urakov, Associate Professor of Clinical Medicine at the University of Miami, joins the show to explain how today's spine care has changed — from minimally invasive techniques to the advanced surgical technology now used to treat conditions along the entire spine. He and Dave tackle the questions patients are most afraid to ask about back and neck surgery, and when it is (and isn't) the right call.", "https://open.spotify.com/episode/1d1rzNKiSGdMhHsTHXPBQm", "Listen"),
     ("Episode 2", "Dr. Tom Saylor, M.D.", "The hand is the body's most intricate tool — and repairing it takes a specialist. Hand and upper-extremity surgeon Dr. Tom Saylor joins Dave and Mike to talk about the surgical side of restoring hand function, from carpal tunnel and tendon repairs to complex reconstruction. It's a natural fit for First Rehabilitation, home to a certified hand therapy program, and a fascinating look at how surgeon and therapist work hand-in-hand to bring patients back to full function.", "https://open.spotify.com/episode/1a4jO3BCBrYhYL8KF01hOi", "Listen"),
-    ("Episode 1", "Intro to Dave's Background", "The one that started it all. In this first episode, Dr. Dave Kashuba tells his story — how he built First Rehabilitation of North Palm Beach from the ground up in 1991, what nearly four decades and 180,000+ patients have taught him about healing, and the philosophy behind the name Pain 2 Power. Co-host Mike McGann draws out the moments that shaped Dave's approach to care, resilience, and why &ldquo;our people make the difference&rdquo; is more than a tagline.", "https://open.spotify.com/episode/70Yn3oyi2YcesDkivraogc", "Listen"),
+    ("Episode 1", "Intro to Dave's Background", "The one that started it all. In this first episode, Dr. Dave Kashuba tells his story — how he built First Rehabilitation of North Palm Beach from the ground up in 1991, what four decades and 87,000 patients of his own have taught him about healing, and the philosophy behind the name Pain 2 Power. Co-host Mike McGann draws out the moments that shaped Dave's approach to care, resilience, and why &ldquo;our people make the difference&rdquo; is more than a tagline.", "https://open.spotify.com/episode/70Yn3oyi2YcesDkivraogc", "Listen"),
 ]
 
 def _podcast_schema():
@@ -1497,7 +1497,7 @@ def build_podcast():
           <div>
             <h3>Dave Kashuba, Ph.D.</h3>
             <div class="role">Founder &amp; Occupational Therapist</div>
-            <p>Founder of First Rehabilitation and a practicing occupational therapist, Dave has personally guided the care of more than 180,000 patients over 39+ years, bringing a lifetime of hands-on experience to every conversation about healing and resilience.</p>
+            <p>Founder of First Rehabilitation and a practicing occupational therapist, Dave has personally treated more than 87,000 patients across four decades &mdash; and the practice he built has cared for more than 180,000 &mdash; bringing a lifetime of hands-on experience to every conversation about healing and resilience.</p>
           </div>
         </div>
         <div class="host-bio reveal d2">
@@ -1759,7 +1759,7 @@ FAQ_CATEGORIES = [
     ]),
     ("about-clinic", "About Our Clinic", [
         ("How long has First Rehabilitation been in business?",
-         "We've been serving the Palm Beaches since 1991 — more than three decades of family-owned, independent care under the same name and philosophy. Founder Dave Kashuba, Ph.D., an occupational therapist, has personally guided the care of more than 180,000 patients over his career."),
+         "We've been serving the Palm Beaches since 1991 — more than three decades of family-owned, independent care under the same name and philosophy. Founder Dave Kashuba, Ph.D., an occupational therapist, has personally treated more than 87,000 patients over his career, and the practice has cared for more than 180,000."),
         ("Who owns and runs the clinic?",
          "First Rehabilitation is family-owned and operated, founded in 1991 by Dave Kashuba, Ph.D., a practicing occupational therapist. He leads a close-knit team of physical and occupational therapists — including Laura Drumm, CHT, our Certified Hand Therapist — whom you can meet on our About page."),
         ("What makes First Rehabilitation different from other clinics?",
