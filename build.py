@@ -12,6 +12,7 @@ FAX = "561-840-4234"
 EMAIL = "firstrehabnpb@gmail.com"
 PORTAL = "https://firstrehabilitationinc.patient.sprypt.com/clinics"
 SPOTIFY = "https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu"
+YOUTUBE = "https://www.youtube.com/channel/UCFzCl3RvdVahfIjKZ1SfRvQ"
 INSTAGRAM = "https://www.instagram.com/firstrehabnpb"
 FACEBOOK = "https://www.facebook.com/FirstRehabNPB/"
 LINKEDIN = "https://www.linkedin.com/company/firstrehabnpb"
@@ -114,7 +115,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     "dayOfWeek": ["Saturday"],
     "opens": "08:00", "closes": "12:30"
   }}],
-  "sameAs": ["https://www.instagram.com/firstrehabnpb","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu","https://maps.google.com/?cid=3809434844265673488"]
+  "sameAs": ["https://www.instagram.com/firstrehabnpb","https://www.facebook.com/FirstRehabNPB/","https://www.linkedin.com/company/firstrehabnpb","https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu","https://www.youtube.com/channel/UCFzCl3RvdVahfIjKZ1SfRvQ","https://maps.google.com/?cid=3809434844265673488"]
 }}</script>
 {extra_schema}</head>
 <body>
@@ -182,6 +183,7 @@ SOCIAL_ICONS = {
     "Facebook": (FACEBOOK, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.7h2.6l.4-3h-3V8.4c0-.87.24-1.46 1.49-1.46h1.59V4.25c-.27-.04-1.22-.12-2.32-.12-2.3 0-3.86 1.4-3.86 3.98v2.22H7.8v3h2.6V21h3.1z"/></svg>'),
     "LinkedIn": (LINKEDIN, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.86V20h3.08V8.5zM5.4 3.5a1.78 1.78 0 1 0 0 3.56 1.78 1.78 0 0 0 0-3.56zM20.14 13.28c0-3.3-1.76-4.98-4.1-4.98-1.88 0-2.72 1.03-3.19 1.76V8.5H9.77V20h3.08v-6.07c0-1.6.72-2.55 2.06-2.55 1.29 0 2.15.86 2.15 2.55V20h3.08v-6.72z"/></svg>'),
     "Spotify": (SPOTIFY, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.44 14.5a.7.7 0 0 1-.96.24c-2.63-1.6-5.94-1.97-9.84-1.08a.7.7 0 1 1-.31-1.37c4.27-.97 7.94-.54 10.87 1.25.33.2.44.63.24.96zm1.3-2.96a.87.87 0 0 1-1.2.3c-3.01-1.85-7.6-2.38-11.16-1.3a.87.87 0 1 1-.5-1.67c4.07-1.23 9.12-.63 12.57 1.48.4.25.53.78.29 1.19zm.12-3.09C14.27 8.3 8.3 8.1 4.86 9.15a1.05 1.05 0 1 1-.6-2c3.94-1.2 10.5-.97 14.63 1.48a1.05 1.05 0 0 1-1.07 1.82z"/></svg>'),
+    "YouTube": (YOUTUBE, '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.58 7.19c-.23-.86-.9-1.54-1.76-1.77C18.25 5 12 5 12 5s-6.25 0-7.82.42c-.86.23-1.53.91-1.76 1.77C2 8.77 2 12 2 12s0 3.23.42 4.81c.23.86.9 1.54 1.76 1.77C5.75 19 12 19 12 19s6.25 0 7.82-.42c.86-.23 1.53-.91 1.76-1.77C22 15.23 22 12 22 12s0-3.23-.42-4.81zM10 15.02V8.98L15.2 12 10 15.02z"/></svg>'),
 }
 
 def social_row(cls=""):
@@ -221,6 +223,7 @@ def footer(depth=0):
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
+          <li><a href="{p}videos.html">Video Episodes</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
           <li><a href="{p}careers.html">Careers</a></li>
           <li><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal</a></li>
@@ -2479,6 +2482,111 @@ def build_first_visit():
                extra_schema=faq_ld + breadcrumb_schema([("Home", ""), ("Your First Visit", "first-visit.html")]))
           + nav(0) + body + footer(0))
 
+# ----------------------------------------------------------------------------
+# PAIN 2 POWER — VIDEO EPISODES (YouTube)
+# ----------------------------------------------------------------------------
+# Newest first. Add a new video by putting its entry at the TOP: VIDEOS[0]
+# becomes the featured player. Fields: youtube id, episode label, title, guest
+# (or "" ), teaser. Empty list = the page renders its channel CTA only, never a
+# fake empty state. Thumbnails come from YouTube's CDN; players are click-to-load
+# (youtube-nocookie) so no third-party script runs until a visitor presses play.
+VIDEOS = [
+    {
+        "id": "hv1bNdFurrc",
+        "ep": "Episode 8",
+        "title": "Shoulder Pain, Rotator Cuffs &amp; Replacements",
+        "guest": "Dr. Ryan Simovitch",
+        "teaser": "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Dave and Mike sit down with Dr. Ryan Simovitch to talk rotator cuffs, shoulder replacements, and what actually helps.",
+    },
+]
+
+def _video_card(v, featured=False):
+    thumb = f'https://i.ytimg.com/vi/{v["id"]}/hqdefault.jpg'
+    watch = f'https://www.youtube.com/watch?v={v["id"]}'
+    embed = f'https://www.youtube-nocookie.com/embed/{v["id"]}?autoplay=1&amp;rel=0'
+    guest = f'<span class="vid-guest">{v["guest"]}</span>' if v.get("guest") else ""
+    cls = "vid-card is-featured" if featured else "vid-card"
+    return f'''<article class="{cls} reveal">
+      <button class="vid-facade" type="button" data-embed="{embed}"
+        data-title="{v["title"]} — Pain 2 Power on YouTube">
+        <img src="{thumb}" alt="" loading="lazy" width="480" height="360">
+        <span class="vid-play" aria-hidden="true"><svg viewBox="0 0 68 48"><path class="vp-bg" d="M66.5 7.7c-.8-2.9-3.1-5.2-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7c-2.9.8-5.2 3.1-6 6C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 3.1 5.2 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7c2.9-.8 5.2-3.1 6-6C68 35 68 24 68 24s0-11-1.5-16.3z"/><path class="vp-tri" d="M45 24 27 14v20z"/></svg></span>
+        <span class="sr-only">Play: {v["title"]}</span>
+      </button>
+      <div class="vid-body">
+        <span class="vid-ep">{v["ep"]}</span>
+        <h3>{v["title"]}</h3>
+        {guest}
+        <p>{v["teaser"]}</p>
+        <a class="vid-yt" href="{watch}" target="_blank" rel="noopener">Watch on YouTube <span class="arr">&rarr;</span></a>
+      </div>
+    </article>'''
+
+def _video_schema():
+    """VideoObject JSON-LD per episode, tied to the org."""
+    import json as _json
+    graph = []
+    for v in VIDEOS:
+        graph.append({
+            "@type": "VideoObject",
+            "name": _faq_plain(f'{v["ep"]}: {v["title"]}'),
+            "description": _faq_plain(v["teaser"]),
+            "thumbnailUrl": f'https://i.ytimg.com/vi/{v["id"]}/hqdefault.jpg',
+            "embedUrl": f'https://www.youtube.com/embed/{v["id"]}',
+            "contentUrl": f'https://www.youtube.com/watch?v={v["id"]}',
+            "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
+        })
+    if not graph:
+        return ""
+    data = {"@context": "https://schema.org", "@graph": graph}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
+def build_videos():
+    crumbs = '<div class="crumbs"><a href="index.html">Home</a> / Videos</div>'
+    if VIDEOS:
+        featured = _video_card(VIDEOS[0], featured=True)
+        rest = "".join(_video_card(v) for v in VIDEOS[1:])
+        more = (f'<section class="section" style="padding-top:0;"><div class="wrap">'
+                f'<div class="section-head reveal" style="margin-bottom:1.6rem;">'
+                f'<span class="eyebrow">More Episodes</span><h2>The Full Library</h2></div>'
+                f'<div class="vid-grid">{rest}</div></div></section>') if rest else ""
+        gallery = f'''<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:1.6rem;">
+      <span class="eyebrow">Latest Video</span><h2>Now Playing</h2>
+    </div>
+    <div class="vid-featured-wrap">{featured}</div>
+  </div>
+</section>
+{more}'''
+    else:
+        gallery = ""
+    body = f"""
+<main>
+{page_hero("Pain 2 Power on Video", "Watch the <em class='accent'>Conversations</em>",
+  "Every Pain 2 Power episode, on camera — real talk with the surgeons, therapists, and specialists who keep the Palm Beaches moving.", crumbs)}
+{gallery}
+<section class="section on-cream">
+  <div class="wrap" style="text-align:center;">
+    <div class="section-head center reveal"><span class="eyebrow">Never Miss One</span><h2>Subscribe on <em class="accent">YouTube</em></h2></div>
+    <p class="vid-sub-copy reveal">New episodes land on our channel alongside the radio show — Saturdays at 8:30 AM on 100.3 Legends Radio, and streaming anytime.</p>
+    <div class="vid-cta-row reveal">
+      <a class="btn btn-coral" href="{YOUTUBE}" target="_blank" rel="noopener">Visit Our YouTube Channel <span class="arr">&rarr;</span></a>
+      <a class="btn btn-ink" href="podcast.html">Listen to the Podcast</a>
+    </div>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+<script src="assets/js/videos.js?v={asset_v('assets/js/videos.js')}" defer></script>
+"""
+    write("videos.html",
+          head("Pain 2 Power Videos | First Rehabilitation of North Palm Beach",
+               "Watch Pain 2 Power video episodes — Dr. Dave Kashuba and Mike McGann talk rehab, orthopedics, and staying active with leading Palm Beach County specialists.",
+               canonical="videos.html", og_image="assets/media/podcast-cover.jpg",
+               extra_schema=_video_schema() + breadcrumb_schema([("Home", ""), ("Videos", "videos.html")]))
+          + nav(0) + body + footer(0))
+
 def build_meta():
     base = "https://www.firstrehabnpb.com"
     write("site.webmanifest", '''{
@@ -2495,7 +2603,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "podcast.html", "blog/index.html", "treatments/index.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -2595,5 +2703,6 @@ if __name__ == "__main__":
     build_blog()
     build_careers()
     build_first_visit()
+    build_videos()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
