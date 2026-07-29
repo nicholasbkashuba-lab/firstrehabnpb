@@ -874,3 +874,40 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
 .vid-cta-row { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
 @media (max-width: 720px) { .vid-body { padding: 1.2rem 1.2rem 1.3rem; } .vid-card.is-featured .vid-body h3 { font-size: 1.35rem; } }
 .vid-airs { display: inline-block; margin-left: .5rem; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--coral-text); border: 1.5px solid var(--line-gold); background: var(--cream); padding: .28em .8em; border-radius: 999px; vertical-align: middle; }
+
+/* ============ PAIN 2 POWER FLOATING MINI-PLAYER ============ */
+/* Sits just left of the intake launcher (bottom-left is the Call Now pill).
+   z-index stays under .fri-root (1200) so the assistant always wins the corner. */
+.p2p-mini { position: fixed; z-index: 1199;
+  right: calc(clamp(14px, 3vw, 26px) + 74px);
+  bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px) + 5px); }
+.p2p-btn { width: 52px; height: 52px; border-radius: 50%; cursor: pointer; display: grid; place-items: center;
+  background: linear-gradient(150deg, var(--coral), #d9822b); color: var(--ink-deep);
+  border: 1px solid rgba(233,196,106,.7); box-shadow: 0 14px 32px -12px rgba(7,30,39,.6);
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease; }
+.p2p-btn:hover, .p2p-btn:focus-visible { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 40px -12px rgba(7,30,39,.7); }
+.p2p-mini.is-open .p2p-btn { transform: scale(.92); }
+/* Panel is viewport-anchored so it never overflows a phone screen. */
+.p2p-panel { position: fixed; right: clamp(14px, 3vw, 26px);
+  bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px) + 74px);
+  width: min(330px, calc(100vw - 28px));
+  background: var(--paper); border: 1px solid var(--line-gold); border-radius: 18px;
+  padding: .9rem 1rem 1rem; box-shadow: 0 26px 60px -18px rgba(7,30,39,.6);
+  opacity: 0; transform: translateY(10px) scale(.97); transform-origin: bottom right;
+  transition: opacity .24s ease, transform .24s cubic-bezier(.2,.8,.2,1); }
+.p2p-mini.is-open .p2p-panel { opacity: 1; transform: none; }
+.p2p-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .3rem; }
+.p2p-eyebrow { font-size: .64rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--coral-text); }
+.p2p-x { background: none; border: 0; cursor: pointer; color: var(--muted); font-size: .9rem; line-height: 1;
+  width: 30px; height: 30px; margin: -6px -8px -6px 0; display: grid; place-items: center; border-radius: 50%; }
+.p2p-x:hover, .p2p-x:focus-visible { background: var(--cream); color: var(--ink); }
+.p2p-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.3; margin-bottom: .6rem; color: var(--ink); }
+.p2p-embed { min-height: 152px; border-radius: 12px; overflow: hidden; background: var(--cream); }
+.p2p-embed iframe { display: block; border: 0; }
+.p2p-more { display: inline-block; margin-top: .7rem; font-size: .85rem; font-weight: 700; color: var(--ink); text-decoration: none; }
+.p2p-more:hover, .p2p-more:focus-visible { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { .p2p-panel, .p2p-btn { transition: none; } }
+/* Hide while the mobile menu is open, same as the Call Now pill. */
+body.nav-locked .p2p-mini { display: none; }
+/* Hidden while the intake assistant panel is open (it covers this corner). */
+.p2p-mini.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .2s ease, visibility .2s; }

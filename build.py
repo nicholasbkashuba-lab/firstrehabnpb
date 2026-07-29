@@ -199,6 +199,40 @@ def social_row(cls=""):
     )
     return f'<div class="soc-row {cls}">{links}</div>'
 
+def p2p_mini(depth=0):
+    """Floating mini-player: a small button beside the intake launcher that
+    opens the latest Pain 2 Power episode. Collapsed on every page load — it
+    only opens on click, never on hover or a timer. The Spotify iframe is
+    injected on first open, so nothing third-party loads until asked."""
+    import re as _re
+    if not EPISODES:
+        return ""
+    num, title, _desc, url, _label = EPISODES[0]
+    m = _re.search(r"open\.spotify\.com/episode/([A-Za-z0-9]+)", url)
+    if not m:
+        return ""
+    p = "../" * depth
+    embed = f"https://open.spotify.com/embed/episode/{m.group(1)}?utm_source=generator&amp;theme=0"
+    return f'''<div class="p2p-mini" data-p2p>
+  <div class="p2p-panel" id="p2p-panel" hidden>
+    <div class="p2p-head">
+      <span class="p2p-eyebrow">Latest Episode</span>
+      <button class="p2p-x" type="button" aria-label="Close player">&#10005;</button>
+    </div>
+    <p class="p2p-title">{num} &middot; {title}</p>
+    <div class="p2p-embed" data-embed="{embed}" data-embed-title="{title} — Pain 2 Power"></div>
+    <a class="p2p-more" href="{p}podcast.html">All episodes <span class="arr">&rarr;</span></a>
+  </div>
+  <button class="p2p-btn" type="button" aria-expanded="false" aria-controls="p2p-panel"
+          title="Play the latest Pain 2 Power episode">
+    <svg viewBox="0 0 24 24" aria-hidden="true" width="22" height="22">
+      <path fill="currentColor" d="M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/>
+      <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" d="M5 11a7 7 0 0 0 14 0M12 18v3"/>
+    </svg>
+    <span class="sr-only">Play the latest Pain 2 Power episode</span>
+  </button>
+</div>'''
+
 def footer(depth=0):
     p = "../" * depth
     return f"""
@@ -266,8 +300,10 @@ def footer(depth=0):
   </div>
 </footer>
 <a class="mobile-call" href="tel:+15616244263" aria-label="Call First Rehabilitation now at 561-624-4263"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.4 21 3 13.6 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>Call Now</span></a>
+{p2p_mini(depth)}
 <script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
 <script src="{p}assets/js/intake.js?v={asset_v('assets/js/intake.js')}" defer></script>
+<script src="{p}assets/js/p2p-mini.js?v={asset_v('assets/js/p2p-mini.js')}" defer></script>
 <!-- Vercel Web Analytics (static-site tag; privacy-friendly, cookieless — no banner needed) -->
 <script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments);}};</script>
 <script defer src="/_vercel/insights/script.js"></script>
