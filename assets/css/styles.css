@@ -873,3 +873,4 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
 .vid-sub-copy { max-width: 620px; margin: 0 auto 1.6rem; color: var(--muted); }
 .vid-cta-row { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
 @media (max-width: 720px) { .vid-body { padding: 1.2rem 1.2rem 1.3rem; } .vid-card.is-featured .vid-body h3 { font-size: 1.35rem; } }
+.vid-airs { display: inline-block; margin-left: .5rem; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--coral-text); border: 1.5px solid var(--line-gold); background: var(--cream); padding: .28em .8em; border-radius: 999px; vertical-align: middle; }
