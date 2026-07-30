@@ -246,8 +246,8 @@ def footer(depth=0):
     <p>© {year} {NAME} · {TAGLINE}</p>
     <p><a href="{p}privacy-policy.html">Privacy Policy</a> · <a href="{p}terms.html">Terms &amp; Conditions</a></p>
   </div>
+  <a class="mobile-call" href="tel:{PHONE_TEL}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.5 2.9 3.7 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .7-.2 1l-2.3 2.2z"/></svg>Call Now</a>
 </footer>
-<a class="mobile-call" href="tel:{PHONE_TEL}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.5 2.9 3.7 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .7-.2 1l-2.3 2.2z"/></svg>Call Now</a>
 <script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
 <script src="{p}assets/js/assist.js?v={asset_v('assets/js/assist.js')}" defer></script>
 </body>
@@ -1607,7 +1607,7 @@ def build_home():
         <li><a href="blog/index.html">Blog &amp; insights</a></li>
       </ul>
     </nav>
-    <nav class="path-col reveal" style="--d:270ms" aria-label="Areas we serve">
+    <nav class="path-col reveal" style="--d:270ms" aria-label="Service areas near you">
       <h3>Areas we serve</h3>
       <ul class="path-chips">
         {loc_chips}
@@ -2613,6 +2613,10 @@ def build_blog():
 
     # posts
     for p_ in BLOG_POSTS:
+        body_html = p_["body"]
+        if "<h2" not in body_html:          # ported copy that starts at h3
+            body_html = re.sub(r"<(/?)h4\b", r"<\1h3", body_html)
+            body_html = re.sub(r"<(/?)h3\b", r"<\1h2", body_html)
         date_h = "{}/{}/{}".format(p_["date"][5:7], p_["date"][8:10], p_["date"][:4])
         crumbs_html = crumbs([("blog/index.html", "Blog"), ("", p_["title"])], depth=d)
         related = [x for x in BLOG_POSTS if x["slug"] != p_["slug"] and x["category"] == p_["category"]][:2]
@@ -2635,7 +2639,7 @@ def build_blog():
   </header>
   <div class="post-body">
     <figure class="post-figure reveal"><img src="../assets/media/{p_['image']}?v={asset_v('assets/media/' + p_['image'])}" alt="" width="1100" height="620"></figure>
-    {p_['body']}
+    {body_html}
     <div class="post-cta sym-card">
       <h2>Talk to the team</h2>
       <p>Questions about whether this applies to you? Book a consultation or call <a href="tel:{PHONE_TEL}">{PHONE_VANITY} · {PHONE_DISPLAY}</a>.</p>

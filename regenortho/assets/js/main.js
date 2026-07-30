@@ -60,6 +60,18 @@
 
   mobileMQ.addEventListener("change", closeMenu);
 
+  /* -------------------------------------------- header on scroll only */
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var stuck = false;
+    var applyStuck = function () {
+      var should = window.scrollY > 24;
+      if (should !== stuck) { stuck = should; header.classList.toggle("is-stuck", should); }
+    };
+    window.addEventListener("scroll", applyStuck, { passive: true });
+    applyStuck();
+  }
+
   /* ------------------------------------------------------------ reveals */
   var revealEls = document.querySelectorAll(".reveal");
   if (reduceMotion || !("IntersectionObserver" in window)) {
