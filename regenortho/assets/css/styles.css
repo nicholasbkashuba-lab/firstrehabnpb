@@ -1006,7 +1006,7 @@ body.nav-locked .mobile-call { display: none !important; }
   .drop-mega { min-width: 480px; }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1160px) {
   .nav-toggle {
     display: inline-flex; align-items: center; gap: .55rem; margin-left: auto;
     background: none; border: 1px solid rgba(253, 201, 41, .4); border-radius: 999px;

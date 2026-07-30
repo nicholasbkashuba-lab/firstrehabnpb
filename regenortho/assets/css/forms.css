@@ -173,13 +173,98 @@
 
 /* ------------------------------ forms hub -------------------------------- */
 
-.privacy-note { max-width: 820px; margin: 0 auto; }
-.privacy-note h2 { margin-top: 0; }
-.privacy-foot { font-size: .88rem; color: var(--muted); margin-top: 1.4rem; }
+.form-hub { padding-top: 3.2rem; }
+.form-card-grid { max-width: 1060px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; }
+
+.form-card {
+  position: relative; display: flex; flex-direction: column; gap: .85rem;
+  background: #fff; border: 1px solid rgba(9, 45, 92, .12); border-radius: var(--r-lg);
+  padding: 2.1rem 2rem 1.9rem; overflow: hidden;
+  box-shadow: 0 26px 50px -38px rgba(9, 45, 92, .5);
+  transition: transform .38s var(--ease), border-color .38s, box-shadow .38s;
+}
+/* the gold hairline that reads as "premium" without shouting */
+.form-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px;
+  background: linear-gradient(90deg, var(--gold), #F7DE8B 55%, transparent); }
+.form-card:hover, .form-card:focus-within {
+  transform: translateY(-5px); border-color: rgba(253, 201, 41, .75);
+  box-shadow: 0 34px 60px -34px rgba(9, 45, 92, .55);
+}
+
+.form-card-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 54px; height: 54px; border-radius: 16px; color: var(--navy-800);
+  background: linear-gradient(150deg, rgba(253, 201, 41, .95), rgba(233, 196, 106, .6));
+  box-shadow: 0 10px 20px -12px rgba(253, 201, 41, .95);
+}
+.form-card h2 { font-size: 1.62rem; margin: .2rem 0 0; line-height: 1.2; }
+.form-card h2 a { color: var(--navy-900); text-decoration: none; }
+/* the whole card is the click target, but only the heading is the real link */
+.form-card h2 a::after { content: ""; position: absolute; inset: 0; }
+.form-card h2 a:hover { color: var(--navy-800); }
+.form-card h2 a:focus-visible { outline: 2px solid var(--navy-800); outline-offset: 4px; border-radius: 4px; }
+
+.form-card-who { color: var(--muted); font-size: .93rem; margin: 0; }
+.form-card-list { list-style: none; margin: .35rem 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: .5rem; }
+.form-card-list li { position: relative; padding-left: 1.65rem;
+  font-size: .89rem; color: #33465A; line-height: 1.5; }
+.form-card-list li::before {
+  content: ""; position: absolute; left: 0; top: .28rem; width: 15px; height: 15px;
+  border-radius: 50%; background: rgba(253, 201, 41, .22);
+  box-shadow: inset 0 0 0 1px rgba(160, 117, 20, .5);
+}
+.form-card-list li::after {
+  content: ""; position: absolute; left: 4.4px; top: .5rem; width: 6px; height: 3.4px;
+  border-left: 1.6px solid #74590A; border-bottom: 1.6px solid #74590A;
+  transform: rotate(-45deg);
+}
+
+.form-card-meta { display: flex; flex-wrap: wrap; gap: .45rem; margin: .9rem 0 0; }
+.form-card-meta span {
+  border: 1px solid rgba(9, 45, 92, .18); border-radius: 999px; padding: .32rem .8rem;
+  font: 700 .68rem/1 var(--sans); letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted);
+}
+.form-card-go { margin-top: auto; padding-top: 1.5rem; }  /* pin the CTA so both cards line up */
+.form-card-go .btn { pointer-events: none; }   /* decorative — the heading link owns the click */
+
+/* --------------------------- how it works strip -------------------------- */
+
+.form-steps-strip { list-style: none; max-width: 1060px; margin: 2.4rem auto 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; }
+.form-steps-strip li { display: flex; flex-direction: column; gap: .5rem;
+  padding: 1.6rem 1.5rem; background: #fff; border-radius: var(--r-md);
+  border: 1px solid rgba(9, 45, 92, .1); }
+.fs-num { display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%; background: var(--navy-800); color: var(--gold);
+  font: 800 .95rem/1 var(--sans); }
+.form-steps-strip strong { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--navy-900); }
+.form-steps-strip span:not(.fs-num) { font-size: .89rem; color: var(--muted); line-height: 1.55; }
+
+/* ------------------------------ privacy panel ---------------------------- */
+
+.privacy-panel { max-width: 1060px; margin: 0 auto; background: var(--navy-900);
+  border-radius: var(--r-lg); padding: 2.4rem 2.4rem 2rem; color: #C9D6E4;
+  border: 1px solid rgba(253, 201, 41, .2); }
+.privacy-panel-head { display: flex; align-items: center; gap: 1.1rem; margin-bottom: 1.9rem; }
+.privacy-shield { flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 60px; height: 60px; border-radius: 18px; color: var(--gold);
+  background: rgba(253, 201, 41, .12); border: 1px solid rgba(253, 201, 41, .3); }
+.privacy-panel-head h2 { color: #fff; margin: .3rem 0 0; font-size: 1.85rem; }
+.privacy-panel-head .eyebrow { color: var(--gold); }
+.privacy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.3rem 2.2rem; }
+.privacy-grid strong { display: block; color: var(--gold); font: 800 .76rem/1.4 var(--sans);
+  letter-spacing: .13em; text-transform: uppercase; margin-bottom: .4rem; }
+.privacy-grid p { margin: 0; font-size: .91rem; line-height: 1.6; color: #B4C5D6; }
+.privacy-foot { font-size: .88rem; color: #9FB2C6; margin: 2rem 0 0;
+  padding-top: 1.4rem; border-top: 1px solid rgba(253, 201, 41, .16); }
+.privacy-foot a { color: var(--gold); }
 
 /* ------------------------------ responsive ------------------------------- */
 
-@media (max-width: 1100px) {
+@media (max-width: 1160px) {
   .form-shell { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
   .f-steps { position: static; }
   .f-steps ol { flex-direction: row; overflow-x: auto; gap: .4rem; padding-bottom: .4rem;
@@ -198,7 +283,16 @@
     margin: 0; overflow: visible; clip: auto; clip-path: none; }
 }
 
+@media (max-width: 900px) {
+  .form-card-grid, .privacy-grid { grid-template-columns: minmax(0, 1fr); }
+  .form-steps-strip { grid-template-columns: minmax(0, 1fr); }
+}
+
 @media (max-width: 720px) {
+  .privacy-panel { padding: 1.8rem 1.4rem 1.5rem; }
+  .privacy-panel-head { gap: .9rem; }
+  .privacy-panel-head h2 { font-size: 1.5rem; }
+  .form-card { padding: 1.8rem 1.5rem 1.6rem; }
   .f-fields { grid-template-columns: 1fr; }
   .f-fields > .f-half { grid-column: 1 / -1; }
   .f-yesno { grid-template-columns: 1fr; }

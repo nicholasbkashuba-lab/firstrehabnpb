@@ -167,7 +167,6 @@ def nav(depth=0, current=""):
             <li><a href="{p}providers/dr-orlando-cedeno.html">Dr. Orlando Cedeno, DPM</a></li>
             <li><a href="{p}providers/emily-bahnick.html">Emily Bahnick, MSN, RN</a></li>
             <li><a href="{p}patient-resources.html">Patient Resources</a></li>
-            <li><a href="{p}forms/index.html">Patient Forms</a></li>
           </ul>
         </li>
         <li class="has-drop has-mega"><button class="drop-btn" aria-expanded="false">Services<svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 1.5 6 6.5 11 1.5"/></svg></button>
@@ -182,6 +181,13 @@ def nav(depth=0, current=""):
           </ul>
         </li>
         <li><a class="nav-link" href="{p}iv-therapy.html">IV Lounge</a></li>
+        <li class="has-drop"><button class="drop-btn" aria-expanded="false">Patient Forms<svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 1.5 6 6.5 11 1.5"/></svg></button>
+          <ul class="drop">
+            <li><a href="{p}forms/index.html">All patient forms</a></li>
+            <li><a href="{p}forms/new-patient.html">New Patient Intake Form</a></li>
+            <li><a href="{p}forms/peptide-glp-questionnaire.html">Peptide &amp; GLP-1 Questionnaire</a></li>
+          </ul>
+        </li>
         <li><a class="nav-link" href="{p}blog/index.html">Blog</a></li>
         <li><a class="nav-link" href="{p}faq.html">FAQ</a></li>
         <li><a class="nav-link" href="{p}contact.html">Contact</a></li>
@@ -2682,37 +2688,67 @@ def build_forms():
     d = 1
 
     # ---- hub -------------------------------------------------------------
-    cards = "".join(f"""<a class="res-card reveal" href="{f['slug']}.html" style="--d:{i * 90}ms">
-      <span class="res-num" aria-hidden="true">0{i + 1}</span>
-      <h2>{f['name']}</h2>
-      <p>{f['lede']}</p>
-      <em class="svc-more">Open the form <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em>
-    </a>""" for i, f in enumerate(FORMS))
+    def _steps(f):
+        return len(f["sections"]) + 1          # +1 for the acknowledgment step
+
+    cards = "".join(f"""<article class="form-card reveal" style="--d:{i * 110}ms">
+      <span class="form-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">{f['card']['icon']}</svg></span>
+      <h2><a href="{f['slug']}.html">{f['name']}</a></h2>
+      <p class="form-card-who">{f['card']['for_who']}</p>
+      <ul class="form-card-list">{"".join(f'<li>{c}</li>' for c in f['card']['covers'])}</ul>
+      <p class="form-card-meta"><span>{_steps(f)} sections</span><span>Save or resume anytime</span></p>
+      <span class="form-card-go"><span class="btn btn-gold" aria-hidden="true">Start the form</span></span>
+    </article>""" for i, f in enumerate(FORMS))
 
     hub_crumbs = crumbs([("", "Patient Forms")], depth=d)
     hub_body = f"""{nav(d)}
 <main id="main">
-{page_hero("Before Your Visit", "Patient Forms", "Complete your paperwork at home, in your own time. Both forms fill out right in your browser — your answers never leave your device until you choose to share them with us.", hub_crumbs, depth=d)}
-<section class="section">
-  <div class="res-grid">{cards}</div>
+{page_hero("Before Your Visit", "Patient Forms", "Complete your paperwork at home, in your own time. Both forms fill out right in your browser — your answers never leave your device until you choose to share them with us.", hub_crumbs, cta=False, depth=d)}
+<section class="section form-hub">
+  <div class="form-card-grid">{cards}</div>
 </section>
-<section class="section section-tint">
-  <div class="privacy-note reveal">
-    <h2>How we protect what you write here</h2>
-    <ul class="check-list">
-      <li><strong>Nothing is transmitted.</strong> These forms don't send your answers over the internet. Everything you type stays in your browser.</li>
-      <li><strong>No tracking on form pages.</strong> We don't load analytics, advertising, or session-recording scripts on any page that asks about your health.</li>
-      <li><strong>You choose how it reaches us.</strong> When you finish, the form builds a clean summary you can print, save as a PDF, or bring to your appointment.</li>
-      <li><strong>Saving is opt-in.</strong> Your progress is only kept on your device if you switch it on — and a single button erases it.</li>
-    </ul>
-    <p class="privacy-foot">Questions about your privacy? Read our <a href="../privacy-policy.html">privacy policy</a> or call us at <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>.</p>
+
+<section class="section section-tint form-how">
+  <div class="section-head reveal">
+    <p class="eyebrow">How it works</p>
+    <h2>Three steps, <em>no account needed</em></h2>
+  </div>
+  <ol class="form-steps-strip">
+    <li class="reveal"><span class="fs-num" aria-hidden="true">1</span>
+      <strong>Fill it out</strong>
+      <span>Work through it a section at a time. Skip around, stop, come back — nothing is locked.</span></li>
+    <li class="reveal" style="--d:100ms"><span class="fs-num" aria-hidden="true">2</span>
+      <strong>Print or save it</strong>
+      <span>Finishing builds a clean summary. Print it, save it as a PDF, or download it as a text file.</span></li>
+    <li class="reveal" style="--d:200ms"><span class="fs-num" aria-hidden="true">3</span>
+      <strong>Bring it with you</strong>
+      <span>Hand it to our front desk when you arrive. That's it — you skip the clipboard entirely.</span></li>
+  </ol>
+</section>
+
+<section class="section form-privacy-section">
+  <div class="privacy-panel reveal">
+    <div class="privacy-panel-head">
+      <span class="privacy-shield" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.4 3.1 8.4 7.5 9.5 4.4-1.1 7.5-5.1 7.5-9.5V6L12 3Z"/><path d="m8.8 12.2 2.2 2.2 4.2-4.4"/></svg></span>
+      <div>
+        <p class="eyebrow">Your privacy</p>
+        <h2>How we protect what you write here</h2>
+      </div>
+    </div>
+    <div class="privacy-grid">
+      <div><strong>Nothing is transmitted</strong><p>These forms don't send your answers over the internet. Everything you type stays in your browser.</p></div>
+      <div><strong>No tracking on form pages</strong><p>We don't load analytics, advertising, or session-recording scripts on any page that asks about your health.</p></div>
+      <div><strong>You choose how it reaches us</strong><p>When you finish, the form builds a summary you print, save as a PDF, or bring to your appointment.</p></div>
+      <div><strong>Saving is opt-in</strong><p>Your progress is only kept on your device if you switch it on — and a single button erases it.</p></div>
+    </div>
+    <p class="privacy-foot">Questions about your privacy? Read our <a href="../privacy-policy.html">privacy policy</a>, or call us at <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>.</p>
   </div>
 </section>
 {cta_band(d, heading="Prefer to fill these out <em>with us?</em>", sub="Arrive fifteen minutes early and our front desk will walk you through everything on a practice tablet. Either way works.")}
 </main>
 {footer(d)}"""
     hub = head("Patient Forms | RegenOrtho Palm Beach",
-               "Download and complete your RegenOrtho Palm Beach patient forms before your visit in Palm Beach Gardens — new patient intake and the peptide & GLP-1 questionnaire.",
+               "Complete your RegenOrtho Palm Beach patient forms before your visit in Palm Beach Gardens — new patient intake and the peptide & GLP-1 questionnaire, filled out privately in your browser.",
                depth=d, canonical="forms/index.html", extra_css="assets/css/forms.css",
                extra_schema=breadcrumb_schema([("", "Home"), ("forms/index.html", "Patient Forms")])
                ) + '<body class="page-forms">\n' + hub_body

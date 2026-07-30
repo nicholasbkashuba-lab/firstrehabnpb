@@ -8,7 +8,7 @@
   /* ---------------------------------------------------------------- nav */
   var toggle = document.querySelector(".nav-toggle");
   var body = document.body;
-  var mobileMQ = window.matchMedia("(max-width: 1100px)"); // keep in sync with CSS
+  var mobileMQ = window.matchMedia("(max-width: 1160px)"); // keep in sync with CSS
 
   function closeMenu() {
     body.classList.remove("nav-locked");

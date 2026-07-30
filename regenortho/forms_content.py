@@ -59,6 +59,14 @@ GLP_FORM = {
     "desc": ("Complete the RegenOrtho Palm Beach peptide and GLP-1 screening questionnaire before your "
              "consultation in Palm Beach Gardens. Fills out in your browser — nothing is transmitted."),
     "ack": ACK_TEXT,
+    "card": {
+        "for_who": "Anyone starting peptide, NAD+, or GLP-1 weight-loss therapy with us.",
+        "covers": ["Medications, supplements &amp; allergies",
+                   "Prior GLP-1, peptide, NAD+ &amp; hormone therapy",
+                   "Screening history a physician needs before prescribing",
+                   "Your treatment goals"],
+        "icon": '<path d="M8.5 15.5 15.5 8.5M9.6 6.4l-3.2 3.2a3.4 3.4 0 0 0 4.8 4.8l3.2-3.2M14.4 17.6l3.2-3.2a3.4 3.4 0 0 0-4.8-4.8L9.6 12.8"/>',
+    },
     "sections": [
         {"n": "01", "title": "Patient Information", "fields": [
             {"t": "text", "id": "full-name", "label": "Full Name", "req": True, "ac": "name", "w": "half"},
@@ -182,6 +190,14 @@ INTAKE_FORM = {
     "desc": ("Complete your RegenOrtho Palm Beach new patient intake form before your first visit in "
              "Palm Beach Gardens. Fills out in your browser — nothing is transmitted over the internet."),
     "ack": ACK_TEXT_INTAKE,
+    "card": {
+        "for_who": "Every new patient, before your first appointment with us.",
+        "covers": ["Contact, emergency contact &amp; insurance",
+                   "What brings you in, and what you want to get back to",
+                   "Medical &amp; surgical history",
+                   "Medications, supplements &amp; allergies"],
+        "icon": '<path d="M7 3.8h10a1.2 1.2 0 0 1 1.2 1.2v14a1.2 1.2 0 0 1-1.2 1.2H7A1.2 1.2 0 0 1 5.8 19V5A1.2 1.2 0 0 1 7 3.8Z"/><path d="M9.2 9.4h5.6M9.2 12.6h5.6M9.2 15.8h3.2"/>',
+    },
     "sections": [
         {"n": "01", "title": "Patient Information", "fields": [
             {"t": "text", "id": "full-name", "label": "Full Name", "req": True, "ac": "name", "w": "half"},
