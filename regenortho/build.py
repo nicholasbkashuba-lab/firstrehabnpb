@@ -170,7 +170,6 @@ def nav(depth=0, current=""):
             <li><a href="{p}providers/dr-marc-matarazzo.html">Dr. Marc Matarazzo, MD</a></li>
             <li><a href="{p}providers/dr-orlando-cedeno.html">Dr. Orlando Cedeno, DPM</a></li>
             <li><a href="{p}patient-resources.html">Patient Resources</a></li>
-            <li><a href="{p}blog/index.html">Blog & Insights</a></li>
           </ul>
         </li>
         <li class="has-drop has-mega"><button class="drop-btn" aria-expanded="false">Services<svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 1.5 6 6.5 11 1.5"/></svg></button>
@@ -191,6 +190,7 @@ def nav(depth=0, current=""):
             {loc}
           </ul>
         </li>
+        <li><a class="nav-link" href="{p}blog/index.html">Blog</a></li>
         <li><a class="nav-link" href="{p}faq.html">FAQ</a></li>
         <li><a class="nav-link" href="{p}contact.html">Contact</a></li>
         <li class="nav-cta-item"><a class="btn btn-gold nav-cta" href="{p}contact.html#book">Book a Consultation</a></li>
@@ -1119,77 +1119,150 @@ def svc_name(slug):
 # ---------------------------------------------------------------------------
 
 FIGURE_NODES = [
-    ("shoulder", 272, 152, "Shoulder", "conditions/shoulder-pain.html",
-     "Rotator cuff, arthritis & sports injuries — fellowship-trained shoulder care."),
-    ("iv", 116, 236, "IV Wellness", "iv-therapy.html",
-     "Clinician-supervised drips for recovery, energy, immunity & NAD⁺."),
-    ("core", 210, 258, "Regenerative Core", "services/regenerative-medicine-orthobiologics.html",
-     "PRP, cellular & peptide therapies that help the body repair itself."),
-    ("hip", 244, 374, "Hip", "conditions/hip-pain.html",
-     "Precise diagnosis for arthritis, bursitis & tendon problems."),
-    ("knee", 172, 472, "Knee", "conditions/knee-pain.html",
-     "From PRP to the MISHA shock absorber to Mako robotic replacement."),
-    ("veins", 252, 532, "Veins", "conditions/varicose-spider-veins.html",
-     "Ultrasound-guided ablation & sclerotherapy for healthier legs."),
-    ("nerves", 166, 556, "Nerves", "conditions/peripheral-neuropathy.html",
-     "The Neuropathy Restoration Program — burning & numbness at the root."),
-    ("foot", 254, 610, "Foot & Ankle", "conditions/foot-ankle-pain.html",
-     "Board-certified foot & ankle surgery, orthotics & heel pain relief."),
+    # key, x, y, clinical label, href, blurb, label side
+    ("shoulder", 288, 152, "Shoulder", "conditions/shoulder-pain.html",
+     "Rotator cuff, arthritis & sports injuries — fellowship-trained shoulder care.", "r"),
+    ("iv", 158, 244, "IV Wellness", "iv-therapy.html",
+     "Clinician-supervised drips for recovery, energy, immunity & NAD⁺.", "l"),
+    ("elbow", 314, 248, "Elbow & Tendon", "conditions/tendon-ligament-injuries.html",
+     "Tennis elbow & stubborn tendinopathy — shockwave, PRP & guided loading.", "r"),
+    ("spine", 230, 318, "Spine & Core", "services/regenerative-medicine-orthobiologics.html",
+     "PRP, cellular & peptide therapies that help the body repair itself.", "l"),
+    ("hip", 264, 400, "Hip", "conditions/hip-pain.html",
+     "Precise diagnosis for arthritis, bursitis & tendon problems.", "r"),
+    ("knee", 186, 508, "Knee", "conditions/knee-pain.html",
+     "From PRP to the MISHA shock absorber to Mako robotic replacement.", "l"),
+    ("veins", 276, 556, "Veins", "conditions/varicose-spider-veins.html",
+     "Ultrasound-guided ablation & sclerotherapy for healthier legs.", "r"),
+    ("nerves", 184, 576, "Nerves", "conditions/peripheral-neuropathy.html",
+     "The Neuropathy Restoration Program — burning & numbness at the root.", "l"),
+    ("foot", 280, 626, "Foot & Ankle", "conditions/foot-ankle-pain.html",
+     "Board-certified foot & ankle surgery, orthotics & heel pain relief.", "r"),
 ]
+
+
+def _capsule(x, y, r_out=9, r_in=3.6):
+    """Articulated joint capsule: faint outer ring + solid inner condyle."""
+    return (f'<circle class="fl bone cap-o" pathLength="1" cx="{x}" cy="{y}" r="{r_out}"/>'
+            f'<circle class="fl bone cap-i" pathLength="1" cx="{x}" cy="{y}" r="{r_in}"/>')
+
+
+def _skeleton():
+    """Gold skeletal linework — skull, spine, ribs, pelvis, limbs, capsules."""
+    P = []
+    # skull: cranium + jaw
+    P.append('<circle class="fl bone" pathLength="1" cx="230" cy="78" r="29"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M207 92 C207 108 216 120 230 121 C244 120 253 108 253 92"/>')
+    P.append('<line class="fl bone" pathLength="1" x1="221" y1="112" x2="239" y2="112"/>')
+    # vertebral column: center line + vertebra ticks
+    P.append('<path class="fl bone" pathLength="1" d="M230 126 C232 190 228 260 230 320 C231 350 230 368 230 386"/>')
+    for i in range(14):
+        y = 132 + i * 18
+        w = 7 if y < 300 else 6
+        P.append(f'<line class="fl bone vert" pathLength="1" x1="{230 - w}" y1="{y}" x2="{230 + w}" y2="{y}"/>')
+    # sternum + clavicles
+    P.append('<path class="fl bone" pathLength="1" d="M230 144 L230 212"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M228 142 C214 134 196 136 179 149"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M232 142 C246 134 264 136 281 149"/>')
+    # rib cage: six arc pairs
+    for i, sp in enumerate([30, 40, 47, 50, 47, 40]):
+        y = 152 + i * 13
+        P.append(f'<path class="fl bone rib" pathLength="1" d="M230 {y} C {230 - int(sp * .6)} {y - 3} {230 - sp} {y + 6} {230 - sp - 3} {y + 15}"/>')
+        P.append(f'<path class="fl bone rib" pathLength="1" d="M230 {y} C {230 + int(sp * .6)} {y - 3} {230 + sp} {y + 6} {230 + sp + 3} {y + 15}"/>')
+    # pelvis: iliac wings, sacrum, pubic arch
+    P.append('<path class="fl bone" pathLength="1" d="M228 356 C214 352 201 356 192 366 C184 376 184 388 190 397 C197 391 206 387 215 386"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M232 356 C246 352 259 356 268 366 C276 376 276 388 270 397 C263 391 254 387 245 386"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M222 388 L230 402 L238 388"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M198 404 C208 415 218 420 230 420 C242 420 252 415 262 404"/>')
+    # arms: humerus, radius+ulna, hands
+    P.append('<path class="fl bone" pathLength="1" d="M171 160 C162 190 152 221 147 240"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M289 160 C298 190 308 221 313 240"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M143 256 C139 279 136 302 133 318"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M150 255 C147 278 143 301 140 318"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M317 256 C321 279 324 302 327 318"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M310 255 C313 278 317 301 320 318"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M129 336 C125 345 126 353 131 359 M131 359 L129 369 M136 358 L136 369 M141 356 L144 366"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M331 336 C335 345 334 353 329 359 M329 359 L331 369 M324 358 L324 369 M319 356 L316 366"/>')
+    # legs: femur, tibia+fibula, feet
+    P.append('<path class="fl bone" pathLength="1" d="M195 409 C192 440 189 476 187 499"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M265 409 C268 440 271 476 273 499"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M184 517 C182 552 181 592 180 613"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M191 517 C190 552 189 590 188 611"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M276 517 C278 552 279 592 280 613"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M269 517 C270 552 271 590 272 611"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M180 630 C172 636 165 641 163 645 C161 649 165 652 171 652 L197 652 C200 652 201 649 200 645 L197 632"/>')
+    P.append('<path class="fl bone" pathLength="1" d="M280 630 C288 636 295 641 297 645 C299 649 295 652 289 652 L263 652 C260 652 259 649 260 645 L263 632"/>')
+    # joint capsules
+    for x, y in [(172, 152), (288, 152), (146, 248), (314, 248), (132, 326), (328, 326),
+                 (196, 400), (264, 400), (186, 508), (274, 508), (180, 621), (280, 621)]:
+        P.append(_capsule(x, y))
+    return "\n      ".join(P)
+
+
+def _silhouette():
+    """Muted-blue secondary anatomy behind the skeleton, at low opacity."""
+    P = []
+    P.append('<circle cx="230" cy="78" r="35"/>')
+    P.append('<path d="M216 110 C217 122 216 128 214 134 C190 142 172 146 166 156"/>')
+    P.append('<path d="M244 110 C243 122 244 128 246 134 C270 142 288 146 294 156"/>')
+    P.append('<path d="M166 156 C158 218 168 268 180 308 C174 340 182 362 194 382"/>')
+    P.append('<path d="M294 156 C302 218 292 268 280 308 C286 340 278 362 266 382"/>')
+    P.append('<path d="M166 156 C144 196 132 244 126 300 C122 312 120 322 118 332"/>')
+    P.append('<path d="M294 156 C316 196 328 244 334 300 C338 312 340 322 342 332"/>')
+    P.append('<path d="M194 382 C186 442 188 486 186 516 C185 556 184 592 183 622"/>')
+    P.append('<path d="M266 382 C274 442 272 486 274 516 C275 556 276 592 277 622"/>')
+    P.append('<path d="M230 396 C224 452 220 498 218 524 C216 560 214 592 213 620"/>')
+    P.append('<path d="M230 396 C236 452 240 498 242 524 C244 560 246 592 247 620"/>')
+    P.append('<path d="M188 208 Q230 226 272 208"/>')
+    P.append('<path d="M196 370 Q230 356 264 370"/>')
+    return "\n      ".join(P)
 
 
 def figure_svg(depth=0):
     p = "../" * depth
     nodes = []
-    for key, x, y, label, href, blurb in FIGURE_NODES:
-        lx = x + 26 if x >= 210 else x - 26
-        anchor = "start" if x >= 210 else "end"
+    for key, x, y, label, href, blurb, side in FIGURE_NODES:
+        lx = 84 if side == "l" else 376
+        nx = x - 13 if side == "l" else x + 13
+        anchor = "end" if side == "l" else "start"
+        tx = lx - 8 if side == "l" else lx + 8
         nodes.append(f"""<a href="{p}{href}" class="bm-node" data-part="{key}" data-label="{label}" data-blurb="{html.escape(blurb)}" aria-label="{label} — explore care options">
+      <line class="bm-leader" x1="{nx}" y1="{y}" x2="{lx}" y2="{y}"/>
+      <circle class="bm-leader-tip" cx="{lx}" cy="{y}" r="2"/>
       <circle class="bm-halo" cx="{x}" cy="{y}" r="17"/>
       <circle class="bm-ring" cx="{x}" cy="{y}" r="10.5"/>
       <circle class="bm-dot" cx="{x}" cy="{y}" r="4.5"/>
-      <text class="bm-label" x="{lx}" y="{y + 4}" text-anchor="{anchor}">{label}</text>
+      <text class="bm-label" x="{tx}" y="{y + 5}" text-anchor="{anchor}">{label}</text>
     </a>""")
     nodes_html = "\n".join(nodes)
     return f"""<div class="figure-stage" aria-label="Interactive map of the body — choose an area to explore care options">
+  <div class="figure-glow" aria-hidden="true"></div>
   <div class="figure-orbit" aria-hidden="true"></div>
+  <div class="figure-orbit figure-orbit-2" aria-hidden="true"></div>
   <div class="figure-scan" aria-hidden="true"></div>
-  <svg class="figure-svg" viewBox="0 0 420 680" role="group" aria-label="Areas we treat">
+  <svg class="figure-svg" viewBox="0 0 460 760" role="group" aria-label="Areas we treat">
     <defs>
-      <linearGradient id="figStroke" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#9FC4E8"/>
-        <stop offset=".55" stop-color="#5E8BC0"/>
-        <stop offset="1" stop-color="#FDC929"/>
+      <linearGradient id="boneStroke" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#F7DE8B"/>
+        <stop offset=".5" stop-color="#FDC929"/>
+        <stop offset="1" stop-color="#D9A429"/>
       </linearGradient>
-      <radialGradient id="figGlow" cx=".5" cy=".4" r=".65">
-        <stop offset="0" stop-color="#FDC929" stop-opacity=".14"/>
-        <stop offset="1" stop-color="#FDC929" stop-opacity="0"/>
+      <radialGradient id="figGlow" cx=".5" cy=".42" r=".62">
+        <stop offset="0" stop-color="#FDC929" stop-opacity=".13"/>
+        <stop offset=".55" stop-color="#12457F" stop-opacity=".1"/>
+        <stop offset="1" stop-color="#12457F" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <ellipse cx="210" cy="360" rx="200" ry="330" fill="url(#figGlow)"/>
-    <g class="fig-lines" fill="none" stroke="url(#figStroke)" stroke-width="2.4" stroke-linecap="round">
-      <circle class="fl" pathLength="1" cx="210" cy="72" r="34"/>
-      <path class="fl" pathLength="1" d="M196 130 C168 138 152 144 148 152"/>
-      <path class="fl" pathLength="1" d="M224 130 C252 138 268 144 272 152"/>
-      <path class="fl" pathLength="1" d="M148 152 C140 214 150 264 162 302 C156 332 166 352 178 370"/>
-      <path class="fl" pathLength="1" d="M272 152 C280 214 270 264 258 302 C264 332 254 352 242 370"/>
-      <path class="fl" pathLength="1" d="M148 152 C126 190 116 238 110 296 C106 306 104 314 102 322"/>
-      <path class="fl" pathLength="1" d="M272 152 C294 190 304 238 310 296 C314 306 316 314 318 322"/>
-      <ellipse class="fl" pathLength="1" cx="99" cy="336" rx="9" ry="14"/>
-      <ellipse class="fl" pathLength="1" cx="321" cy="336" rx="9" ry="14"/>
-      <path class="fl" pathLength="1" d="M178 370 C170 428 172 470 170 500 C169 538 168 574 167 606"/>
-      <path class="fl" pathLength="1" d="M242 370 C250 428 248 470 250 500 C251 538 252 574 253 606"/>
-      <path class="fl" pathLength="1" d="M210 384 C204 440 200 486 198 512 C196 546 194 578 193 606"/>
-      <path class="fl" pathLength="1" d="M210 384 C216 440 220 486 222 512 C224 546 226 578 227 606"/>
-      <path class="fl" pathLength="1" d="M167 606 L150 620 C146 624 150 628 156 628 L193 628 L193 606"/>
-      <path class="fl" pathLength="1" d="M253 606 L270 620 C274 624 270 628 264 628 L227 628 L227 606"/>
-      <path class="fl fl-dash" pathLength="1" d="M210 120 L210 372" stroke-dasharray="2 6" stroke-width="1.6"/>
-      <path class="fl fl-faint" pathLength="1" d="M172 208 Q210 226 248 208" stroke-width="1.4"/>
-      <path class="fl fl-faint" pathLength="1" d="M178 358 Q210 344 242 358" stroke-width="1.4"/>
+    <ellipse cx="230" cy="380" rx="215" ry="360" fill="url(#figGlow)"/>
+    <g class="fig-back" fill="none" stroke="#5E8BC0" stroke-width="1.6" stroke-linecap="round">
+      {_silhouette()}
+    </g>
+    <g class="fig-lines" fill="none" stroke="url(#boneStroke)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      {_skeleton()}
     </g>
     {nodes_html}
   </svg>
-  <p class="figure-caption" aria-live="polite"><strong class="figure-caption-label">Where does it hurt?</strong><span class="figure-caption-blurb">Tap a point of light to explore how we treat it.</span></p>
+  <p class="figure-caption" aria-live="polite"><strong class="figure-caption-label">Where does it hurt?</strong><span class="figure-caption-blurb">Hover or tap a point of light to explore how we treat it.</span></p>
 </div>"""
 
 
@@ -1271,30 +1344,64 @@ def build_home():
     body = f"""{nav(d)}
 <main id="main">
 <section class="hero" id="hero">
-  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="hero-scene" aria-hidden="true">
+    <div class="hero-video-slot">
+      <!-- Video drop-in: place the file, then uncomment —
+      <video class="hero-video" autoplay muted loop playsinline preload="none"
+             poster="assets/video/hero-poster.jpg">
+        <source src="assets/video/hero-beach.mp4" type="video/mp4">
+      </video> -->
+    </div>
+    <div class="scene-sky"></div>
+    <div class="scene-sun"></div>
+    <div class="scene-clouds"><span></span><span></span><span></span></div>
+    <div class="scene-ocean"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span><span class="wave w4"></span></div>
+    <div class="scene-glint"></div>
+    <div class="scene-shimmer"></div>
+    <div class="hero-scrim"></div>
+  </div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow hero-eyebrow reveal">{TAGLINE}</p>
-      <h1 class="reveal" style="--d:80ms">Where surgery meets <em>innovative regeneration</em></h1>
-      <p class="lede reveal" style="--d:160ms">Personalized orthopedic, podiatric, and regenerative care in Palm Beach Gardens — led by board-certified surgeons with over 40 years of combined experience.</p>
-      <div class="hero-cta-row reveal" style="--d:240ms">
+      <p class="eyebrow hero-eyebrow h-rise" style="--hd:.5s">{TAGLINE}</p>
+      <h1 class="h-rise" style="--hd:.65s">Where surgery meets <em>innovative regeneration</em></h1>
+      <p class="lede h-rise" style="--hd:.82s">Personalized orthopedic, podiatric, and regenerative care in Palm Beach Gardens — led by board-certified surgeons with over 40 years of combined experience.</p>
+      <div class="hero-cta-row h-rise" style="--hd:1s">
         <a class="btn btn-gold" href="contact.html#book">Book a Consultation</a>
         <a class="btn btn-ghost-light" href="tel:{PHONE_TEL}">Call {PHONE_VANITY}</a>
       </div>
-      <dl class="hero-stats reveal" style="--d:320ms">
+      <dl class="hero-stats h-rise" style="--hd:1.18s">
         <div><dt><span class="stat-num" data-count="40">40</span>+</dt><dd>years of combined surgical experience</dd></div>
         <div><dt><span class="stat-num" data-count="10000">10,000</span>+</dt><dd>patients helped in Palm Beach</dd></div>
         <div><dt>4.9<span aria-hidden="true">★</span></dt><dd>rated on Google reviews</dd></div>
       </dl>
     </div>
-    <div class="hero-figure reveal" style="--d:200ms">
-      {figure_svg(0)}
-    </div>
   </div>
-  <div class="hero-marquee" aria-hidden="true">
+  <div class="hero-marquee h-rise" style="--hd:1.35s" aria-hidden="true">
     <div class="marquee-track" data-marquee>
       <span>Orthopedics</span><span>·</span><span>Sports Medicine</span><span>·</span><span>Podiatry</span><span>·</span><span>Regenerative Medicine</span><span>·</span><span>Vein Care</span><span>·</span><span>IV Wellness</span><span>·</span><span>Concierge Care</span><span>·</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark section-anatomy" id="body-map">
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="anatomy-inner">
+    <div class="anatomy-copy reveal">
+      <p class="eyebrow">The Body, Mapped</p>
+      <h2>One practice for <em>every point</em> on this figure</h2>
+      <p class="anatomy-lede">Most clinics treat one region and refer the rest away. RegenOrtho Palm Beach was built the other way around: orthopedic surgery, podiatry, regenerative medicine, vein care, nerve restoration, and IV wellness — one roof, one record, one team reading the whole picture.</p>
+      <ul class="check-list anatomy-list">
+        <li>Board-certified surgeons for shoulder, knee, hip, foot &amp; ankle</li>
+        <li>Regenerative options before surgery is ever on the table</li>
+        <li>Same-week evaluations — often same-day for acute injuries</li>
+      </ul>
+      <div class="cta-row anatomy-cta">
+        <a class="btn btn-gold" href="contact.html#book">Book a Consultation</a>
+        <a class="btn btn-ghost-light" href="services/index.html">Explore every service</a>
+      </div>
+    </div>
+    <div class="anatomy-stage">
+      {figure_svg(0)}
     </div>
   </div>
 </section>

@@ -176,15 +176,29 @@
       n.addEventListener("focus", function () { activate(k, true); });
     });
 
-    if (!reduceMotion) {
-      fTimer = setInterval(function () {
-        if (Date.now() < holdUntil) return;
-        activate(fIdx + 1, false);
-      }, 3000);
-      /* kick off shortly after the draw-in animation finishes */
-      setTimeout(function () { if (Date.now() >= holdUntil) activate(0, false); }, 2200);
+    /* the skeleton draws in + attract cycle arms when the section scrolls into view */
+    var armed = false;
+    function arm() {
+      if (armed) return;
+      armed = true;
+      figure.classList.add("is-live");
+      if (!reduceMotion) {
+        setTimeout(function () { if (Date.now() >= holdUntil) activate(0, false); }, 2100);
+        fTimer = setInterval(function () {
+          if (Date.now() < holdUntil) return;
+          activate(fIdx + 1, false);
+        }, 3000);
+      } else {
+        activate(0, false);
+      }
+    }
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      arm();
     } else {
-      activate(0, false);
+      var fio = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { arm(); fio.disconnect(); }
+      }, { threshold: 0.25 });
+      fio.observe(figure);
     }
   }
 

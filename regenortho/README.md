@@ -16,7 +16,10 @@ Gardens, FL 33410 · 833-STEM561 (833-783-6561) · info@regenorthopb.com
 - `assets/css/styles.css` — the whole design system (navy `#092D5C` + gold `#FDC929` from the
   brand mark, porcelain background, Fraunces + Manrope self-hosted fonts).
 - `assets/js/main.js` — nav, scroll reveals, counters, marquees, testimonial rotator, and the
-  homepage's interactive anatomy figure.
+  homepage's interactive anatomy section (draws in on scroll; nodes link to condition pages).
+- **Hero video drop-in**: the homepage hero background is a CSS-animated coastline. To swap in
+  real footage, add `assets/video/hero-beach.mp4` + `assets/video/hero-poster.jpg` and
+  uncomment the `<video>` snippet in `build_home()` in `build.py`, then rebuild.
 - `assets/js/assist.js` + `assets/css/assist.css` — the concierge assistant (chat popup on
   every page). "Ask a question" serves **set answers** from the FAQ array in `assist.js` —
   no AI, no external API. Keep those answers factually accurate: no medical advice, route

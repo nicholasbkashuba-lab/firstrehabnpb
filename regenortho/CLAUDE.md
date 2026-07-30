@@ -12,8 +12,12 @@ Static site, 56 pages, generated — do not edit HTML files directly.
   never link an asset without one.
 - `assets/css/styles.css` — design system: navy #092D5C + gold #FDC929 (from the logo),
   porcelain #F9F7F2, bronze text accent #74590A (AA on porcelain — don't lighten).
-  Signature elements: aurora gradients on dark sections, the animated SVG anatomy figure
-  (hero), orbit ring + scan line, social marquee, gold outlined numerals.
+  Signature elements: the CSS-animated golden-hour coastline hero (a real <video> can drop
+  into .hero-video-slot as assets/video/hero-beach.mp4 + hero-poster.jpg — slot + CSS are
+  ready, just uncomment the snippet in build.py), the detailed skeletal anatomy section
+  (#body-map — skull/ribs/spine/pelvis/capsules generated in figure_svg(), draws in on
+  scroll, interactive labeled nodes), aurora gradients, orbit rings + scan line, social
+  marquee, gold outlined numerals.
 - `assets/js/main.js` — nav (Escape closes; matchMedia 1100px must stay in sync with the
   CSS breakpoint), reveals, counters, seamless marquees (children cloned once; per-item
   margins, NOT flex gap), quote rotator, figure attract cycle, FAQ filter/search.
