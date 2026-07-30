@@ -842,6 +842,10 @@ address { font-style: normal; line-height: 1.5; }
 .section-dark .team-tile figcaption strong { color: #fff; }
 .team-tile figcaption span { font-size: .78rem; color: var(--muted); }
 .section-dark .team-tile figcaption span { color: #A9BCCE; }
+.team-hero { max-width: 860px; margin: 0 auto 2.6rem; }
+.team-hero img { width: 100%; height: auto; display: block; border-radius: var(--r-lg); box-shadow: var(--shadow-lg); }
+.team-hero figcaption { margin-top: 1rem; text-align: center; font-size: .88rem; color: var(--muted); font-style: italic; }
+.section-dark .team-hero figcaption { color: #A9BCCE; }
 .team-gallery { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
 .team-gallery .team-tile { width: 152px; }
 

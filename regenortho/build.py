@@ -2202,6 +2202,10 @@ def build_about():
 </section>
 <section class="section">
   <div class="section-head reveal"><p class="eyebrow">Our Team</p><h2>The people <em>behind your recovery</em></h2></div>
+  <figure class="team-hero reveal">
+    <img src="assets/team/team-group.jpg?v={asset_v('assets/team/team-group.jpg')}" alt="The RegenOrtho Palm Beach care team at the Palm Beach Gardens clinic" width="1300" height="1304">
+    <figcaption>Orthopedic, podiatric, regenerative, and vein care — one team, one roof, in Palm Beach Gardens.</figcaption>
+  </figure>
   <div class="team-gallery">{gallery}</div>
 </section>
 <section class="section section-tint">
@@ -2223,7 +2227,7 @@ def build_about():
     page = head("About Us | RegenOrtho Palm Beach — Palm Beach Gardens FL",
                 "Meet RegenOrtho Palm Beach: a concierge practice blending orthopedic, podiatric, regenerative & vein care, led by board-certified surgeons in Palm Beach Gardens.",
                 depth=d, canonical="about.html",
-                og_image="assets/media/clinic-interior.jpg",
+                og_image="assets/team/team-group.jpg",
                 extra_schema=schema) + '<body class="page-about">\n' + body
     write("about.html", page)
 
