@@ -161,6 +161,7 @@ def nav(depth=0, current=""):
             <li><a href="{p}about.html">About the Practice</a></li>
             <li><a href="{p}providers/dr-marc-matarazzo.html">Dr. Marc Matarazzo, MD</a></li>
             <li><a href="{p}providers/dr-orlando-cedeno.html">Dr. Orlando Cedeno, DPM</a></li>
+            <li><a href="{p}providers/emily-bahnick.html">Emily Bahnick, MSN, RN</a></li>
             <li><a href="{p}patient-resources.html">Patient Resources</a></li>
           </ul>
         </li>
@@ -420,11 +421,18 @@ TEAM = [
         "photo": "team/orlando-cedeno.jpg",
         "short": "Board certified in foot surgery by the American Board of Foot & Ankle Surgery, fellowship-trained in reconstructive and trauma surgery of the foot and ankle, with advanced expertise in vein care.",
     },
+    {
+        "slug": "emily-bahnick",
+        "name": "Emily Bahnick, MSN, RN",
+        "role": "IV Infusion Nurse & Care Coordinator",
+        "photo": "team/emily-bahnick.jpg",
+        "short": "Registered nurse with MSN and BSN degrees and more than 10 years of experience — your IV infusion nurse and care coordinator, focused on longevity, reducing reliance on pharmaceuticals, and healing from within.",
+        "stats": ["10+ years experience", "MSN · BSN", "Registered Nurse"],
+    },
 ]
 
 SUPPORT_TEAM = [
     {"name": "Dr. Michael Carpino", "role": "Concierge Provider", "photo": "team/michael-carpino.jpg"},
-    {"name": "Emily Bahnick, MSN, RN", "role": "IV Infusion Nurse", "photo": ""},
 ]
 
 TESTIMONIALS = [
@@ -1461,8 +1469,8 @@ def build_home():
 <section class="section section-dark section-doctors" id="doctors">
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
   <div class="section-head reveal">
-    <p class="eyebrow">Meet the Doctors</p>
-    <h2>Board-certified specialists, <em>dedicated to your care</em></h2>
+    <p class="eyebrow">Meet the Team</p>
+    <h2>The specialists <em>behind your care</em></h2>
   </div>
   <div class="doc-grid">
     <a class="doc-card reveal" href="providers/dr-marc-matarazzo.html">
@@ -1481,6 +1489,16 @@ def build_home():
         <span class="doc-role">Board-Certified Podiatric Surgeon &amp; Vein Specialist</span>
         <span class="doc-bio">Board certified by the American Board of Foot &amp; Ankle Surgery · fellowship-level training in reconstructive and trauma surgery of the foot and ankle at Chestnut Hill Hospital/University of Pennsylvania · fellow, American College of Foot and Ankle Surgeons.</span>
         <em class="svc-more">Meet Dr. Cedeno <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em>
+      </span>
+    </a>
+    <a class="doc-card reveal" href="providers/emily-bahnick.html" style="--d:240ms">
+      <span class="doc-photo"><img src="assets/team/emily-bahnick.jpg?v={asset_v('assets/team/emily-bahnick.jpg')}" alt="Emily Bahnick, MSN, RN — IV infusion nurse and care coordinator at RegenOrtho Palm Beach" width="450" height="560" loading="lazy"></span>
+      <span class="doc-body">
+        <strong>Emily Bahnick, MSN, RN</strong>
+        <span class="doc-role">IV Infusion Nurse &amp; Care Coordinator</span>
+        <span class="doc-bio">Your IV infusion nurse and care coordinator — passionate about regenerative health, focused on longevity, reducing reliance on pharmaceuticals, and healing from deep within through modern, innovative medicine.</span>
+        <span class="doc-stats"><span>10+ years experience</span><span>MSN &middot; BSN</span><span>Registered Nurse</span></span>
+        <em class="svc-more">Meet Emily <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em>
       </span>
     </a>
   </div>
@@ -1847,10 +1865,10 @@ CEDENO_BIO = [
 ]
 
 
-def physician_schema(name, photo, title_str, url_path, same_as=None):
+def physician_schema(name, photo, title_str, url_path, same_as=None, schema_type="Physician"):
     obj = {
         "@context": "https://schema.org",
-        "@type": "Physician",
+        "@type": schema_type,
         "name": name,
         "jobTitle": title_str,
         "image": f"{BASE}/assets/{photo}",
@@ -1870,7 +1888,8 @@ def physician_schema(name, photo, title_str, url_path, same_as=None):
     return extra_ld(obj)
 
 
-def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, focus_links):
+def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, focus_links,
+                  schema_type="Physician", eyebrow="Meet Your Specialist"):
     d = 1
     paras = "".join(f"<p>{b}</p>" for b in bio_paras)
     hl = "".join(f"<li>{h}</li>" for h in highlights)
@@ -1881,7 +1900,7 @@ def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, f
     crumbs_html = crumbs([("about.html", "About"), ("", name)], depth=d)
     body = f"""{nav(d)}
 <main id="main">
-{page_hero("Meet Your Specialist", name, role, crumbs_html, depth=d)}
+{page_hero(eyebrow, name, role, crumbs_html, depth=d)}
 <section class="section">
   <div class="provider-grid">
     <figure class="provider-photo reveal">
@@ -1904,7 +1923,7 @@ def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, f
 </main>
 {footer(d)}"""
     schema = (
-        physician_schema(name, photo, role, f"providers/{slug}.html")
+        physician_schema(name, photo, role, f"providers/{slug}.html", schema_type=schema_type)
         + breadcrumb_schema([("", "Home"), ("about.html", "About"), (f"providers/{slug}.html", name)])
     )
     page = head(title, desc, depth=d, canonical=f"providers/{slug}.html",
@@ -1938,6 +1957,7 @@ def build_providers():
             ("../conditions/knee-pain.html", "Knee Pain"),
         ],
     )
+    build_emily()
     provider_page(
         "dr-orlando-cedeno", "Dr. Orlando Cedeno, DPM",
         "Board-Certified Podiatric Surgeon & Vein Specialist",
@@ -1963,13 +1983,46 @@ def build_providers():
     )
 
 
+def build_emily():
+    provider_page(
+        "emily-bahnick", "Emily Bahnick, MSN, RN",
+        "IV Infusion Nurse & Care Coordinator",
+        "team/emily-bahnick.jpg",
+        [
+            "Passionate about regenerative health for both people and animals, Emily tailors every care plan to the patient — focused on longevity, reducing reliance on pharmaceuticals, and healing from deep within through modern, innovative medicine.",
+            "As the practice's IV infusion nurse and care coordinator, Emily is the clinician most patients see the most. She reviews your pre-treatment medical screen, helps match the infusion formula to your goals, administers and monitors your drip in the lounge, and keeps the details of your care moving between visits.",
+            "Emily holds both MSN and BSN nursing degrees and brings more than ten years of nursing experience to RegenOrtho Palm Beach.",
+        ],
+        [
+            "MSN &amp; BSN — advanced nursing degrees",
+            "Registered Nurse (RN)",
+            "10+ years of nursing experience",
+            "IV infusion nurse &amp; care coordinator",
+            "Focused on longevity and regenerative health",
+        ],
+        "Emily Bahnick, MSN, RN | IV Infusion Nurse Palm Beach Gardens",
+        "Meet Emily Bahnick, MSN, RN — the IV infusion nurse and care coordinator at RegenOrtho Palm Beach in Palm Beach Gardens, with 10+ years of nursing experience.",
+        [
+            ("../iv-therapy.html", "IV Recovery & Wellness Lounge"),
+            ("../infusions/index.html", "Specialty Infusion Center"),
+            ("../services/neuropathy-program.html", "Neuropathy Restoration Program"),
+            ("../services/medical-weight-loss.html", "Medical Weight Loss & GLP-1"),
+            ("../services/concierge-care.html", "Concierge & Direct-Pay Care"),
+        ],
+        schema_type="Person", eyebrow="Meet Your Care Team",
+    )
+
+
 def build_about():
     d = 0
     team_cards = ""
     for t in TEAM:
+        stats = ""
+        if t.get("stats"):
+            stats = '<span class="doc-stats">' + "".join(f"<span>{x}</span>" for x in t["stats"]) + "</span>"
         team_cards += f"""<a class="doc-card reveal" href="providers/{t['slug']}.html">
       <span class="doc-photo"><img src="assets/{t['photo']}?v={asset_v('assets/' + t['photo'])}" alt="{t['name']} — {t['role']}" width="450" height="560" loading="lazy"></span>
-      <span class="doc-body"><strong>{t['name']}</strong><span class="doc-role">{t['role']}</span><span class="doc-bio">{t['short']}</span><em class="svc-more">Full profile <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em></span>
+      <span class="doc-body"><strong>{t['name']}</strong><span class="doc-role">{t['role']}</span><span class="doc-bio">{t['short']}</span>{stats}<em class="svc-more">Full profile <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em></span>
     </a>"""
     support = ""
     for s in SUPPORT_TEAM:
@@ -2012,7 +2065,7 @@ def build_about():
 </section>
 <section class="section section-dark section-doctors">
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="section-head reveal"><p class="eyebrow">Board-Certified Specialists</p><h2>Dedicated to <em>your care</em></h2></div>
+  <div class="section-head reveal"><p class="eyebrow">Meet the Team</p><h2>Dedicated to <em>your care</em></h2></div>
   <div class="doc-grid">{team_cards}</div>
   <div class="team-strip">
     {support}
@@ -2089,6 +2142,17 @@ def build_iv():
     <li class="step reveal" style="--d:220ms"><span class="step-num" aria-hidden="true">3</span><h3>Relax &amp; Receive Treatment</h3><p>Sit back in our comfortable lounge while our medical team administers your customized IV drip.</p></li>
     <li class="step reveal" style="--d:330ms"><span class="step-num" aria-hidden="true">4</span><h3>Feel Revitalized</h3><p>Experience improved hydration, energy, and overall wellness within minutes.</p></li>
   </ol>
+</section>
+<section class="section">
+  <div class="nurse-credit reveal">
+    <figure class="nurse-photo"><img src="assets/team/emily-bahnick.jpg?v={asset_v('assets/team/emily-bahnick.jpg')}" alt="Emily Bahnick, MSN, RN — IV infusion nurse at RegenOrtho Palm Beach" width="360" height="450" loading="lazy"></figure>
+    <div class="nurse-copy">
+      <p class="eyebrow">Your infusion nurse</p>
+      <h2>Every drip placed by <em>Emily Bahnick, MSN, RN</em></h2>
+      <p>Emily reviews your pre-treatment screen, helps match the formula to your goals, and monitors you through the infusion — with MSN and BSN nursing degrees and more than ten years of nursing experience behind every visit.</p>
+      <a class="btn btn-navy" href="providers/emily-bahnick.html">Meet Emily</a>
+    </div>
+  </div>
 </section>
 <section class="section section-tint">
   <div class="section-head reveal"><p class="eyebrow">Patient Guide &amp; Answers</p><h2>IV therapy <em>questions</em></h2></div>
@@ -2531,7 +2595,8 @@ def build_meta():
     pages = ["index.html", "about.html", "contact.html", "faq.html", "iv-therapy.html",
              "patient-resources.html", "privacy-policy.html", "terms.html",
              "services/index.html", "infusions/index.html", "blog/index.html",
-             "providers/dr-marc-matarazzo.html", "providers/dr-orlando-cedeno.html"]
+             "providers/dr-marc-matarazzo.html", "providers/dr-orlando-cedeno.html",
+             "providers/emily-bahnick.html"]
     pages += [f"services/{s['slug']}.html" for s in SERVICES]
     pages += [f"conditions/{c['slug']}.html" for c in CONDITIONS]
     pages += [f"locations/{l['slug']}.html" for l in LOCATIONS]

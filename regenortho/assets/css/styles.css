@@ -570,6 +570,7 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 /* ------------------------------ doctors ---------------------------------- */
 
 .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; position: relative; }
+.doc-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
 .doc-card {
   display: grid; grid-template-columns: 240px 1fr; gap: 1.4rem; text-decoration: none;
   background: rgba(255, 255, 255, .045); border: 1px solid rgba(253, 201, 41, .2); border-radius: var(--r-lg);
@@ -584,6 +585,9 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 .doc-role { font: 800 .74rem/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 .doc-bio { font-size: .87rem; color: #A9BCCE; }
 .doc-card .svc-more { color: var(--gold-soft); margin-top: auto; }
+.doc-stats { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .5rem; }
+.doc-stats span { border: 1px solid rgba(253, 201, 41, .38); border-radius: 999px; padding: .3rem .75rem;
+  font: 700 .7rem/1 var(--sans); letter-spacing: .09em; text-transform: uppercase; color: var(--gold-soft); }
 
 .why-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2.6rem; position: relative; }
 .why-strip div { border-top: 2px solid var(--gold); padding-top: .9rem; }
@@ -828,6 +832,18 @@ address { font-style: normal; line-height: 1.5; }
 .iv-card-body p { font-size: .87rem; color: var(--muted); }
 .iv-card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .8rem; border-top: 1px dashed var(--line); padding-top: .9rem; }
 .iv-price { font: 600 1.5rem/1 var(--serif); color: var(--navy-800); }
+
+/* ---------------------------- infusion-nurse credit ---------------------- */
+
+.nurse-credit { display: grid; grid-template-columns: 280px 1fr; gap: 2.2rem; align-items: center; max-width: var(--wrap); margin: 0 auto; }
+.nurse-photo { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+.nurse-photo::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(9, 45, 92, .16); border-radius: var(--r-lg); translate: 9px 9px; pointer-events: none; }
+.nurse-photo img { width: 100%; height: 100%; object-fit: cover; }
+.nurse-copy h2 { margin: .7rem 0 .9rem; max-width: 22ch; }
+.nurse-copy h2 em { color: var(--navy-700); }
+.nurse-copy p { color: var(--muted); max-width: 56ch; }
+.nurse-copy .btn { margin-top: 1.3rem; }
+@media (max-width: 720px) { .nurse-credit { grid-template-columns: 1fr; } .nurse-photo { max-width: 260px; } }
 
 /* ------------------------------ resources -------------------------------- */
 
