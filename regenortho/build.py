@@ -183,6 +183,7 @@ def nav(depth=0, current=""):
         <li class="nav-cta-item"><a class="btn btn-gold nav-cta" href="{p}contact.html#book">Book a Consultation</a></li>
       </ul>
     </nav>
+    <a class="btn btn-gold header-cta" href="{p}contact.html#book">Book a Consultation</a>
   </div>
 </header>
 """
@@ -410,14 +411,14 @@ TEAM = [
     {
         "slug": "dr-marc-matarazzo",
         "name": "Dr. Marc Matarazzo, MD",
-        "role": "Board-Certified Sports Medicine & Orthopedic Surgeon",
+        "role": "MD, FAAOS · Medical Director & Owner",
         "photo": "team/marc-matarazzo.jpg",
         "short": "Board-certified, fellowship-trained orthopedic surgeon with more than 23 years of clinical and surgical experience in sports medicine, minimally invasive arthroscopy, and MAKO robotic-assisted knee replacement.",
     },
     {
         "slug": "dr-orlando-cedeno",
         "name": "Dr. Orlando Cedeno, DPM",
-        "role": "Board-Certified Podiatric Surgeon & Vein Specialist",
+        "role": "DPM, FACFAS · Owner",
         "photo": "team/orlando-cedeno.jpg",
         "short": "Board certified in foot surgery by the American Board of Foot & Ankle Surgery, fellowship-trained in reconstructive and trauma surgery of the foot and ankle, with advanced expertise in vein care.",
     },
@@ -871,6 +872,48 @@ SERVICES = [
         "conditions": ["arthritis-joint-pain", "knee-pain"],
     },
     {
+        "slug": "peptide-therapy",
+        "name": "Peptide Therapy",
+        "nav": "Peptide Therapy",
+        "title": "Peptide Therapy Palm Beach Gardens | Physician-Supervised",
+        "desc": "Physician-supervised peptide therapy in Palm Beach Gardens — targeted protocols for joint & tendon repair, inflammation, sleep, skin, muscle, and immunity. From $249/month.",
+        "eyebrow": "Peptide Therapy",
+        "h1": "Targeted Healing, Condition by Condition",
+        "lede": "Physician-supervised peptide protocols matched to what you are actually trying to fix — repair, recovery, longevity, and aesthetics. Programs from $249/month.",
+        "img": "cells-macro.jpg",
+        "img_alt": "Cellular-level view illustrating peptide therapy at RegenOrtho Palm Beach",
+        "why": [
+            "Physician-supervised from screening through follow-up",
+            "Protocols matched to your specific concern, not a one-size stack",
+            "Compounds sourced from licensed U.S. 503A/503B pharmacies",
+            "Pairs with regenerative injections, IV therapy, and rehab",
+            "Programs from $249 per month",
+        ],
+        "expertise": [
+            ("Joint &amp; Tendon Pain", "Protocols built around BPC-157 and TB-500 to support connective-tissue repair alongside your regenerative or rehabilitation plan."),
+            ("Chronic Inflammation", "KPV and Thymosin Alpha-1 protocols aimed at calming systemic inflammatory load so other treatments can work."),
+            ("Poor Sleep &amp; Fatigue", "DSIP and Epithalon protocols supporting sleep quality and recovery — the foundation most healing depends on."),
+            ("Aging Skin &amp; Hair", "GHK-Cu and PT-141 protocols for skin quality, collagen support, and aesthetic goals."),
+            ("Muscle Loss", "CJC-1295 and Ipamorelin protocols supporting lean mass retention and training recovery."),
+            ("Low Immunity", "Thymosin Beta-4 and LL-37 protocols to support immune resilience."),
+        ],
+        "steps": [
+            ("Consultation &amp; Screening", "A physician reviews your history, goals, and labs where indicated to determine whether peptide therapy is appropriate."),
+            ("Your Protocol", "You receive a protocol matched to your concern, with dosing, administration, and timeline explained in plain language."),
+            ("Monitoring &amp; Adjustment", "Progress is reviewed and the protocol is adjusted — peptides work best as part of a coordinated plan."),
+        ],
+        "faqs": [
+            ("What is peptide therapy?", "Peptides are short chains of amino acids that act as signaling molecules in the body. Peptide therapy uses targeted, physician-prescribed protocols to support processes like tissue repair, inflammation control, sleep, and recovery."),
+            ("How much does it cost?", "Peptide programs start at $249 per month. Your exact protocol and cost are set at consultation based on your goals."),
+            ("Is it supervised by a physician?", "Yes. Every protocol is prescribed and monitored by our physicians, and compounds are sourced from licensed U.S. 503A/503B pharmacies."),
+            ("Can peptides be combined with other treatments?", "Yes — peptide protocols are frequently paired with regenerative injections, shockwave or laser therapy, IV therapy, and rehabilitation. Our team coordinates the timing."),
+            ("Who is not a candidate?", "Candidacy depends on your medical history, medications, and goals. Some patients are not appropriate for peptide therapy, and our physicians will tell you honestly at consultation."),
+        ],
+        "cta": "Healing, <em>signalled</em>",
+        "cta_sub": "Book a consultation to find out whether a physician-supervised peptide protocol fits your recovery, performance, or longevity goals.",
+        "conditions": ["tendon-ligament-injuries", "arthritis-joint-pain", "sports-injuries"],
+    },
+    {
         "slug": "concierge-care",
         "name": "Concierge & Direct-Pay Care",
         "nav": "Concierge & Direct-Pay Care",
@@ -1024,6 +1067,14 @@ CONDITIONS = [
      "services": ["vein-care", "podiatric-medicine-foot-ankle-surgery"],
      "faqs": [("Is vein treatment covered by insurance?", "Medical vein care — treating symptoms and circulation problems — is often covered; cosmetic treatment is usually elective. We verify your benefits before treatment."),
               ("Do varicose veins come back after treatment?", "Treated veins are closed permanently, but new veins can develop over time — structured follow-up and prevention strategies minimize recurrence.")]},
+]
+
+PATHWAYS = [
+    ("Biologic Therapies", "Stem cells, exosomes &amp; Wharton&rsquo;s jelly for joints &amp; soft tissue.", "from $2,500", "services/regenerative-medicine-orthobiologics.html"),
+    ("Peptide Therapy", "Repair, recovery, longevity &amp; aesthetics — physician-supervised.", "from $249/mo", "services/peptide-therapy.html"),
+    ("Shockwave &amp; Cold Laser", "Drug-free, non-invasive pain relief — no needles, no downtime.", "from $900", "services/advanced-non-surgical-therapies.html"),
+    ("GLP Therapy", "Medically supervised weight loss with GLP-1 &amp; dual-agonists.", "from $239/mo", "services/medical-weight-loss.html"),
+    ("IV Therapy &amp; Wellness", "Infusions, IM shots &amp; concierge wellness memberships.", "from $149/mo", "iv-therapy.html"),
 ]
 
 LOCATIONS = [
@@ -1342,21 +1393,21 @@ def build_home():
     )
 
     social_posts = [
-        ("https://www.instagram.com/reel/DaMMvd1OtFT/", "clinic-lounge.jpg", "Things you'll find inside our clinic — including a lounge"),
-        ("https://www.instagram.com/p/DaQeVgnljzO/", "iv-nurse.jpg", "Meet Emily Bahnick, MSN, RN — your IV infusion nurse"),
-        ("https://www.instagram.com/p/DaQ8SavFsCN/", "clinic-team.jpg", "Two trusted practices. One regenerative clinic"),
-        ("https://www.instagram.com/p/DaQoXSyllvr/", "svc-ortho.jpg", "Meet Dr. Marc Matarazzo — orthopedic surgeon"),
-        ("https://www.instagram.com/p/DagJmUrlllB/", "svc-podiatry.jpg", "Meet Dr. Orlando Cedeno — podiatric surgeon"),
-        ("https://www.instagram.com/p/DbDy6sQpE4f/", "svc-regen.jpg", "Steroids mask the pain. Regenerative therapy helps repair."),
-        ("https://www.instagram.com/reel/DaTGXbkppnY/", "iv-lounge-2.jpg", "Peptides · weight loss · IV drips · biologic therapies"),
-        ("https://www.instagram.com/reel/DaTWjRhJZXU/", "infusion-room.jpg", "Optimize. Recover. Thrive."),
+        ("ig-ladder.jpg", "The traditional ladder — rest, physical therapy, cortisone, surgery"),
+        ("ig-gap.jpg", "Between the last shot and the operating room, there used to be nothing"),
+        ("ig-toolkit.jpg", "One toolkit, matched to your tissue — PRP, shockwave, biologics, peptides, laser"),
+        ("ig-guide.jpg", "Dr. Cedeno wrote the book on feet that won't heal — a free 28-page patient guide"),
+        ("ig-chapters.jpg", "Eight short chapters, zero jargon — inside the regenerative foot & ankle guide"),
+        ("ig-peptides.jpg", "What peptide therapy can do for you — physician-supervised protocols"),
+        ("ig-pathways.jpg", "Five pathways to recovery at RegenOrtho Palm Beach"),
+        ("ig-careteam.jpg", "Meet your care team — Dr. Matarazzo and Dr. Cedeno"),
+        ("ig-concierge.jpg", "Concierge care, by design — physician-led and precision-guided"),
     ]
     social_tiles = "".join(
-        f"""<a class="social-tile" href="{url}" rel="noopener" target="_blank" aria-label="Instagram: {html.escape(cap)}">
-        <img src="assets/media/{img}?v={asset_v('assets/media/' + img)}" alt="" width="360" height="360" loading="lazy">
-        <span class="social-cap">{cap}</span>
+        f"""<a class="social-tile" href="{INSTAGRAM}" rel="noopener" target="_blank" aria-label="Instagram post: {html.escape(cap)}">
+        <img src="assets/social/{img}?v={asset_v('assets/social/' + img)}" alt="{html.escape(cap)}" loading="lazy">
       </a>"""
-        for url, img, cap in social_posts
+        for img, cap in social_posts
     )
 
     cond_chips = "".join(f'<li><a href="{href}">{label}</a></li>' for href, label in CONDITIONS_NAV)
@@ -1697,6 +1748,14 @@ def build_services():
       </a>"""
         for i, s in enumerate(SERVICES)
     )
+    pathways = "".join(
+        f"""<li class="pathway reveal" style="--d:{i * 70}ms">
+      <span class="pathway-num" aria-hidden="true">{i + 1:02d}</span>
+      <a class="pathway-name" href="../{href}"><strong>{nm}</strong><span>{sub}</span></a>
+      <span class="pathway-price">{price}</span>
+    </li>"""
+        for i, (nm, sub, price, href) in enumerate(PATHWAYS)
+    )
     crumbs_html = crumbs([("", "Our Services")], depth=d)
     body = f"""{nav(d)}
 <main id="main">
@@ -1714,6 +1773,17 @@ def build_services():
       <span class="svc-body"><strong>Specialty Infusion Center</strong><span>IVIG, Krystexxa, Ocrevus &amp; Ultomiris in a private, monitored outpatient suite…</span><em class="svc-more">Explore <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em></span>
     </a>
   </div>
+</section>
+<section class="section section-dark section-pathways">
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="section-head reveal">
+    <p class="eyebrow">Our Services</p>
+    <h2>Five pathways to <em>recovery</em></h2>
+    <p class="section-sub">Starting prices as published by the practice. Your exact plan is quoted at consultation — many services are also insurance-eligible.</p>
+  </div>
+  <ol class="pathway-list">
+    {pathways}
+  </ol>
 </section>
 {cta_band(d)}
 </main>
@@ -1889,7 +1959,8 @@ def physician_schema(name, photo, title_str, url_path, same_as=None, schema_type
 
 
 def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, focus_links,
-                  schema_type="Physician", eyebrow="Meet Your Specialist"):
+                  schema_type="Physician", eyebrow="Meet Your Specialist",
+                  creds_line="", tagline="", quote="", expertise=None, conditions=None):
     d = 1
     paras = "".join(f"<p>{b}</p>" for b in bio_paras)
     hl = "".join(f"<li>{h}</li>" for h in highlights)
@@ -1897,10 +1968,24 @@ def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, f
         f'<a class="treat-card reveal" href="{href}"><strong>{label}</strong><em class="svc-more">Learn more <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em></a>'
         for href, label in focus_links
     )
+    tagline_html = f"<h2 class=\"provider-tagline\">{tagline}</h2>" if tagline else ""
+    quote_html = (f'<blockquote class="provider-quote"><p>{quote}</p>'
+                  f'<cite>— {name.split(",")[0]}</cite></blockquote>') if quote else ""
+    lists_html = ""
+    if expertise or conditions:
+        cols = ""
+        if expertise:
+            cols += ('<div><h3>Areas of expertise</h3><ul class="spec-list">'
+                     + "".join(f"<li>{x}</li>" for x in expertise) + "</ul></div>")
+        if conditions:
+            cols += ('<div><h3>Conditions treated</h3><ul class="spec-list">'
+                     + "".join(f"<li>{x}</li>" for x in conditions) + "</ul></div>")
+        lists_html = f'<div class="spec-grid">{cols}</div>'
+    role_full = f"{role}<span class=\"provider-creds\">{creds_line}</span>" if creds_line else role
     crumbs_html = crumbs([("about.html", "About"), ("", name)], depth=d)
     body = f"""{nav(d)}
 <main id="main">
-{page_hero(eyebrow, name, role, crumbs_html, depth=d)}
+{page_hero(eyebrow, name, role_full, crumbs_html, depth=d)}
 <section class="section">
   <div class="provider-grid">
     <figure class="provider-photo reveal">
@@ -1912,9 +1997,11 @@ def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, f
         <ul class="check-list">{hl}</ul>
         <a class="btn btn-gold" href="../contact.html#book">Book with {name.split(',')[0]}</a>
       </div>
+      {tagline_html}{quote_html}
       <h2>About {name.split(',')[0]}</h2>
       {paras}
-      <h2>Areas of focus</h2>
+      {lists_html}
+      <h2>Explore related care</h2>
       <div class="treat-grid">{links}</div>
     </div>
   </div>
@@ -1935,7 +2022,7 @@ def provider_page(slug, name, role, photo, bio_paras, highlights, title, desc, f
 def build_providers():
     provider_page(
         "dr-marc-matarazzo", "Dr. Marc Matarazzo, MD",
-        "Board-Certified Sports Medicine & Orthopedic Surgeon",
+        "Board-Certified Orthopedic Surgeon &amp; Sports Medicine Specialist",
         "team/marc-matarazzo.jpg", MATARAZZO_BIO,
         [
             "Board certified &amp; fellowship trained orthopedic surgeon",
@@ -1945,6 +2032,8 @@ def build_providers():
             "Certified in the MAKO robotic-assisted knee replacement system",
             "Fellow, American Academy of Orthopedic Surgeons",
             "Member, American Orthopedic Society for Sports Medicine",
+            "Medical Director &amp; Owner, RegenOrtho Palm Beach",
+            "Owner, Elite Sports Medicine",
         ],
         "Dr. Marc Matarazzo MD | Orthopedic Surgeon Palm Beach Gardens",
         "Dr. Marc Matarazzo, MD — board-certified, fellowship-trained orthopedic surgeon in Palm Beach Gardens. Sports medicine, arthroscopy, shoulder & knee, MAKO robotic knee replacement.",
@@ -1955,6 +2044,25 @@ def build_providers():
             ("../services/regenerative-medicine-orthobiologics.html", "Regenerative Medicine"),
             ("../conditions/shoulder-pain.html", "Shoulder Pain"),
             ("../conditions/knee-pain.html", "Knee Pain"),
+        ],
+        creds_line="MD, FAAOS · Medical Director &amp; Owner, RegenOrtho Palm Beach · Owner, Elite Sports Medicine",
+        tagline="Surgical expertise. <em>Regenerative first.</em>",
+        quote="Many patients facing surgery don&rsquo;t actually need it — and the ones who do deserve to know that honestly. My job is to know the difference.",
+        expertise=[
+            "Sports Medicine — athletes &amp; active patients",
+            "Joint Preservation — knee, shoulder, hip",
+            "Regenerative Therapies — biologics, peptides, shockwave, cold laser",
+            "Arthroscopic &amp; Joint Surgery",
+            "Ultrasound-Guided Injections",
+            "Clinical Research — Pharmakon-affiliated",
+        ],
+        conditions=[
+            "Knee osteoarthritis — delay or avoid replacement",
+            "Rotator cuff tears &amp; chronic shoulder pain",
+            "Tennis &amp; golfer&rsquo;s elbow",
+            "Hip OA, impingement &amp; trochanteric pain",
+            "Meniscus, ACL/MCL &amp; sports injuries",
+            "Tendinopathy &amp; post-surgical pain",
         ],
     )
     build_emily()
@@ -1969,6 +2077,8 @@ def build_providers():
             "Diplomate, American Board of Podiatric Surgery",
             "Member, American Podiatric Medical Association",
             "Associate, American Podiatric Sports Medicine Association",
+            "Owner, RegenOrtho Palm Beach &amp; Abacoa Podiatry &amp; Leg Vein Center",
+            "Author, <em>The Regenerative Foot &amp; Ankle Guide</em>",
         ],
         "Dr. Orlando Cedeno DPM | Podiatrist Palm Beach Gardens",
         "Dr. Orlando Cedeno, DPM — board-certified podiatric surgeon and vein specialist in Palm Beach Gardens. Foot & ankle surgery, heel pain, custom orthotics, and vein care.",
@@ -1979,6 +2089,25 @@ def build_providers():
             ("../conditions/plantar-fasciitis.html", "Plantar Fasciitis & Heel Pain"),
             ("../conditions/foot-ankle-pain.html", "Foot & Ankle Pain"),
             ("../conditions/varicose-spider-veins.html", "Varicose & Spider Veins"),
+        ],
+        creds_line="DPM, FACFAS · Owner, RegenOrtho Palm Beach · Owner, Abacoa Podiatry &amp; Leg Vein Center",
+        tagline="A surgeon who <em>treats before he operates.</em>",
+        quote="A surgical evaluation doesn&rsquo;t mean a surgical recommendation. Many foot and ankle problems heal with the right regenerative protocol — my job is to know which.",
+        expertise=[
+            "Foot &amp; Ankle Surgery &amp; Reconstruction",
+            "Sports Injuries — Achilles, ligament, tendon",
+            "Regenerative Therapies — biologics, peptides, shockwave, cold laser",
+            "Vein Care — medical &amp; cosmetic",
+            "Diabetic Foot &amp; Wound Care",
+            "Ultrasound-Guided Injections",
+        ],
+        conditions=[
+            "Plantar fasciitis &amp; heel pain",
+            "Achilles tendinopathy &amp; ruptures",
+            "Ankle sprains &amp; chronic instability",
+            "Morton&rsquo;s neuroma &amp; nerve pain",
+            "Bunions, hammertoes &amp; deformity correction",
+            "Varicose &amp; spider veins, venous insufficiency",
         ],
     )
 
