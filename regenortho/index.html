@@ -25,7 +25,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=e8dab08d">
+<link rel="stylesheet" href="assets/css/styles.css?v=d468b276">
 <link rel="stylesheet" href="assets/css/assist.css?v=330d290d">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":["MedicalClinic","MedicalBusiness"],"@id":"https://www.regenorthopb.com/#organization","name":"RegenOrtho Palm Beach","alternateName":["Regen Ortho","RegenOrtho","Regen Ortho PB"],"slogan":"The Regeneration of Orthopedics","description":"Concierge orthopedic, podiatric, regenerative, and vein care in Palm Beach Gardens, FL \u2014 board-certified specialists offering sports medicine, foot & ankle surgery, orthobiologic therapies, IV wellness, and minimally invasive vein treatment.","url":"https://www.regenorthopb.com/","logo":"https://www.regenorthopb.com/assets/media/logo-dark.png","image":"https://www.regenorthopb.com/assets/media/og-image.jpg","telephone":"+1-833-783-6561","email":"info@regenorthopb.com","priceRange":"$$","currenciesAccepted":"USD","isAcceptingNewPatients":true,"medicalSpecialty":["Orthopedic surgery","Sports medicine","Podiatric medicine","Regenerative medicine","Phlebology"],"address":{"@type":"PostalAddress","streetAddress":"11380 Prosperity Farms Road, Suite 204\u2013208","addressLocality":"Palm Beach Gardens","addressRegion":"FL","postalCode":"33410","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":26.8449,"longitude":-80.0693},"hasMap":"https://maps.google.com/maps?q=RegenOrtho%20Palm%20Beach%2011380%20Prosperity%20Farms%20Road%20Palm%20Beach%20Gardens","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"17:00"}],"areaServed":[{"@type":"City","name":"Palm Beach Gardens"},{"@type":"City","name":"Jupiter"},{"@type":"City","name":"North Palm Beach"},{"@type":"City","name":"Juno Beach"},{"@type":"City","name":"Tequesta"},{"@type":"City","name":"Palm Beach"},{"@type":"City","name":"West Palm Beach"},{"@type":"City","name":"Singer Island"},{"@type":"City","name":"Lake Park"},{"@type":"City","name":"Riviera Beach"}],"sameAs":["https://www.instagram.com/regenortho_palmbeach/"],"availableService":[{"@type":"MedicalTherapy","@id":"https://www.regenorthopb.com/services/orthopedic-sports-medicine.html#service"},{"@type":"MedicalTherapy","@id":"https://www.regenorthopb.com/services/podiatric-medicine-foot-ankle-surgery.html#service"},{"@type":"MedicalTherapy","@id":"https://www.regenorthopb.com/services/regenerative-medicine-orthobiologics.html#service"},{"@type":"MedicalTherapy","@id":"https://www.regenorthopb.com/services/vein-care.html#service"},{"@type":"MedicalTherapy","@id":"https://www.regenorthopb.com/iv-therapy.html#service"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.regenorthopb.com/"}]}</script>
@@ -120,10 +120,15 @@
       </video> -->
     </div>
     <div class="scene-sky"></div>
-    <div class="scene-sun"></div>
+    <div class="scene-haze"></div>
     <div class="scene-clouds"><span></span><span></span><span></span></div>
-    <div class="scene-ocean"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span><span class="wave w4"></span></div>
-    <div class="scene-glint"></div>
+    <div class="scene-cloudband"><span></span><span></span></div>
+    <div class="scene-sunglow"></div>
+    <div class="scene-sun"></div>
+    <div class="scene-horizon"></div>
+    <div class="scene-ocean"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span></div>
+    <div class="scene-reflection"></div>
+    <div class="scene-shore"></div>
     <div class="scene-shimmer"></div>
     <div class="hero-scrim"></div>
   </div>
@@ -173,173 +178,178 @@
   <div class="figure-orbit" aria-hidden="true"></div>
   <div class="figure-orbit figure-orbit-2" aria-hidden="true"></div>
   <div class="figure-scan" aria-hidden="true"></div>
-  <svg class="figure-svg" viewBox="0 0 460 760" role="group" aria-label="Areas we treat">
+  <svg class="figure-svg" viewBox="0 0 460 780" role="group" aria-label="Areas we treat">
     <defs>
       <linearGradient id="boneStroke" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#F7DE8B"/>
         <stop offset=".5" stop-color="#FDC929"/>
-        <stop offset="1" stop-color="#D9A429"/>
+        <stop offset="1" stop-color="#DFAF2B"/>
       </linearGradient>
       <radialGradient id="figGlow" cx=".5" cy=".42" r=".62">
-        <stop offset="0" stop-color="#FDC929" stop-opacity=".13"/>
-        <stop offset=".55" stop-color="#12457F" stop-opacity=".1"/>
+        <stop offset="0" stop-color="#FDC929" stop-opacity=".12"/>
+        <stop offset=".55" stop-color="#12457F" stop-opacity=".09"/>
         <stop offset="1" stop-color="#12457F" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <ellipse cx="230" cy="380" rx="215" ry="360" fill="url(#figGlow)"/>
-    <g class="fig-back" fill="none" stroke="#5E8BC0" stroke-width="1.6" stroke-linecap="round">
-      <circle cx="230" cy="78" r="35"/>
-      <path d="M216 110 C217 122 216 128 214 134 C190 142 172 146 166 156"/>
-      <path d="M244 110 C243 122 244 128 246 134 C270 142 288 146 294 156"/>
-      <path d="M166 156 C158 218 168 268 180 308 C174 340 182 362 194 382"/>
-      <path d="M294 156 C302 218 292 268 280 308 C286 340 278 362 266 382"/>
-      <path d="M166 156 C144 196 132 244 126 300 C122 312 120 322 118 332"/>
-      <path d="M294 156 C316 196 328 244 334 300 C338 312 340 322 342 332"/>
-      <path d="M194 382 C186 442 188 486 186 516 C185 556 184 592 183 622"/>
-      <path d="M266 382 C274 442 272 486 274 516 C275 556 276 592 277 622"/>
-      <path d="M230 396 C224 452 220 498 218 524 C216 560 214 592 213 620"/>
-      <path d="M230 396 C236 452 240 498 242 524 C244 560 246 592 247 620"/>
-      <path d="M188 208 Q230 226 272 208"/>
-      <path d="M196 370 Q230 356 264 370"/>
-    </g>
-    <g class="fig-lines" fill="none" stroke="url(#boneStroke)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-      <circle class="fl bone" pathLength="1" cx="230" cy="78" r="29"/>
-      <path class="fl bone" pathLength="1" d="M207 92 C207 108 216 120 230 121 C244 120 253 108 253 92"/>
-      <line class="fl bone" pathLength="1" x1="221" y1="112" x2="239" y2="112"/>
-      <path class="fl bone" pathLength="1" d="M230 126 C232 190 228 260 230 320 C231 350 230 368 230 386"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="132" x2="237" y2="132"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="150" x2="237" y2="150"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="168" x2="237" y2="168"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="186" x2="237" y2="186"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="204" x2="237" y2="204"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="222" x2="237" y2="222"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="240" x2="237" y2="240"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="258" x2="237" y2="258"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="276" x2="237" y2="276"/>
-      <line class="fl bone vert" pathLength="1" x1="223" y1="294" x2="237" y2="294"/>
-      <line class="fl bone vert" pathLength="1" x1="224" y1="312" x2="236" y2="312"/>
-      <line class="fl bone vert" pathLength="1" x1="224" y1="330" x2="236" y2="330"/>
-      <line class="fl bone vert" pathLength="1" x1="224" y1="348" x2="236" y2="348"/>
-      <line class="fl bone vert" pathLength="1" x1="224" y1="366" x2="236" y2="366"/>
-      <path class="fl bone" pathLength="1" d="M230 144 L230 212"/>
-      <path class="fl bone" pathLength="1" d="M228 142 C214 134 196 136 179 149"/>
-      <path class="fl bone" pathLength="1" d="M232 142 C246 134 264 136 281 149"/>
-      <path class="fl bone rib" pathLength="1" d="M230 152 C 212 149 200 158 197 167"/>
-      <path class="fl bone rib" pathLength="1" d="M230 152 C 248 149 260 158 263 167"/>
-      <path class="fl bone rib" pathLength="1" d="M230 165 C 206 162 190 171 187 180"/>
-      <path class="fl bone rib" pathLength="1" d="M230 165 C 254 162 270 171 273 180"/>
-      <path class="fl bone rib" pathLength="1" d="M230 178 C 202 175 183 184 180 193"/>
-      <path class="fl bone rib" pathLength="1" d="M230 178 C 258 175 277 184 280 193"/>
-      <path class="fl bone rib" pathLength="1" d="M230 191 C 200 188 180 197 177 206"/>
-      <path class="fl bone rib" pathLength="1" d="M230 191 C 260 188 280 197 283 206"/>
-      <path class="fl bone rib" pathLength="1" d="M230 204 C 202 201 183 210 180 219"/>
-      <path class="fl bone rib" pathLength="1" d="M230 204 C 258 201 277 210 280 219"/>
-      <path class="fl bone rib" pathLength="1" d="M230 217 C 206 214 190 223 187 232"/>
-      <path class="fl bone rib" pathLength="1" d="M230 217 C 254 214 270 223 273 232"/>
-      <path class="fl bone" pathLength="1" d="M228 356 C214 352 201 356 192 366 C184 376 184 388 190 397 C197 391 206 387 215 386"/>
-      <path class="fl bone" pathLength="1" d="M232 356 C246 352 259 356 268 366 C276 376 276 388 270 397 C263 391 254 387 245 386"/>
-      <path class="fl bone" pathLength="1" d="M222 388 L230 402 L238 388"/>
-      <path class="fl bone" pathLength="1" d="M198 404 C208 415 218 420 230 420 C242 420 252 415 262 404"/>
-      <path class="fl bone" pathLength="1" d="M171 160 C162 190 152 221 147 240"/>
-      <path class="fl bone" pathLength="1" d="M289 160 C298 190 308 221 313 240"/>
-      <path class="fl bone" pathLength="1" d="M143 256 C139 279 136 302 133 318"/>
-      <path class="fl bone" pathLength="1" d="M150 255 C147 278 143 301 140 318"/>
-      <path class="fl bone" pathLength="1" d="M317 256 C321 279 324 302 327 318"/>
-      <path class="fl bone" pathLength="1" d="M310 255 C313 278 317 301 320 318"/>
-      <path class="fl bone" pathLength="1" d="M129 336 C125 345 126 353 131 359 M131 359 L129 369 M136 358 L136 369 M141 356 L144 366"/>
-      <path class="fl bone" pathLength="1" d="M331 336 C335 345 334 353 329 359 M329 359 L331 369 M324 358 L324 369 M319 356 L316 366"/>
-      <path class="fl bone" pathLength="1" d="M195 409 C192 440 189 476 187 499"/>
-      <path class="fl bone" pathLength="1" d="M265 409 C268 440 271 476 273 499"/>
-      <path class="fl bone" pathLength="1" d="M184 517 C182 552 181 592 180 613"/>
-      <path class="fl bone" pathLength="1" d="M191 517 C190 552 189 590 188 611"/>
-      <path class="fl bone" pathLength="1" d="M276 517 C278 552 279 592 280 613"/>
-      <path class="fl bone" pathLength="1" d="M269 517 C270 552 271 590 272 611"/>
-      <path class="fl bone" pathLength="1" d="M180 630 C172 636 165 641 163 645 C161 649 165 652 171 652 L197 652 C200 652 201 649 200 645 L197 632"/>
-      <path class="fl bone" pathLength="1" d="M280 630 C288 636 295 641 297 645 C299 649 295 652 289 652 L263 652 C260 652 259 649 260 645 L263 632"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="172" cy="152" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="172" cy="152" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="288" cy="152" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="288" cy="152" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="146" cy="248" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="146" cy="248" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="314" cy="248" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="314" cy="248" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="132" cy="326" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="132" cy="326" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="328" cy="326" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="328" cy="326" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="196" cy="400" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="196" cy="400" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="264" cy="400" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="264" cy="400" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="186" cy="508" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="186" cy="508" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="274" cy="508" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="274" cy="508" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="180" cy="621" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="180" cy="621" r="3.6"/>
-      <circle class="fl bone cap-o" pathLength="1" cx="280" cy="621" r="9"/><circle class="fl bone cap-i" pathLength="1" cx="280" cy="621" r="3.6"/>
+    <ellipse cx="230" cy="390" rx="215" ry="372" fill="url(#figGlow)"/>
+    <g class="fig-lines" fill="none" stroke="url(#boneStroke)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+      <circle class="fl bone" pathLength="1" cx="230" cy="80" r="32"/>
+      <circle class="fl bone faint" pathLength="1" cx="218" cy="84" r="5"/>
+      <circle class="fl bone faint" pathLength="1" cx="242" cy="84" r="5"/>
+      <path class="fl bone faint" pathLength="1" d="M227 94 L230 100 L233 94"/>
+      <path class="fl bone" pathLength="1" d="M204 92 C205 116 214 132 230 134 C246 132 255 116 256 92"/>
+      <path class="fl bone faint" pathLength="1" d="M220 121 L240 121"/>
+      <path class="fl bone" pathLength="1" d="M230 140 C231 200 229 280 230 358"/>
+      <line class="fl bone vert" pathLength="1" x1="225.5" y1="145" x2="234.5" y2="145"/>
+      <line class="fl bone vert" pathLength="1" x1="225.5" y1="150" x2="234.5" y2="150"/>
+      <line class="fl bone vert" pathLength="1" x1="225.5" y1="155" x2="234.5" y2="155"/>
+      <line class="fl bone vert" pathLength="1" x1="225.5" y1="161" x2="234.5" y2="161"/>
+      <line class="fl bone vert" pathLength="1" x1="225.5" y1="166" x2="234.5" y2="166"/>
+      <line class="fl bone vert" pathLength="1" x1="225.5" y1="171" x2="234.5" y2="171"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="178" x2="236" y2="178"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="189" x2="236" y2="189"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="199" x2="236" y2="199"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="210" x2="236" y2="210"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="220" x2="236" y2="220"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="231" x2="236" y2="231"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="242" x2="236" y2="242"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="252" x2="236" y2="252"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="263" x2="236" y2="263"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="273" x2="236" y2="273"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="284" x2="236" y2="284"/>
+      <line class="fl bone vert" pathLength="1" x1="224" y1="295" x2="236" y2="295"/>
+      <line class="fl bone vert" pathLength="1" x1="222.5" y1="308" x2="237.5" y2="308"/>
+      <line class="fl bone vert" pathLength="1" x1="222.5" y1="320" x2="237.5" y2="320"/>
+      <line class="fl bone vert" pathLength="1" x1="222.5" y1="332" x2="237.5" y2="332"/>
+      <line class="fl bone vert" pathLength="1" x1="222.5" y1="344" x2="237.5" y2="344"/>
+      <line class="fl bone vert" pathLength="1" x1="222.5" y1="356" x2="237.5" y2="356"/>
+      <path class="fl bone" pathLength="1" d="M230 178 L230 240"/>
+      <path class="fl bone faint" pathLength="1" d="M230 240 L230 249"/>
+      <path class="fl bone" pathLength="1" d="M226 174 C 208 168 186 164 168 166"/>
+      <path class="fl bone faint" pathLength="1" d="M172 172 L 163 184 L 176 222 L 187 202 Z"/>
+      <path class="fl bone rib" pathLength="1" d="M227 184 C 208 186 206 194 213 199 C 226 203 216 205 223 203"/>
+      <path class="fl bone rib" pathLength="1" d="M227 196 C 199 198 196 206 203 211 C 216 215 216 217 223 215"/>
+      <path class="fl bone rib" pathLength="1" d="M227 208 C 192 210 188 218 195 223 C 208 227 216 229 223 227"/>
+      <path class="fl bone rib" pathLength="1" d="M227 220 C 185 222 181 230 188 235 C 201 239 216 241 223 239"/>
+      <path class="fl bone rib" pathLength="1" d="M227 232 C 181 234 176 242 183 247 C 196 251 216 253 223 251"/>
+      <path class="fl bone rib" pathLength="1" d="M227 244 C 179 246 174 254 181 259 C 194 263 216 265 223 263"/>
+      <path class="fl bone rib" pathLength="1" d="M227 256 C 182 258 177 266 186 272"/>
+      <path class="fl bone rib" pathLength="1" d="M227 268 C 187 270 183 278 192 284"/>
+      <path class="fl bone" pathLength="1" d="M224 356 C 204 350 188 354 180 366 C 175 376 177 390 186 398"/>
+      <path class="fl bone" pathLength="1" d="M186 398 C 192 412 204 421 218 424 C 225 425 228 420 227 413"/>
+      <path class="fl bone" pathLength="1" d="M167 176 C 160 214 158 268 158 300"/>
+      <path class="fl bone" pathLength="1" d="M160 316 C 156 344 150 372 146 392"/>
+      <path class="fl bone" pathLength="1" d="M154 315 C 150 342 145 370 142 390"/>
+      <path class="fl bone faint" pathLength="1" d="M143 404 L 145 424 M143 404 L 139 426 M143 404 L 134 420"/>
+      <path class="fl bone" pathLength="1" d="M196 402 C 188 407 185 414 187 424 C 192 460 202 518 206 550"/>
+      <path class="fl bone" pathLength="1" d="M207 570 C 208 612 211 676 212 712"/>
+      <path class="fl bone" pathLength="1" d="M201 572 C 202 614 205 678 207 708"/>
+      <path class="fl bone faint" pathLength="1" d="M212 726 C 215 736 211 743 202 745 L 178 747 C 174 747 174 743 178 741 M186 746 L 187 739"/>
+      <path class="fl bone" pathLength="1" d="M234 174 C 252 168 274 164 292 166"/>
+      <path class="fl bone faint" pathLength="1" d="M288 172 L 297 184 L 284 222 L 273 202 Z"/>
+      <path class="fl bone rib" pathLength="1" d="M233 184 C 252 186 254 194 247 199 C 234 203 244 205 237 203"/>
+      <path class="fl bone rib" pathLength="1" d="M233 196 C 261 198 264 206 257 211 C 244 215 244 217 237 215"/>
+      <path class="fl bone rib" pathLength="1" d="M233 208 C 268 210 272 218 265 223 C 252 227 244 229 237 227"/>
+      <path class="fl bone rib" pathLength="1" d="M233 220 C 275 222 279 230 272 235 C 259 239 244 241 237 239"/>
+      <path class="fl bone rib" pathLength="1" d="M233 232 C 279 234 284 242 277 247 C 264 251 244 253 237 251"/>
+      <path class="fl bone rib" pathLength="1" d="M233 244 C 281 246 286 254 279 259 C 266 263 244 265 237 263"/>
+      <path class="fl bone rib" pathLength="1" d="M233 256 C 278 258 283 266 274 272"/>
+      <path class="fl bone rib" pathLength="1" d="M233 268 C 273 270 277 278 268 284"/>
+      <path class="fl bone" pathLength="1" d="M236 356 C 256 350 272 354 280 366 C 285 376 283 390 274 398"/>
+      <path class="fl bone" pathLength="1" d="M274 398 C 268 412 256 421 242 424 C 235 425 232 420 233 413"/>
+      <path class="fl bone" pathLength="1" d="M293 176 C 300 214 302 268 302 300"/>
+      <path class="fl bone" pathLength="1" d="M300 316 C 304 344 310 372 314 392"/>
+      <path class="fl bone" pathLength="1" d="M306 315 C 310 342 315 370 318 390"/>
+      <path class="fl bone faint" pathLength="1" d="M317 404 L 315 424 M317 404 L 321 426 M317 404 L 326 420"/>
+      <path class="fl bone" pathLength="1" d="M264 402 C 272 407 275 414 273 424 C 268 460 258 518 254 550"/>
+      <path class="fl bone" pathLength="1" d="M253 570 C 252 612 249 676 248 712"/>
+      <path class="fl bone" pathLength="1" d="M259 572 C 258 614 255 678 253 708"/>
+      <path class="fl bone faint" pathLength="1" d="M248 726 C 245 736 249 743 258 745 L 282 747 C 286 747 286 743 282 741 M274 746 L 273 739"/>
+      <path class="fl bone" pathLength="1" d="M222 362 L230 400 L238 362"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="168" cy="168" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="168" cy="168" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="292" cy="168" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="292" cy="168" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="158" cy="308" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="158" cy="308" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="302" cy="308" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="302" cy="308" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="144" cy="398" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="144" cy="398" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="316" cy="398" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="316" cy="398" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="196" cy="398" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="196" cy="398" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="264" cy="398" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="264" cy="398" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="207" cy="560" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="207" cy="560" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="253" cy="560" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="253" cy="560" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="212" cy="720" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="212" cy="720" r="2.8"/>
+      <circle class="fl bone cap-o" pathLength="1" cx="248" cy="720" r="7"/><circle class="fl bone cap-i" pathLength="1" cx="248" cy="720" r="2.8"/>
     </g>
     <a href="conditions/shoulder-pain.html" class="bm-node" data-part="shoulder" data-label="Shoulder" data-blurb="Rotator cuff, arthritis &amp; sports injuries — fellowship-trained shoulder care." aria-label="Shoulder — explore care options">
-      <line class="bm-leader" x1="301" y1="152" x2="376" y2="152"/>
-      <circle class="bm-leader-tip" cx="376" cy="152" r="2"/>
-      <circle class="bm-halo" cx="288" cy="152" r="17"/>
-      <circle class="bm-ring" cx="288" cy="152" r="10.5"/>
-      <circle class="bm-dot" cx="288" cy="152" r="4.5"/>
-      <text class="bm-label" x="384" y="157" text-anchor="start">Shoulder</text>
+      <line class="bm-leader" x1="305" y1="168" x2="376" y2="168"/>
+      <circle class="bm-leader-tip" cx="376" cy="168" r="2"/>
+      <circle class="bm-halo" cx="292" cy="168" r="16"/>
+      <circle class="bm-ring" cx="292" cy="168" r="10"/>
+      <circle class="bm-dot" cx="292" cy="168" r="4"/>
+      <text class="bm-label" x="384" y="173" text-anchor="start">Shoulder</text>
     </a>
-<a href="iv-therapy.html" class="bm-node" data-part="iv" data-label="IV Wellness" data-blurb="Clinician-supervised drips for recovery, energy, immunity &amp; NAD⁺." aria-label="IV Wellness — explore care options">
-      <line class="bm-leader" x1="145" y1="244" x2="84" y2="244"/>
-      <circle class="bm-leader-tip" cx="84" cy="244" r="2"/>
-      <circle class="bm-halo" cx="158" cy="244" r="17"/>
-      <circle class="bm-ring" cx="158" cy="244" r="10.5"/>
-      <circle class="bm-dot" cx="158" cy="244" r="4.5"/>
-      <text class="bm-label" x="76" y="249" text-anchor="end">IV Wellness</text>
+<a href="conditions/tendon-ligament-injuries.html" class="bm-node" data-part="elbow" data-label="Elbow" data-blurb="Tennis elbow &amp; stubborn tendinopathy — shockwave, PRP &amp; guided loading." aria-label="Elbow — explore care options">
+      <line class="bm-leader" x1="315" y1="308" x2="376" y2="308"/>
+      <circle class="bm-leader-tip" cx="376" cy="308" r="2"/>
+      <circle class="bm-halo" cx="302" cy="308" r="16"/>
+      <circle class="bm-ring" cx="302" cy="308" r="10"/>
+      <circle class="bm-dot" cx="302" cy="308" r="4"/>
+      <text class="bm-label" x="384" y="313" text-anchor="start">Elbow</text>
     </a>
-<a href="conditions/tendon-ligament-injuries.html" class="bm-node" data-part="elbow" data-label="Elbow & Tendon" data-blurb="Tennis elbow &amp; stubborn tendinopathy — shockwave, PRP &amp; guided loading." aria-label="Elbow & Tendon — explore care options">
-      <line class="bm-leader" x1="327" y1="248" x2="376" y2="248"/>
-      <circle class="bm-leader-tip" cx="376" cy="248" r="2"/>
-      <circle class="bm-halo" cx="314" cy="248" r="17"/>
-      <circle class="bm-ring" cx="314" cy="248" r="10.5"/>
-      <circle class="bm-dot" cx="314" cy="248" r="4.5"/>
-      <text class="bm-label" x="384" y="253" text-anchor="start">Elbow & Tendon</text>
+<a href="services/orthopedic-sports-medicine.html" class="bm-node" data-part="wrist" data-label="Wrist" data-blurb="Hand &amp; wrist sprains, fractures &amp; overuse — precise orthopedic evaluation." aria-label="Wrist — explore care options">
+      <line class="bm-leader" x1="131" y1="398" x2="84" y2="398"/>
+      <circle class="bm-leader-tip" cx="84" cy="398" r="2"/>
+      <circle class="bm-halo" cx="144" cy="398" r="16"/>
+      <circle class="bm-ring" cx="144" cy="398" r="10"/>
+      <circle class="bm-dot" cx="144" cy="398" r="4"/>
+      <text class="bm-label" x="76" y="403" text-anchor="end">Wrist</text>
     </a>
-<a href="services/regenerative-medicine-orthobiologics.html" class="bm-node" data-part="spine" data-label="Spine & Core" data-blurb="PRP, cellular &amp; peptide therapies that help the body repair itself." aria-label="Spine & Core — explore care options">
-      <line class="bm-leader" x1="217" y1="318" x2="84" y2="318"/>
-      <circle class="bm-leader-tip" cx="84" cy="318" r="2"/>
-      <circle class="bm-halo" cx="230" cy="318" r="17"/>
-      <circle class="bm-ring" cx="230" cy="318" r="10.5"/>
-      <circle class="bm-dot" cx="230" cy="318" r="4.5"/>
-      <text class="bm-label" x="76" y="323" text-anchor="end">Spine & Core</text>
+<a href="services/regenerative-medicine-orthobiologics.html" class="bm-node" data-part="spine" data-label="Spine" data-blurb="PRP, cellular &amp; peptide therapies that help the body repair itself." aria-label="Spine — explore care options">
+      <line class="bm-leader" x1="217" y1="300" x2="84" y2="300"/>
+      <circle class="bm-leader-tip" cx="84" cy="300" r="2"/>
+      <circle class="bm-halo" cx="230" cy="300" r="16"/>
+      <circle class="bm-ring" cx="230" cy="300" r="10"/>
+      <circle class="bm-dot" cx="230" cy="300" r="4"/>
+      <text class="bm-label" x="76" y="305" text-anchor="end">Spine</text>
     </a>
 <a href="conditions/hip-pain.html" class="bm-node" data-part="hip" data-label="Hip" data-blurb="Precise diagnosis for arthritis, bursitis &amp; tendon problems." aria-label="Hip — explore care options">
-      <line class="bm-leader" x1="277" y1="400" x2="376" y2="400"/>
-      <circle class="bm-leader-tip" cx="376" cy="400" r="2"/>
-      <circle class="bm-halo" cx="264" cy="400" r="17"/>
-      <circle class="bm-ring" cx="264" cy="400" r="10.5"/>
-      <circle class="bm-dot" cx="264" cy="400" r="4.5"/>
-      <text class="bm-label" x="384" y="405" text-anchor="start">Hip</text>
+      <line class="bm-leader" x1="277" y1="398" x2="376" y2="398"/>
+      <circle class="bm-leader-tip" cx="376" cy="398" r="2"/>
+      <circle class="bm-halo" cx="264" cy="398" r="16"/>
+      <circle class="bm-ring" cx="264" cy="398" r="10"/>
+      <circle class="bm-dot" cx="264" cy="398" r="4"/>
+      <text class="bm-label" x="384" y="403" text-anchor="start">Hip</text>
     </a>
 <a href="conditions/knee-pain.html" class="bm-node" data-part="knee" data-label="Knee" data-blurb="From PRP to the MISHA shock absorber to Mako robotic replacement." aria-label="Knee — explore care options">
-      <line class="bm-leader" x1="173" y1="508" x2="84" y2="508"/>
-      <circle class="bm-leader-tip" cx="84" cy="508" r="2"/>
-      <circle class="bm-halo" cx="186" cy="508" r="17"/>
-      <circle class="bm-ring" cx="186" cy="508" r="10.5"/>
-      <circle class="bm-dot" cx="186" cy="508" r="4.5"/>
-      <text class="bm-label" x="76" y="513" text-anchor="end">Knee</text>
+      <line class="bm-leader" x1="194" y1="560" x2="84" y2="560"/>
+      <circle class="bm-leader-tip" cx="84" cy="560" r="2"/>
+      <circle class="bm-halo" cx="207" cy="560" r="16"/>
+      <circle class="bm-ring" cx="207" cy="560" r="10"/>
+      <circle class="bm-dot" cx="207" cy="560" r="4"/>
+      <text class="bm-label" x="76" y="565" text-anchor="end">Knee</text>
     </a>
 <a href="conditions/varicose-spider-veins.html" class="bm-node" data-part="veins" data-label="Veins" data-blurb="Ultrasound-guided ablation &amp; sclerotherapy for healthier legs." aria-label="Veins — explore care options">
-      <line class="bm-leader" x1="289" y1="556" x2="376" y2="556"/>
-      <circle class="bm-leader-tip" cx="376" cy="556" r="2"/>
-      <circle class="bm-halo" cx="276" cy="556" r="17"/>
-      <circle class="bm-ring" cx="276" cy="556" r="10.5"/>
-      <circle class="bm-dot" cx="276" cy="556" r="4.5"/>
-      <text class="bm-label" x="384" y="561" text-anchor="start">Veins</text>
+      <line class="bm-leader" x1="266" y1="646" x2="376" y2="646"/>
+      <circle class="bm-leader-tip" cx="376" cy="646" r="2"/>
+      <circle class="bm-halo" cx="253" cy="646" r="16"/>
+      <circle class="bm-ring" cx="253" cy="646" r="10"/>
+      <circle class="bm-dot" cx="253" cy="646" r="4"/>
+      <text class="bm-label" x="384" y="651" text-anchor="start">Veins</text>
     </a>
 <a href="conditions/peripheral-neuropathy.html" class="bm-node" data-part="nerves" data-label="Nerves" data-blurb="The Neuropathy Restoration Program — burning &amp; numbness at the root." aria-label="Nerves — explore care options">
-      <line class="bm-leader" x1="171" y1="576" x2="84" y2="576"/>
-      <circle class="bm-leader-tip" cx="84" cy="576" r="2"/>
-      <circle class="bm-halo" cx="184" cy="576" r="17"/>
-      <circle class="bm-ring" cx="184" cy="576" r="10.5"/>
-      <circle class="bm-dot" cx="184" cy="576" r="4.5"/>
-      <text class="bm-label" x="76" y="581" text-anchor="end">Nerves</text>
+      <line class="bm-leader" x1="198" y1="668" x2="84" y2="668"/>
+      <circle class="bm-leader-tip" cx="84" cy="668" r="2"/>
+      <circle class="bm-halo" cx="211" cy="668" r="16"/>
+      <circle class="bm-ring" cx="211" cy="668" r="10"/>
+      <circle class="bm-dot" cx="211" cy="668" r="4"/>
+      <text class="bm-label" x="76" y="673" text-anchor="end">Nerves</text>
     </a>
-<a href="conditions/foot-ankle-pain.html" class="bm-node" data-part="foot" data-label="Foot & Ankle" data-blurb="Board-certified foot &amp; ankle surgery, orthotics &amp; heel pain relief." aria-label="Foot & Ankle — explore care options">
-      <line class="bm-leader" x1="293" y1="626" x2="376" y2="626"/>
-      <circle class="bm-leader-tip" cx="376" cy="626" r="2"/>
-      <circle class="bm-halo" cx="280" cy="626" r="17"/>
-      <circle class="bm-ring" cx="280" cy="626" r="10.5"/>
-      <circle class="bm-dot" cx="280" cy="626" r="4.5"/>
-      <text class="bm-label" x="384" y="631" text-anchor="start">Foot & Ankle</text>
+<a href="conditions/foot-ankle-pain.html" class="bm-node" data-part="ankle" data-label="Ankle & Foot" data-blurb="Board-certified foot &amp; ankle surgery, orthotics &amp; heel pain relief." aria-label="Ankle & Foot — explore care options">
+      <line class="bm-leader" x1="261" y1="720" x2="376" y2="720"/>
+      <circle class="bm-leader-tip" cx="376" cy="720" r="2"/>
+      <circle class="bm-halo" cx="248" cy="720" r="16"/>
+      <circle class="bm-ring" cx="248" cy="720" r="10"/>
+      <circle class="bm-dot" cx="248" cy="720" r="4"/>
+      <text class="bm-label" x="384" y="725" text-anchor="start">Ankle & Foot</text>
     </a>
   </svg>
   <p class="figure-caption" aria-live="polite"><strong class="figure-caption-label">Where does it hurt?</strong><span class="figure-caption-blurb">Hover or tap a point of light to explore how we treat it.</span></p>
