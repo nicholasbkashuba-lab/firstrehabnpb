@@ -1315,13 +1315,6 @@ def build_home():
       </figure>""")
     quotes_html = "\n".join(quotes)
 
-    drips = ""
-    for item in [IV_MENU[8], IV_MENU[5], IV_MENU[6], IV_MENU[11]]:
-        drips += f"""<a class="drip-chip reveal" href="iv-therapy.html">
-        <img src="assets/media/{item['bag']}?v={asset_v('assets/media/' + item['bag'])}" alt="" width="120" height="180" loading="lazy">
-        <span><strong>{item['name']}</strong><em>${item['price']}</em></span>
-      </a>"""
-
     assoc = "".join(
         f'<li><img src="assets/media/{img}?v={asset_v("assets/media/" + img)}" alt="{alt}" height="54" loading="lazy"></li>'
         for img, alt in ASSOCIATIONS
@@ -1344,6 +1337,9 @@ def build_home():
       </a>"""
         for url, img, cap in social_posts
     )
+
+    cond_chips = "".join(f'<li><a href="{href}">{label}</a></li>' for href, label in CONDITIONS_NAV)
+    loc_chips = "".join(f'<li><a href="{href}">{label}</a></li>' for href, label in LOCATIONS_NAV)
 
     posts = __import__("blog_content").BLOG_POSTS[:3]
     blog_cards = "".join(
@@ -1372,12 +1368,17 @@ def build_home():
     <div class="scene-haze"></div>
     <div class="scene-clouds"><span></span><span></span><span></span></div>
     <div class="scene-cloudband"><span></span><span></span></div>
+    <div class="scene-cirrus"></div>
+    <div class="scene-birds"></div>
     <div class="scene-rays"></div>
     <div class="scene-sunglow"></div>
     <div class="scene-sun"></div>
     <div class="scene-horizon"></div>
+    <div class="scene-headland"></div>
     <div class="scene-ocean"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span></div>
+    <div class="scene-swells"><span class="sw sw1"></span><span class="sw sw2"></span><span class="sw sw3"></span><span class="sw sw4"></span></div>
     <div class="scene-reflection"></div>
+    <div class="scene-sparkles"></div>
     <div class="scene-shore"></div>
     <div class="scene-fronds"></div>
     <div class="scene-vignette"></div>
@@ -1487,21 +1488,46 @@ def build_home():
   </div>
 </section>
 
-<section class="section section-dark section-iv" id="iv-lounge">
+<section class="section section-dark section-pathfinder" id="explore" aria-label="Explore RegenOrtho Palm Beach">
   <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="iv-inner">
-    <div class="iv-copy reveal">
-      <p class="eyebrow">The IV Lounge</p>
-      <h2>Repair. Rehydrate. <em>Renew.</em></h2>
-      <p>Twelve clinician-supervised infusions — from rapid hydration to high-dose NAD⁺ — administered by our medical team in a lounge built for comfort. Walk out revitalized.</p>
-      <div class="cta-row">
-        <a class="btn btn-gold" href="iv-therapy.html">Explore the IV menu</a>
-        <a class="btn btn-ghost-light" href="contact.html#book">Book an infusion</a>
-      </div>
-    </div>
-    <div class="drip-rail">
-      {drips}
-    </div>
+  <div class="section-head reveal">
+    <p class="eyebrow">Find Your Path</p>
+    <h2>Everything, <em>two clicks away</em></h2>
+    <p class="section-sub">Fifty-plus pages of care, conditions, and answers — mapped so you never hunt for anything.</p>
+  </div>
+  <div class="path-grid">
+    <nav class="path-col reveal" aria-label="Conditions we treat">
+      <h3>Conditions we treat</h3>
+      <ul class="path-chips">
+        {cond_chips}
+      </ul>
+    </nav>
+    <nav class="path-col reveal" style="--d:90ms" aria-label="Care and wellness programs">
+      <h3>Care &amp; wellness</h3>
+      <ul class="path-links">
+        <li><a href="iv-therapy.html">IV Lounge — full menu &amp; pricing</a></li>
+        <li><a href="infusions/index.html">Specialty Infusion Center</a></li>
+        <li><a href="services/medical-weight-loss.html">Medical Weight Loss &amp; GLP-1</a></li>
+        <li><a href="services/neuropathy-program.html">Neuropathy Restoration Program</a></li>
+        <li><a href="services/concierge-care.html">Concierge &amp; Direct-Pay Care</a></li>
+      </ul>
+    </nav>
+    <nav class="path-col reveal" style="--d:180ms" aria-label="For patients">
+      <h3>For patients</h3>
+      <ul class="path-links">
+        <li><a href="providers/dr-marc-matarazzo.html">Meet Dr. Matarazzo</a></li>
+        <li><a href="providers/dr-orlando-cedeno.html">Meet Dr. Cedeno</a></li>
+        <li><a href="patient-resources.html">Patient resources &amp; insurance</a></li>
+        <li><a href="faq.html">Every question, answered</a></li>
+        <li><a href="blog/index.html">Blog &amp; insights</a></li>
+      </ul>
+    </nav>
+    <nav class="path-col reveal" style="--d:270ms" aria-label="Areas we serve">
+      <h3>Areas we serve</h3>
+      <ul class="path-chips">
+        {loc_chips}
+      </ul>
+    </nav>
   </div>
 </section>
 

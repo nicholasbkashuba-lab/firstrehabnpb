@@ -262,9 +262,76 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 @keyframes reflDrift { to { background-position: 0 26px, 0 15px; } }
 @keyframes reflSway { 0%, 100% { transform: translateX(-2.5px) scaleX(1); } 50% { transform: translateX(2.5px) scaleX(1.07); } }
 
+/* thin high cirrus streaks */
+.scene-cirrus { position: absolute; left: 8%; right: 12%; top: 16%; height: 14%; opacity: .4; filter: blur(3px);
+  background:
+    linear-gradient(88deg, transparent 20%, rgba(235, 200, 180, .22) 34%, transparent 52%),
+    linear-gradient(92deg, transparent 45%, rgba(214, 180, 200, .18) 62%, transparent 80%);
+  animation: cloudDrift 95s ease-in-out -30s infinite alternate; }
+
+/* distant gulls drifting across the upper sky */
+.scene-birds { position: absolute; top: 20%; left: 0; width: 130px; height: 46px; opacity: .5;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 130 46'%3E%3Cg stroke='%23081726' stroke-width='2.6' fill='none' stroke-linecap='round'%3E%3Cpath d='M12 24 Q19 15 26 22 Q33 15 40 24'/%3E%3Cpath d='M66 12 Q71 6 76 11 Q81 6 86 12'/%3E%3Cpath d='M100 32 Q104 26 108 30 Q112 26 116 32'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / contain;
+  animation: birdsCross 75s linear infinite; }
+@keyframes birdsCross {
+  0% { transform: translate(-12vw, 0); opacity: 0; }
+  6% { opacity: .5; }
+  50% { transform: translate(48vw, -3vh); }
+  94% { opacity: .5; }
+  100% { transform: translate(108vw, -1vh); opacity: 0; } }
+
+/* dark headland sliver on the far horizon */
+.scene-headland { position: absolute; left: 0; top: 71%; width: 24vw; height: 1.5vmin; translate: 0 -96%;
+  background: #131C36; opacity: .85; filter: blur(.6px);
+  clip-path: polygon(0 100%, 0 42%, 9% 55%, 20% 30%, 32% 58%, 46% 40%, 62% 66%, 80% 55%, 100% 100%); }
+
+/* swell crests rolling toward the viewer, spaced with perspective */
+.scene-swells { position: absolute; left: 0; right: 0; top: 71%; bottom: 0; overflow: hidden; }
+.scene-swells .sw { position: absolute; left: -4%; right: -4%; border-radius: 50%; }
+.scene-swells .sw1 { top: 12%; height: 1.6px; filter: blur(.5px);
+  background: repeating-linear-gradient(90deg, transparent 0 26px, rgba(214, 228, 244, .28) 26px 58px, transparent 58px 92px);
+  animation: swellRoll 11s linear infinite; }
+.scene-swells .sw2 { top: 30%; height: 2.2px; filter: blur(.8px);
+  background: repeating-linear-gradient(90deg, transparent 0 44px, rgba(214, 228, 244, .22) 44px 98px, transparent 98px 150px);
+  animation: swellRoll 14s linear -4s infinite; }
+.scene-swells .sw3 { top: 52%; height: 3px; filter: blur(1.1px);
+  background: repeating-linear-gradient(90deg, transparent 0 64px, rgba(214, 228, 244, .17) 64px 150px, transparent 150px 230px);
+  animation: swellRoll 18s linear -9s infinite; }
+.scene-swells .sw4 { top: 76%; height: 4px; filter: blur(1.6px);
+  background: repeating-linear-gradient(90deg, transparent 0 90px, rgba(214, 228, 244, .13) 90px 220px, transparent 220px 330px);
+  animation: swellRoll 24s linear -6s infinite; }
+@keyframes swellRoll {
+  0% { transform: translateY(-10px) scaleX(1); opacity: 0; }
+  12% { opacity: 1; }
+  85% { opacity: .85; }
+  100% { transform: translateY(30px) scaleX(1.05); opacity: 0; } }
+
+/* fine distant-water texture right under the horizon */
+.scene-ocean::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14%; opacity: .5;
+  background: repeating-linear-gradient(180deg, rgba(255, 245, 220, .07) 0 1px, transparent 1px 3px); }
+
+/* twinkling sparkles on the sun's glitter path */
+.scene-sparkles { position: absolute; left: 63%; top: 73%; width: 4px; height: 4px; translate: -50%; }
+.scene-sparkles::before, .scene-sparkles::after { content: ""; position: absolute; width: 2.5px; height: 2.5px; border-radius: 50%;
+  background: rgba(255, 236, 170, .9); }
+.scene-sparkles::before { box-shadow:
+  -34px 34px 0 0 rgba(255, 236, 170, .8), 22px 58px 0 .5px rgba(255, 236, 170, .7),
+  -12px 92px 0 0 rgba(255, 230, 160, .65), 44px 120px 0 .5px rgba(255, 236, 170, .6),
+  -52px 148px 0 0 rgba(255, 230, 160, .5), 12px 172px 0 1px rgba(255, 236, 170, .55);
+  animation: sparkle 3.6s ease-in-out infinite; }
+.scene-sparkles::after { box-shadow:
+  30px 22px 0 0 rgba(255, 236, 170, .75), -26px 66px 0 .5px rgba(255, 230, 160, .6),
+  8px 108px 0 0 rgba(255, 236, 170, .6), -40px 132px 0 .5px rgba(255, 230, 160, .5),
+  52px 156px 0 0 rgba(255, 236, 170, .5), -6px 188px 0 1px rgba(255, 230, 160, .45);
+  animation: sparkle 3.6s ease-in-out -1.8s infinite; }
+@keyframes sparkle { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+
 /* soft shoreline suggestion */
 .scene-shore { position: absolute; left: -2%; right: -2%; bottom: -1%; height: 10%;
   background: linear-gradient(180deg, transparent 0%, rgba(10, 20, 36, .6) 34%, #050F1E 78%); }
+.scene-shore::after { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 12px; opacity: .2;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='12'%3E%3Cpath d='M0 7 Q25 3 50 7 T100 7 T150 7 T200 7' fill='none' stroke='%23E8DFC8' stroke-opacity='.5' stroke-width='1.2'/%3E%3C/svg%3E") repeat-x;
+  animation: foamDrift 31s linear -8s infinite alternate-reverse; }
 .scene-shore::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14px; opacity: .35;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='14'%3E%3Cpath d='M0 8 Q30 3 60 8 T120 8 T180 8 T240 8' fill='none' stroke='%23E8DFC8' stroke-opacity='.5' stroke-width='1.4'/%3E%3C/svg%3E") repeat-x;
   animation: foamDrift 26s linear infinite alternate; }
@@ -510,23 +577,25 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 .quote-card blockquote p { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--navy-900); line-height: 1.5; }
 .quote-card figcaption { justify-content: flex-start; margin-top: 1.1rem; }
 
-/* ------------------------------ IV section ------------------------------- */
+/* --------------------------- pathfinder band ------------------------------ */
 
-.section-iv { overflow: hidden; }
-.iv-inner { position: relative; max-width: var(--wrap); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.4rem; align-items: center; }
-.iv-copy h2 { margin: .8rem 0 1rem; }
-.iv-copy p { color: #A9BCCE; max-width: 46ch; }
-.iv-copy .cta-row { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.6rem; }
-.drip-rail { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.drip-chip {
-  display: flex; align-items: center; gap: .9rem; text-decoration: none;
-  background: rgba(255, 255, 255, .05); border: 1px solid rgba(253, 201, 41, .2); border-radius: var(--r-md);
-  padding: .8rem .95rem; transition: transform .3s var(--ease), border-color .3s, background .3s;
+.section-pathfinder { overflow: hidden; }
+.path-grid { position: relative; display: grid; grid-template-columns: 1.25fr 1fr 1fr 1.05fr; gap: 2rem; max-width: var(--wrap); margin: 0 auto; }
+.path-col h3 { font: 800 .74rem/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.path-chips { list-style: none; display: flex; flex-wrap: wrap; gap: .45rem; }
+.path-chips a {
+  display: inline-block; padding: .42rem .85rem; border-radius: 999px; text-decoration: none;
+  font: 700 .8rem/1.2 var(--sans); color: #DDE8F3; border: 1px solid rgba(148, 178, 210, .35);
+  transition: border-color .25s, color .25s, background .25s, transform .2s;
 }
-.drip-chip:hover { transform: translateY(-4px); border-color: var(--gold); background: rgba(255, 255, 255, .09); }
-.drip-chip img { width: 52px; height: 78px; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .4)); }
-.drip-chip strong { display: block; font-size: .86rem; color: #fff; line-height: 1.3; }
-.drip-chip em { font-style: normal; font: 700 1rem/1 var(--serif); color: var(--gold); }
+.path-chips a:hover { border-color: var(--gold); color: var(--gold); background: rgba(253, 201, 41, .08); transform: translateY(-1px); }
+.path-links { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+.path-links a {
+  position: relative; display: block; padding-left: 1.2rem; text-decoration: none;
+  font-size: .9rem; font-weight: 600; color: #C4D2E0; transition: color .25s, padding-left .25s;
+}
+.path-links a::before { content: "→"; position: absolute; left: 0; color: var(--bronze-text); color: var(--gold); transition: left .25s; }
+.path-links a:hover { color: var(--gold); padding-left: 1.45rem; }
 
 /* ------------------------------ social rail ------------------------------ */
 
@@ -876,6 +945,7 @@ body.nav-locked .mobile-call { display: none !important; }
   .doc-grid { grid-template-columns: 1fr; }
   .iv-inner { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
+  .path-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 720px) {
@@ -887,6 +957,7 @@ body.nav-locked .mobile-call { display: none !important; }
   .doc-photo { max-width: 280px; }
   .hero-stats { gap: 1.4rem; }
   .footer-inner { grid-template-columns: 1fr; gap: 1.8rem; }
+  .path-grid { grid-template-columns: 1fr; }
   .footer-base { flex-direction: column; }
   .mobile-call { display: inline-flex; }
 }
@@ -900,7 +971,7 @@ body.nav-locked .mobile-call { display: none !important; }
   .hero-scene { animation: none; }
   .fig-lines .fl { stroke-dashoffset: 0; animation: none !important; }
   .bm-node { opacity: 1; transition: none; }
-  .figure-scan, .figure-orbit { display: none; }
+  .figure-scan, .figure-orbit, .scene-birds, .scene-swells, .scene-sparkles { display: none; }
   .marquee-track, .social-track { animation: none; flex-wrap: wrap; width: auto; }
   .quote-slide { position: relative; opacity: 1; transform: none; pointer-events: auto; margin-bottom: 1.4rem; }
   .quote-dots { display: none; }
