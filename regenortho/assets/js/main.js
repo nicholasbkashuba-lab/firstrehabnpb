@@ -172,7 +172,12 @@
     var nodes = Array.prototype.slice.call(figure.querySelectorAll(".bm-node"));
     var capLabel = figure.querySelector(".figure-caption-label");
     var capBlurb = figure.querySelector(".figure-caption-blurb");
-    var fIdx = -1, fTimer = null, holdUntil = 0;
+    var capGo = figure.querySelector(".figure-go");
+    var capGoLabel = figure.querySelector(".figure-go-label");
+    /* Devices that can't hover get no preview, so the first tap on a node only
+       reveals its blurb; the second tap (or the "Explore …" button) navigates. */
+    var noHover = window.matchMedia("(hover: none)");
+    var fIdx = -1, fTimer = null, holdUntil = 0, pickedIdx = -1;
 
     function activate(i, fromUser) {
       fIdx = (i + nodes.length) % nodes.length;
@@ -180,12 +185,34 @@
       var n = nodes[fIdx];
       if (capLabel) capLabel.textContent = n.getAttribute("data-label");
       if (capBlurb) capBlurb.textContent = n.getAttribute("data-blurb");
+      if (capGo) {
+        capGo.setAttribute("href", n.getAttribute("href"));
+        if (capGoLabel) capGoLabel.textContent = n.getAttribute("data-label");
+      }
       if (fromUser) holdUntil = Date.now() + 9000;
     }
 
     nodes.forEach(function (n, k) {
       n.addEventListener("mouseenter", function () { activate(k, true); });
       n.addEventListener("focus", function () { activate(k, true); });
+      n.addEventListener("click", function (e) {
+        if (!noHover.matches) return;      // pointer devices: click goes straight through
+        if (pickedIdx === k) return;       // second tap on the same node — let it navigate
+        e.preventDefault();
+        pickedIdx = k;
+        /* the visitor has taken over — stop the attract cycle so the node under
+           their finger can't change between the first tap and the second */
+        if (fTimer) { clearInterval(fTimer); fTimer = null; }
+        activate(k, true);
+        if (capGo) {
+          capGo.hidden = false;
+          /* nudge it above the fixed Call Now / assistant pills, but only as far
+             as it actually needs — the node has to stay tappable for tap two */
+          var r = capGo.getBoundingClientRect();
+          var safeBottom = window.innerHeight - 96;
+          if (r.bottom > safeBottom) window.scrollBy({ top: r.bottom - safeBottom + 12, left: 0 });
+        }
+      });
     });
 
     /* the skeleton draws in + attract cycle arms when the section scrolls into view */
@@ -195,9 +222,11 @@
       armed = true;
       figure.classList.add("is-live");
       if (!reduceMotion) {
-        setTimeout(function () { if (Date.now() >= holdUntil) activate(0, false); }, 2100);
+        setTimeout(function () {
+          if (pickedIdx === -1 && Date.now() >= holdUntil) activate(0, false);
+        }, 2100);
         fTimer = setInterval(function () {
-          if (Date.now() < holdUntil) return;
+          if (pickedIdx !== -1 || Date.now() < holdUntil) return;
           activate(fIdx + 1, false);
         }, 3000);
       } else {

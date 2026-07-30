@@ -39,6 +39,7 @@ Gardens, FL 33410 · 833-STEM561 (833-783-6561) · info@regenorthopalmbeach.com
 | Testimonials | `TESTIMONIALS` (keep quotes verbatim — never invent reviews) |
 | Blog posts | `blog_content.py` |
 | Assistant answers | `FAQ` array in `assets/js/assist.js` |
+| Patient form questions | `forms_content.py` (`INTAKE_FORM`, `GLP_FORM`) |
 
 After ANY edit: `python3 build.py`, then commit. Preview locally with
 `python3 -m http.server 8000` → http://localhost:8000.
@@ -49,6 +50,48 @@ Both the contact form and the assistant deliver to **formsubmit.co → info@rege
 ⚠️ FormSubmit requires one-time activation: the first submission triggers a confirmation
 email to that inbox — click it (check spam) or leads will not arrive. If delivery fails,
 the assistant queues the lead in the visitor's browser and retries automatically.
+
+## Patient forms & HIPAA — read before changing anything here
+
+`/forms/new-patient.html` and `/forms/peptide-glp-questionnaire.html` collect protected
+health information (PHI). They are deliberately built so that **the PHI never leaves the
+patient's browser**:
+
+* **Nothing is transmitted.** `assets/js/forms.js` contains no `fetch`, no XHR, no beacon,
+  no third-party SDK. Pressing *Finish* renders the answers into an on-page summary the
+  patient prints, saves as a PDF, or downloads as a text file.
+* **No tracking on form pages.** No analytics, ad pixel, or session-recording script is
+  loaded on any page that asks about health. Don't add one — a page view of a
+  condition-specific URL tied to an IP address is exactly the pattern regulators have
+  gone after.
+* **Saving is opt-in.** Progress is written to `localStorage` only if the patient ticks
+  "Save my progress in this browser", and the *Erase my answers* button clears it. Never
+  flip that default — a phone or a front-desk tablet is often a shared device.
+* **`vercel.json`** sends `Cache-Control: no-store` and `X-Robots-Tag: noarchive` for
+  `/forms/*` so the pages aren't held in shared caches or archived by crawlers.
+* **Questions live in `forms_content.py`.** Edit the section/field lists there and rebuild;
+  the markup, validation, step rail, summary, and print stylesheet all follow automatically.
+
+### If you want submissions delivered electronically
+
+That is a real change in risk, not a config tweak. Before wiring up any destination:
+
+1. The destination must be **HIPAA-eligible and covered by a signed Business Associate
+   Agreement (BAA)** with the practice. Supabase offers this on paid plans; Google
+   Workspace offers it for Gmail (a consumer `@gmail.com` address does **not** qualify).
+2. **Do not** point these forms at FormSubmit, Formspree, Zapier, a Google Form, a plain
+   mailbox, or any automation tool without a BAA. The lead/appointment forms elsewhere on
+   this site use FormSubmit — that is acceptable only because they collect contact details
+   and a reason for calling, not clinical history. The patient forms are a different thing.
+3. You also need the rest of the Security Rule around it: encryption in transit and at
+   rest, access controls so only authorised staff can read submissions, audit logging, a
+   retention/disposal schedule, and the forms added to the practice's risk analysis.
+4. Update the privacy policy and the on-page notice — both currently tell patients that
+   nothing is transmitted. Leaving that text in place while transmitting would be a
+   material misstatement to patients.
+
+This is engineering guidance, not legal advice. Have the practice's HIPAA compliance
+contact or counsel sign off before turning on electronic delivery.
 
 ## Deploying (handover plan)
 

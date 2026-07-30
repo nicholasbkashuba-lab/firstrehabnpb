@@ -56,7 +56,7 @@ def asset_v(path):
 # ---------------------------------------------------------------------------
 
 def head(title, desc, depth=0, canonical="", og_image="assets/media/og-image.jpg",
-         page_type="website", extra_schema="", preload_hero=False):
+         page_type="website", extra_schema="", preload_hero=False, extra_css=""):
     p = "../" * depth
     canonical_url = f"{BASE}/{canonical}" if canonical else f"{BASE}/"
     og_url = f"{BASE}/{og_image}?v={asset_v(og_image)}"
@@ -64,6 +64,9 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/og-image.jpg
     hero_preload = ""
     if preload_hero:
         hero_preload = ""  # hero is SVG/CSS — nothing extra to preload
+    extra_css_tag = ""
+    if extra_css:
+        extra_css_tag = f'<link rel="stylesheet" href="{p}{extra_css}?v={asset_v(extra_css)}">\n'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,7 +96,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/og-image.jpg
 <link rel="preload" href="{p}assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
 {hero_preload}<link rel="stylesheet" href="{p}assets/css/styles.css?v={asset_v('assets/css/styles.css')}">
 <link rel="stylesheet" href="{p}assets/css/assist.css?v={asset_v('assets/css/assist.css')}">
-<script type="application/ld+json">{schema}</script>
+{extra_css_tag}<script type="application/ld+json">{schema}</script>
 {extra_schema}</head>
 """
 
@@ -164,6 +167,7 @@ def nav(depth=0, current=""):
             <li><a href="{p}providers/dr-orlando-cedeno.html">Dr. Orlando Cedeno, DPM</a></li>
             <li><a href="{p}providers/emily-bahnick.html">Emily Bahnick, MSN, RN</a></li>
             <li><a href="{p}patient-resources.html">Patient Resources</a></li>
+            <li><a href="{p}forms/index.html">Patient Forms</a></li>
           </ul>
         </li>
         <li class="has-drop has-mega"><button class="drop-btn" aria-expanded="false">Services<svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 1.5 6 6.5 11 1.5"/></svg></button>
@@ -190,8 +194,11 @@ def nav(depth=0, current=""):
 """
 
 
-def footer(depth=0):
+def footer(depth=0, extra_js=""):
     p = "../" * depth
+    extra_js_tag = ""
+    if extra_js:
+        extra_js_tag = f'<script src="{p}{extra_js}?v={asset_v(extra_js)}" defer></script>\n'
     svc = "\n".join(
         f'<li><a href="{p}{href}">{label}</a></li>' for href, label in SERVICES_NAV[:8]
     )
@@ -214,6 +221,7 @@ def footer(depth=0):
         <li><a href="{p}services/index.html">Our Services</a></li>
         <li><a href="{p}iv-therapy.html">IV Therapy Lounge</a></li>
         <li><a href="{p}patient-resources.html">Patient Resources</a></li>
+        <li><a href="{p}forms/index.html">Patient Forms</a></li>
         <li><a href="{p}faq.html">FAQ</a></li>
         <li><a href="{p}blog/index.html">Blog</a></li>
         <li><a href="{p}contact.html">Contact Us</a></li>
@@ -250,7 +258,7 @@ def footer(depth=0):
 </footer>
 <script src="{p}assets/js/main.js?v={asset_v('assets/js/main.js')}"></script>
 <script src="{p}assets/js/assist.js?v={asset_v('assets/js/assist.js')}" defer></script>
-</body>
+{extra_js_tag}</body>
 </html>
 """
 
@@ -1300,6 +1308,7 @@ def figure_svg(depth=0):
       <circle class="bm-ring" cx="{x}" cy="{y}" r="10"/>
       <circle class="bm-dot" cx="{x}" cy="{y}" r="4"/>
       <text class="bm-label" x="{tx}" y="{y + 5}" text-anchor="{anchor}">{label}</text>
+      <circle class="bm-hit" cx="{x}" cy="{y}" r="23"/>
     </a>""")
     nodes_html = "\n".join(nodes)
     return f"""<div class="figure-stage" aria-label="Interactive map of the body — choose an area to explore care options">
@@ -1326,7 +1335,8 @@ def figure_svg(depth=0):
     </g>
     {nodes_html}
   </svg>
-  <p class="figure-caption" aria-live="polite"><strong class="figure-caption-label">Where does it hurt?</strong><span class="figure-caption-blurb">Hover or tap a point of light to explore how we treat it.</span></p>
+  <p class="figure-caption" aria-live="polite"><strong class="figure-caption-label">Where does it hurt?</strong><span class="figure-caption-blurb">Hover or tap a point of light to see how we treat it.</span></p>
+  <a class="figure-go" href="{p}{FIGURE_NODES[0][4]}" hidden>Explore <span class="figure-go-label">{FIGURE_NODES[0][3]}</span> <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></a>
 </div>"""
 
 
@@ -2549,6 +2559,7 @@ def build_resources():
       <h2>Preparing for Your Appointment</h2>
       <p>Your time with our specialists is valuable. Arriving prepared ensures you get the most out of your visit.</p>
       <ul class="check-list"><li>Bring a list of medications</li><li>Wear comfortable clothing for exams</li><li>Note any recent symptoms or health changes</li></ul>
+      <p style="margin-top:1rem;"><a href="forms/index.html">Complete your patient forms before you arrive →</a></p>
     </article>
     <article class="res-card reveal" style="--d:270ms"><span class="res-num" aria-hidden="true">04</span>
       <h2>Post-Treatment Care</h2>
@@ -2581,6 +2592,216 @@ def build_resources():
                 "Patient resources for RegenOrtho Palm Beach — first-visit guidance, insurance & payment options, appointment prep, post-treatment care, and a free foot & ankle guide.",
                 depth=d, canonical="patient-resources.html", extra_schema=schema) + '<body class="page-resources">\n' + body
     write("patient-resources.html", page)
+
+
+# ---------------------------------------------------------------------------
+# Patient forms
+#
+# HIPAA: these pages collect protected health information, so they are built to
+# keep it in the patient's browser. Nothing is POSTed, no third-party form
+# service is involved, and no analytics/tracking script is loaded on them.
+# On finish the answers become a printable summary the patient saves or brings
+# in. Read the HIPAA NOTES section of README.md before changing that.
+# ---------------------------------------------------------------------------
+
+def _field(f, depth=0):
+    """Render one field. Clinical inputs default to autocomplete=off so the
+    browser doesn't retain health answers for the next person on the device."""
+    fid, t = f["id"], f["t"]
+    req = f.get("req", False)
+    req_attr = ' required aria-required="true"' if req else ""
+    req_mark = ' <span class="req" aria-hidden="true">*</span>' if req else ""
+    hint_id = f"{fid}-hint"
+    hint = f'<span class="f-hint" id="{hint_id}">{f["hint"]}</span>' if f.get("hint") else ""
+    described = f' aria-describedby="{hint_id}"' if f.get("hint") else ""
+    ac = f' autocomplete="{f["ac"]}"' if f.get("ac") else ' autocomplete="off"'
+    wide = " f-half" if f.get("w") == "half" else ""
+    ph = f' placeholder="{f["ph"]}"' if f.get("ph") else ""
+
+    if t in ("text", "tel", "email", "date"):
+        return (f'<p class="f-row{wide}"><label for="{fid}">{f["label"]}{req_mark}</label>{hint}'
+                f'<input type="{t}" id="{fid}" name="{fid}"{ac}{req_attr}{described}{ph}></p>')
+
+    if t == "textarea":
+        return (f'<p class="f-row"><label for="{fid}">{f["label"]}{req_mark}</label>{hint}'
+                f'<textarea id="{fid}" name="{fid}" rows="3"{ac}{req_attr}{described}{ph}></textarea></p>')
+
+    if t == "select":
+        opts = "".join(f'<option value="{o}">{o}</option>' for o in f["opts"])
+        return (f'<p class="f-row{wide}"><label for="{fid}">{f["label"]}{req_mark}</label>{hint}'
+                f'<select id="{fid}" name="{fid}"{req_attr}{described}>'
+                f'<option value="">Select</option>{opts}</select></p>')
+
+    if t == "yesno":
+        follow = ""
+        if f.get("follow"):
+            g = f["follow"]
+            follow = (f'<div class="f-follow" id="{fid}-follow" data-follow-of="{fid}" hidden>'
+                      f'<label for="{g["id"]}">{g["label"]}</label>'
+                      f'<input type="text" id="{g["id"]}" name="{g["id"]}" autocomplete="off">'
+                      f'</div>')
+        # the hint sits inside the fieldset, so it is announced with the group —
+        # no aria-describedby needed (and it must not point inside its own legend)
+        return (f'<fieldset class="f-yesno">'
+                f'<legend>{f["label"]}{req_mark}</legend>{hint}'
+                f'<span class="f-seg">'
+                f'<input type="radio" id="{fid}-yes" name="{fid}" value="Yes"{req_attr}>'
+                f'<label for="{fid}-yes">Yes</label>'
+                f'<input type="radio" id="{fid}-no" name="{fid}" value="No">'
+                f'<label for="{fid}-no">No</label>'
+                f'</span>{follow}</fieldset>')
+
+    if t == "checks":
+        boxes = "".join(
+            f'<span class="f-check"><input type="checkbox" id="{fid}-{i}" name="{fid}" value="{o}">'
+            f'<label for="{fid}-{i}">{o}</label></span>'
+            for i, o in enumerate(f["opts"])
+        )
+        return (f'<fieldset class="f-checks"><legend>{f["label"]}{req_mark}</legend>{hint}'
+                f'<span class="f-check-grid">{boxes}</span></fieldset>')
+
+    raise ValueError(f"unknown field type {t}")
+
+
+def _section(s, depth=0):
+    intro = f'<p class="f-sec-intro">{s["intro"]}</p>' if s.get("intro") else ""
+    grid = " f-sec-grid" if s.get("grid") else ""
+    fields = "\n      ".join(_field(f, depth) for f in s["fields"])
+    return f"""<section class="f-sec{grid}" data-step aria-labelledby="sec-{s['n']}" hidden>
+    <p class="f-sec-num" aria-hidden="true">{s['n']}</p>
+    <h2 id="sec-{s['n']}" tabindex="-1">{s['title']}</h2>
+    {intro}
+    <div class="f-fields">
+      {fields}
+    </div>
+  </section>"""
+
+
+def build_forms():
+    from forms_content import FORMS
+    d = 1
+
+    # ---- hub -------------------------------------------------------------
+    cards = "".join(f"""<a class="res-card reveal" href="{f['slug']}.html" style="--d:{i * 90}ms">
+      <span class="res-num" aria-hidden="true">0{i + 1}</span>
+      <h2>{f['name']}</h2>
+      <p>{f['lede']}</p>
+      <em class="svc-more">Open the form <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em>
+    </a>""" for i, f in enumerate(FORMS))
+
+    hub_crumbs = crumbs([("", "Patient Forms")], depth=d)
+    hub_body = f"""{nav(d)}
+<main id="main">
+{page_hero("Before Your Visit", "Patient Forms", "Complete your paperwork at home, in your own time. Both forms fill out right in your browser — your answers never leave your device until you choose to share them with us.", hub_crumbs, depth=d)}
+<section class="section">
+  <div class="res-grid">{cards}</div>
+</section>
+<section class="section section-tint">
+  <div class="privacy-note reveal">
+    <h2>How we protect what you write here</h2>
+    <ul class="check-list">
+      <li><strong>Nothing is transmitted.</strong> These forms don't send your answers over the internet. Everything you type stays in your browser.</li>
+      <li><strong>No tracking on form pages.</strong> We don't load analytics, advertising, or session-recording scripts on any page that asks about your health.</li>
+      <li><strong>You choose how it reaches us.</strong> When you finish, the form builds a clean summary you can print, save as a PDF, or bring to your appointment.</li>
+      <li><strong>Saving is opt-in.</strong> Your progress is only kept on your device if you switch it on — and a single button erases it.</li>
+    </ul>
+    <p class="privacy-foot">Questions about your privacy? Read our <a href="../privacy-policy.html">privacy policy</a> or call us at <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>.</p>
+  </div>
+</section>
+{cta_band(d, heading="Prefer to fill these out <em>with us?</em>", sub="Arrive fifteen minutes early and our front desk will walk you through everything on a practice tablet. Either way works.")}
+</main>
+{footer(d)}"""
+    hub = head("Patient Forms | RegenOrtho Palm Beach",
+               "Download and complete your RegenOrtho Palm Beach patient forms before your visit in Palm Beach Gardens — new patient intake and the peptide & GLP-1 questionnaire.",
+               depth=d, canonical="forms/index.html", extra_css="assets/css/forms.css",
+               extra_schema=breadcrumb_schema([("", "Home"), ("forms/index.html", "Patient Forms")])
+               ) + '<body class="page-forms">\n' + hub_body
+    write("forms/index.html", hub)
+
+    # ---- the forms themselves -------------------------------------------
+    for f in FORMS:
+        secs = "\n  ".join(_section(s, d) for s in f["sections"])
+        steps = "".join(
+            f'<li><button type="button" class="f-step" data-goto="{i}">'
+            f'<span aria-hidden="true">{s["n"]}</span>'
+            f'<span class="f-step-name">{s["title"]}</span></button></li>'
+            for i, s in enumerate(f["sections"])
+        )
+        n_secs = len(f["sections"])
+        steps += (f'<li><button type="button" class="f-step" data-goto="{n_secs}">'
+                  f'<span aria-hidden="true">{n_secs + 1:02d}</span>'
+                  f'<span class="f-step-name">Acknowledgment</span></button></li>')
+        c = crumbs([("forms/index.html", "Patient Forms"), ("", f["plain_name"])], depth=d)
+        body = f"""{nav(d)}
+<main id="main">
+{page_hero("Patient Forms", f['name'], f['lede'], c, cta=False, depth=d)}
+<section class="section form-section">
+  <div class="form-shell">
+    <nav class="f-steps" aria-label="Form sections">
+      <ol>{steps}</ol>
+    </nav>
+    <div class="form-main">
+      <div class="f-privacy">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M12 3 4.5 6v5.5c0 4.4 3.1 8.4 7.5 9.5 4.4-1.1 7.5-5.1 7.5-9.5V6L12 3Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="m8.8 12.2 2.2 2.2 4.2-4.4"/></svg>
+        <p><strong>This form stays on your device.</strong> Your answers are not sent anywhere when you press Finish — the form builds a summary you print, save as a PDF, or bring with you. We load no tracking scripts on this page.</p>
+      </div>
+
+      <form id="patient-form" class="patient-form" data-form="{f['slug']}" novalidate autocomplete="off">
+        <p class="f-required-note">Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with an asterisk</span> are required.</p>
+        <div class="f-errors" role="alert" hidden></div>
+        {secs}
+        <section class="f-sec" data-step aria-labelledby="sec-ack" hidden>
+          <p class="f-sec-num" aria-hidden="true">{n_secs + 1:02d}</p>
+          <h2 id="sec-ack" tabindex="-1">Patient Acknowledgment</h2>
+          <div class="f-fields">
+            <p class="f-ack-text">{f['ack']}</p>
+            <fieldset class="f-checks f-ack">
+              <legend class="sr-only">Acknowledgment</legend>
+              <span class="f-check">
+                <input type="checkbox" id="acknowledgment" name="acknowledgment" value="Acknowledged" required aria-required="true">
+                <label for="acknowledgment">I acknowledge and agree to the above statement <span class="req" aria-hidden="true">*</span></label>
+              </span>
+            </fieldset>
+            <p class="f-save-opt">
+              <span class="f-check">
+                <input type="checkbox" id="save-local">
+                <label for="save-local">Save my progress in this browser</label>
+              </span>
+              <span class="f-hint">Only turn this on if this device is yours — your answers will stay in this browser until you erase them.</span>
+            </p>
+          </div>
+        </section>
+
+        <div class="f-nav">
+          <button type="button" class="btn btn-ghost" data-prev hidden>Back</button>
+          <p class="f-progress" aria-live="polite">Section <span data-cur>1</span> of {n_secs + 1}</p>
+          <button type="button" class="btn btn-gold" data-next>Continue</button>
+          <button type="submit" class="btn btn-gold" data-finish hidden>Finish &amp; review</button>
+        </div>
+      </form>
+
+      <div class="f-done" hidden>
+        <h2 tabindex="-1">Your {f['plain_name']} is ready</h2>
+        <p>Nothing has been sent. Print this summary or save it as a PDF, then bring it to your appointment or hand it to our front desk — whichever is easier.</p>
+        <div class="f-done-actions">
+          <button type="button" class="btn btn-gold" data-print>Print / save as PDF</button>
+          <button type="button" class="btn btn-ghost" data-download>Download as a text file</button>
+          <button type="button" class="btn btn-ghost" data-edit>Go back and edit</button>
+        </div>
+        <div class="f-summary" id="form-summary"></div>
+        <p class="f-erase-row"><button type="button" class="f-erase" data-erase>Erase my answers from this device</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+{footer(d, extra_js="assets/js/forms.js")}"""
+        page = head(f["title"], f["desc"], depth=d, canonical=f"forms/{f['slug']}.html",
+                    extra_css="assets/css/forms.css",
+                    extra_schema=breadcrumb_schema([("", "Home"), ("forms/index.html", "Patient Forms"),
+                                                    (f"forms/{f['slug']}.html", f["plain_name"])])
+                    ) + '<body class="page-form">\n' + body
+        write(f"forms/{f['slug']}.html", page)
 
 
 def build_blog():
@@ -2686,8 +2907,10 @@ def build_legal_and_404():
     <p>The content on this website is provided for general information about our practice and services. It is not medical advice and does not create a doctor–patient relationship. For medical questions, please contact our office or consult a qualified healthcare provider.</p>
     <h2>Appointment requests &amp; forms</h2>
     <p>Information you submit through appointment request forms or the site assistant is used only to contact you about scheduling and your care, and is transmitted to our front desk email. Please do not include detailed medical history, insurance numbers, or other sensitive records in web forms — we will collect anything needed through secure channels during intake.</p>
+    <h2>Patient forms</h2>
+    <p>The new patient intake form and the peptide &amp; GLP-1 questionnaire on this site work differently from the appointment request forms above: <strong>they do not transmit anything.</strong> Everything you type stays in your own browser. When you finish, the form assembles your answers into a summary that you print, save as a PDF, or download — you decide how and when it reaches us. Your progress is stored on your device only if you switch that option on, and the "Erase my answers" button removes it.</p>
     <h2>Analytics</h2>
-    <p>This site may use privacy-friendly, cookieless analytics to understand aggregate site usage. We do not sell visitor information.</p>
+    <p>This site may use privacy-friendly, cookieless analytics to understand aggregate site usage. We do not load analytics, advertising, or session-recording scripts on the patient form pages. We do not sell visitor information.</p>
     <h2>Emergencies</h2>
     <p>If you are experiencing a medical emergency, call 911 or go to the nearest emergency room. This website and its assistant are not monitored in real time.</p>
     <h2>Questions</h2>
@@ -2732,6 +2955,8 @@ def build_meta():
     from blog_content import BLOG_POSTS
     pages = ["index.html", "about.html", "contact.html", "faq.html", "iv-therapy.html",
              "patient-resources.html", "privacy-policy.html", "terms.html",
+             "forms/index.html", "forms/new-patient.html",
+             "forms/peptide-glp-questionnaire.html",
              "services/index.html", "infusions/index.html", "blog/index.html",
              "providers/dr-marc-matarazzo.html", "providers/dr-orlando-cedeno.html",
              "providers/emily-bahnick.html"]
@@ -2817,6 +3042,7 @@ def main():
     build_faq()
     build_contact()
     build_resources()
+    build_forms()
     build_blog()
     build_legal_and_404()
     build_meta()

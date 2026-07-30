@@ -488,12 +488,28 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 .bm-node:hover .bm-ring, .bm-node.is-active .bm-ring, .bm-node:focus .bm-ring { stroke: #FFFFFF; stroke-width: 2; filter: drop-shadow(0 0 8px rgba(190, 225, 255, .95)); }
 .bm-node:hover .bm-dot, .bm-node.is-active .bm-dot { filter: drop-shadow(0 0 9px rgba(210, 235, 255, 1)); }
 .bm-node.is-active .bm-halo { animation-duration: 1.4s; }
+/* invisible finger-sized tap target — r=23 keeps ~35px of reach on a phone
+   while staying just clear of the closest pair (veins ↔ nerves, 47.4 apart) */
+.bm-hit { fill: transparent; pointer-events: all; }
 .bm-node:focus { outline: none; }
 .bm-node:focus-visible .bm-ring { stroke: #fff; stroke-width: 2.2; }
 
 .figure-caption { position: relative; z-index: 4; margin: .6rem auto 0; max-width: 400px; min-height: 3.4rem;
   text-align: center; font-size: .86rem; color: #A9BCCE; display: flex; flex-direction: column; gap: .15rem; }
 .figure-caption-label { color: var(--gold); font-weight: 800; letter-spacing: .04em; }
+
+/* Touch follow-through: on hover-less devices the first tap on a node only
+   reveals its blurb — this button (and a second tap on the node) is the trip
+   to the page. JS unhides it, so it never appears where hover already works. */
+.figure-go { display: inline-flex; align-items: center; gap: .45rem; align-self: center;
+  margin-top: .75rem; padding: .6rem 1.15rem; border-radius: 999px;
+  background: var(--gold); color: var(--navy-900); text-decoration: none;
+  font: 800 .78rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  box-shadow: 0 10px 24px -12px rgba(253, 201, 41, .8);
+  animation: goRise .3s var(--ease) both; }
+.figure-go[hidden] { display: none; }
+.figure-go svg { flex: none; }
+@keyframes goRise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 /* ------------------------------ hero marquee ----------------------------- */
 
@@ -587,10 +603,11 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 
 /* ------------------------------ doctors ---------------------------------- */
 
-.doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; position: relative; }
-.doc-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+/* Three providers, one row — cards stack photo over copy so they stay legible
+   at a third of the wrap. Below 1100px they revert to one wide horizontal card. */
+.doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; position: relative; }
 .doc-card {
-  display: grid; grid-template-columns: 240px 1fr; gap: 1.4rem; text-decoration: none;
+  display: flex; flex-direction: column; gap: 1rem; text-decoration: none;
   background: rgba(255, 255, 255, .045); border: 1px solid rgba(253, 201, 41, .2); border-radius: var(--r-lg);
   padding: 1.2rem; transition: transform .35s var(--ease), border-color .35s, background .35s;
 }
@@ -598,7 +615,7 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 .doc-photo { position: relative; border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4 / 5; box-shadow: inset 0 0 0 1px rgba(253,201,41,.25); }
 .doc-photo::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(253, 201, 41, .35); border-radius: var(--r-md); translate: 7px 7px; pointer-events: none; }
 .doc-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.doc-body { display: flex; flex-direction: column; gap: .5rem; }
+.doc-body { display: flex; flex-direction: column; gap: .5rem; flex: 1; }
 .doc-body strong { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: #fff; }
 .doc-role { font: 800 .74rem/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 .doc-bio { font-size: .87rem; color: #A9BCCE; }
@@ -1043,6 +1060,8 @@ body.nav-locked .mobile-call { display: none !important; }
   .steps, .steps.steps-light { grid-template-columns: 1fr 1fr; }
   .why-strip { grid-template-columns: repeat(2, 1fr); }
   .doc-grid { grid-template-columns: 1fr; }
+  .doc-card { flex-direction: row; gap: 1.4rem; }
+  .doc-photo { flex: 0 0 240px; }
   .iv-inner { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .path-grid { grid-template-columns: 1fr 1fr; }
@@ -1053,9 +1072,13 @@ body.nav-locked .mobile-call { display: none !important; }
   .cond-grid, .loc-grid, .contact-grid, .svc-intro-grid, .provider-grid { grid-template-columns: 1fr; }
   .cond-side, .loc-side, .provider-photo { position: static; }
   .why-strip { grid-template-columns: 1fr; }
-  .doc-card { grid-template-columns: 1fr; }
-  .doc-photo { max-width: 280px; }
-  .hero-stats { gap: 1.4rem; }
+  .doc-card { flex-direction: column; }
+  .doc-photo { flex: none; max-width: 280px; }
+  /* three stats, two columns — the lone third one centres across the full width */
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; }
+  .hero-stats div { min-width: 0; }
+  .hero-stats div:last-child { grid-column: 1 / -1; text-align: center; }
+  .hero-stats div:last-child dd { margin-inline: auto; }
   .footer-inner { grid-template-columns: 1fr; gap: 1.8rem; }
   .path-grid { grid-template-columns: 1fr; }
   .footer-base { flex-direction: column; }

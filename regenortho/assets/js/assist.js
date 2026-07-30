@@ -34,6 +34,8 @@
       a: "Call or text us at " + PHONE + " — that's 833-STEM561. You can also email " + EMAIL + "." },
     { k: ["insurance", "covered", "coverage", "medicare", "aetna", "cigna", "united", "blue cross"],
       a: "We work with most major insurance providers and will help verify your coverage before treatment. For uninsured services we offer flexible payment plans and transparent direct-pay packages. For your specific plan, call " + PHONE + " and our team will check for you." },
+    { k: ["form", "forms", "paperwork", "intake", "questionnaire", "new patient", "fill out"],
+      a: "You can fill out your paperwork at home before your visit — there's a new patient intake form and a peptide & GLP-1 questionnaire at regenorthopb.com/forms.\nBoth fill out right in your browser and nothing is sent over the internet: when you finish, the form builds a summary you print, save as a PDF, or bring in. Prefer to do it here? Arrive fifteen minutes early and our front desk will set you up on a tablet." },
     { k: ["referral", "refer"],
       a: "No referral is required — you can book directly with our specialists for a consultation." },
     { k: ["first visit", "first appointment", "expect", "new patient", "intake"],
