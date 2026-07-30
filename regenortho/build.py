@@ -10,6 +10,7 @@ claims.
 
 import hashlib
 import html
+import math
 import json
 import os
 import re
@@ -145,16 +146,7 @@ def nav(depth=0, current=""):
     cond = "\n".join(
         f'<li><a href="{p}{href}">{label}</a></li>' for href, label in CONDITIONS_NAV
     )
-    loc = "\n".join(
-        f'<li><a href="{p}{href}">{label}</a></li>' for href, label in LOCATIONS_NAV
-    )
     return f"""<a class="skip-link" href="#main">Skip to content</a>
-<div class="topbar">
-  <p class="topbar-inner"><span class="topbar-addr">{ADDRESS_STREET} · {ADDRESS_CITY}, {ADDRESS_STATE} {ADDRESS_ZIP}</span>
-  <span class="topbar-spacer" aria-hidden="true"></span>
-  <span class="topbar-hours">Mon–Fri 8 AM–5 PM</span>
-  <a class="topbar-phone" href="tel:{PHONE_TEL}"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8c1.5 2.9 3.7 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .7-.2 1l-2.3 2.2z"/></svg> {PHONE_VANITY} · {PHONE_DISPLAY}</a></p>
-</div>
 <header class="site-header" id="top">
   <div class="header-inner">
     <a class="brand" href="{p}index.html" aria-label="{NAME} — home">
@@ -184,12 +176,6 @@ def nav(depth=0, current=""):
           </ul>
         </li>
         <li><a class="nav-link" href="{p}iv-therapy.html">IV Lounge</a></li>
-        <li class="has-drop"><button class="drop-btn" aria-expanded="false">Locations<svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 1.5 6 6.5 11 1.5"/></svg></button>
-          <ul class="drop">
-            <li><a href="{p}index.html">Palm Beach Gardens (Home)</a></li>
-            {loc}
-          </ul>
-        </li>
         <li><a class="nav-link" href="{p}blog/index.html">Blog</a></li>
         <li><a class="nav-link" href="{p}faq.html">FAQ</a></li>
         <li><a class="nav-link" href="{p}contact.html">Contact</a></li>
@@ -1147,60 +1133,89 @@ def _capsule(x, y):
             f'<circle class="fl bone cap-i" pathLength="1" cx="{x}" cy="{y}" r="2.8"/>')
 
 
-def _skeleton():
-    """Anatomical skeleton, ~7.5 heads tall, thin gold linework. Center x=230.
+def _bone(x1, y1, x2, y2, we, ws):
+    """Contoured long bone: flared epiphyses, waisted shaft — closed outline."""
+    dx, dy = x2 - x1, y2 - y1
+    L = math.hypot(dx, dy)
+    px, py = -dy / L, dx / L
 
-    Landmarks (y): crown 48 · chin 139 · shoulders 172 · elbows ~308 ·
-    pubis/wrists ~398 · knees 560 · ankles 720 · soles ~746.
+    def P(t, w):
+        return (x1 + dx * t + px * w, y1 + dy * t + py * w)
+
+    f = lambda pt: f"{pt[0]:.1f} {pt[1]:.1f}"
+    d = (f"M {f(P(0, we))} C {f(P(.09, we * .8))} {f(P(.13, ws))} {f(P(.2, ws))} "
+         f"L {f(P(.8, ws))} C {f(P(.87, ws))} {f(P(.91, we * .8))} {f(P(1, we))} "
+         f"Q {f(P(1.055, 0))} {f(P(1, -we))} "
+         f"C {f(P(.91, -we * .8))} {f(P(.87, -ws))} {f(P(.8, -ws))} "
+         f"L {f(P(.2, -ws))} C {f(P(.13, -ws))} {f(P(.09, -we * .8))} {f(P(0, -we))} "
+         f"Q {f(P(-.055, 0))} {f(P(0, we))} Z")
+    return f'<path class="fl bone" pathLength="1" d="{d}"/>'
+
+
+def _skeleton():
+    """Anatomical skeleton, ~7.5 heads tall. Center x=230, viewBox 460x780.
+
+    Landmarks (y): crown 32 · chin 134 · shoulders 172 · elbows ~308 ·
+    wrists ~398 · hips 400 · knees 560 · ankles 720 · soles ~747.
     """
     P = []
-    # ---- skull: cranium, eye sockets, nasal aperture, mandible
-    P.append('<circle class="fl bone" pathLength="1" cx="230" cy="80" r="32"/>')
-    P.append('<circle class="fl bone faint" pathLength="1" cx="218" cy="84" r="5"/>')
-    P.append('<circle class="fl bone faint" pathLength="1" cx="242" cy="84" r="5"/>')
-    P.append('<path class="fl bone faint" pathLength="1" d="M227 94 L230 100 L233 94"/>')
-    P.append('<path class="fl bone" pathLength="1" d="M204 92 C205 116 214 132 230 134 C246 132 255 116 256 92"/>')
-    P.append('<path class="fl bone faint" pathLength="1" d="M220 121 L240 121"/>')
-    # ---- vertebral column: individual vertebrae, cervical -> lumbar
+    # ---- skull: dome, temples, zygomatic notches, maxilla, mandible
+    P.append('<path class="fl bone" pathLength="1" d="M197 74 C197 46 212 32 230 32 '
+             'C248 32 263 46 263 74 C263 85 260 93 255 98 C252 102 249 104 247 107 '
+             'C249 113 247 119 243 123 C240 129 236 133 230 134 '
+             'C224 133 220 129 217 123 C213 119 211 113 213 107 '
+             'C211 104 208 102 205 98 C200 93 197 85 197 74 Z"/>')
+    P.append('<rect class="fl bone faint" pathLength="1" x="209" y="76" width="15" height="11" rx="5"/>')
+    P.append('<rect class="fl bone faint" pathLength="1" x="236" y="76" width="15" height="11" rx="5"/>')
+    P.append('<path class="fl bone faint" pathLength="1" d="M227 95 C226 101 227 105 230 107 C233 105 234 101 233 95 C232 92 228 92 227 95 Z"/>')
+    P.append('<path class="fl bone faint" pathLength="1" d="M220 119 L240 119 M222 126 L238 126 M226 119 L226 126 M230 119 L230 126 M234 119 L234 126"/>')
+    # ---- vertebral column
     P.append('<path class="fl bone" pathLength="1" d="M230 140 C231 200 229 280 230 358"/>')
-    for i in range(6):                      # cervical
+    for i in range(6):
         y = 145 + i * 5.2
         P.append(f'<line class="fl bone vert" pathLength="1" x1="{230 - 4.5}" y1="{y:.0f}" x2="{230 + 4.5}" y2="{y:.0f}"/>')
-    for i in range(12):                     # thoracic
+    for i in range(12):
         y = 178 + i * 10.6
         P.append(f'<line class="fl bone vert" pathLength="1" x1="{230 - 6}" y1="{y:.0f}" x2="{230 + 6}" y2="{y:.0f}"/>')
-    for i in range(5):                      # lumbar
+    for i in range(5):
         y = 308 + i * 12
         P.append(f'<line class="fl bone vert" pathLength="1" x1="{230 - 7.5}" y1="{y}" x2="{230 + 7.5}" y2="{y}"/>')
     # ---- sternum + xiphoid
     P.append('<path class="fl bone" pathLength="1" d="M230 178 L230 240"/>')
     P.append('<path class="fl bone faint" pathLength="1" d="M230 240 L230 249"/>')
+    # ---- pubic symphysis detail
+    P.append('<path class="fl bone faint" pathLength="1" d="M227 413 L233 413 M227 417 L233 417"/>')
     # ---- per-side structures
     for sgn in (-1, 1):
         X = lambda dx: 230 + sgn * dx
-        # clavicle (gentle S) + scapula hint
+        # clavicle + scapular hint (spine + lateral border)
         P.append(f'<path class="fl bone" pathLength="1" d="M{X(4)} 174 C {X(22)} 168 {X(44)} 164 {X(62)} 166"/>')
-        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(58)} 172 L {X(67)} 184 L {X(54)} 222 L {X(43)} 202 Z"/>')
-        # ribs: 8 pairs, tapering barrel, upper ribs sweep back to the sternum
+        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(58)} 173 L {X(66)} 186 L {X(55)} 221"/>')
+        # ribs: 8 tapering pairs
         for i, w in enumerate([24, 34, 42, 49, 54, 56, 53, 47]):
             ys = 184 + i * 12
             if i < 6:
                 P.append(f'<path class="fl bone rib" pathLength="1" d="M{X(3)} {ys} C {X(int(w * .92))} {ys + 2} {X(w)} {ys + 10} {X(w - 7)} {ys + 15} C {X(w - 20)} {ys + 19} {X(14)} {ys + 21} {X(7)} {ys + 19}"/>')
             else:
                 P.append(f'<path class="fl bone rib" pathLength="1" d="M{X(3)} {ys} C {X(int(w * .92))} {ys + 2} {X(w)} {ys + 10} {X(w - 9)} {ys + 16}"/>')
-        # pelvic girdle: iliac crest -> acetabular rim -> ischiopubic ramus
+        # pelvic girdle: crest, ramus, inner fossa, ischial bump
         P.append(f'<path class="fl bone" pathLength="1" d="M{X(6)} 356 C {X(26)} 350 {X(42)} 354 {X(50)} 366 C {X(55)} 376 {X(53)} 390 {X(44)} 398"/>')
         P.append(f'<path class="fl bone" pathLength="1" d="M{X(44)} 398 C {X(38)} 412 {X(26)} 421 {X(12)} 424 C {X(5)} 425 {X(2)} 420 {X(3)} 413"/>')
-        # arm: humerus (slight A-pose), radius + ulna, suggested hand
-        P.append(f'<path class="fl bone" pathLength="1" d="M{X(63)} 176 C {X(70)} 214 {X(72)} 268 {X(72)} 300"/>')
-        P.append(f'<path class="fl bone" pathLength="1" d="M{X(70)} 316 C {X(74)} 344 {X(80)} 372 {X(84)} 392"/>')
-        P.append(f'<path class="fl bone" pathLength="1" d="M{X(76)} 315 C {X(80)} 342 {X(85)} 370 {X(88)} 390"/>')
-        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(87)} 404 L {X(85)} 424 M{X(87)} 404 L {X(91)} 426 M{X(87)} 404 L {X(96)} 420"/>')
-        # leg: femur with neck, tibia + fibula, suggested foot
-        P.append(f'<path class="fl bone" pathLength="1" d="M{X(34)} 402 C {X(42)} 407 {X(45)} 414 {X(43)} 424 C {X(38)} 460 {X(28)} 518 {X(24)} 550"/>')
-        P.append(f'<path class="fl bone" pathLength="1" d="M{X(23)} 570 C {X(22)} 612 {X(19)} 676 {X(18)} 712"/>')
-        P.append(f'<path class="fl bone" pathLength="1" d="M{X(29)} 572 C {X(28)} 614 {X(25)} 678 {X(23)} 708"/>')
-        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(18)} 726 C {X(15)} 736 {X(19)} 743 {X(28)} 745 L {X(52)} 747 C {X(56)} 747 {X(56)} 743 {X(52)} 741 M{X(44)} 746 L {X(43)} 739"/>')
+        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(10)} 360 C {X(24)} 355 {X(35)} 359 {X(42)} 368"/>')
+        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(20)} 423 C {X(17)} 427 {X(12)} 427 {X(9)} 424"/>')
+        # arm: contoured humerus, radius + ulna, suggested hand
+        P.append(_bone(X(63), 178, X(71), 298, 5, 2.2))
+        P.append(_bone(X(69), 318, X(84), 394, 3.4, 1.5))
+        P.append(_bone(X(76), 316, X(88), 392, 3, 1.3))
+        P.append(f'<ellipse class="fl bone faint" pathLength="1" cx="{X(88)}" cy="403" rx="4.5" ry="6"/>')
+        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(88)} 409 L {X(86)} 424 M{X(88)} 409 L {X(92)} 425 M{X(88)} 409 L {X(96)} 419"/>')
+        # leg: femoral neck, contoured femur, patella, tibia + fibula, foot
+        P.append(f'<path class="fl bone" pathLength="1" d="M{X(33)} 401 C {X(38)} 406 {X(41)} 412 {X(42)} 419"/>')
+        P.append(_bone(X(43), 424, X(24), 548, 5.5, 2.4))
+        P.append(f'<circle class="fl bone faint" pathLength="1" cx="{X(23)}" cy="559" r="4.5"/>')
+        P.append(_bone(X(23), 570, X(18), 710, 4.4, 1.9))
+        P.append(_bone(X(30), 572, X(24), 706, 2.4, 1.1))
+        P.append(f'<path class="fl bone faint" pathLength="1" d="M{X(18)} 726 C {X(15)} 736 {X(19)} 743 {X(28)} 745 L {X(52)} 747 C {X(56)} 747 {X(56)} 743 {X(52)} 741 M{X(44)} 746 L {X(43)} 739 M{X(36)} 745 L {X(35)} 738"/>')
     # ---- sacrum
     P.append('<path class="fl bone" pathLength="1" d="M222 362 L230 400 L238 362"/>')
     # ---- joint capsules
@@ -1342,15 +1357,19 @@ def build_home():
       </video> -->
     </div>
     <div class="scene-sky"></div>
+    <div class="scene-haze-violet"></div>
     <div class="scene-haze"></div>
     <div class="scene-clouds"><span></span><span></span><span></span></div>
     <div class="scene-cloudband"><span></span><span></span></div>
+    <div class="scene-rays"></div>
     <div class="scene-sunglow"></div>
     <div class="scene-sun"></div>
     <div class="scene-horizon"></div>
     <div class="scene-ocean"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span></div>
     <div class="scene-reflection"></div>
     <div class="scene-shore"></div>
+    <div class="scene-fronds"></div>
+    <div class="scene-vignette"></div>
     <div class="scene-shimmer"></div>
     <div class="hero-scrim"></div>
   </div>
