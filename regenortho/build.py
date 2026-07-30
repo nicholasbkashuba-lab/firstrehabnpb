@@ -103,6 +103,7 @@ SERVICES_NAV = [
     ("services/podiatric-medicine-foot-ankle-surgery.html", "Podiatric Medicine & Foot/Ankle Surgery"),
     ("services/regenerative-medicine-orthobiologics.html", "Regenerative Medicine & Orthobiologics"),
     ("services/advanced-non-surgical-therapies.html", "Advanced Non-Surgical Therapies"),
+    ("services/peptide-therapy.html", "Peptide Therapy"),
     ("services/vein-care.html", "Vein Care — Medical & Cosmetic"),
     ("iv-therapy.html", "IV Recovery & Wellness Lounge"),
     ("services/misha-knee-system.html", "MISHA Knee System"),

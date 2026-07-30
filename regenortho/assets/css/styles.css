@@ -1010,7 +1010,9 @@ body.nav-locked .mobile-call { display: none !important; }
   .has-drop .drop { transform: none; }
   .has-drop.is-open .drop { display: block; visibility: visible; }
   .has-drop:hover .drop:not(.is-open) { }
-  .drop-mega { display: block; }
+  /* mega menu must obey the same collapsed/open rules as other dropdowns,
+     or it reserves an invisible full-height block in the mobile drawer */
+  .has-drop.is-open .drop-mega { display: block; }
   .nav-cta-item { border-bottom: 0 !important; padding-top: 1.2rem; }
   .nav-cta { width: 100%; margin: 0; }
 
