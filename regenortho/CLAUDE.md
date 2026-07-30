@@ -23,13 +23,13 @@ Static site, 56 pages, generated — do not edit HTML files directly.
   margins, NOT flex gap), quote rotator, figure attract cycle, FAQ filter/search.
 - `assets/js/assist.js` — concierge assistant. SET ANSWERS only (FAQ array) — no AI, no
   external API, no medical advice; route unknowns to 833-783-6561. Leads deliver via
-  FormSubmit (formsubmit.co/ajax/info@regenorthopb.com) with a localStorage retry queue.
+  FormSubmit (formsubmit.co/ajax/info@regenorthopalmbeach.com) with a localStorage retry queue.
   Never put secret keys in it.
 
 ## Business facts (canonical)
 - RegenOrtho Palm Beach · "The Regeneration of Orthopedics"
 - 11380 Prosperity Farms Road, Suite 204–208, Palm Beach Gardens, FL 33410
-- 833-STEM561 = 833-783-6561 · info@regenorthopb.com · Mon–Fri 8 AM–5 PM
+- 833-STEM561 = 833-783-6561 · info@regenorthopalmbeach.com · Mon–Fri 8 AM–5 PM
 - Instagram: @regenortho_palmbeach (only real social profile — X/YouTube don't exist)
 - Dr. Marc Matarazzo, MD (ortho/sports medicine, MAKO-certified) · Dr. Orlando Cedeno, DPM
   (podiatric surgery + vein) · Dr. Michael Carpino (concierge provider) · Emily Bahnick,

@@ -9,7 +9,7 @@
 
   var PHONE = "833-783-6561";
   var PHONE_TEL = "+18337836561";
-  var EMAIL = "info@regenorthopb.com";
+  var EMAIL = "info@regenorthopalmbeach.com";
   var ENDPOINT = "https://formsubmit.co/ajax/" + EMAIL;
   var LS_DRAFT = "rga-draft-v1";
   var LS_QUEUE = "rga-queue-v1";

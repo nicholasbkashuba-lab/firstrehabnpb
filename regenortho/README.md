@@ -4,7 +4,7 @@ Static site for **regenorthopb.com**. 56 pages, fully generated — a complete r
 practice's WordPress site, built to be handed over and self-managed.
 
 **The Regeneration of Orthopedics** · 11380 Prosperity Farms Road, Suite 204–208, Palm Beach
-Gardens, FL 33410 · 833-STEM561 (833-783-6561) · info@regenorthopb.com
+Gardens, FL 33410 · 833-STEM561 (833-783-6561) · info@regenorthopalmbeach.com
 
 ## How it works
 
@@ -45,7 +45,7 @@ After ANY edit: `python3 build.py`, then commit. Preview locally with
 
 ## Leads (appointment requests)
 
-Both the contact form and the assistant deliver to **formsubmit.co → info@regenorthopb.com**.
+Both the contact form and the assistant deliver to **formsubmit.co → info@regenorthopalmbeach.com**.
 ⚠️ FormSubmit requires one-time activation: the first submission triggers a confirmation
 email to that inbox — click it (check spam) or leads will not arrive. If delivery fails,
 the assistant queues the lead in the visitor's browser and retries automatically.
