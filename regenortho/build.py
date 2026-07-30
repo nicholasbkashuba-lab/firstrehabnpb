@@ -1274,6 +1274,18 @@ def figure_svg(depth=0):
 # Page builders
 # ---------------------------------------------------------------------------
 
+
+SVC_ICONS = {
+    "orthopedic-sports-medicine": '<g transform="rotate(45 12 12)"><path d="M7.2 10.6 h9.6 M7.2 13.4 h9.6"/><circle cx="5.9" cy="10.5" r="1.9"/><circle cx="5.9" cy="13.5" r="1.9"/><circle cx="18.1" cy="10.5" r="1.9"/><circle cx="18.1" cy="13.5" r="1.9"/></g>',
+    "podiatric-medicine-foot-ankle-surgery": '<path d="M9.2 4 C12.4 4 13.9 6.9 13.5 9.8 C13.2 12.2 11.6 13.4 11.4 15.4 C11.2 17.4 12 19.3 10.3 20.4 C8.8 21.3 7 20.4 6.8 18.7 C6.5 16.9 7.6 15.8 7.5 13.8 C7.4 11.7 6.3 10.6 6.4 8.2 C6.5 5.8 7.6 4 9.2 4 Z"/><circle cx="15.6" cy="5.6" r=".9"/><circle cx="17.4" cy="7.3" r=".9"/><circle cx="18.3" cy="9.4" r=".9"/>',
+    "regenerative-medicine-orthobiologics": '<path d="M12 3.4 C15 7 17.4 9.8 17.4 13 A5.4 5.4 0 0 1 6.6 13 C6.6 9.8 9 7 12 3.4 Z"/><path d="M9.4 13.2 a2.6 2.6 0 0 0 2.6 2.6"/>',
+    "advanced-non-surgical-therapies": '<path d="M13.2 3 L7 13.2 h3.9 L9.4 21 L16.8 10.6 h-3.9 Z"/>',
+    "vein-care": '<path d="M12 3 C10 6.8 14 9 12 12.6 C10 16.2 14 18.4 12 21"/><path d="M11.6 8.2 L8.4 10.4 M12.2 14.8 L15.6 17"/>',
+    "misha-knee-system": '<path d="M12 3 v2.6 M8.2 6.4 h7.6 l-7.6 2.4 7.6 2.4 -7.6 2.4 7.6 2.4 h-7.6 M12 18.4 V21"/>',
+    "mako-robotic-knee-replacement": '<circle cx="6.2" cy="17.8" r="2.1"/><path d="M7.8 16.2 L11 9.8 L15.6 7.2"/><circle cx="16.8" cy="6.4" r="1.7"/><path d="M15.2 9.4 l3 3.2 M18.2 12.6 l1.8 -.6"/>',
+    "concierge-care": '<path d="M4.6 17.4 h14.8 M6.2 17.4 a5.8 5.8 0 0 1 11.6 0"/><path d="M12 8.4 V6.6"/><circle cx="12" cy="9.6" r="1.1"/>',
+}
+
 def build_home():
     d = 0
     svc_cards = []
@@ -1298,12 +1310,13 @@ def build_home():
     for i, (slug, blurb, feats) in enumerate(HOME_SVCS, 1):
         name = svc_name(slug)
         feat_html = "".join(f"<li>{f}</li>" for f in feats)
-        svc_cards.append(f"""<a class="svc-tile reveal" href="services/{slug}.html" style="--d:{(i % 4) * 90}ms">
-        <span class="svc-tile-num" aria-hidden="true">{i:02d}</span>
+        icon = SVC_ICONS[slug]
+        svc_cards.append(f"""<a class="svc-tile reveal" href="services/{slug}.html" style="--d:{(i % 4) * 90}ms" aria-label="{name} — explore this service">
+        <span class="svc-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">{icon}</svg></span>
         <strong>{name}</strong>
         <span class="svc-tile-sub">{blurb}</span>
         <ul class="svc-tile-list">{feat_html}</ul>
-        <em class="svc-more">Explore <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em>
+        <span class="svc-tile-go" aria-hidden="true"><svg viewBox="0 0 16 12" width="15" height="11"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></span>
       </a>""")
     svc_cards_html = "\n".join(svc_cards)
 
@@ -1377,8 +1390,10 @@ def build_home():
     <div class="scene-headland"></div>
     <div class="scene-ocean"><span class="wave w1"></span><span class="wave w2"></span><span class="wave w3"></span></div>
     <div class="scene-swells"><span class="sw sw1"></span><span class="sw sw2"></span><span class="sw sw3"></span><span class="sw sw4"></span></div>
+    <div class="scene-rollers"><span class="roller r1"></span><span class="roller r2"></span><span class="roller r3"></span></div>
     <div class="scene-reflection"></div>
     <div class="scene-sparkles"></div>
+    <div class="scene-wash"></div>
     <div class="scene-shore"></div>
     <div class="scene-fronds"></div>
     <div class="scene-vignette"></div>
