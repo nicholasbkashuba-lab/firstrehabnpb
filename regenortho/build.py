@@ -1278,21 +1278,32 @@ def build_home():
     d = 0
     svc_cards = []
     HOME_SVCS = [
-        ("orthopedic-sports-medicine", "svc-ortho.jpg", "Same-day injury consults, arthroscopy & joint preservation from a fellowship-trained surgeon."),
-        ("podiatric-medicine-foot-ankle-surgery", "svc-podiatry.jpg", "Minimally invasive foot & ankle surgery with same-day custom orthotics, fabricated onsite."),
-        ("regenerative-medicine-orthobiologics", "svc-regen.jpg", "PRP, cellular & peptide therapies — ultrasound-guided healing without surgery."),
-        ("advanced-non-surgical-therapies", "svc-nonsurgical.jpg", "EPAT shockwave, cold laser & exosomes to switch stubborn tissue back into repair mode."),
-        ("vein-care", "svc-vein.jpg", "Duplex-mapped ablation, sclerotherapy & cosmetic vein care with quick recovery."),
-        ("misha-knee-system", "misha-device.jpg", "An implantable shock absorber for medial knee arthritis — when you're not ready for replacement."),
-        ("mako-robotic-knee-replacement", "knee-implant.jpg", "Robotic-arm assisted knee replacement with 3D CT planning and haptic precision."),
-        ("concierge-care", "clinic-lounge.jpg", "Same-day diagnostics, private suites & transparent bundled pricing — medicine on your timeline."),
+        ("orthopedic-sports-medicine", "Same-day injury consults, arthroscopy & joint preservation from a fellowship-trained surgeon.",
+         ["Same-day injury consultations", "Arthroscopy & joint preservation", "Sports performance & recovery programs"]),
+        ("podiatric-medicine-foot-ankle-surgery", "Board-certified foot & ankle surgery with orthotics fabricated onsite.",
+         ["Minimally invasive foot & ankle surgery", "Same-day custom orthotics", "Heel pain & gait correction"]),
+        ("regenerative-medicine-orthobiologics", "Biologic therapies that help the body repair itself — without surgery.",
+         ["PRP & orthobiologic injections", "Cellular & exosome therapies", "Ultrasound-guided precision"]),
+        ("advanced-non-surgical-therapies", "Energy-based and biologic treatments that switch tissue back into repair mode.",
+         ["EPAT shockwave therapy", "Cold laser therapy", "Peptide & exosome protocols"]),
+        ("vein-care", "Medical & cosmetic vein care with quick, in-office recovery.",
+         ["Duplex ultrasound mapping", "Laser & RF ablation", "Sclerotherapy & cosmetic care"]),
+        ("misha-knee-system", "An implantable shock absorber for medial knee arthritis.",
+         ["Placed outside the joint, outpatient", "Reduces peak knee load by 30%+", "For those not ready for replacement"]),
+        ("mako-robotic-knee-replacement", "Robotic-arm assisted knee replacement, personalized to your anatomy.",
+         ["3D CT-based surgical planning", "Haptic robotic precision", "Therapy often starts the next day"]),
+        ("concierge-care", "Medicine on your timeline — private, fast, and transparent.",
+         ["Same-day diagnostics & planning", "Private infusion & procedure suites", "Transparent bundled pricing"]),
     ]
-    for i, (slug, img, blurb) in enumerate(HOME_SVCS, 1):
+    for i, (slug, blurb, feats) in enumerate(HOME_SVCS, 1):
         name = svc_name(slug)
-        svc_cards.append(f"""<a class="svc-card reveal" href="services/{slug}.html" style="--d:{(i % 4) * 90}ms">
-        <span class="svc-num" aria-hidden="true">{i:02d}</span>
-        <span class="svc-media"><img src="assets/media/{img}?v={asset_v('assets/media/' + img)}" alt="" width="640" height="420" loading="lazy"></span>
-        <span class="svc-body"><strong>{name}</strong><span>{blurb}</span><em class="svc-more">Explore <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em></span>
+        feat_html = "".join(f"<li>{f}</li>" for f in feats)
+        svc_cards.append(f"""<a class="svc-tile reveal" href="services/{slug}.html" style="--d:{(i % 4) * 90}ms">
+        <span class="svc-tile-num" aria-hidden="true">{i:02d}</span>
+        <strong>{name}</strong>
+        <span class="svc-tile-sub">{blurb}</span>
+        <ul class="svc-tile-list">{feat_html}</ul>
+        <em class="svc-more">Explore <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M1 6h13M9 1l5 5-5 5"/></svg></em>
       </a>""")
     svc_cards_html = "\n".join(svc_cards)
 

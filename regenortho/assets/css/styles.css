@@ -442,6 +442,32 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 .svc-more svg { transition: transform .3s var(--ease); }
 .svc-card:hover .svc-more svg, .treat-card:hover .svc-more svg { transform: translateX(4px); }
 
+/* --------------------- home services tiles (no imagery) ------------------ */
+
+.svc-tile {
+  position: relative; display: flex; flex-direction: column; gap: .55rem;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 1.5rem 1.4rem 1.3rem; text-decoration: none; overflow: hidden;
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s;
+}
+.svc-tile::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease);
+}
+.svc-tile:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+.svc-tile:hover::before { transform: scaleX(1); }
+.svc-tile-num {
+  font: 600 2.5rem/1 var(--serif); color: transparent;
+  -webkit-text-stroke: 1.3px #9C7A0E; letter-spacing: .02em; margin-bottom: .2rem;
+}
+.svc-tile strong { font-family: var(--serif); font-weight: 600; font-size: 1.22rem; line-height: 1.25; color: var(--navy-900); min-height: 3.05rem; display: flex; align-items: flex-end; }
+.svc-tile-sub { font-size: .86rem; color: var(--muted); }
+.svc-tile-list { list-style: none; margin: .35rem 0 .2rem; display: flex; flex-direction: column; gap: .38rem; border-top: 1px dashed var(--line); padding-top: .8rem; }
+.svc-tile-list li { position: relative; padding-left: 1.15rem; font-size: .84rem; font-weight: 600; color: var(--navy-800); }
+.svc-tile-list li::before { content: ""; position: absolute; left: 0; top: .48em; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 3px rgba(253, 201, 41, .18); }
+.svc-tile .svc-more { margin-top: auto; padding-top: .6rem; }
+
 /* ------------------------------ doctors ---------------------------------- */
 
 .doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; position: relative; }
