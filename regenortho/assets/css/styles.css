@@ -504,13 +504,15 @@ body.nav-locked .site-header { -webkit-backdrop-filter: none; backdrop-filter: n
 
 /* ------------------------------ social rail ------------------------------ */
 
-.social-rail { overflow: hidden; margin: 0 -1.2rem; padding: 0 0 .6rem; }
-.social-track { display: flex; width: max-content; will-change: transform; animation: marquee 46s linear infinite; }
+.social-rail { overflow: hidden; margin: 0 auto; padding: .5rem 0 1rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%); }
+.social-track { display: flex; align-items: center; width: max-content; will-change: transform; animation: marquee 46s linear infinite; }
 .social-track > * { margin-right: 1.1rem; flex-shrink: 0; }
 .social-rail:hover .social-track, .social-rail:focus-within .social-track { animation-play-state: paused; }
 .social-tile { position: relative; width: 250px; aspect-ratio: 1; border-radius: var(--r-md); overflow: hidden; display: block; text-decoration: none; box-shadow: var(--shadow-sm); }
-.social-tile:nth-child(odd) { transform: rotate(-1.2deg); }
-.social-tile:nth-child(even) { transform: rotate(1deg) translateY(8px); }
+.social-tile:nth-child(odd) { transform: rotate(-.6deg); }
+.social-tile:nth-child(even) { transform: rotate(.6deg); }
 .social-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
 .social-tile:hover img { transform: scale(1.07); }
 .social-cap {
