@@ -1,27 +1,57 @@
-name: zz-frames-to-branch
+name: zz-sabesan-edit
 on: push
 permissions:
   contents: write
-  actions: read
 jobs:
-  collect:
+  edit:
     runs-on: ubuntu-latest
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
         with:
           ref: tmp/sabesan-relay
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: frames-*
-          run-id: 30633184037
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: allframes
-          merge-multiple: true
-      - name: Commit frames
+      - name: Setup
         run: |
-          ls -la allframes/
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q faster-whisper librosa numpy
+          sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
+          df -h / /mnt | tail -3
+      - name: Download sources (parallel — links are short-lived)
+        run: |
+          set -euo pipefail
+          cd /mnt/work
+          python3 - <<'PY'
+          import json, subprocess
+          links = json.load(open("'"$GITHUB_WORKSPACE"'/pipeline/links.json"))
+          procs = {n: subprocess.Popen(["curl","-sS","--fail","--retry","2","-L","-o",n,v["url"]])
+                   for n, v in links.items()}
+          bad = [n for n, p in procs.items() if p.wait() != 0]
+          if bad: raise SystemExit(f"downloads failed: {bad}")
+          import os
+          for n, v in links.items():
+              got = os.path.getsize(n)
+              assert got == v["size"], f"{n}: {got} != {v['size']}"
+              print(n, "ok", got)
+          PY
+          df -h / /mnt | tail -3
+      - name: Edit
+        run: |
+          export WORK=/mnt/work
+          python3 $GITHUB_WORKSPACE/pipeline/edit.py
+          df -h / /mnt | tail -3
+      - name: Publish outputs to tmp/sabesan-out
+        run: |
+          set -euo pipefail
+          cd /mnt/work/out
+          split -b 90m -d master.mp4 master.chunk_
+          sha256sum master.mp4 > master.sha256
+          rm master.mp4
+          cd $GITHUB_WORKSPACE
+          git checkout --orphan tmp/sabesan-out
+          git rm -rf -q . || true
+          cp -r /mnt/work/out/* .
+          git add -A
           git config user.name ci-bot
           git config user.email ci-bot@users.noreply.github.com
-          git add allframes
-          git commit -m "reference frames from all angles"
-          git push origin HEAD:tmp/sabesan-relay
+          git commit -q -m "sabesan multicam master + verification pack"
+          git push -f origin HEAD:tmp/sabesan-out
