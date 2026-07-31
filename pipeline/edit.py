@@ -64,13 +64,27 @@ def sh(cmd, **kw):
 
 def probe(f):
     """iPhone .mov files carry extra data/metadata streams that can break naive
-    v:0 queries — walk the full stream list instead."""
+    v:0 queries — walk the full stream list instead. Vertical phone video is
+    stored landscape with a rotation flag; ffmpeg autorotates on decode, so
+    report DISPLAY dimensions (post-rotation) — every downstream crop/scale
+    sees the autorotated frame."""
     d = json.loads(sh(f'ffprobe -v error -show_streams -show_format -of json {f}'))
     vs = [s for s in d["streams"]
           if s.get("codec_type") == "video" and s.get("width") and s.get("height")]
     assert vs, f"{f}: no sized video stream among {[s.get('codec_type') for s in d['streams']]}"
+    v = vs[0]
+    rot = 0
+    for sd in v.get("side_data_list") or []:
+        if "rotation" in sd:
+            rot = int(sd["rotation"])
+    if rot == 0 and v.get("tags", {}).get("rotate"):
+        rot = int(v["tags"]["rotate"])
+    w, h = int(v["width"]), int(v["height"])
+    if abs(rot) % 180 == 90:
+        w, h = h, w
     dur = float(d["format"]["duration"])
-    return int(vs[0]["width"]), int(vs[0]["height"]), dur
+    print(f"  {f}: stored {v['width']}x{v['height']} rot={rot} -> display {w}x{h}", flush=True)
+    return w, h, dur
 
 
 def envelope(f, dur=None):
