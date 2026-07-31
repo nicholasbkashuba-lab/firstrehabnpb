@@ -1,59 +1,67 @@
-name: zz-finish-v3
+name: zz-finish-v4
 on: push
 permissions:
   contents: write
 jobs:
-  finish:
+  v4:
     runs-on: ubuntu-latest
     timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
         with:
           ref: tmp/sabesan-relay
-      - name: Setup
+      - name: Setup + preflight (before links are consumed)
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q speechbrain scikit-learn numpy
+          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/finish2.py"
+          python3 -c "import torch, torchaudio, sklearn, numpy; from speechbrain.inference.speaker import EncoderClassifier; print('imports ok')"
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
-          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/finish.py"
-      - name: Fetch v1 master (audio + edl) from out branch
+      - name: Fetch v1 master (audio + transcript)
         run: |
           set -euo pipefail
           git fetch origin tmp/sabesan-out
           git archive origin/tmp/sabesan-out | tar -x -C /mnt/work
           cd /mnt/work
           cat master.chunk_* > master.mp4 && rm master.chunk_*
-          ls -la edl.json master.mp4
+          sha256sum -c master.sha256
+          ls -la transcript.json master.mp4
       - name: Download cameras (parallel)
         run: |
           set -euo pipefail
           cd /mnt/work
-          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uca77287db296f208d216376eced.dl.dropboxusercontent.com/cd/0/get/DFQrfTjusEhHOOcGirbTLI6lEsvIxE0l15e2xeBjNYreDOmZOMBKcD6soungLmzXFLuysMde-tsGRisFaMkebS1vZmjglxK3snaHgs13izgD7ngs4skJuM66pO6ATIFAiO-ktKM2y4fuoeQ_-808fbt8sXFnOc3kf81TPWDCSiaDwg/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-b.mov "https://uc6ca3f72c0d7352877a715c2b4a.dl.dropboxusercontent.com/cd/0/get/DFSf_YB0z7MWlWrnGNHwjs-M7p4V25d1jQvdeFYmh1XiROdy3uDr7E80Fj67--aF5FOtHinTu7PGG_YXaSvLEvR_eJvQqUJM6H2ioeVSjIsldiNVl_R128WmVIRe4ypwHQZLn2sumTn75l3cCi-jZOKrOSshh2SsbLL1ec25FOI3EQ/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc39187f4fd1a12522944bae63ad.dl.dropboxusercontent.com/cd/0/get/DFQpGQz46qWhUoqAhVomWcTiGFjS-cX8njxYBpb3QKX7u44_BhWMyBSsNIRM12R_TtpI9TQ3ARj80LMxMTtV4sM26ZsN-zpqwvlhBZgKDLe5vWKwnubxw6fPolTOX0OVci4kNre24M-xlCIPL_rzfhAzWakAUscfHaeas-7f4s_JPQ/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uc575f04fc729028075bfbe59d10.dl.dropboxusercontent.com/cd/0/get/DFUW4IzUxaEK0vMzP4pVWyFYnVqV3O6X8AShno4zRmiZ9_GDyc_E7jMdonyH-UKvn6fvHQ8pENtsrWvL4FMfp8LktQgSlW9eTZm-ndjKilFcAAk3cSR5Zx7WwuKcdFy809aNE5DTu-RYHzhEaarAEdRfnI8_DavRhMRnrJt9LHDAbQ/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-b.mov "https://uc8dab7fc1b2d851d87bbd7c85c8.dl.dropboxusercontent.com/cd/0/get/DFXNL5UoldKCjustOXUUkSSC0Nee_FSIl9tJdwZ05PF6-KDtPFVMWC1cSAV4XV_og27e0UxaSkMnG0BpCWlNZOKnVPRupf0gsPP6Cxb1ueveW_gqYIBoBT6gNQQ4F01j7eY8L_niLWCsdSJ106tP24rXiXjthq-WjFYCERKXXJz5PA/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc84d5c9d7102b56e63c028dd363.dl.dropboxusercontent.com/cd/0/get/DFUd-mzinwjXG20_acR4XwChGJ42vNE662emUM7jDtQ0PVCmqMlGdc8MIFMM43Sm7H5-9-Gb63dB8mgWYP-0p1iuFyogFRHMMqpJz2y_8SUnyxFL0Ib9OjojbVuTIOwFrNfnZ66BHsUc4h2KoLk7P1Rs2UiLhy8ZduTUH3d9KlvMFg/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o f1087.mov "https://uc8bda25b3cfbfe38bb3efae5fbf.dl.dropboxusercontent.com/cd/0/get/DFUo6ByQhpWS3SD8_VR6eGKL0wxF8McXlibUSIJf_TLAm4ocGLebQO3XYvMzGkVZnrstbYv53mgqeDlQDoW0E4dPySztDEvRJdpKtZtAbGM7fB62NmdenWnq8Ws4RXCW9Du0h7PYGny_YrUCckYqigzFgTLLGPyepRdBygdAiesIgw/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o f1233.mov "https://uc65ed244d3b59d911f3e92720fe.dl.dropboxusercontent.com/cd/0/get/DFUz_PXtrQqy9OaQMd11BR7vkI2QHwBmq9ZKdXOY9ds1jxASUWDHRxGVjEu8ddG0kg6S4MeoIU70nnWF5CnTBQmbYmPMdQrLQknd9C8ZHQHaHugebktTKCf09rEhPC-BB-KcJIwB2SimLv_krJIBGI97BC8Wvi-9C_KAK4CCkRVOfQ/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o f1527.mov "https://uc1fbf9d87db01b2a90eef8849c8.dl.dropboxusercontent.com/cd/0/get/DFVnczUC0i0kPzkgSEF1HRsTx38GVEDxbBVF0gndXWu-XO8zlR2wmEPOiSg1_l_V5b7pUdbft-c-9YAdq7GumQLrU6bCZ5KOxpNHG5CUy9oQL5Wy5Q0LAsLrwwl-cGcqoils7_23WBgkhYAf1lLRz6pdubT9qrySw7K_TVpefCWRlw/file?c_luid=b636c39b" &
           wait
           [ "$(stat -c%s cam-a.mov)" = "5799444823" ]
           [ "$(stat -c%s cam-b.mov)" = "6222098919" ]
           [ "$(stat -c%s cam-c.mov)" = "6162358143" ]
+          [ "$(stat -c%s f1087.mov)" = "400588819" ]
+          [ "$(stat -c%s f1233.mov)" = "2024103070" ]
+          [ "$(stat -c%s f1527.mov)" = "1828729201" ]
           echo all sizes ok
-      - name: Render v3 (tonemap + corrected crop)
+      - name: Render v4
         run: |
           export WORK=/mnt/work
-          python3 "$GITHUB_WORKSPACE/pipeline/finish.py"
-      - name: Publish v3
+          python3 "$GITHUB_WORKSPACE/pipeline/finish2.py"
+      - name: Publish v4
         run: |
           set -euo pipefail
           cd /mnt/work/out
           split -b 90m -d master.mp4 master.chunk_
           sha256sum master.mp4 > master.sha256
           rm master.mp4
-          cd /mnt/work
-          for f in edl.json transcript.json sync.json audio_map.json; do cp $f out/$f; done
           cd $GITHUB_WORKSPACE
-          git checkout --orphan tmp/sabesan-v3
+          git checkout --orphan tmp/sabesan-v4
           git rm -rf -q . || true
           cp -r /mnt/work/out/* .
           git add -A
           git config user.name ci-bot
           git config user.email ci-bot@users.noreply.github.com
-          git commit -q -m "sabesan master v3: HLG tonemap + corrected guest crop"
+          git commit -q -m "sabesan v4: trimmed+tightened, embedding speaker ID, tonemap, exact frames"
           git push -f origin HEAD:tmp/sabesan-out
