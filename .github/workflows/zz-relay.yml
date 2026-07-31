@@ -1,11 +1,11 @@
-name: zz-sabesan-edit
+name: zz-fix-c-crop
 on: push
 permissions:
   contents: write
 jobs:
-  edit:
+  fixc:
     runs-on: ubuntu-latest
-    timeout-minutes: 300
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -13,38 +13,41 @@ jobs:
       - name: Setup
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          pip install -q faster-whisper librosa numpy
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
-          df -h / /mnt | tail -3
-      - name: Preflight (fail before links get consumed, not after)
-        run: |
-          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/edit.py" "$GITHUB_WORKSPACE/pipeline/download.py"
-          python3 -c "import numpy, librosa, faster_whisper; print('imports ok')"
-          ffmpeg -version | head -1
-      - name: Download sources (parallel — links are short-lived)
+      - name: Fetch existing master + edl from out branch
         run: |
           set -euo pipefail
+          git fetch origin tmp/sabesan-out
+          git archive origin/tmp/sabesan-out | tar -x -C /mnt/work
           cd /mnt/work
-          python3 "$GITHUB_WORKSPACE/pipeline/download.py"
-          df -h / /mnt | tail -3
-      - name: Edit
+          cat master.chunk_* > master.mp4
+          sha256sum -c master.sha256
+          rm master.chunk_*
+      - name: Download cam-c
+        run: |
+          cd /mnt/work
+          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc60ca0c6de06190ec071b058fb6.dl.dropboxusercontent.com/cd/0/get/DFS-Nc6zP6_7UDI1jXjna_g3t5fRlApc8dpQ8saiSOngJMJ0WYgVghMWsXuzdnA26QDRbewH2sKW5N0W1R368i7GW02aSlctLFf725itsNIi7YCZco_OrDUfMDvOeWq_42-9whlTOR_mEfDKPofC2irtFKMXeItppbL1_V8F1KGwOw/file?c_luid=b636c39b"
+          got=$(stat -c%s cam-c.mov)
+          [ "$got" = "6162358143" ] || { echo "SIZE MISMATCH $got"; exit 1; }
+      - name: Re-render guest shots with corrected crop
         run: |
           export WORK=/mnt/work
-          python3 $GITHUB_WORKSPACE/pipeline/edit.py
-          df -h / /mnt | tail -3
-      - name: Publish outputs to tmp/sabesan-out
+          python3 "$GITHUB_WORKSPACE/pipeline/fixc.py"
+      - name: Publish v2 to tmp/sabesan-out
         run: |
           set -euo pipefail
           cd /mnt/work/out
           split -b 90m -d master.mp4 master.chunk_
           sha256sum master.mp4 > master.sha256
           rm master.mp4
+          cd /mnt/work
+          for f in edl.json transcript.json sync.json audio_map.json; do cp $f out/$f; done
           cd $GITHUB_WORKSPACE
-          git checkout --orphan tmp/sabesan-out
+          git checkout --orphan tmp/sabesan-out2
           git rm -rf -q . || true
           cp -r /mnt/work/out/* .
           git add -A
           git config user.name ci-bot
           git config user.email ci-bot@users.noreply.github.com
-          git commit -q -m "sabesan multicam master + verification pack"
+          git commit -q -m "sabesan master v2: corrected guest-cam crop"
           git push -f origin HEAD:tmp/sabesan-out
