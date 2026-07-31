@@ -1,21 +1,23 @@
-name: zz-final4k
+name: zz-clips
 on: push
 permissions:
   contents: write
 jobs:
-  final4k:
+  clips:
     runs-on: ubuntu-latest
-    timeout-minutes: 340
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:
           ref: tmp/sabesan-relay
-      - name: Setup
+      - name: Setup + preflight
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/final4k.py"
+          pip install -q faster-whisper
+          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/clips.py"
+          python3 -c "import faster_whisper; print('fw ok')"
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
-      - name: Fetch final 1080p (audio + edl)
+      - name: Fetch final master + spans
         run: |
           set -euo pipefail
           git fetch origin tmp/sabesan-out
@@ -23,41 +25,28 @@ jobs:
           cd /mnt/work
           cat master.chunk_* > master.mp4 && rm master.chunk_*
           sha256sum -c master.sha256
-      - name: Download cameras (parallel)
+      - name: Download cameras
         run: |
           set -euo pipefail
           cd /mnt/work
-          curl -sS --fail --retry 2 -L -o cam-a.mov "https://ucf317225efa47a66ac9e713dafa.dl.dropboxusercontent.com/cd/0/get/DFUKrSTgPFy1nzSDXQ_0sguldYTrDTcXnorbL0zn_OwwLTsflw6K001CHuoZyjKFM_x1lq4ZfEkdvz6rEeUPHswSUOZbCemWtBklitdgkRGKOeEMcponf-tIOPt-YaHto7pWcikO6H_BH3YVV1k-DcvKwTrNrNxngwC3_HnoYq4e8g/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-b.mov "https://uc32bff314aaf68ca73d5bc0241f.dl.dropboxusercontent.com/cd/0/get/DFUnSRjyZ4fe6wdReaWeeYcVwyz_KP860nU_Vaamgy3XWT_WbnYIWbmqF1pzBEQBnYxButTZkHhyAjRkZRQjjTmdRECX3pQ5fRfeS_67UB97jRaR3PrOMbxNGJ-9G7LuR8gxsejWoUq-Z3sHsgGk030PWyE1nuK3SZZHd0v8IalCtw/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc4a0db78e5c93b6c1b8ae1b234a.dl.dropboxusercontent.com/cd/0/get/DFVTUCJyw_E73s6lgbxsQHXGsHkT-Fbk_4DkyGh74rLrR-SazH2mMgs7y8kTZC7gK8niAUiH9YUG9g-zyP6vdcnZXd09N6hw2ihpqqxe0ab7rQ1fy3CyZaJ_pD1Hj_WQlc3dS-fujVCVNOFLxidtHSThD0tL1l4PHDGAbHUS4jy13Q/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o f1087.mov "https://ucd97b565e87a4120e8d6dfcd297.dl.dropboxusercontent.com/cd/0/get/DFUPxowHdmsfYN1Bxxx-ofkxSIZW5_7FdiGogklrrTqVBWJmiPs1BjphaqJ54PA3ghqOEyM_dIInjQS5DR-nLB1OQ5sViQ_pZIU0IWNKYUila5Kt8aFWbh37FESBCL9Rg4AD4A5S0IKFs8g5zDFqrNkwDozexm5tJXeF7JrsnbYA2g/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o f1233.mov "https://uc480aa1e859457bb6804fd58681.dl.dropboxusercontent.com/cd/0/get/DFWkI-nt2djNdRrt3YVRODr5sMwAQZacLbFOUgfHrXTricqjh6M5qe353whaNHVZu7pLo9AGZTFe3nqrM7CcUX71KtflkmcPzMbtwuKl5t1YBC9ctAyslghbs9eoPhQkx-MJYQ6byZIZBqWp3L7OXbMq96d3fWlh9icRI0jOaU5RQg/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o f1527.mov "https://uc7cf19bdb124590a1f5299d66ee.dl.dropboxusercontent.com/cd/0/get/DFVF5gRHHOzOmCMP0hNQyGEwkDECgTUr0vewkaxwpsHtAz8F7Z2pha8x5riCywsT1zFz79hLH_dgoF7ApMbQUuLV9nFieBrzAvu8N_zeMPMsd2Y4KYjuRYNRZV7qJ9zFRzCL6RZR-EAc-zr9K9M9xuUeVr92KjAylm0egcuXfPOCYw/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uc85f86610d96b34a5c26f4ae0be.dl.dropboxusercontent.com/cd/0/get/DFX3HGuQqH94s8BS3qBX39JU6js_9Fmxaentzhx0_pYRY5viCJVOVDkZaViLDogFGvJPwVMcutnse4s7rKt1JXlAqWJhq9N8CVyLkHgWSHAiTe7SZbnHbNUZBzSMDaX1Y-u8gM6vLcYxrbO3BVV7UpImY6QYkBvMvZK3mvFUuBInkw/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-c.mov "https://ucdd4a38377da9be5996bae2ec60.dl.dropboxusercontent.com/cd/0/get/DFVxJYyOtXkaiy8lk2gIdzxMFbNj9ugWbSeYM4-cPzyt2RWmm1PpA8a8KCs57wbA-eNySmRDPlRp9Uwm5LQwrRDfMNLadbw2nTh3e6ekVlQjur-KmQs4WVePI9SQJeN1p8W-Gdg3aatBFphw5AQd1Yu5M4Kv05DlV8ARWcO7Cz18Cg/file?c_luid=b636c39b" &
           wait
           [ "$(stat -c%s cam-a.mov)" = "5799444823" ]
-          [ "$(stat -c%s cam-b.mov)" = "6222098919" ]
           [ "$(stat -c%s cam-c.mov)" = "6162358143" ]
-          [ "$(stat -c%s f1087.mov)" = "400588819" ]
-          [ "$(stat -c%s f1233.mov)" = "2024103070" ]
-          [ "$(stat -c%s f1527.mov)" = "1828729201" ]
-      - name: Render 4K
+      - name: Render clips + transcripts
         run: |
           export WORK=/mnt/work
-          python3 "$GITHUB_WORKSPACE/pipeline/final4k.py"
-          df -h /mnt | tail -1
-      - name: Publish 4K chunks
+          python3 "$GITHUB_WORKSPACE/pipeline/clips.py"
+      - name: Publish clips
         run: |
           set -euo pipefail
-          cd /mnt/work/out
-          split -b 90m -d master4k.mp4 m4k.chunk_
-          sha256sum master4k.mp4 > m4k.sha256
-          rm master4k.mp4
           cd $GITHUB_WORKSPACE
-          git checkout --orphan tmp/sabesan-4k
+          git checkout --orphan tmp/sabesan-clips-b
           git rm -rf -q . || true
-          cp /mnt/work/out/m4k.* .
+          cp -r /mnt/work/out/* .
           git add -A
           git config user.name ci-bot
           git config user.email ci-bot@users.noreply.github.com
-          git commit -q -m "sabesan 4K master"
-          git push -f origin HEAD:tmp/sabesan-4k
+          git commit -q -m "10 vertical social clips + medium.en transcripts"
+          git push -f origin HEAD:tmp/sabesan-clips
