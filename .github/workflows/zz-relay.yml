@@ -1,52 +1,24 @@
-name: zz-tighten23
+name: zz-dbx-probe
 on: push
-permissions:
-  contents: write
 jobs:
-  tighten:
+  probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: tmp/sabesan-relay
-      - name: Setup
+      - name: Probe Dropbox file-request upload flow
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/tighten23.py"
-          sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
-      - name: Fetch final master
-        run: |
-          set -euo pipefail
-          git fetch origin tmp/sabesan-out
-          git archive origin/tmp/sabesan-out | tar -x -C /mnt/work
-          cd /mnt/work
-          cat master.chunk_* > master.mp4 && rm master.chunk_*
-          sha256sum -c master.sha256
-      - name: Download f1233 (wide)
-        run: |
-          cd /mnt/work
-          curl -sS --fail --retry 2 -L -o f1233.mov "https://uc36f9f136d45edd11bd8d7827c6.dl.dropboxusercontent.com/cd/0/get/DFVqsFl1xl5WnxUbei5eOSMyhyx3RmBS_q5F8kxfXp9B66xd0rIX36F550kmgEWGpVGtvupS5NeHyotwp2CD47_EuUYU_38MAEtwtBJdqjE2KMkq8N3lbEkC5K0iRvpBuP0YZPDb1Ewmr0cmSSaCXtSIBGn0otBMQZRllwPQWvFt7g/file?c_luid=b636c39b"
-          [ "$(stat -c%s f1233.mov)" = "2024103070" ]
-      - name: Tighten
-        run: |
-          export WORK=/mnt/work
-          python3 "$GITHUB_WORKSPACE/pipeline/tighten23.py"
-      - name: Publish
-        run: |
-          set -euo pipefail
-          cd /mnt/work/out
-          split -b 90m -d master.mp4 master.chunk_
-          sha256sum master.mp4 > master.sha256
-          rm master.mp4
-          cd /mnt/work
-          for f in edl_v4.json transcript_v4.json spans_v4.json; do cp $f out/$f 2>/dev/null || true; done
-          cd $GITHUB_WORKSPACE
-          git checkout --orphan tmp/sabesan-t23
-          git rm -rf -q . || true
-          cp -r /mnt/work/out/* .
-          git add -A
-          git config user.name ci-bot
-          git config user.email ci-bot@users.noreply.github.com
-          git commit -q -m "tightened 23:12 stretch: wide insert + banter cut"
-          git push -f origin HEAD:tmp/sabesan-out
+          set -uo pipefail
+          # fetch the file request page and look for the upload bootstrap data
+          curl -sL -c jar.txt -o page.html "https://www.dropbox.com/request/1pgnu2eja69w8g2ow9ul"
+          echo "page bytes: $(stat -c%s page.html)"
+          grep -o 'file_request[^"]*' page.html | sort -u | head -20
+          # js token candidates
+          grep -oE '"(TOKEN|token|uploadUrl|upload_url)"[^,}]{0,120}' page.html | head -20
+          grep -oE 'dl-web[^"]{0,80}' page.html | head -10
+          grep -oE '"id":"[^"]*"' page.html | head -5
+          echo "--- attempting known upload endpoint with test file ---"
+          echo "probe $(date -u)" > test.txt
+          # historical endpoint pattern (may 404/403 — this is a probe)
+          curl -s -b jar.txt -X POST \
+            "https://dl-web.dropbox.com/file_request/upload/1pgnu2eja69w8g2ow9ul" \
+            -F "file=@test.txt" -w "\nupload HTTP %{http_code}\n" | tail -3
