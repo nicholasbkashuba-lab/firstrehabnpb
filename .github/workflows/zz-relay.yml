@@ -13,10 +13,10 @@ jobs:
       - name: Setup + preflight (before links are consumed)
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q torch --index-url https://download.pytorch.org/whl/cpu
           pip install -q speechbrain scikit-learn numpy
           python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/finish2.py"
-          python3 -c "import torch, torchaudio, sklearn, numpy; from speechbrain.inference.speaker import EncoderClassifier; print('imports ok')"
+          python3 -c "import torch, sklearn, numpy; from speechbrain.inference.speaker import EncoderClassifier; enc = EncoderClassifier.from_hparams(source='speechbrain/spkrec-ecapa-voxceleb', savedir='/tmp/ecapa'); print('dummy embed', enc.encode_batch(torch.zeros(1, 16000)).shape)"
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
       - name: Fetch v1 master (audio + transcript)
         run: |
@@ -31,12 +31,12 @@ jobs:
         run: |
           set -euo pipefail
           cd /mnt/work
-          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uc575f04fc729028075bfbe59d10.dl.dropboxusercontent.com/cd/0/get/DFUW4IzUxaEK0vMzP4pVWyFYnVqV3O6X8AShno4zRmiZ9_GDyc_E7jMdonyH-UKvn6fvHQ8pENtsrWvL4FMfp8LktQgSlW9eTZm-ndjKilFcAAk3cSR5Zx7WwuKcdFy809aNE5DTu-RYHzhEaarAEdRfnI8_DavRhMRnrJt9LHDAbQ/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-b.mov "https://uc8dab7fc1b2d851d87bbd7c85c8.dl.dropboxusercontent.com/cd/0/get/DFXNL5UoldKCjustOXUUkSSC0Nee_FSIl9tJdwZ05PF6-KDtPFVMWC1cSAV4XV_og27e0UxaSkMnG0BpCWlNZOKnVPRupf0gsPP6Cxb1ueveW_gqYIBoBT6gNQQ4F01j7eY8L_niLWCsdSJ106tP24rXiXjthq-WjFYCERKXXJz5PA/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc84d5c9d7102b56e63c028dd363.dl.dropboxusercontent.com/cd/0/get/DFUd-mzinwjXG20_acR4XwChGJ42vNE662emUM7jDtQ0PVCmqMlGdc8MIFMM43Sm7H5-9-Gb63dB8mgWYP-0p1iuFyogFRHMMqpJz2y_8SUnyxFL0Ib9OjojbVuTIOwFrNfnZ66BHsUc4h2KoLk7P1Rs2UiLhy8ZduTUH3d9KlvMFg/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o f1087.mov "https://uc8bda25b3cfbfe38bb3efae5fbf.dl.dropboxusercontent.com/cd/0/get/DFUo6ByQhpWS3SD8_VR6eGKL0wxF8McXlibUSIJf_TLAm4ocGLebQO3XYvMzGkVZnrstbYv53mgqeDlQDoW0E4dPySztDEvRJdpKtZtAbGM7fB62NmdenWnq8Ws4RXCW9Du0h7PYGny_YrUCckYqigzFgTLLGPyepRdBygdAiesIgw/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o f1233.mov "https://uc65ed244d3b59d911f3e92720fe.dl.dropboxusercontent.com/cd/0/get/DFUz_PXtrQqy9OaQMd11BR7vkI2QHwBmq9ZKdXOY9ds1jxASUWDHRxGVjEu8ddG0kg6S4MeoIU70nnWF5CnTBQmbYmPMdQrLQknd9C8ZHQHaHugebktTKCf09rEhPC-BB-KcJIwB2SimLv_krJIBGI97BC8Wvi-9C_KAK4CCkRVOfQ/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o f1527.mov "https://uc1fbf9d87db01b2a90eef8849c8.dl.dropboxusercontent.com/cd/0/get/DFVnczUC0i0kPzkgSEF1HRsTx38GVEDxbBVF0gndXWu-XO8zlR2wmEPOiSg1_l_V5b7pUdbft-c-9YAdq7GumQLrU6bCZ5KOxpNHG5CUy9oQL5Wy5Q0LAsLrwwl-cGcqoils7_23WBgkhYAf1lLRz6pdubT9qrySw7K_TVpefCWRlw/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uc662e4723aff1852e38ba38d2d5.dl.dropboxusercontent.com/cd/0/get/DFVu_XHNSfJkcSFJmvgu4XRJSkOQDe56j4YUvp2xvBnJHxmIg3xbgfVV2ovlkGdT77rHjZ2ZrNm3XBGDMSg67pHrXRWjLFeQ6C0BVdwR_1vzv1tHU2K5dsZAw_um_vJhC2tyoSkMdTtB8cnf7gwWGKzvM6sz3kDE2dNAUZG2ivVMrA/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-b.mov "https://uce3b380a5d6e35e949b9f80b6ae.dl.dropboxusercontent.com/cd/0/get/DFU9L88a2RHy06ZXW0O-UlYA1C4TgqS6juIJ8IXtoM42xKKicvl0u2rM_CJfn3qFPV1GB7cAO9Oe72wU69H5PIElNreuyTyXe7CcQ525VtBRXf9r7ioEHzPTqVxbwv71rLmqeMBo134bU7vrU4RH6EK4c660XmhPsRWPgtSDwQFDeQ/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc809cfd764fb1b436ecae41a678.dl.dropboxusercontent.com/cd/0/get/DFVCU8KoO9DZKq6hcVvO44z7Pj52GRb4lV_RGIXvHTnbJvzM6FkJDGumN_bX8zi2DRJAkftJsQ8gEbG_R43mVog73OshdRw7ijQMNAsXCcT0jYGPFAWSMiAJPYiIyDC_BGIbrpIfCdiUKz45HzIa-tGgO-U1gSnxuvrzvkcfpKu49w/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o f1087.mov "https://ucadfb31efb739a34f82b0c5cfa2.dl.dropboxusercontent.com/cd/0/get/DFWT1K8s8WyX9TfomQ6U1npIa6ReSnRuvEi9Kg8pp__GgWTOmufGOQzd5-S8Ux8H4dniiTAE-bOBYBa3zwcv1Qe5QaZQrnjp4TDRW3zjropPPvJ4oG9ApgUhiHXXtYrnHd645W3cL4pStDMYcTjFdx_0piOTNiQFJdeRRovu9plhtA/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o f1233.mov "https://uc4388fc20e8ad6f34cd12a8e27d.dl.dropboxusercontent.com/cd/0/get/DFXyMzB8v6BI0dKjVYEmby-_-nCfkKcKMHVjMoDa07nbfIVdznUPIDhBLrs4yl5teepBSN8HfwmPdDI1bupu5RS0kGeVIy91zBUPoRhNSTnU97a7i16Dlb-J0vjBiqxbox27WeiJoWlN81QDUvrUvABVxdrAi7ojDC72ALGCKF8LYQ/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o f1527.mov "https://ucbe1a4bd10650534963f34f1a67.dl.dropboxusercontent.com/cd/0/get/DFVMcCvU6lo4-LGky0iGEIHCH8IBqJD-UsaydfMR1mYWiV1_0iQ9aPMJemedNCgej1Cjx1pgTZh2Qwx7xt3ByfbFBxjCClZ-_s6Ue7FoN_e_8ehA-bCJ1HCP9W32YglC8czHDRN91a65G1uD8fGVJ-fJz_YJKQt7JRVCyzjxMzRDQA/file?c_luid=b636c39b" &
           wait
           [ "$(stat -c%s cam-a.mov)" = "5799444823" ]
           [ "$(stat -c%s cam-b.mov)" = "6222098919" ]

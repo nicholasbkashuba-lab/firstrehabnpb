@@ -68,12 +68,14 @@ def main():
     # ---- speaker re-ID: ECAPA embeddings + clustering ---------------------
     print("=== speaker re-id ===", flush=True)
     sh('ffmpeg -v error -y -i master.mp4 -map 0:a:0 -ac 1 -ar 16000 show16k.wav')
-    import torch  # noqa: F401
+    import torch
     from speechbrain.inference.speaker import EncoderClassifier
-    import torchaudio
     enc = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb",
                                          savedir="/tmp/ecapa")
-    wav, sr = torchaudio.load("show16k.wav")
+    # decode via ffmpeg — torchaudio.load now needs torchcodec, which we don't
+    raw = subprocess.run('ffmpeg -v error -i show16k.wav -f f32le -',
+                         shell=True, capture_output=True).stdout
+    wav = torch.from_numpy(np.frombuffer(raw, dtype=np.float32).copy()).unsqueeze(0)
     embs, idxs = [], []
     for i, s in enumerate(segs):
         a, b = s["s"], s["e"]
