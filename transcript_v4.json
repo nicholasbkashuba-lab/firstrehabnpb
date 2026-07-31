@@ -1,0 +1,5456 @@
+[
+ {
+  "s": 0.0,
+  "e": 5.56,
+  "t": "And then I just was named Florida Orthopaedic Society's first female president, and I was",
+  "spk": "G",
+  "f0": 209.8,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 5.56,
+  "e": 9.96,
+  "t": "trying to look up the stat if it's 74 years, and 74 years.",
+  "spk": "G",
+  "f0": 202.6,
+  "voiced": 0.63,
+  "spk2": "G"
+ },
+ {
+  "s": 9.96,
+  "e": 15.72,
+  "t": "Florida Orthopaedic Society's first female president for FOS, and so it was kind of a",
+  "spk": "G",
+  "f0": 198.0,
+  "voiced": 0.55,
+  "spk2": "G"
+ },
+ {
+  "s": 15.72,
+  "e": 21.2,
+  "t": "big deal only because it was, after 73 years, it was the first time they've had a female.",
+  "spk": "G",
+  "f0": 188.0,
+  "voiced": 0.59,
+  "spk2": "G"
+ },
+ {
+  "s": 21.2,
+  "e": 24.8,
+  "t": "And that's the Florida Orthopaedic Society.",
+  "spk": "H",
+  "f0": 124.0,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 24.8,
+  "e": 25.8,
+  "t": "Well that's awesome.",
+  "spk": "H",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ },
+ {
+  "s": 25.8,
+  "e": 26.8,
+  "t": "Yeah, it's kind of a big deal.",
+  "spk": "G",
+  "f0": 177.4,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 26.8,
+  "e": 27.8,
+  "t": "I mean, that's a huge deal.",
+  "spk": "G",
+  "f0": 181.6,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 27.8,
+  "e": 28.8,
+  "t": "Congratulations.",
+  "spk": "G",
+  "f0": 169.4,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 28.8,
+  "e": 31.84,
+  "t": "and just before we start, just before,",
+  "spk": "H",
+  "f0": 109.2,
+  "voiced": 0.39,
+  "spk2": "H"
+ },
+ {
+  "s": 31.84,
+  "e": 34.6,
+  "t": "just because I don't want to run out of it.",
+  "spk": "H",
+  "f0": null,
+  "voiced": 0.13,
+  "spk2": "H"
+ },
+ {
+  "s": 34.6,
+  "e": 36.0,
+  "t": "All right, can you read?",
+  "spk": "G",
+  "f0": 198.0,
+  "voiced": 0.58,
+  "spk2": "H"
+ },
+ {
+  "s": 36.0,
+  "e": 36.84,
+  "t": "All right.",
+  "spk": "H",
+  "f0": 119.8,
+  "voiced": 0.4,
+  "spk2": "H"
+ },
+ {
+  "s": 40.31,
+  "e": 41.97,
+  "t": "Oh, and then I think we were going to talk about",
+  "spk": "G",
+  "f0": 263.5,
+  "voiced": 0.96,
+  "spk2": "G"
+ },
+ {
+  "s": 41.97,
+  "e": 44.21,
+  "t": "what the topic was that you said",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 44.21,
+  "e": 46.77,
+  "t": "there was the maybe of total shoulders",
+  "spk": "G",
+  "f0": 212.2,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 46.77,
+  "e": 50.33,
+  "t": "and just the idea of new technologies,",
+  "spk": "G",
+  "f0": 206.2,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 50.33,
+  "e": 51.93,
+  "t": "muscle sparing, stimulus.",
+  "spk": "G",
+  "f0": 192.4,
+  "voiced": 0.87,
+  "spk2": "G"
+ },
+ {
+  "s": 51.93,
+  "e": 53.25,
+  "t": "And I was going to talk about some",
+  "spk": "G",
+  "f0": 199.1,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 53.25,
+  "e": 55.65,
+  "t": "patch augmentations and biologics.",
+  "spk": "H",
+  "f0": 103.7,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 55.65,
+  "e": 56.81,
+  "t": "Because you're into that,",
+  "spk": "H",
+  "f0": 116.4,
+  "voiced": 0.95,
+  "spk2": "H"
+ },
+ {
+  "s": 56.81,
+  "e": 59.09,
+  "t": "not everyone's into what you're doing.",
+  "spk": "H",
+  "f0": 97.6,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 59.09,
+  "e": 60.45,
+  "t": "And the patch doesn't always work,",
+  "spk": "H",
+  "f0": 95.6,
+  "voiced": 0.78,
+  "spk2": "H"
+ },
+ {
+  "s": 60.45,
+  "e": 61.45,
+  "t": "unless you don't read it.",
+  "spk": "H",
+  "f0": 81.6,
+  "voiced": 0.41,
+  "spk2": "H"
+ },
+ {
+  "s": 61.45,
+  "e": 65.41,
+  "t": "And so I want to praise you on your reverse totals, too.",
+  "spk": "H",
+  "f0": 107.3,
+  "voiced": 0.89,
+  "spk2": "H"
+ },
+ {
+  "s": 65.41,
+  "e": 67.13,
+  "t": "You'll see, but nothing surprising.",
+  "spk": "H",
+  "f0": 106.1,
+  "voiced": 0.9,
+  "spk2": "H"
+ },
+ {
+  "s": 67.13,
+  "e": 69.73,
+  "t": "I want you to be my friend.",
+  "spk": "H",
+  "f0": 92.9,
+  "voiced": 0.42,
+  "spk2": "H"
+ },
+ {
+  "s": 69.73,
+  "e": 71.97,
+  "t": "I heard that you don't want to be your enemy.",
+  "spk": "H",
+  "f0": 97.9,
+  "voiced": 0.4,
+  "spk2": "H"
+ },
+ {
+  "s": 71.97,
+  "e": 72.81,
+  "t": "Yeah, wow.",
+  "spk": "G",
+  "f0": 194.0,
+  "voiced": 0.94,
+  "spk2": "H"
+ },
+ {
+  "s": 72.81,
+  "e": 73.65,
+  "t": "Don't go bad.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ },
+ {
+  "s": 73.65,
+  "e": 74.49,
+  "t": "Don't go bad, too.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ },
+ {
+  "s": 74.49,
+  "e": 75.69,
+  "t": "Okay.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.12,
+  "spk2": "H"
+ },
+ {
+  "s": 75.69,
+  "e": 77.01,
+  "t": "This is going to be a fantastic show.",
+  "spk": "H",
+  "f0": 109.2,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 77.01,
+  "e": 78.33,
+  "t": "I'm going to tell you, shoot.",
+  "spk": "H",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ },
+ {
+  "s": 78.33,
+  "e": 79.81,
+  "t": "I'm going to get in that sense.",
+  "spk": "H",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ },
+ {
+  "s": 79.81,
+  "e": 80.65,
+  "t": "Okay.",
+  "spk": "H",
+  "f0": 159.9,
+  "voiced": 0.77,
+  "spk2": "H"
+ },
+ {
+  "s": 80.65,
+  "e": 81.49,
+  "t": "Ready?",
+  "spk": "G",
+  "f0": 258.2,
+  "voiced": 0.43,
+  "spk2": "H"
+ },
+ {
+  "s": 81.49,
+  "e": 82.33,
+  "t": "All right, good to go.",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.32,
+  "spk2": "H"
+ },
+ {
+  "s": 82.33,
+  "e": 83.17,
+  "t": "Make sure it's recorded.",
+  "spk": "H",
+  "f0": 84.7,
+  "voiced": 0.28,
+  "spk2": "H"
+ },
+ {
+  "s": 83.17,
+  "e": 84.17,
+  "t": "Well, I know.",
+  "spk": "H",
+  "f0": 102.5,
+  "voiced": 0.56,
+  "spk2": "H"
+ },
+ {
+  "s": 85.37,
+  "e": 86.69,
+  "t": "It's recording.",
+  "spk": "H",
+  "f0": 83.2,
+  "voiced": 0.36,
+  "spk2": "H"
+ },
+ {
+  "s": 86.69,
+  "e": 88.01,
+  "t": "Yeah, I'm really bad at this stuff.",
+  "spk": "H",
+  "f0": 84.7,
+  "voiced": 0.37,
+  "spk2": "H"
+ },
+ {
+  "s": 88.01,
+  "e": 88.93,
+  "t": "Yeah, I can tell.",
+  "spk": "G",
+  "f0": 181.6,
+  "voiced": 1.0,
+  "spk2": "G"
+ },
+ {
+  "s": 88.93,
+  "e": 89.77,
+  "t": "Dads.",
+  "spk": "G",
+  "f0": 178.4,
+  "voiced": 0.68,
+  "spk2": "H"
+ },
+ {
+  "s": 89.77,
+  "e": 105.26,
+  "t": "Good morning and welcome again to Pain to Power right here on Legends 143.",
+  "spk": "G",
+  "f0": 170.4,
+  "voiced": 0.22,
+  "spk2": "H"
+ },
+ {
+  "s": 105.26,
+  "e": 112.96,
+  "t": "I'm Mike McGann, and with me is my buddy Dave, as in David Keshubin, who is the owner of First",
+  "spk": "G",
+  "f0": 183.7,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 112.96,
+  "e": 114.52,
+  "t": "New Relation of North Palm Beach.",
+  "spk": "H",
+  "f0": 140.8,
+  "voiced": 0.79,
+  "spk2": "H"
+ },
+ {
+  "s": 114.52,
+  "e": 115.52,
+  "t": "He sponsored this program.",
+  "spk": "G",
+  "f0": 181.6,
+  "voiced": 0.62,
+  "spk2": "H"
+ },
+ {
+  "s": 115.52,
+  "e": 116.52,
+  "t": "They bring it to us.",
+  "spk": "G",
+  "f0": 190.1,
+  "voiced": 0.81,
+  "spk2": "H"
+ },
+ {
+  "s": 116.52,
+  "e": 117.52,
+  "t": "Dave is a great guy.",
+  "spk": "G",
+  "f0": 161.3,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 117.52,
+  "e": 118.52,
+  "t": "But you're a friend.",
+  "spk": "H",
+  "f0": 132.1,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 118.52,
+  "e": 119.52,
+  "t": "Good morning, Dave.",
+  "spk": "G",
+  "f0": 188.0,
+  "voiced": 0.75,
+  "spk2": "H"
+ },
+ {
+  "s": 119.52,
+  "e": 120.52,
+  "t": "How are you?",
+  "spk": "H",
+  "f0": 142.4,
+  "voiced": 0.59,
+  "spk2": "H"
+ },
+ {
+  "s": 120.52,
+  "e": 121.52,
+  "t": "Good morning.",
+  "spk": "H",
+  "f0": 143.3,
+  "voiced": 0.78,
+  "spk2": "H"
+ },
+ {
+  "s": 121.52,
+  "e": 122.52,
+  "t": "I'm doing pretty well, pretty well.",
+  "spk": "H",
+  "f0": 120.1,
+  "voiced": 0.92,
+  "spk2": "H"
+ },
+ {
+  "s": 122.52,
+  "e": 125.92,
+  "t": "Yeah, we wanted to bring this program to people just to kind of learn what to do",
+  "spk": "H",
+  "f0": 118.4,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 125.92,
+  "e": 129.6,
+  "t": "and what to avoid it and I wanted to bring on some of the local superstar",
+  "spk": "H",
+  "f0": 102.5,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 129.6,
+  "e": 135.24,
+  "t": "orthopedics and different doctors very inductive that we have so much in this",
+  "spk": "H",
+  "f0": 92.9,
+  "voiced": 0.37,
+  "spk2": "H"
+ },
+ {
+  "s": 135.24,
+  "e": 139.88,
+  "t": "area we have so many great doctors and a lot of times you're listening to the",
+  "spk": "H",
+  "f0": 119.4,
+  "voiced": 0.49,
+  "spk2": "H"
+ },
+ {
+  "s": 139.88,
+  "e": 145.44,
+  "t": "people by the pool who to pick if they don't choose who to pick or which one",
+  "spk": "H",
+  "f0": 111.1,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 145.44,
+  "e": 151.32,
+  "t": "who's prettier speaking of who's prettier today with me I brought a good",
+  "spk": "H",
+  "f0": 124.7,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 151.32,
+  "e": 155.72,
+  "t": "friend of mine although we've never met in person yeah I know I don't live up",
+  "spk": "H",
+  "f0": 117.7,
+  "voiced": 0.81,
+  "spk2": "H"
+ },
+ {
+  "s": 155.72,
+  "e": 161.36,
+  "t": "to Dr. Weiner, or Dr. Elk Ketchin, or Dr. Simovich in the years of-",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 161.36,
+  "e": 168.04,
+  "t": "Well, you're 75 years younger than those guys, like us. But we have Dr. Bing Sadesi, and we",
+  "spk": "H",
+  "f0": 129.9,
+  "voiced": 0.39,
+  "spk2": "H"
+ },
+ {
+  "s": 168.04,
+  "e": 175.16,
+  "t": "go to her for any of our shoulder problems. She is fantastic, and she's good at what she",
+  "spk": "H",
+  "f0": 115.4,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 175.16,
+  "e": 179.44,
+  "t": "does, but not only that, is the techniques that she uses, and I wanted to bring some",
+  "spk": "H",
+  "f0": 112.1,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 179.44,
+  "e": 183.72,
+  "t": "things up, because last weekend we spoke with Dr. Ryan, and he was talking about what",
+  "spk": "H",
+  "f0": 106.1,
+  "voiced": 0.54,
+  "spk2": "H"
+ },
+ {
+  "s": 183.72,
+  "e": 186.44,
+  "t": "to do and what not to do following a reverse total shoulder.",
+  "spk": "H",
+  "f0": 108.3,
+  "voiced": 0.85,
+  "spk2": "H"
+ },
+ {
+  "s": 186.44,
+  "e": 187.44,
+  "t": "Reverse total shoulder.",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.9,
+  "spk2": "H"
+ },
+ {
+  "s": 187.44,
+  "e": 188.44,
+  "t": "Exactly.",
+  "spk": "H",
+  "f0": 136.0,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 188.44,
+  "e": 189.44,
+  "t": "What do you imagine?",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.49,
+  "spk2": "H"
+ },
+ {
+  "s": 189.44,
+  "e": 195.56,
+  "t": "We'll keep this short because I know we spoke a lot, but with Dr. Vani here, her reverse",
+  "spk": "H",
+  "f0": 108.9,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 195.56,
+  "e": 199.6,
+  "t": "total shoulder, she's trying to get you to reach behind and put your hand in your pocket",
+  "spk": "H",
+  "f0": 121.9,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 199.6,
+  "e": 203.72,
+  "t": "within a couple of weeks, whoever announces that I don't do it for four months.",
+  "spk": "H",
+  "f0": 121.2,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 203.72,
+  "e": 210.68,
+  "t": "And so I kind of wanted to head this off and kind of piggy down what we were talking",
+  "spk": "H",
+  "f0": 115.7,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 210.68,
+  "e": 213.88,
+  "t": "about last week just to say, what do you do differently?",
+  "spk": "H",
+  "f0": 124.7,
+  "voiced": 0.55,
+  "spk2": "H"
+ },
+ {
+  "s": 213.88,
+  "e": 216.36,
+  "t": "Well, you know, I mean, I think it's interesting, right?",
+  "spk": "G",
+  "f0": 249.5,
+  "voiced": 0.93,
+  "spk2": "G"
+ },
+ {
+  "s": 216.36,
+  "e": 219.44,
+  "t": "There's some, sometimes we build a techniques",
+  "spk": "G",
+  "f0": 232.7,
+  "voiced": 0.68,
+  "spk2": "G"
+ },
+ {
+  "s": 219.44,
+  "e": 222.32,
+  "t": "based on legacy, sometimes we do legends,",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 222.32,
+  "e": 223.72,
+  "t": "and sometimes we do evidence.",
+  "spk": "G",
+  "f0": 232.7,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 223.72,
+  "e": 227.6,
+  "t": "So I think sometimes it's a little bit of all, right?",
+  "spk": "G",
+  "f0": 229.4,
+  "voiced": 0.72,
+  "spk2": "G"
+ },
+ {
+  "s": 227.6,
+  "e": 230.56,
+  "t": "And I grew up and was trained by some legends",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 230.56,
+  "e": 233.36,
+  "t": "and Dr. Ayanati is one of the greatest legends",
+  "spk": "G",
+  "f0": 215.9,
+  "voiced": 0.93,
+  "spk2": "G"
+ },
+ {
+  "s": 233.36,
+  "e": 235.76,
+  "t": "and helped develop the techniques of shoulder art",
+  "spk": "G",
+  "f0": 206.2,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 235.76,
+  "e": 237.68,
+  "t": "plus some of the first systems.",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.54,
+  "spk2": "G"
+ },
+ {
+  "s": 237.68,
+  "e": 240.0,
+  "t": "But I also live by his words of evidence.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 240.0,
+  "e": 243.4,
+  "t": "And so we decided, patience, you're in Palm Beach.",
+  "spk": "G",
+  "f0": 225.5,
+  "voiced": 0.7,
+  "spk2": "G"
+ },
+ {
+  "s": 243.4,
+  "e": 245.16,
+  "t": "Do you want to spend six weeks in a sling",
+  "spk": "G",
+  "f0": 245.2,
+  "voiced": 0.91,
+  "spk2": "G"
+ },
+ {
+  "s": 245.16,
+  "e": 247.64,
+  "t": "or would you rather start moving tomorrow?",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 247.64,
+  "e": 249.44,
+  "t": "And we sort of said, let's push the envelope",
+  "spk": "G",
+  "f0": 276.8,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 249.44,
+  "e": 252.12,
+  "t": "because my mom has had two reverses.",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 252.12,
+  "e": 253.72,
+  "t": "You know, just because you're 76,",
+  "spk": "G",
+  "f0": 265.1,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 253.72,
+  "e": 256.64,
+  "t": "not driving for six weeks can really disable you",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 256.64,
+  "e": 259.88,
+  "t": "from your life, your lifestyle, your family.",
+  "spk": "G",
+  "f0": 228.1,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 259.88,
+  "e": 261.68,
+  "t": "She drives my kids to school.",
+  "spk": "G",
+  "f0": 301.8,
+  "voiced": 0.38,
+  "spk2": "G"
+ },
+ {
+  "s": 261.68,
+  "e": 264.08,
+  "t": "And so really, we said, what if we get people",
+  "spk": "G",
+  "f0": 268.9,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 264.08,
+  "e": 266.86,
+  "t": "moving earlier, our techniques have gotten better,",
+  "spk": "G",
+  "f0": 224.8,
+  "voiced": 0.74,
+  "spk2": "G"
+ },
+ {
+  "s": 266.86,
+  "e": 270.14,
+  "t": "we can push the envelope and get people back faster.",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 270.14,
+  "e": 271.58,
+  "t": "And so we did a head-to-head study.",
+  "spk": "G",
+  "f0": 280.0,
+  "voiced": 0.96,
+  "spk2": "G"
+ },
+ {
+  "s": 271.58,
+  "e": 272.9,
+  "t": "We actually did one of my partners",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 272.9,
+  "e": 274.14,
+  "t": "who did six weeks in listening,",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 274.14,
+  "e": 275.66,
+  "t": "and I did people in a week.",
+  "spk": "G",
+  "f0": 232.7,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 275.66,
+  "e": 278.86,
+  "t": "For a few days afterwards, you start moving it right away.",
+  "spk": "G",
+  "f0": 218.4,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 278.86,
+  "e": 281.42,
+  "t": "And we found that the outcomes were similar,",
+  "spk": "G",
+  "f0": 261.2,
+  "voiced": 0.69,
+  "spk2": "G"
+ },
+ {
+  "s": 281.42,
+  "e": 284.54,
+  "t": "no complications, no loss to a patient.",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 284.54,
+  "e": 287.46,
+  "t": "And in fact, at six weeks, they're doing a ton better.",
+  "spk": "G",
+  "f0": 284.9,
+  "voiced": 0.57,
+  "spk2": "G"
+ },
+ {
+  "s": 287.46,
+  "e": 290.16,
+  "t": "So sometimes, evidence shows it,",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 290.16,
+  "e": 291.5,
+  "t": "and you have to change what you do.",
+  "spk": "G",
+  "f0": 259.0,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 291.5,
+  "e": 293.74,
+  "t": "You can't sit and stay the same as a surgeon",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 293.74,
+  "e": 294.58,
+  "t": "for 30 years.",
+  "spk": "G",
+  "f0": 224.8,
+  "voiced": 0.75,
+  "spk2": "H"
+ },
+ {
+  "s": 294.58,
+  "e": 301.2,
+  "t": "Those are those are words that are really really powerful when it comes to just about any professional these days",
+  "spk": "G",
+  "f0": 164.6,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 301.2,
+  "e": 303.44,
+  "t": "But medicine in particular people get very very",
+  "spk": "G",
+  "f0": 245.2,
+  "voiced": 0.77,
+  "spk2": "H"
+ },
+ {
+  "s": 303.96,
+  "e": 309.36,
+  "t": "Set in their way absolutely in this profession and it's really kind of refreshing to hear",
+  "spk": "G",
+  "f0": 163.6,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 309.88,
+  "e": 313.6,
+  "t": "The opposite take on that. All right, let's see what we can do now",
+  "spk": "G",
+  "f0": 195.2,
+  "voiced": 0.37,
+  "spk2": "H"
+ },
+ {
+  "s": 313.6,
+  "e": 319.74,
+  "t": "We have the technology you have that legacy to build upon that was built by these legends now extend on the shoulders",
+  "spk": "G",
+  "f0": 165.5,
+  "voiced": 0.75,
+  "spk2": "H"
+ },
+ {
+  "s": 320.0,
+  "e": 323.4,
+  "t": "And I think you know being a female we sometimes listen a little bit more",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.74,
+  "spk2": "G"
+ },
+ {
+  "s": 323.4,
+  "e": 330.76,
+  "t": "There's some good evidence to say, and there's some studies that show that maybe our outcomes",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.66,
+  "spk2": "G"
+ },
+ {
+  "s": 330.76,
+  "e": 334.6,
+  "t": "are a little better, but I think it's more just about the patient-centered care, right?",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 334.6,
+  "e": 338.68,
+  "t": "I mean, you listen to your patients and you hear what their needs are and you try to advance",
+  "spk": "G",
+  "f0": 256.8,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 338.68,
+  "e": 343.24,
+  "t": "what you do, how you do it with that. I think also I listen to my mentees. I have a lot of",
+  "spk": "G",
+  "f0": 244.5,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 343.24,
+  "e": 349.64,
+  "t": "young people. I have young guys in the OR, reps, students, residents, and they'll sort of say,",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 349.64,
+  "e": 353.24,
+  "t": "hey, why don't you try doing it this way? It might be better. And you sort of have to",
+  "spk": "G",
+  "f0": 244.5,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 354.12,
+  "e": 357.88,
+  "t": "always take everything with a grain of salt, trying to make sure that we have some evidence",
+  "spk": "G",
+  "f0": 249.5,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 357.88,
+  "e": 363.32,
+  "t": "behind it, but make it better. That's one of our problems as being a therapy company.",
+  "spk": "H",
+  "f0": 107.0,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 363.32,
+  "e": 368.52,
+  "t": "I think so. We have to know what the doctor intends their patients to be able to do,",
+  "spk": "H",
+  "f0": 111.1,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 368.52,
+  "e": 374.28,
+  "t": "which doctor plans on discharging when they say, which doctor trusts you and your decisions",
+  "spk": "H",
+  "f0": 110.5,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 374.28,
+  "e": 378.76,
+  "t": "on how to upgrade them, how to kind of push them along",
+  "spk": "H",
+  "f0": 104.0,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 378.76,
+  "e": 381.16,
+  "t": "and make sure they're not being pushed too hard.",
+  "spk": "H",
+  "f0": 97.9,
+  "voiced": 0.48,
+  "spk2": "H"
+ },
+ {
+  "s": 381.16,
+  "e": 383.36,
+  "t": "And that's one of the difficulties, but with you,",
+  "spk": "H",
+  "f0": 108.6,
+  "voiced": 0.83,
+  "spk2": "H"
+ },
+ {
+  "s": 383.36,
+  "e": 388.36,
+  "t": "it's refreshing because we get to do what we think",
+  "spk": "H",
+  "f0": 115.7,
+  "voiced": 0.2,
+  "spk2": "H"
+ },
+ {
+  "s": 390.68,
+  "e": 393.04,
+  "t": "and what we feel, because you could really tell",
+  "spk": "H",
+  "f0": 121.9,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 393.04,
+  "e": 395.68,
+  "t": "right away, first visit, whether this is gonna be",
+  "spk": "H",
+  "f0": 106.1,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 395.68,
+  "e": 398.56,
+  "t": "a good outcome or a bad outcome.",
+  "spk": "H",
+  "f0": 89.2,
+  "voiced": 0.34,
+  "spk2": "H"
+ },
+ {
+  "s": 398.56,
+  "e": 402.04,
+  "t": "And again, with her reverse total shoulders,",
+  "spk": "H",
+  "f0": 93.4,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 402.04,
+  "e": 403.48,
+  "t": "I've had nothing but good ones.",
+  "spk": "H",
+  "f0": 79.5,
+  "voiced": 0.21,
+  "spk2": "H"
+ },
+ {
+  "s": 403.48,
+  "e": 406.66,
+  "t": "We're going to kind of change the subject to-",
+  "spk": "H",
+  "f0": 115.7,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 406.66,
+  "e": 409.02,
+  "t": "Can I just say one point on therapy, right?",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 409.02,
+  "e": 411.74,
+  "t": "We all talk about sort of medicine now, right?",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 411.74,
+  "e": 414.42,
+  "t": "And it's sort of become depersonalized",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 414.42,
+  "e": 417.42,
+  "t": "and you go in, you're like a number in the cog",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 417.42,
+  "e": 419.86,
+  "t": "of however many patients, you know, therapy.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 419.86,
+  "e": 421.74,
+  "t": "We did a survey study on therapy",
+  "spk": "G",
+  "f0": 228.1,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 421.74,
+  "e": 424.42,
+  "t": "and we've looked at all of our shoulder replacements.",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 424.42,
+  "e": 427.34,
+  "t": "We said, you know, how important is this to you?",
+  "spk": "G",
+  "f0": 248.0,
+  "voiced": 0.49,
+  "spk2": "G"
+ },
+ {
+  "s": 427.34,
+  "e": 430.18,
+  "t": "And 98% of patients said the therapist",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 430.18,
+  "e": 433.0,
+  "t": "was a huge impact on their outcome.",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 433.0,
+  "e": 436.74,
+  "t": "And 95% of them said that their therapist changed",
+  "spk": "G",
+  "f0": 249.5,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 436.74,
+  "e": 438.66,
+  "t": "what they did, how they did it.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.74,
+  "spk2": "G"
+ },
+ {
+  "s": 438.66,
+  "e": 440.14,
+  "t": "And it's like having a hairdresser.",
+  "spk": "G",
+  "f0": 301.0,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 440.14,
+  "e": 442.1,
+  "t": "They talk to you, they listen to you.",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.63,
+  "spk2": "G"
+ },
+ {
+  "s": 442.1,
+  "e": 443.82,
+  "t": "It's the company you need.",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 443.82,
+  "e": 446.26,
+  "t": "So whether you're remote in telemedicine and therapy,",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 446.26,
+  "e": 448.9,
+  "t": "whether you're in person, it's a huge factor",
+  "spk": "G",
+  "f0": 246.6,
+  "voiced": 0.55,
+  "spk2": "G"
+ },
+ {
+  "s": 448.9,
+  "e": 451.22,
+  "t": "in everything that we do as surgeons.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 451.22,
+  "e": 452.22,
+  "t": "I think it's something we've addressed",
+  "spk": "G",
+  "f0": 199.1,
+  "voiced": 0.81,
+  "spk2": "H"
+ },
+ {
+  "s": 452.22,
+  "e": 453.7,
+  "t": "on this program in economics",
+  "spk": "H",
+  "f0": 129.1,
+  "voiced": 0.4,
+  "spk2": "H"
+ },
+ {
+  "s": 453.7,
+  "e": 455.02,
+  "t": "is that no two people are alike.",
+  "spk": "G",
+  "f0": 186.9,
+  "voiced": 0.84,
+  "spk2": "H"
+ },
+ {
+  "s": 455.02,
+  "e": 456.54,
+  "t": "No two personalities are alike.",
+  "spk": "G",
+  "f0": 157.1,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 456.54,
+  "e": 459.1,
+  "t": "No two bodies are really built the same way.",
+  "spk": "G",
+  "f0": 179.5,
+  "voiced": 0.62,
+  "spk2": "H"
+ },
+ {
+  "s": 459.1,
+  "e": 461.04,
+  "t": "The general framework is going to be the same.",
+  "spk": "H",
+  "f0": 143.3,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 461.04,
+  "e": 462.9,
+  "t": "But everybody's gonna require something different.",
+  "spk": "H",
+  "f0": 159.9,
+  "voiced": 0.8,
+  "spk2": "H"
+ },
+ {
+  "s": 462.9,
+  "e": 465.94,
+  "t": "and the personalization aspect of that,",
+  "spk": "G",
+  "f0": 175.4,
+  "voiced": 0.58,
+  "spk2": "H"
+ },
+ {
+  "s": 465.94,
+  "e": 469.5,
+  "t": "it sets better outcomes apart",
+  "spk": "G",
+  "f0": 153.6,
+  "voiced": 0.19,
+  "spk2": "H"
+ },
+ {
+  "s": 469.5,
+  "e": 472.16,
+  "t": "in a way that I think would seem to be pretty predictable.",
+  "spk": "G",
+  "f0": 218.4,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 472.16,
+  "e": 473.22,
+  "t": "I think it's a great point.",
+  "spk": "G",
+  "f0": 248.0,
+  "voiced": 0.93,
+  "spk2": "G"
+ },
+ {
+  "s": 473.22,
+  "e": 474.5,
+  "t": "And maybe I'll just bring up,",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 474.5,
+  "e": 477.54,
+  "t": "we wanted to talk a little bit about technology.",
+  "spk": "G",
+  "f0": 207.4,
+  "voiced": 0.7,
+  "spk2": "G"
+ },
+ {
+  "s": 477.54,
+  "e": 479.7,
+  "t": "And I think that's a really important part",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 479.7,
+  "e": 482.66,
+  "t": "of where we are going in orthopedic surgery.",
+  "spk": "G",
+  "f0": 213.4,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 482.66,
+  "e": 484.7,
+  "t": "I'm part of a company on a design team",
+  "spk": "G",
+  "f0": 211.0,
+  "voiced": 0.95,
+  "spk2": "G"
+ },
+ {
+  "s": 484.7,
+  "e": 486.26,
+  "t": "that they're personalizing implants,",
+  "spk": "G",
+  "f0": 215.9,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 486.26,
+  "e": 489.3,
+  "t": "they 3D print the implant for you.",
+  "spk": "G",
+  "f0": 237.5,
+  "voiced": 0.55,
+  "spk2": "G"
+ },
+ {
+  "s": 489.3,
+  "e": 490.72,
+  "t": "Can you imagine?",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 490.72,
+  "e": 498.0,
+  "t": "Yeah, so you imagine, obviously, if you think that if something's made specialized to you,",
+  "spk": "G",
+  "f0": 264.3,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 498.0,
+  "e": 502.16,
+  "t": "it might be a little bit more tailored to you, your anatomy, your size, and hopefully",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 502.16,
+  "e": 507.08,
+  "t": "that would just sort of get you in a better place, better outcome back to the gym fast",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 507.08,
+  "e": 511.36,
+  "t": "or whatever it is, but that's where sort of the technology's going.",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 511.36,
+  "e": 518.48,
+  "t": "That is really kind of mind-blowing, to think how far we have come in keeping a personal",
+  "spk": "G",
+  "f0": 172.9,
+  "voiced": 0.61,
+  "spk2": "H"
+ },
+ {
+  "s": 518.48,
+  "e": 519.48,
+  "t": "day for our country.",
+  "spk": "H",
+  "f0": 123.7,
+  "voiced": 0.22,
+  "spk2": "H"
+ },
+ {
+  "s": 519.48,
+  "e": 521.76,
+  "t": "I was gonna, I was just going to bring some points up",
+  "spk": "H",
+  "f0": 92.4,
+  "voiced": 0.43,
+  "spk2": "H"
+ },
+ {
+  "s": 521.76,
+  "e": 524.84,
+  "t": "because I have a feeling I'm gonna try to sit back",
+  "spk": "H",
+  "f0": 108.6,
+  "voiced": 0.39,
+  "spk2": "H"
+ },
+ {
+  "s": 524.84,
+  "e": 527.92,
+  "t": "and let Dr. Vani here do the topic.",
+  "spk": "H",
+  "f0": 90.8,
+  "voiced": 0.54,
+  "spk2": "H"
+ },
+ {
+  "s": 527.92,
+  "e": 532.6,
+  "t": "She's great, but I understand that recently,",
+  "spk": "H",
+  "f0": 123.3,
+  "voiced": 0.48,
+  "spk2": "H"
+ },
+ {
+  "s": 532.6,
+  "e": 536.44,
+  "t": "over the last 75 years, the Florida Orthopedic Society",
+  "spk": "H",
+  "f0": 115.0,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 536.44,
+  "e": 539.44,
+  "t": "has never chosen a woman to be president.",
+  "spk": "H",
+  "f0": 124.0,
+  "voiced": 0.79,
+  "spk2": "H"
+ },
+ {
+  "s": 539.44,
+  "e": 541.62,
+  "t": "However, there's somebody that we know",
+  "spk": "H",
+  "f0": 144.9,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 541.62,
+  "e": 544.28,
+  "t": "that's the president and chosen one.",
+  "spk": "H",
+  "f0": 119.8,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 544.28,
+  "e": 547.16,
+  "t": "Wow, that's a huge feather in your cap.",
+  "spk": "H",
+  "f0": 117.1,
+  "voiced": 0.27,
+  "spk2": "H"
+ },
+ {
+  "s": 547.16,
+  "e": 549.0,
+  "t": "Well, you know, I think it's not about my cap.",
+  "spk": "G",
+  "f0": 228.1,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 549.0,
+  "e": 554.18,
+  "t": "I think that I created hats and off actually all my mentees. I have a couple research fellows and med students",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 554.38,
+  "e": 557.82,
+  "t": "They helped print out hats and it says first of many to come",
+  "spk": "G",
+  "f0": 234.1,
+  "voiced": 0.72,
+  "spk2": "G"
+ },
+ {
+  "s": 558.38,
+  "e": 563.66,
+  "t": "So I think that's really the legacy. I want to leave is just I'm just the beginning of a really good legacy",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 563.66,
+  "e": 569.66,
+  "t": "I want to mention that you can learn more about her. She's got a number of ways you can contact her now.",
+  "spk": "H",
+  "f0": 149.2,
+  "voiced": 0.5,
+  "spk2": "H"
+ },
+ {
+  "s": 569.66,
+  "e": 576.66,
+  "t": "Orthopedic Center of Palm Beach County, octvc.com is a website to look at, octvc.com.",
+  "spk": "H",
+  "f0": 158.1,
+  "voiced": 0.49,
+  "spk2": "H"
+ },
+ {
+  "s": 576.66,
+  "e": 583.66,
+  "t": "Come see us. We have six offices, I think now we're counting, a place we're going in Jupiter.",
+  "spk": "G",
+  "f0": 253.8,
+  "voiced": 0.69,
+  "spk2": "G"
+ },
+ {
+  "s": 583.66,
+  "e": 590.66,
+  "t": "We have Lantana, Lake Worth, we have Boynton Beach, we have Wellington, and we have two offices in Boca.",
+  "spk": "G",
+  "f0": 218.4,
+  "voiced": 0.83,
+  "spk2": "G"
+ },
+ {
+  "s": 590.66,
+  "e": 601.62,
+  "t": "Also, of course, your name, dronciracen.com, that's d-r-b-a-n-i-s-e-e-a-s-a-n.com.",
+  "spk": "H",
+  "f0": 132.9,
+  "voiced": 0.59,
+  "spk2": "H"
+ },
+ {
+  "s": 601.62,
+  "e": 606.66,
+  "t": "And yourmedmom.com, which I think is a really interesting kind of thing to talk about.",
+  "spk": "H",
+  "f0": 160.8,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 606.66,
+  "e": 607.66,
+  "t": "Yeah.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.57,
+  "spk2": "G"
+ },
+ {
+  "s": 607.66,
+  "e": 608.66,
+  "t": "Super fun.",
+  "spk": "G",
+  "f0": 251.6,
+  "voiced": 0.57,
+  "spk2": "G"
+ },
+ {
+  "s": 608.66,
+  "e": 610.54,
+  "t": "So, you know, sometimes I think things come to you.",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.87,
+  "spk2": "G"
+ },
+ {
+  "s": 610.54,
+  "e": 614.3,
+  "t": "You create your own things, and sometimes the legacies follow you.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 614.3,
+  "e": 620.18,
+  "t": "And I have the privilege of training probably over 100 med students, probably 50 to 100",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 620.18,
+  "e": 622.18,
+  "t": "And you know, it's my passion.",
+  "spk": "G",
+  "f0": 211.0,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 622.18,
+  "e": 626.3,
+  "t": "I think leaving the legacy is so important, you know, teaching and training people to",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 626.3,
+  "e": 627.3,
+  "t": "be better.",
+  "spk": "G",
+  "f0": 198.6,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 627.3,
+  "e": 629.9,
+  "t": "You know, the reps give me crap because they call me a spitfire.",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.91,
+  "spk2": "G"
+ },
+ {
+  "s": 629.9,
+  "e": 634.54,
+  "t": "But I think it's the idea is that you want to teach and train people to be the best versions",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 634.54,
+  "e": 635.82,
+  "t": "of themselves.",
+  "spk": "G",
+  "f0": 177.9,
+  "voiced": 0.4,
+  "spk2": "G"
+ },
+ {
+  "s": 635.82,
+  "e": 640.48,
+  "t": "And so my mentees came together and said, it's so funny how you are because, you know,",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 640.48,
+  "e": 642.54,
+  "t": "you sort of tell it like it is.",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.71,
+  "spk2": "G"
+ },
+ {
+  "s": 642.54,
+  "e": 645.46,
+  "t": "Sometimes you tell us things we might not want to hear, but they're the best part of",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 645.46,
+  "e": 647.7,
+  "t": "ourselves to make us the best versions of ourselves.",
+  "spk": "G",
+  "f0": 224.8,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 647.7,
+  "e": 649.62,
+  "t": "It's sort of like what your mom does.",
+  "spk": "G",
+  "f0": 293.2,
+  "voiced": 0.46,
+  "spk2": "G"
+ },
+ {
+  "s": 649.62,
+  "e": 653.1,
+  "t": "You know, your mom might not always tell you stuff you want to hear.",
+  "spk": "G",
+  "f0": 248.7,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 653.1,
+  "e": 656.5,
+  "t": "Maybe it doesn't tell you stuff they even like hearing, but sometimes you need to hear",
+  "spk": "G",
+  "f0": 249.5,
+  "voiced": 0.86,
+  "spk2": "G"
+ },
+ {
+  "s": 656.5,
+  "e": 657.5,
+  "t": "it.",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.52,
+  "spk2": "G"
+ },
+ {
+  "s": 657.5,
+  "e": 658.5,
+  "t": "And sometimes they're always...",
+  "spk": "G",
+  "f0": 270.5,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 658.5,
+  "e": 661.7,
+  "t": "But always the premise of your mom is usually for your best interest.",
+  "spk": "G",
+  "f0": 255.3,
+  "voiced": 0.65,
+  "spk2": "G"
+ },
+ {
+  "s": 661.7,
+  "e": 663.3,
+  "t": "And so that's what your med mom did.",
+  "spk": "G",
+  "f0": 240.3,
+  "voiced": 0.99,
+  "spk2": "G"
+ },
+ {
+  "s": 663.3,
+  "e": 669.22,
+  "t": "They said it would be real advice for women and people who want to train in orthopedics,",
+  "spk": "G",
+  "f0": 234.1,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 669.22,
+  "e": 671.82,
+  "t": "in life and being successful as an athlete.",
+  "spk": "G",
+  "f0": 225.5,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 671.82,
+  "e": 674.94,
+  "t": "So this, your med mom is sort of a career in surgery in orthopedics.",
+  "spk": "G",
+  "f0": 227.4,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 674.94,
+  "e": 680.84,
+  "t": "Well, any career surgeon with a PX now, of course, the first female president of the",
+  "spk": "H",
+  "f0": 148.3,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 680.84,
+  "e": 686.3,
+  "t": "former European Society, so a ton of feathers in the cactus and actually hats.",
+  "spk": "H",
+  "f0": 125.4,
+  "voiced": 0.18,
+  "spk2": "H"
+ },
+ {
+  "s": 686.3,
+  "e": 689.62,
+  "t": "And she keeps referencing to her left.",
+  "spk": "H",
+  "f0": 101.0,
+  "voiced": 0.42,
+  "spk2": "H"
+ },
+ {
+  "s": 689.62,
+  "e": 692.66,
+  "t": "My son, Nick, is sitting there trying to stay out of the picture.",
+  "spk": "H",
+  "f0": 110.5,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 692.66,
+  "e": 693.66,
+  "t": "That's right.",
+  "spk": "H",
+  "f0": 136.0,
+  "voiced": 0.87,
+  "spk2": "H"
+ },
+ {
+  "s": 693.66,
+  "e": 702.02,
+  "t": "He was a trauma orthopedic, he sells, he did a lot of work with Dr. Sebastian, and",
+  "spk": "H",
+  "f0": 104.3,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 702.02,
+  "e": 708.54,
+  "t": "So the type of work and the type of information that we got from him and the different doctors,",
+  "spk": "H",
+  "f0": 119.1,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 708.54,
+  "e": 714.74,
+  "t": "not only was she good at what she does, she was friendly and became friends with the reps.",
+  "spk": "H",
+  "f0": 110.8,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 714.74,
+  "e": 720.78,
+  "t": "For other people, sometimes we'll look down at the reps and that's something special",
+  "spk": "H",
+  "f0": 109.8,
+  "voiced": 0.42,
+  "spk2": "H"
+ },
+ {
+  "s": 720.78,
+  "e": 722.06,
+  "t": "that is given to you.",
+  "spk": "H",
+  "f0": 91.3,
+  "voiced": 0.74,
+  "spk2": "H"
+ },
+ {
+  "s": 722.06,
+  "e": 726.02,
+  "t": "And I think that's where your med mom came from too, is just sort of the idea of like",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 726.02,
+  "e": 729.34,
+  "t": "your mom is like part of your team and I'm a team builder.",
+  "spk": "G",
+  "f0": 201.5,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 729.34,
+  "e": 734.26,
+  "t": "I really believe that, you know, I think especially in the OR it should be a really fun place",
+  "spk": "G",
+  "f0": 206.2,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 734.26,
+  "e": 735.26,
+  "t": "to be.",
+  "spk": "G",
+  "f0": 193.5,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 735.26,
+  "e": 736.26,
+  "t": "I love it.",
+  "spk": "G",
+  "f0": 192.4,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 736.26,
+  "e": 737.26,
+  "t": "It's my happy place.",
+  "spk": "G",
+  "f0": 228.1,
+  "voiced": 0.38,
+  "spk2": "G"
+ },
+ {
+  "s": 737.26,
+  "e": 738.74,
+  "t": "And so I think we really try to do that.",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 1.0,
+  "spk2": "G"
+ },
+ {
+  "s": 738.74,
+  "e": 742.22,
+  "t": "Like, I had two students today in the OR, and they said it was the most fun they've",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.83,
+  "spk2": "G"
+ },
+ {
+  "s": 742.22,
+  "e": 743.22,
+  "t": "had.",
+  "spk": "G",
+  "f0": 176.4,
+  "voiced": 0.43,
+  "spk2": "H"
+ },
+ {
+  "s": 743.22,
+  "e": 746.18,
+  "t": "And I think, you know, part of it is just making it that sort of friendly environment",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 746.18,
+  "e": 747.18,
+  "t": "where you learn.",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.97,
+  "spk2": "H"
+ },
+ {
+  "s": 747.18,
+  "e": 748.18,
+  "t": "You're efficient.",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.51,
+  "spk2": "G"
+ },
+ {
+  "s": 748.18,
+  "e": 749.18,
+  "t": "We build our techniques.",
+  "spk": "G",
+  "f0": 221.6,
+  "voiced": 0.95,
+  "spk2": "G"
+ },
+ {
+  "s": 749.18,
+  "e": 750.18,
+  "t": "We do really good work.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.59,
+  "spk2": "G"
+ },
+ {
+  "s": 750.18,
+  "e": 751.18,
+  "t": "We still have a good time.",
+  "spk": "G",
+  "f0": 212.2,
+  "voiced": 0.7,
+  "spk2": "G"
+ },
+ {
+  "s": 751.18,
+  "e": 752.18,
+  "t": "Everybody wins in that kind of situation.",
+  "spk": "G",
+  "f0": 170.9,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 752.18,
+  "e": 753.18,
+  "t": "Yeah.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ },
+ {
+  "s": 753.18,
+  "e": 754.18,
+  "t": "That's a fascinating website.",
+  "spk": "H",
+  "f0": 140.8,
+  "voiced": 0.97,
+  "spk2": "H"
+ },
+ {
+  "s": 754.18,
+  "e": 755.18,
+  "t": "You're a mentor.",
+  "spk": "G",
+  "f0": 258.5,
+  "voiced": 0.29,
+  "spk2": "H"
+ },
+ {
+  "s": 755.18,
+  "e": 769.97,
+  "t": "That's a fast end website, we touched earlier and David started talking about the full moon hair, about technology, and I know there were some specific procedures that you were interested in discussing.",
+  "spk": "H",
+  "f0": 143.3,
+  "voiced": 0.39,
+  "spk2": "H"
+ },
+ {
+  "s": 769.97,
+  "e": 772.97,
+  "t": "Do you use some terms that even I didn't know?",
+  "spk": "G",
+  "f0": 181.0,
+  "voiced": 0.39,
+  "spk2": "H"
+ },
+ {
+  "s": 772.97,
+  "e": 777.97,
+  "t": "Well listen, you guys are educated, you're learning all about reverses, you're learning about all these things.",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.95,
+  "spk2": "G"
+ },
+ {
+  "s": 777.97,
+  "e": 782.97,
+  "t": "And I think the important thing is it's super, it's an exciting time to be part of orthopedics for me.",
+  "spk": "G",
+  "f0": 264.3,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 782.97,
+  "e": 788.99,
+  "t": "But technology, you know, I think should be, I hope that we find technologies that help",
+  "spk": "G",
+  "f0": 249.5,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 788.99,
+  "e": 789.99,
+  "t": "solve problems.",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.49,
+  "spk2": "G"
+ },
+ {
+  "s": 789.99,
+  "e": 795.27,
+  "t": "And I think sometimes we have these advancements, like the iPhone is an incredible device that",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.87,
+  "spk2": "G"
+ },
+ {
+  "s": 795.27,
+  "e": 796.27,
+  "t": "does it.",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 796.27,
+  "e": 801.45,
+  "t": "Now, do I think the 16 or the 17 version of it maybe is solving a huge unmet problem?",
+  "spk": "G",
+  "f0": 227.4,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 801.45,
+  "e": 802.45,
+  "t": "Maybe not.",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.52,
+  "spk2": "G"
+ },
+ {
+  "s": 802.45,
+  "e": 806.87,
+  "t": "And I think sometimes we think about that in technology, in at least my industry, because",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 806.87,
+  "e": 808.95,
+  "t": "we're very implant driven.",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 808.95,
+  "e": 814.03,
+  "t": "And so a lot of times we make tech for tech safe, but some of the things that we've been",
+  "spk": "G",
+  "f0": 253.1,
+  "voiced": 0.61,
+  "spk2": "G"
+ },
+ {
+  "s": 814.03,
+  "e": 818.43,
+  "t": "looking at that I'm pretty passionate about is just things I think that from a research",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 818.43,
+  "e": 820.29,
+  "t": "standpoint are going to change how we do it.",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 820.29,
+  "e": 821.95,
+  "t": "One of is muscle sparing.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.38,
+  "spk2": "G"
+ },
+ {
+  "s": 821.95,
+  "e": 826.29,
+  "t": "This idea that you could do a shoulder replacement or a joint replacement and you wouldn't have",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 826.29,
+  "e": 827.29,
+  "t": "to cut the muscles.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 827.29,
+  "e": 828.29,
+  "t": "Sub-scapularis.",
+  "spk": "G",
+  "f0": 253.8,
+  "voiced": 0.16,
+  "spk2": "H"
+ },
+ {
+  "s": 828.29,
+  "e": 830.85,
+  "t": "For example, the sub-scapularis.",
+  "spk": "G",
+  "f0": 241.7,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 830.85,
+  "e": 833.85,
+  "t": "So the sub-scap's in the front of your shoulder, right?",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 833.85,
+  "e": 837.95,
+  "t": "The sub scab, if you cut into it, needs to heal,",
+  "spk": "G",
+  "f0": 252.4,
+  "voiced": 0.58,
+  "spk2": "G"
+ },
+ {
+  "s": 837.95,
+  "e": 839.55,
+  "t": "like any other muscle you do,",
+  "spk": "G",
+  "f0": 212.2,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 839.55,
+  "e": 841.75,
+  "t": "and that's a restriction for six weeks,",
+  "spk": "G",
+  "f0": 248.0,
+  "voiced": 0.58,
+  "spk2": "G"
+ },
+ {
+  "s": 841.75,
+  "e": 845.11,
+  "t": "and it sometimes can lead to lifelong problems, right?",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 845.11,
+  "e": 846.79,
+  "t": "So imagine if I did a shoulder replacement",
+  "spk": "G",
+  "f0": 264.3,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 846.79,
+  "e": 849.67,
+  "t": "without cutting that muscle ever.",
+  "spk": "G",
+  "f0": 241.7,
+  "voiced": 0.4,
+  "spk2": "G"
+ },
+ {
+  "s": 849.67,
+  "e": 851.83,
+  "t": "First of all, you have no restrictions to start,",
+  "spk": "G",
+  "f0": 230.7,
+  "voiced": 0.72,
+  "spk2": "G"
+ },
+ {
+  "s": 851.83,
+  "e": 854.99,
+  "t": "you get back to work, you have no limitations,",
+  "spk": "G",
+  "f0": 227.4,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 854.99,
+  "e": 856.63,
+  "t": "and then you can get back to doing things",
+  "spk": "G",
+  "f0": 268.9,
+  "voiced": 0.83,
+  "spk2": "G"
+ },
+ {
+  "s": 856.63,
+  "e": 859.47,
+  "t": "and you don't have that risk of it failing down the road.",
+  "spk": "G",
+  "f0": 232.1,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 859.47,
+  "e": 861.47,
+  "t": "So the fact that we've even developed techniques",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.87,
+  "spk2": "G"
+ },
+ {
+  "s": 861.47,
+  "e": 862.95,
+  "t": "to be able to do so like that,",
+  "spk": "G",
+  "f0": 201.5,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 862.95,
+  "e": 867.23,
+  "t": "From a rehab standpoint, from everything, it's pretty cool.",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.63,
+  "spk2": "G"
+ },
+ {
+  "s": 867.23,
+  "e": 871.55,
+  "t": "One other thing I want to ask you about is the patch augmentations that you use, biologics,",
+  "spk": "H",
+  "f0": 95.1,
+  "voiced": 0.58,
+  "spk2": "H"
+ },
+ {
+  "s": 871.55,
+  "e": 872.55,
+  "t": "what are you doing?",
+  "spk": "H",
+  "f0": 129.9,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 872.55,
+  "e": 873.55,
+  "t": "Yeah.",
+  "spk": "G",
+  "f0": 274.4,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 873.55,
+  "e": 874.55,
+  "t": "So that's the other thing.",
+  "spk": "G",
+  "f0": 288.2,
+  "voiced": 0.68,
+  "spk2": "G"
+ },
+ {
+  "s": 874.55,
+  "e": 878.47,
+  "t": "Rotator cuff repairs, I think 17 million people suffer from a rotator cuff.",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 878.47,
+  "e": 884.13,
+  "t": "Probably anyone, if you sat next to you in any sort of retirement home community, any",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.68,
+  "spk2": "G"
+ },
+ {
+  "s": 884.13,
+  "e": 887.79,
+  "t": "sort of thing over 60 living, one out of three people are going to have a rotator",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.86,
+  "spk2": "G"
+ },
+ {
+  "s": 887.79,
+  "e": 889.39,
+  "t": "cuff pathology.",
+  "spk": "G",
+  "f0": 206.2,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 889.39,
+  "e": 891.35,
+  "t": "And so what we know is that they occur.",
+  "spk": "G",
+  "f0": 248.0,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 891.35,
+  "e": 892.75,
+  "t": "We're really good at fixing them.",
+  "spk": "G",
+  "f0": 246.6,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 892.75,
+  "e": 895.23,
+  "t": "We're not great at getting them to heal.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.59,
+  "spk2": "G"
+ },
+ {
+  "s": 895.23,
+  "e": 898.71,
+  "t": "And I tell people in Palm Beach, 90 is the new 70.",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 898.71,
+  "e": 900.63,
+  "t": "And the reality is, guess what?",
+  "spk": "G",
+  "f0": 264.3,
+  "voiced": 0.69,
+  "spk2": "G"
+ },
+ {
+  "s": 900.63,
+  "e": 904.43,
+  "t": "Our blood cells, our biology isn't as good as when we were 20.",
+  "spk": "G",
+  "f0": 238.2,
+  "voiced": 0.7,
+  "spk2": "G"
+ },
+ {
+  "s": 904.43,
+  "e": 908.73,
+  "t": "So if you can create some sort of scaffold to make that better, to give you a better",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 908.73,
+  "e": 913.55,
+  "t": "chance to be 20 again, or 40, or maybe even just 60 again, you're going to get better",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.63,
+  "spk2": "G"
+ },
+ {
+  "s": 913.55,
+  "e": 917.03,
+  "t": "healing of that rotator cuff.",
+  "spk": "G",
+  "f0": 222.9,
+  "voiced": 0.43,
+  "spk2": "G"
+ },
+ {
+  "s": 917.03,
+  "e": 922.83,
+  "t": "Again, you're doing something that I've always found fascinating here, and that is,",
+  "spk": "G",
+  "f0": 165.5,
+  "voiced": 0.69,
+  "spk2": "H"
+ },
+ {
+  "s": 922.83,
+  "e": 926.85,
+  "t": "we've talked about this too, Dan, understanding that the body is a self-healing mechanism.",
+  "spk": "G",
+  "f0": 163.6,
+  "voiced": 0.82,
+  "spk2": "H"
+ },
+ {
+  "s": 926.85,
+  "e": 933.07,
+  "t": "If you let it be, you're replacing what needs replacing and letting the body itself handle",
+  "spk": "G",
+  "f0": 168.4,
+  "voiced": 0.78,
+  "spk2": "H"
+ },
+ {
+  "s": 933.07,
+  "e": 934.39,
+  "t": "the rest of it.",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.61,
+  "spk2": "H"
+ },
+ {
+  "s": 934.39,
+  "e": 937.39,
+  "t": "What about doing replacements where you do partial replacements?",
+  "spk": "H",
+  "f0": 103.7,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 937.39,
+  "e": 938.39,
+  "t": "Well, yeah.",
+  "spk": "G",
+  "f0": 308.9,
+  "voiced": 0.48,
+  "spk2": "G"
+ },
+ {
+  "s": 938.39,
+  "e": 941.51,
+  "t": "I mean, I think there's some newer things out there for that.",
+  "spk": "G",
+  "f0": 246.6,
+  "voiced": 0.74,
+  "spk2": "G"
+ },
+ {
+  "s": 941.51,
+  "e": 945.87,
+  "t": "Some things are called stemless, or things that are 3D printed to get your bone to",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 945.87,
+  "e": 948.15,
+  "t": "to heal into the implant.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.61,
+  "spk2": "G"
+ },
+ {
+  "s": 948.15,
+  "e": 950.27,
+  "t": "And then there's other things that are now we're changing",
+  "spk": "G",
+  "f0": 256.8,
+  "voiced": 0.86,
+  "spk2": "G"
+ },
+ {
+  "s": 950.27,
+  "e": 951.71,
+  "t": "what kind of metals we use.",
+  "spk": "G",
+  "f0": 262.8,
+  "voiced": 0.43,
+  "spk2": "G"
+ },
+ {
+  "s": 951.71,
+  "e": 954.23,
+  "t": "So pyrocarbon is another one.",
+  "spk": "G",
+  "f0": 205.6,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 954.23,
+  "e": 957.33,
+  "t": "And that pyrocarbon means you don't have to actually",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 957.33,
+  "e": 958.99,
+  "t": "put metal on both sides of the joints.",
+  "spk": "G",
+  "f0": 229.4,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 958.99,
+  "e": 961.45,
+  "t": "You probably could just do it on one side of the joint",
+  "spk": "G",
+  "f0": 225.5,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 961.45,
+  "e": 964.63,
+  "t": "and it won't wear away or cause the same levels of pain",
+  "spk": "G",
+  "f0": 234.1,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 964.63,
+  "e": 966.95,
+  "t": "than trying to do both sides.",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.52,
+  "spk2": "G"
+ },
+ {
+  "s": 966.95,
+  "e": 969.85,
+  "t": "So that's kind of what we think of technology, right?",
+  "spk": "G",
+  "f0": 229.4,
+  "voiced": 0.74,
+  "spk2": "G"
+ },
+ {
+  "s": 969.85,
+  "e": 973.19,
+  "t": "Tech for tech's sake versus tech, solve your problem.",
+  "spk": "G",
+  "f0": 249.5,
+  "voiced": 0.57,
+  "spk2": "G"
+ },
+ {
+  "s": 973.19,
+  "e": 974.63,
+  "t": "Make you have less pain.",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 974.63,
+  "e": 977.79,
+  "t": "maybe make you recover faster, make your bone grow better,",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 977.79,
+  "e": 980.23,
+  "t": "make your rotator cuff heal faster.",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 0.52,
+  "spk2": "G"
+ },
+ {
+  "s": 980.23,
+  "e": 982.05,
+  "t": "So that's kind of, to me, the tech",
+  "spk": "G",
+  "f0": 252.4,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 982.05,
+  "e": 983.75,
+  "t": "that we should all be talking about.",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.36,
+  "spk2": "G"
+ },
+ {
+  "s": 983.75,
+  "e": 985.39,
+  "t": "Actually making a difference with tech",
+  "spk": "H",
+  "f0": 121.2,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 985.39,
+  "e": 987.27,
+  "t": "as opposed to look how cool this is.",
+  "spk": "H",
+  "f0": 148.3,
+  "voiced": 0.5,
+  "spk2": "H"
+ },
+ {
+  "s": 987.27,
+  "e": 988.99,
+  "t": "Absolutely, robots are the big thing, right?",
+  "spk": "G",
+  "f0": 253.1,
+  "voiced": 0.59,
+  "spk2": "G"
+ },
+ {
+  "s": 988.99,
+  "e": 992.71,
+  "t": "So robots have affected a lot of other parts of medicine,",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 992.71,
+  "e": 995.59,
+  "t": "but in shoulders and joints, total hips and knees,",
+  "spk": "G",
+  "f0": 250.9,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 995.59,
+  "e": 997.39,
+  "t": "there's actually been not a lot of science",
+  "spk": "G",
+  "f0": 251.6,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 997.39,
+  "e": 1000.31,
+  "t": "to say robots are the next panacea.",
+  "spk": "G",
+  "f0": 216.5,
+  "voiced": 0.46,
+  "spk2": "G"
+ },
+ {
+  "s": 1000.31,
+  "e": 1002.99,
+  "t": "And we all think of going to a surgeon that does robots,",
+  "spk": "G",
+  "f0": 248.0,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 1002.99,
+  "e": 1004.67,
+  "t": "It's a great marketing tool,",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.68,
+  "spk2": "G"
+ },
+ {
+  "s": 1004.67,
+  "e": 1007.59,
+  "t": "but ultimately you're not solving a simple problem",
+  "spk": "G",
+  "f0": 254.5,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1007.59,
+  "e": 1010.63,
+  "t": "and you're not adding anything beneficial to the patients.",
+  "spk": "G",
+  "f0": 213.4,
+  "voiced": 0.39,
+  "spk2": "G"
+ },
+ {
+  "s": 1010.63,
+  "e": 1013.67,
+  "t": "From my side of therapy, robotic procedures,",
+  "spk": "H",
+  "f0": 99.6,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 1013.67,
+  "e": 1014.99,
+  "t": "especially in the end of the hip,",
+  "spk": "H",
+  "f0": 109.8,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 1014.99,
+  "e": 1019.35,
+  "t": "and I've seen worse outcomes than a doctor",
+  "spk": "H",
+  "f0": 101.9,
+  "voiced": 0.44,
+  "spk2": "H"
+ },
+ {
+  "s": 1019.35,
+  "e": 1021.51,
+  "t": "that actually knows it looks at anomalies",
+  "spk": "H",
+  "f0": 95.1,
+  "voiced": 0.74,
+  "spk2": "H"
+ },
+ {
+  "s": 1021.51,
+  "e": 1024.39,
+  "t": "where the robot knows exactly what to do,",
+  "spk": "H",
+  "f0": 103.7,
+  "voiced": 0.82,
+  "spk2": "H"
+ },
+ {
+  "s": 1024.39,
+  "e": 1027.43,
+  "t": "but it doesn't always know what not to do.",
+  "spk": "H",
+  "f0": 95.1,
+  "voiced": 0.43,
+  "spk2": "H"
+ },
+ {
+  "s": 1027.43,
+  "e": 1030.59,
+  "t": "Oh, wow, that was a really profound thing,",
+  "spk": "H",
+  "f0": 140.8,
+  "voiced": 0.43,
+  "spk2": "H"
+ },
+ {
+  "s": 1030.59,
+  "e": 1031.87,
+  "t": "actually, not like it was.",
+  "spk": "H",
+  "f0": 130.6,
+  "voiced": 0.49,
+  "spk2": "H"
+ },
+ {
+  "s": 1031.87,
+  "e": 1035.67,
+  "t": "I mean, that's actually, that's the modern dilemma, right?",
+  "spk": "H",
+  "f0": 146.6,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 1035.67,
+  "e": 1036.59,
+  "t": "I mean, it really kind of is.",
+  "spk": "G",
+  "f0": 186.9,
+  "voiced": 0.71,
+  "spk2": "H"
+ },
+ {
+  "s": 1036.59,
+  "e": 1038.03,
+  "t": "That's kind of a modern dilemma in medicine.",
+  "spk": "H",
+  "f0": 136.8,
+  "voiced": 0.75,
+  "spk2": "H"
+ },
+ {
+  "s": 1038.03,
+  "e": 1039.59,
+  "t": "Yeah, I mean, it's like AI too, right?",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 1039.59,
+  "e": 1043.23,
+  "t": "Chat can get you so far, but maybe not always accurate,",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.71,
+  "spk2": "G"
+ },
+ {
+  "s": 1043.23,
+  "e": 1045.91,
+  "t": "you know, you know, you talk about anything",
+  "spk": "G",
+  "f0": 209.8,
+  "voiced": 0.68,
+  "spk2": "G"
+ },
+ {
+  "s": 1045.91,
+  "e": 1048.35,
+  "t": "and the technology is as good as the user.",
+  "spk": "G",
+  "f0": 205.0,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1048.35,
+  "e": 1053.19,
+  "t": "Well, just even, even nautilus, nautilus, I'm sorry.",
+  "spk": "H",
+  "f0": 110.5,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 1053.19,
+  "e": 1055.35,
+  "t": "Yeah, nautilus rotator cuff, yeah.",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 1055.35,
+  "e": 1059.23,
+  "t": "It make a huge difference in the healing process.",
+  "spk": "H",
+  "f0": 119.1,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 1059.23,
+  "e": 1060.07,
+  "t": "That's right.",
+  "spk": "G",
+  "f0": 256.0,
+  "voiced": 0.19,
+  "spk2": "H"
+ },
+ {
+  "s": 1060.07,
+  "e": 1061.59,
+  "t": "And some people who will.",
+  "spk": "H",
+  "f0": 109.8,
+  "voiced": 0.44,
+  "spk2": "H"
+ },
+ {
+  "s": 1061.59,
+  "e": 1063.55,
+  "t": "The guy started using knotless sutures,",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 1063.55,
+  "e": 1067.63,
+  "t": "probably 14 years ago, because of my residents and my reps,",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.55,
+  "spk2": "G"
+ },
+ {
+  "s": 1067.63,
+  "e": 1069.11,
+  "t": "said, hey, maybe you should try this.",
+  "spk": "G",
+  "f0": 278.4,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 1069.11,
+  "e": 1072.47,
+  "t": "And at the time, it was a heresy to do it.",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.58,
+  "spk2": "G"
+ },
+ {
+  "s": 1072.47,
+  "e": 1074.67,
+  "t": "And just look what we've come through now, you know?",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 1074.67,
+  "e": 1077.15,
+  "t": "Germanthes' theory was a heresy at one point.",
+  "spk": "H",
+  "f0": 137.6,
+  "voiced": 0.62,
+  "spk2": "H"
+ },
+ {
+  "s": 1077.15,
+  "e": 1078.91,
+  "t": "So I mean, come on.",
+  "spk": "H",
+  "f0": 126.9,
+  "voiced": 0.62,
+  "spk2": "H"
+ },
+ {
+  "s": 1078.91,
+  "e": 1083.91,
+  "t": "The only bone depict that I have with Dr. Vanny is that,",
+  "spk": "H",
+  "f0": 112.1,
+  "voiced": 0.62,
+  "spk2": "H"
+ },
+ {
+  "s": 1084.51,
+  "e": 1085.47,
+  "t": "and it wasn't her fault,",
+  "spk": "H",
+  "f0": 116.4,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 1085.47,
+  "e": 1087.75,
+  "t": "they moved her away from Garden's area.",
+  "spk": "H",
+  "f0": 101.3,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 1087.75,
+  "e": 1088.59,
+  "t": "That's right.",
+  "spk": "G",
+  "f0": 205.6,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 1088.59,
+  "e": 1091.31,
+  "t": "I had a great, great shop down the street",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 1091.31,
+  "e": 1097.15,
+  "t": "Yeah, we're coming back though coming back. That's right. Yeah, we're looking at two spaces. Yeah",
+  "spk": "G",
+  "f0": 202.6,
+  "voiced": 0.69,
+  "spk2": "G"
+ },
+ {
+  "s": 1099.15,
+  "e": 1105.11,
+  "t": "Yeah, I do want to backtrack just for a moment because I want to give a little information about first rehabilitation",
+  "spk": "G",
+  "f0": 153.6,
+  "voiced": 0.59,
+  "spk2": "H"
+ },
+ {
+  "s": 1105.11,
+  "e": 1109.93,
+  "t": "We're called beaches they present this and they're there where right near where you used to be",
+  "spk": "G",
+  "f0": 159.0,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 1109.93,
+  "e": 1116.95,
+  "t": "Yeah, right here in this area. You can learn more Dave of course is the human founder. Oh, the website is first rehab",
+  "spk": "G",
+  "f0": 155.3,
+  "voiced": 0.58,
+  "spk2": "H"
+ },
+ {
+  "s": 1117.79,
+  "e": 1119.79,
+  "t": "NPV.com spell out first",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.38,
+  "spk2": "H"
+ },
+ {
+  "s": 1119.79,
+  "e": 1135.07,
+  "t": "Mpv.com. You can also give them a call at 561-624-Game because they keep you in the game. It's 561-624-426.",
+  "spk": "G",
+  "f0": 195.7,
+  "voiced": 0.61,
+  "spk2": "H"
+ },
+ {
+  "s": 1135.07,
+  "e": 1140.39,
+  "t": "This location geographically is very interesting for a medical standpoint because we do have",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.35,
+  "spk2": "H"
+ },
+ {
+  "s": 1140.39,
+  "e": 1145.59,
+  "t": "such an active yet aging population. It's not really something you find anywhere else",
+  "spk": "G",
+  "f0": 163.6,
+  "voiced": 0.72,
+  "spk2": "H"
+ },
+ {
+  "s": 1145.59,
+  "e": 1148.23,
+  "t": "and that determines an awful lot of what you all have done.",
+  "spk": "G",
+  "f0": 155.3,
+  "voiced": 0.19,
+  "spk2": "H"
+ },
+ {
+  "s": 1148.23,
+  "e": 1151.49,
+  "t": "We have nine-year-olds coming off of a pickleball court.",
+  "spk": "H",
+  "f0": 102.2,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 1151.49,
+  "e": 1152.49,
+  "t": "It's crazy.",
+  "spk": "H",
+  "f0": null,
+  "voiced": 0.1,
+  "spk2": "H"
+ },
+ {
+  "s": 1152.49,
+  "e": 1156.29,
+  "t": "And I'm going to put a plug in for Dave in first rehab.",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 1156.29,
+  "e": 1158.53,
+  "t": "I think that we also have a lot of young athletes,",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1158.53,
+  "e": 1162.05,
+  "t": "and I think we have a lot of growth in terms of families.",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 1162.05,
+  "e": 1163.41,
+  "t": "We all have kids.",
+  "spk": "G",
+  "f0": 209.2,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 1163.41,
+  "e": 1165.89,
+  "t": "And the athletes are just incredible.",
+  "spk": "G",
+  "f0": 224.8,
+  "voiced": 0.65,
+  "spk2": "G"
+ },
+ {
+  "s": 1165.89,
+  "e": 1167.77,
+  "t": "But the problem is, in Florida, we",
+  "spk": "G",
+  "f0": 229.4,
+  "voiced": 0.86,
+  "spk2": "G"
+ },
+ {
+  "s": 1167.77,
+  "e": 1170.97,
+  "t": "have the indulgence of being able to play all year round.",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 1170.97,
+  "e": 1174.01,
+  "t": "And Dave is an expert and sort of a scientist",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.68,
+  "spk2": "G"
+ },
+ {
+  "s": 1174.01,
+  "e": 1176.85,
+  "t": "of trying to get people back to their game.",
+  "spk": "G",
+  "f0": 201.5,
+  "voiced": 0.87,
+  "spk2": "G"
+ },
+ {
+  "s": 1176.85,
+  "e": 1179.33,
+  "t": "And I always send him these difficult athletes",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 1179.33,
+  "e": 1183.61,
+  "t": "and he's gotten back people back to, you know, MLB level,",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 1183.61,
+  "e": 1185.55,
+  "t": "you know, these athletes back to playing",
+  "spk": "G",
+  "f0": 234.1,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 1185.55,
+  "e": 1189.81,
+  "t": "and being recruited by national, international superstars.",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.71,
+  "spk2": "G"
+ },
+ {
+  "s": 1189.81,
+  "e": 1192.37,
+  "t": "But I think the thing is is that we really have to realize",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.83,
+  "spk2": "G"
+ },
+ {
+  "s": 1192.37,
+  "e": 1195.97,
+  "t": "that rehab science in these sports is just as critical,",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 1195.97,
+  "e": 1197.17,
+  "t": "probably maybe more critical",
+  "spk": "G",
+  "f0": 239.6,
+  "voiced": 1.0,
+  "spk2": "G"
+ },
+ {
+  "s": 1197.17,
+  "e": 1200.09,
+  "t": "than even or as much of our surgical treatments.",
+  "spk": "G",
+  "f0": 214.0,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 1200.09,
+  "e": 1203.41,
+  "t": "You know, Tommy John surgery, rotator cuff surgery,",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 1203.41,
+  "e": 1204.61,
+  "t": "talk about tennis players,",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1204.61,
+  "e": 1206.29,
+  "t": "you talk about pickle ball players,",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1206.29,
+  "e": 1207.53,
+  "t": "I mean, baseball players.",
+  "spk": "G",
+  "f0": 207.4,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 1207.53,
+  "e": 1210.25,
+  "t": "And I think that I've sent you a lot of tough athletes.",
+  "spk": "G",
+  "f0": 234.1,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 1210.25,
+  "e": 1212.73,
+  "t": "I think you really enjoy those challenges.",
+  "spk": "G",
+  "f0": 232.7,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1212.73,
+  "e": 1213.57,
+  "t": "I do, I do.",
+  "spk": "H",
+  "f0": 144.6,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 1213.57,
+  "e": 1214.89,
+  "t": "You find the science of it.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 1214.89,
+  "e": 1216.97,
+  "t": "And not every therapist does that, you know?",
+  "spk": "G",
+  "f0": 226.8,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 1216.97,
+  "e": 1217.81,
+  "t": "That's nice.",
+  "spk": "H",
+  "f0": 110.5,
+  "voiced": 0.74,
+  "spk2": "H"
+ },
+ {
+  "s": 1217.81,
+  "e": 1219.77,
+  "t": "You know, sometimes the people you don't enjoy,",
+  "spk": "H",
+  "f0": 110.5,
+  "voiced": 0.98,
+  "spk2": "H"
+ },
+ {
+  "s": 1219.77,
+  "e": 1222.89,
+  "t": "the athletes, yes, but their parents not always.",
+  "spk": "H",
+  "f0": 108.9,
+  "voiced": 0.38,
+  "spk2": "H"
+ },
+ {
+  "s": 1222.89,
+  "e": 1227.23,
+  "t": "Because some of them that are not quite MLB level,",
+  "spk": "H",
+  "f0": 117.0,
+  "voiced": 0.84,
+  "spk2": "H"
+ },
+ {
+  "s": 1227.23,
+  "e": 1230.09,
+  "t": "sometimes the parents have that feeling that they may.",
+  "spk": "H",
+  "f0": 112.4,
+  "voiced": 0.85,
+  "spk2": "H"
+ },
+ {
+  "s": 1230.09,
+  "e": 1232.21,
+  "t": "Yeah, they have hands in them.",
+  "spk": "H",
+  "f0": 96.7,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 1232.21,
+  "e": 1233.25,
+  "t": "Well, everybody's special.",
+  "spk": "H",
+  "f0": 162.3,
+  "voiced": 0.36,
+  "spk2": "H"
+ },
+ {
+  "s": 1233.25,
+  "e": 1234.41,
+  "t": "Yeah, that's, you know.",
+  "spk": "H",
+  "f0": 114.4,
+  "voiced": 0.86,
+  "spk2": "H"
+ },
+ {
+  "s": 1234.41,
+  "e": 1235.23,
+  "t": "Well, you know what?",
+  "spk": "G",
+  "f0": 293.2,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 1235.23,
+  "e": 1237.55,
+  "t": "a six-year-old that plays pickleball competitively",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 1237.55,
+  "e": 1238.67,
+  "t": "that plays six days a week.",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 1238.67,
+  "e": 1239.75,
+  "t": "I mean, they'll come in.",
+  "spk": "G",
+  "f0": 241.0,
+  "voiced": 0.6,
+  "spk2": "G"
+ },
+ {
+  "s": 1239.75,
+  "e": 1242.75,
+  "t": "I have people in my neighborhood that come to me.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 1242.75,
+  "e": 1243.95,
+  "t": "They're like, just shoot me up.",
+  "spk": "G",
+  "f0": 245.2,
+  "voiced": 0.53,
+  "spk2": "G"
+ },
+ {
+  "s": 1243.95,
+  "e": 1246.27,
+  "t": "Just get anywhere that I can so I can keep going.",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.95,
+  "spk2": "G"
+ },
+ {
+  "s": 1246.27,
+  "e": 1249.55,
+  "t": "I have a funny story that came down in 1990",
+  "spk": "H",
+  "f0": 90.8,
+  "voiced": 0.49,
+  "spk2": "H"
+ },
+ {
+  "s": 1249.55,
+  "e": 1252.99,
+  "t": "when I started the St. Mary's Rea before, way back then.",
+  "spk": "G",
+  "f0": 190.1,
+  "voiced": 0.27,
+  "spk2": "H"
+ },
+ {
+  "s": 1252.99,
+  "e": 1256.43,
+  "t": "And one of my first patients came in and they said,",
+  "spk": "H",
+  "f0": 95.6,
+  "voiced": 0.58,
+  "spk2": "H"
+ },
+ {
+  "s": 1256.43,
+  "e": 1260.23,
+  "t": "you know, Dave, one thing, just let me do whatever.",
+  "spk": "H",
+  "f0": 107.6,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 1260.23,
+  "e": 1261.35,
+  "t": "I'll do whatever it takes,",
+  "spk": "H",
+  "f0": 98.4,
+  "voiced": 0.61,
+  "spk2": "H"
+ },
+ {
+  "s": 1261.35,
+  "e": 1263.67,
+  "t": "but don't stop me from golfing.",
+  "spk": "H",
+  "f0": 138.8,
+  "voiced": 0.29,
+  "spk2": "H"
+ },
+ {
+  "s": 1263.67,
+  "e": 1265.71,
+  "t": "and a little light went off and said,",
+  "spk": "H",
+  "f0": 101.3,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 1265.71,
+  "e": 1269.11,
+  "t": "Chaching, these guys are all for all about golf.",
+  "spk": "H",
+  "f0": 131.4,
+  "voiced": 0.5,
+  "spk2": "H"
+ },
+ {
+  "s": 1269.11,
+  "e": 1271.35,
+  "t": "And so then we started golf programs,",
+  "spk": "H",
+  "f0": 128.0,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 1271.35,
+  "e": 1272.51,
+  "t": "we have specialty programs,",
+  "spk": "H",
+  "f0": 120.5,
+  "voiced": 0.45,
+  "spk2": "H"
+ },
+ {
+  "s": 1272.51,
+  "e": 1276.19,
+  "t": "we have throwing programs that you're involved with directly",
+  "spk": "H",
+  "f0": 119.8,
+  "voiced": 0.59,
+  "spk2": "H"
+ },
+ {
+  "s": 1276.19,
+  "e": 1277.83,
+  "t": "and it's sending people over.",
+  "spk": "H",
+  "f0": 101.3,
+  "voiced": 0.5,
+  "spk2": "H"
+ },
+ {
+  "s": 1277.83,
+  "e": 1280.07,
+  "t": "But we do what we can to get you back.",
+  "spk": "H",
+  "f0": 128.4,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 1280.07,
+  "e": 1283.07,
+  "t": "And it's not always, it's not always playing in a game.",
+  "spk": "H",
+  "f0": 116.0,
+  "voiced": 0.81,
+  "spk2": "H"
+ },
+ {
+  "s": 1283.07,
+  "e": 1285.07,
+  "t": "It's not always, it's getting up,",
+  "spk": "H",
+  "f0": 115.0,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 1285.07,
+  "e": 1288.63,
+  "t": "getting the ability again to reach to the top shelf.",
+  "spk": "H",
+  "f0": 118.4,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 1288.63,
+  "e": 1290.71,
+  "t": "But we take everything that you say",
+  "spk": "H",
+  "f0": 137.2,
+  "voiced": 0.56,
+  "spk2": "H"
+ },
+ {
+  "s": 1290.71,
+  "e": 1293.07,
+  "t": "and you put it into your plan of care.",
+  "spk": "H",
+  "f0": 106.1,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 1293.07,
+  "e": 1295.31,
+  "t": "because whatever you tell us subjectively",
+  "spk": "H",
+  "f0": 120.5,
+  "voiced": 0.72,
+  "spk2": "H"
+ },
+ {
+  "s": 1295.31,
+  "e": 1297.67,
+  "t": "is how we make our assessment",
+  "spk": "H",
+  "f0": 113.7,
+  "voiced": 0.38,
+  "spk2": "H"
+ },
+ {
+  "s": 1297.67,
+  "e": 1301.31,
+  "t": "and objectively treat you by your subjective complaints.",
+  "spk": "H",
+  "f0": 108.3,
+  "voiced": 0.4,
+  "spk2": "H"
+ },
+ {
+  "s": 1301.31,
+  "e": 1303.15,
+  "t": "A lot of times people will come to you and I",
+  "spk": "H",
+  "f0": 111.8,
+  "voiced": 0.89,
+  "spk2": "H"
+ },
+ {
+  "s": 1303.15,
+  "e": 1304.83,
+  "t": "and they'll start saying about their shoulder",
+  "spk": "H",
+  "f0": 99.3,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 1304.83,
+  "e": 1306.07,
+  "t": "and then they start telling me",
+  "spk": "H",
+  "f0": 133.7,
+  "voiced": 0.69,
+  "spk2": "H"
+ },
+ {
+  "s": 1306.07,
+  "e": 1308.07,
+  "t": "and they're like, really aches at night.",
+  "spk": "H",
+  "f0": 120.5,
+  "voiced": 0.54,
+  "spk2": "H"
+ },
+ {
+  "s": 1308.07,
+  "e": 1308.91,
+  "t": "And so now you know,",
+  "spk": "H",
+  "f0": 118.4,
+  "voiced": 0.83,
+  "spk2": "H"
+ },
+ {
+  "s": 1308.91,
+  "e": 1311.43,
+  "t": "you're looking more at a bursitis and a tendonitis",
+  "spk": "H",
+  "f0": 115.7,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 1311.43,
+  "e": 1312.99,
+  "t": "and little things like that.",
+  "spk": "H",
+  "f0": 159.0,
+  "voiced": 0.32,
+  "spk2": "H"
+ },
+ {
+  "s": 1312.99,
+  "e": 1315.33,
+  "t": "You don't realize how important it is",
+  "spk": "H",
+  "f0": 121.9,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 1315.33,
+  "e": 1320.03,
+  "t": "to have your therapist take really good notes and listen",
+  "spk": "H",
+  "f0": 125.4,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 1320.03,
+  "e": 1321.75,
+  "t": "like Dr. Sebastian said,",
+  "spk": "H",
+  "f0": 95.6,
+  "voiced": 0.46,
+  "spk2": "H"
+ },
+ {
+  "s": 1321.75,
+  "e": 1322.75,
+  "t": "You've got to listen.",
+  "spk": "H",
+  "f0": 118.1,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 1322.75,
+  "e": 1327.19,
+  "t": "Well, I think it's a lot that we talked about earlier about just being the personalized",
+  "spk": "G",
+  "f0": 215.9,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 1327.19,
+  "e": 1328.19,
+  "t": "medicine.",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.59,
+  "spk2": "G"
+ },
+ {
+  "s": 1328.19,
+  "e": 1335.23,
+  "t": "I think that technology, technique, rehab, all of it has to be tailored to you, and that's",
+  "spk": "G",
+  "f0": 211.0,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 1335.23,
+  "e": 1336.23,
+  "t": "the best success.",
+  "spk": "G",
+  "f0": 207.4,
+  "voiced": 0.32,
+  "spk2": "G"
+ },
+ {
+  "s": 1336.23,
+  "e": 1337.23,
+  "t": "Sure.",
+  "spk": "G",
+  "f0": 227.4,
+  "voiced": 0.81,
+  "spk2": "H"
+ },
+ {
+  "s": 1337.23,
+  "e": 1339.99,
+  "t": "And then what you're talking about here is the difference between surviving and driving",
+  "spk": "H",
+  "f0": 143.3,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 1339.99,
+  "e": 1340.99,
+  "t": "a step.",
+  "spk": "G",
+  "f0": 182.1,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 1340.99,
+  "e": 1341.99,
+  "t": "You know what I mean?",
+  "spk": "G",
+  "f0": 205.0,
+  "voiced": 0.78,
+  "spk2": "H"
+ },
+ {
+  "s": 1341.99,
+  "e": 1342.99,
+  "t": "I mean, quality of life.",
+  "spk": "G",
+  "f0": 202.0,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 1342.99,
+  "e": 1348.79,
+  "t": "It's been a buzzword for so long, but it's very, very true.",
+  "spk": "G",
+  "f0": 213.4,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 1348.79,
+  "e": 1351.11,
+  "t": "You want to modify, not have to change your mind.",
+  "spk": "H",
+  "f0": 125.4,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 1351.11,
+  "e": 1354.83,
+  "t": "shoulder replacements and shoulder replacements used to be sort of people",
+  "spk": "G",
+  "f0": 238.9,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 1354.83,
+  "e": 1358.55,
+  "t": "were really apprehensive to get them they thought it was the end of your line",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 1358.55,
+  "e": 1362.43,
+  "t": "you know we have one of the guys that helped develop the first reverse",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1362.43,
+  "e": 1367.27,
+  "t": "shoulder replacement is a heavy lifter competitive lifter and so we have",
+  "spk": "G",
+  "f0": 242.4,
+  "voiced": 0.54,
+  "spk2": "G"
+ },
+ {
+  "s": 1367.27,
+  "e": 1371.67,
+  "t": "people doing things I had not that I would want to know but a couple you",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1371.67,
+  "e": 1377.19,
+  "t": "know Decca and what is the other competition for lifting and they have a",
+  "spk": "G",
+  "f0": 205.0,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 1377.19,
+  "e": 1380.51,
+  "t": "shoulder replacement one of them had a rotator cuff with an augment and she's",
+  "spk": "G",
+  "f0": 232.7,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 1380.51,
+  "e": 1386.39,
+  "t": "She's just competitively lifting back to her high levels of really competitive, heavy stuff,",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 1386.39,
+  "e": 1387.39,
+  "t": "and we're able to do that.",
+  "spk": "G",
+  "f0": 253.8,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 1387.39,
+  "e": 1389.79,
+  "t": "We're able to get people back to those levels.",
+  "spk": "G",
+  "f0": 199.1,
+  "voiced": 0.62,
+  "spk2": "G"
+ },
+ {
+  "s": 1389.79,
+  "e": 1391.79,
+  "t": "That would be terrifying to me.",
+  "spk": "G",
+  "f0": 156.2,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 1391.79,
+  "e": 1392.79,
+  "t": "Yeah, absolutely.",
+  "spk": "G",
+  "f0": 166.0,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 1392.79,
+  "e": 1396.63,
+  "t": "I mean, it would be someone who would do like the power of the thing after the replacement",
+  "spk": "G",
+  "f0": 172.4,
+  "voiced": 0.59,
+  "spk2": "H"
+ },
+ {
+  "s": 1396.63,
+  "e": 1400.79,
+  "t": "or until a motion or something, but you trust their technology, and it's certainly earning",
+  "spk": "G",
+  "f0": 167.9,
+  "voiced": 0.59,
+  "spk2": "H"
+ },
+ {
+  "s": 1400.79,
+  "e": 1401.79,
+  "t": "the trust.",
+  "spk": "H",
+  "f0": 124.7,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 1401.79,
+  "e": 1403.63,
+  "t": "Now, do you do revisions?",
+  "spk": "H",
+  "f0": 147.1,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 1403.63,
+  "e": 1404.63,
+  "t": "Absolutely.",
+  "spk": "G",
+  "f0": 210.4,
+  "voiced": 0.92,
+  "spk2": "G"
+ },
+ {
+  "s": 1404.63,
+  "e": 1408.27,
+  "t": "I think I probably enjoy the complex stuff the most.",
+  "spk": "G",
+  "f0": 218.4,
+  "voiced": 0.71,
+  "spk2": "G"
+ },
+ {
+  "s": 1408.27,
+  "e": 1412.61,
+  "t": "I get sent a lot of it probably because there's a lot of people that do great work, but maybe",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 1412.61,
+  "e": 1415.23,
+  "t": "not stuff that they don't want out of the box.",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.65,
+  "spk2": "G"
+ },
+ {
+  "s": 1415.23,
+  "e": 1420.43,
+  "t": "And I think that what our goal is with the revisions really get people, I mean, I really,",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.77,
+  "spk2": "G"
+ },
+ {
+  "s": 1420.43,
+  "e": 1423.25,
+  "t": "no one is at the end of the line to me.",
+  "spk": "G",
+  "f0": 189.0,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1423.25,
+  "e": 1426.97,
+  "t": "We always have a chance of salvaging, making something better, making them back.",
+  "spk": "G",
+  "f0": 205.0,
+  "voiced": 0.88,
+  "spk2": "G"
+ },
+ {
+  "s": 1426.97,
+  "e": 1428.99,
+  "t": "I mean, I've run 28 marathons.",
+  "spk": "G",
+  "f0": 211.0,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 1428.99,
+  "e": 1433.59,
+  "t": "If you couldn't be able to exercise, you really should at least be able to have a",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.69,
+  "spk2": "G"
+ },
+ {
+  "s": 1433.59,
+  "e": 1434.59,
+  "t": "chance to do something.",
+  "spk": "G",
+  "f0": 200.3,
+  "voiced": 0.83,
+  "spk2": "G"
+ },
+ {
+  "s": 1434.59,
+  "e": 1438.23,
+  "t": "And so I think revisions, a lot of times we say to people, we used to say, we can't",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 1438.23,
+  "e": 1441.23,
+  "t": "do anything more and I just think we've got no technology has gotten better and",
+  "spk": "G",
+  "f0": 208.6,
+  "voiced": 0.9,
+  "spk2": "G"
+ },
+ {
+  "s": 1441.23,
+  "e": 1448.29,
+  "t": "better just going back you ran 28 oh yeah yeah I think that's probably why I",
+  "spk": "H",
+  "f0": 119.8,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 1448.29,
+  "e": 1456.07,
+  "t": "love what we do so much right you know and I still no just a little I think I",
+  "spk": "G",
+  "f0": 195.7,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1456.07,
+  "e": 1461.23,
+  "t": "won one and the coolest part about winning a marathon is one of my senior",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 1461.23,
+  "e": 1467.03,
+  "t": "residents took a job in Delaware and was the guy that gave me the award for the",
+  "spk": "G",
+  "f0": 206.2,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 1467.03,
+  "e": 1468.03,
+  "t": "winning the marathon.",
+  "spk": "G",
+  "f0": 180.5,
+  "voiced": 0.87,
+  "spk2": "G"
+ },
+ {
+  "s": 1468.03,
+  "e": 1469.03,
+  "t": "That is really neat.",
+  "spk": "G",
+  "f0": 292.4,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 1469.03,
+  "e": 1470.03,
+  "t": "Isn't that cool?",
+  "spk": "H",
+  "f0": 142.4,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 1470.03,
+  "e": 1471.03,
+  "t": "Yeah.",
+  "spk": "H",
+  "f0": 162.7,
+  "voiced": 0.94,
+  "spk2": "H"
+ },
+ {
+  "s": 1471.03,
+  "e": 1472.03,
+  "t": "It seems to be you're also competing with yourself.",
+  "spk": "H",
+  "f0": 131.8,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 1472.03,
+  "e": 1473.03,
+  "t": "Oh yeah.",
+  "spk": "G",
+  "f0": 243.8,
+  "voiced": 0.33,
+  "spk2": "G"
+ },
+ {
+  "s": 1473.03,
+  "e": 1474.03,
+  "t": "That's got to be interesting.",
+  "spk": "G",
+  "f0": 236.8,
+  "voiced": 0.46,
+  "spk2": "H"
+ },
+ {
+  "s": 1474.03,
+  "e": 1475.03,
+  "t": "Yeah.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.14,
+  "spk2": "H"
+ },
+ {
+  "s": 1475.03,
+  "e": 1476.03,
+  "t": "This is, it's so interesting.",
+  "spk": "G",
+  "f0": 188.6,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 1476.03,
+  "e": 1480.03,
+  "t": "And I have one question, because we're running a little short on time, but the future of",
+  "spk": "G",
+  "f0": 196.8,
+  "voiced": 0.54,
+  "spk2": "H"
+ },
+ {
+  "s": 1480.03,
+  "e": 1481.03,
+  "t": "it.",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 1481.03,
+  "e": 1482.03,
+  "t": "Yeah.",
+  "spk": "G",
+  "f0": 154.4,
+  "voiced": 0.89,
+  "spk2": "H"
+ },
+ {
+  "s": 1482.03,
+  "e": 1483.03,
+  "t": "The future of the technology.",
+  "spk": "G",
+  "f0": 152.7,
+  "voiced": 0.81,
+  "spk2": "H"
+ },
+ {
+  "s": 1483.03,
+  "e": 1484.03,
+  "t": "What do you envision what you like to see?",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.11,
+  "spk2": "G"
+ },
+ {
+  "s": 1484.03,
+  "e": 1487.39,
+  "t": "You know, I think that as we continue to get better and better at what we do, that",
+  "spk": "G",
+  "f0": 209.8,
+  "voiced": 0.91,
+  "spk2": "G"
+ },
+ {
+  "s": 1487.39,
+  "e": 1493.95,
+  "t": "we help people stay more and more mobile, you know, to stay and enjoy sports and just",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 1493.95,
+  "e": 1496.63,
+  "t": "an active lifestyle later in their lives.",
+  "spk": "G",
+  "f0": 205.0,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 1496.63,
+  "e": 1501.63,
+  "t": "I think early in their lives to make young athletes be able to have sustainable careers",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.85,
+  "spk2": "G"
+ },
+ {
+  "s": 1501.63,
+  "e": 1504.23,
+  "t": "and then older athletes to be able to keep doing what they love.",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 1504.23,
+  "e": 1508.59,
+  "t": "I mean, I have a 90-year-old that just came in two days ago and he still exercises six",
+  "spk": "G",
+  "f0": 234.1,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 1508.59,
+  "e": 1509.59,
+  "t": "days a week.",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.48,
+  "spk2": "G"
+ },
+ {
+  "s": 1509.59,
+  "e": 1514.35,
+  "t": "If I can do anything to be a part of that journey to make him do that well and to do that and",
+  "spk": "G",
+  "f0": 213.4,
+  "voiced": 0.84,
+  "spk2": "G"
+ },
+ {
+  "s": 1514.35,
+  "e": 1517.35,
+  "t": "if we can get surgery to get people back, that's really a blessing for me.",
+  "spk": "G",
+  "f0": 214.0,
+  "voiced": 0.81,
+  "spk2": "G"
+ },
+ {
+  "s": 1517.35,
+  "e": 1520.99,
+  "t": "I have a feeling you're going to say or listen and agree with what I say.",
+  "spk": "H",
+  "f0": 103.4,
+  "voiced": 0.75,
+  "spk2": "H"
+ },
+ {
+  "s": 1520.99,
+  "e": 1521.99,
+  "t": "We're going to have her on.",
+  "spk": "H",
+  "f0": 99.0,
+  "voiced": 0.78,
+  "spk2": "H"
+ },
+ {
+  "s": 1521.99,
+  "e": 1522.99,
+  "t": "Oh, there's no doubt.",
+  "spk": "G",
+  "f0": 167.0,
+  "voiced": 0.22,
+  "spk2": "H"
+ },
+ {
+  "s": 1522.99,
+  "e": 1523.99,
+  "t": "I feel inadequate enough.",
+  "spk": "G",
+  "f0": 154.4,
+  "voiced": 0.4,
+  "spk2": "H"
+ },
+ {
+  "s": 1523.99,
+  "e": 1537.79,
+  "t": "Well, come on get to it. We'll just in my facility is so far away. He can't it's pretty hard to get in traffic",
+  "spk": "G",
+  "f0": 248.0,
+  "voiced": 0.67,
+  "spk2": "G"
+ },
+ {
+  "s": 1537.79,
+  "e": 1541.21,
+  "t": "I wouldn't take as long as you're staying active in whatever way",
+  "spk": "G",
+  "f0": 226.8,
+  "voiced": 0.64,
+  "spk2": "G"
+ },
+ {
+  "s": 1548.79,
+  "e": 1550.79,
+  "t": "But one last thing because I was fine",
+  "spk": "G",
+  "f0": 162.7,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 1550.79,
+  "e": 1556.79,
+  "t": "What is your favorite, most interesting case that you've seen?",
+  "spk": "G",
+  "f0": 158.1,
+  "voiced": 0.62,
+  "spk2": "H"
+ },
+ {
+  "s": 1556.79,
+  "e": 1557.79,
+  "t": "Okay.",
+  "spk": "G",
+  "f0": 241.7,
+  "voiced": 0.41,
+  "spk2": "H"
+ },
+ {
+  "s": 1557.79,
+  "e": 1565.23,
+  "t": "There's a guy, he actually runs one of the country clubs up here, and he was, I think",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 1565.23,
+  "e": 1570.07,
+  "t": "he'll be okay with me telling his story, but he was on a bachelor with a group of guys",
+  "spk": "G",
+  "f0": 212.8,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 1570.07,
+  "e": 1577.35,
+  "t": "on a guy's trip in Nashville, and he got hit by a drunk driver, and he got his arm",
+  "spk": "G",
+  "f0": 223.5,
+  "voiced": 0.7,
+  "spk2": "G"
+ },
+ {
+  "s": 1577.35,
+  "e": 1578.35,
+  "t": "crushed.",
+  "spk": "G",
+  "f0": 211.0,
+  "voiced": 0.78,
+  "spk2": "G"
+ },
+ {
+  "s": 1578.35,
+  "e": 1583.15,
+  "t": "destroyed, and he was at Vanderbilt Medical Center, and he said you could get emergency",
+  "spk": "G",
+  "f0": 214.7,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 1583.15,
+  "e": 1588.71,
+  "t": "surgery here, or there's a friend of mine who lives in Palm Beach who you could come",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.71,
+  "spk2": "G"
+ },
+ {
+  "s": 1588.71,
+  "e": 1594.31,
+  "t": "and go see, and ironically it was me, and he had already looked it up and made an appointment",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 1594.31,
+  "e": 1597.19,
+  "t": "and came in, and this guy said it was meant to be.",
+  "spk": "G",
+  "f0": 201.5,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1597.19,
+  "e": 1603.23,
+  "t": "He flew back, and he had probably one of the most difficult, blasted elbows you've",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.73,
+  "spk2": "G"
+ },
+ {
+  "s": 1603.23,
+  "e": 1607.71,
+  "t": "ever seen, and he had nerve damage, severe nerve damage, and imagine he's a country",
+  "spk": "G",
+  "f0": 235.5,
+  "voiced": 0.72,
+  "spk2": "G"
+ },
+ {
+  "s": 1607.71,
+  "e": 1614.31,
+  "t": "club manager does everything and he's actually worked with Tiger Woods and so a really great",
+  "spk": "G",
+  "f0": 232.1,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1614.31,
+  "e": 1617.35,
+  "t": "human being who really didn't ask for this to happen.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.7,
+  "spk2": "G"
+ },
+ {
+  "s": 1617.35,
+  "e": 1621.95,
+  "t": "A year later, so we went through a single surgery, the surgery didn't heal, still had",
+  "spk": "G",
+  "f0": 232.7,
+  "voiced": 0.86,
+  "spk2": "G"
+ },
+ {
+  "s": 1621.95,
+  "e": 1626.03,
+  "t": "nerve damage severe, the most optimistic guy I've ever met.",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.82,
+  "spk2": "G"
+ },
+ {
+  "s": 1626.03,
+  "e": 1631.47,
+  "t": "We took him back for a revision surgery and six months later back he's back.",
+  "spk": "G",
+  "f0": 226.1,
+  "voiced": 0.75,
+  "spk2": "G"
+ },
+ {
+  "s": 1631.47,
+  "e": 1636.47,
+  "t": "He has full function back, he got his nerve damage turned around with the revision surgery",
+  "spk": "G",
+  "f0": 224.8,
+  "voiced": 0.94,
+  "spk2": "G"
+ },
+ {
+  "s": 1636.47,
+  "e": 1638.03,
+  "t": "which he never thought would happen.",
+  "spk": "G",
+  "f0": 219.7,
+  "voiced": 0.79,
+  "spk2": "G"
+ },
+ {
+  "s": 1638.03,
+  "e": 1640.19,
+  "t": "Six months he waited nothing.",
+  "spk": "G",
+  "f0": 233.4,
+  "voiced": 0.66,
+  "spk2": "G"
+ },
+ {
+  "s": 1640.19,
+  "e": 1642.47,
+  "t": "And now he's got his full elbow intuition.",
+  "spk": "G",
+  "f0": 227.4,
+  "voiced": 0.76,
+  "spk2": "G"
+ },
+ {
+  "s": 1642.47,
+  "e": 1644.55,
+  "t": "And he sort of said, you know, we joke,",
+  "spk": "G",
+  "f0": 224.8,
+  "voiced": 0.89,
+  "spk2": "G"
+ },
+ {
+  "s": 1644.55,
+  "e": 1646.27,
+  "t": "but we gave him his life back.",
+  "spk": "G",
+  "f0": 202.0,
+  "voiced": 0.52,
+  "spk2": "G"
+ },
+ {
+  "s": 1646.27,
+  "e": 1647.11,
+  "t": "But I mean-",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.83,
+  "spk2": "G"
+ },
+ {
+  "s": 1647.11,
+  "e": 1648.47,
+  "t": "Oh, a joke, that's what actually happened.",
+  "spk": "G",
+  "f0": 159.9,
+  "voiced": 0.4,
+  "spk2": "H"
+ },
+ {
+  "s": 1648.47,
+  "e": 1649.51,
+  "t": "That's legit.",
+  "spk": "G",
+  "f0": 213.4,
+  "voiced": 0.77,
+  "spk2": "H"
+ },
+ {
+  "s": 1649.51,
+  "e": 1652.19,
+  "t": "But his attitude, I said, is what made it all for that.",
+  "spk": "G",
+  "f0": 230.1,
+  "voiced": 0.8,
+  "spk2": "G"
+ },
+ {
+  "s": 1652.19,
+  "e": 1654.23,
+  "t": "That's why I love our field, what we do.",
+  "spk": "H",
+  "f0": 117.7,
+  "voiced": 0.43,
+  "spk2": "H"
+ },
+ {
+  "s": 1654.23,
+  "e": 1655.07,
+  "t": "Yep.",
+  "spk": "H",
+  "f0": 99.6,
+  "voiced": 0.55,
+  "spk2": "H"
+ },
+ {
+  "s": 1655.07,
+  "e": 1655.91,
+  "t": "That's so amazing.",
+  "spk": "G",
+  "f0": 221.0,
+  "voiced": 0.21,
+  "spk2": "H"
+ },
+ {
+  "s": 1655.91,
+  "e": 1656.73,
+  "t": "Yep.",
+  "spk": "G",
+  "f0": 251.6,
+  "voiced": 0.46,
+  "spk2": "H"
+ },
+ {
+  "s": 1656.73,
+  "e": 1657.57,
+  "t": "Attitude is so important,",
+  "spk": "G",
+  "f0": 234.8,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 1657.57,
+  "e": 1658.41,
+  "t": "but it's also your attitude.",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.21,
+  "spk2": "H"
+ },
+ {
+  "s": 1658.41,
+  "e": 1659.25,
+  "t": "Go through your attitude.",
+  "spk": "G",
+  "f0": 231.4,
+  "voiced": 0.47,
+  "spk2": "G"
+ },
+ {
+  "s": 1659.25,
+  "e": 1660.15,
+  "t": "Oh, I mean, he's a great guy.",
+  "spk": "G",
+  "f0": 196.8,
+  "voiced": 0.91,
+  "spk2": "G"
+ },
+ {
+  "s": 1660.15,
+  "e": 1662.51,
+  "t": "Your attitude, Dr. Honey, to your fans, I know.",
+  "spk": "G",
+  "f0": 161.7,
+  "voiced": 0.48,
+  "spk2": "H"
+ },
+ {
+  "s": 1662.51,
+  "e": 1665.11,
+  "t": "It's very patient-focused, it's very,",
+  "spk": "G",
+  "f0": 162.7,
+  "voiced": 0.61,
+  "spk2": "H"
+ },
+ {
+  "s": 1665.11,
+  "e": 1666.97,
+  "t": "Wow, we're lucky, we're amazing.",
+  "spk": "G",
+  "f0": 159.0,
+  "voiced": 0.9,
+  "spk2": "H"
+ },
+ {
+  "s": 1666.97,
+  "e": 1667.99,
+  "t": "We can get to do this.",
+  "spk": "G",
+  "f0": 165.5,
+  "voiced": 0.69,
+  "spk2": "H"
+ },
+ {
+  "s": 1667.99,
+  "e": 1668.83,
+  "t": "We have the technology.",
+  "spk": "G",
+  "f0": 154.9,
+  "voiced": 0.68,
+  "spk2": "H"
+ },
+ {
+  "s": 1668.83,
+  "e": 1670.91,
+  "t": "We can change that attitude.",
+  "spk": "G",
+  "f0": 215.9,
+  "voiced": 0.61,
+  "spk2": "H"
+ },
+ {
+  "s": 1670.91,
+  "e": 1672.93,
+  "t": "And to save a guy's arm, I mean,",
+  "spk": "G",
+  "f0": 222.2,
+  "voiced": 0.65,
+  "spk2": "G"
+ },
+ {
+  "s": 1672.93,
+  "e": 1676.39,
+  "t": "for what he didn't have that, you know, that's the thing.",
+  "spk": "G",
+  "f0": 217.2,
+  "voiced": 0.71,
+  "spk2": "G"
+ },
+ {
+  "s": 1676.39,
+  "e": 1678.19,
+  "t": "It really is, and I mean,",
+  "spk": "G",
+  "f0": 227.4,
+  "voiced": 0.66,
+  "spk2": "H"
+ },
+ {
+  "s": 1678.19,
+  "e": 1680.35,
+  "t": "it's amazing how quickly the time goes.",
+  "spk": "H",
+  "f0": 148.3,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 1680.35,
+  "e": 1681.19,
+  "t": "We're just about out of it.",
+  "spk": "G",
+  "f0": 206.2,
+  "voiced": 0.17,
+  "spk2": "H"
+ },
+ {
+  "s": 1681.19,
+  "e": 1682.71,
+  "t": "Just about done, you know,",
+  "spk": "H",
+  "f0": 130.6,
+  "voiced": 0.8,
+  "spk2": "H"
+ },
+ {
+  "s": 1682.71,
+  "e": 1685.99,
+  "t": "I was thinking that there's a guy who's sitting at a bar.",
+  "spk": "H",
+  "f0": 108.9,
+  "voiced": 0.5,
+  "spk2": "H"
+ },
+ {
+  "s": 1685.99,
+  "e": 1686.83,
+  "t": "Yeah.",
+  "spk": "G",
+  "f0": 169.9,
+  "voiced": 0.53,
+  "spk2": "H"
+ },
+ {
+  "s": 1686.83,
+  "e": 1687.87,
+  "t": "Okay.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.12,
+  "spk2": "H"
+ },
+ {
+  "s": 1687.87,
+  "e": 1689.99,
+  "t": "Very upset and the bartender walked over to him and said,",
+  "spk": "H",
+  "f0": 94.0,
+  "voiced": 0.68,
+  "spk2": "H"
+ },
+ {
+  "s": 1689.99,
+  "e": 1691.63,
+  "t": "hey, you know, what's wrong?",
+  "spk": "H",
+  "f0": 101.6,
+  "voiced": 0.47,
+  "spk2": "H"
+ },
+ {
+  "s": 1691.63,
+  "e": 1694.59,
+  "t": "I drove my girlfriend of six months left me",
+  "spk": "H",
+  "f0": 124.7,
+  "voiced": 0.51,
+  "spk2": "H"
+ },
+ {
+  "s": 1695.55,
+  "e": 1697.55,
+  "t": "We buy you drinks",
+  "spk": "H",
+  "f0": 91.3,
+  "voiced": 0.6,
+  "spk2": "H"
+ },
+ {
+  "s": 1698.71,
+  "e": 1700.71,
+  "t": "You get the guy went on talking he's like",
+  "spk": "H",
+  "f0": 115.7,
+  "voiced": 0.74,
+  "spk2": "H"
+ },
+ {
+  "s": 1702.19,
+  "e": 1708.95,
+  "t": "She left me because she thought I was so un-american and the bartender shaking his hand goes",
+  "spk": "H",
+  "f0": 98.4,
+  "voiced": 0.29,
+  "spk2": "H"
+ },
+ {
+  "s": 1708.95,
+  "e": 1712.47,
+  "t": "I didn't see that coming from a column in our way. Oh",
+  "spk": "H",
+  "f0": 131.4,
+  "voiced": 0.67,
+  "spk2": "H"
+ },
+ {
+  "s": 1717.23,
+  "e": 1719.23,
+  "t": "Only the American people will like that",
+  "spk": "H",
+  "f0": 129.9,
+  "voiced": 0.85,
+  "spk2": "H"
+ },
+ {
+  "s": 1721.63,
+  "e": 1734.75,
+  "t": "This has been a really fascinating show. Thank you so much. Thank you guys for having me. I appreciate it",
+  "spk": "G",
+  "f0": 190.1,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 1735.91,
+  "e": 1739.55,
+  "t": "Change given back. Dr. Bunnies a basin.com",
+  "spk": "H",
+  "f0": 149.2,
+  "voiced": 0.58,
+  "spk2": "H"
+ },
+ {
+  "s": 1744.75,
+  "e": 1751.23,
+  "t": "S a b e s a m. Yeah, sorry my reading glasses. It's okay. S a b e s a m",
+  "spk": "G",
+  "f0": 179.5,
+  "voiced": 0.7,
+  "spk2": "H"
+ },
+ {
+  "s": 1751.63,
+  "e": 1760.75,
+  "t": "your medmon.com and vc.com. And of course Dave with first rehabilitation at the North",
+  "spk": "G",
+  "f0": 212.2,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 1760.75,
+  "e": 1770.67,
+  "t": "of Romney. First rehab MPD.com, F-I-R-S-T-D, MPD.com, or 561-624-4263, which can also start",
+  "spk": "G",
+  "f0": 167.9,
+  "voiced": 0.41,
+  "spk2": "H"
+ },
+ {
+  "s": 1770.67,
+  "e": 1776.27,
+  "t": "game or hand depending upon what you need. This has been Pain to Power on Legends 143.",
+  "spk": "G",
+  "f0": 159.9,
+  "voiced": 0.73,
+  "spk2": "H"
+ },
+ {
+  "s": 1776.27,
+  "e": 1779.23,
+  "t": "Great show, stick around. Lots more legendary programming.",
+  "spk": "G",
+  "f0": 155.3,
+  "voiced": 0.72,
+  "spk2": "H"
+ },
+ {
+  "s": 1779.23,
+  "e": 1780.23,
+  "t": "That was a great shot.",
+  "spk": "G",
+  "f0": 168.4,
+  "voiced": 0.21,
+  "spk2": "H"
+ },
+ {
+  "s": 1780.23,
+  "e": 1781.23,
+  "t": "And I was going to get more into letting people know that you do more than their shoulders.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.08,
+  "spk2": "H"
+ },
+ {
+  "s": 1781.23,
+  "e": 1782.23,
+  "t": "I didn't have a chance.",
+  "spk": "H",
+  "f0": 101.9,
+  "voiced": 0.52,
+  "spk2": "H"
+ },
+ {
+  "s": 1782.23,
+  "e": 1783.23,
+  "t": "That'll be the next show.",
+  "spk": "H",
+  "f0": 113.1,
+  "voiced": 0.35,
+  "spk2": "H"
+ },
+ {
+  "s": 1783.23,
+  "e": 1784.23,
+  "t": "You're so interested.",
+  "spk": "H",
+  "f0": 115.7,
+  "voiced": 0.57,
+  "spk2": "H"
+ },
+ {
+  "s": 1784.23,
+  "e": 1794.23,
+  "t": "There was a lot there.",
+  "spk": "H",
+  "f0": 117.0,
+  "voiced": 0.78,
+  "spk2": "H"
+ },
+ {
+  "s": 1794.23,
+  "e": 1797.23,
+  "t": "You're able to just carry us on your shoulders.",
+  "spk": "H",
+  "f0": 111.1,
+  "voiced": 0.64,
+  "spk2": "H"
+ },
+ {
+  "s": 1797.23,
+  "e": 1798.23,
+  "t": "But you're dynamic.",
+  "spk": "H",
+  "f0": 109.2,
+  "voiced": 0.48,
+  "spk2": "H"
+ },
+ {
+  "s": 1798.23,
+  "e": 1799.23,
+  "t": "And not everybody does.",
+  "spk": "H",
+  "f0": 151.8,
+  "voiced": 0.92,
+  "spk2": "H"
+ },
+ {
+  "s": 1799.23,
+  "e": 1800.23,
+  "t": "I mean, that's something you run across.",
+  "spk": "G",
+  "f0": 167.5,
+  "voiced": 0.65,
+  "spk2": "H"
+ },
+ {
+  "s": 1800.23,
+  "e": 1801.23,
+  "t": "Yeah, you're very good.",
+  "spk": "H",
+  "f0": 132.1,
+  "voiced": 0.63,
+  "spk2": "H"
+ },
+ {
+  "s": 1801.23,
+  "e": 1802.23,
+  "t": "Yeah, I like it.",
+  "spk": "H",
+  "f0": 124.4,
+  "voiced": 0.76,
+  "spk2": "H"
+ },
+ {
+  "s": 1802.23,
+  "e": 1807.23,
+  "t": "Yeah, that's why the Medmoms, they want me to do this, like when you guys are doing",
+  "spk": "G",
+  "f0": 228.7,
+  "voiced": 0.63,
+  "spk2": "G"
+ },
+ {
+  "s": 1807.23,
+  "e": 1808.23,
+  "t": "it.",
+  "spk": "G",
+  "f0": null,
+  "voiced": 0.0,
+  "spk2": "H"
+ }
+]
