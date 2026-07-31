@@ -46,7 +46,8 @@ SOURCES = {
     "cam-a": ("cam-a.mov", 0.0,    "hosts"),
     "cam-b": ("cam-b.mov", 81.0,   "wide"),
     "cam-c": ("cam-c.mov", 84.0,   "guest"),
-    "f1061": ("f1061.mov", 1061.0, "wide"),   # 5:03:42, 9.7s
+    # f1061 (9.7s) is below BT_MIN_ISLAND and would be discarded downstream —
+    # excluded here so its sync can't abort the run.
     "f1087": ("f1087.mov", 1087.0, "wide"),   # 5:04:08, 60s
     "f1233": ("f1233.mov", 1233.0, "wide"),   # 5:06:34, 280s
     "f1527": ("f1527.mov", 1527.0, "wide"),   # 5:11:28, 255s
@@ -87,37 +88,69 @@ def probe(f):
     return w, h, dur
 
 
-def envelope(f, dur=None):
-    """Rectified, frame-averaged mono envelope at ENV_HZ for sync correlation."""
+def pcm8k(f, ss=None, dur=None):
+    seek = f"-ss {ss}" if ss is not None else ""
     lim = f"-t {dur}" if dur else ""
     raw = subprocess.run(
-        f'ffmpeg -v error {lim} -i {f} -map 0:a:0 -ac 1 -ar 8000 -f f32le -',
+        f'ffmpeg -v error {seek} {lim} -i {f} -map 0:a:0 -ac 1 -ar 8000 -f f32le -',
         shell=True, capture_output=True).stdout
-    y = np.abs(np.frombuffer(raw, dtype=np.float32))
-    n = len(y) // (8000 // ENV_HZ)
-    env = y[: n * (8000 // ENV_HZ)].reshape(n, -1).mean(axis=1)
-    # log-compress so loud plosives don't dominate the correlation
+    return np.abs(np.frombuffer(raw, dtype=np.float32))
+
+
+def envelope(y, hz):
+    """Rectified, frame-averaged envelope at hz, log-compressed so loud
+    plosives don't dominate the correlation."""
+    step = 8000 // hz
+    n = len(y) // step
+    env = y[: n * step].reshape(n, -1).mean(axis=1)
     return np.log1p(env * 50)
 
 
-def refine_offset(env_a, env_k, nominal, search=6.0):
-    """Peak of FFT cross-correlation, restricted to nominal±search seconds."""
+def xcorr_peak(env_a, env_k, lo_s, hi_s, hz):
+    """Peak of FFT circular cross-correlation, restricted to [lo_s, hi_s] lag
+    seconds. irfft(A·conj(K))[m] = Σ_t a[t+m]·k[t], so the peak sits at index
+    m == k's true shift inside a — index IS the lag, with negative lags
+    wrapped to the top of the array. (Getting this labeling wrong once cost a
+    whole render: the mislabeled peak was off by exactly len(k).)"""
     n = len(env_a) + len(env_k) - 1
     nfft = 1 << (n - 1).bit_length()
+    while nfft // 2 < max(abs(lo_s), abs(hi_s)) * hz + 1:
+        nfft *= 2
     ca = np.fft.rfft(env_a - env_a.mean(), nfft)
     ck = np.fft.rfft(env_k - env_k.mean(), nfft)
-    xc = np.fft.irfft(ca * np.conj(ck), nfft)[:n]
-    lags = np.arange(n) - (len(env_k) - 1)
-    lo, hi = int((nominal - search) * ENV_HZ), int((nominal + search) * ENV_HZ)
-    win = (lags >= lo) & (lags <= hi)
+    xc = np.fft.irfft(ca * np.conj(ck), nfft)
+    lags = np.arange(nfft)
+    lags[lags > nfft // 2] -= nfft
+    win = (lags >= int(lo_s * hz)) & (lags <= int(hi_s * hz))
     if not win.any():
-        raise SystemExit(f"sync window empty for nominal {nominal}")
+        raise SystemExit(f"sync window empty [{lo_s},{hi_s}]")
     i = np.argmax(xc[win])
-    lag = lags[win][i]
-    peak = xc[win][i]
-    med = np.median(np.abs(xc[win]))
-    conf = peak / (med + 1e-9)
-    return lag / ENV_HZ, conf
+    conf = xc[win][i] / (np.median(np.abs(xc[win])) + 1e-9)
+    return lags[win][i] / hz, conf
+
+
+def sync_source(f_ref, ref_off, y_ref, f_k, nominal, search, k_dur, ref_dur):
+    """Coarse (100 Hz, wide window) then fine (1 kHz, ±1.5 s on a 60 s slice)
+    alignment of f_k against a reference source whose own offset is ref_off.
+    Returns f_k's absolute offset and the coarse confidence."""
+    y_k = pcm8k(f_k)
+    coarse, conf = xcorr_peak(envelope(y_ref, ENV_HZ), envelope(y_k, ENV_HZ),
+                              nominal - ref_off - search, nominal - ref_off + search, ENV_HZ)
+    guess = ref_off + coarse
+    # fine pass on a 60 s high-overlap slice
+    ov_lo = max(guess, ref_off)
+    ov_hi = min(guess + k_dur, ref_off + ref_dur)
+    mid = (ov_lo + ov_hi) / 2
+    t_ref = max(0.0, mid - 30 - ref_off)
+    t_k = max(0.0, mid - 30 - guess)
+    er = envelope(y_ref[int(t_ref * 8000): int((t_ref + 60) * 8000)], 1000)
+    ek = envelope(y_k[int(t_k * 8000): int((t_k + 60) * 8000)], 1000)
+    if len(er) > 2000 and len(ek) > 2000:
+        # both slices start at the same absolute time under the current guess,
+        # so the residual lag d IS the correction to the guess
+        d, _ = xcorr_peak(er, ek, -1.5, 1.5, 1000)
+        guess += d
+    return guess, conf, y_k
 
 
 def main():
@@ -135,20 +168,40 @@ def main():
 
     # ---- sync -------------------------------------------------------------
     print("=== sync ===", flush=True)
-    env_a = envelope("cam-a.mov")
+    y_a = pcm8k("cam-a.mov")
+    a_len = len(y_a) / 8000
     offsets = {"cam-a": 0.0}
     sync_report = {}
-    for name in ("cam-b", "cam-c", "f1061", "f1087", "f1233", "f1527"):
+    ys = {}
+    for name in ("cam-b", "cam-c", "f1087", "f1233", "f1527"):
         nom = meta[name]["nominal"]
-        env_k = envelope(SOURCES[name][0])
-        off, conf = refine_offset(env_a, env_k, nom, search=6.0 if name.startswith("cam") else 12.0)
+        search = 10.0 if name.startswith("cam") else 25.0
+        off, conf, y_k = sync_source("cam-a.mov", 0.0, y_a, SOURCES[name][0],
+                                     nom, search, meta[name]["dur"], a_len)
         drift = off - nom
         print(f"{name}: nominal {nom:.1f} refined {off:.2f} (drift {drift:+.2f}s, conf {conf:.1f})",
               flush=True)
-        if abs(drift) > 8.0:
+        entry = {"nominal": nom, "refined": round(off, 3), "conf": round(float(conf), 2)}
+        if conf < 4.0 and name == "cam-c" and "cam-b" in offsets:
+            # weak peak on the guest cam: corroborate against cam-b before
+            # trusting it — bad cam-c sync means visible lip-sync error
+            off2, conf2, _ = sync_source("cam-b.mov", offsets["cam-b"], ys["cam-b"],
+                                         SOURCES[name][0], nom, search,
+                                         meta[name]["dur"], meta["cam-b"]["dur"])
+            print(f"cam-c cross-check vs cam-b: {off2:.2f} (conf {conf2:.1f})", flush=True)
+            entry["cross"] = round(off2, 3)
+            if abs(off2 - off) > 0.35:
+                raise SystemExit(f"cam-c sync ambiguous: vs-a {off:.2f} / vs-b {off2:.2f}")
+            off = (off + off2) / 2
+            entry["refined"] = round(off, 3)
+        elif conf < 3.0:
+            raise SystemExit(f"{name}: sync confidence too low ({conf:.1f})")
+        if abs(drift) > (12.0 if name.startswith("cam") else 25.0):
             raise SystemExit(f"{name}: refined offset {off:.2f} too far from nominal {nom}")
         offsets[name] = off
-        sync_report[name] = {"nominal": nom, "refined": round(off, 3), "conf": round(float(conf), 2)}
+        ys[name] = y_k
+        sync_report[name] = entry
+    del y_a, ys
     json.dump(sync_report, open(f"{OUT}/sync.json", "w"), indent=1)
 
     a_dur = meta["cam-a"]["dur"]
@@ -160,7 +213,7 @@ def main():
         return (max(0.0, s), min(show_end, s + meta[name]["dur"]))
 
     bt_raw = [("cam-b", *cover("cam-b"))]
-    for fr in ("f1061", "f1087", "f1233", "f1527"):
+    for fr in ("f1087", "f1233", "f1527"):
         c = cover(fr)
         if c[1] - c[0] >= BT_MIN_ISLAND:
             bt_raw.append((fr, *c))
