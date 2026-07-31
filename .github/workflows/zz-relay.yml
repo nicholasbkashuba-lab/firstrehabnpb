@@ -1,23 +1,21 @@
-name: zz-clips
+name: zz-tighten23
 on: push
 permissions:
   contents: write
 jobs:
-  clips:
+  tighten:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
           ref: tmp/sabesan-relay
-      - name: Setup + preflight
+      - name: Setup
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          pip install -q faster-whisper
-          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/clips.py"
-          python3 -c "import faster_whisper; print('fw ok')"
+          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/tighten23.py"
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
-      - name: Fetch final master + spans
+      - name: Fetch final master
         run: |
           set -euo pipefail
           git fetch origin tmp/sabesan-out
@@ -25,28 +23,30 @@ jobs:
           cd /mnt/work
           cat master.chunk_* > master.mp4 && rm master.chunk_*
           sha256sum -c master.sha256
-      - name: Download cameras
+      - name: Download f1233 (wide)
         run: |
-          set -euo pipefail
           cd /mnt/work
-          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uc85f86610d96b34a5c26f4ae0be.dl.dropboxusercontent.com/cd/0/get/DFX3HGuQqH94s8BS3qBX39JU6js_9Fmxaentzhx0_pYRY5viCJVOVDkZaViLDogFGvJPwVMcutnse4s7rKt1JXlAqWJhq9N8CVyLkHgWSHAiTe7SZbnHbNUZBzSMDaX1Y-u8gM6vLcYxrbO3BVV7UpImY6QYkBvMvZK3mvFUuBInkw/file?c_luid=b636c39b" &
-          curl -sS --fail --retry 2 -L -o cam-c.mov "https://ucdd4a38377da9be5996bae2ec60.dl.dropboxusercontent.com/cd/0/get/DFVxJYyOtXkaiy8lk2gIdzxMFbNj9ugWbSeYM4-cPzyt2RWmm1PpA8a8KCs57wbA-eNySmRDPlRp9Uwm5LQwrRDfMNLadbw2nTh3e6ekVlQjur-KmQs4WVePI9SQJeN1p8W-Gdg3aatBFphw5AQd1Yu5M4Kv05DlV8ARWcO7Cz18Cg/file?c_luid=b636c39b" &
-          wait
-          [ "$(stat -c%s cam-a.mov)" = "5799444823" ]
-          [ "$(stat -c%s cam-c.mov)" = "6162358143" ]
-      - name: Render clips + transcripts
+          curl -sS --fail --retry 2 -L -o f1233.mov "https://uc36f9f136d45edd11bd8d7827c6.dl.dropboxusercontent.com/cd/0/get/DFVqsFl1xl5WnxUbei5eOSMyhyx3RmBS_q5F8kxfXp9B66xd0rIX36F550kmgEWGpVGtvupS5NeHyotwp2CD47_EuUYU_38MAEtwtBJdqjE2KMkq8N3lbEkC5K0iRvpBuP0YZPDb1Ewmr0cmSSaCXtSIBGn0otBMQZRllwPQWvFt7g/file?c_luid=b636c39b"
+          [ "$(stat -c%s f1233.mov)" = "2024103070" ]
+      - name: Tighten
         run: |
           export WORK=/mnt/work
-          python3 "$GITHUB_WORKSPACE/pipeline/clips.py"
-      - name: Publish clips
+          python3 "$GITHUB_WORKSPACE/pipeline/tighten23.py"
+      - name: Publish
         run: |
           set -euo pipefail
+          cd /mnt/work/out
+          split -b 90m -d master.mp4 master.chunk_
+          sha256sum master.mp4 > master.sha256
+          rm master.mp4
+          cd /mnt/work
+          for f in edl_v4.json transcript_v4.json spans_v4.json; do cp $f out/$f 2>/dev/null || true; done
           cd $GITHUB_WORKSPACE
-          git checkout --orphan tmp/sabesan-clips-b
+          git checkout --orphan tmp/sabesan-t23
           git rm -rf -q . || true
           cp -r /mnt/work/out/* .
           git add -A
           git config user.name ci-bot
           git config user.email ci-bot@users.noreply.github.com
-          git commit -q -m "10 vertical social clips + medium.en transcripts"
-          git push -f origin HEAD:tmp/sabesan-clips
+          git commit -q -m "tightened 23:12 stretch: wide insert + banter cut"
+          git push -f origin HEAD:tmp/sabesan-out
