@@ -1,0 +1,39 @@
+name: zz-sabesan-relay
+on: push
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: cam-a-4-46-01
+            size: 5799444823
+            src: "SRC_A"
+            dst: "DST_A"
+          - name: cam-b-4-47-22
+            size: 6222098919
+            src: "SRC_B"
+            dst: "DST_B"
+          - name: cam-c-4-47-25
+            size: 6162358143
+            src: "SRC_C"
+            dst: "DST_C"
+    steps:
+      - name: Relay ${{ matrix.name }}
+        run: |
+          set -euo pipefail
+          echo "downloading ${{ matrix.name }}"
+          curl -sS --fail --retry 3 --retry-delay 5 -L -o clip.mov "${{ matrix.src }}"
+          got=$(stat -c%s clip.mov)
+          echo "got $got bytes, expected ${{ matrix.size }}"
+          # A truncated or error-page download must not be uploaded as if it were
+          # the real file -- Descript would ingest a corrupt asset silently.
+          [ "$got" = "${{ matrix.size }}" ] || { echo "SIZE MISMATCH"; head -c 400 clip.mov; exit 1; }
+          echo "uploading ${{ matrix.name }}"
+          curl -sS --fail --retry 3 --retry-delay 5 -X PUT \
+            -H "Content-Type: application/octet-stream" \
+            --upload-file clip.mov "${{ matrix.dst }}"
+          echo "OK ${{ matrix.name }}"
+          rm -f clip.mov
