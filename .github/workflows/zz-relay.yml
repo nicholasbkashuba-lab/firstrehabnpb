@@ -1,11 +1,11 @@
-name: zz-fix-c-crop
+name: zz-finish-v3
 on: push
 permissions:
   contents: write
 jobs:
-  fixc:
+  finish:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
         with:
@@ -14,26 +14,32 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
-      - name: Fetch existing master + edl from out branch
+          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/finish.py"
+      - name: Fetch v1 master (audio + edl) from out branch
         run: |
           set -euo pipefail
           git fetch origin tmp/sabesan-out
           git archive origin/tmp/sabesan-out | tar -x -C /mnt/work
           cd /mnt/work
-          cat master.chunk_* > master.mp4
-          sha256sum -c master.sha256
-          rm master.chunk_*
-      - name: Download cam-c
+          cat master.chunk_* > master.mp4 && rm master.chunk_*
+          ls -la edl.json master.mp4
+      - name: Download cameras (parallel)
         run: |
+          set -euo pipefail
           cd /mnt/work
-          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc60ca0c6de06190ec071b058fb6.dl.dropboxusercontent.com/cd/0/get/DFS-Nc6zP6_7UDI1jXjna_g3t5fRlApc8dpQ8saiSOngJMJ0WYgVghMWsXuzdnA26QDRbewH2sKW5N0W1R368i7GW02aSlctLFf725itsNIi7YCZco_OrDUfMDvOeWq_42-9whlTOR_mEfDKPofC2irtFKMXeItppbL1_V8F1KGwOw/file?c_luid=b636c39b"
-          got=$(stat -c%s cam-c.mov)
-          [ "$got" = "6162358143" ] || { echo "SIZE MISMATCH $got"; exit 1; }
-      - name: Re-render guest shots with corrected crop
+          curl -sS --fail --retry 2 -L -o cam-a.mov "https://uca77287db296f208d216376eced.dl.dropboxusercontent.com/cd/0/get/DFQrfTjusEhHOOcGirbTLI6lEsvIxE0l15e2xeBjNYreDOmZOMBKcD6soungLmzXFLuysMde-tsGRisFaMkebS1vZmjglxK3snaHgs13izgD7ngs4skJuM66pO6ATIFAiO-ktKM2y4fuoeQ_-808fbt8sXFnOc3kf81TPWDCSiaDwg/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-b.mov "https://uc6ca3f72c0d7352877a715c2b4a.dl.dropboxusercontent.com/cd/0/get/DFSf_YB0z7MWlWrnGNHwjs-M7p4V25d1jQvdeFYmh1XiROdy3uDr7E80Fj67--aF5FOtHinTu7PGG_YXaSvLEvR_eJvQqUJM6H2ioeVSjIsldiNVl_R128WmVIRe4ypwHQZLn2sumTn75l3cCi-jZOKrOSshh2SsbLL1ec25FOI3EQ/file?c_luid=b636c39b" &
+          curl -sS --fail --retry 2 -L -o cam-c.mov "https://uc39187f4fd1a12522944bae63ad.dl.dropboxusercontent.com/cd/0/get/DFQpGQz46qWhUoqAhVomWcTiGFjS-cX8njxYBpb3QKX7u44_BhWMyBSsNIRM12R_TtpI9TQ3ARj80LMxMTtV4sM26ZsN-zpqwvlhBZgKDLe5vWKwnubxw6fPolTOX0OVci4kNre24M-xlCIPL_rzfhAzWakAUscfHaeas-7f4s_JPQ/file?c_luid=b636c39b" &
+          wait
+          [ "$(stat -c%s cam-a.mov)" = "5799444823" ]
+          [ "$(stat -c%s cam-b.mov)" = "6222098919" ]
+          [ "$(stat -c%s cam-c.mov)" = "6162358143" ]
+          echo all sizes ok
+      - name: Render v3 (tonemap + corrected crop)
         run: |
           export WORK=/mnt/work
-          python3 "$GITHUB_WORKSPACE/pipeline/fixc.py"
-      - name: Publish v2 to tmp/sabesan-out
+          python3 "$GITHUB_WORKSPACE/pipeline/finish.py"
+      - name: Publish v3
         run: |
           set -euo pipefail
           cd /mnt/work/out
@@ -43,11 +49,11 @@ jobs:
           cd /mnt/work
           for f in edl.json transcript.json sync.json audio_map.json; do cp $f out/$f; done
           cd $GITHUB_WORKSPACE
-          git checkout --orphan tmp/sabesan-out2
+          git checkout --orphan tmp/sabesan-v3
           git rm -rf -q . || true
           cp -r /mnt/work/out/* .
           git add -A
           git config user.name ci-bot
           git config user.email ci-bot@users.noreply.github.com
-          git commit -q -m "sabesan master v2: corrected guest-cam crop"
+          git commit -q -m "sabesan master v3: HLG tonemap + corrected guest crop"
           git push -f origin HEAD:tmp/sabesan-out
