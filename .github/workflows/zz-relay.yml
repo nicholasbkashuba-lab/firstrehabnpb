@@ -8,36 +8,56 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: frag-5-02-20
-            size: 7106037
-            src: "https://uc94f0fc517e93844a9056376e8e.dl.dropboxusercontent.com/cd/0/get/DFTxkbTDAekCVk6n2IU3s7mgWO02Alyhhs9TEWynQ9kw0zWigk3wnHY8boGqT00Xtbh6JXSe0W9LUoKxQAhoHj48V6Pq0zfu-cesmQWAZJGcBfV_u1Q5NCTLhoQXW6MWlyAxn5f63oGE14Z6xVDcDJnZc3QF-9D2XS8y1X_klexW4Q/file?c_luid=b636c39b"
-            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/1a169d4e-f988-4dbc-9ad8-7aca118b503e/ce540bcf-e341-4b3e-8f81-ed9b4dd08951.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130122Z&X-Amz-Expires=10800&X-Amz-Signature=ad31eb199631d43ac3ab2bb7d631b76e8b2a944944df08128c5c8662c289bdee&X-Amz-SignedHeaders=host&x-id=PutObject"
-          - name: frag-5-03-42
-            size: 91851696
-            src: "https://uc6a95d2656652e5430ad50227bd.dl.dropboxusercontent.com/cd/0/get/DFRxSbTE4DjG5Umzrm0AmZQ9isAOOHiS2kzu-Br51BcQQUEqN_SXSZSjl22JlV7Z1ZbHYtUM8MJsu7VZmv-BENQz2bwDqQQlwRhGNkkh__NaG6Mo4TkheJW8fb4MD-CKg6gp9fEg0Y_PzzTZv9INcJMClqYb9cbXIaFoUQncUEnmeQ/file?c_luid=b636c39b"
-            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/94f832b9-52c7-4174-8c63-ccb13a88968e/8ab76463-0a74-4f6a-89a9-a938cd9814e4.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130122Z&X-Amz-Expires=10800&X-Amz-Signature=b19bbcd8b56140ff0bcb2a045563b82498292d10ce241920efcb6980d2ba4737&X-Amz-SignedHeaders=host&x-id=PutObject"
-          - name: frag-5-04-08
-            size: 400588819
-            src: "https://ucc858851a62e1e2434040016a27.dl.dropboxusercontent.com/cd/0/get/DFSSR8HseDZw4JVf9yjcnIcWy82Khi7Ze3fV1GXLsMJg33qaHeImtXn5AeyZ__KAmuyGfOEj3Us8nfJx7ilrxl8B31eX78_yNifMn0dh_CdAHMtrYIGTY1R-cLIbI3Esz0pl_8IBbfeMbpNZViZf4TgvG_cKI-nZ_6q-N-8hYdYHyw/file?c_luid=b636c39b"
-            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/48b44ef4-38af-4da7-9b2f-591867273f7c/663f1342-3240-40a0-bafa-3c537bdc41aa.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130123Z&X-Amz-Expires=10800&X-Amz-Signature=bd381baea1ef24c94a8e28391711361c5c20f3c03c9727aa52bc92946c97a8ac&X-Amz-SignedHeaders=host&x-id=PutObject"
-          - name: frag-5-06-34
-            size: 2024103070
-            src: "https://uc0a981e952ea171fc56382add71.dl.dropboxusercontent.com/cd/0/get/DFSH3C6ojZVztkq8Hs9PB-sDKAnVujfy-wXFw6ggpn362tXqXQ9C70hCaXd3rBm7Y-EMqqfIqLIOgytNv-KPlSyVrnJELXm4bm5SaH6BJzuHtMszDVmsKaXoSv8x6Ti5xBV5EsVDRtYl-unj0QuscEPZSXsr6qmQlAtaDge9Ow6giA/file?c_luid=b636c39b"
-            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/0e28c091-359d-4403-8cb8-299b26a78035/f6e3ceac-034f-419e-a60f-5b185d283e38.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130123Z&X-Amz-Expires=10800&X-Amz-Signature=a7946bb31b78801939de0be9b94413e36300f94b4406e2a20bd9d9931740714e&X-Amz-SignedHeaders=host&x-id=PutObject"
+          - name: frag-4-42-25
+            size: 539925410
+            src: "https://uc6dd808ed7c1d77a8fd74dde81a.dl.dropboxusercontent.com/cd/0/get/DFRkR_KHRwXpk52_D9ozWt5hJ4wfnJbIHb119kOoH9k6MV-evDVTKcP1YbgnxD9J3WtBvzihlnzbkPXrdhbG5Xgz4S_zzczgGTFgsYHkwwCaPxq0rg8UH0pPItKtp4Qd_prXo1e91xn80yyuZ8xRo1pv_ryP-GGI2RtolzZJLSW_QA/file?c_luid=b636c39b"
+            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/d9bda995-da14-4d9b-9d85-4bd9916c47da/887bd7a5-edda-4cb1-b6f9-a27e641cb3e4.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130501Z&X-Amz-Expires=10800&X-Amz-Signature=3b097f09735eb6246e904058e6bcc30c0a3d33c6bb194ef9511ccd644a7e3105&X-Amz-SignedHeaders=host&x-id=PutObject"
+          - name: frag-5-11-16
+            size: 8761826
+            src: "https://uce1437100ec921c5a2f0a75ab5d.dl.dropboxusercontent.com/cd/0/get/DFSynyIDX9wnd0D2o6gJhaWfoEJZyy4WX5VJj3t9uH4_f099m1FMGQg5A4Nw88YCI42QRSMDR59qioHVpyInrcK5gTYzXkNtnpFrGhAwCYIoP7uw1rd7HSmAYM69tzctoXgDeVCiqW8saJWzkkUuV20abzRi4Qn_iaHamR13mIcipA/file?c_luid=b636c39b"
+            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/d6e70049-d3ea-432a-bb20-c7ce71829084/b3ec0bf7-75be-47b8-b34a-445c2d9a1a34.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130501Z&X-Amz-Expires=10800&X-Amz-Signature=ea864d9c4f3fc58cf7935f5b92593de737f1fd8db4bc7728afc0ebe618dafa53&X-Amz-SignedHeaders=host&x-id=PutObject"
+          - name: frag-5-11-21
+            size: 17868559
+            src: "https://uc56708673e34fa76b89c1dc15f4.dl.dropboxusercontent.com/cd/0/get/DFSVnuD-4hAsaA9G1WEB8s9W_TB7jNvs75FmAXJcTDqpA4SUv_qvqD0lTXtnhc7b7iumEXX3fM6hdGrOM2x2czUlKZMhAid3RcPbwdKhYsmOhXqRzxlKsjHrBrTjzO0l2oxs6PabMYGunmpkUn4sfQlp5yMB2ik86p9_RNoT0k04PQ/file?c_luid=b636c39b"
+            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/0200fc7d-e3aa-4182-b9ec-07da6d6d34f9/aaa8afab-a719-49ed-bd11-4f1676878235.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130502Z&X-Amz-Expires=10800&X-Amz-Signature=342f861dee2677d118176bb0238eff064b6e7a4f3986ad54750587a53222169e&X-Amz-SignedHeaders=host&x-id=PutObject"
+          - name: frag-5-11-28
+            size: 1828729201
+            src: "https://uc7358e94af29cfdab246c42524f.dl.dropboxusercontent.com/cd/0/get/DFQSFAosnf7w2KAj0WyWCa2dfamPOJl--yuj25o6LQLIow1bgYtkHHc5U5xfFGPG_M3cn6zYFRGmN8Qr89hSYIOLoCpJNarH6DvsWhStlXYyzkMsc60bZ31exUScxa8U0-yNorkyAe8rZhApnqB7M0ctB3fq6NE2cfTwz5TGmMMoIg/file?c_luid=b636c39b"
+            dst: "https://production-273614-assets-us-east4.storage.googleapis.com/52cdaad8-f21c-479c-92cf-f69e523848b6/7c060107-69f9-41e0-a776-f5cf1af18486.mov?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=GOOG1EFZ4XO3FUIRXKQS4WNAKTVH7WYUDBQBH4S55LLUDARIW7BMD5OL723IQ%2F20260731%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260731T130503Z&X-Amz-Expires=10800&X-Amz-Signature=acddbf82ae0ae611ba36b7ae74024b6e1671aa3c69cf5974b5d180531dcb1dce&X-Amz-SignedHeaders=host&x-id=PutObject"
+          - name: cam-a-4-46-01
+            size: 5799444823
+            src: "https://uc65326c5bebbb521447599d7a8e.dl.dropboxusercontent.com/cd/0/get/DFT4nOWAgVVtO2AKXKgNbtRk3eH9h_haiLIjUZ_XnPD_2M_w8rkJC9V8J5Rzga_-ex9cbWKvc0k9RV4FH1TVruxkb1S1dXtzvd4LdHlKL1P2QYbX21vMEtjhV9gSAgR9KxuiOvDeAvRrEPon4pH6LECX0ow6xtul1wxc1YYktZWS_w/file?c_luid=b636c39b"
+            dst: ""
+          - name: cam-b-4-47-22
+            size: 6222098919
+            src: "https://uc015629125339c328a2144af79a.dl.dropboxusercontent.com/cd/0/get/DFQnbtSHmHFD068hgfAUgoNT0GZRTPnlQjFhpSLA59qBAfOLklgk32OM2fhIpkcIpV3uNc4TP-zfSJX4tq1uUvsLFRKeUr2z5gCvyrpHsPD37TVuShsmUi9q88b83qtwuI32SyimEpprrIUofWGr5XdVJSOpUBThtXYxYqB1zl3-Lw/file?c_luid=b636c39b"
+            dst: ""
+          - name: cam-c-4-47-25
+            size: 6162358143
+            src: "https://uc3594626157f214c76b5057fe71.dl.dropboxusercontent.com/cd/0/get/DFQw1NW8ySbgYaEVXoAP3ubmYBRiUNEpQcWhXgDQugATo9YsVLdaa58BNkBRvTcGvGZ7Lyt41AwkCIQLZ63R3R51RK6GiMU6l2d75qXToG_bfNOeuCa0fBd1-bl6VWUrDT3mN7UTRfCJKWX2c2AK9DlbyAiLCNPHzA6TC_h2jRVyEQ/file?c_luid=b636c39b"
+            dst: ""
     steps:
       - name: Relay ${{ matrix.name }}
         run: |
           set -euo pipefail
-          echo "downloading ${{ matrix.name }}"
+          sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           curl -sS --fail --retry 3 --retry-delay 5 -L -o clip.mov "${{ matrix.src }}"
           got=$(stat -c%s clip.mov)
-          echo "got $got bytes, expected ${{ matrix.size }}"
-          # A truncated or error-page download must not be uploaded as if it were
-          # the real file -- Descript would ingest a corrupt asset silently.
-          [ "$got" = "${{ matrix.size }}" ] || { echo "SIZE MISMATCH"; head -c 400 clip.mov; exit 1; }
-          echo "uploading ${{ matrix.name }}"
-          curl -sS --fail --retry 3 --retry-delay 5 -X PUT \
-            -H "Content-Type: application/octet-stream" \
-            --upload-file clip.mov "${{ matrix.dst }}"
-          echo "OK ${{ matrix.name }}"
-          rm -f clip.mov
+          [ "$got" = "${{ matrix.size }}" ] || { echo "SIZE MISMATCH got=$got want=${{ matrix.size }}"; exit 1; }
+          if [ -n "${{ matrix.dst }}" ]; then
+            curl -sS --fail --retry 3 --retry-delay 5 -X PUT -H "Content-Type: application/octet-stream" --upload-file clip.mov "${{ matrix.dst }}"
+            echo "UPLOADED ${{ matrix.name }}"
+          fi
+          # reference frames + audio level, for angle identification and audio pick
+          mkdir -p frames
+          dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 clip.mov)
+          for pct in 10 50 90; do
+            t=$(python3 -c "print($dur*$pct/100)")
+            ffmpeg -v error -y -ss "$t" -i clip.mov -frames:v 1 -vf scale=640:-2 -q:v 4 "frames/${{ matrix.name }}-$pct.jpg" || true
+          done
+          ffmpeg -hide_banner -nostats -t 300 -i clip.mov -af volumedetect -f null /dev/null 2>&1 | grep -E "mean_volume|max_volume" || true
+          ls -la frames/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frames-${{ matrix.name }}
+          path: frames/
