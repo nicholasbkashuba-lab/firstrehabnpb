@@ -16,6 +16,11 @@ jobs:
           pip install -q faster-whisper librosa numpy
           sudo mkdir -p /mnt/work && sudo chown $USER /mnt/work
           df -h / /mnt | tail -3
+      - name: Preflight (fail before links get consumed, not after)
+        run: |
+          python3 -m py_compile "$GITHUB_WORKSPACE/pipeline/edit.py" "$GITHUB_WORKSPACE/pipeline/download.py"
+          python3 -c "import numpy, librosa, faster_whisper; print('imports ok')"
+          ffmpeg -version | head -1
       - name: Download sources (parallel — links are short-lived)
         run: |
           set -euo pipefail

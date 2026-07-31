@@ -63,11 +63,14 @@ def sh(cmd, **kw):
 
 
 def probe(f):
-    dims = sh(f'ffprobe -v error -select_streams v:0 -show_entries stream=width,height '
-              f'-of csv=p=0 {f}').strip()
-    dur = float(sh(f'ffprobe -v error -show_entries format=duration -of csv=p=0 {f}').strip())
-    w, h = (int(x) for x in dims.split(","))
-    return w, h, dur
+    """iPhone .mov files carry extra data/metadata streams that can break naive
+    v:0 queries — walk the full stream list instead."""
+    d = json.loads(sh(f'ffprobe -v error -show_streams -show_format -of json {f}'))
+    vs = [s for s in d["streams"]
+          if s.get("codec_type") == "video" and s.get("width") and s.get("height")]
+    assert vs, f"{f}: no sized video stream among {[s.get('codec_type') for s in d['streams']]}"
+    dur = float(d["format"]["duration"])
+    return int(vs[0]["width"]), int(vs[0]["height"]), dur
 
 
 def envelope(f, dur=None):
