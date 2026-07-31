@@ -20,19 +20,7 @@ jobs:
         run: |
           set -euo pipefail
           cd /mnt/work
-          python3 - <<'PY'
-          import json, subprocess
-          links = json.load(open("'"$GITHUB_WORKSPACE"'/pipeline/links.json"))
-          procs = {n: subprocess.Popen(["curl","-sS","--fail","--retry","2","-L","-o",n,v["url"]])
-                   for n, v in links.items()}
-          bad = [n for n, p in procs.items() if p.wait() != 0]
-          if bad: raise SystemExit(f"downloads failed: {bad}")
-          import os
-          for n, v in links.items():
-              got = os.path.getsize(n)
-              assert got == v["size"], f"{n}: {got} != {v['size']}"
-              print(n, "ok", got)
-          PY
+          python3 "$GITHUB_WORKSPACE/pipeline/download.py"
           df -h / /mnt | tail -3
       - name: Edit
         run: |
