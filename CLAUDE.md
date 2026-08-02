@@ -209,9 +209,12 @@ ask first, and don't publish immediately.** He reviews scheduled posts in Post B
 they go live. Target the next Saturday 9:00 AM ET for the episode + full video, then the
 clips one per day after it. Scheduling IS the deliverable; waiting for approval is not.
 
-Routines (claude.ai Routines, fresh session per fire):
-- `trig_01L8gTCsSXAtwCkvG4LMZuSh` — Saturday episode post. Has connectors.
-- `trig_01T1Rg8n4xXJ41Mpk7VBPAMP` — daily clip post. **NEEDS Post Bridge attached in the UI.**
+ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
+`trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
+(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode post, Sunday
+through Friday → the next unposted clip. Consolidated 2026-08-02 from two separate routines
+because the Routines tab was unreadable and each one needed its connectors wired separately.
+Don't split it back apart; add day-branches to this one instead.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
 YouTube was 81323, died with `invalid_grant`, came back as 81358. Current: Instagram 81353,
