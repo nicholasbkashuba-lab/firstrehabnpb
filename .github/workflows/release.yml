@@ -29,7 +29,6 @@ jobs:
           # Never publish an asset we have not proven byte-identical to the render.
           sha256sum -c master.sha256
           ls -l master.mp4
-          ffprobe -v error -show_entries format=duration -of csv=p=0 master.mp4
 
       - name: Publish as a release asset
         env:
