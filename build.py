@@ -2003,6 +2003,58 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "reverse-shoulder-replacement-explained": {
+        "title": "Total vs. Reverse Shoulder Replacement: How Surgeons Decide",
+        "date": "August 2026",
+        "iso": "2026-08-02",
+        "tag": "Shoulders &amp; Arms",
+        "teaser": "A shoulder surgeon explains total vs. reverse shoulder replacement, why your rotator cuff decides which one you get, and how rehab shapes the result.",
+        "body": """
+<p>Most people hear &ldquo;shoulder replacement&rdquo; and picture one operation. It isn't. There are two very different versions, and which one you get depends less on how much your shoulder hurts than on the condition of one structure: your rotator cuff.</p>
+<p>On a recent episode of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba and Mike McGann sat down with Dr. Ryan Simovitch, an orthopedic shoulder surgeon who helped build HSS's orthopedic program in Florida from a core group of five people to nearly seventeen surgeons and physicians. He trained at Duke, with a shoulder fellowship split between Harvard and Zurich, and has been in practice about twenty years.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Two buckets of patients</h2>
+<p>Dr. Simovitch described his evaluation as sorting patients into two groups.</p>
+<p>The first: people with shoulder arthritis whose rotator cuff is still intact — the cartilage is worn, often bone-on-bone, but the cuff works. The second: people whose rotator cuff is <em>not</em> intact, whether or not arthritis is present.</p>
+<p>That distinction drives the decision. &ldquo;Historically and even now, I'll still mostly do a regular anatomic replacement&rdquo; for the first group, he said. For the second — a cuff that's deficient, or chronic cuff problems that can't be repaired another way — he does a reverse.</p>
+<p>A few situations push toward reverse even when the cuff is fine: significant bone wear, a revision of a previous replacement, or severely limited function going in.</p>
+<h2>What &ldquo;reverse&rdquo; actually reverses</h2>
+<p>An anatomic total shoulder rebuilds the joint the way it was designed. The ball side gets a metal ball on a stem; the socket side gets a plastic socket. Natural layout, replacement parts.</p>
+<p>That design has a requirement: your rotator cuff has to work. The cuff is what compresses the ball into the socket, holds it stable, and drives motion. Without it, the joint has no stability — and as Dr. Simovitch explained, even when therapy can force it to function for a while, the implant gets loaded in an unusual way that can cause early failure.</p>
+<p>The reverse is exactly what it sounds like. <strong>The ball goes on the socket side, and the socket goes on the ball side.</strong> Flipping the geometry builds stability into the hardware itself. The joint no longer depends on a cuff that can't do the job, and it's protected from the wear pattern that would eventually destroy an anatomic replacement in that shoulder.</p>
+<h2>Why outcomes improved</h2>
+<p>Dave raised something he's watched change from the therapy side: fifteen or twenty years ago, patients with a reverse struggled to get external rotation past zero degrees, with limited strength. Now he sees them come back with rotation and strength that look clinically excellent.</p>
+<p>Dr. Simovitch credited several things working together — and the detail matters, because it's why surgeon selection isn't interchangeable:</p>
+<ul>
+<li><strong>The right patient.</strong> Whether the <em>posterior</em> cuff is intact largely determines external rotation. When it isn't, a tendon transfer can improve the odds.</li>
+<li><strong>Implant choice and positioning.</strong> Implants vary in how far they shift the joint outward. Get that tensioning wrong and the muscle can't perform correctly — the same principle behind any muscle's length-tension relationship.</li>
+<li><strong>What gets repaired.</strong> Repairing the subscapularis at the front adds stability but can tether external rotation, so he doesn't routinely repair it in patients where he expects that trade-off to cost them motion.</li>
+</ul>
+<p>Dave's blunter version, on which cuff tendon he'd least mind losing in a reverse: &ldquo;If they're going to have a tear of a rotator cuff, let it be the subscap.&rdquo;</p>
+<h2>Why your therapist needs the operative report</h2>
+<p>Here's the part patients rarely think about. Two people can have &ldquo;a shoulder replacement&rdquo; and need genuinely different rehab.</p>
+<p>Dave's team chases down operative reports specifically to learn what was done — for a rotator cuff repair, even whether it was a double-row technique. &ldquo;It means a lot to the therapist to know what they're doing,&rdquo; he said. His argument for choosing a therapist-owned clinic is exactly this: therapists don't perform the surgery, but they need to understand it to rehab it.</p>
+<p>He also described the cost of getting it wrong in the reverse era: when external rotation wasn't coming back, therapists would end up working around it, patients drifted into a forward-shoulder position — bad for a reverse — and motion stalled around 80 to 90 degrees. He's seen scapular fractures in patients whose rehab wasn't handled carefully.</p>
+<p>Dr. Simovitch put it plainly from the surgical side: &ldquo;The surgeon matters, the surgery matters, but the therapy matters just as well.&rdquo;</p>
+<h2>What you can do before any of this is on the table</h2>
+<p>Both of them spent the back half of the show on prevention, and none of it is complicated.</p>
+<p>Dave's warning is about what he calls the constant warrior — not the weekend warrior, but the person playing pickleball six days a week with no moderation and no preparation, who plays until something tears. (He's watched patients switch from right-handed to left-handed rather than stop.)</p>
+<p>His simple home routine:</p>
+<ul>
+<li><strong>Wall slides</strong> — both arms at 90 degrees against a wall, slide all the way up, three sets of ten</li>
+<li><strong>Cross-body stretch</strong> — take your right elbow with your left hand and pull across your body to stretch the posterior capsule</li>
+<li><strong>Shoulder shrugs</strong> — up and down, three sets of ten</li>
+<li><strong>Scapular retractions</strong> — squeeze your shoulder blades toward each other</li>
+</ul>
+<p>Add resistance bands for rows and extensions. His reasoning: nearly everything we do all day is internal rotation, so pulling <em>outward</em> is what balances it.</p>
+<p>And the one he repeats most: get out of the chair. &ldquo;The invention of the chair is one of our demise.&rdquo; Ten or fifteen minutes of walking a day, sit-to-stands, whatever gets you moving.</p>
+<p>His whole goal, in his words: &ldquo;I do everything I can to let people not ever come to see me.&rdquo;</p>
+<h2>If your shoulder is already talking to you</h2>
+<p>You don't need a diagnosis to start. If reaching overhead, sleeping on that side, or getting your arm behind your back has become a problem, an evaluation tells you which path you're on — and often that path doesn't include surgery at all.</p>
+<p>Call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an appointment</a>. You can read more about how we treat <a href="../treatments/shoulder-pain.html">shoulder pain</a> and what <a href="../services/physical-therapy.html">physical therapy</a> looks like here, and our <a href="../faq.html">FAQ</a> answers the practical questions about insurance and scheduling.</p>
+<p><em>This article is general information, not medical advice. Talk with a qualified healthcare professional about your specific situation.</em></p>
+""",
+    },
     "what-to-expect-first-pt-visit": {
         "title": "What to Expect at Your First Physical Therapy Visit",
         "date": "July 2026",
@@ -2211,6 +2263,7 @@ def build_blog():
             "knee-arthritis-before-surgery": "Knee Pain: What to Try Before Surgery",
             "headaches-that-start-in-the-neck": "Headache Treatment in North Palm Beach: The Neck Link",
             "cartilage-transplant-knee-explained": "Cartilage Transplants: An Alternative to Knee Replacement",
+            "reverse-shoulder-replacement-explained": "Reverse Shoulder Replacement Explained | North Palm Beach",
         }
         iso_date = p.get("iso") or _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
         post_schema = '<script type="application/ld+json">' + _json.dumps({
