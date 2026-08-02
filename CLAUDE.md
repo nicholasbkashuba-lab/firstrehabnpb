@@ -195,6 +195,66 @@ tmp branches via `curl -X DELETE .../git/refs/heads/...` with GITHUB_TOKEN, then
 run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never commit
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
+## Episode release cycle — STANDING AUTHORIZATION
+One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask each time.
+- **Saturday 9:00 AM ET** — episode post (LinkedIn, Facebook, Google Business) + the full
+  episode video on YouTube. The show "airs" 8:30 AM Sat on 100.3 Legends Radio; episodes
+  are prerecorded but Saturday is the public moment.
+- **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
+  YouTube Shorts, TikTok) + a text-only Google Business post carrying the same takeaway.
+- Next Saturday a new episode number takes over. Never mix two episodes in one week.
+
+**When Nick sends raw footage for a new episode: build everything, then SCHEDULE it — don't
+ask first, and don't publish immediately.** He reviews scheduled posts in Post Bridge before
+they go live. Target the next Saturday 9:00 AM ET for the episode + full video, then the
+clips one per day after it. Scheduling IS the deliverable; waiting for approval is not.
+
+ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
+`trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
+(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode post, Sunday
+through Friday → the next unposted clip. Consolidated 2026-08-02 from two separate routines
+because the Routines tab was unreadable and each one needed its connectors wired separately.
+Don't split it back apart; add day-branches to this one instead.
+
+Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
+YouTube was 81323, died with `invalid_grant`, came back as 81358. Current: Instagram 81353,
+Facebook 81324, YouTube 81358, TikTok 81356, Google Business 81363, LinkedIn business 81322,
+LinkedIn personal 81320 (never post). Google Business takes text or ONE image, **never video**
+— clips go there as a separate text-only call with a LEARN_MORE CTA.
+
+`create_post` returning "processing" is NOT proof of publication. Always finish with
+`list_post_results` and report per platform. Uploads to Post Bridge are metered — reuse
+existing media IDs (`list_media`) instead of re-uploading.
+
+**Captions carry ZERO dashes** (Nick, 2026-08-02): no em dashes, en dashes, or hyphens in
+prose, bullets, compounds, or titles. Bullets use •. Only 561-624-4263 / 561-624-GAME keep
+their dashes.
+
+## Automating the episode metadata (verified 2026-08-02)
+Both feeds are public and machine-readable, so the Spotify link and YouTube id never need
+typing. Neither is reachable from the sandbox (proxy 403) — fetch via Supabase `pg_net` or a
+GitHub Actions runner.
+- Newest Spotify episode id: GET `https://open.spotify.com/embed/show/033A1BQq9qqsygFFCq9SIu`,
+  regex `spotify:episode:([A-Za-z0-9]{22})`. Returns exactly one id, the current episode.
+  Title via `https://open.spotify.com/oembed?url=<url-encoded show url>` → `.title`
+  (e.g. "Episode 8: Dr. Ryan Simovitch, MD").
+- Newest YouTube video: GET `https://www.youtube.com/feeds/videos.xml?channel_id=UCFzCl3RvdVahfIjKZ1SfRvQ`.
+  Shorts vs full episodes are distinguishable by the `link rel=alternate` path: `/shorts/<id>`
+  for Shorts, `/watch?v=<id>` for long-form. Filter on that.
+- Site update = add `EPISODES[0]` (Spotify URL) + a `VIDEOS` entry (YouTube id) in build.py,
+  rebuild, push. Both values now derive automatically from the two feeds above.
+
+## Episode masters
+Rendered masters exceed GitHub's 100MB blob limit, so they ship split: `split -b 45m` (or 90m)
+into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble with
+`cat master.chunk_* > master.mp4` and ALWAYS verify the sha256 before using it.
+- Sabesan (Episode 9) 1080p master: `tmp/sabesan-out`, 13 chunks, 1,221,256,866 bytes,
+  sha256 `947a6eaa6a8dfb0f63779b968b7024decc64b9b9258cb98d27c41f854649050a`, 27:50.1,
+  1920x1080 30fps bt709. Verified intact 2026-08-02. `audio_master.flac` beside it is the
+  lossless audio so an EQ choice can still be applied without re-decoding the AAC.
+- The 4K master was rendered once but never uploaded (GitHub 500 on 5 GB). `final4k2.py`
+  re-renders it if needed.
+
 ## Owner to-dos (repeat in reports until done)
 - Flip DNS when ready: Vercel → Domains → add www.firstrehabnpb.com (primary) + apex;
   registrar: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com. Then submit
