@@ -1,0 +1,56 @@
+name: publish-master
+on:
+  push:
+    branches: [tmp/ep9-release]
+
+# Release assets allow up to 2GB, so a reassembled episode master fits where a
+# git blob (100MB hard cap) never could. The runner does the reassembly so the
+# file never has to move through the agent sandbox.
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch the chunked master
+        run: |
+          set -euo pipefail
+          git init -q repo && cd repo
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git fetch -q --depth 1 origin tmp/sabesan-out
+          git checkout -q FETCH_HEAD
+
+      - name: Reassemble and verify
+        run: |
+          set -euo pipefail
+          cd repo
+          cat master.chunk_* > master.mp4
+          # Never publish an asset we have not proven byte-identical to the render.
+          sha256sum -c master.sha256
+          ls -l master.mp4
+          ffprobe -v error -show_entries format=duration -of csv=p=0 master.mp4
+
+      - name: Publish as a release asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd repo
+          mv master.mp4 pain2power-ep9-sabesan-1080p.mp4
+          gh release delete ep9-master -y --cleanup-tag 2>/dev/null || true
+          gh release create ep9-master \
+            --repo ${{ github.repository }} \
+            --title "Pain 2 Power Episode 9 master (Dr. Sabesan)" \
+            --notes "1080p30 h264/aac, 27:50, bt709. Public URL for Post Bridge to fetch." \
+            pain2power-ep9-sabesan-1080p.mp4
+          echo "ASSET https://github.com/${{ github.repository }}/releases/download/ep9-master/pain2power-ep9-sabesan-1080p.mp4"
+
+      - name: Report the served content type
+        run: |
+          set -euo pipefail
+          # Post Bridge rejects application/octet-stream, so prove what GitHub
+          # actually serves before we hand the URL over.
+          sleep 10
+          curl -sIL "https://github.com/${{ github.repository }}/releases/download/ep9-master/pain2power-ep9-sabesan-1080p.mp4" \
+            | grep -i -E '^(HTTP/|content-type|content-length)' || true
