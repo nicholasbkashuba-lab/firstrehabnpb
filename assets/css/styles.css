@@ -927,3 +927,10 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
 body.nav-locked .p2p-mini { display: none; }
 /* Hidden while the intake assistant panel is open (it covers this corner). */
 .p2p-mini.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .2s ease, visibility .2s; }
+
+/* Insurance page — accepted-plan cards. auto-fit rather than a fixed column
+   count so adding or removing a plan in PLANS never leaves an orphan row. */
+.ins-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 2rem; }
+.ins-card { background: var(--cream); border: 1px solid var(--line-gold); border-radius: 14px; padding: 1.1rem 1.2rem; }
+.ins-card h3 { font-family: var(--serif); font-size: 1.12rem; margin: 0 0 0.35rem; color: var(--teal); }
+.ins-card p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }

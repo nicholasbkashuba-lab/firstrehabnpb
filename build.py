@@ -16,6 +16,11 @@ YOUTUBE = "https://www.youtube.com/channel/UCFzCl3RvdVahfIjKZ1SfRvQ"
 INSTAGRAM = "https://www.instagram.com/firstrehabnpb"
 FACEBOOK = "https://www.facebook.com/FirstRehabNPB/"
 LINKEDIN = "https://www.linkedin.com/company/firstrehabnpb"
+# Accepted plans — owner-confirmed. Single source of truth: the homepage ticker,
+# the insurance page, and the location pages all read this list, so it can never
+# drift between pages. Adding or dropping a plan is a one-line edit here.
+PLANS = ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna",
+         "Humana", "Tricare", "VA Community Care Network", "Workers' Comp", "Self Pay"]
 TIKTOK = "https://www.tiktok.com/@firstrehabilitation"
 TWITTER = "https://x.com/first_rehab_npb"
 MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed"
@@ -265,6 +270,7 @@ def footer(depth=0):
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
           <li><a href="{p}about.html">About Us</a></li>
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
+          <li><a href="{p}insurance.html">Insurance &amp; Medicare</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}videos.html">Video Episodes</a></li>
@@ -546,8 +552,7 @@ def build_home():
         }
     bm_json = _json.dumps(bm_data)
 
-    ticker = "".join(f"<span>{s}</span>" for s in
-        ["Medicare", "Medicare Advantage", "Blue Cross Blue Shield", "Aetna", "Humana", "Tricare", "VA Community Care Network", "Workers' Comp", "Self Pay"])
+    ticker = "".join(f"<span>{s}</span>" for s in PLANS)
 
     journey_svg = '''<svg class="journey-path" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
       <path d="M40,80 C240,80 220,170 400,170 C580,170 560,80 740,80 C920,80 900,170 1160,170"/>
@@ -2602,6 +2607,89 @@ VIDEOS = [
     },
 ]
 
+def build_insurance():
+    """Insurance & Medicare page.
+
+    Built from a 2026-08-03 Search Console export: "physical therapist that
+    accepts medicare palm beach" (142 impressions, position 31.8) and
+    "physical therapy medicare palm beach" (132, position 29.5) were drawing
+    real demand with no page on the site targeting them. The facts already
+    existed, scattered across the FAQ; this gives them a URL.
+
+    Every claim here is owner-confirmed and already published elsewhere on the
+    site. Per the FAQ convention, this page does NOT repeat the Q&A blocks or
+    carry a second FAQPage block: it cross-links to /faq.html#insurance-cost so
+    there stays exactly one FAQPage in the graph."""
+    plan_notes = {
+        "Medicare": "Original Medicare, accepted here since 1991.",
+        "Medicare Advantage": "Both HMO and PPO Advantage plans.",
+        "Blue Cross Blue Shield": "Including Florida Blue plans.",
+        "Aetna": "Commercial and Medicare Advantage.",
+        "Humana": "Commercial and Medicare Advantage.",
+        "Tricare": "For active duty families, retirees, and dependents.",
+        "VA Community Care Network": "VACCN referrals welcome.",
+        "Workers' Comp": "Work injury claims, coordinated with your adjuster.",
+        "Self Pay": "Transparent pricing, no insurance required.",
+    }
+    cards = "".join(
+        f'''<div class="ins-card reveal">
+          <h3>{p}</h3><p>{plan_notes.get(p, "")}</p>
+        </div>''' for p in PLANS)
+    body = f"""
+<main>
+{page_hero("Insurance &amp; Medicare", "Coverage, <em class='accent'>Sorted Before You Arrive</em>",
+  "We accept Medicare and most major insurance plans, and our front desk verifies your exact benefits before your first visit at our North Palm Beach clinic.",
+  '<div class="crumbs"><a href="index.html">Home</a> / Insurance &amp; Medicare</div>')}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Plans We Accept</span>
+      <h2>Most Major Insurance, <em class="accent">Including Medicare</em></h2>
+      <p class="lede">Coverage details differ from plan to plan, so we check yours before you start. Call <a class="text-link" href="tel:+15616244263">{PHONE}</a> and our front desk will verify your specific physical therapy benefits.</p>
+    </div>
+    <div class="ins-grid">{cards}</div>
+  </div>
+</section>
+<section class="section on-cream">
+  <div class="wrap two-col">
+    <div class="reveal">
+      <div class="section-head" style="margin-bottom:1.6rem;">
+        <span class="eyebrow">Medicare Patients</span>
+        <h2>Medicare, Explained Plainly</h2>
+      </div>
+      <p>Medicare covers medically necessary outpatient physical and occupational therapy, and we have cared for Medicare patients in North Palm Beach since 1991. We accept both Original Medicare and Medicare Advantage plans.</p>
+      <p>Medicare does require a physician to certify your plan of care. Our team handles that paperwork with your doctor so it does not become your errand, and the front desk explains your benefits before treatment begins.</p>
+      <div class="fv-highlight" style="margin:1.4rem 0;"><strong>Florida direct access:</strong> in most cases you can begin a physical therapy evaluation without a physician referral. Some plans still require one for coverage, which is exactly what we check when we verify your benefits.</div>
+      <div class="section-head" style="margin:2.2rem 0 1.2rem;">
+        <h2 style="font-size:1.5rem;">No Surprises on the Bill</h2>
+      </div>
+      <p>Before your first appointment we verify your coverage and tell you what your plan pays for, whether you have a copay or a deductible to meet, and whether your plan needs a referral. You know where you stand before treatment starts, not after.</p>
+      <p>Not insured, or out of network? We offer self pay, and free consultations are available. Call and we will talk it through honestly.</p>
+      <p class="related-links reveal" style="margin-top:1.6rem;"><strong>More detail:</strong> <a href="faq.html#insurance-cost">Insurance &amp; cost FAQs</a> &middot; <a href="first-visit.html">What to expect at your first visit</a></p>
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Check your coverage</h3>
+      <p>Our front desk verifies benefits before you arrive. It takes one phone call.</p>
+      <p>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</p>
+      <p>Mon&ndash;Fri 8:00 AM&ndash;5:30 PM<br>Sat 8:00 AM&ndash;12:30 PM</p>
+      <a class="btn btn-coral" href="tel:+15616244263">Call {PHONE}</a>
+      <div class="side-meta">
+        <p>Prefer to write?<br><a href="contact.html">Request an appointment</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("insurance.html",
+          head("Insurance & Medicare | Physical Therapy North Palm Beach",  # head() escapes; don't pre-escape
+               "We accept Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare and VA Community Care in North Palm Beach. We verify your benefits first.",
+               canonical="insurance.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Insurance &amp; Medicare", "insurance.html")]))
+          + nav(0) + body + footer(0))
+
+
 def _video_card(v, featured=False):
     # maxresdefault is the 1280x720 thumbnail; hqdefault (480x360) is far too
     # small for the featured player and renders visibly soft. Not every upload
@@ -2711,7 +2799,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -2811,6 +2899,7 @@ if __name__ == "__main__":
     build_blog()
     build_careers()
     build_first_visit()
+    build_insurance()
     build_videos()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
