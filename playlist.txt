@@ -1,0 +1,22 @@
+# Posting order for Episode 8 clips, strongest first.
+# The daily routine posts the first clip in this list that has not already
+# gone out. Anything not listed here is never posted.
+# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+#
+# Six weekday slots per week and ten clips means the tail never airs, so the
+# order matters more than the numbering does.
+05-reverse-shoulder.mp4
+06-shoulder-stretches.mp4
+08-chair-is-our-demise.mp4
+09-do-your-research.mp4
+03-its-humanity.mp4
+07-never-need-me.mp4
+04-medicine-hooked-him.mp4
+01-constant-warrior.mp4
+02-no-cookie-cutters.mp4
+#
+# Deliberately omitted:
+# 10-read-the-punchline.mp4 . ends on a joke about a dyslexic person walking
+#   into a bra. Fine as radio banter between Dave and Mike, reads differently
+#   as a standalone clip on a clinic's feed. Delete this comment and add the
+#   filename above if you want it in rotation.
