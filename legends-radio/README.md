@@ -98,3 +98,48 @@ The current legendsradio.com blocks bots, so these were third-party-sourced — 
   Morgan, Paul Cavenaugh, Toni May — confirm none should be reinstated.
 - **Studio address** — using 760 US Highway 1, Ste 102, North Palm Beach 33408 (license
   city is Lake Park); confirm the correct public studio/mailing address.
+
+## 2026-08 — lineup correction + real station imagery
+
+The original build sourced its lineup from third-party pages because
+legendsradio.com returns 403 to automated clients. Those sources were stale.
+The lineup was re-derived from the station's **own** pages (fetched via a
+GitHub Actions relay, which has open egress) and from the station's current
+"Your Weekdays Lineup" graphic.
+
+Corrected weekday lineup (per the station's own graphic, July 2026):
+
+| Slot | Host | Show |
+|---|---|---|
+| 6a–10a  | Jill & Rich Switzer | The Morning Lounge |
+| 10a–2p  | Mike McGann         | Middays with Mike McGann |
+| 2p–7p   | Steve Ketelaar      | Legends Afternoons |
+| 7p–9p   | Alex Donner         | Evenings with Alex Donner |
+| 9p–11p  | Bob Merrill         | Legends After Dark |
+| 11p–1a  | Dick Robinson       | American Standards by the Sea |
+
+Also on air: Gregory "Popeye" Alexander (Legends of Jazz), Cindy Hite
+(Cindy on Legends), Lauren May, Bob Merrill (Sunday Legends Brunch),
+The Sounds of Sinatra.
+
+**Removed as not-current:** Walt Pinto, Lorna O'Connell, Sherrye Fenton /
+"Inspired To Be", and The Golf & Travel Show (Dan Shube & Doris Muscarella).
+Steve Ketelaar had previously been excluded as "historical" — he is in fact
+the current afternoon host.
+
+### Owner confirmations still needed
+- **Morning Lounge start time.** The lineup graphic says 6a; the Morning
+  Lounge page says "Weekdays 5:00 AM – 10:00 AM". The site currently uses 6a.
+- **Host bios.** Only Jill & Rich and Dick Robinson have substantive bios.
+  The rest are deliberately minimal factual lines — no credentials were
+  invented. Please supply proper bios.
+- **Weekend/specialty slot times** for Legends of Jazz, Cindy on Legends,
+  Lauren May and Sounds of Sinatra are not published on the station site.
+
+### Image provenance
+`assets/hosts/*` are the station's own photographs, taken from
+legendsradio.com for use on the station's own new site. **Advertiser creative
+was deliberately excluded** (Alaina's Cafe, Harbourside/BurgerFi, Uncle
+Eddie's, Bake Me A Wish etc.) — that artwork belongs to the advertisers, not
+the station. Confirm the station holds rights to each host portrait before
+launch.

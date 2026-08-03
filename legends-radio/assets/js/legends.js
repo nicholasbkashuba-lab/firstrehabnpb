@@ -271,6 +271,23 @@
     });
   });
 
+  /* ------------------------------------------- brass scroll-progress rail */
+  var rail = $("#scroll-rail");
+  if (rail && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var railTick = false;
+    var drawRail = function () {
+      var d = document.documentElement;
+      var max = d.scrollHeight - d.clientHeight;
+      rail.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + "%";
+      railTick = false;
+    };
+    addEventListener("scroll", function () {
+      if (!railTick) { railTick = true; requestAnimationFrame(drawRail); }
+    }, { passive: true });
+    addEventListener("resize", drawRail, { passive: true });
+    drawRail();
+  }
+
   /* --------------------------------------------------- footer year + boot */
   var y = $("#year"); if (y) y.textContent = new Date().getFullYear();
   reflectUI();

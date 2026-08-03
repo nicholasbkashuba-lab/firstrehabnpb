@@ -1,6 +1,6 @@
 /* ============================================================================
    LEGENDS RADIO 100.3 — "Where Legendary Music Lives"
-   Design system: Art Deco / supper-club glamour. Midnight + gold + oxblood.
+   Design system: black lacquer & brass — a supper club at midnight.
    Self-hosted Playfair Display (glamour serif) + Inter (broadcast sans).
    Everything below is hand-built, self-contained, and accessible (WCAG AA).
    ========================================================================== */
@@ -19,11 +19,12 @@
 
 /* ---------- Tokens -------------------------------------------------------- */
 :root{
-  --night:#06060E;        /* deepest */
-  --ink:#0A0B16;          /* base bg */
-  --ink-2:#0E1020;        /* raised */
-  --ink-3:#141733;        /* cards */
-  --ink-4:#1B1E3D;        /* hover cards */
+  --night:#050303;        /* deepest — warm black lacquer */
+  --ink:#0B0807;          /* base bg */
+  --ink-2:#120D0B;        /* raised */
+  --ink-3:#1A1211;        /* cards */
+  --ink-4:#241917;        /* hover cards */
+  --ember:#2A1614;        /* oxblood-tinted glow surface */
   --gold:#E7C572;         /* primary gold */
   --gold-bright:#F6DE98;
   --gold-deep:#B58E44;
@@ -41,8 +42,8 @@
   --flag-blue:#26467C;
   --wine:#8E1F2A;         /* deep brand red (was oxblood) */
   --wine-bright:#EE5C69;
-  --muted:#AEB2CC;        /* secondary text (~7:1 on ink) */
-  --muted-2:#7C819E;
+  --muted:#B7ACA1;        /* secondary text (~7:1 on ink) */
+  --muted-2:#968B81;
   --line:rgba(231,197,114,.16);
   --line-2:rgba(247,242,230,.08);
   --glass:rgba(14,16,32,.66);
@@ -180,7 +181,7 @@ section{position:relative;}
   border-bottom:1px solid transparent;
 }
 .site-header.scrolled{
-  background:rgba(8,9,20,.82);backdrop-filter:blur(16px) saturate(1.2);
+  background:rgba(9,7,6,.86);backdrop-filter:blur(16px) saturate(1.2);
   -webkit-backdrop-filter:blur(16px) saturate(1.2);
   border-bottom-color:var(--line);box-shadow:0 10px 40px -20px rgba(0,0,0,.9);
 }
@@ -241,7 +242,7 @@ section{position:relative;}
 .hero{
   position:relative;min-height:100svh;display:flex;align-items:center;
   padding:120px 0 clamp(3rem,7vw,6rem);overflow:hidden;isolation:isolate;
-  background:radial-gradient(120% 90% at 70% 10%,#1a1436 0%,#0b0b1c 42%,var(--night) 100%);
+  background:radial-gradient(120% 90% at 70% 10%,#2a1614 0%,#120a09 42%,var(--night) 100%);
 }
 /* Art Deco sunburst rays */
 .hero-rays{position:absolute;inset:-30% -10% auto;top:-30%;height:130%;z-index:-3;opacity:.5;
@@ -263,7 +264,7 @@ section{position:relative;}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;
   background:radial-gradient(60% 40% at 50% 100%,rgba(138,44,56,.18),transparent 70%);}
 .hero-vignette{position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(120% 100% at 50% 0%,transparent 40%,rgba(4,4,10,.7) 100%);}
+  background:radial-gradient(120% 100% at 50% 0%,transparent 40%,rgba(3,2,2,.74) 100%);}
 
 .hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,4vw,4rem);align-items:center;width:100%;}
 @media (max-width:860px){
@@ -271,7 +272,7 @@ section{position:relative;}
   .hero{min-height:auto;padding-top:118px;}
   .hero-visual{max-width:560px;}
 }
-.hero-badge{display:inline-flex;align-items:center;gap:.7rem;padding:.5em 1em .5em .6em;border-radius:100px;border:1px solid var(--line);background:rgba(10,11,22,.5);backdrop-filter:blur(6px);margin-bottom:1.6rem;}
+.hero-badge{display:inline-flex;align-items:center;gap:.7rem;padding:.5em 1em .5em .6em;border-radius:100px;border:1px solid var(--line);background:rgba(11,8,7,.55);backdrop-filter:blur(6px);margin-bottom:1.6rem;}
 .hero-badge .freq{font-family:var(--serif);font-weight:700;color:var(--gold);font-size:1rem;}
 .hero-badge .sep{width:1px;height:16px;background:var(--line);}
 .hero-badge small{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
@@ -287,7 +288,7 @@ section{position:relative;}
 
 /* Now-playing hero card */
 .np-card{
-  position:relative;background:linear-gradient(160deg,rgba(27,30,61,.7),rgba(10,11,22,.85));
+  position:relative;background:linear-gradient(160deg,rgba(42,25,22,.72),rgba(11,8,7,.88));
   border:1px solid var(--line);border-radius:var(--radius-lg);padding:1.7rem;
   box-shadow:var(--shadow);backdrop-filter:blur(14px);overflow:hidden;
 }
@@ -306,16 +307,16 @@ section{position:relative;}
 /* Vinyl record (reused in player) */
 .vinyl{--s:96px;width:var(--s);height:var(--s);border-radius:50%;flex-shrink:0;position:relative;
   background:
-    radial-gradient(circle at 50% 50%,#0b0b12 0 17%,transparent 17.5%),
-    repeating-radial-gradient(circle at 50% 50%,#15151f 0 1.4px,#0c0c14 1.6px 3px),
-    radial-gradient(circle at 50% 50%,#1c1c28,#050509 78%);
+    radial-gradient(circle at 50% 50%,#0a0706 0 17%,transparent 17.5%),
+    repeating-radial-gradient(circle at 50% 50%,#181210 0 1.4px,#0d0908 1.6px 3px),
+    radial-gradient(circle at 50% 50%,#241c1a,#050303 78%);
   box-shadow:0 14px 34px -12px rgba(0,0,0,.85),inset 0 0 0 1px rgba(255,255,255,.05);
   animation:spin 4s linear infinite;animation-play-state:paused;
 }
 .vinyl::before{content:"";position:absolute;inset:33%;border-radius:50%;
   background:radial-gradient(circle at 40% 35%,var(--gold-bright),var(--gold-deep) 70%,#7a5f28);
   box-shadow:inset 0 0 0 1px rgba(0,0,0,.4);}
-.vinyl::after{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;border-radius:50%;background:#05050a;transform:translate(-50%,-50%);z-index:2;box-shadow:0 0 0 2px rgba(255,255,255,.06);}
+.vinyl::after{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;border-radius:50%;background:#050303;transform:translate(-50%,-50%);z-index:2;box-shadow:0 0 0 2px rgba(255,255,255,.06);}
 .vinyl.spinning{animation-play-state:running;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .vinyl-wrap{position:relative;flex-shrink:0;}
@@ -385,7 +386,7 @@ section{position:relative;}
 .host-medallion{
   --s:118px;width:var(--s);height:var(--s);margin:0 auto 1.3rem;position:relative;
   border-radius:50%;display:grid;place-items:center;
-  background:radial-gradient(circle at 50% 35%,#20233f,#0a0b16);
+  background:radial-gradient(circle at 50% 35%,#2a1d1a,#0b0807);
   border:1px solid var(--line);box-shadow:inset 0 0 0 6px rgba(231,197,114,.06),var(--shadow-gold);
 }
 .host-medallion::before{content:"";position:absolute;inset:-9px;border-radius:50%;
@@ -438,7 +439,7 @@ section{position:relative;}
 @media (max-width:880px){.split{grid-template-columns:1fr;}.split.reverse .split-media{order:0;}}
 .split-media{position:relative;}
 .deco-frame{position:relative;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);padding:clamp(1.5rem,3vw,2.5rem);aspect-ratio:4/3;display:grid;place-items:center;
-  background:radial-gradient(120% 100% at 30% 0%,#20233f,#0a0b16 70%);box-shadow:var(--shadow);}
+  background:radial-gradient(120% 100% at 30% 0%,#2a1d1a,#0b0807 70%);box-shadow:var(--shadow);}
 .deco-frame::before{content:"";position:absolute;inset:14px;border:1px solid var(--line);border-radius:calc(var(--radius-lg) - 8px);pointer-events:none;}
 .deco-frame::after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(231,197,114,.05) 0 2deg,transparent 2deg 9deg);opacity:.5;mask:radial-gradient(circle,#000,transparent 72%);-webkit-mask:radial-gradient(circle,#000,transparent 72%);}
 
@@ -475,7 +476,7 @@ section{position:relative;}
    CTA BAND
    ========================================================================== */
 .cta-band{position:relative;overflow:hidden;border-radius:var(--radius-lg);padding:clamp(2.5rem,6vw,4.5rem);text-align:center;
-  background:radial-gradient(120% 140% at 50% 0%,#241a3f,#0a0b16 70%);border:1px solid var(--line);box-shadow:var(--shadow);}
+  background:radial-gradient(120% 140% at 50% 0%,#2a1614,#0b0807 70%);border:1px solid var(--line);box-shadow:var(--shadow);}
 .cta-band::before{content:"";position:absolute;inset:0;z-index:0;background:repeating-conic-gradient(from 0deg at 50% -10%,rgba(231,197,114,.06) 0 2deg,transparent 2deg 9deg);opacity:.6;mask:radial-gradient(70% 90% at 50% 0,#000,transparent 70%);-webkit-mask:radial-gradient(70% 90% at 50% 0,#000,transparent 70%);}
 .cta-band>*{position:relative;z-index:1;}
 .cta-band h2{margin:.6rem 0 1rem;}
@@ -489,11 +490,11 @@ section{position:relative;}
 .field{display:flex;flex-direction:column;gap:.45rem;}
 .field label{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600;}
 .field input,.field textarea,.field select{
-  background:rgba(6,6,14,.6);border:1px solid var(--line-2);border-radius:12px;padding:.85em 1em;color:#fff;
+  background:rgba(5,3,3,.62);border:1px solid var(--line-2);border-radius:12px;padding:.85em 1em;color:#fff;
   transition:border-color .3s,background .3s,box-shadow .3s;width:100%;
 }
 .field input::placeholder,.field textarea::placeholder{color:var(--muted-2);}
-.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--gold);background:rgba(6,6,14,.9);box-shadow:0 0 0 4px rgba(231,197,114,.12);}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--gold);background:rgba(5,3,3,.92);box-shadow:0 0 0 4px rgba(231,197,114,.12);}
 .field textarea{resize:vertical;min-height:130px;}
 .form-note{font-size:.82rem;color:var(--muted-2);}
 .form-status{display:none;padding:1em 1.2em;border-radius:12px;font-size:.92rem;}
@@ -502,7 +503,7 @@ section{position:relative;}
 
 /* newsletter inline */
 .subscribe{display:flex;gap:.7rem;max-width:480px;}
-.subscribe input{flex:1;background:rgba(6,6,14,.6);border:1px solid var(--line-2);border-radius:100px;padding:.9em 1.3em;color:#fff;}
+.subscribe input{flex:1;background:rgba(5,3,3,.62);border:1px solid var(--line-2);border-radius:100px;padding:.9em 1.3em;color:#fff;}
 .subscribe input:focus{outline:none;border-color:var(--gold);}
 @media (max-width:480px){.subscribe{flex-direction:column;}.subscribe .btn{justify-content:center;}}
 
@@ -512,7 +513,7 @@ section{position:relative;}
 .player{
   position:fixed;left:0;right:0;bottom:0;z-index:70;height:var(--player-h);
   display:flex;align-items:center;gap:1.2rem;padding:0 clamp(.9rem,3vw,1.6rem);
-  background:linear-gradient(180deg,rgba(10,11,22,.86),rgba(6,6,14,.96));
+  background:linear-gradient(180deg,rgba(11,8,7,.88),rgba(5,3,3,.96));
   backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);
   border-top:1px solid var(--line);box-shadow:0 -20px 50px -20px rgba(0,0,0,.9);
   transform:translateY(0);transition:transform .5s var(--ease);
@@ -581,7 +582,7 @@ section{position:relative;}
    PAGE HERO (interior)
    ========================================================================== */
 .page-hero{position:relative;padding:150px 0 clamp(3rem,6vw,5rem);text-align:center;overflow:hidden;
-  background:radial-gradient(100% 100% at 50% 0%,#191338,#0a0b16 65%);}
+  background:radial-gradient(100% 100% at 50% 0%,#241413,#0b0807 65%);}
 .page-hero .hero-rays{opacity:.35;}
 .page-hero h1{margin:1rem 0 .8rem;}
 .page-hero p{color:var(--muted);max-width:60ch;margin-inline:auto;}
@@ -614,3 +615,147 @@ section{position:relative;}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 .skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--gold);color:#241a06;padding:.7em 1.2em;border-radius:0 0 10px 0;font-weight:600;}
 .skip-link:focus{left:0;}
+
+
+/* ==========================================================================
+   POLISH LAYER — lacquer sheen, brass foil, depth
+   Layered on top so the base system stays readable/diffable.
+   ========================================================================== */
+
+/* --- Brass foil display type: gradient-clipped with a slow shine sweep ----- */
+.foil{
+  background:linear-gradient(96deg,
+    var(--gold-deep) 0%, var(--gold) 18%, var(--gold-bright) 32%,
+    #FFF6DC 41%, var(--gold-bright) 50%, var(--gold) 66%, var(--gold-deep) 100%);
+  background-size:280% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:foilsweep 9s var(--ease-in-out) infinite;
+}
+@keyframes foilsweep{0%,100%{background-position:110% 0;}50%{background-position:-10% 0;}}
+
+/* --- Lacquer sheen: hairline top highlight so surfaces read as polished ---- */
+.card,.np-card,.deco-frame,.cta-band,.sched-row,.event-date{
+  box-shadow:inset 0 1px 0 rgba(255,247,232,.055), var(--shadow);
+}
+.card:hover{
+  box-shadow:inset 0 1px 0 rgba(255,247,232,.09),
+             0 34px 80px -34px rgba(0,0,0,.9),
+             0 0 40px -14px rgba(231,197,114,.22);
+}
+/* warm the card body away from flat grey */
+.card{background:linear-gradient(165deg,var(--ink-3),var(--ink-2) 62%,var(--ink));}
+
+/* --- Buttons: brass highlight sweep on hover ------------------------------ */
+.btn::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;opacity:0;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.30) 50%,transparent 70%);
+  background-size:220% 100%;background-position:120% 0;transition:opacity .25s;
+}
+.btn:hover::after{opacity:1;animation:btnsweep .75s var(--ease) 1;}
+@keyframes btnsweep{to{background-position:-40% 0;}}
+.btn-gold{box-shadow:0 12px 30px -10px rgba(231,197,114,.5),inset 0 1px 0 rgba(255,255,255,.35);}
+.btn-primary{box-shadow:0 12px 30px -10px rgba(196,43,57,.55),inset 0 1px 0 rgba(255,255,255,.22);}
+
+/* --- Deco section rule (brass hairline + diamond) ------------------------- */
+.rule-deco{display:flex;align-items:center;justify-content:center;gap:.9rem;padding:0;border:0;margin:0;}
+.rule-deco::before,.rule-deco::after{content:"";height:1px;flex:1;max-width:230px;
+  background:linear-gradient(90deg,transparent,rgba(231,197,114,.5));}
+.rule-deco::after{background:linear-gradient(90deg,rgba(231,197,114,.5),transparent);}
+.rule-deco i{width:7px;height:7px;rotate:45deg;background:var(--gold);opacity:.85;
+  box-shadow:0 0 14px rgba(231,197,114,.55);}
+
+/* --- Hero: deeper bloom, crisper vignette -------------------------------- */
+.hero{background:
+  radial-gradient(90% 70% at 72% 16%,rgba(142,31,42,.34) 0%,transparent 58%),
+  radial-gradient(120% 90% at 70% 10%,#2a1614 0%,#120a09 42%,var(--night) 100%);}
+.hero::before{background:
+  radial-gradient(60% 42% at 50% 100%,rgba(196,43,57,.22),transparent 70%),
+  radial-gradient(40% 30% at 12% 22%,rgba(231,197,114,.10),transparent 70%);}
+.hero-vignette{background:
+  radial-gradient(120% 100% at 50% 0%,transparent 38%,rgba(3,2,2,.78) 100%);}
+.hero-rays{opacity:.62;}
+
+/* brass scroll progress rail */
+.scroll-rail{position:fixed;top:0;left:0;height:2px;z-index:90;width:0;
+  background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright),var(--red));
+  box-shadow:0 0 12px rgba(231,197,114,.6);transition:width .12s linear;pointer-events:none;}
+
+/* --- Stat strip: brass numerals over lacquer ------------------------------ */
+.stats .stat{background:linear-gradient(180deg,var(--ink-2),var(--ink));}
+.stats .stat:hover{background:linear-gradient(180deg,var(--ink-3),var(--ink-2));}
+.stat .num{text-shadow:0 0 34px rgba(231,197,114,.28);}
+
+/* --- Schedule: warmer live state ----------------------------------------- */
+.sched-row{background:linear-gradient(90deg,var(--ink-2),var(--ink) 70%);}
+.sched-row.live{background:linear-gradient(90deg,rgba(142,31,42,.28),var(--ink-2) 72%);}
+
+/* --- Medallions / frames: brass on oxblood -------------------------------- */
+.host-medallion{background:radial-gradient(circle at 50% 32%,#2a1d1a,#0b0807 72%);}
+.deco-frame{background:radial-gradient(120% 100% at 30% 0%,#2a1d1a,#0b0807 70%);}
+.cta-band{background:
+  radial-gradient(120% 140% at 50% 0%,rgba(142,31,42,.42),transparent 62%),
+  radial-gradient(120% 140% at 50% 0%,#2a1614,#0b0807 70%);}
+.page-hero{background:
+  radial-gradient(90% 90% at 50% 0%,rgba(142,31,42,.26),transparent 62%),
+  radial-gradient(100% 100% at 50% 0%,#241413,#0b0807 65%);}
+
+/* --- Header: warm smoked glass ------------------------------------------- */
+.site-header.scrolled{background:rgba(9,7,6,.86);}
+
+/* --- Player: brass rail + warmer glass ----------------------------------- */
+.player{background:linear-gradient(180deg,rgba(11,8,7,.88),rgba(5,3,3,.97));}
+.player::before{opacity:.65;}
+
+/* --- Footer: subtle brass bloom ------------------------------------------ */
+.site-footer{background:
+  radial-gradient(80% 120% at 50% 100%,rgba(231,197,114,.055),transparent 62%),
+  linear-gradient(180deg,var(--ink),var(--night));}
+
+/* --- Marquee: warm rails -------------------------------------------------- */
+.marquee{background:linear-gradient(90deg,var(--ink-2),var(--ink) 50%,var(--ink-2));}
+
+/* --- Selection / focus keep brass ---------------------------------------- */
+::selection{background:rgba(231,197,114,.30);color:#fff;}
+
+
+/* ==========================================================================
+   POLISH II — rhythm, atmosphere, interaction
+   ========================================================================== */
+
+/* Interior heroes ran ~210px of dead space into the next section. Tighten the
+   handoff and give the zone some light instead of leaving it flat black. */
+.page-hero{padding:150px 0 clamp(2rem,4vw,3rem);}
+.page-hero+.section,.page-hero+.section-tight{padding-top:clamp(2.6rem,5vw,4.2rem);}
+.page-hero .rule-deco{margin:1.15rem auto 1.35rem;max-width:540px;}
+.page-hero .hero-rays{opacity:.5;}
+.page-hero::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);
+  width:min(900px,86vw);height:1px;
+  background:linear-gradient(90deg,transparent,rgba(231,197,114,.45),transparent);}
+
+/* Now-playing card: lift it off the page with a velvet bloom */
+.np-card{box-shadow:inset 0 1px 0 rgba(255,247,232,.07),
+                    0 40px 90px -34px rgba(0,0,0,.92),
+                    0 0 70px -24px rgba(196,43,57,.38);}
+
+/* Host medallions: brass ring wakes up and turns on hover */
+.host-medallion{transition:transform .55s var(--ease),box-shadow .55s;}
+.host-medallion::before{transition:opacity .55s;}
+.host-card:hover .host-medallion{transform:translateY(-4px);
+  box-shadow:inset 0 0 0 6px rgba(231,197,114,.11),0 26px 60px -22px rgba(231,197,114,.42);}
+.host-card:hover .host-medallion::before{opacity:.55;animation:ringspin 22s linear infinite;}
+@keyframes ringspin{to{transform:rotate(360deg);}}
+
+/* Listen tiles + event dates pick up the same lacquer treatment */
+.listen-tile .ic{transition:transform .45s var(--ease),background .45s,border-color .45s,box-shadow .45s;}
+.listen-tile:hover .ic{transform:translateY(-3px) scale(1.05);border-color:var(--gold);
+  background:rgba(231,197,114,.12);box-shadow:0 14px 34px -14px rgba(231,197,114,.5);}
+.event-date{box-shadow:inset 0 1px 0 rgba(255,247,232,.10),0 16px 40px -18px rgba(142,31,42,.6);}
+
+/* Deco divider inherits the brass diamond treatment */
+.divider-deco span{color:var(--gold);text-shadow:0 0 16px rgba(231,197,114,.45);}
+
+@media (prefers-reduced-motion:reduce){
+  .foil{animation:none !important;background-position:50% 0 !important;}
+  .host-card:hover .host-medallion::before{animation:none !important;}
+  .scroll-rail{display:none !important;}
+}

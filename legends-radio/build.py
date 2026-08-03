@@ -81,6 +81,7 @@ HOSTS = [
     {
         "slug": "jill-rich-switzer", "name": "Jill & Rich Switzer", "mono": "J&R",
         "role": "Weekday Mornings", "show": "The Morning Lounge", "slot": "Weekdays · 6–10 AM",
+        "photo": "assets/hosts/jill-rich.jpg",
         "persons": ["Jill Switzer", "Rich Switzer"],
         "bio": "South Florida's first couple of the Songbook open every weekday. Jill is one of "
                "the region's most sought-after vocalists — a songwriter and published author — while "
@@ -88,52 +89,68 @@ HOSTS = [
                "cabaret, <em>Supper Club with Jill &amp; Rich</em>.",
     },
     {
-        "slug": "walt-pinto", "name": "Walt Pinto", "mono": "WP",
-        "role": "Weekday Middays", "show": "Middays with Walt Pinto", "slot": "Weekdays · 10 AM–2 PM",
-        "persons": ["Walt Pinto"],
-        "bio": "Walt opens the Legends music library every midday, spinning the very best of the "
-               "Great American Songbook — including the daily Legends at Lunch feature at noon.",
+        "slug": "mike-mcgann", "name": "Mike McGann", "mono": "MM",
+        "role": "Weekday Middays", "show": "Middays with Mike McGann", "slot": "Weekdays · 10 AM – 2 PM",
+        "photo": "assets/hosts/mike-mcgann.jpg",
+        "persons": ["Mike McGann"],
+        "bio": "Mike carries the middays on Legends 100.3, keeping the Great American Songbook "
+               "playing straight through the middle of the day.",
     },
     {
-        "slug": "lorna-oconnell", "name": "Lorna O'Connell", "mono": "LO",
-        "role": "Weekday Afternoons", "show": "Afternoons with Lorna O'Connell", "slot": "Weekdays · 2–6 PM",
-        "persons": ["Lorna O'Connell"],
-        "bio": "A veteran of the West Palm Beach radio market, Lorna carries the Palm Beaches "
-               "through the afternoon and into the golden hour with warm company and timeless "
-               "standards, all the way to the drive home.",
+        "slug": "steve-ketelaar", "name": "Steve Ketelaar", "mono": "SK",
+        "role": "Weekday Afternoons", "show": "Legends Afternoons with Steve Ketelaar",
+        "slot": "Weekdays · 2–7 PM",
+        "photo": "assets/hosts/steve-ketelaar.webp",
+        "persons": ["Steve Ketelaar"],
+        "bio": "Steve rides the afternoon drive on Legends 100.3, carrying the standards from "
+               "mid-afternoon through the evening commute.",
+    },
+    {
+        "slug": "alex-donner", "name": "Alex Donner", "mono": "AD",
+        "role": "Weekday Evenings", "show": "Evenings with Alex Donner", "slot": "Weekdays · 7–9 PM",
+        "photo": "assets/hosts/alex-donner.jpg",
+        "persons": ["Alex Donner"],
+        "bio": "Alex hosts the evening hours on Legends 100.3 — supper-club standards for the "
+               "front end of the night.",
+    },
+    {
+        "slug": "bob-merrill", "name": "Bob Merrill", "mono": "BM",
+        "role": "Weeknights & Sundays", "show": "Legends After Dark", "slot": "Weeknights · 9–11 PM",
+        "photo": "assets/hosts/bob-merrill.jpg",
+        "persons": ["Bob Merrill"],
+        "bio": "Bob hosts <em>Legends After Dark</em> on weeknights and returns for the "
+               "<em>Sunday Legends Brunch</em>.",
     },
     {
         "slug": "dick-robinson", "name": "Dick Robinson", "mono": "DR",
-        "role": "Founder & Host", "show": "American Standards by the Sea", "slot": "Sat 6–8 PM · Sun 10 AM–12 PM",
+        "role": "Founder · Late Nights", "show": "American Standards by the Sea",
+        "slot": "Weeknights · 11 PM – 1 AM",
+        "photo": "assets/hosts/american-standards.jpg",
         "persons": ["Dick Robinson"],
-        "bio": "A broadcasting legend with a nearly 70-year career, Dick founded the Connecticut "
-               "School of Broadcasting and signed Legends on the air in 2014 to preserve the greatest "
-               "music ever recorded. He hosts <em>American Standards by the Sea</em> — produced in part "
-               "aboard his motor yacht <em>Airwaves</em> and heard on 75+ stations nationwide — and "
-               "chairs the Society for the Preservation of the Great American Songbook.",
+        "bio": "Founder of Legends Radio and of the Connecticut School of Broadcasting. His "
+               "<em>American Standards by the Sea</em> is the station's flagship programme, "
+               "syndicated well beyond the Palm Beaches.",
     },
     {
-        "slug": "popeye-alexander", "name": "Gregory “Popeye” Alexander", "mono": "GA",
-        "role": "Sunday Nights", "show": "Legends of Jazz", "slot": "Sundays · 8–10 PM",
+        "slug": "popeye-alexander", "name": 'Gregory "Popeye" Alexander', "mono": "PA",
+        "role": "Legends of Jazz", "show": "Legends of Jazz", "slot": "Weekly",
+        "photo": "assets/hosts/popeye-alexander.jpg",
         "persons": ["Gregory Alexander"],
-        "bio": "A lifelong jazz musician who leads the International Players Jazz Ensemble, Popeye "
-               "brings deep-cut vocals and instrumentals to Sunday nights — the Songbook's cooler, "
-               "smokier side.",
+        "bio": "Popeye hosts <em>Legends of Jazz</em>, the station's dedicated jazz programme.",
     },
     {
-        "slug": "golf-travel", "name": "Dan Shube & Doris Muscarella", "mono": "G&T",
-        "role": "Sunday Mornings", "show": "The Golf & Travel Show", "slot": "Sundays · 7–7:30 AM",
-        "persons": ["Dan Shube", "Doris Muscarella"],
-        "bio": "Dan Shube — the show's founder with 28+ years on the air — and co-host Doris "
-               "Muscarella, “The Traveling Golf Diva,” deliver destinations, equipment, and expert "
-               "interviews for the golfer and traveler in all of us.",
+        "slug": "cindy-hite", "name": "Cindy Hite", "mono": "CH",
+        "role": "Cindy on Legends", "show": "Cindy on Legends", "slot": "Weekly",
+        "photo": "assets/hosts/cindy-hite.jpg",
+        "persons": ["Cindy Hite"],
+        "bio": "Cindy hosts <em>Cindy on Legends</em> on Legends 100.3.",
     },
     {
-        "slug": "sherrye-fenton", "name": "Sherrye Fenton", "mono": "SF",
-        "role": "Inspiration & Talk", "show": "Inspired To Be", "slot": "Weekly · See schedule",
-        "persons": ["Sherrye Fenton"],
-        "bio": "On <em>Inspired To Be</em>, Sherrye brings uplifting conversation, guests, and a dose "
-               "of encouragement to the Legends family — proof the station is about more than the music.",
+        "slug": "lauren-may", "name": "Lauren May", "mono": "LM",
+        "role": "On Air", "show": "Legends 100.3", "slot": "Weekly",
+        "photo": "assets/hosts/lauren-may.jpg",
+        "persons": ["Lauren May"],
+        "bio": "Lauren May is part of the on-air team at Legends 100.3.",
     },
 ]
 
@@ -143,14 +160,15 @@ HOSTS = [
 # are descriptive commercial-free music blocks (see OWNER TO-DOS).
 # ---------------------------------------------------------------------------
 _OVERNIGHT = {"show": "Nonstop Legends", "host": "Commercial-free standards, all night", "tag": "Overnight"}
-_LATENIGHT = {"show": "Late Nights with Legends", "host": "Dick Robinson · American Standards encores", "tag": "Standards", "slug": "dick-robinson"}
+_LATENIGHT = {"show": "Dick Robinson's American Standards by the Sea", "host": "Dick Robinson", "tag": "Standards", "slug": "dick-robinson"}
 _WEEKDAY = [
     {"start": "00:00", "end": "01:00", **_LATENIGHT},
     {"start": "01:00", "end": "06:00", **_OVERNIGHT},
     {"start": "06:00", "end": "10:00", "show": "The Morning Lounge", "host": "Jill & Rich Switzer", "tag": "Live", "slug": "jill-rich-switzer"},
-    {"start": "10:00", "end": "14:00", "show": "Middays with Walt Pinto", "host": "Walt Pinto · incl. Legends at Lunch @ noon", "tag": "Live", "slug": "walt-pinto"},
-    {"start": "14:00", "end": "18:00", "show": "Afternoons with Lorna O'Connell", "host": "Lorna O'Connell", "tag": "Live", "slug": "lorna-oconnell"},
-    {"start": "18:00", "end": "23:00", "show": "Legends Evenings", "host": "Standards for the evening", "tag": "Music"},
+    {"start": "10:00", "end": "14:00", "show": "Middays with Mike McGann", "host": "Mike McGann", "tag": "Live", "slug": "mike-mcgann"},
+    {"start": "14:00", "end": "19:00", "show": "Legends Afternoons with Steve Ketelaar", "host": "Steve Ketelaar", "tag": "Live", "slug": "steve-ketelaar"},
+    {"start": "19:00", "end": "21:00", "show": "Evenings with Alex Donner", "host": "Alex Donner", "tag": "Live", "slug": "alex-donner"},
+    {"start": "21:00", "end": "23:00", "show": "Legends After Dark", "host": "Bob Merrill", "tag": "Live", "slug": "bob-merrill"},
     {"start": "23:00", "end": "24:00", **_LATENIGHT},
 ]
 SCHEDULE = {
@@ -166,7 +184,7 @@ SCHEDULE = {
     ],
     0: [  # Sunday
         {"start": "00:00", "end": "07:00", **_OVERNIGHT},
-        {"start": "07:00", "end": "07:30", "show": "The Golf & Travel Show", "host": "Dan Shube & Doris Muscarella", "tag": "Talk", "slug": "golf-travel"},
+        {"start": "07:00", "end": "10:00", "show": "Sunday Legends Brunch", "host": "Bob Merrill", "tag": "Live", "slug": "bob-merrill"},
         {"start": "07:30", "end": "10:00", "show": "Sunday Morning Standards", "host": "An easy start to Sunday", "tag": "Music"},
         {"start": "10:00", "end": "12:00", "show": "American Standards by the Sea", "host": "Dick Robinson", "tag": "Signature", "slug": "dick-robinson"},
         {"start": "12:00", "end": "18:00", "show": "Sunday Serenade", "host": "Afternoon standards", "tag": "Music"},
@@ -181,19 +199,19 @@ DAYS = [("0", "Sun"), ("1", "Mon"), ("2", "Tue"), ("3", "Wed"), ("4", "Thu"), ("
 SIGNATURE = [
     {"name": "The Morning Lounge", "host": "Jill & Rich Switzer", "slot": "Weekdays · 6–10 AM",
      "blurb": "Wake up in the Palm Beaches with live music, warm conversation, and the Songbook's brightest mornings."},
-    {"name": "Middays with Walt Pinto", "host": "Walt Pinto", "slot": "Weekdays · 10 AM–2 PM",
+    {"name": "Middays with Mike McGann", "host": "Mike McGann", "slot": "Weekdays · 10 AM–2 PM",
      "blurb": "The full music library, wide open — plus the daily Legends at Lunch at noon."},
-    {"name": "Afternoons with Lorna O'Connell", "host": "Lorna O'Connell", "slot": "Weekdays · 2–6 PM",
+    {"name": "Legends Afternoons with Steve Ketelaar", "host": "Steve Ketelaar", "slot": "Weekdays · 2–7 PM",
      "blurb": "Timeless company from the afternoon through the golden-hour drive home."},
     {"name": "American Standards by the Sea", "host": "Dick Robinson", "slot": "Sat 6–8 PM · Sun 10 AM–12 PM",
      "blurb": "Dick Robinson's internationally-syndicated salute to Sinatra, Bennett, Streisand and more — produced in part aboard his yacht <em>Airwaves</em> and heard on 75+ stations."},
     {"name": "Legends of Jazz", "host": "Gregory “Popeye” Alexander", "slot": "Sundays · 8–10 PM",
      "blurb": "The Songbook's cooler, smokier side — jazz vocals and instrumentals with a real player at the helm."},
-    {"name": "The Golf & Travel Show", "host": "Dan Shube & Doris Muscarella", "slot": "Sundays · 7–7:30 AM",
+    {"name": "Evenings with Alex Donner", "host": "Alex Donner", "slot": "Weekdays · 7–9 PM",
      "blurb": "Destinations, equipment, and expert interviews for the golfer and traveler in all of us."},
-    {"name": "Late Nights with Legends", "host": "Dick Robinson", "slot": "Weeknights · 11 PM–1 AM",
+    {"name": "Legends After Dark", "host": "Bob Merrill", "slot": "Weeknights · 9–11 PM",
      "blurb": "Encore hours of American Standards by the Sea to carry you into the small hours."},
-    {"name": "Inspired To Be", "host": "Sherrye Fenton", "slot": "Weekly · See schedule",
+    {"name": "Cindy on Legends", "host": "Cindy Hite", "slot": "Weekly · See schedule",
      "blurb": "Uplifting conversation and guests — a reminder that Legends is about companionship as much as music."},
     {"name": "Pain 2 Power", "host": "Mike McCannon & David Kashuba", "slot": "Saturdays · 8:30 AM",
      "blurb": "A weekly dose of health, healing, and the mindset to turn pain into power — Legends' hometown wellness half-hour."},
@@ -278,6 +296,7 @@ def header(active):
         items += '<a href="%s"%s%s>%s</a>' % (href, cls, aria, label)
     return (
         '<a class="skip-link" href="#main">Skip to content</a>'
+        '<div class="scroll-rail" id="scroll-rail" aria-hidden="true"></div>'
         '<header class="site-header"><div class="container"><nav class="nav" aria-label="Primary">'
         + brand() +
         '<div class="nav-links" id="nav-links">' + items +
@@ -534,7 +553,9 @@ def page_hero(eb, h1, sub, filename):
     crumbs = ('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a>'
               '<span>/</span><span style="color:var(--muted)">%s</span></nav>') % html.escape(h1)
     return ('<section class="page-hero">' + deco_bar() + '<div class="container">'
-            + eyebrow(eb, True) + '<h1>' + h1 + '</h1><p>' + sub + '</p>' + crumbs +
+            + eyebrow(eb, True) + '<h1>' + h1 + '</h1>'
+            '<div class="rule-deco" aria-hidden="true"><i></i></div>'
+            '<p>' + sub + '</p>' + crumbs +
             '</div></section>')
 
 def emblem_big():
@@ -560,34 +581,34 @@ EVENTS = [
 ON_DEMAND = [
     {"title": "American Standards by the Sea", "host": "Dick Robinson", "icon": "wave",
      "blurb": "Dick Robinson's syndicated Songbook program, produced in part aboard the yacht <em>Airwaves</em>. "
-              "Catch encores nightly on <em>Late Nights with Legends</em> — or stream on demand.",
+              "Catch it weeknights at 11 PM — or stream on demand.",
      "cta": "Listen on SoundCloud", "url": STATION["soundcloud"]},
     {"title": "The Legends Radio Archive", "host": "On SoundCloud", "icon": "headphones",
      "blurb": "Interviews, features, and moments from the studio — the station's growing on-demand library, "
               "free to stream anytime.",
      "cta": "Browse the archive", "url": STATION["soundcloud"]},
-    {"title": "The Golf &amp; Travel Show", "host": "Dan Shube &amp; Doris Muscarella", "icon": "mic",
-     "blurb": "Destinations, gear, and expert interviews — plus Doris Muscarella's <em>Traveling Golf Diva</em> "
-              "podcast for the golfer and traveler in all of us.",
+    {"title": "The Sounds of Sinatra", "host": "Legends 100.3", "icon": "mic",
+     "blurb": "The Chairman of the Board, hour after hour — the Sinatra songbook as only Legends plays it.",
      "cta": "Visit the show", "url": "https://thegolfandtravelshow.com/"},
-    {"title": "Inspired To Be", "host": "Sherrye Fenton", "icon": "heart",
-     "blurb": "Uplifting conversation and guests from Sherrye Fenton — companionship for the Legends family, "
-              "available to stream between broadcasts.",
+    {"title": "Cindy on Legends", "host": "Cindy Hite", "icon": "heart",
+     "blurb": "Cindy Hite's programme on Legends 100.3, available to stream between broadcasts.",
      "cta": "Follow on SoundCloud", "url": STATION["soundcloud"]},
 ]
 
 def host_card(h, idx=0, full=False):
     persons = ""
+    img = ('<img src="%s" alt="%s, %s on Legends Radio 100.3 FM" loading="lazy" decoding="async">'
+           % (h["photo"], html.escape(h["name"]), html.escape(h["role"]))) if h.get("photo") else ""
     bio = ('<p class="host-bio">%s</p>' % h["bio"]) if full else ""
     return (
         '<article class="card host-card reveal reveal-d%d">'
-        '<div class="host-medallion"><span class="mono">%s</span></div>'
+        '<div class="host-medallion">%s<span class="mono">%s</span></div>'
         '<span class="host-role">%s</span>'
         '<h3>%s</h3>'
         '<div class="host-show">%s</div>'
         '<div class="host-slot">%s</div>%s'
         '</article>'
-    ) % (idx % 4, h["mono"], html.escape(h["role"]), html.escape(h["name"]),
+    ) % (idx % 4, img, h["mono"], html.escape(h["role"]), html.escape(h["name"]),
          html.escape(h["show"]), html.escape(h["slot"]), bio)
 
 def show_card(sig, idx=0):
@@ -646,7 +667,7 @@ def home_page():
         'The One and Only…<img class="deco-flag" src="assets/img/legends-flag.svg" alt="" width="46" height="29"></p>'
         '<div class="hero-badge"><span class="freq">100.3 FM</span><span class="sep"></span>'
         '<small>Live &amp; Local · Palm Beach County</small></div>'
-        '<h1>Where <span class="accent">Legendary</span><br>Music Lives</h1>'
+        '<h1>Where <span class="accent foil">Legendary</span><br>Music Lives</h1>'
         '<p class="hero-sub">The Great American Songbook, on the air 24/7 from Florida\'s Palm Beaches — '
         'Sinatra to Bublé, Ella to Krall, all day and all night.</p>'
         '<div class="hero-actions">'
@@ -872,8 +893,8 @@ def hosts_page():
         secondary=("contact.html", "Contact the Studio"))
     return document("hosts.html",
                     "On-Air Personalities | Legends Radio 100.3 FM",
-                    "Meet the hosts of Legends Radio 100.3 FM — Jill & Rich Switzer, Walt Pinto, "
-                    "Lorna O'Connell, Dick Robinson, and the Golf & Travel Show — live & local in the Palm Beaches.",
+                    "Meet the hosts of Legends Radio 100.3 FM — Jill & Rich Switzer, Mike McGann, "
+                    "Steve Ketelaar, Alex Donner, Bob Merrill and Dick Robinson — live & local in the Palm Beaches.",
                     body, "hosts.html", extra_schema={"@type": "ItemList",
                                                       "itemListElement": [{"@type": "ListItem", "position": i + 1, "item": p}
                                                                           for i, p in enumerate(persons)]})
@@ -1015,7 +1036,7 @@ def podcast_page():
     return document("podcast.html",
                     "On-Demand & Podcasts | Legends Radio 100.3 FM",
                     "Stream Legends Radio on demand — American Standards by the Sea, the Legends Radio archive, "
-                    "The Golf & Travel Show, and Inspired To Be. Free between broadcasts.",
+                    "The Sounds of Sinatra, and Cindy on Legends. Free between broadcasts.",
                     body, "podcast.html")
 
 def advertise_page():
