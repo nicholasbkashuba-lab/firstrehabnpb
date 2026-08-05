@@ -96,7 +96,15 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .prof-h{background:var(--navy);color:#fff;padding:22px 24px}
 .prof-h h2{font-size:20px;text-transform:uppercase;letter-spacing:.05em}
 .prof-h .sub{font-size:13.5px;color:rgba(255,255,255,.65);margin-top:5px}
-.badge{display:inline-block;font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:4px 9px;border:1px solid var(--gold);color:#8a6a2f}
+.badge{display:inline-block;font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;padding:4px 9px;border:1px solid var(--line);color:var(--gray)}
+/* Tier chips: solid so they read apart instantly. White text on each fill is
+   6.8 / 6.4 / 5.9 to 1 — the brand gold #CBA15A is only 2.4 and cannot carry
+   white text, which is why these are darker than the pricing card gradients. */
+.badge.tier{border:0;color:#fff}
+.badge.tier-bronze{background:#7A5230}
+.badge.tier-silver{background:#55606B}
+.badge.tier-gold{background:#7E5F27}
 .prop{border-top:1px solid var(--line)}
 .prop-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:16px 24px;background:#fbfbfc;border-bottom:1px solid var(--line)}
 .prop-h h3{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;flex:1;min-width:190px}
@@ -110,6 +118,38 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;letter-spacing:.08em}
 .reveal{background:none;border:1px solid var(--line);font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;cursor:pointer;color:var(--gray);margin-left:8px}
 .reveal:hover{border-color:var(--navy);color:var(--navy)}
+/* ---- ROUTE ---- */
+.rt-head{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.rt-head .btn{margin-left:auto}
+.rt-day{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gray)}
+.stop{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+  padding:16px 18px;margin-bottom:10px}
+.stop.done{opacity:.55}
+.stop-n{font-family:var(--display);font-size:19px;font-weight:800;color:var(--navy);min-width:30px;
+  border:1px solid var(--line);text-align:center;padding:4px 0;flex-shrink:0}
+.stop.done .stop-n{background:var(--ok);border-color:var(--ok);color:#fff}
+.stop-b{flex:1;min-width:0}
+.stop-ad{font-size:15px;font-weight:600;word-break:break-word}
+.stop-cl{font-size:13px;color:var(--gray);margin-top:2px}
+.stop-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{font-family:var(--display);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid var(--line);color:var(--gray)}
+.tag.tier{border:0;color:#fff}
+.tag.tier-bronze{background:#7A5230}
+.tag.tier-silver{background:#55606B}
+.tag.tier-gold{background:#7E5F27}
+.tag.due{border-color:var(--bad);color:var(--bad)}
+.tag.soon{border-color:var(--watch);color:#8a6a2f}
+.tag.ok{border-color:var(--ok);color:var(--ok)}
+.stop-acts{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.stop-acts .btn{padding:9px 14px;font-size:9.5px;white-space:nowrap}
+.rt-empty{background:#fff;border:1px solid var(--line);padding:30px;color:var(--gray);font-size:14.5px}
+.rt-move{background:none;border:1px solid var(--line);cursor:pointer;color:var(--gray);
+  font-size:13px;line-height:1;padding:5px 8px}
+.rt-move:hover{border-color:var(--navy);color:var(--navy)}
+.rt-move[disabled]{opacity:.3;cursor:default}
+.rt-ord{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+
 .visits{padding:0 24px 22px}
 .visits h4{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
 .visit{display:flex;gap:12px;align-items:center;font-size:14px;padding:9px 0;border-bottom:1px solid #f4f5f6}
@@ -256,7 +296,8 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
       <svg width="26" height="29" viewBox="0 0 44 48" aria-hidden="true"><path d="M22 2 L43 19 L36.5 19 L22 7.6 L7.5 19 L1 19 Z" fill="#fff"/><rect x="17.5" y="11.5" width="9" height="9" fill="#CBA15A"/><path d="M22 11.5v9M17.5 16h9" stroke="#0B1D2D" stroke-width="1.4"/><rect x="7.5" y="19" width="6.5" height="23" fill="#fff"/><rect x="30" y="19" width="6.5" height="23" fill="#fff"/><rect x="14" y="26.5" width="16" height="6" fill="#CBA15A"/></svg>
       <b>HOMECREW</b>
       <div class="tabs" role="tablist">
-        <button class="tab" id="tabClients" role="tab" aria-selected="true">Clients</button>
+        <button class="tab" id="tabRoute" role="tab" aria-selected="true">Route</button>
+        <button class="tab" id="tabClients" role="tab" aria-selected="false">Clients</button>
         <button class="tab" id="tabForm" role="tab" aria-selected="false">Inspection</button>
       </div>
       <span class="who" id="who"></span>
@@ -264,8 +305,28 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
     </div>
   </header>
 
+  <!-- ---------- ROUTE ---------- -->
+  <div class="shell" id="routeView">
+    <p class="crumb">Today</p>
+    <h1 class="page-h">Your route</h1>
+    <p class="page-p">Stops run north to south, the way the coast does. Reorder anything with the arrows &mdash; you know which two houses share a gate and the map does not.</p>
+
+    <div class="banner hide" id="rtBanner"></div>
+
+    <div class="rt-head">
+      <div>
+        <div class="rt-day" id="rtDay"></div>
+        <div class="lab" style="font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);margin-top:4px" id="rtCount"></div>
+      </div>
+      <button class="btn btn-ghost" id="rtAll">Show every property</button>
+      <button class="btn btn-gold" id="rtNav">Open route in Maps</button>
+    </div>
+
+    <div id="stops"></div>
+  </div>
+
   <!-- ---------- CLIENT DIRECTORY ---------- -->
-  <div class="shell" id="clientsView">
+  <div class="shell hide" id="clientsView">
     <p class="crumb">Directory</p>
     <h1 class="page-h">Clients &amp; properties</h1>
     <p class="page-p">Search by client name or address. Access codes stay hidden until you tap Show, then hide themselves again &mdash; nothing sits on screen while you stand at a front gate.</p>
@@ -437,21 +498,24 @@ var SAMPLE = [
   { id:'s1', full_name:'Robert & Anne Whitfield', email:'whitfield@example.com', phone:'(772) 555-0134',
     mailing_addr:'88 Larchmont Ave, Larchmont NY 10538', notes:'Away May through October. Mail held at the post office.',
     properties:[{ id:'p1', address:'123 River Bend Dr, Stuart FL 34994', property_type:'Single family', package:'gold',
-      visit_frequency:'weekly', community_gate_name:'River Bend', gate_code:'0000', key_box_code:'0000',
+      visit_frequency:'weekly', county:'Martin', route_order:10, last_inspected_on:'2026-07-20',
+      community_gate_name:'River Bend', gate_code:'0000', key_box_code:'0000',
       key_box_location:'Sample data — hose bib, right of the garage', alarm_code:'0000', alarm_company:'Sample Alarm Co',
       garage_code:'0000', water_shutoff:'Sample data — north wall of the garage', access_notes:'Sample data. Two cats indoors.',
       emergency_name:'Dana Whitfield (daughter)', emergency_phone:'(772) 555-0177' }] },
   { id:'s2', full_name:'Marisol Vega', email:'mvega@example.com', phone:'(561) 555-0198',
     mailing_addr:'', notes:'Prefers a text when the visit is done.',
     properties:[{ id:'p2', address:'4410 Coral Cove Ln, Jupiter FL 33477', property_type:'Condo', package:'silver',
-      visit_frequency:'biweekly', community_gate_name:'Coral Cove', gate_code:'0000', key_box_code:'0000',
+      visit_frequency:'biweekly', county:'Palm Beach', route_order:10, last_inspected_on:'2026-08-03',
+      community_gate_name:'Coral Cove', gate_code:'0000', key_box_code:'0000',
       key_box_location:'Sample data — front door handle', alarm_code:'', alarm_company:'',
       garage_code:'', water_shutoff:'Sample data — utility closet', access_notes:'Sample data. Elevator to the 4th floor.',
       emergency_name:'', emergency_phone:'' }] },
   { id:'s3', full_name:'The Ellery Trust', email:'trust@example.com', phone:'(772) 555-0122',
     mailing_addr:'', notes:'Estate. Landscaper on site Tuesdays.',
     properties:[{ id:'p3', address:'2 Sailfish Point Blvd, Stuart FL 34996', property_type:'Estate', package:'gold',
-      visit_frequency:'weekly', community_gate_name:'Sailfish Point', gate_code:'0000', key_box_code:'0000',
+      visit_frequency:'weekly', county:'Martin', route_order:20, last_inspected_on:null,
+      community_gate_name:'Sailfish Point', gate_code:'0000', key_box_code:'0000',
       key_box_location:'Sample data — pool equipment gate', alarm_code:'0000', alarm_company:'Sample Alarm Co',
       garage_code:'0000', water_shutoff:'Sample data — east side meter box', access_notes:'Sample data. Generator serviced quarterly.',
       emergency_name:'H. Ellery', emergency_phone:'(772) 555-0123' }] }
@@ -524,8 +588,9 @@ async function startSession(u){
   $('who').textContent = user.name + ' · ' + (user.role === 'owner' ? 'Owner' : 'Field Technician');
   $('f_tech').value = user.name;
   $('f_date').value = new Date().toISOString().slice(0,10);
-  showView('clients');
+  showView('route');
   await loadDirectory();
+  renderRoute();
   restoreDraft();
 }
 
@@ -564,6 +629,7 @@ async function loadDirectory(){
     dirBanner('<b>Sample data</b>These three clients are invented and every code shown is 0000. Add your Supabase keys to <code>config.js</code> to switch to real records. Do not type a real address or code into sample mode — none of it is saved and none of it is protected.', 'bad');
     renderList();
     fillPropertySelect();
+    renderRoute();
     return;
   }
 
@@ -582,6 +648,17 @@ async function loadDirectory(){
     c.properties = (c.properties || []).filter(function(p){ return p.active !== false; });
     return c;
   });
+
+  /* Last-visit dates drive the due list on the route screen. The view is
+     security_invoker, so this returns only rows the caller could already read. */
+  var lv = await sb.from('property_last_visit').select('property_id, last_inspected_on');
+  if(!lv.error){
+    var byId = {};
+    lv.data.forEach(function(r){ byId[r.property_id] = r.last_inspected_on; });
+    directory.forEach(function(c){
+      (c.properties || []).forEach(function(p){ p.last_inspected_on = byId[p.id] || null; });
+    });
+  }
   if(directory.length){
     $('dirBanner').classList.add('hide');
   } else {
@@ -654,7 +731,7 @@ function renderProfile(){
                 secretRow('Garage code', p.garage_code);
     return '<div class="prop">' +
       '<div class="prop-h"><h3>' + esc(p.address) + '</h3>' +
-        (p.package ? '<span class="badge">' + esc(pkg(p.package)) + '</span>' : '') +
+        (p.package ? '<span class="badge tier tier-' + esc(p.package) + '">' + esc(pkg(p.package)) + '</span>' : '') +
         (p.visit_frequency ? '<span class="badge">' + esc(p.visit_frequency) + '</span>' : '') +
         '<button class="btn btn-ghost btn-sm" data-start="' + esc(p.id) + '">Start inspection</button></div>' +
       '<div class="kvgrid">' +
@@ -729,6 +806,190 @@ async function loadVisits(c){
   }
 }
 
+/* ------------------------------------------------------------------
+   ROUTE
+   The whole service area is one line: five counties stacked north to
+   south along I-95 and US-1. So geographic order IS the route, near
+   enough — no geocoding, no API key, no billing account. The technician
+   can drag anything out of order, because they know which two houses
+   share a gate and a solver would not.
+
+   Navigation itself hands off to Google or Apple Maps. Those already
+   know the roads and the traffic; rebuilding that badly would help
+   nobody.
+------------------------------------------------------------------- */
+var COUNTY_ORDER = ['Indian River', 'St. Lucie', 'Martin', 'Palm Beach', 'Broward'];
+var FREQ_DAYS = { weekly: 7, biweekly: 14, monthly: 30, seasonal: 90 };
+var ROUTE_KEY = 'hc_route_v1';
+var showAll = false;
+
+function daysSince(iso){
+  if(!iso) return null;
+  var then = new Date(String(iso).slice(0,10) + 'T00:00');
+  if(isNaN(then.getTime())) return null;
+  return Math.floor((Date.now() - then.getTime()) / 86400000);
+}
+
+/* Overdue by how much, as a fraction of the interval. null = never visited. */
+function dueState(p){
+  var interval = FREQ_DAYS[p.visit_frequency] || 14;
+  var since = daysSince(p.last_inspected_on);
+  if(since === null) return { cls:'due', label:'Never visited', rank:-1 };
+  var over = since - interval;
+  if(over >= 0)  return { cls:'due',  label:'Due · ' + since + 'd since', rank:-over };
+  if(over >= -2) return { cls:'soon', label:'Due in ' + (-over) + 'd', rank:-over };
+  return { cls:'ok', label:since + 'd since', rank:-over };
+}
+
+/* Manual overrides live on the device, not the database. One technician
+   resequencing their morning should not reorder anybody else's day. */
+function routeOverrides(){
+  try { return JSON.parse(localStorage.getItem(ROUTE_KEY) || '{}'); }
+  catch(err){ return {}; }
+}
+function setOverride(id, pos){
+  var o = routeOverrides();
+  o[id] = pos;
+  try { localStorage.setItem(ROUTE_KEY, JSON.stringify(o)); } catch(err){}
+}
+
+function routeStops(){
+  var over = routeOverrides();
+  var out = allProperties().map(function(x){
+    return { prop:x.prop, client:x.client, due:dueState(x.prop) };
+  });
+  if(!showAll){
+    out = out.filter(function(s){ return s.due.cls !== 'ok'; });
+  }
+  out.sort(function(a, b){
+    var ao = over[a.prop.id], bo = over[b.prop.id];
+    if(ao != null && bo != null && ao !== bo) return ao - bo;
+    if(ao != null && bo == null) return -1;
+    if(bo != null && ao == null) return 1;
+    var ac = COUNTY_ORDER.indexOf(a.prop.county), bc = COUNTY_ORDER.indexOf(b.prop.county);
+    if(ac === -1) ac = 99;
+    if(bc === -1) bc = 99;
+    if(ac !== bc) return ac - bc;
+    var ar = a.prop.route_order == null ? 100 : a.prop.route_order;
+    var br = b.prop.route_order == null ? 100 : b.prop.route_order;
+    if(ar !== br) return ar - br;
+    return String(a.prop.address).localeCompare(String(b.prop.address));
+  });
+  return out;
+}
+
+function rtBanner(html, kind){
+  var b = $('rtBanner');
+  b.className = 'banner' + (kind ? ' banner-' + kind : '');
+  b.innerHTML = html;
+  b.classList.remove('hide');
+}
+
+function renderRoute(){
+  var stops = routeStops();
+  var today = new Date();
+  $('rtDay').textContent = today.toLocaleDateString('en-US',
+    { weekday:'long', month:'long', day:'numeric' });
+  $('rtCount').textContent = stops.length + (stops.length === 1 ? ' stop' : ' stops')
+    + (showAll ? ' · all properties' : ' · due or nearly due');
+  $('rtAll').textContent = showAll ? 'Show only what is due' : 'Show every property';
+  $('rtNav').disabled = stops.length === 0;
+
+  if(!directory.length){
+    $('stops').innerHTML = '<div class="rt-empty">No properties on file yet. '
+      + (LIVE ? 'Add them in Supabase under Table Editor → properties.'
+              : 'Sample mode is showing invented clients; add real Supabase keys to see a real route.')
+      + '</div>';
+    return;
+  }
+  if(!stops.length){
+    $('stops').innerHTML = '<div class="rt-empty">Nothing is due today. '
+      + 'Tap <b>Show every property</b> to see the whole list.</div>';
+    return;
+  }
+
+  $('stops').innerHTML = stops.map(function(s, i){
+    var p = s.prop;
+    return '<div class="stop" data-stop="' + esc(p.id) + '">' +
+      '<div class="rt-ord">' +
+        '<button class="rt-move" data-mv="up" data-id="' + esc(p.id) + '" aria-label="Move earlier"' + (i === 0 ? ' disabled' : '') + '>&#9650;</button>' +
+        '<button class="rt-move" data-mv="dn" data-id="' + esc(p.id) + '" aria-label="Move later"' + (i === stops.length - 1 ? ' disabled' : '') + '>&#9660;</button>' +
+      '</div>' +
+      '<div class="stop-n">' + (i + 1) + '</div>' +
+      '<div class="stop-b">' +
+        '<div class="stop-ad">' + esc(p.address) + '</div>' +
+        '<div class="stop-cl">' + esc(s.client.full_name) + '</div>' +
+        '<div class="stop-tags">' +
+          '<span class="tag ' + s.due.cls + '">' + esc(s.due.label) + '</span>' +
+          (p.county ? '<span class="tag">' + esc(p.county) + '</span>' : '') +
+          (p.visit_frequency ? '<span class="tag">' + esc(p.visit_frequency) + '</span>' : '') +
+          (p.package ? '<span class="tag tier tier-' + esc(p.package) + '">' + esc(pkg(p.package)) + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="stop-acts">' +
+        '<a class="btn btn-ghost" href="' + esc(navUrl(p.address)) + '" target="_blank" rel="noopener">Navigate</a>' +
+        '<button class="btn btn-gold" data-start="' + esc(p.id) + '">Inspect</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* Apple Maps on an Apple device, Google everywhere else. Both take a plain
+   address string, so nothing here needs coordinates. */
+function isApple(){
+  return /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+}
+function navUrl(address){
+  return isApple()
+    ? 'https://maps.apple.com/?daddr=' + encodeURIComponent(address)
+    : 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address);
+}
+
+/* Whole route in one go. Google takes waypoints between origin and
+   destination; Apple Maps does not, so there it falls back to the first stop
+   and the list stays the source of truth. */
+function routeUrl(stops){
+  var addrs = stops.map(function(s){ return s.prop.address; });
+  if(!addrs.length) return '#';
+  if(isApple()) return navUrl(addrs[0]);
+  var dest = addrs[addrs.length - 1];
+  var mid = addrs.slice(0, -1);
+  var u = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dest);
+  if(mid.length) u += '&waypoints=' + mid.map(encodeURIComponent).join('%7C');
+  return u + '&travelmode=driving';
+}
+
+$('rtAll').addEventListener('click', function(){ showAll = !showAll; renderRoute(); });
+
+$('rtNav').addEventListener('click', function(){
+  var stops = routeStops();
+  if(!stops.length) return;
+  /* Google caps the simple directions URL at nine waypoints plus a
+     destination. Past that, send the first ten and say so rather than
+     handing over a link that silently drops houses. */
+  var capped = stops.slice(0, 10);
+  if(stops.length > capped.length){
+    rtBanner('<b>Route split</b>Maps takes ten stops at a time, so this opens the first '
+      + capped.length + ' of ' + stops.length + '. Run the rest as a second leg.', '');
+  } else {
+    $('rtBanner').classList.add('hide');
+  }
+  window.open(routeUrl(capped), '_blank', 'noopener');
+});
+
+$('stops').addEventListener('click', function(e){
+  var mv = e.target.closest('[data-mv]');
+  if(!mv) return;
+  var stops = routeStops();
+  var i = stops.findIndex(function(s){ return s.prop.id === mv.dataset.id; });
+  var j = mv.dataset.mv === 'up' ? i - 1 : i + 1;
+  if(i < 0 || j < 0 || j >= stops.length) return;
+  var reordered = stops.slice();
+  reordered.splice(j, 0, reordered.splice(i, 1)[0]);
+  reordered.forEach(function(s, n){ setOverride(s.prop.id, n); });
+  renderRoute();
+});
+
 /* ---- start an inspection from a property ---- */
 document.addEventListener('click', function(e){
   var b = e.target.closest('[data-start]'); if(!b) return;
@@ -780,14 +1041,17 @@ $('f_prop').addEventListener('change', function(){ bindProperty($('f_prop').valu
    VIEWS
 ------------------------------------------------------------------- */
 function showView(which){
+  $('routeView').classList.toggle('hide', which !== 'route');
   $('clientsView').classList.toggle('hide', which !== 'clients');
   $('formView').classList.toggle('hide', which !== 'form');
   $('reportView').classList.toggle('hide', which !== 'report');
   $('scorebar').classList.toggle('hide', which !== 'form');
+  $('tabRoute').setAttribute('aria-selected', which === 'route');
   $('tabClients').setAttribute('aria-selected', which === 'clients');
   $('tabForm').setAttribute('aria-selected', which === 'form');
   window.scrollTo(0,0);
 }
+$('tabRoute').addEventListener('click', function(){ showView('route'); });
 $('tabClients').addEventListener('click', function(){ showView('clients'); });
 $('tabForm').addEventListener('click', function(){ showView('form'); });
 
@@ -923,15 +1187,18 @@ $('systems').addEventListener('change', function(e){
   var t = e.target;
   if(!t.dataset || !t.dataset.photo) return;
   var rid = t.dataset.photo, r = splitRid(rid), d = det(r.key, r.i);
-  Array.from(t.files).forEach(function(file){
+  var files = Array.from(t.files);
+  t.value = '';
+  files.forEach(async function(file){
+    var small;
+    try { small = await compress(file); } catch(err){ return; }
     var reader = new FileReader();
     reader.onload = function(){
       d.photos.push({ src:reader.result, cap:file.name.replace(/\.[^.]+$/,'').slice(0,22) });
       renderRowThumbs(rid); markMore(rid);
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(small);
   });
-  t.value = '';
 });
 
 $('systems').addEventListener('click', function(e){
@@ -1018,10 +1285,15 @@ $('addAction').addEventListener('click', function(){ addActionRow(); });
    until then a refresh drops them and the report embeds them as data
    URLs, which is why they are left out of the draft below. */
 var photos = [];
-$('f_photos').addEventListener('change', function(e){
-  Array.from(e.target.files).forEach(function(file){
+$('f_photos').addEventListener('change', async function(e){
+  var files = Array.from(e.target.files);
+  e.target.value = '';
+  for(var n = 0; n < files.length; n++){
+    var file = files[n];
+    var small;
+    try { small = await compress(file); } catch(err){ continue; }
     var r = new FileReader();
-    r.onload = function(){
+    r.onload = (function(file){ return function(){
       var idx = photos.push({ src:r.result, cap:file.name.replace(/\.[^.]+$/,'').slice(0,22) }) - 1;
       var d = document.createElement('div'); d.className = 'thumb';
       var img = document.createElement('img'); img.src = r.result; img.alt = '';
@@ -1031,10 +1303,9 @@ $('f_photos').addEventListener('change', function(e){
       cap.addEventListener('input', function(){ photos[idx].cap = cap.value; });
       d.appendChild(cap);
       $('thumbs').appendChild(d);
-    };
-    r.readAsDataURL(file);
-  });
-  e.target.value = '';
+    }; })(file);
+    r.readAsDataURL(small);
+  }
 });
 
 /* ------------------------------------------------------------------
@@ -1137,6 +1408,73 @@ function fmtDate(v){
   return d.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
 }
 
+/* ------------------------------------------------------------------
+   PHOTO UPLOAD
+   Technicians shoot 4MB phone photos, often on cell data at the side of
+   a house. Compress in the browser first: ~1600px on the long edge at
+   JPEG 0.8 turns a 4MB original into a couple of hundred KB with no
+   visible loss at report size.
+
+   The bucket is private. Nothing here produces a public URL — reading a
+   photo back means a short-lived signed URL, which is what the Edge
+   Function does when it builds the PDF.
+------------------------------------------------------------------- */
+var MAX_EDGE = 1600;
+
+function compress(file){
+  return new Promise(function(resolve, reject){
+    var img = new Image();
+    var url = URL.createObjectURL(file);
+    img.onload = function(){
+      URL.revokeObjectURL(url);
+      var w = img.width, h = img.height;
+      var scale = Math.min(1, MAX_EDGE / Math.max(w, h));
+      var c = document.createElement('canvas');
+      c.width = Math.round(w * scale);
+      c.height = Math.round(h * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(function(blob){
+        blob ? resolve(blob) : reject(new Error('Could not read that image'));
+      }, 'image/jpeg', 0.8);
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); reject(new Error('Could not read that image')); };
+    img.src = url;
+  });
+}
+
+function uid(){
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'p' + Date.now() + Math.random().toString(16).slice(2, 8);
+}
+
+/* Uploads every held photo and returns the storage paths. Called once, on
+   save, so a technician who reshoots a photo does not pay to upload the
+   discarded one. */
+async function uploadPhotos(inspectionId){
+  if(!LIVE || !sb || !current) return { paths: [], failed: 0 };
+  var queue = [];
+  photos.forEach(function(p){ queue.push({ src: p.src, cap: p.cap }); });
+  Object.keys(detail).forEach(function(k){
+    Object.keys(detail[k]).forEach(function(i){
+      detail[k][i].photos.forEach(function(p){ queue.push({ src: p.src, cap: p.cap }); });
+    });
+  });
+  if(!queue.length) return { paths: [], failed: 0 };
+
+  var paths = [], failed = 0;
+  for(var n = 0; n < queue.length; n++){
+    repBanner('<b>Uploading photos</b>' + (n + 1) + ' of ' + queue.length + '…', '');
+    try{
+      var blob = await (await fetch(queue[n].src)).blob();
+      var path = current.propertyId + '/' + inspectionId + '/' + uid() + '.jpg';
+      var up = await sb.storage.from('inspection-photos')
+        .upload(path, blob, { contentType: 'image/jpeg', upsert: false });
+      if(up.error){ failed++; } else { paths.push(path); }
+    } catch(err){ failed++; }
+  }
+  return { paths: paths, failed: failed };
+}
+
 function linePhotoCount(){
   return Object.keys(detail).reduce(function(n, k){
     return n + Object.keys(detail[k]).reduce(function(m, i){ return m + detail[k][i].photos.length; }, 0);
@@ -1215,8 +1553,31 @@ async function saveInspection(scores, overall, flags, actions){
   }
   savedId = res.data.id;
   $('f_num').value = res.data.inspection_no || '';
+
+  /* Photos go up after the insert, because the storage path needs the
+     inspection id. A failed upload does not lose the visit — the row is
+     already saved and the banner says how many did not make it. */
+  var up = await uploadPhotos(savedId);
+  if(up.paths.length){
+    await sb.from('inspections').update({ photo_paths: up.paths }).eq('id', savedId);
+  }
+
   clearDraft();
-  repBanner('<b>Saved</b>Recorded as ' + esc(res.data.inspection_no || savedId) + '.', 'ok');
+  /* This property is no longer due — reflect that on the route immediately. */
+  if(current){
+    allProperties().forEach(function(x){
+      if(x.prop.id === current.propertyId) x.prop.last_inspected_on = payload.inspected_on;
+    });
+    renderRoute();
+  }
+  if(up.failed){
+    repBanner('<b>Saved, but ' + up.failed + ' photo' + (up.failed > 1 ? 's' : '') +
+              ' did not upload</b>Recorded as ' + esc(res.data.inspection_no || savedId) +
+              '. Save this as a PDF so the images are not lost, then tell the owner.', 'bad');
+  } else {
+    repBanner('<b>Saved</b>Recorded as ' + esc(res.data.inspection_no || savedId) +
+              (up.paths.length ? ' with ' + up.paths.length + ' photo' + (up.paths.length > 1 ? 's' : '') + ' stored.' : '.'), 'ok');
+  }
 }
 
 function renderReport(scores, overall, bd, flags, actions){

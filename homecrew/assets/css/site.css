@@ -126,9 +126,9 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;letter-spacing:-.0
 .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
 .pkg{background:#fff;border:1px solid var(--line-dk);display:flex;flex-direction:column;height:100%}
 .pkg-top{padding:24px;text-align:center;color:#fff}
-.pkg-1 .pkg-top{background:linear-gradient(135deg,#8A6A3C,#B08A4E)}
-.pkg-2 .pkg-top{background:linear-gradient(135deg,#8F949A,#B9BEC4)}
-.pkg-3 .pkg-top{background:linear-gradient(135deg,#B8903F,var(--gold))}
+.pkg-1 .pkg-top{background:linear-gradient(135deg,#6F4A2B,#8A6A3C)}
+.pkg-2 .pkg-top{background:linear-gradient(135deg,#4B555F,#6B7681)}
+.pkg-3 .pkg-top{background:linear-gradient(135deg,#6E5223,#8A6A2F)}
 .pkg-top h3{font-size:19px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
 .pkg-price{padding:30px 24px 20px;text-align:center;border-bottom:1px solid var(--line-dk)}
 .pkg-price b{font-family:var(--display);font-size:46px;font-weight:800;letter-spacing:-.02em}
