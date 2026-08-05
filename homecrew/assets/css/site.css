@@ -571,3 +571,66 @@ a.co:hover .co-nm{color:var(--gold)}
   .pex-panel[data-on="1"]{animation:none}
   .readbar{display:none}
 }
+
+/* ==========================================================================
+   EDITORIAL — comparison tables, process, exclusions
+   The information layer. A table that is genuinely readable does more for
+   credibility than any amount of decoration.
+   ========================================================================== */
+.mx-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 8px}
+.mx{width:100%;min-width:660px;border-collapse:collapse;text-align:left;background:#fff}
+.mx th,.mx td{padding:15px 18px;border-bottom:1px solid var(--line-dk);vertical-align:middle}
+.mx tbody th{font-family:var(--body);font-weight:400;font-size:15px;color:#3d4a55;width:42%}
+.mx thead th{border-bottom:2px solid var(--navy);vertical-align:bottom;padding-bottom:18px}
+.mx-h{text-align:center;width:19.3%}
+.mx-h span{display:block;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gray)}
+.mx-h b{display:block;font-family:var(--display);font-size:31px;font-weight:800;letter-spacing:-.02em;margin-top:8px}
+.mx-h b sup{font-size:15px;top:-11px;position:relative;font-weight:700}
+.mx-h i{display:block;font-family:var(--display);font-style:normal;font-size:8.5px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-top:4px}
+.mx-gold b{color:var(--gold-text)}
+.mx-gold{background:rgba(203,161,90,.07)}
+.mx tbody td{text-align:center}
+.mx td.yes{color:#246F41}
+.mx .tick{width:19px;height:19px;display:inline-block;vertical-align:middle}
+.mx td.no{color:#9aa1a8;font-size:17px}
+.mx td.qual{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--navy)}
+.mx-group th{background:var(--navy);color:#fff;font-family:var(--display);font-size:9.5px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;padding:11px 18px;border-bottom:0}
+.mx tfoot td{text-align:center;padding:22px 12px}
+.mx tfoot .btn{width:100%;max-width:150px;padding:14px 10px}
+.mx tr:last-child th,.mx tr:last-child td{border-bottom:0}
+.cmp .mx-h.on span{color:var(--gold-text)}
+.cmp thead th.on{background:rgba(203,161,90,.09)}
+.cmp tbody th{width:40%}
+.mx-note{font-size:13.5px;color:var(--gray);margin:14px 0 0}
+
+/* ---------- PROCESS ---------- */
+.steps{list-style:none;margin:0;padding:0;counter-reset:step;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px}
+.step{display:flex;gap:22px;padding:30px 0;border-top:1px solid var(--line-dk)}
+.step-n{font-family:var(--display);font-size:12px;font-weight:800;letter-spacing:.16em;
+  color:var(--gold-text);flex-shrink:0;padding-top:4px}
+.step h3{font-size:16px;font-weight:700;letter-spacing:.04em;margin-bottom:9px}
+.step p{font-size:15px;color:#3d4a55;margin:0;line-height:1.72}
+.watch .step,.areas .step{border-top-color:var(--line)}
+.watch .step h3{color:#fff}
+.watch .step p{color:rgba(255,255,255,.72)}
+.watch .step-n{color:var(--gold)}
+
+/* ---------- EXCLUSIONS ---------- */
+.excl{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:0 44px}
+.excl li{font-size:15px;color:#3d4a55;padding:15px 0 15px 30px;position:relative;
+  border-top:1px solid var(--line-dk);line-height:1.65}
+.excl li::before{content:'';position:absolute;left:0;top:23px;width:13px;height:1.5px;background:#9aa1a8}
+.excl b{font-family:var(--display);font-weight:700}
+
+@media(max-width:900px){
+  .steps,.excl{grid-template-columns:1fr;gap:0}
+}
+@media(max-width:680px){
+  .mx-wrap{margin-left:-20px;margin-right:-20px;padding:0 20px}
+  .step{padding:24px 0;gap:16px}
+}

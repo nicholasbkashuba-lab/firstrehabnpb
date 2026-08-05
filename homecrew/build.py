@@ -880,6 +880,16 @@ def build_home():
   </div>
 </section>
 
+<section class="watch">
+  <div class="wrap watch-in">
+    <div class="watch-head">
+      <div><p class="eyebrow">How It Works</p><h2>From the first walkthrough onward</h2></div>
+      <p>No contract to sign before anyone has seen the house. The walkthrough is free and takes about an hour.</p>
+    </div>
+    {process_list()}
+  </div>
+</section>
+
 <section class="report">
   <div class="wrap report-grid">
     <div class="report-copy reveal">
@@ -1082,6 +1092,24 @@ def build_service(slug):
                  'and anything flagged carries its own photo and note in the report. '
                  f'<a href="{rel(1)}reports.html" style="color:var(--gold)">See a full report &rarr;</a></p></div>'
                + "</div></section>")
+    extra = ""
+    if slug == "home-watch":
+        extra = ('<section class="prose-sec tex edge-top"><div class="wrap">'
+                 '<p class="eyebrow">How It Works</p>'
+                 '<h2 style="font-size:clamp(24px,2.8vw,36px);font-weight:800;text-transform:uppercase;margin:12px 0 8px">'
+                 'From the first walkthrough onward</h2>'
+                 + process_list() + '</div></section>'
+                 '<section class="prose-sec alt"><div class="wrap">'
+                 '<p class="eyebrow">Honestly</p>'
+                 '<h2 style="font-size:clamp(24px,2.8vw,36px);font-weight:800;text-transform:uppercase;margin:12px 0 8px">'
+                 'Against the alternatives</h2>'
+                 '<p style="font-size:16.5px;color:#3d4a55;max-width:64ch;margin:16px 0 28px">'
+                 'A neighbour with a key is a genuine kindness and worth having. It is also a favour '
+                 'rather than a service, and the difference shows up on the day something goes wrong.</p>'
+                 + compare_table() +
+                 '<p class="mx-note">Keep the neighbour. They will notice a strange vehicle at an odd hour '
+                 'in a way no schedule can. Tell them who we are and give them a number to call.</p>'
+                 '</div></section>')
     ledger = ""
     if s.get("show_ledger"):
         groups = ""
@@ -1098,6 +1126,7 @@ def build_service(slug):
 <section class="prose-sec tex edge-top"><div class="wrap prose">{prose(s['body'])}{ledger}{prose(s.get('after', []))}</div></section>
 {mid}
 <section class="prose-sec alt"><div class="wrap prose">{prose(s.get('after_protocol', []))}</div></section>
+{extra}
 <section class="secgrid alt2">
   <div class="wrap">
     <p class="eyebrow">Also From HomeCrew</p>
@@ -1298,6 +1327,17 @@ def build_pricing():
            "Flexible packages, personalised care, and a la carte work when you need something outside the schedule.",
            0, [("Home", "/"), ("Pricing", "")])}
 <section class="pkgs"><div class="wrap">{package_cards(0)}</div></section>
+<section class="prose-sec tex edge-top"><div class="wrap">
+  <p class="eyebrow">Line By Line</p>
+  <h2 style="font-size:clamp(24px,2.8vw,36px);font-weight:800;text-transform:uppercase;margin:12px 0 30px">What each package actually includes</h2>
+  {package_matrix(0)}
+  <p class="mx-note">Every package runs the same 25-point, five-system sweep. What changes is how often we come and how much we do while we are there.</p>
+</div></section>
+<section class="prose-sec alt"><div class="wrap prose" style="max-width:none">
+  <h2>What we do not do</h2>
+  <p style="max-width:70ch">Saying this plainly is cheaper for both of us than the awkward call later.</p>
+  <ul class="excl">{"".join("<li>" + x + "</li>" for x in NOT_INCLUDED)}</ul>
+</div></section>
 <section class="conc"><div class="wrap">
   <div class="conc-head">
     <p class="eyebrow">A La Carte</p>
@@ -1869,6 +1909,154 @@ def service_art(slug):
     if not art:
         return ""
     return (f'<svg class="phero-art" viewBox="0 0 400 290" aria-hidden="true" focusable="false">{art}</svg>')
+
+# =============================================================================
+# EDITORIAL COMPONENTS
+# =============================================================================
+
+# Derived from PACKAGES above rather than written twice — if a package changes,
+# this matrix has to be updated with it or the two will disagree in public.
+# True = included, False = not, a string = the qualifier that applies.
+MATRIX = [
+    ("Every Visit", [
+        ("25-point, five-system sweep",        True, True, True),
+        ("Interior &amp; exterior inspection", True, True, True),
+        ("Doors, windows &amp; locks checked", True, True, True),
+        ("A/C, humidity &amp; leak check",     True, True, True),
+        ("Toilets flushed, faucets run",       True, True, True),
+        ("Mail &amp; package pickup",          True, True, True),
+        ("Timestamped photo report",           True, True, True),
+    ]),
+    ("Schedule &amp; Response", [
+        ("Visits",                       "2 per month", "Weekly", "Weekly"),
+        ("Priority phone support",       False, True, True),
+        ("Post-storm inspection",        False, "On request", "24&ndash;48 hrs"),
+        ("Emergency response 24/7",      False, False, True),
+    ]),
+    ("Property Care", [
+        ("Refrigerator &amp; freezer check", False, True, True),
+        ("Dishwasher run",                   False, True, True),
+        ("Vehicles started",                 False, "Monthly", "Monthly"),
+        ("Pool &amp; irrigation check",      False, True, True),
+    ]),
+    ("Concierge", [
+        ("Deliveries coordinated",           False, True, True),
+        ("Contractors met on site",          False, True, True),
+        ("Repairs coordinated",              False, "Hourly", True),
+        ("Grocery stocking before arrival",  False, False, True),
+        ("A/C on before you land",           False, False, True),
+        ("Shutters opened &amp; closed",     False, False, True),
+    ]),
+]
+
+TICK = ('<svg viewBox="0 0 24 24" class="tick" aria-hidden="true">'
+        '<path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" '
+        'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+
+def cell(v):
+    if v is True:
+        return f'<td class="yes">{TICK}<span class="sr-only">Included</span></td>'
+    if v is False:
+        return '<td class="no"><span aria-hidden="true">&ndash;</span><span class="sr-only">Not included</span></td>'
+    return f'<td class="qual">{v}</td>'
+
+
+def package_matrix(depth):
+    r = rel(depth)
+    rows = ""
+    for group, items in MATRIX:
+        rows += f'<tr class="mx-group"><th colspan="4" scope="colgroup">{group}</th></tr>'
+        for name, b, s_, g in items:
+            rows += (f'<tr><th scope="row">{name}</th>'
+                     + cell(b) + cell(s_) + cell(g) + "</tr>")
+    heads = "".join(
+        f'<th scope="col" class="mx-h mx-{p["key"]}"><span>{p["name"]}</span>'
+        f'<b><sup>$</sup>{p["price"]}</b><i>per month</i></th>' for p in PACKAGES)
+    foot = ""
+    for p in PACKAGES:
+        gold = p["key"] == "gold"
+        cls = "btn-gold" if gold else "btn-ghost"
+        style = "" if gold else ' style="border-color:var(--navy);color:var(--navy)"'
+        foot += f'<td><a class="btn {cls}" href="{r}contact.html"{style}>Start</a></td>'
+    return f"""<div class="mx-wrap">
+<table class="mx">
+  <caption class="sr-only">What is included in each HomeCrew package</caption>
+  <thead><tr><th scope="col"><span class="sr-only">Feature</span></th>{heads}</tr></thead>
+  <tbody>{rows}</tbody>
+  <tfoot><tr><th scope="row"><span class="sr-only">Choose a package</span></th>{foot}</tr></tfoot>
+</table>
+</div>"""
+
+
+# The onboarding a homeowner actually goes through. Written from the service as
+# it works, not as a funnel.
+PROCESS = [
+    ("The walkthrough",
+     "We walk the property with you, or on your behalf if you have already gone north. We find the water shutoff, the panel, the lock box, which code opens which gate, and the things you actually worry about. It takes about an hour and costs nothing."),
+    ("The schedule",
+     "We recommend an interval based on how long the house sits empty and what your insurer expects. Weekly is the most common choice for a summer absence. You are not locked into it &mdash; the schedule moves when your travel does."),
+    ("Access on file",
+     "Gate codes, lock box combinations, alarm codes and the location of the water shutoff go into the crew system, not into a group text. They are readable by active crew only, hidden until tapped, and never printed into a report."),
+    ("Every visit",
+     "The same twenty five checks in the same order, cleared in the field. Anything flagged gets a photo and a written note attached to that specific line, while the technician is still standing in front of it."),
+    ("The report",
+     "In your inbox after every visit: the score, each system scored separately, the photos, the attention items and the recommended actions, with arrival and departure times and the name of the person who walked it."),
+    ("When something is wrong",
+     "You get a phone call, not a line in a document you might read on Sunday. If it needs a vendor we coordinate one and stay on site while they work."),
+]
+
+
+def process_list(numbered=True):
+    out = ""
+    for i, (title, body) in enumerate(PROCESS, start=1):
+        out += (f'<li class="step reveal"><span class="step-n">{i:02d}</span>'
+                f"<div><h3>{title}</h3><p>{body}</p></div></li>")
+    return f'<ol class="steps">{out}</ol>'
+
+
+# Three honest columns. The middle one is a favour, not a service, and the page
+# says so rather than sneering at it.
+COMPARE = [
+    ("Runs to a fixed protocol",            True,  False, False),
+    ("Someone inside the house",            True,  "Sometimes", False),
+    ("Timestamped photo documentation",     True,  False, False),
+    ("Record for an insurance claim",       True,  False, False),
+    ("Insured and bonded",                  True,  False, False),
+    ("Reachable at 2am",                    True,  "Maybe", False),
+    ("Can authorise and meet a vendor",     True,  "Awkward", False),
+    # "Nobody" must not score a tick here — an arrangement that does not exist
+    # cannot be said to still be running.
+    ("Arrangement still running in year three", True, "Often lapses", False),
+]
+
+
+def compare_table():
+    rows = ""
+    for name, a, b, c in COMPARE:
+        rows += f'<tr><th scope="row">{name}</th>{cell(a)}{cell(b)}{cell(c)}</tr>'
+    return f"""<div class="mx-wrap">
+<table class="mx cmp">
+  <caption class="sr-only">HomeCrew compared with asking a neighbour and with leaving the home unchecked</caption>
+  <thead><tr><th scope="col"><span class="sr-only">Capability</span></th>
+    <th scope="col" class="mx-h on"><span>HomeCrew</span></th>
+    <th scope="col" class="mx-h"><span>A neighbour</span></th>
+    <th scope="col" class="mx-h"><span>Nobody</span></th>
+  </tr></thead>
+  <tbody>{rows}</tbody>
+</table>
+</div>"""
+
+
+# Saying what you do not do is a trust signal, and it stops the awkward call later.
+NOT_INCLUDED = [
+    "Repairs. We are not a roofing, plumbing or A/C company &mdash; we find the problem, bring in the right trade and stay on site while they work.",
+    "Security patrol. We are not a guard service and we do not respond to an alarm as one; we are a documented inspection on a schedule.",
+    "House sitting. Nobody stays overnight.",
+    "Lawn, pool or pest service. We check that yours is being done and flag it when it is not.",
+    "Insurance advice. We give your carrier the documentation they ask for; what your policy requires is between you and them.",
+]
+
 
 if __name__ == "__main__":
     main()
