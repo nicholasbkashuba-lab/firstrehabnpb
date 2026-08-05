@@ -1,0 +1,62 @@
+<svg class="ff-art" viewBox="0 0 420 500" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#232A31"/><stop offset="1" stop-color="#10161C"/>
+          </linearGradient>
+          <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2C3238"/><stop offset="1" stop-color="#0D1116"/>
+          </linearGradient>
+          <linearGradient id="refl" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#C9D64A"/><stop offset=".5" stop-color="#E8EFA8"/><stop offset="1" stop-color="#C9D64A"/>
+          </linearGradient>
+        </defs>
+
+        <!-- shoulders / turnout coat -->
+        <path d="M40 500 C46 392 96 344 168 330 L262 330 C334 344 384 392 390 500 Z" fill="url(#coat)"/>
+        <!-- reflective bands -->
+        <path d="M52 462 C60 404 104 368 168 356 L262 356 C326 368 370 404 378 462" fill="none" stroke="#A9B2BA" stroke-width="15" opacity=".9"/>
+        <path d="M52 462 C60 404 104 368 168 356 L262 356 C326 368 370 404 378 462" fill="none" stroke="url(#refl)" stroke-width="6"/>
+        <path d="M120 500 V372" stroke="#A9B2BA" stroke-width="11" opacity=".55"/>
+        <path d="M120 500 V372" stroke="url(#refl)" stroke-width="4" opacity=".8"/>
+        <!-- collar -->
+        <path d="M168 330 L215 366 L262 330 L246 322 L215 340 L184 322 Z" fill="#0A0E13"/>
+
+        <!-- flag patch -->
+        <g transform="translate(316 400) rotate(9)">
+          <rect width="54" height="34" fill="#0B1D2D"/>
+          <g fill="#8E2B22">
+            <rect y="2.5" width="54" height="4"/><rect y="12" width="54" height="4"/>
+            <rect y="21.5" width="54" height="4"/><rect y="31" width="54" height="3"/>
+          </g>
+          <rect width="24" height="17" fill="#1B3A5C"/>
+          <g fill="#EDEFF2"><circle cx="6" cy="5" r="1.2"/><circle cx="13" cy="5" r="1.2"/><circle cx="20" cy="5" r="1.2"/><circle cx="9" cy="11" r="1.2"/><circle cx="17" cy="11" r="1.2"/></g>
+        </g>
+
+        <!-- face in shadow -->
+        <path d="M178 236 C178 300 190 330 215 334 C240 330 252 300 252 236 Z" fill="#0A0F14"/>
+
+        <!-- helmet -->
+        <path d="M104 250 C104 154 152 96 215 96 C278 96 326 154 326 250 C300 236 262 228 215 228 C168 228 130 236 104 250 Z" fill="url(#shell)"/>
+        <!-- brim -->
+        <path d="M76 258 C76 234 132 218 215 218 C298 218 354 234 354 258 C354 276 300 266 215 266 C130 266 76 276 76 258 Z" fill="#151A20"/>
+        <path d="M76 258 C76 246 132 236 215 236 C298 236 354 246 354 258" fill="none" stroke="#39414A" stroke-width="2"/>
+        <!-- crown reflective tetrahedrons -->
+        <g fill="url(#refl)">
+          <path d="M172 122 L196 112 L192 136 Z"/><path d="M204 108 L228 108 L216 132 Z"/><path d="M236 112 L260 122 L240 136 Z"/>
+        </g>
+        <!-- ribs -->
+        <g fill="none" stroke="#000" stroke-width="2" opacity=".45">
+          <path d="M148 240 C150 176 176 128 215 118"/><path d="M282 240 C280 176 254 128 215 118"/>
+        </g>
+
+        <!-- front shield -->
+        <g transform="translate(215 196)">
+          <path d="M-44 -44 L44 -44 L44 18 L0 52 L-44 18 Z" fill="#8E2B22" stroke="#CBA15A" stroke-width="3.5"/>
+          <path d="M-34 -34 L34 -34 L34 14 L0 40 L-34 14 Z" fill="none" stroke="#CBA15A" stroke-width="1.5" opacity=".7"/>
+          <text x="0" y="-14" text-anchor="middle" fill="#F0DCB4" font-family="Montserrat,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">HOME</text>
+          <text x="0" y="2" text-anchor="middle" fill="#F0DCB4" font-family="Montserrat,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">CREW</text>
+          <g fill="#CBA15A">
+            <path d="M0 10 L9 18 L9 30 L-9 30 L-9 18 Z"/>
+          </g>
+        </g>
+      </svg>

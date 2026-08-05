@@ -5,13 +5,15 @@ Marketing site and crew inspection portal for HomeCrew — a firefighter-owned h
 ## Quick start
 
 ```bash
-npm run dev          # serves on http://localhost:3000
+python3 build.py                 # regenerate all 22 pages
+python3 -m http.server 8000      # http://localhost:8000
 ```
 
-No build step, no dependencies. Static HTML/CSS/JS.
+No dependencies, no bundler. `build.py` writes plain static HTML.
+**Never edit a generated `.html` directly — edit `build.py` and rebuild.**
 
-- `index.html` — public marketing site
-- `portal.html` — crew login → client directory → inspection form → generated client report
+- `build.py` — every page's content and structure lives here
+- `portal.html` — crew login → client directory → inspection form → generated client report (hand-maintained, not generated)
 
 The Supabase backend is live and `config.js` is wired. What is left is data —
 crew accounts and client records, entered by the owner: `docs/SETUP.md` steps 4
@@ -29,9 +31,12 @@ photo upload to Storage (3) and PDF email delivery (4) are what is left.
 
 ```
 ├── CLAUDE.md                 # project context for Claude Code — read first
-├── index.html                # public site (inline CSS/JS, no build)
-├── portal.html               # crew portal (inline CSS/JS, no build)
-├── images/                   # optimized WebP + JPEG, desktop + mobile crops
+├── build.py                  # SINGLE SOURCE OF TRUTH for all 22 public pages
+├── portal.html               # crew portal (hand-maintained, inline CSS/JS)
+├── assets/css/site.css       # the whole design system
+├── assets/js/site.js         # nav, scroll reveals, counters
+├── services/ areas/ blog/    # generated — do not edit by hand
+├── images/                   # optimized WebP + JPEG, favicons, app icons
 ├── config.js                 # Supabase URL + anon key (safe to commit; see SETUP)
 ├── supabase/
 │   ├── migrations/0001_init.sql            # schema + RLS + storage bucket
@@ -48,9 +53,12 @@ photo upload to Storage (3) and PDF email delivery (4) are what is left.
 
 ## Status
 
-**Done:** entire public site. In the portal — Supabase Auth, client directory with
-per-property access codes, property-linked inspections, draft autosave, live
-scoring, report generation and persistence.
+**Done:** 22 page public site — services, pricing, reports, five county pages,
+blog, FAQ, about, contact — with per-page schema, sitemap, `llms.txt`, favicons
+and a 404. Passes axe WCAG 2.1 AA with zero violations across all 24 pages.
+In the portal — Supabase Auth, client directory with per-property access codes,
+property-linked inspections with a photo and note on each of the 25 lines, draft
+autosave, live scoring, report generation and persistence.
 
 **Not done:** photos still live in browser memory instead of Storage, and report
 email delivery is a skeleton, so "Send to client" errors rather than pretending.

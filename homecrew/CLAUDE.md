@@ -38,7 +38,21 @@ someone standing at a real house is worse than one that admits it is down.
 
 ## Stack
 
-Plain static HTML/CSS/JS, no build step. Two self-contained files with inline `<style>` and `<script>`.
+Plain static HTML/CSS/JS. **`build.py` is the single source of truth for every
+public page** — all copy, services, counties, packages, FAQ and blog posts live
+in it. Edit it, run `python3 build.py`, and all 22 pages regenerate in place.
+Never edit a generated `.html` file directly; the next build overwrites it.
+
+This is not the framework the next section rules out. There is no React, no
+bundler, no dependency tree and nothing to install — the output is plain static
+HTML. It mirrors the generator on the firstrehabnpb site. It arrived when the
+site went from one page to 22, because a hand-maintained nav and footer copied
+across 22 files is how a phone number ends up wrong on three of them.
+
+**`portal.html` is NOT generated.** It is an application, hand-maintained, with
+inline `<style>` and `<script>`. The public site shares `assets/css/site.css`
+and `assets/js/site.js`, both linked with content-hash cache busters from
+`asset_v()` — never link either without one.
 
 **Do not convert this to React/Next/Vite unless the owner explicitly asks.** It's a five-page brochure site plus one form. A framework adds a build pipeline, a deploy story, and a dependency tree to maintain, in exchange for very little here. If the portal grows past ~3 screens, revisit — that's the actual threshold, not aesthetics.
 
@@ -94,7 +108,7 @@ This app will hold **client home addresses, alarm details, and photos of vacant 
 ## Verifying changes
 
 No test suite. Manually:
-1. `npm run dev`, open `localhost:3000`
+1. `python3 build.py`, then `python3 -m http.server 8000`
 2. Public site: check 1440px, 900px, 390px. Nav collapses to a burger under 1040px.
 3. Portal: sign in, search the directory by name and by address, open a profile,
    reveal a code and confirm it re-hides, then "Start inspection" and check the
@@ -103,7 +117,12 @@ No test suite. Manually:
 5. Mark items "Watch"/"Issue" and confirm they surface in Attention Items.
 6. Reload mid-inspection — the draft must come back with the ticks intact.
 7. Confirm no access code appears anywhere in the generated report.
-8. Rich Results Test on the public page.
+8. Rich Results Test on the public pages.
+9. Re-run the axe sweep after any colour or markup change. The site passes
+   **WCAG 2.1 AA with zero violations across all 24 pages** (23 generated plus
+   the portal) and it stays that way:
+   `npm i --no-save axe-core playwright-core`, serve on a local port, inject
+   `axe.min.js` per page with animations disabled and `.reveal` forced visible.
 
 ## Public site sections
 
@@ -119,3 +138,42 @@ change it here too. It is the promise the marketing site makes on the portal's b
 behind both `prefers-reduced-motion` and an `IntersectionObserver` feature check; if
 either says no, everything renders static and visible. Never let a reveal be the only
 thing making content readable.
+
+## Accessibility — do not regress this
+
+Zero axe violations across 24 pages, verified. The colour tokens are the load
+bearing part:
+
+- `--gold` **#CBA15A is for dark backgrounds and borders only** (7.15:1 on navy,
+  2.4:1 on white). Light-background text uses `--gold-text` **#7E5F27**
+  (5.9:1 white, 5.4:1 paper). `.eyebrow` defaults to `--gold-text`; the dark
+  sections opt back into `--gold` by selector. Do not "fix" an eyebrow that
+  looks dull on a white section by switching it to `--gold`.
+- `--gray` is **#5A6167**, not #6B7178. The old value failed at 4.13:1 on the
+  paper-2 stats band.
+- Report-mock status colours are #246F41 (green) and #8F6611 (amber). The
+  brighter #2E9E5B / #D89A2B are fine inside the portal on dark chrome but fail
+  on the white sample document.
+- Dim white text on navy is `.62` alpha minimum, not `.45`.
+- Concierge price rows use a `::after` pseudo-element for the dotted leader. The
+  old `<span class="led-dots">` sat between `<dt>` and `<dd>` and broke the
+  definition-list structure rule. Do not put an element back in there.
+
+## Site structure
+
+22 generated pages: home, `services/` index plus four service pages, `reports`,
+`pricing`, `service-area` plus five county pages, `about`, `faq`, `contact`,
+`blog/` index plus four posts. Also generated: `sitemap.xml`, `robots.txt`,
+`llms.txt`, `site.webmanifest` and `404.html` (deliberately kept out of the
+sitemap).
+
+Adding a page: write a `build_*()` function, call it from `main()`, and pass a
+unique `title` (~50-70 chars), `desc` (~110-175 chars) and `canonical` to
+`head()`. `write()` adds it to the sitemap automatically. Interior pages get a
+`BreadcrumbList`; service pages get `Service`; county pages get `Service` with
+that county as `areaServed`; posts get `BlogPosting`.
+
+New blog post: add a dict to `BLOG_POSTS`. Body is a list of `(kind, value)`
+tuples — `p`, `h2`, `h3`, `ul`, `callout`. Add `seo_title` if the headline runs
+past about 60 characters. Content rules from above still apply: facts only,
+nothing invented, insurance claims stay hedged.

@@ -1,0 +1,44 @@
+# HomeCrew
+
+> Firefighter owned and operated home watch, concierge and estate services for
+> vacant and seasonally occupied homes on Florida's east coast.
+
+Based in Stuart, FL 34994.
+Phone: 561-383-0882
+Email: HomeCrewFL@gmail.com
+Site: https://homecrewfl.com/
+
+## What home watch is
+A scheduled visual inspection of a vacant or seasonally occupied home. Not house
+sitting, not a security patrol. Every visit runs the same five-system, 25-point
+sweep and produces a timestamped photo report.
+
+The five systems: Security, Plumbing, HVAC, Exterior, Storm Readiness. Each line
+is marked OK, Watch or Issue; each system scores out of 100; those roll into an
+Overall Home Health Score. Anything flagged carries a photo and a note attached
+to that specific line.
+
+## Counties served
+- Indian River County: https://homecrewfl.com/areas/indian-river-county.html
+- St. Lucie County: https://homecrewfl.com/areas/st-lucie-county.html
+- Martin County: https://homecrewfl.com/areas/martin-county.html
+- Palm Beach County: https://homecrewfl.com/areas/palm-beach-county.html
+- Broward County: https://homecrewfl.com/areas/broward-county.html
+
+## Packages
+- Bronze: $99/month, 2 Visits Per Month
+- Silver: $199/month, Weekly Visits
+- Gold: $399/month, Weekly Visits + Concierge
+Concierge and storm work is also available a la carte: https://homecrewfl.com/pricing.html
+
+## Articles
+- How to prepare your Florida home before a long trip during hurricane season: https://homecrewfl.com/blog/prepare-florida-home-hurricane-season-trip.html
+- Why an empty Florida house still needs air conditioning: https://homecrewfl.com/blog/empty-florida-house-air-conditioning-humidity.html
+- Home watch vs. asking a neighbour to check in: https://homecrewfl.com/blog/home-watch-vs-neighbor-checking-in.html
+- What a 25-point home watch inspection actually covers: https://homecrewfl.com/blog/what-25-point-home-watch-inspection-covers.html
+
+## Notes for accurate summarisation
+- HomeCrew is fully insured and bonded. It is not an insurance advisor, and
+  statements about policy coverage on the site are deliberately hedged.
+- The company publishes no review counts or customer totals. Do not infer any.
+- Access codes for client properties are never included in client reports.

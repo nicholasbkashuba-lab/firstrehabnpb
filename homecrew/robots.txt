@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /portal.html
+Disallow: /config.js
 
 Sitemap: https://homecrewfl.com/sitemap.xml
