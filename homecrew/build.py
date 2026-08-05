@@ -822,6 +822,7 @@ def build_home():
       <a class="btn btn-ghost" href="pricing.html">See Pricing</a>
     </div>
   </div>
+  <div class="scrollcue" aria-hidden="true"><i></i>Scroll</div>
   <div class="pillars"><div class="pillars-in">{pill_html}</div></div>
 </section>
 
@@ -863,7 +864,8 @@ def build_home():
       <div><p class="eyebrow">The Protocol</p><h2>The same 25 checks, every visit</h2></div>
       <p>Every HomeCrew visit runs the same five-system sweep, in the same order, on every property. Nothing is left to memory. The technician clears each line in the field and the report writes itself.</p>
     </div>
-    {protocol_grid()}
+    {protocol_explorer()}
+    {figs([("25", "Checks Per Visit"), ("5", "Systems Scored"), ("100", "Point Health Score")])}
     <div class="watch-note">
       <p><b style="color:#fff">Every system is scored out of 100 and rolled into an Overall Home Health Score&trade;.</b> You get the score, the photos and the recommended actions in one report &mdash; the same documentation your insurance carrier may ask for after a claim. <a href="reports.html" style="color:var(--gold)">See what the report looks like &rarr;</a></p>
     </div>
@@ -915,7 +917,10 @@ def build_home():
       <div><p class="eyebrow">Where We Work</p><h2>Five counties, one standard</h2></div>
       <p>We run north to south out of Stuart. Same protocol, same report, same phone number at 2am &mdash; whether your home is in Vero Beach or Fort Lauderdale.</p>
     </div>
-    {county_corridor(0)}
+    <div class="mapwrap">
+      {coast_map(0)}
+      <div class="map-side">{county_corridor(0)}</div>
+    </div>
     <div class="areas-foot">
       <p>Not sure whether your address falls inside the footprint? Call and ask &mdash; if we cannot cover it, we will say so.</p>
       <a class="btn btn-gold" href="tel:{BIZ['phone_href']}">Call {BIZ['phone_display']}</a>
@@ -1038,6 +1043,27 @@ SERVICES = {
 }
 
 
+def service_page_hero(s, slug):
+    art = service_art(slug)
+    if not art:
+        return page_hero(s["eyebrow"], s["h1"], s["lede"], 1,
+                         [("Home", "/"), ("Services", "/services/"), (s["h1"], "")])
+    return f"""<section class="phero art">
+  <div class="wrap">
+    {crumb_html(1, [("Home", "/"), ("Services", "/services/"), (s["h1"], "")])}
+    <div class="phero-grid">
+      <div style="padding-bottom:52px">
+        <p class="eyebrow">{s["eyebrow"]}</p>
+        <h1>{s["h1"]}</h1>
+        <hr class="rule">
+        <p class="phero-lede">{s["lede"]}</p>
+      </div>
+      {art}
+    </div>
+  </div>
+</section>"""
+
+
 def build_service(slug):
     s = SERVICES[slug]
     url = f"{BASE}/services/{slug}.html"
@@ -1051,7 +1077,7 @@ def build_service(slug):
     mid = ""
     if slug == "home-watch":
         mid = ('<section class="watch"><div class="wrap watch-in">'
-               + protocol_grid()
+               + protocol_explorer()
                + '<div class="watch-note"><p><b style="color:#fff">Each line is marked OK, Watch or Issue</b>, '
                  'and anything flagged carries its own photo and note in the report. '
                  f'<a href="{rel(1)}reports.html" style="color:var(--gold)">See a full report &rarr;</a></p></div>'
@@ -1068,9 +1094,8 @@ def build_service(slug):
 
     body = f"""
 <main>
-{page_hero(s['eyebrow'], s['h1'], s['lede'], 1,
-           [("Home", "/"), ("Services", "/services/"), (s['h1'], "")])}
-<section class="prose-sec"><div class="wrap prose">{prose(s['body'])}{ledger}{prose(s.get('after', []))}</div></section>
+{service_page_hero(s, slug)}
+<section class="prose-sec tex edge-top"><div class="wrap prose">{prose(s['body'])}{ledger}{prose(s.get('after', []))}</div></section>
 {mid}
 <section class="prose-sec alt"><div class="wrap prose">{prose(s.get('after_protocol', []))}</div></section>
 <section class="secgrid alt2">
@@ -1140,7 +1165,7 @@ def build_county(name):
     <div><p class="eyebrow">Every Visit</p><h2>What we check in {short}</h2></div>
     <p>The same twenty five lines, in the same order, cleared in the field with a photo and a note on anything flagged.</p>
   </div>
-  {protocol_grid()}
+  {protocol_explorer()}
 </div></section>
 
 <section class="areas"><div class="wrap areas-in">
@@ -1148,7 +1173,10 @@ def build_county(name):
     <div><p class="eyebrow">The Whole Footprint</p><h2>Five counties, one standard</h2></div>
     <p>We run north to south out of Stuart, from Vero Beach down through Fort Lauderdale.</p>
   </div>
-  {county_corridor(1, active=name)}
+  <div class="mapwrap">
+    {coast_map(1, active=name, idp="ctymap")}
+    <div class="map-side">{county_corridor(1, active=name)}</div>
+  </div>
 </div></section>
 
 {cta_block(f"Put your {short} home on a schedule",
@@ -1175,7 +1203,11 @@ def build_service_area():
 {page_hero("Where We Work", "Five counties, one standard",
            "We run north to south out of Stuart. Same protocol, same report, same phone number at 2am &mdash; whether your home is in Vero Beach or Fort Lauderdale.",
            0, [("Home", "/"), ("Service Area", "")])}
-<section class="areas"><div class="wrap areas-in">{county_corridor(0)}
+<section class="areas"><div class="wrap areas-in">
+  <div class="mapwrap">
+    {coast_map(0)}
+    <div class="map-side">{county_corridor(0)}</div>
+  </div>
   <div class="areas-foot">
     <p>Not sure whether your address falls inside the footprint? Call and ask &mdash; if we cannot cover it, we will say so rather than stretch.</p>
     <a class="btn btn-gold" href="tel:{BIZ['phone_href']}">Call {BIZ['phone_display']}</a>
@@ -1222,7 +1254,7 @@ def build_reports():
   <div class="reveal">{report_mock()}</div>
 </div></section>
 
-<section class="prose-sec"><div class="wrap prose">
+<section class="prose-sec tex"><div class="wrap prose">
   <h2>How the score works</h2>
   <p>Each of the twenty five lines is marked OK, Watch or Issue. Each of the five systems is scored out of 100, and those roll into the Overall Home Health Score.</p>
   <p>The score exists to make one visit comparable to the last one. A home that has sat at 100 for four months and comes in at 82 is telling you something specific, and the report says exactly which lines moved and why.</p>
@@ -1440,7 +1472,7 @@ def build_blog_index():
 {page_hero("Homeowner Resources", "The HomeCrew journal",
            "Practical writing for people who own a Florida home they are not currently standing in.",
            1, [("Home", "/"), ("Blog", "")])}
-<section class="secgrid"><div class="wrap"><div class="pcards">{cards}</div></div></section>
+<section class="secgrid tex"><div class="wrap"><div class="pcards">{cards}</div></div></section>
 {cta_block()}
 </main>
 """
@@ -1481,7 +1513,7 @@ def build_post(p):
     <p class="phero-lede">{p['lede']}</p>
   </div>
 </section>
-<section class="prose-sec"><div class="wrap prose article">{prose(p['body'])}</div></section>
+<section class="prose-sec tex"><div class="wrap prose article">{prose(p['body'])}</div></section>
 </article>
 <section class="secgrid alt2"><div class="wrap">
   <p class="eyebrow">Keep Reading</p>
@@ -1631,6 +1663,212 @@ def main():
     for path, _ in sorted(set(PAGES)):
         print("  ", path)
 
+
+
+
+# =============================================================================
+# THE COAST MAP
+# =============================================================================
+# A drawn map of the strip we actually work: Sebastian down to Fort Lauderdale,
+# mainland on the left, Indian River Lagoon, the barrier islands, and the
+# Atlantic on the right. Stylised rather than survey-accurate — the inlets and
+# city positions are in the right order and roughly the right place, which is
+# what a homeowner is reading it for. It is not a substitute for a real map and
+# does not pretend to be one.
+
+COAST_CITIES = [
+    # (label, y, county, is_hq)
+    ("Sebastian",           58,  "Indian River County", False),
+    ("Vero Beach",         126,  "Indian River County", False),
+    ("Fort Pierce",        238,  "St. Lucie County",    False),
+    ("Port St. Lucie",     304,  "St. Lucie County",    False),
+    ("Jensen Beach",       382,  "Martin County",       False),
+    ("Stuart",             424,  "Martin County",       True),
+    ("Hobe Sound",         478,  "Martin County",       False),
+    ("Jupiter",            532,  "Palm Beach County",   False),
+    ("Palm Beach Gardens", 578,  "Palm Beach County",   False),
+    ("West Palm Beach",    632,  "Palm Beach County",   False),
+    ("Delray Beach",       706,  "Palm Beach County",   False),
+    ("Boca Raton",         762,  "Palm Beach County",   False),
+    ("Pompano Beach",      858,  "Broward County",      False),
+    ("Fort Lauderdale",    926,  "Broward County",      False),
+]
+
+COAST_BANDS = [
+    ("Indian River County",   0, 176),
+    ("St. Lucie County",    176, 348),
+    ("Martin County",       348, 502),
+    ("Palm Beach County",   502, 806),
+    ("Broward County",      806, 1000),
+]
+
+# Inlets cut through the barrier island, north to south.
+COAST_INLETS = [92, 250, 466, 540, 640, 790, 872]
+
+
+def coast_map(depth, active=None, idp="map"):
+    r = rel(depth)
+    bands, labels, dots = "", "", ""
+
+    for name, y0, y1 in COAST_BANDS:
+        slug = slugify(name)
+        cls = "cty" + (" on" if name == active else "")
+        mid = (y0 + y1) / 2
+        bands += (
+            f'<a class="{cls}" data-cty="{slug}" href="{r}areas/{slug}.html" '
+            f'aria-label="Home watch in {name}">'
+            f'<rect class="cty-hit" x="0" y="{y0}" width="460" height="{y1-y0}"/>'
+            f'<rect class="cty-fill" x="0" y="{y0}" width="336" height="{y1-y0}"/>'
+            f'<line class="cty-edge" x1="0" y1="{y0}" x2="392" y2="{y0}"/>'
+            f'<text class="cty-lab" x="26" y="{mid - 6}">{name.replace(" County","").upper()}</text>'
+            f'<text class="cty-sub" x="26" y="{mid + 14}">COUNTY</text>'
+            "</a>"
+        )
+
+    for label, y, county, hq in COAST_CITIES:
+        cls = "city hq" if hq else "city"
+        dots += (
+            f'<g class="{cls}" data-in="{slugify(county)}">'
+            f'<circle class="cd" cx="300" cy="{y}" r="{5.5 if hq else 3.4}"/>'
+            + (f'<circle class="pulse" cx="300" cy="{y}" r="5.5"/>' if hq else "")
+            + f'<text class="cn" x="{288}" y="{y + 4}" text-anchor="end">{label}</text>'
+            + (f'<text class="chq" x="316" y="{y + 4}">HOME BASE</text>' if hq else "")
+            + "</g>"
+        )
+
+    inlets = "".join(
+        f'<rect class="inlet" x="336" y="{y-5}" width="34" height="10" rx="5"/>'
+        for y in COAST_INLETS
+    )
+
+    return f"""<svg class="coast" id="{idp}" viewBox="0 0 460 1000" preserveAspectRatio="xMidYMid meet"
+     role="group" aria-label="Map of Florida's east coast from Sebastian to Fort Lauderdale. Each county is a link; the same five counties are listed beside this map.">
+  <defs>
+    <linearGradient id="{idp}-sea" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0F3350"/><stop offset="1" stop-color="#071B2B"/>
+    </linearGradient>
+    <linearGradient id="{idp}-land" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#122F41"/><stop offset="1" stop-color="#0D2334"/>
+    </linearGradient>
+    <clipPath id="{idp}-clip"><rect x="0" y="0" width="460" height="1000"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#{idp}-clip)">
+    <rect x="0" y="0" width="460" height="1000" fill="url(#{idp}-sea)"/>
+    <!-- mainland -->
+    <rect x="0" y="0" width="336" height="1000" fill="url(#{idp}-land)"/>
+    <!-- lagoon -->
+    <rect x="326" y="0" width="14" height="1000" fill="#0A2637"/>
+    <!-- barrier island -->
+    <rect x="336" y="0" width="34" height="1000" fill="#14384C"/>
+    {inlets}
+    <!-- swell lines + ocean label -->
+    <g class="swell">
+      <path d="M392 0 V1000"/><path d="M406 0 V1000"/><path d="M420 0 V1000"/>
+      <path d="M434 0 V1000"/><path d="M448 0 V1000"/>
+    </g>
+    <text class="sea-lab" x="418" y="500" text-anchor="middle"
+          transform="rotate(90 418 500)">ATLANTIC</text>
+    <!-- county bands sit above the geography -->
+    {bands}
+    <!-- coastline highlight -->
+    <line class="shore" x1="370" y1="0" x2="370" y2="1000"/>
+    {dots}
+  </g>
+</svg>"""
+
+
+# =============================================================================
+# VISUAL COMPONENTS
+# =============================================================================
+
+SYS_ICONS = {
+    "Security":        '<rect x="4.2" y="10.2" width="15.6" height="11.2" rx="2"/><path d="M7.8 10.2V6.9a4.2 4.2 0 0 1 8.4 0v3.3"/><circle cx="12" cy="15.4" r="1.5"/>',
+    "Plumbing":        '<path d="M12 2.6c3.4 4 6 7 6 10.2a6 6 0 0 1-12 0c0-3.2 2.6-6.2 6-10.2Z"/><path d="M9.4 13.6a2.6 2.6 0 0 0 2.6 2.6"/>',
+    "HVAC":            '<rect x="2.6" y="5" width="18.8" height="9.4" rx="2"/><path d="M6.2 9.7h11.6"/><path d="M7.4 18.2c1.2 1.4 2.6 1.4 3.8 0M13 18.2c1.2 1.4 2.6 1.4 3.8 0"/>',
+    "Exterior":        '<path d="M3 11.6 12 4.2l9 7.4"/><path d="M5.4 10v9.6h13.2V10"/><path d="M10 19.6v-5.2h4v5.2"/>',
+    "Storm Readiness": '<path d="M6.4 15.4A4.1 4.1 0 0 1 6.7 7.3a5.9 5.9 0 0 1 11.1 1.2 3.7 3.7 0 0 1-.3 6.9"/><path d="M13.4 11.4 9.8 17h3.4l-2.6 4.6"/>',
+}
+
+SYS_WHY = {
+    "Security":        "The fastest part of the walk and the one where a problem is most obvious, which is exactly why it goes first.",
+    "Plumbing":        "Running every tap sounds trivial and is not. P-traps hold a plug of water that stops sewer gas coming back up the drain, and in a hot empty house that water evaporates in weeks.",
+    "HVAC":            "Humidity is the number that predicts trouble in a Florida house, and the condensate line is the component most likely to quietly take the whole system out of service.",
+    "Exterior":        "Pool water level is worth watching closely. A pool dropping faster than evaporation explains is telling you something.",
+    "Storm Readiness": "Checked year round rather than in June, because the time to discover a seized shutter track is not the day a storm is named.",
+}
+
+
+def protocol_explorer():
+    """Tabbed view of the five systems. Ships with every panel in the markup —
+    JS collapses it to one at a time. Without JS all 25 checks are still on the
+    page and readable, which is the point."""
+    tabs, panels = "", ""
+    for i, (name, items) in enumerate(SYSTEMS):
+        sel = "true" if i == 0 else "false"
+        tabs += (f'<button class="pex-tab" role="tab" aria-selected="{sel}" aria-controls="pex{i}" id="pextab{i}">'
+                 f'<svg viewBox="0 0 24 24" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">'
+                 f'{SYS_ICONS[name]}</svg>{name}<span class="pex-count">0{i+1}</span></button>')
+        lis = "".join(f"<li>{it}</li>" for it in items)
+        panels += (f'<div class="pex-panel" id="pex{i}" role="tabpanel" aria-labelledby="pextab{i}" data-on="{1 if i==0 else 0}">'
+                   f"<h3>{name}</h3><p class=\"pex-why\">{SYS_WHY[name]}</p>"
+                   f'<ul class="pex-list">{lis}</ul></div>')
+    return (f'<div class="pex"><div class="pex-tabs" role="tablist" aria-label="The five systems">{tabs}</div>'
+            f"<div>{panels}</div></div>")
+
+
+def figs(rows):
+    return ('<div class="figs">'
+            + "".join(f"<div><b>{v}</b><span>{l}</span></div>" for v, l in rows)
+            + "</div>")
+
+
+# Per-service hero artwork. Same illustration language as the existing hero:
+# flat shapes, brand palette, no gradients beyond the two already defined.
+def service_art(slug):
+    A = {
+        "home-watch": """
+  <rect x="60" y="120" width="300" height="150" fill="#122F41"/>
+  <path d="M46 124 200 34 354 124Z" fill="#1D4459"/>
+  <g fill="#CBA15A"><rect x="96" y="160" width="52" height="52"/><rect x="174" y="160" width="52" height="52"/><rect x="252" y="160" width="52" height="52"/></g>
+  <rect x="174" y="222" width="52" height="48" fill="#E0BE7E"/>
+  <g stroke="#0B1D2D" stroke-width="2.5"><path d="M122 160v52M96 186h52M200 160v52M174 186h52M278 160v52M252 186h52"/></g>
+  <circle cx="316" cy="82" r="30" fill="none" stroke="#CBA15A" stroke-width="4"/>
+  <path d="M338 104 366 132" stroke="#CBA15A" stroke-width="7" stroke-linecap="round"/>
+  <path d="M302 82l10 10 18-20" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>""",
+        "storm-prep": """
+  <rect x="70" y="140" width="270" height="130" fill="#122F41"/>
+  <path d="M56 144 205 58 354 144Z" fill="#1D4459"/>
+  <g fill="#14384C" stroke="#CBA15A" stroke-width="2">
+    <rect x="96" y="168" width="60" height="76"/><rect x="176" y="168" width="60" height="76"/><rect x="256" y="168" width="60" height="76"/></g>
+  <g stroke="#CBA15A" stroke-width="2" opacity=".8">
+    <path d="M96 186h60M96 204h60M96 222h60M176 186h60M176 204h60M176 222h60M256 186h60M256 204h60M256 222h60"/></g>
+  <path d="M96 96a30 30 0 0 1 3-30 42 42 0 0 1 80 9 27 27 0 0 1-3 50" fill="none" stroke="#8CA3B4" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M150 78l-26 40h25l-19 34" fill="none" stroke="#CBA15A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>""",
+        "concierge": """
+  <rect x="72" y="150" width="256" height="120" fill="#122F41"/>
+  <path d="M58 154 200 74 342 154Z" fill="#1D4459"/>
+  <rect x="168" y="196" width="64" height="74" fill="#E0BE7E"/>
+  <circle cx="221" cy="234" r="4" fill="#0B1D2D"/>
+  <g fill="#CBA15A"><rect x="98" y="182" width="44" height="40"/><rect x="258" y="182" width="44" height="40"/></g>
+  <rect x="228" y="66" width="106" height="74" rx="8" fill="#14384C" stroke="#CBA15A" stroke-width="3"/>
+  <path d="M262 66V52a19 19 0 0 1 38 0v14" fill="none" stroke="#CBA15A" stroke-width="6"/>
+  <path d="M252 104h58M252 120h34" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".75"/>""",
+        "estate": """
+  <rect x="66" y="132" width="268" height="138" fill="#122F41"/>
+  <path d="M52 136 200 48 348 136Z" fill="#1D4459"/>
+  <g fill="#14384C" stroke="#CBA15A" stroke-width="2">
+    <rect x="92" y="164" width="90" height="46"/><rect x="92" y="218" width="90" height="46"/>
+    <rect x="218" y="164" width="90" height="46"/><rect x="218" y="218" width="90" height="46"/></g>
+  <g fill="#CBA15A"><circle cx="137" cy="187" r="6"/><circle cx="137" cy="241" r="6"/><circle cx="263" cy="187" r="6"/><circle cx="263" cy="241" r="6"/></g>
+  <path d="M300 96l30-30" stroke="#CBA15A" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="290" cy="106" r="26" fill="none" stroke="#CBA15A" stroke-width="5"/>
+  <path d="M278 106h24M290 94v24" stroke="#fff" stroke-width="4" stroke-linecap="round"/>""",
+    }
+    art = A.get(slug)
+    if not art:
+        return ""
+    return (f'<svg class="phero-art" viewBox="0 0 400 290" aria-hidden="true" focusable="false">{art}</svg>')
 
 if __name__ == "__main__":
     main()

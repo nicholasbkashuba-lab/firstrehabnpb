@@ -421,3 +421,153 @@ a.co:hover .co-nm{color:var(--gold)}
   .pcard.feat{padding:30px 24px 26px}
   .prose h2{margin-top:34px}
 }
+
+/* ==========================================================================
+   VISUAL LAYER
+   Depth, texture and motion. Everything here is decoration: it must degrade
+   to the plain document underneath if JS is off or motion is reduced.
+   ========================================================================== */
+
+/* ---------- THE COAST MAP ---------- */
+.mapwrap{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:60px;align-items:center}
+.coast{width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.10);
+  filter:drop-shadow(0 26px 52px rgba(0,0,0,.42))}
+.coast .swell path{stroke:rgba(255,255,255,.06);stroke-width:1;fill:none}
+.coast .sea-lab{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.42em;
+  fill:rgba(255,255,255,.24)}
+.coast .shore{stroke:var(--gold);stroke-width:1.5;opacity:.5}
+.coast .inlet{fill:#0A2637}
+.coast .cty-hit{fill:transparent}
+.coast .cty-fill{fill:transparent;transition:fill .35s}
+.coast .cty-edge{stroke:rgba(255,255,255,.14);stroke-width:1;stroke-dasharray:3 5}
+.coast .cty-lab{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:.14em;
+  fill:rgba(255,255,255,.62);transition:fill .3s}
+.coast .cty-sub{font-family:var(--display);font-size:8.5px;font-weight:700;letter-spacing:.24em;
+  fill:rgba(255,255,255,.3);transition:fill .3s}
+.coast .cty{cursor:pointer}
+.coast .cty:hover .cty-fill,.coast .cty:focus-visible .cty-fill,.coast .cty.on .cty-fill{fill:rgba(203,161,90,.13)}
+.coast .cty:hover .cty-lab,.coast .cty:focus-visible .cty-lab,.coast .cty.on .cty-lab{fill:var(--gold)}
+.coast .cty:hover .cty-sub,.coast .cty.on .cty-sub{fill:rgba(203,161,90,.7)}
+.coast .cty:focus-visible{outline:none}
+.coast .cty:focus-visible .cty-hit{stroke:var(--gold);stroke-width:2}
+.coast .cd{fill:#fff;opacity:.85}
+.coast .cn{font-family:var(--body);font-size:13px;fill:rgba(255,255,255,.72)}
+.coast .hq .cd{fill:var(--gold);opacity:1}
+.coast .hq .cn{fill:#fff;font-weight:700}
+.coast .chq{font-family:var(--display);font-size:8px;font-weight:700;letter-spacing:.18em;fill:var(--gold)}
+.coast .pulse{fill:none;stroke:var(--gold);stroke-width:1.5;opacity:0;transform-origin:300px 424px}
+.coast .city.dim .cd,.coast .city.dim .cn{opacity:.22;transition:opacity .3s}
+@keyframes hqpulse{0%{opacity:.7;r:5.5}70%{opacity:0;r:20}100%{opacity:0;r:20}}
+.map-side h2{color:#fff}
+.map-side .co{padding:18px 4px}
+
+/* ---------- SECTION TEXTURE + DIVIDERS ---------- */
+.tex{position:relative;overflow:hidden}
+.tex::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(11,29,45,.055) 1px,transparent 1px);background-size:22px 22px}
+.watch::after,.areas::after,.phero::after{content:none}
+.edge-top{position:relative}
+.edge-top::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold) 0%,rgba(203,161,90,.15) 42%,transparent 70%)}
+
+/* ---------- HERO POLISH ---------- */
+.hero-in h1{text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.hero-photo::before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:radial-gradient(ellipse at 72% 46%,rgba(242,206,140,.16),transparent 62%)}
+.hero-art,.hero-photo{will-change:transform}
+.scrollcue{position:absolute;left:50%;bottom:118px;transform:translateX(-50%);z-index:4;
+  font-family:var(--display);font-size:8.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
+.scrollcue i{display:block;width:1px;height:34px;background:linear-gradient(180deg,var(--gold),transparent);
+  animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:scaleY(.35);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* ---------- CARD DEPTH ---------- */
+.scard,.pcard,.ccard,.pkg{position:relative;overflow:hidden}
+.scard::before,.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),rgba(203,161,90,0));transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.scard:hover::before,.pcard:hover::before{transform:scaleX(1)}
+.pkg{transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
+.pkg:hover{transform:translateY(-6px);box-shadow:0 30px 56px -34px rgba(11,29,45,.6)}
+.pkg-3{position:relative}
+.pkg-3::after{content:'';position:absolute;inset:0;pointer-events:none;border:1px solid var(--gold);opacity:.5}
+
+/* ---------- BUTTON SHINE ---------- */
+.btn{position:relative;overflow:hidden}
+.btn-gold::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.42),transparent);transition:left .55s}
+.btn-gold:hover::after{left:130%}
+
+/* ---------- PROTOCOL EXPLORER ---------- */
+.pex{display:grid;grid-template-columns:280px 1fr;gap:0;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.pex-tabs{display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.pex-tab{display:flex;align-items:center;gap:14px;background:none;border:0;border-bottom:1px solid var(--line);
+  padding:20px 22px;cursor:pointer;text-align:left;color:rgba(255,255,255,.62);font-family:var(--display);
+  font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;transition:.25s}
+.pex-tab:last-child{border-bottom:0}
+.pex-tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+.pex-tab:hover{color:#fff;background:rgba(255,255,255,.04)}
+.pex-tab[aria-selected="true"]{color:var(--navy);background:var(--gold)}
+.pex-panel{padding:34px 38px;display:none}
+.pex-panel[data-on="1"]{display:block;animation:pexin .45s cubic-bezier(.22,1,.36,1)}
+@keyframes pexin{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.pex-panel h3{font-size:19px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.pex-panel .pex-why{color:rgba(255,255,255,.72);font-size:15px;margin:12px 0 22px;max-width:56ch;line-height:1.7}
+.pex-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
+.pex-list li{font-size:14.5px;color:rgba(255,255,255,.84);padding:11px 0 11px 30px;position:relative;
+  border-top:1px solid rgba(255,255,255,.08)}
+.pex-list li::before{content:'';position:absolute;left:0;top:19px;width:10px;height:10px;border-radius:50%;
+  border:1.5px solid var(--gold)}
+.pex-count{font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.2em;
+  color:rgba(255,255,255,.4);margin-left:auto}
+
+/* ---------- ARTICLE POLISH ---------- */
+.readbar{position:fixed;top:0;left:0;height:3px;background:var(--gold);width:0;z-index:80;
+  transition:width .1s linear}
+.prose.article > p:first-of-type{font-size:19px;color:#31414d}
+.prose.article > p:first-of-type::first-letter{float:left;font-family:var(--display);font-weight:800;
+  font-size:62px;line-height:.82;padding:6px 12px 0 0;color:var(--gold-text)}
+.pullquote{border-left:0;border-top:2px solid var(--gold);border-bottom:2px solid var(--gold);
+  padding:26px 0;margin:38px 0;font-family:var(--display);font-size:clamp(18px,2.1vw,24px);font-weight:700;
+  line-height:1.42;letter-spacing:-.01em;color:var(--navy);background:none}
+.prose h2{position:relative;padding-top:22px}
+.prose h2::before{content:'';position:absolute;top:0;left:0;width:38px;height:2px;background:var(--gold)}
+.prose h2:first-child{padding-top:0}
+.prose h2:first-child::before{content:none}
+
+/* ---------- SERVICE PAGE ART ---------- */
+.phero.art{padding-bottom:0}
+.phero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:end}
+.phero-art{align-self:end;max-width:100%;height:auto;display:block;margin-bottom:-2px}
+
+/* ---------- STAT STRIP ON DARK ---------- */
+.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:44px}
+.figs div{background:var(--navy);padding:28px 22px;text-align:center}
+.figs b{font-family:var(--display);font-size:34px;font-weight:800;color:var(--gold);display:block;line-height:1}
+.figs span{font-family:var(--display);font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);display:block;margin-top:9px}
+
+@media(max-width:1040px){
+  .mapwrap{grid-template-columns:1fr;gap:34px}
+  .coast{max-height:none;max-width:420px;margin:0 auto}
+  .pex{grid-template-columns:1fr}
+  .pex-tabs{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
+  .pex-tab{border-bottom:0;border-right:1px solid var(--line);white-space:nowrap;padding:16px 18px}
+  .phero-grid{grid-template-columns:1fr}
+  .phero-art{display:none}
+}
+@media(max-width:680px){
+  .pex-list{grid-template-columns:1fr}
+  .pex-panel{padding:24px 20px}
+  .figs{grid-template-columns:1fr}
+  .scrollcue{display:none}
+  .prose.article > p:first-of-type::first-letter{font-size:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  .coast .pulse{animation:none!important}
+  .scrollcue i{animation:none}
+  .btn-gold::after{display:none}
+  .pex-panel[data-on="1"]{animation:none}
+  .readbar{display:none}
+}
