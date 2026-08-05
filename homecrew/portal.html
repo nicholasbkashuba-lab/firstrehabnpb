@@ -214,7 +214,10 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .seg button[aria-pressed="true"][data-v="bad"]{background:var(--bad);color:#fff}
 
 /* ---- SCORE PANEL ---- */
-.scorebar{position:sticky;bottom:0;background:var(--navy);color:#fff;padding:16px 24px;display:flex;align-items:center;gap:24px;z-index:35;border-top:2px solid var(--gold)}
+.scorebar{position:sticky;bottom:0;background:var(--navy);color:#fff;padding:16px 24px;display:flex;align-items:center;gap:24px;z-index:35;border-top:1px solid var(--line-w)}
+.sb-prog{position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.12)}
+.sb-prog i{display:block;height:100%;width:0;background:var(--gold);transition:width .45s cubic-bezier(.22,1,.36,1)}
+.scorebar{position:sticky;isolation:isolate}
 .scorebar .big{font-family:var(--display);font-weight:800;font-size:30px;line-height:1}
 .scorebar .big i{font-style:normal;font-size:14px;color:rgba(255,255,255,.5)}
 .scorebar .lab{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
@@ -276,6 +279,75 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
   .scorebar .acts .btn{flex:1}
   .top .who{width:100%;margin-left:0;order:9}
 }
+/* ==================================================================
+   PHONE LAYOUT
+   The crew works one-handed at a gate, so this is the primary device,
+   not an afterthought. Three things were broken here and the first was
+   not cosmetic: the Photo / note button sat off the right edge of a
+   390px screen, so the control could not be reached at all.
+================================================================== */
+@media(max-width:680px){
+  /* header: was burning ~200px before any content */
+  .top-in{padding:10px 16px 0;gap:10px;row-gap:0;align-items:center}
+  .top b{display:none}
+  .top svg{width:26px;height:29px}
+  .top .who{order:1;width:auto;margin-left:auto;font-size:11.5px;text-align:right;line-height:1.3;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+  .linkbtn{order:2;padding:12px 12px;font-size:9px;min-height:42px}
+  .tabs{order:3;width:calc(100% + 32px);margin:10px -16px 0;border-top:1px solid var(--line-w)}
+  .tab{flex:1;text-align:center;padding:15px 6px;font-size:10px;letter-spacing:.1em;min-height:46px}
+
+  .shell{padding:22px 16px 96px}
+  .page-h{font-size:23px}
+  .page-p{font-size:14.5px;margin-bottom:22px}
+
+  /* checklist row: name on its own line, then a full-width control row.
+     Every target clears 44px. */
+  .chk{flex-wrap:wrap;gap:10px;padding:14px 16px}
+  .chk .nm{flex:1 1 100%;font-size:15.5px;line-height:1.35}
+  .seg{flex:1 1 0;min-width:0}
+  .seg button{flex:1;padding:14px 4px;font-size:10px;letter-spacing:.06em;min-height:44px}
+  .chk-more{flex:0 0 auto;padding:14px 13px;font-size:9px;min-height:44px}
+  .chk-detail{padding:4px 16px 18px}
+  .thumbs-sm{grid-template-columns:repeat(3,1fr)}
+
+  /* route stop: address was wrapping one word per line beside a fixed
+     action column */
+  .stop{flex-wrap:wrap;gap:12px;padding:14px 16px}
+  .rt-ord{order:1;flex-direction:row;gap:6px}
+  .rt-move{min-width:42px;min-height:42px}
+  .mini{min-height:44px}
+  .reveal{min-height:38px;padding:9px 12px}
+  .stop-n{order:1}
+  .stop-b{order:3;flex:1 1 100%}
+  .stop-acts{order:4;flex:1 1 100%;flex-direction:row;gap:8px}
+  .stop-acts .btn{flex:1;padding:12px 6px;font-size:9px}
+  .rt-head{gap:12px}
+  .rt-head .btn,.rt-head .chip{margin-left:0;flex:1 1 auto}
+  .rt-head > div:first-child{flex:1 1 100%}
+
+  /* score bar: was eating a third of the screen */
+  .scorebar{padding:12px 16px;gap:12px}
+  .scorebar .big{font-size:24px}
+  .scorebar .lab{font-size:9px}
+  .scorebar .acts{gap:8px}
+  .scorebar .acts .btn{padding:13px 10px}
+
+  .card-b{padding:18px 16px}
+  /* one field per row: two-up squeezed "Robert & Anne Whitfield" to
+     "Robert & Anne Whi..." with no way to see the rest */
+  .grid-3,.grid-2{grid-template-columns:1fr;gap:0}
+  .field{margin-bottom:16px}
+  input,select,textarea{font-size:16px}   /* 16px stops iOS zooming on focus */
+  .filters{padding:12px 14px}
+  .dir-search{padding:14px}
+  .kvgrid{padding:16px}
+  .secure{margin:0 16px 18px}
+  .visits{padding:0 16px 18px}
+  .prop-h{padding:14px 16px}
+  .prof-h{padding:18px 16px}
+}
+
 @media print{
   body{background:#fff}
   .top,.scorebar,.noprint{display:none!important}
@@ -370,7 +442,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
       </div>
       <div class="card" style="margin:0" id="profileCard">
         <div class="card-h"><span class="n">&mdash;</span> Client profile</div>
-        <div class="card-b"><p class="page-p" style="margin:0">Pick a client on the left to see their properties, access details and visit history.</p></div>
+        <div class="card-b"><p class="page-p" style="margin:0">Pick a client to see their properties, access details and visit history.</p></div>
       </div>
     </div>
   </div>
@@ -452,6 +524,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
   </div>
 
   <div class="scorebar hide" id="scorebar">
+    <div class="sb-prog" aria-hidden="true"><i id="sbBar"></i></div>
     <div>
       <div class="big"><span id="sbScore">&mdash;</span><i>/100</i></div>
       <div class="lab" id="sbLabel">Overall home health score</div>
@@ -1516,6 +1589,8 @@ function recalc(){
     }
   });
   $('sbProgress').textContent = cleared + ' of ' + all + ' lines cleared';
+  var bar = $('sbBar');
+  if(bar) bar.style.width = (all ? Math.round(cleared / all * 100) : 0) + '%';
   if(done.length === SYSTEMS.length){
     var overall = Math.round(done.reduce(function(a,b){ return a + b; }, 0) / done.length);
     $('sbScore').textContent = overall;
