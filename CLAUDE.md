@@ -244,6 +244,37 @@ GitHub Actions runner.
 - Site update = add `EPISODES[0]` (Spotify URL) + a `VIDEOS` entry (YouTube id) in build.py,
   rebuild, push. Both values now derive automatically from the two feeds above.
 
+## Staging a new episode — DO THIS FIRST, every time
+`python3 tools/stage-episode.py <NN> <clips-dir> --transcripts <text-dir> --guest "..." --credential "..."`
+
+Creates branch `media/ep{NN}-clips` with clips/, playlist.txt, transcripts.md and a
+README, pushing in small batches (a single ~200MB push gets reset by the git proxy).
+
+**The branch name is load bearing.** The daily routine builds its fetch URLs from the
+episode number, so anything other than `media/ep{NN}-clips` is invisible to it. Episode 9
+was first pushed to `media/sabesan-clips` and would have posted nothing all week.
+
+Three things the script does NOT do, by design:
+- **Reorder playlist.txt.** Seeded numerically; a human reorders it. Six weekday slots
+  and ~10 clips means only the top six air, so order decides the week. The strongest clip
+  is rarely the first one rendered.
+- **Add the episode to build.py.** `EPISODES[0]` and a `VIDEOS` entry are still manual,
+  and EPISODES needs the Spotify URL, which does not exist until the episode publishes.
+- **Write captions.** The routine does that at post time, from transcripts.md.
+
+Name corrections live in `NAME_FIXES` at the top of the script — ASR renders "Sabesan" as
+"Sebastian" and "Vani" as "Bonnie". Add new guests there rather than fixing by hand.
+
+Verify before the week starts: fetch playlist.txt off raw.githubusercontent, and range
+request one clip off the Vercel branch host. Both must return 200/206.
+
+**Clip upload hosts.** jsDelivr serves clips under ~20MB; anything larger needs the Vercel
+branch host `firstrehabnpb-zywd-git-media-ep{NN}-clips-thedesignofman.vercel.app`. That
+host embeds the Vercel TEAM SLUG, renamed to `thedesignofman` on 2026-08-03. The old
+`-first-rehabilitation` host now 404s. If the team is renamed again, update the URL in the
+routine prompt or every clip over 20MB fails to upload. raw.githubusercontent and GitHub
+release assets both serve `application/octet-stream` and are rejected by Post Bridge.
+
 ## Episode masters
 Rendered masters exceed GitHub's 100MB blob limit, so they ship split: `split -b 45m` (or 90m)
 into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble with
@@ -259,7 +290,7 @@ into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble 
 - Flip DNS when ready: Vercel → Domains → add www.firstrehabnpb.com (primary) + apex;
   registrar: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com. Then submit
   sitemap.xml in Google Search Console and update the Google Business Profile link.
-- Click the FormSubmit activation email on the first real lead (check spam).
+- ~~Click the FormSubmit activation email~~ DONE — owner confirmed leads are arriving by email.
 - ~~Send Google Business Profile share URL → add to sameAs~~ DONE — GBP already in the org
   schema via its canonical CID link (maps.google.com/?cid=3809434844265673488); owner's
   share.google link resolves to the same listing. No further action.
