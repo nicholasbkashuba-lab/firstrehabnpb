@@ -1,0 +1,21 @@
+# Posting order for Episode 9 clips (Dr. Vani Sabesan), strongest first.
+# The daily routine posts the first clip in this list that has not already
+# gone out. Anything not listed here is never posted.
+# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+#
+# Ten clips, six weekday slots. Only the top six air this week, so order
+# matters far more than the numbering does.
+#
+# 01 leads because "would you rather spend six weeks in a sling, or start
+# moving tomorrow" is the whole thesis of the episode in one sentence.
+# 02 is second because it is the clip that most directly credits therapy.
+01-move-tomorrow.mp4
+02-therapist-98.mp4
+07-robots-marketing.mp4
+06-90-is-new-70.mp4
+05-muscle-sparing.mp4
+10-crushed-elbow.mp4
+03-3d-printed.mp4
+09-end-of-the-line.mp4
+08-tough-athletes.mp4
+04-first-of-many.mp4
