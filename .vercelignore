@@ -1,8 +1,14 @@
-# homecrew/ is a separate business on a separate domain (homecrewfl.com). It
-# lives here only because this is where the work was done — it must never be
-# served from firstrehabnpb.com, where it would be a crawlable duplicate of
-# another site under the wrong brand.
+# TEMPORARY — homecrew/ is being served from this deploy so the owner has a
+# review link. It is a separate business on a separate domain (homecrewfl.com)
+# and does not belong on firstrehabnpb.com long term.
 #
-# Move it to its own repo + Vercel project when it is ready to deploy, and
-# delete this file.
-homecrew/
+# While it is here it is protected two ways:
+#   - vercel.json sends `X-Robots-Tag: noindex, nofollow, noarchive` for
+#     /homecrew/(.*), so it can never be indexed under the clinic's domain
+#   - the portal reads real client data only with real keys; the shareable link
+#     uses ?demo=1, which forces invented sample data
+#
+# Move it to its own repo and Vercel project before launch, then restore the
+# `homecrew/` line below.
+#
+# homecrew/

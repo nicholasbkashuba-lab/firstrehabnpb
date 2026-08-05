@@ -227,7 +227,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
       <input type="password" id="pw" autocomplete="current-password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
     </div>
     <button class="btn btn-gold btn-w" id="signIn">Sign in</button>
-    <div class="demo hide" id="sampleNote">Sample mode &mdash; no backend connected yet. Any email opens a walkthrough with three invented clients. Nothing you type is saved.</div>
+    <div class="demo hide" id="sampleNote">Sample walkthrough &mdash; sign in with <code>home</code> / <code>crew</code>. The three clients you will see are invented, every code is <code>0000</code>, and nothing you type is saved.</div>
     <div class="demo hide" id="liveNote">Crew accounts are created by the owner. Locked out? Call 561-383-0882.</div>
   </div>
 </div>
@@ -373,8 +373,14 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
    where the Supabase SDK needs it.
 ================================================================== */
 
-var CFG  = window.HOMECREW_CONFIG || {};
-var LIVE = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
+var CFG = window.HOMECREW_CONFIG || {};
+
+/* ?demo=1 forces the sample walkthrough even when real keys are present, so the
+   portal can be shown to someone without exposing a single real client. It can
+   only ever turn the backend OFF, never on — there is no flag that reaches real
+   data. The red banner on the directory screen makes the mode obvious. */
+var DEMO = /(?:^|[?&])demo=1(?:&|$)/.test(location.search);
+var LIVE = !DEMO && !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
 
 /* The client comes off a CDN, so it can be missing: an outage, a blocked
    network, a phone with no signal at a gate. Without this check the very next
@@ -407,6 +413,9 @@ var savedId   = null;   /* inspections.id once persisted */
    through before the backend exists. Every value here is invented and
    every code is 0000 — see the banner on the directory screen.
 ------------------------------------------------------------------- */
+var SAMPLE_USER = 'home';
+var SAMPLE_PW   = 'crew';
+
 var SAMPLE = [
   { id:'s1', full_name:'Robert & Anne Whitfield', email:'whitfield@example.com', phone:'(772) 555-0134',
     mailing_addr:'88 Larchmont Ave, Larchmont NY 10538', notes:'Away May through October. Mail held at the post office.',
@@ -453,8 +462,15 @@ async function doSignIn(){
   var email = $('email').value.trim().toLowerCase(), pw = $('pw').value;
   $('loginErr').classList.add('hide');
 
+  /* Sample mode takes one fixed demo credential. This guards nothing — there is
+     no database behind it and every record it shows is invented — but it is
+     tighter than the previous "any email works", and it keeps a stray visitor
+     from landing in a UI that looks like a real crew tool. */
   if(!LIVE){
-    if(!email){ loginError('Enter any email to open the sample walkthrough.'); return; }
+    if(email !== SAMPLE_USER || pw !== SAMPLE_PW){
+      loginError('Use ' + SAMPLE_USER + ' / ' + SAMPLE_PW + ' to open the sample walkthrough.');
+      return;
+    }
     await startSession({ id:'sample-user', email:email, name:'Sample Technician', role:'technician' });
     return;
   }
