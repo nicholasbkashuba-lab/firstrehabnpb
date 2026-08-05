@@ -126,6 +126,23 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .chk{display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #f0f1f2}
 .chk:last-child{border-bottom:0}
 .chk .nm{font-size:14.5px;flex:1}
+.chk-more{background:none;border:1px solid var(--line);color:var(--gray);cursor:pointer;flex-shrink:0;
+  font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px}
+.chk-more:hover{border-color:var(--navy);color:var(--navy)}
+.chk-more[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.chk-more.has{border-color:var(--gold);color:#8a6a2f}
+.chk-more[aria-expanded="true"].has{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.chk-detail{padding:4px 18px 18px;border-bottom:1px solid #f0f1f2;background:#fbfbfc}
+.chk-detail label{margin-bottom:6px}
+.chk-detail textarea{font-size:14px;padding:10px 12px}
+.chk-hint{font-size:12.5px;color:var(--gray);margin:0 0 12px}
+.drop-sm{padding:13px;font-size:13px;margin-top:12px}
+.thumbs-sm{grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
+.thumbs-sm .thumb img{height:78px}
+.thumb{position:relative}
+.thumb .rm{position:absolute;top:0;right:0;background:rgba(11,29,45,.82);color:#fff;border:0;cursor:pointer;
+  font-size:15px;line-height:1;padding:5px 8px}
+.thumb .rm:hover{background:var(--bad)}
 .seg{display:flex;border:1px solid var(--line);flex-shrink:0}
 .seg button{background:#fff;border:0;border-right:1px solid var(--line);font-family:var(--display);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 11px;cursor:pointer;color:var(--gray)}
 .seg button:last-child{border-right:0}
@@ -796,24 +813,126 @@ function band(s){
   return { t:'Needs Attention', c:'#C0392B' };
 }
 
+/* Per-line detail: a note and photos attached to the individual check, kept
+   separate from `state` so the scoring code stays untouched. A photo of the
+   actual stained ceiling under "No visible leaks" is worth more to a homeowner
+   than the same photo dropped in a pile at the bottom of the report. */
+var detail = {};   /* detail[sysKey][i] = { note:'', photos:[{src,cap}] } */
+
+function det(key, i){
+  if(!detail[key]) detail[key] = {};
+  if(!detail[key][i]) detail[key][i] = { note:'', photos:[] };
+  return detail[key][i];
+}
+function detCount(key, i){
+  var d = (detail[key] || {})[i];
+  if(!d) return 0;
+  return (d.note.trim() ? 1 : 0) + d.photos.length;
+}
+
 function buildSystems(){
   var host = $('systems'); host.innerHTML = '';
   SYSTEMS.forEach(function(sys, si){
     state[sys.key] = {};
+    detail[sys.key] = {};
     var box = document.createElement('div'); box.className = 'sys';
     var head = '<div class="sys-h"><span class="idx">System 0'+(si+1)+'</span><h3>'+esc(sys.name)+'</h3>'+
                '<span class="sys-score" id="sc_'+sys.key+'">—</span>'+
                '<span class="sys-lab" id="lb_'+sys.key+'" style="color:#6B7178">Pending</span></div>';
     var rows = sys.items.map(function(it, ii){
-      return '<div class="chk"><span class="nm">'+esc(it)+'</span><div class="seg" role="group" aria-label="'+esc(it)+'">'+
+      var rid = sys.key + '_' + ii;
+      return '<div class="chk"><span class="nm">'+esc(it)+'</span>' +
+        '<div class="seg" role="group" aria-label="'+esc(it)+'">'+
         ['ok','watch','bad'].map(function(v){
           return '<button type="button" data-sys="'+sys.key+'" data-i="'+ii+'" data-v="'+v+'" aria-pressed="false">'+LABELS[v]+'</button>';
-        }).join('') + '</div></div>';
+        }).join('') + '</div>' +
+        '<button type="button" class="chk-more" id="m_'+rid+'" data-more="'+rid+'" ' +
+          'aria-expanded="false" aria-controls="d_'+rid+'" ' +
+          'aria-label="Photo and note for '+esc(it)+'">Photo / note</button></div>' +
+        '<div class="chk-detail hide" id="d_'+rid+'">' +
+          '<p class="chk-hint">Anything here is tied to this line in the report.</p>' +
+          '<label for="n_'+rid+'">Note</label>' +
+          '<textarea id="n_'+rid+'" rows="2" data-note="'+rid+'" ' +
+            'placeholder="Filter grey at the edges, not clogged. Recommend swapping at the next visit."></textarea>' +
+          '<label class="drop drop-sm" for="p_'+rid+'">Add a photo of this</label>' +
+          '<input type="file" id="p_'+rid+'" data-photo="'+rid+'" accept="image/*" multiple class="hide">' +
+          '<div class="thumbs thumbs-sm" data-thumbs="'+rid+'"></div>' +
+        '</div>';
     }).join('');
     box.innerHTML = head + rows;
     host.appendChild(box);
   });
 }
+
+function splitRid(rid){
+  var cut = rid.lastIndexOf('_');
+  return { key: rid.slice(0, cut), i: rid.slice(cut + 1) };
+}
+
+function markMore(rid){
+  var n = detCount(splitRid(rid).key, splitRid(rid).i);
+  var btn = $('m_' + rid);
+  if(!btn) return;
+  btn.classList.toggle('has', n > 0);
+  btn.textContent = n > 0 ? 'Photo / note · ' + n : 'Photo / note';
+}
+
+function renderRowThumbs(rid){
+  var r = splitRid(rid), d = det(r.key, r.i);
+  var host = document.querySelector('[data-thumbs="' + rid + '"]');
+  if(!host) return;
+  host.innerHTML = '';
+  d.photos.forEach(function(p, idx){
+    var el = document.createElement('div'); el.className = 'thumb';
+    var img = document.createElement('img'); img.src = p.src; img.alt = '';
+    var rm = document.createElement('button');
+    rm.type = 'button'; rm.className = 'rm'; rm.innerHTML = '&times;';
+    rm.setAttribute('aria-label', 'Remove photo');
+    rm.addEventListener('click', function(){
+      d.photos.splice(idx, 1);
+      renderRowThumbs(rid); markMore(rid); saveDraft();
+    });
+    var cap = document.createElement('input');
+    cap.value = p.cap;
+    cap.addEventListener('input', function(){ p.cap = cap.value; saveDraft(); });
+    el.appendChild(img); el.appendChild(rm); el.appendChild(cap);
+    host.appendChild(el);
+  });
+}
+
+/* expand / collapse */
+$('systems').addEventListener('click', function(e){
+  var b = e.target.closest('[data-more]'); if(!b) return;
+  var panel = $('d_' + b.dataset.more);
+  var open = panel.classList.toggle('hide') === false;
+  b.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+/* notes */
+$('systems').addEventListener('input', function(e){
+  var t = e.target;
+  if(!t.dataset || !t.dataset.note) return;
+  var r = splitRid(t.dataset.note);
+  det(r.key, r.i).note = t.value;
+  markMore(t.dataset.note);
+  saveDraft();
+});
+
+/* per-line photos */
+$('systems').addEventListener('change', function(e){
+  var t = e.target;
+  if(!t.dataset || !t.dataset.photo) return;
+  var rid = t.dataset.photo, r = splitRid(rid), d = det(r.key, r.i);
+  Array.from(t.files).forEach(function(file){
+    var reader = new FileReader();
+    reader.onload = function(){
+      d.photos.push({ src:reader.result, cap:file.name.replace(/\.[^.]+$/,'').slice(0,22) });
+      renderRowThumbs(rid); markMore(rid);
+    };
+    reader.readAsDataURL(file);
+  });
+  t.value = '';
+});
 
 $('systems').addEventListener('click', function(e){
   var b = e.target.closest('button[data-sys]'); if(!b) return;
@@ -822,6 +941,18 @@ $('systems').addEventListener('click', function(e){
   b.parentElement.querySelectorAll('button').forEach(function(x){
     x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
   });
+
+  /* Flagging something opens its detail panel. An "Issue" with no photo and no
+     sentence is the one thing a homeowner will call about, so ask for it at the
+     moment the technician is standing in front of the problem. */
+  if(v !== 'ok'){
+    var rid = sys + '_' + i, panel = $('d_' + rid), more = $('m_' + rid);
+    if(panel && panel.classList.contains('hide')){
+      panel.classList.remove('hide');
+      more.setAttribute('aria-expanded', 'true');
+    }
+  }
+
   recalc();
   saveDraft();
 });
@@ -924,6 +1055,15 @@ function saveDraft(){
       user: user.id,
       current: current,
       state: state,
+      /* Notes only. Per-line photos are base64 and would blow the storage
+         quota on the second house — they live in memory until upload lands
+         (roadmap task 3), same as the general photo pile. */
+      notes: Object.keys(detail).reduce(function(o, k){
+        Object.keys(detail[k]).forEach(function(i){
+          if(detail[k][i].note) { o[k + '_' + i] = detail[k][i].note; }
+        });
+        return o;
+      }, {}),
       fields: FIELDS.reduce(function(o,k){ o[k] = $(k).value; return o; }, {}),
       actions: Array.from($('actions').querySelectorAll('input')).map(function(i){ return i.value; })
     }));
@@ -954,6 +1094,15 @@ function restoreDraft(){
       });
     });
   });
+  Object.keys(d.notes || {}).forEach(function(rid){
+    var r = splitRid(rid);
+    if(!state[r.key]) return;
+    det(r.key, r.i).note = d.notes[rid];
+    var ta = document.querySelector('[data-note="' + rid + '"]');
+    if(ta) ta.value = d.notes[rid];
+    markMore(rid);
+  });
+
   recalc();
   if(d.current) bindProperty(d.current.propertyId);
 
@@ -988,6 +1137,12 @@ function fmtDate(v){
   return d.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
 }
 
+function linePhotoCount(){
+  return Object.keys(detail).reduce(function(n, k){
+    return n + Object.keys(detail[k]).reduce(function(m, i){ return m + detail[k][i].photos.length; }, 0);
+  }, 0);
+}
+
 function repBanner(html, kind){
   $('repBannerWrap').innerHTML = '<div class="banner' + (kind ? ' banner-' + kind : '') + '">' + html + '</div>';
 }
@@ -1005,7 +1160,9 @@ $('genRep').addEventListener('click', async function(){
   SYSTEMS.forEach(function(sys){
     Object.keys(state[sys.key]).forEach(function(i){
       var v = state[sys.key][i];
-      if(v !== 'ok') flags.push({ system:sys.name, item:sys.items[i], state:v });
+      if(v === 'ok') return;
+      var d = det(sys.key, i);
+      flags.push({ system:sys.name, item:sys.items[i], state:v, note:d.note.trim(), photos:d.photos });
     });
   });
 
@@ -1038,7 +1195,14 @@ async function saveInspection(scores, overall, flags, actions){
     weather:       $('f_weather').value,
     scores:        scores.reduce(function(o,s){ o[s.key] = s.score; return o; }, {}),
     overall_score: overall,
-    flags:         flags,
+    /* Strip the image data before it goes near the database. A base64 photo in
+       a jsonb column would be megabytes per row for something Storage should
+       hold; keep the note and a count, and let photo_paths carry the rest once
+       upload lands. */
+    flags:         flags.map(function(f){
+                     return { system:f.system, item:f.item, state:f.state,
+                              note:f.note || null, photo_count:f.photos.length };
+                   }),
     notes:         $('f_notes').value.trim() || null,
     actions:       actions,
     status:        'complete'
@@ -1081,7 +1245,7 @@ function renderReport(scores, overall, bd, flags, actions){
       '<div><h4>Visit</h4>'+
         '<div class="kv"><b>Inspector</b><span>'+esc($('f_tech').value)+'</span></div>'+
         '<div class="kv"><b>Weather</b><span>'+esc($('f_weather').value)+'</span></div>'+
-        '<div class="kv"><b>Photos taken</b><span>'+photos.length+'</span></div>'+
+        '<div class="kv"><b>Photos taken</b><span>'+(photos.length + linePhotoCount())+'</span></div>'+
         '<div class="kv"><b>Report to</b><span>'+esc($('f_email').value||'—')+'</span></div></div>'+
     '</div>'+
 
@@ -1104,8 +1268,18 @@ function renderReport(scores, overall, bd, flags, actions){
 
     (flags.length ? '<div class="rep-sec"><h4>Attention Items</h4>'+
       flags.map(function(f){
-        return '<div class="flag'+(f.state==='bad'?' bad':'')+'"><b style="font-family:var(--display);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6B7178">'+
-        esc(f.system)+'</b> &nbsp;'+esc(f.item)+' — '+(f.state==='bad'?'issue found':'monitor')+'</div>';
+        return '<div class="flag'+(f.state==='bad'?' bad':'')+'">'+
+          '<b style="font-family:var(--display);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6B7178">'+
+          esc(f.system)+'</b> &nbsp;'+esc(f.item)+' — '+(f.state==='bad'?'issue found':'monitor')+
+          (f.note ? '<p style="margin:7px 0 0;font-size:14px;color:#3d4a55">'+esc(f.note)+'</p>' : '')+
+          (f.photos.length
+            ? '<div class="repgrid" style="margin-top:10px">'+
+              f.photos.map(function(p){
+                return '<figure><img src="'+esc(p.src)+'" alt="'+esc(f.item)+' — '+esc(p.cap)+'">'+
+                       '<figcaption>'+esc(p.cap)+'</figcaption></figure>';
+              }).join('')+'</div>'
+            : '')+
+        '</div>';
       }).join('') + '</div>' : '')+
 
     (photos.length ? '<div class="rep-sec"><h4>Photo Highlights</h4><div class="repgrid">'+
