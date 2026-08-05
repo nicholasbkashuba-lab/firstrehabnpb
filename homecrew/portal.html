@@ -85,6 +85,22 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .dir-search input{font-size:16px}
 .dir-count{font-family:var(--display);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-top:10px}
 .dir-list{max-height:62vh;overflow:auto}
+/* ---- FILTERS ---- */
+.filters{padding:14px 16px;border-bottom:1px solid var(--line);background:#fbfbfc}
+.filt-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filt-row:last-of-type{margin-bottom:0}
+.chip{background:#fff;border:1px solid var(--line);cursor:pointer;color:var(--gray);
+  font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 10px;transition:.15s}
+.chip:hover{border-color:var(--navy);color:var(--navy)}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip.mine[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.filt-lab{font-family:var(--display);font-size:8.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gray);width:100%;margin-bottom:-2px}
+.filt-clear{background:none;border:0;color:var(--gray);cursor:pointer;text-decoration:underline;
+  font-family:var(--body);font-size:12.5px;padding:0}
+.filt-clear:hover{color:var(--navy)}
+.rt-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
 .dir-item{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid #f0f1f2;padding:13px 16px;cursor:pointer;font-family:var(--body);color:inherit}
 .dir-item:hover{background:#fbfbfc}
 .dir-item[aria-current="true"]{background:var(--navy);color:#fff}
@@ -319,6 +335,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
         <div class="lab" style="font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);margin-top:4px" id="rtCount"></div>
       </div>
       <button class="btn btn-ghost" id="rtAll">Show every property</button>
+      <button class="chip mine" id="rtMine" aria-pressed="false">My properties only</button>
       <button class="btn btn-gold" id="rtNav">Open route in Maps</button>
     </div>
 
@@ -340,6 +357,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
           <input id="q" type="search" autocomplete="off" placeholder="Whitfield, or River Bend">
           <div class="dir-count" id="dirCount"></div>
         </div>
+        <div class="filters" id="filters"></div>
         <div class="dir-list" id="dirList"></div>
       </div>
       <div class="card" style="margin:0" id="profileCard">
@@ -499,6 +517,7 @@ var SAMPLE = [
     mailing_addr:'88 Larchmont Ave, Larchmont NY 10538', notes:'Away May through October. Mail held at the post office.',
     properties:[{ id:'p1', address:'123 River Bend Dr, Stuart FL 34994', property_type:'Single family', package:'gold',
       visit_frequency:'weekly', county:'Martin', route_order:10, last_inspected_on:'2026-07-20',
+      assigned_to:'sample-user',
       community_gate_name:'River Bend', gate_code:'0000', key_box_code:'0000',
       key_box_location:'Sample data — hose bib, right of the garage', alarm_code:'0000', alarm_company:'Sample Alarm Co',
       garage_code:'0000', water_shutoff:'Sample data — north wall of the garage', access_notes:'Sample data. Two cats indoors.',
@@ -507,6 +526,7 @@ var SAMPLE = [
     mailing_addr:'', notes:'Prefers a text when the visit is done.',
     properties:[{ id:'p2', address:'4410 Coral Cove Ln, Jupiter FL 33477', property_type:'Condo', package:'silver',
       visit_frequency:'biweekly', county:'Palm Beach', route_order:10, last_inspected_on:'2026-08-03',
+      assigned_to:null,
       community_gate_name:'Coral Cove', gate_code:'0000', key_box_code:'0000',
       key_box_location:'Sample data — front door handle', alarm_code:'', alarm_company:'',
       garage_code:'', water_shutoff:'Sample data — utility closet', access_notes:'Sample data. Elevator to the 4th floor.',
@@ -515,6 +535,7 @@ var SAMPLE = [
     mailing_addr:'', notes:'Estate. Landscaper on site Tuesdays.',
     properties:[{ id:'p3', address:'2 Sailfish Point Blvd, Stuart FL 34996', property_type:'Estate', package:'gold',
       visit_frequency:'weekly', county:'Martin', route_order:20, last_inspected_on:null,
+      assigned_to:null,
       community_gate_name:'Sailfish Point', gate_code:'0000', key_box_code:'0000',
       key_box_location:'Sample data — pool equipment gate', alarm_code:'0000', alarm_company:'Sample Alarm Co',
       garage_code:'0000', water_shutoff:'Sample data — east side meter box', access_notes:'Sample data. Generator serviced quarterly.',
@@ -627,6 +648,7 @@ async function loadDirectory(){
   if(!LIVE){
     directory = SAMPLE;
     dirBanner('<b>Sample data</b>These three clients are invented and every code shown is 0000. Add your Supabase keys to <code>config.js</code> to switch to real records. Do not type a real address or code into sample mode — none of it is saved and none of it is protected.', 'bad');
+    renderFilters();
     renderList();
     fillPropertySelect();
     renderRoute();
@@ -664,9 +686,135 @@ async function loadDirectory(){
   } else {
     dirBanner('<b>No clients yet</b>Add them in the Supabase dashboard under Table Editor → clients, then a row in properties for each home.');
   }
+  renderFilters();
   renderList();
   fillPropertySelect();
+  renderRoute();
 }
+
+/* ------------------------------------------------------------------
+   FILTERS
+   Two different questions, so two different controls:
+
+   "which houses are these" — tier, visit interval, county, and whether
+   the visit is due. Facets of the property, so they live on the client
+   directory next to the search box.
+
+   "which houses are MINE" — properties.assigned_to. That is a display
+   filter and nothing more; every active crew member can still open every
+   property, because someone covers a sick colleague and a storm
+   reshuffles the whole week (see the note in migration 0005).
+
+   Filtering is client-side over the roster already in memory. That is
+   right for a few hundred properties and wrong for tens of thousands; if
+   it ever gets there, push these into the Supabase query instead.
+------------------------------------------------------------------- */
+var FILTER_KEY = 'hc_filters_v1';
+var filters = { tier:[], freq:[], county:[], due:[], mine:false };
+
+try {
+  var saved = JSON.parse(localStorage.getItem(FILTER_KEY) || 'null');
+  if(saved) filters = Object.assign(filters, saved);
+} catch(err){}
+
+function saveFilters(){
+  try { localStorage.setItem(FILTER_KEY, JSON.stringify(filters)); } catch(err){}
+}
+
+function activeFilterCount(){
+  return filters.tier.length + filters.freq.length + filters.county.length +
+         filters.due.length + (filters.mine ? 1 : 0);
+}
+
+function toggleFilter(kind, value){
+  if(kind === 'mine'){ filters.mine = !filters.mine; }
+  else {
+    var list = filters[kind];
+    var i = list.indexOf(value);
+    if(i === -1) list.push(value); else list.splice(i, 1);
+  }
+  saveFilters();
+  renderFilters();
+  renderList();
+  renderRoute();
+}
+
+/* A property passes if it matches at least one chip in each group that has any
+   chip on. Within a group the chips are OR, across groups they are AND — which
+   is what "Gold or Silver, in Martin, that is due" means when someone says it
+   out loud. */
+function propPasses(p){
+  if(filters.mine && p.assigned_to !== user.id) return false;
+  if(filters.tier.length   && filters.tier.indexOf(p.package) === -1) return false;
+  if(filters.freq.length   && filters.freq.indexOf(p.visit_frequency) === -1) return false;
+  if(filters.county.length && filters.county.indexOf(p.county) === -1) return false;
+  if(filters.due.length){
+    var st = dueState(p).cls;
+    if(filters.due.indexOf(st) === -1) return false;
+  }
+  return true;
+}
+
+function chip(kind, value, label, on, extra){
+  return '<button class="chip' + (extra ? ' ' + extra : '') + '" data-fk="' + kind +
+         '" data-fv="' + esc(value) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
+         esc(label) + '</button>';
+}
+
+/* Only offer a facet that actually exists in this roster. A county chip for a
+   county with no properties in it is noise. */
+function presentValues(key){
+  var seen = {};
+  allProperties().forEach(function(x){
+    var v = x.prop[key];
+    if(v) seen[v] = true;
+  });
+  return Object.keys(seen);
+}
+
+function renderFilters(){
+  var host = $('filters');
+  if(!host) return;
+  var tiers = ['bronze','silver','gold'].filter(function(t){ return presentValues('package').indexOf(t) !== -1; });
+  var freqs = ['weekly','biweekly','monthly','seasonal'].filter(function(f){ return presentValues('visit_frequency').indexOf(f) !== -1; });
+  var counties = COUNTY_ORDER.filter(function(c){ return presentValues('county').indexOf(c) !== -1; });
+
+  var html = '';
+  html += '<div class="filt-row">' +
+    chip('mine', '1', 'My properties only', filters.mine, 'mine') +
+    chip('due', 'due', 'Due now', filters.due.indexOf('due') !== -1) +
+    chip('due', 'soon', 'Due soon', filters.due.indexOf('soon') !== -1) +
+    '</div>';
+  if(tiers.length > 1){
+    html += '<div class="filt-row"><span class="filt-lab">Package</span>' +
+      tiers.map(function(t){ return chip('tier', t, pkg(t), filters.tier.indexOf(t) !== -1); }).join('') + '</div>';
+  }
+  if(freqs.length > 1){
+    html += '<div class="filt-row"><span class="filt-lab">Visit interval</span>' +
+      freqs.map(function(f){ return chip('freq', f, f, filters.freq.indexOf(f) !== -1); }).join('') + '</div>';
+  }
+  if(counties.length > 1){
+    html += '<div class="filt-row"><span class="filt-lab">County</span>' +
+      counties.map(function(c){ return chip('county', c, c, filters.county.indexOf(c) !== -1); }).join('') + '</div>';
+  }
+  if(activeFilterCount()){
+    html += '<div class="filt-row"><button class="filt-clear" type="button">Clear ' +
+            activeFilterCount() + ' filter' + (activeFilterCount() > 1 ? 's' : '') + '</button></div>';
+  }
+  host.innerHTML = html;
+
+  var mineBtn = $('rtMine');
+  if(mineBtn) mineBtn.setAttribute('aria-pressed', filters.mine ? 'true' : 'false');
+}
+
+document.addEventListener('click', function(e){
+  var c = e.target.closest('[data-fk]');
+  if(c){ toggleFilter(c.dataset.fk, c.dataset.fv); return; }
+  if(e.target.closest('.filt-clear')){
+    filters = { tier:[], freq:[], county:[], due:[], mine:false };
+    saveFilters(); renderFilters(); renderList(); renderRoute();
+  }
+});
 
 function matches(c, q){
   if(!q) return true;
@@ -679,16 +827,27 @@ function matches(c, q){
 
 function renderList(){
   var q = $('q').value.trim().toLowerCase();
-  var hits = directory.filter(function(c){ return matches(c, q); });
-  $('dirCount').textContent = hits.length + (hits.length === 1 ? ' client' : ' clients') + (q ? ' matching' : ' on file');
+  var hits = directory.filter(function(c){
+    if(!matches(c, q)) return false;
+    var props = c.properties || [];
+    /* A client with no property at all still shows on an unfiltered list, but
+       drops out the moment a property facet is chosen — there is nothing on
+       them to match. */
+    if(!activeFilterCount()) return true;
+    return props.some(propPasses);
+  });
+  var total = directory.length;
+  $('dirCount').textContent = hits.length + (hits.length === 1 ? ' client' : ' clients')
+    + (q || activeFilterCount() ? ' of ' + total : ' on file');
   $('dirList').innerHTML = hits.length
     ? hits.map(function(c){
-        var addr = (c.properties || []).map(function(p){ return p.address; }).join(' · ') || 'No property on file';
+        var shown = activeFilterCount() ? (c.properties || []).filter(propPasses) : (c.properties || []);
+        var addr = shown.map(function(p){ return p.address; }).join(' · ') || 'No property on file';
         return '<button class="dir-item" data-id="' + esc(c.id) + '" aria-current="' + (c.id === selected) + '">' +
                '<span class="nm">' + esc(c.full_name) + '</span>' +
                '<span class="ad">' + esc(addr) + '</span></button>';
       }).join('')
-    : '<p class="empty">Nothing matches “' + esc($('q').value.trim()) + '”.</p>';
+    : '<p class="empty">Nothing matches' + ($('q').value.trim() ? ' “' + esc($('q').value.trim()) + '”' : ' those filters') + '.</p>';
 }
 
 $('q').addEventListener('input', renderList);
@@ -855,7 +1014,7 @@ function setOverride(id, pos){
 
 function routeStops(){
   var over = routeOverrides();
-  var out = allProperties().map(function(x){
+  var out = allProperties().filter(function(x){ return propPasses(x.prop); }).map(function(x){
     return { prop:x.prop, client:x.client, due:dueState(x.prop) };
   });
   if(!showAll){
@@ -891,7 +1050,9 @@ function renderRoute(){
   $('rtDay').textContent = today.toLocaleDateString('en-US',
     { weekday:'long', month:'long', day:'numeric' });
   $('rtCount').textContent = stops.length + (stops.length === 1 ? ' stop' : ' stops')
-    + (showAll ? ' · all properties' : ' · due or nearly due');
+    + (showAll ? ' · all properties' : ' · due or nearly due')
+    + (filters.mine ? ' · mine' : '')
+    + (activeFilterCount() - (filters.mine ? 1 : 0) > 0 ? ' · filtered' : '');
   $('rtAll').textContent = showAll ? 'Show only what is due' : 'Show every property';
   $('rtNav').disabled = stops.length === 0;
 
@@ -903,8 +1064,11 @@ function renderRoute(){
     return;
   }
   if(!stops.length){
-    $('stops').innerHTML = '<div class="rt-empty">Nothing is due today. '
-      + 'Tap <b>Show every property</b> to see the whole list.</div>';
+    $('stops').innerHTML = '<div class="rt-empty">'
+      + (activeFilterCount()
+          ? 'Nothing matches the filters you have on. <button class="filt-clear" type="button">Clear them</button>'
+          : 'Nothing is due today. Tap <b>Show every property</b> to see the whole list.')
+      + '</div>';
     return;
   }
 
@@ -923,6 +1087,7 @@ function renderRoute(){
           '<span class="tag ' + s.due.cls + '">' + esc(s.due.label) + '</span>' +
           (p.county ? '<span class="tag">' + esc(p.county) + '</span>' : '') +
           (p.visit_frequency ? '<span class="tag">' + esc(p.visit_frequency) + '</span>' : '') +
+          (p.assigned_to === user.id ? '<span class="tag" style="border-color:var(--gold);color:#8a6a2f">Yours</span>' : '') +
           (p.package ? '<span class="tag tier tier-' + esc(p.package) + '">' + esc(pkg(p.package)) + '</span>' : '') +
         '</div>' +
       '</div>' +
@@ -960,6 +1125,7 @@ function routeUrl(stops){
 }
 
 $('rtAll').addEventListener('click', function(){ showAll = !showAll; renderRoute(); });
+$('rtMine').addEventListener('click', function(){ toggleFilter('mine'); });
 
 $('rtNav').addEventListener('click', function(){
   var stops = routeStops();
