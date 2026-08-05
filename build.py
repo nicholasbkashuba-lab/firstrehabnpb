@@ -28,14 +28,12 @@ NEWS = [
                  "opened in 1991 and keeping it a family business three decades later.",
         "url": "https://palmbeachneighbors.com/digital_magazine/Palm%20Beach%20Grardens%20Living%20August%202026/HTML/index.html",
     },
-    {
-        "outlet": "Healthcare IT News",
-        "date": "2026",
-        "title": "First Rehabilitation Boosts Revenue 37% With Outpatient Platform",
-        "blurb": "Coverage of the move from a paper based office to a fully integrated digital "
-                 "operating system across every department of the practice.",
-        "url": "https://www.healthcareitnews.com/news/first-rehabilitation-boosts-revenue-37-outpatient-platform",
-    },
+    # Healthcare IT News ran a piece at
+    # /news/first-rehabilitation-boosts-revenue-37-outpatient-platform.
+    # Held back because the page sits behind Cloudflare and returns 403 to any
+    # automated fetch, so the headline, date, and whether it names THIS practice
+    # could not be confirmed. Add it once someone reads the live article and can
+    # supply the exact headline and publication date.
 ]
 
 # Accepted plans — owner-confirmed. Single source of truth: the homepage ticker,
