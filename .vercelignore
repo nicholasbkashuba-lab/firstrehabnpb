@@ -1,0 +1,8 @@
+# homecrew/ is a separate business on a separate domain (homecrewfl.com). It
+# lives here only because this is where the work was done — it must never be
+# served from firstrehabnpb.com, where it would be a crawlable duplicate of
+# another site under the wrong brand.
+#
+# Move it to its own repo + Vercel project when it is ready to deploy, and
+# delete this file.
+homecrew/

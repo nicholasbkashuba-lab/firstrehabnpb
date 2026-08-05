@@ -1,0 +1,10 @@
+{
+  "name": "homecrew-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HomeCrew — marketing site and crew inspection portal",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "start": "npx serve . -l 3000"
+  }
+}
