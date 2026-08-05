@@ -101,6 +101,8 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
   font-family:var(--body);font-size:12.5px;padding:0}
 .filt-clear:hover{color:var(--navy)}
 .rt-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.rt-chain{font-size:13px;color:var(--gray);margin-top:8px;max-width:60ch;line-height:1.6}
+.rt-chain:empty{display:none}
 .dir-item{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid #f0f1f2;padding:13px 16px;cursor:pointer;font-family:var(--body);color:inherit}
 .dir-item:hover{background:#fbfbfc}
 .dir-item[aria-current="true"]{background:var(--navy);color:#fff}
@@ -192,6 +194,11 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .chk-detail label{margin-bottom:6px}
 .chk-detail textarea{font-size:14px;padding:10px 12px}
 .chk-hint{font-size:12.5px;color:var(--gray);margin:0 0 12px}
+.savestate{font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gray);margin:-12px 0 20px;display:flex;align-items:center;gap:7px}
+.savestate::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--watch)}
+.savestate.ok::before{background:var(--ok)}
+.savestate:empty{display:none}
 .drop-sm{padding:13px;font-size:13px;margin-top:12px}
 .thumbs-sm{grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
 .thumbs-sm .thumb img{height:78px}
@@ -333,6 +340,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
       <div>
         <div class="rt-day" id="rtDay"></div>
         <div class="lab" style="font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);margin-top:4px" id="rtCount"></div>
+      <div class="rt-chain" id="rtChain"></div>
       </div>
       <button class="btn btn-ghost" id="rtAll">Show every property</button>
       <button class="chip mine" id="rtMine" aria-pressed="false">My properties only</button>
@@ -373,7 +381,10 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
     <h1 class="page-h">Field inspection</h1>
     <p class="page-p">Clear every line. The score, the summary and the client report are built from these entries.</p>
 
+    <div id="outbox"></div>
+    <div id="draftList"></div>
     <div class="banner hide" id="formBanner"></div>
+    <div class="savestate" id="saveState"></div>
 
     <div class="card">
       <div class="card-h"><span class="n">01</span> Visit details</div>
@@ -612,7 +623,19 @@ async function startSession(u){
   showView('route');
   await loadDirectory();
   renderRoute();
-  restoreDraft();
+  startOutbox();
+  var open_ = await listDrafts();
+  if(open_.length){
+    await loadDraft(open_[0].id);
+    var fb = $('formBanner');
+    var note = 'Picked up where you left off. Photos and notes were saved on this device. ' +
+               '<button class="btn btn-ghost btn-sm" id="dropDraft" type="button">Start fresh</button>';
+    if(fb.classList.contains('hide')){
+      fb.className = 'banner'; fb.innerHTML = '<b>Draft restored</b>' + note; fb.classList.remove('hide');
+    } else { fb.innerHTML += ' ' + note; }
+    showView('form');
+  }
+  await renderDrafts();
 }
 
 $('signIn').addEventListener('click', doSignIn);
@@ -620,8 +643,24 @@ $('pw').addEventListener('keydown', function(e){ if(e.key === 'Enter') doSignIn(
 $('email').addEventListener('keydown', function(e){ if(e.key === 'Enter') doSignIn(); });
 
 $('signOut').addEventListener('click', async function(){
-  clearDraft();
-  if(LIVE) await sb.auth.signOut();
+  var open_ = user ? await listDrafts() : [];
+  var pending = await outboxItems();
+  if(open_.length && !confirm('You have ' + open_.length + ' inspection' + (open_.length > 1 ? 's' : '') +
+      ' in progress. They stay saved on this device and will be here when you sign back in. Sign out?')) return;
+  if(pending.length && !confirm(pending.length + ' inspection' + (pending.length > 1 ? 's have' : ' has') +
+      ' not uploaded yet. They will send when this device is back online. Sign out anyway?')) return;
+  /* Drafts and the outbox deliberately survive sign-out. Losing a morning's
+     work to a mis-tapped button is worse than leaving it cached on a phone
+     that is already unlocked and already signed in. */
+  if(LIVE && sb) await sb.auth.signOut();
+  location.reload();
+});
+
+/* Discarding a restored draft is destructive, so it asks. */
+document.addEventListener('click', async function(e){
+  if(e.target.id !== 'dropDraft') return;
+  if(!confirm('Discard this draft? Its notes and photos are deleted from this device.')) return;
+  await clearDraft();
   location.reload();
 });
 
@@ -1054,6 +1093,12 @@ function renderRoute(){
     + (filters.mine ? ' · mine' : '')
     + (activeFilterCount() - (filters.mine ? 1 : 0) > 0 ? ' · filtered' : '');
   $('rtAll').textContent = showAll ? 'Show only what is due' : 'Show every property';
+  var chain = $('rtChain');
+  if(chain){
+    chain.textContent = stops.length > 1
+      ? stops.map(function(s){ return s.prop.address.split(',')[0]; }).join('  →  ')
+      : '';
+  }
   $('rtNav').disabled = stops.length === 0;
 
   if(!directory.length){
@@ -1093,6 +1138,7 @@ function renderRoute(){
       '</div>' +
       '<div class="stop-acts">' +
         '<a class="btn btn-ghost" href="' + esc(navUrl(p.address)) + '" target="_blank" rel="noopener">Navigate</a>' +
+        '<button class="btn btn-ghost" data-from="' + i + '">Route from here</button>' +
         '<button class="btn btn-gold" data-start="' + esc(p.id) + '">Inspect</button>' +
       '</div>' +
     '</div>';
@@ -1113,15 +1159,34 @@ function navUrl(address){
 /* Whole route in one go. Google takes waypoints between origin and
    destination; Apple Maps does not, so there it falls back to the first stop
    and the list stays the source of truth. */
-function routeUrl(stops){
+function routeUrl(stops, origin){
   var addrs = stops.map(function(s){ return s.prop.address; });
   if(!addrs.length) return '#';
-  if(isApple()) return navUrl(addrs[0]);
+  if(isApple()){
+    /* Apple Maps takes one destination per URL, so a multi-stop run there is
+       leg by leg. The list on screen stays the source of truth. */
+    return navUrl(addrs[0]);
+  }
   var dest = addrs[addrs.length - 1];
   var mid = addrs.slice(0, -1);
   var u = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(dest);
+  if(origin) u += '&origin=' + encodeURIComponent(origin);
   if(mid.length) u += '&waypoints=' + mid.map(encodeURIComponent).join('%7C');
   return u + '&travelmode=driving';
+}
+
+/* "From here on" — everything from this stop to the end of the day, in order.
+   The common case mid-route: three houses done, navigate the rest in one go. */
+function routeFrom(index){
+  var stops = routeStops();
+  var rest = stops.slice(index);
+  if(!rest.length) return;
+  var capped = rest.slice(0, 10);
+  if(rest.length > capped.length){
+    rtBanner('<b>Route split</b>Maps takes ten stops at a time, so this opens the next '
+      + capped.length + ' of ' + rest.length + '. Run the remainder as a second leg.', '');
+  }
+  window.open(routeUrl(capped, 'Current+Location'), '_blank', 'noopener');
 }
 
 $('rtAll').addEventListener('click', function(){ showAll = !showAll; renderRoute(); });
@@ -1140,10 +1205,12 @@ $('rtNav').addEventListener('click', function(){
   } else {
     $('rtBanner').classList.add('hide');
   }
-  window.open(routeUrl(capped), '_blank', 'noopener');
+  window.open(routeUrl(capped, 'Current+Location'), '_blank', 'noopener');
 });
 
 $('stops').addEventListener('click', function(e){
+  var from = e.target.closest('[data-from]');
+  if(from){ routeFrom(parseInt(from.dataset.from, 10)); return; }
   var mv = e.target.closest('[data-mv]');
   if(!mv) return;
   var stops = routeStops();
@@ -1157,9 +1224,9 @@ $('stops').addEventListener('click', function(e){
 });
 
 /* ---- start an inspection from a property ---- */
-document.addEventListener('click', function(e){
+document.addEventListener('click', async function(e){
   var b = e.target.closest('[data-start]'); if(!b) return;
-  bindProperty(b.dataset.start);
+  await switchToProperty(b.dataset.start);
   showView('form');
 });
 
@@ -1176,6 +1243,33 @@ function fillPropertySelect(){
     allProperties().map(function(x){
       return '<option value="' + esc(x.prop.id) + '">' + esc(x.prop.address) + ' — ' + esc(x.client.full_name) + '</option>';
     }).join('');
+}
+
+async function switchToProperty(propId){
+  /* Park whatever is open before touching another house. This is the bug that
+     used to eat a whole inspection: one draft slot, silently overwritten. */
+  if(user && draftId){
+    var n = 0;
+    Object.keys(state).forEach(function(k){ n += Object.keys(state[k]).length; });
+    if(n || photos.length || linePhotoCount()) await saveDraftNow();
+  }
+  var wanted = 'draft:' + (user ? user.id : 'anon') + ':' + propId;
+  if(draftId !== wanted){
+    var existing = null;
+    try { existing = await idbGet('drafts', wanted); } catch(err){}
+    if(existing){ await loadDraft(wanted); await renderDrafts(); return; }
+    buildSystems();
+    photos = []; $('thumbs').innerHTML = '';
+    $('actions').innerHTML = ''; addActionRow();
+    FIELDS.forEach(function(k){ if(k !== 'f_date') $(k).value = ''; });
+    $('f_date').value = new Date().toISOString().slice(0,10);
+    $('f_num').value = '';
+    savedId = null;
+    draftId = wanted;
+    recalc();
+  }
+  bindProperty(propId);
+  await renderDrafts();
 }
 
 function bindProperty(propId){
@@ -1201,7 +1295,10 @@ function bindProperty(propId){
   b.classList.remove('hide');
   saveDraft();
 }
-$('f_prop').addEventListener('change', function(){ bindProperty($('f_prop').value); });
+$('f_prop').addEventListener('change', async function(){
+  var v = $('f_prop').value;
+  if(v) await switchToProperty(v); else bindProperty('');
+});
 
 /* ------------------------------------------------------------------
    VIEWS
@@ -1314,7 +1411,7 @@ function renderRowThumbs(rid){
   host.innerHTML = '';
   d.photos.forEach(function(p, idx){
     var el = document.createElement('div'); el.className = 'thumb';
-    var img = document.createElement('img'); img.src = p.src; img.alt = '';
+    var img = document.createElement('img'); img.src = p.url; img.alt = '';
     var rm = document.createElement('button');
     rm.type = 'button'; rm.className = 'rm'; rm.innerHTML = '&times;';
     rm.setAttribute('aria-label', 'Remove photo');
@@ -1355,16 +1452,16 @@ $('systems').addEventListener('change', function(e){
   var rid = t.dataset.photo, r = splitRid(rid), d = det(r.key, r.i);
   var files = Array.from(t.files);
   t.value = '';
-  files.forEach(async function(file){
-    var small;
-    try { small = await compress(file); } catch(err){ return; }
-    var reader = new FileReader();
-    reader.onload = function(){
-      d.photos.push({ src:reader.result, cap:file.name.replace(/\.[^.]+$/,'').slice(0,22) });
-      renderRowThumbs(rid); markMore(rid);
-    };
-    reader.readAsDataURL(small);
-  });
+  (async function(){
+    for(var n = 0; n < files.length; n++){
+      try{
+        var blob = await compress(files[n]);
+        d.photos.push({ blob:blob, cap:files[n].name.replace(/\.[^.]+$/,'').slice(0,22), url:photoUrl(blob) });
+        renderRowThumbs(rid); markMore(rid);
+        await saveDraft();
+      } catch(err){}
+    }
+  })();
 });
 
 $('systems').addEventListener('click', function(e){
@@ -1435,7 +1532,7 @@ function addActionRow(val){
   var input = document.createElement('input');
   input.placeholder = 'Replace A/C filter — due within 30 days';
   input.value = val || '';
-  input.addEventListener('input', saveDraft);
+  input.addEventListener('input', function(){ markDirty(); saveDraft(); });
   var del = document.createElement('button');
   del.className = 'mini'; del.type = 'button';
   del.setAttribute('aria-label', 'Remove action');
@@ -1450,71 +1547,245 @@ $('addAction').addEventListener('click', function(){ addActionRow(); });
    Still browser memory only. Storage upload is the next roadmap task;
    until then a refresh drops them and the report embeds them as data
    URLs, which is why they are left out of the draft below. */
-var photos = [];
+/* ==================================================================
+   DURABLE LOCAL STORE
+
+   Everything a technician has typed or photographed lives here until it
+   is safely in Postgres. Three things went wrong with the previous
+   version and all three lost real work:
+
+   1. ONE draft slot. Starting a second house silently overwrote the
+      first. Drafts are keyed per property now, and several can be open.
+   2. Photos never persisted. They sat in memory as data URLs, so a
+      backgrounded tab on a phone — which iOS discards aggressively —
+      took every photo with it. Photos are Blobs in IndexedDB now and
+      survive a reload, a crash and a battery pull.
+   3. A failed submit had nowhere to go. There is an outbox now: a
+      submission that cannot reach the server is queued, retried on a
+      timer, on reconnect and at next sign-in, and cannot be cleared by
+      Reset.
+
+   localStorage is not used for any of this. It caps around 5MB and
+   cannot hold a Blob at all — one inspection with eight phone photos
+   blows it on its own.
+================================================================== */
+var DB_NAME = 'homecrew', DB_VER = 1;
+var idbFailed = false;
+
+function idbOpen(){
+  if(idbOpen._p) return idbOpen._p;
+  idbOpen._p = new Promise(function(res, rej){
+    if(!window.indexedDB) return rej(new Error('IndexedDB unavailable'));
+    var r = indexedDB.open(DB_NAME, DB_VER);
+    r.onupgradeneeded = function(){
+      var db = r.result;
+      if(!db.objectStoreNames.contains('drafts')) db.createObjectStore('drafts', { keyPath:'id' });
+      if(!db.objectStoreNames.contains('outbox')) db.createObjectStore('outbox', { keyPath:'id' });
+    };
+    r.onsuccess = function(){ res(r.result); };
+    r.onerror   = function(){ rej(r.error); };
+  });
+  return idbOpen._p;
+}
+
+function idb(store, mode, run){
+  return idbOpen().then(function(db){
+    return new Promise(function(res, rej){
+      var t = db.transaction(store, mode), req = run(t.objectStore(store));
+      t.oncomplete = function(){ res(req ? req.result : undefined); };
+      t.onerror    = function(){ rej(t.error); };
+      t.onabort    = function(){ rej(t.error || new Error('aborted')); };
+    });
+  }).catch(function(err){
+    /* Private mode, or a browser with IDB disabled. Say so once and keep
+       going — an inspection that cannot be cached is still an inspection
+       that can be submitted, it just must not be interrupted. */
+    if(!idbFailed){
+      idbFailed = true;
+      warnBanner('<b>This device cannot cache work offline</b>' +
+        'Private browsing blocks local storage. Finish and submit each inspection ' +
+        'in one go, and do not close the tab partway through.');
+    }
+    throw err;
+  });
+}
+
+var idbPut = function(st, v){ return idb(st,'readwrite',function(s){ return s.put(v); }); };
+var idbGet = function(st, k){ return idb(st,'readonly', function(s){ return s.get(k); }); };
+var idbAll = function(st){    return idb(st,'readonly', function(s){ return s.getAll(); }); };
+var idbDel = function(st, k){ return idb(st,'readwrite',function(s){ return s.delete(k); }); };
+
+function warnBanner(html){
+  var b = $('formBanner');
+  if(!b) return;
+  b.className = 'banner banner-bad';
+  b.innerHTML = html;
+  b.classList.remove('hide');
+}
+
+function uid(){
+  if(window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'x' + Date.now() + Math.random().toString(16).slice(2, 10);
+}
+
+/* ------------------------------------------------------------------
+   PHOTOS
+   Held as Blobs, displayed through object URLs. Blobs go straight to
+   Storage on submit and straight into IndexedDB on autosave, so a photo
+   is never re-encoded and never sits in a 5MB text quota.
+------------------------------------------------------------------- */
+var MAX_EDGE = 1600;
+var objectUrls = [];
+
+function photoUrl(blob){
+  var u = URL.createObjectURL(blob);
+  objectUrls.push(u);
+  return u;
+}
+
+function compress(file){
+  return new Promise(function(resolve, reject){
+    var img = new Image(), src = URL.createObjectURL(file);
+    img.onload = function(){
+      URL.revokeObjectURL(src);
+      var scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+      var c = document.createElement('canvas');
+      c.width  = Math.max(1, Math.round(img.width  * scale));
+      c.height = Math.max(1, Math.round(img.height * scale));
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(function(blob){
+        blob ? resolve(blob) : reject(new Error('Could not read that image'));
+      }, 'image/jpeg', 0.8);
+    };
+    img.onerror = function(){ URL.revokeObjectURL(src); reject(new Error('Could not read that image')); };
+    img.src = src;
+  });
+}
+
+var photos = [];   /* [{ blob, cap, url }] */
+
+function renderThumbs(){
+  var host = $('thumbs');
+  host.innerHTML = '';
+  photos.forEach(function(p, idx){
+    var d = document.createElement('div'); d.className = 'thumb';
+    var img = document.createElement('img'); img.src = p.url; img.alt = '';
+    var rm = document.createElement('button');
+    rm.type = 'button'; rm.className = 'rm'; rm.innerHTML = '&times;';
+    rm.setAttribute('aria-label', 'Remove photo');
+    rm.addEventListener('click', function(){ photos.splice(idx, 1); renderThumbs(); saveDraft(); });
+    var cap = document.createElement('input');
+    cap.value = p.cap;
+    cap.addEventListener('input', function(){ p.cap = cap.value; saveDraft(); });
+    d.appendChild(img); d.appendChild(rm); d.appendChild(cap);
+    host.appendChild(d);
+  });
+}
+
 $('f_photos').addEventListener('change', async function(e){
   var files = Array.from(e.target.files);
   e.target.value = '';
   for(var n = 0; n < files.length; n++){
-    var file = files[n];
-    var small;
-    try { small = await compress(file); } catch(err){ continue; }
-    var r = new FileReader();
-    r.onload = (function(file){ return function(){
-      var idx = photos.push({ src:r.result, cap:file.name.replace(/\.[^.]+$/,'').slice(0,22) }) - 1;
-      var d = document.createElement('div'); d.className = 'thumb';
-      var img = document.createElement('img'); img.src = r.result; img.alt = '';
-      d.appendChild(img);
-      var cap = document.createElement('input');
-      cap.value = photos[idx].cap;
-      cap.addEventListener('input', function(){ photos[idx].cap = cap.value; });
-      d.appendChild(cap);
-      $('thumbs').appendChild(d);
-    }; })(file);
-    r.readAsDataURL(small);
+    try{
+      var blob = await compress(files[n]);
+      photos.push({ blob:blob, cap:files[n].name.replace(/\.[^.]+$/,'').slice(0,22), url:photoUrl(blob) });
+      renderThumbs();
+      await saveDraft();     /* every photo is durable the moment it is taken */
+    } catch(err){ /* unreadable file — skip it rather than kill the loop */ }
   }
 });
 
 /* ------------------------------------------------------------------
-   DRAFT AUTOSAVE
-   A technician who loses signal halfway through a walkthrough must not
-   lose the visit. Photos are excluded — base64 blows past the storage
-   quota. Cleared on save, on reset and on sign-out so a shared phone
-   does not keep a client address sitting in local storage.
+   DRAFTS — one per property, several open at once
 ------------------------------------------------------------------- */
-var DRAFT_KEY = 'hc_draft_v2';
 var FIELDS = ['f_addr','f_owner','f_type','f_email','f_phone','f_next','f_date','f_in','f_out','f_weather','f_notes'];
+var draftId = null;
+var saveTimer = null;
 
-function saveDraft(){
-  if(!user) return;
-  try{
-    localStorage.setItem(DRAFT_KEY, JSON.stringify({
-      at: Date.now(),
-      user: user.id,
-      current: current,
-      state: state,
-      /* Notes only. Per-line photos are base64 and would blow the storage
-         quota on the second house — they live in memory until upload lands
-         (roadmap task 3), same as the general photo pile. */
-      notes: Object.keys(detail).reduce(function(o, k){
-        Object.keys(detail[k]).forEach(function(i){
-          if(detail[k][i].note) { o[k + '_' + i] = detail[k][i].note; }
-        });
-        return o;
-      }, {}),
-      fields: FIELDS.reduce(function(o,k){ o[k] = $(k).value; return o; }, {}),
-      actions: Array.from($('actions').querySelectorAll('input')).map(function(i){ return i.value; })
-    }));
-  } catch(err){ /* quota or private mode — the form still works, just unsaved */ }
+function currentDraftId(){
+  return 'draft:' + (user ? user.id : 'anon') + ':' + (current ? current.propertyId : 'unlinked');
 }
-function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); } catch(err){} }
 
-function restoreDraft(){
-  var raw;
-  try{ raw = localStorage.getItem(DRAFT_KEY); } catch(err){ return; }
-  if(!raw) return;
+function draftPayload(){
+  var lineNotes = {}, linePhotos = {};
+  Object.keys(detail).forEach(function(k){
+    Object.keys(detail[k]).forEach(function(i){
+      var d = detail[k][i];
+      if(d.note) lineNotes[k + '_' + i] = d.note;
+      if(d.photos.length){
+        linePhotos[k + '_' + i] = d.photos.map(function(p){ return { blob:p.blob, cap:p.cap }; });
+      }
+    });
+  });
+  return {
+    id: draftId || currentDraftId(),
+    user: user ? user.id : null,
+    at: Date.now(),
+    current: current,
+    address: $('f_addr').value,
+    state: JSON.parse(JSON.stringify(state)),
+    notes: lineNotes,
+    linePhotos: linePhotos,
+    photos: photos.map(function(p){ return { blob:p.blob, cap:p.cap }; }),
+    fields: FIELDS.reduce(function(o,k){ o[k] = $(k).value; return o; }, {}),
+    actions: Array.from($('actions').querySelectorAll('input')).map(function(i){ return i.value; })
+  };
+}
+
+/* Debounced so a fast typist does not queue a write per keystroke, but
+   short enough that nothing meaningful is ever more than a second old. */
+function saveDraft(){
+  if(!user) return Promise.resolve();
+  draftId = draftId || currentDraftId();
+  clearTimeout(saveTimer);
+  return new Promise(function(res){
+    saveTimer = setTimeout(function(){
+      idbPut('drafts', draftPayload()).then(function(){
+        markSaved();
+        broadcast({ type:'draft', id:draftId });
+        res();
+      }).catch(function(){ res(); });
+    }, 400);
+  });
+}
+
+function saveDraftNow(){
+  if(!user) return Promise.resolve();
+  clearTimeout(saveTimer);
+  draftId = draftId || currentDraftId();
+  return idbPut('drafts', draftPayload()).then(markSaved).catch(function(){});
+}
+
+function clearDraft(){
+  var id = draftId;
+  draftId = null;
+  if(!id) return Promise.resolve();
+  return idbDel('drafts', id).then(function(){ broadcast({ type:'draft', id:id }); })
+                             .catch(function(){});
+}
+
+function markSaved(){
+  var el = $('saveState');
+  if(!el) return;
+  el.textContent = 'Saved on this device';
+  el.className = 'savestate ok';
+}
+function markDirty(){
+  var el = $('saveState');
+  if(!el) return;
+  el.textContent = 'Saving…';
+  el.className = 'savestate';
+}
+
+async function loadDraft(id){
   var d;
-  try{ d = JSON.parse(raw); } catch(err){ clearDraft(); return; }
-  if(!d || d.user !== user.id){ clearDraft(); return; }
+  try { d = await idbGet('drafts', id); } catch(err){ return false; }
+  if(!d || d.user !== user.id) return false;
+
+  draftId = d.id;
+  buildSystems();
+  photos = [];
+  $('thumbs').innerHTML = '';
 
   FIELDS.forEach(function(k){ if(d.fields && d.fields[k] != null) $(k).value = d.fields[k]; });
   $('actions').innerHTML = '';
@@ -1531,35 +1802,198 @@ function restoreDraft(){
       });
     });
   });
+
   Object.keys(d.notes || {}).forEach(function(rid){
     var r = splitRid(rid);
     if(!state[r.key]) return;
     det(r.key, r.i).note = d.notes[rid];
     var ta = document.querySelector('[data-note="' + rid + '"]');
     if(ta) ta.value = d.notes[rid];
-    markMore(rid);
   });
+
+  Object.keys(d.linePhotos || {}).forEach(function(rid){
+    var r = splitRid(rid);
+    if(!state[r.key]) return;
+    det(r.key, r.i).photos = d.linePhotos[rid].map(function(p){
+      return { blob:p.blob, cap:p.cap, url:photoUrl(p.blob) };
+    });
+    renderRowThumbs(rid);
+  });
+
+  (d.photos || []).forEach(function(p){
+    photos.push({ blob:p.blob, cap:p.cap, url:photoUrl(p.blob) });
+  });
+  renderThumbs();
+
+  Object.keys(state).forEach(function(k){
+    Object.keys(state[k]).forEach(function(i){ markMore(k + '_' + i); });
+  });
+  Object.keys(d.notes || {}).forEach(markMore);
+  Object.keys(d.linePhotos || {}).forEach(markMore);
 
   recalc();
   if(d.current) bindProperty(d.current.propertyId);
-
-  var note = 'Picked up where you left off. <button class="btn btn-ghost btn-sm" id="dropDraft" type="button">Start fresh</button>';
-  var b = $('formBanner');
-  if(b.classList.contains('hide')){
-    b.className = 'banner';
-    b.innerHTML = '<b>Draft restored</b>' + note;
-    b.classList.remove('hide');
-  } else {
-    b.innerHTML += ' ' + note;
-  }
-  showView('form');
+  markSaved();
+  return true;
 }
-document.addEventListener('click', function(e){
-  if(e.target.id !== 'dropDraft') return;
-  clearDraft();
-  location.reload();
+
+/* Every open draft, so switching houses never destroys one. */
+async function listDrafts(){
+  var all;
+  try { all = await idbAll('drafts'); } catch(err){ return []; }
+  return (all || []).filter(function(d){ return d.user === user.id; })
+                    .sort(function(a,b){ return b.at - a.at; });
+}
+
+async function renderDrafts(){
+  var host = $('draftList');
+  if(!host) return;
+  var all = await listDrafts();
+  var others = all.filter(function(d){ return d.id !== draftId; });
+  if(!others.length){ host.innerHTML = ''; return; }
+  host.innerHTML = '<div class="banner"><b>' + others.length + ' other inspection' +
+    (others.length > 1 ? 's' : '') + ' in progress on this device</b>' +
+    others.map(function(d){
+      var n = 0;
+      Object.keys(d.state || {}).forEach(function(k){ n += Object.keys(d.state[k]).length; });
+      return '<button class="btn btn-ghost btn-sm" style="margin:6px 6px 0 0" data-draft="' + esc(d.id) + '">' +
+             esc(d.address || 'Unlinked') + ' · ' + n + '/25</button>';
+    }).join('') + '</div>';
+}
+
+document.addEventListener('click', async function(e){
+  var b = e.target.closest('[data-draft]');
+  if(!b) return;
+  await saveDraftNow();
+  await loadDraft(b.dataset.draft);
+  await renderDrafts();
+  showView('form');
 });
-FIELDS.forEach(function(k){ $(k).addEventListener('input', saveDraft); });
+
+/* ------------------------------------------------------------------
+   OUTBOX
+   A submission that cannot reach the server is not lost and is not the
+   technician's problem to remember. It is queued with its photos and
+   retried on a timer, when the device comes back online, and at next
+   sign-in. Reset does not touch it.
+------------------------------------------------------------------- */
+var outboxTimer = null;
+
+async function queueSubmission(payload, allPhotos){
+  var item = {
+    id: 'out:' + uid(),
+    user: user.id,
+    at: Date.now(),
+    attempts: 0,
+    lastError: null,
+    payload: payload,
+    photos: allPhotos.map(function(p){ return { blob:p.blob, cap:p.cap }; })
+  };
+  try { await idbPut('outbox', item); } catch(err){ return null; }
+  renderOutbox();
+  return item.id;
+}
+
+async function outboxItems(){
+  var all;
+  try { all = await idbAll('outbox'); } catch(err){ return []; }
+  return (all || []).filter(function(o){ return !user || o.user === user.id; });
+}
+
+async function renderOutbox(){
+  var host = $('outbox');
+  if(!host) return;
+  var items = await outboxItems();
+  if(!items.length){ host.innerHTML = ''; return; }
+  host.innerHTML = '<div class="banner banner-bad"><b>' + items.length + ' inspection' +
+    (items.length > 1 ? 's' : '') + ' waiting to upload</b>' +
+    'Saved on this device and not lost. ' +
+    (navigator.onLine ? 'Retrying automatically.' : 'Will send as soon as you have signal.') +
+    ' <button class="btn btn-ghost btn-sm" id="obRetry" type="button">Retry now</button></div>';
+}
+
+async function flushOutbox(){
+  if(!LIVE || !sb || !user || !navigator.onLine) return;
+  var items = await outboxItems();
+  for(var i = 0; i < items.length; i++){
+    var it = items[i];
+    try{
+      var res = await sb.from('inspections').insert(it.payload).select('id, inspection_no').single();
+      if(res.error) throw new Error(res.error.message);
+      if(it.photos && it.photos.length){
+        await uploadBlobs(res.data.id, it.payload.property_id, it.photos);
+      }
+      await idbDel('outbox', it.id);
+    } catch(err){
+      it.attempts++;
+      it.lastError = String(err && err.message || err);
+      try { await idbPut('outbox', it); } catch(e2){}
+    }
+  }
+  renderOutbox();
+}
+
+function startOutbox(){
+  clearInterval(outboxTimer);
+  outboxTimer = setInterval(flushOutbox, 30000);
+  addEventListener('online', flushOutbox);
+  flushOutbox();
+}
+document.addEventListener('click', function(e){ if(e.target.id === 'obRetry') flushOutbox(); });
+
+/* ------------------------------------------------------------------
+   UPLOAD
+------------------------------------------------------------------- */
+async function uploadBlobs(inspectionId, propertyId, list){
+  var paths = [], failed = 0;
+  for(var n = 0; n < list.length; n++){
+    try{
+      var path = (propertyId || 'unlinked') + '/' + inspectionId + '/' + uid() + '.jpg';
+      var up = await sb.storage.from('inspection-photos')
+        .upload(path, list[n].blob, { contentType:'image/jpeg', upsert:false });
+      if(up.error) failed++; else paths.push(path);
+    } catch(err){ failed++; }
+  }
+  if(paths.length){
+    await sb.from('inspections').update({ photo_paths: paths }).eq('id', inspectionId);
+  }
+  return { paths: paths, failed: failed };
+}
+
+function allHeldPhotos(){
+  var out = photos.slice();
+  Object.keys(detail).forEach(function(k){
+    Object.keys(detail[k]).forEach(function(i){
+      out = out.concat(detail[k][i].photos);
+    });
+  });
+  return out;
+}
+
+function linePhotoCount(){
+  return Object.keys(detail).reduce(function(n, k){
+    return n + Object.keys(detail[k]).reduce(function(m, i){ return m + detail[k][i].photos.length; }, 0);
+  }, 0);
+}
+
+/* ------------------------------------------------------------------
+   CROSS-TAB
+   Two tabs on one phone used to write the same key and clobber each
+   other. Each tab now announces what it touched and the others reread
+   rather than assume.
+------------------------------------------------------------------- */
+var chan = null;
+try { chan = new BroadcastChannel('homecrew'); } catch(err){ chan = null; }
+function broadcast(msg){
+  try { if(chan) chan.postMessage(msg); } catch(err){}
+}
+if(chan){
+  chan.onmessage = function(e){
+    if(!user || !e.data) return;
+    if(e.data.type === 'draft' && e.data.id !== draftId) renderDrafts();
+    if(e.data.type === 'submitted'){ renderOutbox(); }
+  };
+}
 
 /* ------------------------------------------------------------------
    REPORT
@@ -1611,34 +2045,6 @@ function compress(file){
 function uid(){
   if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
   return 'p' + Date.now() + Math.random().toString(16).slice(2, 8);
-}
-
-/* Uploads every held photo and returns the storage paths. Called once, on
-   save, so a technician who reshoots a photo does not pay to upload the
-   discarded one. */
-async function uploadPhotos(inspectionId){
-  if(!LIVE || !sb || !current) return { paths: [], failed: 0 };
-  var queue = [];
-  photos.forEach(function(p){ queue.push({ src: p.src, cap: p.cap }); });
-  Object.keys(detail).forEach(function(k){
-    Object.keys(detail[k]).forEach(function(i){
-      detail[k][i].photos.forEach(function(p){ queue.push({ src: p.src, cap: p.cap }); });
-    });
-  });
-  if(!queue.length) return { paths: [], failed: 0 };
-
-  var paths = [], failed = 0;
-  for(var n = 0; n < queue.length; n++){
-    repBanner('<b>Uploading photos</b>' + (n + 1) + ' of ' + queue.length + '…', '');
-    try{
-      var blob = await (await fetch(queue[n].src)).blob();
-      var path = current.propertyId + '/' + inspectionId + '/' + uid() + '.jpg';
-      var up = await sb.storage.from('inspection-photos')
-        .upload(path, blob, { contentType: 'image/jpeg', upsert: false });
-      if(up.error){ failed++; } else { paths.push(path); }
-    } catch(err){ failed++; }
-  }
-  return { paths: paths, failed: failed };
 }
 
 function linePhotoCount(){
@@ -1711,10 +2117,20 @@ async function saveInspection(scores, overall, flags, actions){
     actions:       actions,
     status:        'complete'
   };
-  var res = await sb.from('inspections').insert(payload).select('id, inspection_no').single();
-  if(res.error){
-    repBanner('<b>Report generated but not saved</b>' + esc(res.error.message) +
-              ' — save it as a PDF so the visit is not lost, then tell the owner.', 'bad');
+  var held = allHeldPhotos();
+  var res;
+  try {
+    res = await sb.from('inspections').insert(payload).select('id, inspection_no').single();
+    if(res.error) throw new Error(res.error.message);
+  } catch(err){
+    /* Could not reach the server. The visit is NOT lost: it goes to the
+       outbox with its photos and retries itself. */
+    var qid = await queueSubmission(payload, held);
+    await clearDraft();
+    renderOutbox();
+    repBanner('<b>Queued — nothing lost</b>' + esc(String(err && err.message || err)) +
+              (qid ? '. This inspection and its photos are saved on this device and will upload by themselves as soon as you have signal.'
+                   : '. This device cannot cache offline, so save a PDF now.'), 'bad');
     return;
   }
   savedId = res.data.id;
@@ -1723,12 +2139,11 @@ async function saveInspection(scores, overall, flags, actions){
   /* Photos go up after the insert, because the storage path needs the
      inspection id. A failed upload does not lose the visit — the row is
      already saved and the banner says how many did not make it. */
-  var up = await uploadPhotos(savedId);
-  if(up.paths.length){
-    await sb.from('inspections').update({ photo_paths: up.paths }).eq('id', savedId);
-  }
+  var up = await uploadBlobs(savedId, current ? current.propertyId : null, held);
 
-  clearDraft();
+  await clearDraft();
+  await renderDrafts();
+  broadcast({ type:'submitted' });
   /* This property is no longer due — reflect that on the route immediately. */
   if(current){
     allProperties().forEach(function(x){
@@ -1802,7 +2217,7 @@ function renderReport(scores, overall, bd, flags, actions){
           (f.photos.length
             ? '<div class="repgrid" style="margin-top:10px">'+
               f.photos.map(function(p){
-                return '<figure><img src="'+esc(p.src)+'" alt="'+esc(f.item)+' — '+esc(p.cap)+'">'+
+                return '<figure><img src="'+esc(p.url)+'" alt="'+esc(f.item)+' — '+esc(p.cap)+'">'+
                        '<figcaption>'+esc(p.cap)+'</figcaption></figure>';
               }).join('')+'</div>'
             : '')+
@@ -1811,7 +2226,7 @@ function renderReport(scores, overall, bd, flags, actions){
 
     (photos.length ? '<div class="rep-sec"><h4>Photo Highlights</h4><div class="repgrid">'+
       photos.map(function(p){
-        return '<figure><img src="'+esc(p.src)+'" alt="'+esc(p.cap)+'"><figcaption>'+esc(p.cap)+'</figcaption></figure>';
+        return '<figure><img src="'+esc(p.url)+'" alt="'+esc(p.cap)+'"><figcaption>'+esc(p.cap)+'</figcaption></figure>';
       }).join('') + '</div></div>' : '')+
 
     ($('f_notes').value.trim() ? '<div class="rep-sec"><h4>Notes from your technician</h4>'+
@@ -1862,9 +2277,16 @@ $('sendRep').addEventListener('click', async function(){
   repBanner('<b>Sent</b>Report delivered to ' + esc((res.data && res.data.to) || 'the client on file') + '.', 'ok');
 });
 
-$('resetForm').addEventListener('click', function(){
-  if(!confirm('Clear this inspection and start over?')) return;
-  clearDraft();
+$('resetForm').addEventListener('click', async function(){
+  var n = 0;
+  Object.keys(state).forEach(function(k){ n += Object.keys(state[k]).length; });
+  var shots = photos.length + linePhotoCount();
+  var msg = n || shots
+    ? 'Clear this inspection? ' + n + ' of 25 lines and ' + shots + ' photo' + (shots === 1 ? '' : 's') +
+      ' will be deleted from this device. Anything already uploaded is unaffected.'
+    : 'Clear this inspection and start over?';
+  if(!confirm(msg)) return;
+  await clearDraft();      /* the outbox is untouched — queued work is not a draft */
   location.reload();
 });
 
