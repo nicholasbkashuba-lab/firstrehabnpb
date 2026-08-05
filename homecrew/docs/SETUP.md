@@ -1,49 +1,47 @@
 # Setup — turning the portal on
 
-Everything in the portal is built. It is running against sample data until the
-Supabase project exists. These are the steps only the account owner can do.
+Steps 1 to 3 are **done** — the project exists, the schema is applied and the
+keys are wired. What is left is step 4 onward: the accounts and the data, which
+only the owner can enter.
 
-Until step 3 is finished, `portal.html` shows a red **Sample data** banner and
-three invented clients whose codes are all `0000`. Nothing typed into sample mode
-is saved or protected. Do not put a real address or gate code in there.
+**Project:** `Home Crew` (`fuznycuqxbrwkaiuayjs`, us-west-2)
 
 ---
 
-## 1. Create the Supabase project
+## 1. Create the Supabase project — DONE
 
-supabase.com → New project. Free tier is enough to start: a few dozen properties
-and a few hundred inspections a year is nowhere near the limits.
+Created 2026-08-05. Free tier: a few dozen properties and a few hundred
+inspections a year is nowhere near the limits.
 
-Name it **HomeCrew**. Pick the region closest to Florida (`us-east-1`).
+## 2. Run the migrations — DONE
 
-Save the database password somewhere real — it is shown once.
+All three applied:
 
-## 2. Run the migrations
+1. `0001_init.sql` — tables, RLS, private storage bucket
+2. `0002_client_directory.sql` — access-code columns, active-crew-only reads
+3. `0003_function_hardening.sql` — closes the helper functions to signed-out callers
 
-Dashboard → SQL Editor → New query. Paste and run, in order:
+Table Editor shows `crew`, `clients`, `properties`, `inspections`, and a Storage
+bucket `inspection-photos` marked private.
 
-1. `supabase/migrations/0001_init.sql`
-2. `supabase/migrations/0002_client_directory.sql`
+Two security advisories remain and are deliberate:
+`is_owner()` and `is_active_crew()` stay executable by signed-in users because
+every RLS policy calls them — revoking that permission makes every table return
+"permission denied" instead of an empty result. See the header comment in
+`0003_function_hardening.sql`.
 
-Then check Table Editor — you should see `crew`, `clients`, `properties` and
-`inspections`, and a Storage bucket called `inspection-photos` marked private.
+## 3. Wire the keys — DONE
 
-## 3. Wire the keys
-
-Dashboard → Project Settings → API. Copy:
-
-- **Project URL** → `SUPABASE_URL` in `config.js`
-- **anon / public key** → `SUPABASE_ANON_KEY` in `config.js`
-
-Commit that file. Both values are public identifiers and every table behind them
-is protected by Row Level Security — that is the design, not a shortcut.
+`config.js` carries the project URL and the anon key. Both are public
+identifiers; every table behind them is protected by Row Level Security. That is
+the design, not a shortcut.
 
 **Never put the `service_role` key in `config.js`.** It bypasses RLS entirely. It
 belongs only in Edge Function secrets (step 6).
 
-Reload `portal.html`. The sample banner is gone and the login is real.
+## 4. Create the crew accounts — YOUR MOVE
 
-## 4. Create the crew accounts
+Passwords should be set by you, not by me, so this one is yours.
 
 There is deliberately **no public signup** — this app holds home addresses.
 
@@ -115,3 +113,6 @@ Sign in as yourself, search a client by name, open the profile, tap **Show** on
 the gate code, hit **Start inspection**, clear all 25 lines and generate the
 report. It should say "Saved" with an `HC-2026-0001` style number, and that visit
 should then appear under Recent visits on the property.
+
+If the login says "not an active crew member", the auth user exists but the
+`crew` row does not — step 4, part 2.

@@ -375,7 +375,18 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 
 var CFG  = window.HOMECREW_CONFIG || {};
 var LIVE = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
-var sb   = LIVE ? window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY) : null;
+
+/* The client comes off a CDN, so it can be missing: an outage, a blocked
+   network, a phone with no signal at a gate. Without this check the very next
+   line throws, the rest of the script never runs, and the technician gets a
+   login button that does nothing at all with no explanation.
+
+   Deliberately NOT falling back to sample mode here — a portal that silently
+   turns into fake data while someone is standing at a real house is worse than
+   one that plainly says it is broken. */
+var SDK = (window.supabase && typeof window.supabase.createClient === 'function')
+  ? window.supabase : null;
+var sb  = (LIVE && SDK) ? SDK.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY) : null;
 
 var $ = function(id){ return document.getElementById(id); };
 function esc(s){
@@ -431,7 +442,14 @@ function loginError(msg){
   box.classList.remove('hide');
 }
 
+if(LIVE && !SDK){
+  loginError('Could not load the sign-in library — check your connection and reload. ' +
+             'If this keeps happening call 561-383-0882; do not record the visit here until it is fixed.');
+  $('signIn').disabled = true;
+}
+
 async function doSignIn(){
+  if(LIVE && !SDK) return;
   var email = $('email').value.trim().toLowerCase(), pw = $('pw').value;
   $('loginErr').classList.add('hide');
 
@@ -490,7 +508,7 @@ $('signOut').addEventListener('click', async function(){
 
 /* Session restore — a refresh mid-inspection must not dump the tech at login. */
 async function boot(){
-  if(!LIVE) return;
+  if(!LIVE || !sb) return;
   var res = await sb.auth.getSession();
   if(res.data && res.data.session) await loadCrewAndStart(res.data.session.user);
 }

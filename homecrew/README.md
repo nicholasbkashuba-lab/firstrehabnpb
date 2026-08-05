@@ -13,9 +13,10 @@ No build step, no dependencies. Static HTML/CSS/JS.
 - `index.html` — public marketing site
 - `portal.html` — crew login → client directory → inspection form → generated client report
 
-The portal runs in **sample mode** until `config.js` has real Supabase keys: any
-email signs you in, three invented clients appear, every code is `0000` and
-nothing is saved. See `docs/SETUP.md` to point it at a real project.
+The Supabase backend is live and `config.js` is wired. What is left is data —
+crew accounts and client records, entered by the owner: `docs/SETUP.md` steps 4
+and 5. With blank keys the portal falls back to **sample mode**: any email signs
+you in, three invented clients appear, every code is `0000`, nothing is saved.
 
 ## Working with Claude Code
 
@@ -35,6 +36,7 @@ photo upload to Storage (3) and PDF email delivery (4) are what is left.
 ├── supabase/
 │   ├── migrations/0001_init.sql            # schema + RLS + storage bucket
 │   ├── migrations/0002_client_directory.sql # access codes + crew-only RLS
+│   ├── migrations/0003_function_hardening.sql # close helpers to signed-out callers
 │   └── functions/send-report/              # PDF + email delivery (skeleton)
 ├── docs/
 │   ├── BRAND.md              # colors, type, voice, logo, assets
@@ -55,7 +57,7 @@ email delivery is a skeleton, so "Send to client" errors rather than pretending.
 
 ## Before shipping
 
-1. **Create the Supabase project and fill in `config.js`** — `docs/SETUP.md`. Nothing in the portal touches real data until this is done.
+1. **Add crew accounts and client records** — `docs/SETUP.md` steps 4 and 5. The project, schema and keys are done; the tables are empty.
 2. Replace `firefighter-turnout-gear.jpg` with a real photo of the owner in gear (current one is an upscaled low-res placeholder).
 3. Set up the Google Business Profile — for "home watch near me" it outranks the website itself. NAP must match the footer exactly.
 4. Validate JSON-LD at `search.google.com/test/rich-results`.

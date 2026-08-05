@@ -23,11 +23,18 @@ persistence to the `inspections` table.
 Storage, and `send-report` has no PDF renderer or email key, so "Send to client"
 returns a visible error. See `docs/ROADMAP.md` tasks 3 and 4.
 
-**Before any of it runs against real data** the owner has to create the Supabase
-project and paste the URL + anon key into `config.js` — see `docs/SETUP.md`. While
-those are blank the portal runs in SAMPLE MODE: three invented clients, every code
-`0000`, nothing saved. Sample mode exists to demo the flow, not to hold real data,
-and the directory screen says so in red.
+**The backend is live.** Supabase project `Home Crew` (`fuznycuqxbrwkaiuayjs`),
+all three migrations applied, keys in `config.js`. What is still empty is the
+data: crew accounts, clients and properties are entered by the owner — see
+`docs/SETUP.md` steps 4 and 5. Until a crew account exists, a correct password
+still gets "not an active crew member", which is the intended answer.
+
+Blank keys in `config.js` drop the portal into SAMPLE MODE: three invented
+clients, every code `0000`, nothing saved. It exists to demo the flow, not to
+hold real data, and the directory screen says so in red. If the Supabase client
+script fails to load, the portal does **not** fall back to sample mode — it
+disables sign-in and says it is broken. A portal quietly showing fake data to
+someone standing at a real house is worse than one that admits it is down.
 
 ## Stack
 
@@ -81,6 +88,7 @@ This app will hold **client home addresses, alarm details, and photos of vacant 
 - Only ever use the Supabase **anon** key client-side. The service role key goes in Edge Function secrets and nowhere else — never in `portal.html`, never in `config.js`, never in a committed `.env`. `config.js` holding the URL and anon key IS safe to commit; that is what it is for.
 - Emailed reports contain addresses and interior photos. Confirm the recipient address comes from the property record, not from a form field a technician could typo. The portal enforces this: "Send to client" refuses on an inspection with no `property_id`, and the Edge Function reads the address off the property row rather than the request body.
 - **Access codes never enter a client report.** Gate code, key box combination, alarm and garage codes render masked in the directory, reveal on tap, and re-hide after 30 seconds. `renderReport()` reads none of them — keep it that way. A report is emailed and then forwarded onward; a code in one is a code in somebody's inbox forever.
+- Migration `0003` closed `is_owner()` and `is_active_crew()` to signed-out callers. Do not "finish the job" by revoking EXECUTE from `authenticated` too — RLS policy expressions run with the caller's privileges, so that makes every table return "permission denied" instead of an empty result. Verified on the live project; the header comment in `0003_function_hardening.sql` has the details. The two remaining Supabase advisories are accepted for this reason.
 - Migration `0002` moved credential reads from "any authenticated user" to **active crew only**, and dropped the `properties_field` view, which never actually protected anything (the base-table policy allowed the same select). Deactivating a crew row is now a real revocation. Read the header comment in that file before rewriting those policies.
 
 ## Verifying changes
