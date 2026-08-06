@@ -275,6 +275,42 @@ host embeds the Vercel TEAM SLUG, renamed to `thedesignofman` on 2026-08-03. The
 routine prompt or every clip over 20MB fails to upload. raw.githubusercontent and GitHub
 release assets both serve `application/octet-stream` and are rejected by Post Bridge.
 
+## How the clips are cut (observed spec, Episode 9 pipeline)
+- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, dark
+  outline, centred, two lines max, sitting around the lower third.
+- **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
+  and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
+  on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
+  narrow slice of an already cropped face — visibly worse, do not do it.
+- **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
+- Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
+  better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
+  Episode 8 and 9 clip currently opens on an interviewer question or mid sentence on "But",
+  which is the single biggest thing holding their reach back. Not yet changed — flagged to
+  Nick 2026-08-03, no decision taken.
+- Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
+  into a deliverable; ASR mangles guest names badly.
+
+## Full episode to YouTube — publish from Descript, by hand
+Descript holds the finished multicam edit and has YouTube connected in the app. Publish the
+FINAL composition straight from Descript to YouTube, then set scheduling in YouTube Studio.
+
+Do NOT route the full episode through Post Bridge or a downloaded file:
+- Post Bridge times out fetching anything that large (2.9GB Descript export failed at 60s).
+- GitHub release assets serve `application/octet-stream` and Post Bridge rejects them.
+- A browser download of the 1.2GB master truncates easily, and YouTube then reports
+  "file unreadable". A cloud synced folder holding the file as an online only placeholder
+  produces the same error.
+The Descript share page (`share.descript.com/view/...`, access "unlisted") is also the right
+way to let a guest watch their episode: streams in any browser, no account, no download.
+
+## Connectors — check this before assuming a tool is broken
+`ListConnectors` reports `connected` AND `enabledInChat`. A connector can be connected to the
+account while switched OFF for the current conversation, in which case its tools simply do not
+exist and every call fails as "no such tool". That looked like an intermittent Post Bridge
+outage across 2026-08-05/06 and cost hours; it was the per chat toggle the whole time.
+Connector changes only take effect on a NEW conversation, not mid chat.
+
 ## Episode masters
 Rendered masters exceed GitHub's 100MB blob limit, so they ship split: `split -b 45m` (or 90m)
 into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble with
