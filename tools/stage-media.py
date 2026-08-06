@@ -17,7 +17,13 @@ So: commit the file to a media/ branch, then use the Vercel branch host, falling
 to jsDelivr for small files. Both URLs are printed; verify before posting.
 
 .mov is converted to .mp4 (h264/aac, faststart). Platforms prefer mp4, and it is the
-format the clip pipeline already produces.
+format the clip pipeline already produces. X/Twitter in particular will not publish
+HEVC in a MOV container at all, so the conversion is required, not cosmetic.
+
+An HDR source is tonemapped to SDR on the way. Recent iPhones shoot Dolby Vision
+(HEVC Main 10, BT.2020, HLG), and converting that with a bare -pix_fmt yuv420p keeps
+the HLG-encoded values while tagging them BT.709: lifted blacks, milky whites, grey
+skin. It looks like bad camerawork rather than a bad convert, so it ships unnoticed.
 """
 import argparse, os, re, subprocess, sys, shutil
 
@@ -29,9 +35,23 @@ TEAM = "thedesignofman"
 JSDELIVR_LIMIT = 20 * 1024 * 1024
 
 
+# HDR -> SDR through linear light. A bare pixel-format change does NOT do this.
+TONEMAP = ("zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,"
+           "tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p")
+# Transfer characteristics that mean the source is HDR: HLG and PQ.
+HDR_TRC = {"arib-std-b67", "smpte2084"}
+
+
 def sh(cmd, cwd=None, check=True):
     return subprocess.run(cmd, cwd=cwd, shell=isinstance(cmd, str),
                           check=check, capture_output=True, text=True)
+
+
+def is_hdr(path):
+    """True when the video carries an HDR transfer curve, so it needs tonemapping."""
+    r = sh(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+            "stream=color_transfer", "-of", "csv=p=0", path], check=False)
+    return r.stdout.strip().lower() in HDR_TRC
 
 
 def main():
@@ -57,10 +77,19 @@ def main():
         dest = os.path.join(work, name)
         if name.lower().endswith(".mov") and not a.keep_mov:
             dest = os.path.splitext(dest)[0] + ".mp4"
-            print(f"converting {name} -> {os.path.basename(dest)}")
-            r = sh(["ffmpeg", "-v", "error", "-i", f, "-c:v", "libx264", "-preset",
-                    "veryfast", "-crf", "23", "-pix_fmt", "yuv420p", "-c:a", "aac",
-                    "-b:a", "128k", "-movflags", "+faststart", dest, "-y"], check=False)
+            hdr = is_hdr(f)
+            print(f"converting {name} -> {os.path.basename(dest)}"
+                  + ("  (HDR source, tonemapping to SDR)" if hdr else ""))
+            cmd = ["ffmpeg", "-v", "error", "-i", f]
+            if hdr:
+                cmd += ["-vf", TONEMAP,
+                        "-color_primaries", "bt709", "-color_trc", "bt709",
+                        "-colorspace", "bt709"]
+            else:
+                cmd += ["-pix_fmt", "yuv420p"]
+            cmd += ["-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+                    "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", dest, "-y"]
+            r = sh(cmd, check=False)
             if r.returncode != 0:
                 sys.exit(f"ffmpeg failed:\n{r.stderr[:800]}")
         else:
