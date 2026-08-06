@@ -2,10 +2,12 @@
 
 Ordered. Each task lists where to work and how to know it's done.
 
-Tasks 1, 2 and 5 are **done** — kept below with what actually shipped, since the
-next person needs to know what the code does, not what it was going to do. Tasks
-3 and 4 are the remaining work. Before any of it runs against real data the owner
-has to create the Supabase project: `docs/SETUP.md`.
+Tasks 1, 2, 3, 5 and 7 are **done** — kept below with what actually shipped,
+since the next person needs to know what the code does, not what it was going to
+do. **Task 4 is the only remaining engineering work**, and it is blocked on an
+email API key rather than on code. Before any of it runs against real data the
+owner has to create crew accounts and client records: `docs/SETUP.md` steps 4
+and 5.
 
 ---
 
@@ -47,19 +49,26 @@ Both migrations are written; apply them per `docs/SETUP.md`.
 
 ---
 
-## 3. Photo upload to Storage — NEXT
+## 3. Photo upload to Storage — DONE
 
-Still `FileReader` → base64 → memory. Fine for a demo, will not survive a real
-route with 8 photos per house. This is the biggest remaining gap: right now a
-refresh mid-visit loses every photo taken so far.
+Bucket `inspection-photos`, private. Filed photos go to
+`{property_id}/{inspection_id}/{uuid}.jpg`; draft photos to
+`drafts/{crew_id}/{draft_id}/{uuid}.jpg` and are deleted when the inspection is
+filed. Compressed in-browser to ~1600px long edge at JPEG 0.8 before either —
+technicians shoot 4MB originals on cell data at the side of a house.
 
-- Bucket `inspection-photos`, **private**.
-- Path convention: `{property_id}/{inspection_id}/{uuid}.jpg`.
-- Compress client-side before upload — technicians shoot 4MB phone photos and often work on cell data. Target ~1600px on the long edge, JPEG q80. Canvas is enough; no library needed.
-- Show per-file upload progress. On a bad connection this is the slowest thing in the app.
-- Serve back via signed URLs, ~1 hour expiry.
+The important correction to the original plan: base64 in `localStorage` was never
+going to work, and not only for the quota. **localStorage cannot hold a Blob at
+all**, and its ~5MB cap is blown by one inspection with eight photos. Photos are
+Blobs in IndexedDB, written the moment each is taken, and a backgrounded iOS tab
+no longer takes the morning with it.
 
-**Done when:** photos survive a refresh and load into a generated report from Storage.
+No per-file progress bar. Each photo is a couple of hundred KB after compression
+and uploads in well under a second; a progress bar for that is chrome, not
+information. Revisit if the compression target ever goes up.
+
+**Done:** photos survive a refresh, a crash, a backgrounded tab, and now a
+different device.
 
 ---
 
@@ -107,6 +116,35 @@ row, not the request.
 
 ---
 
+## 7. Cross-device draft sync — DONE
+
+IndexedDB made a draft survive the tab. It did not make it survive the device: a
+phone that died at house four took the morning with it until that phone charged.
+
+`0006_draft_sync.sql` adds `inspection_drafts` — the structured half of a draft
+in Postgres, the photos in the private bucket under `drafts/`. Every local save
+schedules a push; signing in anywhere pulls back whatever is newer.
+
+Three decisions worth not undoing:
+
+- **Local is the source, the server is the copy.** Every keystroke still lands in
+  IndexedDB within 400ms whether or not there is signal. The push is a slower
+  second write that is allowed to fail, retried on a 30s tick, on `online`, and
+  at next sign-in.
+- **Drafts are private to the technician, including from the owner.** The only
+  table here with no `is_owner()` branch. A draft is a half-formed thought — a
+  note that says "ask Dave", a score that reads catastrophic because only the two
+  broken things are entered so far. Surfacing that to a manager makes the tech
+  write for an audience instead of writing what they saw.
+- **Nothing is silently overwritten.** If the row moved under us and the edit
+  came from another device, the push stops and asks which version to keep.
+  Picking a winner on the tech's behalf is how you lose the one they cared about.
+
+**Done:** verified by 50 browser scenarios (`test/durability.js`) and 12 RLS
+scenarios run as SQL against the live project, fixtures deleted afterwards.
+
+---
+
 ## 6. Deploy
 
 - Vercel, static. No build command; output directory is the repo root.
@@ -122,7 +160,9 @@ row, not the request.
 - Recurring visit scheduling / route planning
 - SMS notification on report delivery
 - Owner dashboard: visits per property, technician activity
-- Offline mode — genuinely useful, since some of these properties have no wifi and poor cell
+- ~~Offline mode~~ — done, and it turned out to be table stakes rather than a
+  nice-to-have. Drafts, photos and submissions all survive no signal; the outbox
+  retries by itself.
 
 ---
 

@@ -1,12 +1,28 @@
 /* A stand-in for @supabase/supabase-js, injected before the portal's own
    script runs. It exists so the LIVE code paths — sign-in, the crew check,
-   inserts, storage uploads, the outbox — can be driven deterministically,
-   including the failure modes a real server will not produce on demand.
-   window.__fail flips the server between working and unreachable. */
+   inserts, storage uploads, the outbox, draft sync — can be driven
+   deterministically, including the failure modes a real server will not
+   produce on demand.
+
+   window.__fail        server unreachable, everything
+   window.__failInsert  server unreachable for WRITES only (auth still works)
+
+   The two are separate because conflating them hid a real bug once: signing
+   in flushed the outbox before the assertion could see anything queued, and
+   the suite reported a failure that was the double's fault, not the app's.
+
+   SERVER STATE lives in window.__drafts and window.__blobs. A Playwright
+   context is a device; two contexts share no memory, which is exactly right.
+   To model "the tablet sees what the phone uploaded", the test lifts these
+   two objects out of one context and injects them into the other. Blobs are
+   held as base64 so that transfer is a plain JSON copy. */
 window.__fail = false;
-window.__failInsert = false;   // server unreachable for writes only
+window.__failInsert = false;
 window.__inserted = [];
 window.__uploaded = [];
+window.__removed = [];
+window.__drafts = {};   /* id -> row, the inspection_drafts table */
+window.__blobs = {};    /* storage path -> base64, the bucket */
 
 (function () {
   var USERS = {
@@ -42,7 +58,26 @@ window.__uploaded = [];
   ];
 
   var seq = 0;
+  var clock = 0;          /* monotonic stamp so "newer" is decidable in a test */
+  function stamp() { clock += 1000; return new Date(1785000000000 + clock).toISOString(); }
   function net() { if (window.__fail) throw new Error('Failed to fetch'); }
+  function down() { return window.__fail || window.__failInsert; }
+  function me() { return window.__me || USERS['tech1@test.invalid']; }
+  var ERR = { message: 'Failed to fetch' };
+
+  function b64(blob) {
+    return new Promise(function (res) {
+      var fr = new FileReader();
+      fr.onload = function () { res(String(fr.result).split(',')[1] || ''); };
+      fr.onerror = function () { res(''); };
+      fr.readAsDataURL(blob);
+    });
+  }
+  function unb64(s) {
+    var bin = atob(s || ''), arr = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], { type: 'image/jpeg' });
+  }
 
   function result(data) {
     var o = {
@@ -56,6 +91,93 @@ window.__uploaded = [];
       then: function (res) { return Promise.resolve({ data: data, error: null }).then(res); },
     };
     return o;
+  }
+  function failing() {
+    var o = {
+      data: null, error: ERR,
+      select: function () { return o; }, eq: function () { return o; },
+      order: function () { return o; }, limit: function () { return o; },
+      single: function () { return Promise.resolve({ data: null, error: ERR }); },
+      maybeSingle: function () { return Promise.resolve({ data: null, error: ERR }); },
+      then: function (r) { return Promise.resolve({ data: null, error: ERR }).then(r); },
+    };
+    return o;
+  }
+
+  /* ---------------------------------------------------------------
+     inspection_drafts — a real little table, because the sync logic
+     is only worth testing against something that actually filters,
+     stamps updated_at, and enforces "your rows only".
+  ---------------------------------------------------------------- */
+  function draftsTable() {
+    function mine() {
+      var uid = me().id;
+      return Object.keys(window.__drafts)
+        .map(function (k) { return window.__drafts[k]; })
+        .filter(function (r) { return r.crew_id === uid; });
+    }
+    return {
+      select: function () {
+        if (down()) return failing();
+        var rows = mine(), o;
+        o = {
+          eq: function (col, val) {
+            rows = rows.filter(function (r) { return r[col] === val; });
+            return o;
+          },
+          order: function () {
+            rows = rows.slice().sort(function (a, b) {
+              return String(b.updated_at).localeCompare(String(a.updated_at));
+            });
+            return o;
+          },
+          limit: function () { return o; },
+          single: function () {
+            return Promise.resolve(rows.length
+              ? { data: JSON.parse(JSON.stringify(rows[0])), error: null }
+              : { data: null, error: { message: 'no rows' } });
+          },
+          maybeSingle: function () {
+            return Promise.resolve({ data: rows.length ? JSON.parse(JSON.stringify(rows[0])) : null, error: null });
+          },
+          then: function (r) {
+            return Promise.resolve({ data: JSON.parse(JSON.stringify(rows)), error: null }).then(r);
+          },
+        };
+        return o;
+      },
+      upsert: function (row) {
+        return {
+          select: function () {
+            return {
+              single: function () {
+                if (down()) return Promise.resolve({ data: null, error: ERR });
+                var saved = JSON.parse(JSON.stringify(row));
+                saved.crew_id = row.crew_id || me().id;
+                saved.updated_at = stamp();          /* the trigger, in miniature */
+                window.__drafts[saved.id] = saved;
+                return Promise.resolve({ data: { updated_at: saved.updated_at }, error: null });
+              },
+            };
+          },
+        };
+      },
+      delete: function () {
+        return {
+          eq: function (col, val) {
+            if (down()) return Promise.resolve({ error: ERR });
+            Object.keys(window.__drafts).forEach(function (k) {
+              var r = window.__drafts[k];
+              if (r[col] === val && r.crew_id === me().id) delete window.__drafts[k];
+            });
+            return Promise.resolve({ error: null });
+          },
+        };
+      },
+      insert: function () { return { select: function () { return { single: function () {
+        return Promise.resolve({ data: null, error: ERR }); } }; } }; },
+      update: function () { return { eq: function () { return Promise.resolve({ error: null }); } }; },
+    };
   }
 
   window.supabase = {
@@ -73,16 +195,13 @@ window.__uploaded = [];
           signOut: function () { return Promise.resolve({ error: null }); },
         },
         from: function (table) {
+          if (table === 'inspection_drafts') return draftsTable();
           return {
             select: function () {
-              try { net(); } catch (e) { return { eq: function(){return this;}, order: function(){return this;},
-                limit: function(){return this;},
-                single: function(){return Promise.resolve({data:null,error:{message:'Failed to fetch'}});},
-                maybeSingle: function(){return Promise.resolve({data:null,error:{message:'Failed to fetch'}});},
-                then: function(r){return Promise.resolve({data:null,error:{message:'Failed to fetch'}}).then(r);} }; }
+              try { net(); } catch (e) { return failing(); }
               if (table === 'crew') {
-                var me = window.__me || USERS['tech1@test.invalid'];
-                return result({ full_name: me.name, role: me.role, active: true });
+                var u = me();
+                return result({ full_name: u.name, role: u.role, active: true });
               }
               if (table === 'clients') return result(JSON.parse(JSON.stringify(CLIENTS)));
               if (table === 'property_last_visit') return result(LAST_VISIT);
@@ -94,9 +213,7 @@ window.__uploaded = [];
                 select: function () {
                   return {
                     single: function () {
-                      if (window.__fail || window.__failInsert) {
-                        return Promise.resolve({ data: null, error: { message: 'Failed to fetch' } });
-                      }
+                      if (down()) return Promise.resolve({ data: null, error: ERR });
                       seq++;
                       var row = { id: 'insp-' + seq, inspection_no: 'HC-2026-' + String(seq).padStart(4, '0') };
                       window.__inserted.push({ row: row, payload: payload });
@@ -106,20 +223,34 @@ window.__uploaded = [];
                 },
               };
             },
-            update: function () { return { eq: function () { try { net(); } catch (e) {
-              return Promise.resolve({ error: { message: 'Failed to fetch' } }); }
-              return Promise.resolve({ error: null }); } }; },
+            update: function () { return { eq: function () {
+              return Promise.resolve({ error: down() ? ERR : null }); } }; },
+            delete: function () { return { eq: function () {
+              return Promise.resolve({ error: down() ? ERR : null }); } }; },
           };
         },
         storage: {
           from: function () {
             return {
-              upload: function (path, blob) {
-                if (window.__fail || window.__failInsert) {
-                  return Promise.resolve({ error: { message: 'Failed to fetch' } });
-                }
+              upload: async function (path, blob) {
+                if (down()) return { error: ERR };
+                window.__blobs[path] = await b64(blob);
                 window.__uploaded.push({ path: path, size: blob && blob.size });
-                return Promise.resolve({ data: { path: path }, error: null });
+                return { data: { path: path }, error: null };
+              },
+              /* A blob: URL is a legitimate signed URL as far as fetch() is
+                 concerned, and it keeps the round trip real: the portal asks
+                 for a URL, fetches it, and gets bytes back. */
+              createSignedUrl: function (path) {
+                if (down()) return Promise.resolve({ data: null, error: ERR });
+                if (!window.__blobs[path]) return Promise.resolve({ data: null, error: { message: 'not found' } });
+                return Promise.resolve({
+                  data: { signedUrl: URL.createObjectURL(unb64(window.__blobs[path])) }, error: null });
+              },
+              remove: function (paths) {
+                if (down()) return Promise.resolve({ error: ERR });
+                (paths || []).forEach(function (p) { window.__removed.push(p); delete window.__blobs[p]; });
+                return Promise.resolve({ data: [], error: null });
               },
             };
           },

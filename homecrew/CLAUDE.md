@@ -15,16 +15,19 @@ Two audiences, one codebase:
 ## Current state
 
 **Working:** the entire public site. In the portal: real Supabase Auth, the client
-directory (search by name or address, per-property access codes, visit history),
-property-linked inspections, draft autosave, live scoring, report generation and
-persistence to the `inspections` table.
+directory (search by name or address, faceted filters, per-property access codes,
+visit history), the route screen with turn-by-turn handoff to Google/Apple Maps,
+property-linked inspections with a photo and collapsible note on every one of the
+25 lines, live scoring, report generation, photos in private Storage, an outbox
+that retries failed submissions, and cross-device draft sync.
 
-**Not working — this is the job:** photos still live in browser memory instead of
-Storage, and `send-report` has no PDF renderer or email key, so "Send to client"
-returns a visible error. See `docs/ROADMAP.md` tasks 3 and 4.
+**Not working — this is the job:** `send-report` has no PDF renderer or email key,
+so "Send to client" returns a visible error and the crew sends the PDF by hand.
+That is the honest failure mode and the only remaining engineering task. See
+`docs/ROADMAP.md` task 4.
 
 **The backend is live.** Supabase project `Home Crew` (`fuznycuqxbrwkaiuayjs`),
-all three migrations applied, keys in `config.js`. What is still empty is the
+all six migrations applied, keys in `config.js`. What is still empty is the
 data: crew accounts, clients and properties are entered by the owner — see
 `docs/SETUP.md` steps 4 and 5. Until a crew account exists, a correct password
 still gets "not an active crew member", which is the intended answer.
@@ -56,8 +59,11 @@ and `assets/js/site.js`, both linked with content-hash cache busters from
 
 **Do not convert this to React/Next/Vite unless the owner explicitly asks.** It's a five-page brochure site plus one form. A framework adds a build pipeline, a deploy story, and a dependency tree to maintain, in exchange for very little here. If the portal grows past ~3 screens, revisit — that's the actual threshold, not aesthetics.
 
-The portal is now at exactly three screens (directory, inspection, report). That is
-the line, not a breach of it — but the *next* screen is the trigger to reconsider.
+The portal is at four screens (route, clients, inspection, report), which is one
+past the threshold written above. It is still not a framework problem — the file
+is long but flat, and every screen is `showView()` plus a render function. What a
+fifth screen would actually justify is splitting `portal.html` into
+`portal.html` + `portal.js`, not adopting React. Reach for that first.
 The Supabase JS client loads from a CDN `<script>` tag, which keeps the no-build
 setup intact; don't npm-install it.
 
@@ -104,10 +110,32 @@ This app will hold **client home addresses, alarm details, and photos of vacant 
 - **Access codes never enter a client report.** Gate code, key box combination, alarm and garage codes render masked in the directory, reveal on tap, and re-hide after 30 seconds. `renderReport()` reads none of them — keep it that way. A report is emailed and then forwarded onward; a code in one is a code in somebody's inbox forever.
 - Migration `0003` closed `is_owner()` and `is_active_crew()` to signed-out callers. Do not "finish the job" by revoking EXECUTE from `authenticated` too — RLS policy expressions run with the caller's privileges, so that makes every table return "permission denied" instead of an empty result. Verified on the live project; the header comment in `0003_function_hardening.sql` has the details. The two remaining Supabase advisories are accepted for this reason.
 - Migration `0002` moved credential reads from "any authenticated user" to **active crew only**, and dropped the `properties_field` view, which never actually protected anything (the base-table policy allowed the same select). Deactivating a crew row is now a real revocation. Read the header comment in that file before rewriting those policies.
+- Migration `0006` gives `inspection_drafts` the only policy set here with **no
+  `is_owner()` branch** — a technician's in-progress draft is private from the
+  owner too, deliberately. The reasoning is in that file's header; read it before
+  "fixing" the omission. It also revokes EXECUTE on `touch_draft()` from `public`,
+  `anon` **and** `authenticated`: Supabase's default privileges grant to the
+  latter two directly, so revoking PUBLIC alone leaves a function exposed at
+  `/rest/v1/rpc/`. That is the mirror image of the 0003 trap — there the revoke
+  was too broad, here it has to be broader than it looks. Safe for this one
+  because Postgres checks EXECUTE on a trigger function when the trigger is
+  created, not on every write (verified against the live project).
+- **Draft photos are deletable by their owner, filed photos are not.** The
+  storage delete policy is scoped to `drafts/<caller uid>/%` precisely so it
+  cannot become a way to erase a filed inspection's evidence. Don't widen it.
 
 ## Verifying changes
 
-No test suite. Manually:
+**There is a test suite now**: `node test/durability.js` with a local server on
+port 8912 (`NODE_PATH` pointing at a tree with `playwright-core`). 50 scenarios,
+each one a way a technician's work could be lost — photos across a reload, two
+houses open at once, offline submit queued, outbox surviving a reload while still
+offline, two devices on one draft, conflict resolution, a filed inspection
+cleaning up its own draft photos. `test/fake-supabase.js` is the double; the
+comment at its top explains why `__fail` and `__failInsert` are separate flags
+(conflating them produced two false failures once).
+
+Run it after any change to persistence, sync or submission. Then manually:
 1. `python3 build.py`, then `python3 -m http.server 8000`
 2. Public site: check 1440px, 900px, 390px. Nav collapses to a burger under 1040px.
 3. Portal: sign in, search the directory by name and by address, open a profile,
@@ -118,7 +146,10 @@ No test suite. Manually:
 6. Reload mid-inspection — the draft must come back with the ticks intact.
 7. Confirm no access code appears anywhere in the generated report.
 8. Rich Results Test on the public pages.
-9. Re-run the axe sweep after any colour or markup change. The site passes
+9. Re-run BOTH axe sweeps after any colour or markup change — the generated
+   pages, and separately the signed-in portal driven through every view (see
+   the warning under Accessibility about why a cold load of `portal.html`
+   proves nothing). The site passes
    **WCAG 2.1 AA with zero violations across all 24 pages** (23 generated plus
    the portal) and it stays that way:
    `npm i --no-save axe-core playwright-core`, serve on a local port, inject
@@ -141,8 +172,22 @@ thing making content readable.
 
 ## Accessibility — do not regress this
 
-Zero axe violations across 24 pages, verified. The colour tokens are the load
-bearing part:
+Zero axe violations across the 22 generated pages **and across every signed-in
+portal view**, verified at 1440px and 390px.
+
+**Read this before trusting a past "the portal is clean".** An earlier sweep
+loaded `portal.html` cold and reported zero violations — which was true and
+useless. Every view but the login screen is `display:none` until you sign in,
+and axe skips hidden elements, so "the portal passes" really meant "the login
+screen passes". Auditing the actual app found four real defects the crew would
+have hit daily: `.crumb` gold at 2.2:1, the selected OK and Watch chips carrying
+white text at 3.4:1 and 2.5:1, the report's section headings at 2.4:1, and
+unlabelled photo caption inputs (critical — 25 identical unnamed text boxes).
+A portal sweep must drive the app: sign in, open a client, open a property,
+mark lines, attach a photo, generate the report. Anything less audits a form
+with a password box on it.
+
+The colour tokens are the load bearing part:
 
 - `--gold` **#CBA15A is for dark backgrounds and borders only** (7.15:1 on navy,
   2.4:1 on white). Light-background text uses `--gold-text` **#7E5F27**
@@ -151,9 +196,18 @@ bearing part:
   looks dull on a white section by switching it to `--gold`.
 - `--gray` is **#5A6167**, not #6B7178. The old value failed at 4.13:1 on the
   paper-2 stats band.
-- Report-mock status colours are #246F41 (green) and #8F6611 (amber). The
-  brighter #2E9E5B / #D89A2B are fine inside the portal on dark chrome but fail
-  on the white sample document.
+- Status colours come in two families and the split is deliberate, in the
+  portal exactly as on the public site. **#2E9E5B / #D89A2B are decoration
+  only** — dots, borders, the score ring. Anything carrying white text, or
+  standing as text on a light surface, uses **#246F41 (green) and #8F6611
+  (amber)**, exposed in the portal as `--ok-deep` / `--watch-deep`. White on
+  #2E9E5B is 3.4:1 and on #D89A2B is 2.5:1; both fail. #C0392B (red) is 5.4:1
+  with white and needs no deep variant. `band()` in `portal.html` returns the
+  deep values because every one of its callers paints text.
+- The portal has `--gold-text` #7E5F27 now, same as the public site, for the
+  same reason: `--gold` is 7.2:1 on navy and 2.2:1 on `--paper`. `.crumb` and
+  the report's `h4` headings use it. `--gray` in the portal is #5A6167 (it was
+  #6B7178); every use is on a light surface, so this is strictly an improvement.
 - Dim white text on navy is `.62` alpha minimum, not `.45`.
 - Concierge price rows use a `::after` pseudo-element for the dotted leader. The
   old `<span class="led-dots">` sat between `<dt>` and `<dd>` and broke the

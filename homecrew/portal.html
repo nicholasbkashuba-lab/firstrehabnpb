@@ -11,8 +11,18 @@
 <style>
 :root{
   --navy:#0B1D2D;--navy-2:#102A40;--gold:#CBA15A;--gold-lt:#E0BE7E;
-  --paper:#F4F5F6;--gray:#6B7178;--line:rgba(11,29,45,.13);--line-w:rgba(255,255,255,.14);
+  /* --gold is 7.2:1 on navy and 2.2:1 on --paper. Anything gold sitting on a
+     light surface uses --gold-text (5.4:1 on --paper). Same split as the public
+     site; see CLAUDE.md. */
+  --gold-text:#7E5F27;
+  --paper:#F4F5F6;--gray:#5A6167;--line:rgba(11,29,45,.13);--line-w:rgba(255,255,255,.14);
+  /* Two families on purpose. The bright ones are dots, borders and rings —
+     decoration, where the shade is the point. The deep ones are for anything
+     carrying WHITE TEXT or standing as text on a light surface, where 4.5:1 is
+     the point: white on #2E9E5B is only 3.4 and on #D89A2B only 2.5. Same split
+     the tier chips below already use, same values as the public site. */
   --ok:#2E9E5B;--watch:#D89A2B;--bad:#C0392B;
+  --ok-deep:#246F41;--watch-deep:#8F6611;
   --display:'Montserrat',-apple-system,sans-serif;--body:'Nunito Sans','Avenir Next',-apple-system,sans-serif;
 }
 *{box-sizing:border-box}
@@ -60,7 +70,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .tab:hover{color:#fff}
 .tab[aria-selected="true"]{color:var(--gold);border-bottom-color:var(--gold)}
 .shell{max-width:1180px;margin:0 auto;padding:34px 24px 90px}
-.crumb{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.crumb{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-text);margin-bottom:8px}
 .page-h{font-size:28px;text-transform:uppercase;margin-bottom:6px}
 .page-p{color:var(--gray);font-size:15px;margin:0 0 30px}
 
@@ -145,7 +155,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .stop.done{opacity:.55}
 .stop-n{font-family:var(--display);font-size:19px;font-weight:800;color:var(--navy);min-width:30px;
   border:1px solid var(--line);text-align:center;padding:4px 0;flex-shrink:0}
-.stop.done .stop-n{background:var(--ok);border-color:var(--ok);color:#fff}
+.stop.done .stop-n{background:var(--ok-deep);border-color:var(--ok-deep);color:#fff}
 .stop-b{flex:1;min-width:0}
 .stop-ad{font-size:15px;font-weight:600;word-break:break-word}
 .stop-cl{font-size:13px;color:var(--gray);margin-top:2px}
@@ -158,7 +168,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .tag.tier-gold{background:#7E5F27}
 .tag.due{border-color:var(--bad);color:var(--bad)}
 .tag.soon{border-color:var(--watch);color:#8a6a2f}
-.tag.ok{border-color:var(--ok);color:var(--ok)}
+.tag.ok{border-color:var(--ok);color:var(--ok-deep)}
 .stop-acts{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
 .stop-acts .btn{padding:9px 14px;font-size:9.5px;white-space:nowrap}
 .rt-empty{background:#fff;border:1px solid var(--line);padding:30px;color:var(--gray);font-size:14.5px}
@@ -209,8 +219,8 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .seg{display:flex;border:1px solid var(--line);flex-shrink:0}
 .seg button{background:#fff;border:0;border-right:1px solid var(--line);font-family:var(--display);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 11px;cursor:pointer;color:var(--gray)}
 .seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"][data-v="ok"]{background:var(--ok);color:#fff}
-.seg button[aria-pressed="true"][data-v="watch"]{background:var(--watch);color:#fff}
+.seg button[aria-pressed="true"][data-v="ok"]{background:var(--ok-deep);color:#fff}
+.seg button[aria-pressed="true"][data-v="watch"]{background:var(--watch-deep);color:#fff}
 .seg button[aria-pressed="true"][data-v="bad"]{background:var(--bad);color:#fff}
 
 /* ---- SCORE PANEL ---- */
@@ -243,7 +253,7 @@ input,select,textarea{width:100%;font-family:var(--body);font-size:15px;padding:
 .rep-h .meta{font-size:12px;color:rgba(255,255,255,.7);margin-top:6px}
 .rep-b{padding:30px}
 .rep-sec{margin-bottom:28px}
-.rep-sec h4{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.rep-sec h4{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-text);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
 .kv{display:flex;gap:8px;font-size:14px;padding:5px 0}
 .kv b{font-family:var(--display);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);min-width:120px}
 .ring{width:120px;height:120px;border-radius:50%;border:6px solid var(--ok);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto}
@@ -697,18 +707,41 @@ async function startSession(u){
   await loadDirectory();
   renderRoute();
   startOutbox();
+
+  /* Pull anything this account has in progress elsewhere BEFORE deciding what
+     to restore, or a tech who switched devices gets shown an empty form while
+     their morning sits on the server. */
+  var down = await syncDown();
+
   var open_ = await listDrafts();
   if(open_.length){
     await loadDraft(open_[0].id);
+    var elsewhere = open_[0].from && open_[0].from !== DEVICE_ID;
+    var note = (elsewhere
+        ? 'Picked up from your other device. '
+        : 'Picked up where you left off. ') +
+      (canSync() ? 'Notes and photos are on this device and in your account. '
+                 : 'Notes and photos are saved on this device. ') +
+      '<button class="btn btn-ghost btn-sm" id="dropDraft" type="button">Start fresh</button>';
     var fb = $('formBanner');
-    var note = 'Picked up where you left off. Photos and notes were saved on this device. ' +
-               '<button class="btn btn-ghost btn-sm" id="dropDraft" type="button">Start fresh</button>';
     if(fb.classList.contains('hide')){
       fb.className = 'banner'; fb.innerHTML = '<b>Draft restored</b>' + note; fb.classList.remove('hide');
     } else { fb.innerHTML += ' ' + note; }
     showView('form');
   }
   await renderDrafts();
+
+  /* Say it plainly if a photo could not be fetched back. The rest of the draft
+     is intact and usable — but the tech has to know to re-shoot. */
+  if(down.missing){
+    warnBanner('<b>' + down.missing + ' photo' + (down.missing > 1 ? 's' : '') +
+      ' could not be downloaded</b>Everything else came back. Re-take ' +
+      (down.missing > 1 ? 'them' : 'it') + ' before you file this inspection.');
+  }
+
+  /* Anything that never made it up — a whole morning worked with no signal —
+     goes now that there is a connection. */
+  syncUp();
 }
 
 $('signIn').addEventListener('click', doSignIn);
@@ -719,7 +752,10 @@ $('signOut').addEventListener('click', async function(){
   var open_ = user ? await listDrafts() : [];
   var pending = await outboxItems();
   if(open_.length && !confirm('You have ' + open_.length + ' inspection' + (open_.length > 1 ? 's' : '') +
-      ' in progress. They stay saved on this device and will be here when you sign back in. Sign out?')) return;
+      ' in progress. ' + (canSync()
+        ? 'They are saved to your account and will be here when you sign back in, on any device.'
+        : 'They stay saved on this device and will be here when you sign back in.') +
+      ' Sign out?')) return;
   if(pending.length && !confirm(pending.length + ' inspection' + (pending.length > 1 ? 's have' : ' has') +
       ' not uploaded yet. They will send when this device is back online. Sign out anyway?')) return;
   /* Drafts and the outbox deliberately survive sign-out. Losing a morning's
@@ -732,7 +768,7 @@ $('signOut').addEventListener('click', async function(){
 /* Discarding a restored draft is destructive, so it asks. */
 document.addEventListener('click', async function(e){
   if(e.target.id !== 'dropDraft') return;
-  if(!confirm('Discard this draft? Its notes and photos are deleted from this device.')) return;
+  if(!confirm('Discard this draft? Its notes and photos are deleted from this device and from your account.')) return;
   await clearDraft();
   location.reload();
 });
@@ -1350,7 +1386,7 @@ function bindProperty(propId){
   if(!hit){
     current = null;
     $('f_prop').value = '';
-    $('formBanner').classList.add('hide');
+    hideBanner();
     return;
   }
   current = { propertyId:hit.prop.id, clientId:hit.client.id };
@@ -1405,11 +1441,16 @@ var VALUES = { ok:100, watch:65, bad:0 };
 var LABELS = { ok:'OK', watch:'Watch', bad:'Issue' };
 var state = {};
 
+/* The deep variants, not the bright ones. Every caller paints this as TEXT on a
+   light surface — the report status, the per-system labels, the live score, the
+   visit history figures — where #2E9E5B is 3.4:1 and #D89A2B is 2.5:1. The one
+   non-text caller is the score ring's border, and 6.1:1 / 5.2:1 clears the 3:1
+   that UI components need anyway. */
 function band(s){
-  if(s >= 90) return { t:'Excellent', c:'#2E9E5B' };
-  if(s >= 80) return { t:'Very Good', c:'#2E9E5B' };
-  if(s >= 70) return { t:'Good',      c:'#D89A2B' };
-  if(s >= 55) return { t:'Monitor',   c:'#D89A2B' };
+  if(s >= 90) return { t:'Excellent', c:'#246F41' };
+  if(s >= 80) return { t:'Very Good', c:'#246F41' };
+  if(s >= 70) return { t:'Good',      c:'#8F6611' };
+  if(s >= 55) return { t:'Monitor',   c:'#8F6611' };
   return { t:'Needs Attention', c:'#C0392B' };
 }
 
@@ -1469,6 +1510,18 @@ function splitRid(rid){
   return { key: rid.slice(0, cut), i: rid.slice(cut + 1) };
 }
 
+/* "plumbing_0" -> "Plumbing, No visible leaks". Used for the accessible names on
+   per-line photo controls, which are otherwise 25 identical "Caption" boxes. */
+function rowLabel(rid){
+  var r = splitRid(rid);
+  for(var n = 0; n < SYSTEMS.length; n++){
+    if(SYSTEMS[n].key === r.key){
+      return SYSTEMS[n].name + ', ' + (SYSTEMS[n].items[Number(r.i)] || ('item ' + (Number(r.i) + 1)));
+    }
+  }
+  return rid;
+}
+
 function markMore(rid){
   var n = detCount(splitRid(rid).key, splitRid(rid).i);
   var btn = $('m_' + rid);
@@ -1487,13 +1540,18 @@ function renderRowThumbs(rid){
     var img = document.createElement('img'); img.src = p.url; img.alt = '';
     var rm = document.createElement('button');
     rm.type = 'button'; rm.className = 'rm'; rm.innerHTML = '&times;';
-    rm.setAttribute('aria-label', 'Remove photo');
+    rm.setAttribute('aria-label', 'Remove photo ' + (idx + 1) + ' from ' + rowLabel(rid));
     rm.addEventListener('click', function(){
       d.photos.splice(idx, 1);
       renderRowThumbs(rid); markMore(rid); saveDraft();
     });
     var cap = document.createElement('input');
     cap.value = p.cap;
+    /* Screen-reader name. Every remove button says "Remove photo", so these
+       have to carry the position too or a row with four photos is four
+       identical, unidentifiable text boxes. */
+    cap.setAttribute('aria-label', 'Caption for photo ' + (idx + 1) + ' of ' + rowLabel(rid));
+    cap.setAttribute('placeholder', 'Caption');
     cap.addEventListener('input', function(){ p.cap = cap.value; saveDraft(); });
     el.appendChild(img); el.appendChild(rm); el.appendChild(cap);
     host.appendChild(el);
@@ -1747,10 +1805,12 @@ function renderThumbs(){
     var img = document.createElement('img'); img.src = p.url; img.alt = '';
     var rm = document.createElement('button');
     rm.type = 'button'; rm.className = 'rm'; rm.innerHTML = '&times;';
-    rm.setAttribute('aria-label', 'Remove photo');
+    rm.setAttribute('aria-label', 'Remove visit photo ' + (idx + 1));
     rm.addEventListener('click', function(){ photos.splice(idx, 1); renderThumbs(); saveDraft(); });
     var cap = document.createElement('input');
     cap.value = p.cap;
+    cap.setAttribute('aria-label', 'Caption for visit photo ' + (idx + 1));
+    cap.setAttribute('placeholder', 'Caption');
     cap.addEventListener('input', function(){ p.cap = cap.value; saveDraft(); });
     d.appendChild(img); d.appendChild(rm); d.appendChild(cap);
     host.appendChild(d);
@@ -1788,7 +1848,11 @@ function draftPayload(){
       var d = detail[k][i];
       if(d.note) lineNotes[k + '_' + i] = d.note;
       if(d.photos.length){
-        linePhotos[k + '_' + i] = d.photos.map(function(p){ return { blob:p.blob, cap:p.cap }; });
+        /* rpath rides along so a photo already pushed to Storage is never
+           uploaded a second time — on this device or on the next one. */
+        linePhotos[k + '_' + i] = d.photos.map(function(p){
+          return { blob:p.blob, cap:p.cap, rpath:p.rpath || null };
+        });
       }
     });
   });
@@ -1801,9 +1865,10 @@ function draftPayload(){
     state: JSON.parse(JSON.stringify(state)),
     notes: lineNotes,
     linePhotos: linePhotos,
-    photos: photos.map(function(p){ return { blob:p.blob, cap:p.cap }; }),
+    photos: photos.map(function(p){ return { blob:p.blob, cap:p.cap, rpath:p.rpath || null }; }),
     fields: FIELDS.reduce(function(o,k){ o[k] = $(k).value; return o; }, {}),
-    actions: Array.from($('actions').querySelectorAll('input')).map(function(i){ return i.value; })
+    actions: Array.from($('actions').querySelectorAll('input')).map(function(i){ return i.value; }),
+    from: DEVICE_ID
   };
 }
 
@@ -1817,6 +1882,7 @@ function saveDraft(){
     saveTimer = setTimeout(function(){
       idbPut('drafts', draftPayload()).then(function(){
         markSaved();
+        schedulePush();
         broadcast({ type:'draft', id:draftId });
         res();
       }).catch(function(){ res(); });
@@ -1828,22 +1894,28 @@ function saveDraftNow(){
   if(!user) return Promise.resolve();
   clearTimeout(saveTimer);
   draftId = draftId || currentDraftId();
-  return idbPut('drafts', draftPayload()).then(markSaved).catch(function(){});
+  return idbPut('drafts', draftPayload())
+    .then(markSaved)
+    .then(pushDraft)      /* leaving this house — get it off the device now */
+    .catch(function(){});
 }
 
 function clearDraft(){
   var id = draftId;
   draftId = null;
   if(!id) return Promise.resolve();
-  return idbDel('drafts', id).then(function(){ broadcast({ type:'draft', id:id }); })
-                             .catch(function(){});
+  clearTimeout(syncTimer);
+  /* Remote copy goes too, and its photos with it. A draft that outlives the
+     inspection it became is an address and interior photos sitting in a bucket
+     for no reason. */
+  return dropRemote(id)
+    .then(function(){ return idbDel('drafts', id); })
+    .then(function(){ broadcast({ type:'draft', id:id }); })
+    .catch(function(){});
 }
 
 function markSaved(){
-  var el = $('saveState');
-  if(!el) return;
-  el.textContent = 'Saved on this device';
-  el.className = 'savestate ok';
+  setSyncState(canSync() ? 'pending' : 'local');
 }
 function markDirty(){
   var el = $('saveState');
@@ -1890,13 +1962,13 @@ async function loadDraft(id){
     var r = splitRid(rid);
     if(!state[r.key]) return;
     det(r.key, r.i).photos = d.linePhotos[rid].map(function(p){
-      return { blob:p.blob, cap:p.cap, url:photoUrl(p.blob) };
+      return { blob:p.blob, cap:p.cap, rpath:p.rpath || null, url:photoUrl(p.blob) };
     });
     renderRowThumbs(rid);
   });
 
   (d.photos || []).forEach(function(p){
-    photos.push({ blob:p.blob, cap:p.cap, url:photoUrl(p.blob) });
+    photos.push({ blob:p.blob, cap:p.cap, rpath:p.rpath || null, url:photoUrl(p.blob) });
   });
   renderThumbs();
 
@@ -1927,12 +1999,14 @@ async function renderDrafts(){
   var others = all.filter(function(d){ return d.id !== draftId; });
   if(!others.length){ host.innerHTML = ''; return; }
   host.innerHTML = '<div class="banner"><b>' + others.length + ' other inspection' +
-    (others.length > 1 ? 's' : '') + ' in progress on this device</b>' +
+    (others.length > 1 ? 's' : '') + ' in progress</b>' +
     others.map(function(d){
       var n = 0;
       Object.keys(d.state || {}).forEach(function(k){ n += Object.keys(d.state[k]).length; });
+      var elsewhere = d.from && d.from !== DEVICE_ID;
       return '<button class="btn btn-ghost btn-sm" style="margin:6px 6px 0 0" data-draft="' + esc(d.id) + '">' +
-             esc(d.address || 'Unlinked') + ' · ' + n + '/25</button>';
+             esc(d.address || 'Unlinked') + ' · ' + n + '/25' +
+             (elsewhere ? ' · from your other device' : '') + '</button>';
     }).join('') + '</div>';
 }
 
@@ -1943,6 +2017,329 @@ document.addEventListener('click', async function(e){
   await loadDraft(b.dataset.draft);
   await renderDrafts();
   showView('form');
+});
+
+/* ==================================================================
+   DRAFT SYNC — the same inspection on the phone and on the tablet
+
+   IndexedDB made a technician's work survive a crashed tab. It did not
+   make it survive the device. Start at house one on a phone, have the
+   phone die at house four, and the morning is not lost — it is in a
+   truck, on a handset with no battery, which is the same thing as lost
+   until that handset charges.
+
+   So every draft also goes to the server: the structured part into
+   inspection_drafts, the photos into the private bucket under
+   drafts/<crew id>/. Signing in anywhere pulls back whatever is newer.
+
+   THREE RULES THIS FOLLOWS
+   1. Local first, always. The server is a copy, never the source. Every
+      keystroke still lands in IndexedDB in 400ms whether or not there is
+      signal; the push is a slower second write that is allowed to fail.
+   2. Photos upload once. Each photo record carries the Storage path it
+      was given (rpath), so a draft with eight photos edited twenty times
+      is eight uploads, not a hundred and sixty.
+   3. Nothing is silently overwritten. If the row moved under us and the
+      edit came from a different device, the push STOPS and asks. Picking
+      a winner on the tech's behalf is how you lose the version they
+      actually cared about.
+================================================================== */
+var DEVICE_KEY = 'homecrew.device';
+var DEVICE_ID = (function(){
+  /* Not a security boundary — just a way to tell "I typed this here" from
+     "I typed this on the other thing". localStorage is right for it: tiny,
+     and it SHOULD reset if the browser is wiped. */
+  try {
+    var v = localStorage.getItem(DEVICE_KEY);
+    if(!v){ v = uid(); localStorage.setItem(DEVICE_KEY, v); }
+    return v;
+  } catch(err){ return uid(); }
+})();
+
+var syncTimer = null;
+var syncSeen = {};      /* draft id -> server updated_at this device last reconciled */
+var syncHeld = {};      /* draft id -> true while a conflict is unresolved */
+
+function canSync(){ return !!(LIVE && sb && user && navigator.onLine); }
+
+function setSyncState(s){
+  var el = $('saveState');
+  if(!el) return;
+  el.className = 'savestate ok';
+  if(s === 'synced')        el.textContent = 'Saved · synced to your account';
+  else if(s === 'pending')  el.textContent = 'Saved on this device · syncing…';
+  else if(s === 'conflict'){ el.textContent = 'Saved on this device · sync paused'; el.className = 'savestate'; }
+  else                      el.textContent = 'Saved on this device';
+}
+
+function draftFolder(id){
+  /* Draft ids carry colons; Storage keys should not. */
+  return 'drafts/' + user.id + '/' + String(id).replace(/[^A-Za-z0-9_-]+/g, '-');
+}
+
+async function pushPhoto(p, id){
+  if(p.rpath) return p.rpath;                       /* rule 2 */
+  var path = draftFolder(id) + '/' + uid() + '.jpg';
+  var up = await sb.storage.from('inspection-photos')
+    .upload(path, p.blob, { contentType:'image/jpeg', upsert:false });
+  if(up && up.error) throw new Error(up.error.message);
+  p.rpath = path;
+  return path;
+}
+
+async function pushPhotos(id){
+  var man = [], i, k, j, n, keys, idxs, list;
+  for(i = 0; i < photos.length; i++){
+    man.push({ path: await pushPhoto(photos[i], id), cap: photos[i].cap || '', rid: null });
+  }
+  keys = Object.keys(detail);
+  for(k = 0; k < keys.length; k++){
+    idxs = Object.keys(detail[keys[k]]);
+    for(j = 0; j < idxs.length; j++){
+      list = detail[keys[k]][idxs[j]].photos;
+      for(n = 0; n < list.length; n++){
+        man.push({ path: await pushPhoto(list[n], id), cap: list[n].cap || '',
+                   rid: keys[k] + '_' + idxs[j] });
+      }
+    }
+  }
+  return man;
+}
+
+function schedulePush(){
+  if(!canSync()) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushDraft, 3000);
+}
+
+async function pushDraft(){
+  var id = draftId;
+  if(!canSync() || !id || syncHeld[id]) return;
+  try{
+    /* Rule 3: look before writing. */
+    var head = await sb.from('inspection_drafts')
+      .select('updated_at, device').eq('id', id).maybeSingle();
+    if(head && head.data && head.data.device !== DEVICE_ID &&
+       head.data.updated_at !== syncSeen[id]){
+      syncHeld[id] = true;
+      conflictBanner();
+      return;
+    }
+
+    var man = await pushPhotos(id);
+    var p = draftPayload();
+    var marked = 0;
+    Object.keys(p.state || {}).forEach(function(k){ marked += Object.keys(p.state[k]).length; });
+
+    /* Only the structured half goes to Postgres. The Blobs stay in Storage —
+       a base64 photo in a jsonb column is megabytes a row for something a
+       bucket already holds. */
+    var res = await sb.from('inspection_drafts').upsert({
+      id:          id,
+      crew_id:     user.id,
+      property_id: (p.current && p.current.propertyId) || null,
+      address:     p.address || null,
+      marked:      marked,
+      payload:     { state:p.state, notes:p.notes, fields:p.fields,
+                     actions:p.actions, current:p.current },
+      photos:      man,
+      device:      DEVICE_ID
+    }).select('updated_at').single();
+    if(res && res.error) throw new Error(res.error.message);
+
+    syncSeen[id] = res && res.data ? res.data.updated_at : null;
+    if(id === draftId) setSyncState('synced');
+  } catch(err){
+    /* Offline, or Storage refused. The work is already in IndexedDB, so this
+       is a retry, not a loss — the 30s tick and the online event both come
+       back around. */
+    if(id === draftId) setSyncState('local');
+  }
+}
+
+async function remoteDrafts(){
+  if(!canSync()) return [];
+  try{
+    var res = await sb.from('inspection_drafts')
+      .select('id, address, marked, device, updated_at, payload, photos')
+      .order('updated_at', { ascending:false });
+    if(res && res.error) throw new Error(res.error.message);
+    return res && res.data ? res.data : [];
+  } catch(err){ return []; }
+}
+
+async function fetchDraftPhoto(path){
+  try{
+    var s = await sb.storage.from('inspection-photos').createSignedUrl(path, 300);
+    if(!s || s.error || !s.data) return null;
+    var r = await fetch(s.data.signedUrl);
+    if(!r.ok) return null;
+    return await r.blob();
+  } catch(err){ return null; }
+}
+
+/* Turn a server row back into exactly the shape loadDraft() already reads, so
+   a pulled draft and a local one are indistinguishable from there on. */
+async function hydrateRemote(row){
+  var pay = row.payload || {};
+  var d = {
+    id: row.id,
+    user: user.id,
+    at: new Date(row.updated_at).getTime(),
+    from: row.device || null,
+    current: pay.current || null,
+    address: row.address || '',
+    state: pay.state || {},
+    notes: pay.notes || {},
+    linePhotos: {},
+    photos: [],
+    fields: pay.fields || {},
+    actions: (pay.actions && pay.actions.length) ? pay.actions : ['']
+  };
+  var man = row.photos || [], missing = 0;
+  for(var i = 0; i < man.length; i++){
+    var blob = await fetchDraftPhoto(man[i].path);
+    if(!blob){ missing++; continue; }
+    var rec = { blob:blob, cap:man[i].cap || '', rpath:man[i].path };
+    if(man[i].rid){
+      if(!d.linePhotos[man[i].rid]) d.linePhotos[man[i].rid] = [];
+      d.linePhotos[man[i].rid].push(rec);
+    } else d.photos.push(rec);
+  }
+  await idbPut('drafts', d);
+  syncSeen[row.id] = row.updated_at;
+  return { draft:d, missing:missing };
+}
+
+/* Sign-in reconciliation. Safe to overwrite local here specifically because
+   nothing has been typed yet this session — the conflict case is editing, and
+   that is pushDraft's problem, not this one. */
+async function syncDown(){
+  if(!canSync()) return { pulled:0, missing:0 };
+  var rows = await remoteDrafts(), pulled = 0, missing = 0;
+  for(var i = 0; i < rows.length; i++){
+    var local = null;
+    try { local = await idbGet('drafts', rows[i].id); } catch(err){}
+    var remoteAt = new Date(rows[i].updated_at).getTime();
+    if(local && (local.at || 0) >= remoteAt){
+      syncSeen[rows[i].id] = rows[i].updated_at;   /* ours is newer; it will push */
+      continue;
+    }
+    var got = await hydrateRemote(rows[i]);
+    missing += got.missing;
+    pulled++;
+  }
+  return { pulled:pulled, missing:missing };
+}
+
+/* Anything still only on this device goes up — covers the tech who worked a
+   whole morning with no signal and then walked into the office. */
+async function syncUp(){
+  if(!canSync()) return;
+  var all = await listDrafts();
+  for(var i = 0; i < all.length; i++){
+    if(syncSeen[all[i].id] || syncHeld[all[i].id]) continue;
+    var keep = draftId;
+    draftId = all[i].id;
+    try { await pushDraftFrom(all[i]); } catch(err){}
+    draftId = keep;
+  }
+  setSyncState(canSync() ? 'synced' : 'local');
+}
+
+/* Push a draft that is NOT the one on screen, straight from its stored record.
+   pushDraft() reads the live form; this one cannot. */
+async function pushDraftFrom(d){
+  if(!canSync()) return;
+  var man = [], i, rid, list;
+  for(i = 0; i < (d.photos || []).length; i++){
+    man.push({ path: await pushPhoto(d.photos[i], d.id), cap: d.photos[i].cap || '', rid: null });
+  }
+  var rids = Object.keys(d.linePhotos || {});
+  for(i = 0; i < rids.length; i++){
+    rid = rids[i]; list = d.linePhotos[rid];
+    for(var n = 0; n < list.length; n++){
+      man.push({ path: await pushPhoto(list[n], d.id), cap: list[n].cap || '', rid: rid });
+    }
+  }
+  var marked = 0;
+  Object.keys(d.state || {}).forEach(function(k){ marked += Object.keys(d.state[k]).length; });
+  var res = await sb.from('inspection_drafts').upsert({
+    id:          d.id,
+    crew_id:     user.id,
+    property_id: (d.current && d.current.propertyId) || null,
+    address:     d.address || null,
+    marked:      marked,
+    payload:     { state:d.state, notes:d.notes, fields:d.fields,
+                   actions:d.actions, current:d.current },
+    photos:      man,
+    device:      d.from || DEVICE_ID
+  }).select('updated_at').single();
+  if(res && res.error) throw new Error(res.error.message);
+  /* rpath values were just minted — write them back so the next push reuses them. */
+  await idbPut('drafts', d);
+  syncSeen[d.id] = res && res.data ? res.data.updated_at : null;
+}
+
+async function dropRemote(id){
+  if(!canSync() || !id) return;
+  try{
+    var res = await sb.from('inspection_drafts').select('photos').eq('id', id).maybeSingle();
+    var paths = ((res && res.data && res.data.photos) || []).map(function(p){ return p.path; });
+    if(paths.length) await sb.storage.from('inspection-photos').remove(paths);
+    await sb.from('inspection_drafts').delete().eq('id', id);
+  } catch(err){ /* a stale row is noise, not damage — the next sign-in re-tries */ }
+  delete syncSeen[id];
+  delete syncHeld[id];
+}
+
+function hideBanner(){
+  var b = $('formBanner');
+  if(!b) return;
+  b.classList.add('hide');
+  b.innerHTML = '';        /* emptied, not just hidden — see startSession, which appends */
+}
+
+function conflictBanner(){
+  var b = $('formBanner');
+  if(!b) return;
+  b.className = 'banner banner-bad';
+  b.innerHTML = '<b>This inspection was also edited on another device</b>' +
+    'Nothing has been overwritten and nothing has been sent. Pick the version to keep.' +
+    ' <button class="btn btn-ghost btn-sm" data-conflict="keep" type="button">Keep what is on this device</button>' +
+    ' <button class="btn btn-ghost btn-sm" data-conflict="take" type="button">Load the other version</button>';
+  b.classList.remove('hide');
+  setSyncState('conflict');
+}
+
+document.addEventListener('click', async function(e){
+  var b = e.target.closest('[data-conflict]');
+  if(!b || !draftId || !canSync()) return;
+  var id = draftId;
+  b.disabled = true;
+  if(b.dataset.conflict === 'keep'){
+    /* Adopt the server's current stamp so the guard stops firing, then push
+       over it. The other device's copy is genuinely discarded — say so, do it. */
+    try{
+      var head = await sb.from('inspection_drafts').select('updated_at').eq('id', id).maybeSingle();
+      syncSeen[id] = head && head.data ? head.data.updated_at : null;
+    } catch(err){}
+    syncHeld[id] = false;
+    hideBanner();
+    await pushDraft();
+  } else {
+    try{
+      var res = await sb.from('inspection_drafts')
+        .select('id, address, marked, device, updated_at, payload, photos').eq('id', id).single();
+      if(res && res.data){
+        await hydrateRemote(res.data);
+        syncHeld[id] = false;
+        hideBanner();
+        await loadDraft(id);
+      }
+    } catch(err){}
+  }
+  await renderDrafts();
 });
 
 /* ------------------------------------------------------------------
@@ -2010,8 +2407,10 @@ async function flushOutbox(){
 
 function startOutbox(){
   clearInterval(outboxTimer);
-  outboxTimer = setInterval(flushOutbox, 30000);
-  addEventListener('online', flushOutbox);
+  /* One tick drives both queues. A device that just found signal has an outbox
+     to empty AND a draft that never synced; neither should wait on the other. */
+  outboxTimer = setInterval(function(){ flushOutbox(); pushDraft(); }, 30000);
+  addEventListener('online', function(){ flushOutbox(); syncUp(); pushDraft(); });
   flushOutbox();
 }
 document.addEventListener('click', function(e){ if(e.target.id === 'obRetry') flushOutbox(); });
@@ -2358,7 +2757,7 @@ $('resetForm').addEventListener('click', async function(){
   var shots = photos.length + linePhotoCount();
   var msg = n || shots
     ? 'Clear this inspection? ' + n + ' of 25 lines and ' + shots + ' photo' + (shots === 1 ? '' : 's') +
-      ' will be deleted from this device. Anything already uploaded is unaffected.'
+      ' will be deleted from this device and from your account. Any inspection already filed is unaffected.'
     : 'Clear this inspection and start over?';
   if(!confirm(msg)) return;
   await clearDraft();      /* the outbox is untouched — queued work is not a draft */

@@ -14,11 +14,22 @@ function check(name, expected, actual) {
   console.log(`${pass ? 'PASS' : '*** FAIL ***'}  ${name}   expected=${JSON.stringify(expected)} actual=${JSON.stringify(actual)}`);
 }
 
-async function newDevice(browser, opts = {}) {
+async function newDevice(browser, opts = {}, seed = null) {
   // A fresh context is a fresh device: its own IndexedDB, localStorage, cookies.
+  // Two contexts share no memory, which is exactly the property under test — so
+  // "the server already has this" is modelled by seeding the double's tables.
   const ctx = await browser.newContext(Object.assign({ viewport: { width: 1280, height: 950 } }, opts));
   await ctx.addInitScript(FAKE);
-  await ctx.route('**/*', r => r.request().url().startsWith('http://localhost') ? r.continue() : r.abort());
+  if (seed) await ctx.addInitScript(s => {
+    window.__drafts = s.drafts; window.__blobs = s.blobs;
+  }, seed);
+  // localhost is the app; blob:/data: are how the double hands back stored photo
+  // bytes. Everything else is a real network call and must not happen.
+  await ctx.route('**/*', r => {
+    const u = r.request().url();
+    return (u.startsWith('http://localhost') || u.startsWith('blob:') || u.startsWith('data:'))
+      ? r.continue() : r.abort();
+  });
   return ctx;
 }
 
@@ -134,12 +145,142 @@ function watch(page, tag) {
   check('tech2 sees none of tech1 drafts', 0, await B.locator('[data-draft]').count());
   check('tech2 sees none of tech1 outbox', '', (await B.textContent('#outbox')).trim());
 
-  /* ---------- 9. same technician, second device ---------- */
-  const ctxC = await newDevice(browser);
+  /* ---------- 9. SAME TECHNICIAN, SECOND DEVICE — the whole point of sync ----------
+     Phone dies at house four. Everything typed so far must be on the tablet. */
+  await A.click('#tabRoute'); await A.waitForTimeout(400);
+  await A.locator('.stop').nth(2).locator('button[data-start]').click();
+  await A.waitForTimeout(700);
+  const crossAddr = await A.inputValue('#f_addr');
+  await A.click('button[data-sys="exterior"][data-i="0"][data-v="watch"]');
+  await A.waitForTimeout(200);
+  await A.fill('#n_exterior_0', 'Soffit vent screen torn.');
+  await A.setInputFiles('#p_exterior_0', shot('soffit'));
+  await A.setInputFiles('#f_photos', [shot('front'), shot('side')]);
+  await A.waitForTimeout(1200);
+  await A.evaluate(() => pushDraft());
+  await A.waitForTimeout(600);
+
+  const onServer = await A.evaluate(() => Object.keys(window.__drafts).length);
+  check('draft reached the server', true, onServer >= 1);
+  const manifest = await A.evaluate(() => {
+    const k = Object.keys(window.__drafts).find(x => x.endsWith(':p3')) || Object.keys(window.__drafts)[0];
+    return (window.__drafts[k].photos || []).length;
+  });
+  check('all 3 photos are in the server manifest', 3, manifest);
+
+  // Push again with no new photos — nothing may re-upload.
+  const before = await A.evaluate(() => window.__uploaded.length);
+  await A.fill('#f_notes', 'Second pass, no new photos.');
+  await A.waitForTimeout(900);
+  await A.evaluate(() => pushDraft());
+  await A.waitForTimeout(600);
+  check('re-saving does not re-upload photos', before, await A.evaluate(() => window.__uploaded.length));
+
+  const server = await A.evaluate(() => ({ drafts: window.__drafts, blobs: window.__blobs }));
+
+  const ctxC = await newDevice(browser, {}, server);
   const C = await ctxC.newPage(); watch(C, 'deviceC');
   await signIn(C, 'tech1@test.invalid');
-  await C.click('#tabForm'); await C.waitForTimeout(500);
-  check('drafts are per-device, not synced (known limit)', 0, await C.locator('[data-draft]').count());
+  await C.waitForTimeout(2500);            // sign-in pulls, then rehydrates photos
+  check('SECOND DEVICE restored the address', crossAddr, await C.inputValue('#f_addr'));
+  check('SECOND DEVICE restored the note', 'Soffit vent screen torn.', await C.inputValue('#n_exterior_0'));
+  check('SECOND DEVICE restored the tick', 'true',
+    await C.getAttribute('button[data-sys="exterior"][data-i="0"][data-v="watch"]', 'aria-pressed'));
+  check('SECOND DEVICE restored all 3 photos', 3,
+    (await C.locator('#thumbs .thumb').count()) + (await C.locator('[data-thumbs="exterior_0"] .thumb').count()));
+  check('SECOND DEVICE says where it came from', true,
+    /other device/i.test(await C.textContent('#formBanner')));
+
+  /* ---------- 9b. a colleague's device pulls nothing ---------- */
+  const ctxD = await newDevice(browser, {}, server);
+  const D = await ctxD.newPage(); watch(D, 'deviceD');
+  await signIn(D, 'tech2@test.invalid');
+  await D.waitForTimeout(1500);
+  await D.click('#tabForm'); await D.waitForTimeout(400);
+  check('tech2 pulls none of tech1 server drafts', 0, await D.locator('[data-draft]').count());
+  check('tech2 form is empty', '', await D.inputValue('#n_exterior_0'));
+
+  /* ---------- 9c. two devices edit the same draft — nothing is clobbered ----------
+     C changes it and pushes. A still holds the old stamp, so A's next push must
+     stop and ask rather than overwrite C's work. */
+  // The panel comes back collapsed by design — the toggle carries the "has
+  // content" marker instead. Open it the way a technician would.
+  check('restored note is flagged on the collapsed toggle', true,
+    await C.evaluate(() => document.getElementById('m_exterior_0').classList.contains('has')));
+  await C.click('[data-more="exterior_0"]');
+  await C.waitForTimeout(250);
+  await C.fill('#n_exterior_0', 'Edited on the tablet.');
+  await C.waitForTimeout(900);
+  await C.evaluate(() => pushDraft());
+  await C.waitForTimeout(600);
+  const moved = await C.evaluate(() => ({ drafts: window.__drafts, blobs: window.__blobs }));
+  await A.evaluate(s => { window.__drafts = s.drafts; window.__blobs = s.blobs; }, moved);
+
+  await A.fill('#n_exterior_0', 'Edited on the phone at the same time.');
+  await A.waitForTimeout(900);
+  await A.evaluate(() => pushDraft());
+  await A.waitForTimeout(700);
+  check('conflict is reported, not resolved silently', true,
+    /also edited on another device/i.test(await A.textContent('#formBanner')));
+  check('conflict did NOT overwrite the other device', 'Edited on the tablet.',
+    await A.evaluate(() => {
+      const k = Object.keys(window.__drafts).find(x => x.endsWith(':p3'));
+      return window.__drafts[k].payload.notes.exterior_0;
+    }));
+  check('the phone still holds its own text', 'Edited on the phone at the same time.',
+    await A.inputValue('#n_exterior_0'));
+
+  /* ---------- 9d. resolving the conflict actually resolves it ---------- */
+  await A.locator('[data-conflict="keep"]').click();
+  await A.waitForTimeout(1200);
+  check('keeping this device wins after the tech chooses', 'Edited on the phone at the same time.',
+    await A.evaluate(() => {
+      const k = Object.keys(window.__drafts).find(x => x.endsWith(':p3'));
+      return window.__drafts[k].payload.notes.exterior_0;
+    }));
+  check('conflict banner cleared', false,
+    /also edited on another device/i.test(await A.textContent('#formBanner')));
+
+  /* ---------- 9e. a morning worked with no signal syncs when signal returns ---------- */
+  const ctxE = await newDevice(browser);
+  const E = await ctxE.newPage(); watch(E, 'deviceE');
+  await ctxE.addInitScript(() => { window.__failInsert = true; });
+  await signIn(E, 'tech1@test.invalid');
+  await E.locator('.stop').first().locator('button[data-start]').click();
+  await E.waitForTimeout(700);
+  await E.click('[data-more="exterior_0"]');
+  await E.waitForTimeout(200);
+  await E.fill('#n_exterior_0', 'Written in a dead zone.');
+  await E.setInputFiles('#f_photos', shot('deadzone'));
+  await E.waitForTimeout(1400);
+  await E.evaluate(() => pushDraft());
+  await E.waitForTimeout(500);
+  check('nothing reached the server while out of signal', 0,
+    await E.evaluate(() => Object.keys(window.__drafts).length));
+  await E.evaluate(() => { window.__failInsert = false; });
+  await E.evaluate(() => window.dispatchEvent(new Event('online')));
+  await E.waitForTimeout(2500);
+  check('signal returning pushes the whole morning up', true,
+    await E.evaluate(() => Object.keys(window.__drafts).length >= 1));
+  check('and its photo went with it', true,
+    await E.evaluate(() => Object.values(window.__drafts).some(d => (d.photos || []).length >= 1)));
+
+  /* ---------- 9f. filing the inspection clears the server draft and its photos ---------- */
+  const paths = await E.evaluate(() => {
+    const d = Object.values(window.__drafts)[0];
+    return (d.photos || []).map(p => p.path);
+  });
+  const segsE = await E.$$('#systems .seg');
+  for (let i = 0; i < segsE.length; i++) await segsE[i].$eval('button[data-v="ok"]', el => el.click());
+  await E.waitForTimeout(400);
+  await E.click('#genRep');
+  await E.waitForTimeout(2500);
+  check('filed inspection removes the server draft', 0,
+    await E.evaluate(() => Object.keys(window.__drafts).length));
+  check('and deletes its draft photos from the bucket', true,
+    await E.evaluate(p => p.every(x => window.__removed.indexOf(x) !== -1), paths));
+  check('draft photos lived under drafts/<crew id>/', true,
+    paths.length > 0 && paths.every(p => p.startsWith('drafts/u-tech1/')));
 
   /* ---------- 10. two tabs on one device ---------- */
   const A2 = await ctxA.newPage(); watch(A2, 'deviceA-tab2');
