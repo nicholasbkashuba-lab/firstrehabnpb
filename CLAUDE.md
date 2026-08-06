@@ -217,8 +217,9 @@ because the Routines tab was unreadable and each one needed its connectors wired
 Don't split it back apart; add day-branches to this one instead.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
-YouTube was 81323, died with `invalid_grant`, came back as 81358. Current: Instagram 81353,
-Facebook 81324, YouTube 81358, TikTok 81356, Google Business 81363, LinkedIn business 81322,
+YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
+came back as 81642. Current (verified 2026-08-06): Instagram 81353, Facebook 81324,
+YouTube 81358, TikTok 81356, X 81378, Google Business 81642, LinkedIn business 81322,
 LinkedIn personal 81320 (never post). Google Business takes text or ONE image, **never video**
 — clips go there as a separate text-only call with a LEARN_MORE CTA.
 
@@ -229,6 +230,30 @@ existing media IDs (`list_media`) instead of re-uploading.
 **Captions carry ZERO dashes** (Nick, 2026-08-02): no em dashes, en dashes, or hyphens in
 prose, bullets, compounds, or titles. Bullets use •. Only 561-624-4263 / 561-624-GAME keep
 their dashes.
+
+## iPhone HDR footage: tonemap it, don't just transcode it
+Video shot on a recent iPhone is Dolby Vision: HEVC Main 10, `yuv420p10le`, BT.2020
+primaries, HLG transfer (`arib-std-b67`). Two consequences, both learned the hard way on
+the 2026-08-05 oyster clip:
+- **Transcode or X rejects it.** Post Bridge accepts a `.mov` upload happily and reports
+  `video/quicktime`, but HEVC-in-MOV is not something X/Twitter will publish. Convert to
+  H.264 High + yuv420p + AAC + faststart before posting anywhere.
+- **Tonemap through linear light or it ships washed out.** A bare `-pix_fmt yuv420p` keeps
+  the HLG-encoded values while tagging them BT.709: lifted blacks, milky whites, grey
+  skin. It looks like a bad camera, not a bad convert, so it is easy to ship. Use:
+
+      -vf "zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p"
+      -color_primaries bt709 -color_trc bt709 -colorspace bt709
+
+  Detect with `ffprobe -show_entries stream=color_transfer,color_primaries,pix_fmt`; a
+  source reading `arib-std-b67` / `bt2020` / `yuv420p10le` needs the filter.
+  **`tools/stage-media.py` does NOT do this yet** — it converts with a bare `-pix_fmt
+  yuv420p`, so every HDR phone clip through it ships flat. Add the filter there.
+
+YouTube decides Shorts eligibility from the media itself — vertical and under 3 minutes is
+enough. There is no API flag and Post Bridge exposes no toggle, so "make it a Short" is a
+property of the file, not the request. Confirm after posting via the channel feed: the
+video's `link rel=alternate` reads `/shorts/<id>` for a Short, `/watch?v=<id>` otherwise.
 
 ## Automating the episode metadata (verified 2026-08-02)
 Both feeds are public and machine-readable, so the Spotify link and YouTube id never need
