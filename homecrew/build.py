@@ -757,9 +757,26 @@ def service_cards(depth, exclude=None):
     for name, href, blurb in cards:
         if exclude and href.endswith(exclude):
             continue
-        out += (f'<a class="scard reveal" href="{r}{href}"><h3>{name}</h3><p>{blurb}</p>'
-                f'<span class="scard-go">Read more</span></a>')
+        slug = href.split("/")[-1].replace(".html", "")
+        art = card_art(slug)
+        out += (f'<a class="scard reveal" href="{r}{href}">'
+                f'<span class="scard-art">{art}</span>'
+                f'<span class="scard-b"><h3>{name}</h3><p>{blurb}</p>'
+                f'<span class="scard-go">Read more</span></span></a>')
     return f'<div class="scards">{out}</div>'
+
+
+def card_art(slug):
+    """The service-page illustration, reused at card size.
+
+    Same drawing, different frame: service_art() emits a .phero-art sized for a
+    page hero, this one emits a .scard-svg that fills the card's navy panel.
+    One source of artwork, so a redraw cannot leave the two out of step.
+    """
+    svg = service_art(slug)
+    if not svg:
+        return ""
+    return svg.replace('class="phero-art"', 'class="scard-svg"')
 
 
 # =============================================================================
@@ -822,8 +839,10 @@ def build_home():
       <a class="btn btn-ghost" href="pricing.html">See Pricing</a>
     </div>
   </div>
-  <div class="scrollcue" aria-hidden="true"><i></i>Scroll</div>
-  <div class="pillars"><div class="pillars-in">{pill_html}</div></div>
+  <div class="pillars">
+    <div class="scrollcue" aria-hidden="true"><i></i>Scroll</div>
+    <div class="pillars-in">{pill_html}</div>
+  </div>
 </section>
 
 <section class="protect">
@@ -939,11 +958,16 @@ def build_home():
 </section>
 
 <section class="faq">
-  <div class="wrap">
-    <p class="eyebrow">Homeowner Resources</p>
-    <h2>Questions we get every season</h2>
-    {faq_accordion(FAQ[:5])}
-    <p style="margin-top:26px"><a class="btn btn-ghost" href="faq.html" style="border-color:var(--navy);color:var(--navy)">All Questions</a></p>
+  <div class="wrap faq-grid">
+    <div class="faq-side">
+      <p class="eyebrow">Homeowner Resources</p>
+      <h2>Questions we get every season</h2>
+      <p class="faq-side-p">The ones that come up on nearly every first call &mdash; what home
+        watch actually is, how often a Florida house needs looking at, and what your
+        insurer expects while you are away.</p>
+      <p><a class="btn btn-ghost faq-all" href="faq.html">All Questions</a></p>
+    </div>
+    <div class="faq-main">{faq_accordion(FAQ[:5])}</div>
   </div>
 </section>
 

@@ -49,7 +49,10 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;letter-spacing:-.0
 
 /* ---------- HERO ---------- */
 .hero{position:relative;background:var(--navy);overflow:hidden}
-.hero-art{position:absolute;inset:0 0 0 30%;z-index:1;width:70%;height:100%}
+/* Must match .hero-photo's inset EXACTLY. At 30% against the photo's 38% a
+   115px strip of the fallback illustration showed beside the real photo on
+   every desktop load — the artwork is a fallback, not a border. */
+.hero-art{position:absolute;inset:0 0 0 38%;z-index:1;width:62%;height:100%}
 .hero-photo{position:absolute;inset:0 0 0 38%;z-index:2}
 .hero-photo picture,.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .hero-photo::after{content:'';position:absolute;inset:0;z-index:2;
@@ -160,7 +163,19 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;letter-spacing:-.0
 
 /* ---------- FAQ ---------- */
 .faq{background:var(--paper);padding:96px 0}
-.faq h2{font-size:clamp(24px,2.8vw,36px);font-weight:800;text-transform:uppercase;margin-top:12px;margin-bottom:40px}
+.faq h2{font-size:clamp(24px,2.8vw,36px);font-weight:800;text-transform:uppercase;margin-top:12px;margin-bottom:22px}
+/* Two columns so the heading is not stranded above a full-width stack with half
+   the band empty to its right. The rail sticks while the questions scroll. */
+.faq-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.35fr);gap:64px;align-items:start}
+.faq-side{position:sticky;top:112px}
+.faq-side h2{margin-bottom:18px}
+.faq-side-p{font-size:15px;line-height:1.7;color:var(--gray);margin:0 0 26px;max-width:38ch}
+.faq-all{border-color:var(--navy);color:var(--navy)}
+@media (max-width:900px){
+  .faq-grid{grid-template-columns:1fr;gap:30px}
+  .faq-side{position:static}
+  .faq-side-p{max-width:60ch}
+}
 details{background:#fff;border:1px solid var(--line-dk);margin-bottom:10px}
 summary{font-family:var(--display);font-weight:700;font-size:15px;padding:20px 24px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center}
 summary::-webkit-details-marker{display:none}
@@ -363,10 +378,26 @@ details p{margin:0;padding:0 24px 24px;color:#3d4a55;font-size:15px;max-width:80
 .secgrid.alt2{background:var(--paper);border-top:1px solid var(--line-dk)}
 .secgrid h2{font-size:clamp(24px,2.8vw,36px);font-weight:800;text-transform:uppercase;margin:12px 0 40px}
 .scards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.scard{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line-dk);padding:28px 24px 24px;
+.scard{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line-dk);padding:0;
   text-decoration:none;transition:.2s}
 .secgrid.alt2 .scard{background:#fff}
 .scard:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 18px 34px -24px rgba(11,29,45,.5)}
+
+/* Cards carry the same illustration as the service page they lead to, on the
+   navy it was drawn against. Four hairline boxes of text read as a wireframe;
+   the art is what makes them look built. */
+.scard-art{display:block;background:var(--navy);position:relative;overflow:hidden;
+  border-bottom:1px solid rgba(203,161,90,.28)}
+.scard-art::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 0%,rgba(203,161,90,.16),transparent 62%)}
+/* The artwork's own 400x290. Forcing a wider ratio cropped the base off every
+   house — and object-fit does nothing to an inline SVG anyway, so the crop
+   was the viewBox being sliced, not a fit I could tune. */
+.scard-svg{display:block;width:100%;height:auto;aspect-ratio:400/290}
+.scard-b{display:flex;flex-direction:column;flex:1;padding:24px 24px 22px}
+.scard:hover .scard-svg{transform:scale(1.045)}
+.scard-svg{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+@media (prefers-reduced-motion:reduce){.scard-svg{transition:none}.scard:hover .scard-svg{transform:none}}
 .scard h3{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
 .scard p{font-size:14.5px;color:#3d4a55;margin:0 0 18px;flex:1;line-height:1.65}
 .scard-go{font-family:var(--display);font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-text)}
@@ -475,7 +506,7 @@ a.co:hover .co-nm{color:var(--gold)}
 .hero-photo::before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;
   background:radial-gradient(ellipse at 72% 46%,rgba(242,206,140,.16),transparent 62%)}
 .hero-art,.hero-photo{will-change:transform}
-.scrollcue{position:absolute;left:50%;bottom:118px;transform:translateX(-50%);z-index:4;
+.scrollcue{position:absolute;left:50%;bottom:100%;margin-bottom:16px;transform:translateX(-50%);z-index:4;
   font-family:var(--display);font-size:8.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
   color:rgba(255,255,255,.5);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
 .scrollcue i{display:block;width:1px;height:34px;background:linear-gradient(180deg,var(--gold),transparent);
@@ -633,4 +664,15 @@ a.co:hover .co-nm{color:var(--gold)}
 @media(max-width:680px){
   .mx-wrap{margin-left:-20px;margin-right:-20px;padding:0 20px}
   .step{padding:24px 0;gap:16px}
+}
+
+/* One card per row on a phone means the art is full-bleed width — at the
+   drawing's own 400/290 that is ~283px of illustration before a word of copy,
+   and four of them is most of a screen-and-a-half of scrolling. Cap the panel
+   and let the SVG letterbox inside it: whole drawing, smaller.
+   MUST stay after the base .scard-svg rule — same specificity, source order
+   decides, and placing it earlier silently did nothing. */
+@media (max-width:700px){
+  .scard-art{height:170px;display:flex;align-items:center;justify-content:center}
+  .scard-svg{height:100%;width:100%;aspect-ratio:auto}
 }
