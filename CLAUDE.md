@@ -108,7 +108,11 @@ domain switch (July 2027). Removing them early throws away that equity.
 - **Vercel Web Analytics** is live: the cookieless `/_vercel/insights/script.js` tag
   is emitted in footer() on every page (privacy-friendly, no cookie banner). Enabled
   in the Vercel dashboard 2026-07-21. Speed Insights is deliberately OFF (usage-billed,
-  not worth it). Traffic data lives in the Vercel dashboard — no API to pull it here.
+  not worth it). Traffic data IS pullable here, contrary to what this file said until
+  2026-08-06: the Vercel MCP exposes `get_web_analytics` (project
+  `prj_thAY1ZFoahuVCLksBfXAyjyzo1b1`, team `team_VWA1Ar7nCeuyUifvSyeFTT1T`). mode=count
+  for totals; mode=aggregate with by=[requestPath|referrerHostname|day|deviceType|country]
+  for breakdowns. Data starts 2026-07-21, the day it was enabled.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
@@ -119,6 +123,14 @@ domain switch (July 2027). Removing them early throws away that equity.
   2026-07-19): 276 clicks / 11,792 impr / pos 17.1 / CTR 2.34%. Non-branded was 5,555
   impr converting 0.36% (ranked page 3 for the money terms the new location/condition
   pages target — that's the growth thesis). Compare next export against this.
+  READ THE TOTALS OFF `Devices.csv`, NOT `Queries.csv`. GSC truncates and anonymises the
+  query table: the 2026-08-06 export showed 123 clicks / 10,413 impr in Queries.csv but
+  308 clicks / 17,108 impr in Devices.csv. Same for Pages.csv, which is also partial.
+  Export 2 (last 3 months to 2026-08-06): 308 clicks / 17,108 impr / pos 18.6 / CTR 1.80%.
+  Impressions +45% on the baseline, clicks only +12%, so CTR fell 2.34% -> 1.80% and
+  position drifted 17.1 -> 18.6. That is the expected shape when many new pages start
+  ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
+  two windows overlap by roughly 80% of their days, so this is not a clean before/after.
 
 ## Conversion
 - Sticky **mobile Call Now** button (`.mobile-call`, emitted after </footer>): fixed
@@ -402,9 +414,12 @@ test breaks on the trailing comma. Read `rotation` instead; that is what decides
 orientation.
 
 ## Owner to-dos (repeat in reports until done)
-- Flip DNS when ready: Vercel → Domains → add www.firstrehabnpb.com (primary) + apex;
-  registrar: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com. Then submit
-  sitemap.xml in Google Search Console and update the Google Business Profile link.
+- ~~Flip DNS~~ DONE. Confirmed live 2026-08-06: https://www.firstrehabnpb.com/ serves the
+  new site (200 via pg_net) and Google has indexed the new URLs — /contact.html,
+  /about.html and the /locations/*.html pages all appear in the GSC export with
+  impressions. The Wix redirects are doing their job; legacy URLs still carry ~4,800
+  impressions. Still worth confirming: sitemap.xml submitted in Search Console, and the
+  Google Business Profile website link pointing at the new site.
 - ~~Click the FormSubmit activation email~~ DONE — owner confirmed leads are arriving by email.
 - ~~Send Google Business Profile share URL → add to sameAs~~ DONE — GBP already in the org
   schema via its canonical CID link (maps.google.com/?cid=3809434844265673488); owner's
