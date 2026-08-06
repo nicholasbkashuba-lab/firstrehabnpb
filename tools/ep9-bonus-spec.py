@@ -8,7 +8,9 @@ the camera audio (-83.20s and -83.10s, 22 minutes apart, so no drift).
 import json, os, re, textwrap
 
 CAM_OFFSET = -83.15          # guest camera (rootA) time = show time + this
-PRE, POST = 0.35, 0.45       # breathing room either side
+PRE, POST = 0.35, 0.45
+# 56pt DejaVu Sans Bold in 1080 wide with 60px margins fits about 26 chars
+WRAP = 26       # breathing room either side
 
 # ASR corrections. NAME_FIXES from tools/stage-episode.py plus two this episode.
 FIXES = [
@@ -50,10 +52,10 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,DejaVu Sans,62,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,2,60,60,430,1
+Style: Cap,DejaVu Sans,56,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,2,2,60,60,430,1
 
 [Events]
-Format: Layer, Start, End, Style, Name, MarginL, MarginR, Effect, Text
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
 
 
@@ -97,14 +99,23 @@ def main():
             # speaker. Drop it rather than burn it in.
             if en - st < 0.7:
                 continue
-            # two lines max, balanced
-            wrapped = textwrap.wrap(t, width=32, break_long_words=False)
-            if len(wrapped) > 2:
-                mid = len(t) // 2
-                sp = t.rfind(" ", 0, mid + 12)
-                wrapped = [t[:sp], t[sp + 1:]] if sp > 0 else [t]
-            body = r"\N".join(w.strip() for w in wrapped[:2])
-            lines.append(f"Dialogue: 0,{ass_time(st)},{ass_time(en)},Cap,,0,0,0,,{body}")
+            # Two lines max is the house style, but a long segment cannot be
+            # squeezed into two lines without either overflowing (libass then
+            # re-wraps it into three, which is what shipped the first time) or
+            # truncating words. Split it into consecutive events instead and
+            # divide the segment's time between them by character count.
+            wrapped = textwrap.wrap(t, width=WRAP, break_long_words=False)
+            chunks = [wrapped[i:i + 2] for i in range(0, len(wrapped), 2)] or [[t]]
+            span = en - st
+            total = sum(len(" ".join(c)) for c in chunks) or 1
+            cur = st
+            for ch in chunks:
+                share = span * (len(" ".join(ch)) / total)
+                body = r"\N".join(w.strip() for w in ch)
+                lines.append(
+                    f"Dialogue: 0,{ass_time(cur)},{ass_time(min(cur + share, en))},"
+                    f"Cap,,0,0,0,,{body}")
+                cur += share
             texts.append(t)
             first = False
 
