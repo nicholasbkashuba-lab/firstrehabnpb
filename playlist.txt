@@ -3,8 +3,12 @@
 # gone out. Anything not listed here is never posted.
 # Edit freely: reorder lines to change priority, delete a line to pull a clip.
 #
-# Ten clips, six weekday slots. Only the top six air this week, so order
-# matters far more than the numbering does.
+# ALL TEN OF THESE AIR. Nick asked for the full ten on 2026-08-06, and said
+# Saturday can carry a clip as well if a slot is needed. Sunday through Friday
+# is six slots, adding Saturday makes seven, so ten clips need about ten days.
+# That means Episode 9 runs past the one-week window in CLAUDE.md. Do not drop
+# clips 7 to 10 to fit a week, and do not start Episode 10 on top of them.
+# Order still matters for pacing, but nothing here gets stranded.
 #
 # 01 leads because "would you rather spend six weeks in a sling, or start
 # moving tomorrow" is the whole thesis of the episode in one sentence.
