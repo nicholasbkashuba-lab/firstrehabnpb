@@ -934,3 +934,25 @@ body.nav-locked .p2p-mini { display: none; }
 .ins-card { background: var(--cream); border: 1px solid var(--line-gold); border-radius: 14px; padding: 1.1rem 1.2rem; }
 .ins-card h3 { font-family: var(--serif); font-size: 1.12rem; margin: 0 0 0.35rem; color: var(--teal); }
 .ins-card p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+
+/* "In the News" band — external press. auto-fit so adding a third item reflows
+   rather than leaving an orphan. */
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; margin-top: 2.2rem; }
+.news-card {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  background: var(--cream); border: 1px solid var(--line-gold); border-radius: 14px;
+  padding: 1.4rem 1.5rem; text-decoration: none; color: inherit;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.news-card:hover, .news-card:focus-visible { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(14,58,71,0.10); }
+.news-outlet {
+  display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap;
+  font-size: 0.72rem; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--coral-text); font-weight: 600;
+}
+.news-date { color: var(--muted); letter-spacing: 0.08em; font-weight: 400; }
+.news-card h3 { font-family: var(--serif); font-size: 1.22rem; line-height: 1.25; color: var(--teal); margin: 0; }
+.news-card p { font-size: 0.94rem; color: var(--muted); line-height: 1.55; margin: 0; flex: 1; }
+.news-go { font-size: 0.9rem; font-weight: 600; color: var(--teal); margin-top: 0.3rem; }
+.news-card:hover .arr { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) { .news-card, .news-card .arr { transition: none; } }
