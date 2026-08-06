@@ -16,6 +16,26 @@ YOUTUBE = "https://www.youtube.com/channel/UCFzCl3RvdVahfIjKZ1SfRvQ"
 INSTAGRAM = "https://www.instagram.com/firstrehabnpb"
 FACEBOOK = "https://www.facebook.com/FirstRehabNPB/"
 LINKEDIN = "https://www.linkedin.com/company/firstrehabnpb"
+# Press coverage for the homepage "In the News" band. Newest first.
+# Only add items that actually name this practice — this is a healthcare site and a
+# link implying coverage that isn't ours is a factual claim, not decoration.
+NEWS = [
+    {
+        "outlet": "Palm Beach Gardens Living",
+        "date": "August 2026",
+        "title": "Profiles of Leadership: Nick Kashuba",
+        "blurb": "Our Chief Operating Officer on the cover, on running a practice his father "
+                 "opened in 1991 and keeping it a family business three decades later.",
+        "url": "https://palmbeachneighbors.com/digital_magazine/Palm%20Beach%20Grardens%20Living%20August%202026/HTML/index.html",
+    },
+    # Healthcare IT News ran a piece at
+    # /news/first-rehabilitation-boosts-revenue-37-outpatient-platform.
+    # Held back because the page sits behind Cloudflare and returns 403 to any
+    # automated fetch, so the headline, date, and whether it names THIS practice
+    # could not be confirmed. Add it once someone reads the live article and can
+    # supply the exact headline and publication date.
+]
+
 # Accepted plans — owner-confirmed. Single source of truth: the homepage ticker,
 # the insurance page, and the location pages all read this list, so it can never
 # drift between pages. Adding or dropping a plan is a one-line edit here.
@@ -510,6 +530,15 @@ def build_home():
         '</figure>'
     )
 
+    news_cards = "".join(
+        f'''<a class="news-card reveal" href="{n["url"]}" target="_blank" rel="noopener">
+          <span class="news-outlet">{n["outlet"]}<span class="news-date">{n["date"]}</span></span>
+          <h3>{n["title"]}</h3>
+          <p>{n["blurb"]}</p>
+          <span class="news-go">Read it <span class="arr">&rarr;</span></span>
+        </a>''' for n in NEWS
+    )
+
     social_cards = "".join(
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
           <img src="assets/social/post-{i}.jpg" alt="" loading="lazy" onerror="this.closest('.sm-card').classList.add('empty')">
@@ -676,6 +705,16 @@ def build_home():
       <h2><a href="https://maps.google.com/?cid=3809434844265673488" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">4.9 <span style="color:var(--coral-text);">★</span> on Google</a></h2>
     </div>
     <div class="quote-grid"{'' if quotes else ' style="grid-template-columns:min(640px,100%);justify-content:center;"'}>{quotes_html}</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">In the News</span>
+      <h2>What They&rsquo;re <em class="accent">Saying About Us</em></h2>
+    </div>
+    <div class="news-grid">{news_cards}</div>
   </div>
 </section>
 
@@ -2596,6 +2635,13 @@ def build_first_visit():
 # fake empty state. Thumbnails come from YouTube's CDN; players are click-to-load
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
+    {
+        "id": "h_sNZv2q65E",
+        "ep": "Episode 9",
+        "title": "Shoulder Replacement, Muscle Sparing Surgery &amp; Why Robots Are Marketing",
+        "guest": "Dr. Vani Sabesan",
+        "teaser": "Orthopaedic shoulder surgeon Dr. Vani Sabesan on getting reverse total shoulder patients moving in days instead of six weeks, muscle sparing techniques that never cut the subscapularis, and why robots in shoulder surgery are great marketing rather than better outcomes.",
+    },
     {
         "id": "hv1bNdFurrc",
         "ep": "Episode 8",
