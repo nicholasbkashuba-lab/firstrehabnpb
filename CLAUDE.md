@@ -275,6 +275,33 @@ host embeds the Vercel TEAM SLUG, renamed to `thedesignofman` on 2026-08-03. The
 routine prompt or every clip over 20MB fails to upload. raw.githubusercontent and GitHub
 release assets both serve `application/octet-stream` and are rejected by Post Bridge.
 
+## Posting on demand — "post it" should be one step
+When Nick says post something, the only two things that ever block it are:
+
+1. **The Post Bridge connector toggle.** See the Connectors note below. If its tools are
+   missing, that is the cause; say so immediately rather than retrying.
+2. **Getting the media to a URL Post Bridge can fetch.** Use `tools/stage-media.py`:
+
+       python3 tools/stage-media.py clip.mov
+
+   Converts .mov to .mp4, pushes to a `media/<slug>` branch, prints the Vercel branch URL
+   (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
+   which letterboxes on Reels, TikTok and Shorts.
+
+**Prefer an attached file over a Dropbox link.** This sandbox is proxy blocked from Dropbox
+hosts: the Dropbox MCP tools work for browsing and metadata, but the bytes cannot be
+downloaded here. A file attached to the chat lands on disk immediately and skips a
+GitHub Actions relay that takes several minutes and has its own failure modes
+(`scl/fi` share links serve an HTML interstitial even with `dl=1`; runners have no ffmpeg
+preinstalled; the default GITHUB_TOKEN is read only).
+
+Standing preferences for a one off post, unless told otherwise:
+- Captions carry ZERO dashes outside the phone numbers. Bullets use •.
+- Lead with the joke or the hook. The event details go after it, never before.
+- Google Business takes text or ONE image, never video, and gets its own text only call.
+- LinkedIn personal (81320) is never posted to.
+- Finish with `list_post_results` per platform. "processing" is not proof.
+
 ## How the clips are cut (observed spec, Episode 9 pipeline)
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, dark
   outline, centred, two lines max, sitting around the lower third.
