@@ -374,6 +374,33 @@ into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble 
 - The 4K master was rendered once but never uploaded (GitHub 500 on 5 GB). `final4k2.py`
   re-renders it if needed.
 
+## Recovering camera sync when the clip pipeline is gone
+The Episode 9 clip pipeline (`pipeline/tighten23.py`) was never committed — only its
+`__pycache__` survives on `tmp/sabesan-out` — so cutting more clips meant re-deriving which
+raw camera is which and how each lines up with the transcript. The method is general and
+takes one Actions run:
+
+**Correlate a finished clip against the raw camera.** Every shipped clip's show-time range
+can be recovered by fuzzy-matching `transcripts.md` against `transcript_v4.json` (match on
+word blocks, not exact strings — transcripts.md carries the NAME_FIXES corrections). Then
+FFT cross correlate that clip's audio against the camera's audio: the peak gives the
+camera time of a known show time, so the difference is the camera's offset. Use two clips
+far apart to prove there is no drift, and check SNR — a real peak scores in the hundreds.
+
+Episode 9 (Sabesan), Dropbox `/Podcast - Sabesan/`, all three cameras verified 2026-08-06:
+- **`Video Jul 30 2026, 4 47 25 PM.mov` (6.16 GB) is the GUEST camera.** HEVC 3840x2160
+  with `rotation=-90`, so it decodes to 2160x3840 — vertical, and exactly 2x the 1080x1920
+  target, so clips are a clean downscale at ZERO crop. 8-bit bt709, not HDR, so it needs
+  no tonemapping. `camera_time = show_time - 83.15` (measured -83.20 and -83.10, 22 min
+  apart, SNR 195/119).
+- `Video Jul 30 2026, 4 46 01 PM.mov` (5.80 GB) is the host two shot, landscape, and its
+  audio is 1808.0s — exactly the transcript length, so this camera IS the show timeline
+  (offset ~0). Useful as the reference clock.
+- `Mobile Uploads/Video Jul 30 2026, 4 47 22 PM.mov` (6.22 GB) is the third angle.
+Note ffprobe reports `width,height` plus side data, so a naive `[ "$H" -gt "$W" ]` shell
+test breaks on the trailing comma. Read `rotation` instead; that is what decides
+orientation.
+
 ## Owner to-dos (repeat in reports until done)
 - Flip DNS when ready: Vercel → Domains → add www.firstrehabnpb.com (primary) + apex;
   registrar: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com. Then submit
