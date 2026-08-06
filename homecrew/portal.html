@@ -2745,10 +2745,29 @@ $('sendRep').addEventListener('click', async function(){
 
   if(res.error){
     repBanner('<b>Not sent</b>' + esc(res.error.message) +
-              ' — send-report still needs its PDF renderer and email key (docs/ROADMAP.md task 4). Save as PDF and send it by hand for now.', 'bad');
+              ' \u2014 if this says the email key is missing, the owner still has to add ' +
+              'RESEND_API_KEY (docs/SETUP.md step 6). Save as PDF and send it by hand for now.', 'bad');
     return;
   }
-  repBanner('<b>Sent</b>Report delivered to ' + esc((res.data && res.data.to) || 'the client on file') + '.', 'ok');
+  var d = res.data || {};
+  if(d.already_sent_at){
+    repBanner('<b>Already sent</b>This report went to ' + esc(d.to || 'the client on file') +
+              ' on ' + esc(String(d.already_sent_at).slice(0,10)) + '. Nothing was sent twice.', 'ok');
+    return;
+  }
+  /* Say it plainly when a photo did not make it. A green banner over a report
+     that is quietly missing two of its photos is exactly the kind of silent
+     failure this app is supposed to not have. */
+  if(d.photos_dropped){
+    repBanner('<b>Sent, but ' + d.photos_dropped + ' photo' + (d.photos_dropped > 1 ? 's' : '') +
+              ' did not go</b>Delivered to ' + esc(d.to || 'the client on file') + ' with ' +
+              d.photos_sent + '. Check the report and re-send the missing ' +
+              (d.photos_dropped > 1 ? 'ones' : 'one') + ' by hand.', 'bad');
+    return;
+  }
+  repBanner('<b>Sent</b>Report delivered to ' + esc(d.to || 'the client on file') +
+            (d.photos_sent ? ' with ' + d.photos_sent + ' photo' + (d.photos_sent > 1 ? 's' : '') : '') +
+            '.', 'ok');
 });
 
 $('resetForm').addEventListener('click', async function(){

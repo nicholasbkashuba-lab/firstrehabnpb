@@ -89,21 +89,61 @@ Fill in whatever you have:
 The four code fields render masked in the portal and reveal on tap. None of them
 can reach a client report.
 
-## 6. Report delivery (not built yet)
+## 6. Report delivery — YOUR MOVE, about five minutes
 
-`supabase/functions/send-report/index.ts` is a skeleton — the PDF renderer and the
-email send are unimplemented, so "Send to client" returns a visible error rather
-than pretending. Until it is finished the working flow is **Save as PDF** in the
-browser and attach it to an email by hand.
+The Edge Function is **written, deployed and live** on the Home Crew project. It
+is not a skeleton any more: it builds the report, pulls the visit's photos out of
+the private bucket, attaches them, and emails the whole thing to the address on
+the **client record** (never a typed one). What it does not have is an email
+provider account, because creating one needs a verification link sent to your
+inbox. That part is yours.
 
-To finish it you will need a Resend account and:
+**1. Make a Resend account** at <https://resend.com> with
+`nicholasbkashuba@gmail.com`. Free tier is 3,000 emails a month, which is far
+more than this will ever send. Hand it to the owner later — Resend supports
+adding members, so you do not have to give up the login.
+
+**2. Add a sending domain.** Resend → Domains → Add `homecrewfl.com`, then paste
+the DKIM and SPF records it gives you into the DNS. Do this even though it is the
+fiddly step: mail sent from an unverified domain lands in spam, and a home watch
+report in a homeowner's junk folder is the same as no report at all.
+
+If you want to test before the domain is live, Resend gives every account
+`onboarding@resend.dev`, which can only send **to the account owner's own
+address**. Good enough to see a real report land in your inbox.
+
+**3. Set the two secrets.** Supabase dashboard → Project Settings → Edge
+Functions → Secrets (or the CLI):
 
 ```bash
-supabase secrets set RESEND_API_KEY=... REPORT_FROM_EMAIL=reports@homecrewfl.com
-supabase functions deploy send-report
+supabase secrets set RESEND_API_KEY=re_xxxxxxxx
+supabase secrets set REPORT_FROM_EMAIL="HomeCrew <reports@homecrewfl.com>"
 ```
 
-See `docs/ROADMAP.md` task 4.
+Nothing else needs deploying. The function picks the secrets up on its next
+invocation.
+
+**How to tell it worked.** File an inspection against a property whose client
+email is your own, hit **Send to client**, and the portal will say
+"Sent — delivered to … with N photos". If a photo could not be attached it says
+so in a red banner instead of a green one, on purpose.
+
+**Until the key is set**, "Send to client" returns a visible error naming the
+missing key, and the working flow stays **Save as PDF** in the browser. That is
+deliberate: a report that silently fails to send is worse than one that visibly
+errors, because you would believe the client had been told.
+
+### Why the report is an email and not a PDF attachment
+
+Supabase Edge Functions run on Deno Deploy, which has no headless Chrome, so a
+server-rendered PDF would mean a second vendor (Browserless or DocRaptor) —
+another account, another bill — to produce a file the homeowner has to download
+before reading. The report is HTML already, so it is sent as the email body:
+readable the moment it opens, on a phone. Save as PDF still exists for anyone
+who wants a filed copy.
+
+Photos are **attached**, not linked. A signed URL expires; these emails get kept
+and forwarded for years.
 
 ---
 

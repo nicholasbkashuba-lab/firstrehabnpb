@@ -2,12 +2,11 @@
 
 Ordered. Each task lists where to work and how to know it's done.
 
-Tasks 1, 2, 3, 5 and 7 are **done** — kept below with what actually shipped,
+Every task here is **done**. They are kept below with what actually shipped,
 since the next person needs to know what the code does, not what it was going to
-do. **Task 4 is the only remaining engineering work**, and it is blocked on an
-email API key rather than on code. Before any of it runs against real data the
-owner has to create crew accounts and client records: `docs/SETUP.md` steps 4
-and 5.
+do. What is left is not engineering: crew accounts and client records
+(`docs/SETUP.md` steps 4 and 5), a Resend key (step 6), a domain, and real
+photography.
 
 ---
 
@@ -72,21 +71,39 @@ different device.
 
 ---
 
-## 4. PDF generation + email delivery
+## 4. Report delivery — DONE (needs an API key, not code)
 
-Skeleton: `supabase/functions/send-report/index.ts`.
+`supabase/functions/send-report/` is written, deployed and live. It verifies the
+caller is an **active** crew member, reads the recipient off the property record,
+downloads the visit's photos from the private bucket, attaches them inline, sends
+via Resend and stamps `sent_at`. It is idempotent: a second tap returns the
+original send rather than mailing the homeowner twice.
 
-The report HTML is already fully assembled in `genRep()` in `portal.html`. Extract that into a shared template both the browser preview and the Edge Function can use — don't maintain two copies that drift.
+**No PDF, deliberately.** Edge Functions run on Deno Deploy with no headless
+Chrome, so a server-rendered PDF means a second vendor (Browserless, DocRaptor) —
+another account, another bill — to make a file the homeowner must download before
+reading. The report is HTML already, so it *is* the email: readable the instant
+it opens, on a phone. Save as PDF still exists in the portal for a filed copy.
+If a PDF is ever genuinely wanted, add it alongside the body, never instead of it.
 
-- Render to PDF server-side (Puppeteer on Deno Deploy, or an API like Browserless/DocRaptor).
-- Send via Resend or SendGrid. Resend is simpler for this volume.
-- Log `sent_at` on the inspection row.
-- The portal already calls this function and surfaces whatever it returns, so the
-  only work left is server-side. Until it lands, "Send to client" shows a red
-  banner and the crew sends the PDF by hand — which is the honest failure mode.
-- Handle bounces — a report that silently fails to send is worse than one that visibly errors, because the owner believes the client was notified.
+**Photos are attached, not linked.** The obvious move is a signed URL, and it is
+wrong here — it expires, and these emails get kept and forwarded for years.
 
-**Done when:** clicking "Send to client" delivers a PDF to a real inbox and stamps `sent_at`.
+The template lives in `report.js` as a plain ES module so Deno imports it
+natively *and* node can unit-test it with no Deno toolchain and no email key:
+`node --input-type=module -e "import('./supabase/functions/send-report/report.test.js')"`.
+27 checks, the first of which asserts that **no access code, key box combination,
+alarm code or gate name appears in the report** — including when a caller wrongly
+merges a property row into the inspection. That rule was a comment before; it is
+a test now.
+
+**Left to do, and it is not code:** a Resend account and two secrets. See
+`docs/SETUP.md` step 6.
+
+**Done when:** clicking "Send to client" delivers to a real inbox and stamps
+`sent_at`. Verified as far as it can be without a key — the deployed function
+boots, resolves its import and returns its own 401 to a non-crew caller, which is
+distinguishable from the gateway's.
 
 ---
 

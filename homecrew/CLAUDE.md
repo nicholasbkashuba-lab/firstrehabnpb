@@ -21,10 +21,15 @@ property-linked inspections with a photo and collapsible note on every one of th
 25 lines, live scoring, report generation, photos in private Storage, an outbox
 that retries failed submissions, and cross-device draft sync.
 
-**Not working — this is the job:** `send-report` has no PDF renderer or email key,
-so "Send to client" returns a visible error and the crew sends the PDF by hand.
-That is the honest failure mode and the only remaining engineering task. See
-`docs/ROADMAP.md` task 4.
+**Report delivery is built and deployed.** `send-report` is live on the Home Crew
+project: it checks the caller is active crew, reads the recipient off the
+property record, attaches the visit's photos from the private bucket and emails
+the report. It needs a `RESEND_API_KEY` — an account signup, not code — and until
+that exists "Send to client" returns a visible error naming the missing key,
+which is the honest failure mode. See `docs/SETUP.md` step 6.
+
+**No engineering work is outstanding.** What remains is the owner's: crew
+accounts, client records, a Resend key, a domain, and real photography.
 
 **The backend is live.** Supabase project `Home Crew` (`fuznycuqxbrwkaiuayjs`),
 all six migrations applied, keys in `config.js`. What is still empty is the
@@ -107,7 +112,18 @@ This app will hold **client home addresses, alarm details, and photos of vacant 
 - Storage bucket is **private**. Serve photos via signed URLs with short expiry, never public URLs.
 - Only ever use the Supabase **anon** key client-side. The service role key goes in Edge Function secrets and nowhere else — never in `portal.html`, never in `config.js`, never in a committed `.env`. `config.js` holding the URL and anon key IS safe to commit; that is what it is for.
 - Emailed reports contain addresses and interior photos. Confirm the recipient address comes from the property record, not from a form field a technician could typo. The portal enforces this: "Send to client" refuses on an inspection with no `property_id`, and the Edge Function reads the address off the property row rather than the request body.
-- **Access codes never enter a client report.** Gate code, key box combination, alarm and garage codes render masked in the directory, reveal on tap, and re-hide after 30 seconds. `renderReport()` reads none of them — keep it that way. A report is emailed and then forwarded onward; a code in one is a code in somebody's inbox forever.
+- **Access codes never enter a client report.** This is now enforced by a test,
+  not just a comment: `report.test.js` asserts that no gate code, key box
+  combination, alarm code, garage code or gate name appears in the emailed
+  report — including when a caller wrongly merges a property row into the
+  inspection object. Run it after any change to the report template.
+- **The emailed report is HTML with attached photos, not a PDF with signed URLs.**
+  Both halves are deliberate. Edge Functions have no headless Chrome, so a PDF
+  needs a second paid vendor to make a file the homeowner must download first.
+  And a signed URL expires, while these emails get kept and forwarded for years.
+  The template is `supabase/functions/send-report/report.js`, a plain ES module
+  so Deno imports it natively and node can test it with no Deno and no API key.
+- **Access codes never enter a client report** (the original rule, still true): Gate code, key box combination, alarm and garage codes render masked in the directory, reveal on tap, and re-hide after 30 seconds. `renderReport()` reads none of them — keep it that way. A report is emailed and then forwarded onward; a code in one is a code in somebody's inbox forever.
 - Migration `0003` closed `is_owner()` and `is_active_crew()` to signed-out callers. Do not "finish the job" by revoking EXECUTE from `authenticated` too — RLS policy expressions run with the caller's privileges, so that makes every table return "permission denied" instead of an empty result. Verified on the live project; the header comment in `0003_function_hardening.sql` has the details. The two remaining Supabase advisories are accepted for this reason.
 - Migration `0002` moved credential reads from "any authenticated user" to **active crew only**, and dropped the `properties_field` view, which never actually protected anything (the base-table policy allowed the same select). Deactivating a crew row is now a real revocation. Read the header comment in that file before rewriting those policies.
 - Migration `0006` gives `inspection_drafts` the only policy set here with **no
