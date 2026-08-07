@@ -228,6 +228,41 @@
       "source": "/:p([Gg][Ee][Nn][Ee][Rr][Aa][Ll]-7)",
       "destination": "/",
       "statusCode": 301
+    },
+    {
+      "source": "/:p([Aa][Nn][Kk][Ll][Ee]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/ankle-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Kk][Nn][Ee][Ee]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/knee-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Nn][Ee][Cc][Kk]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/neck-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ff][Oo][Oo][Tt]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/foot-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ii][Nn][Qq][Uu][Ii][Rr][Yy]-[Ss][Ee][Rr][Vv][Ii][Cc][Ee][Ss]-[Pp][Aa][Gg][Ee])",
+      "destination": "/contact.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Aa][Uu][Tt][Oo]-[Aa][Cc][Cc][Ii][Dd][Ee][Nn][Tt]-[Ii][Nn][Jj][Uu][Rr][Ii][Ee][Ss])",
+      "destination": "/treatments/auto-accident.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:a([Pp][Rr][Oo][Ff][Ii][Ll][Ee])/:slug*",
+      "destination": "/",
+      "statusCode": 301
     }
   ]
 }

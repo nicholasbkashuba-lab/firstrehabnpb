@@ -108,7 +108,11 @@ domain switch (July 2027). Removing them early throws away that equity.
 - **Vercel Web Analytics** is live: the cookieless `/_vercel/insights/script.js` tag
   is emitted in footer() on every page (privacy-friendly, no cookie banner). Enabled
   in the Vercel dashboard 2026-07-21. Speed Insights is deliberately OFF (usage-billed,
-  not worth it). Traffic data lives in the Vercel dashboard — no API to pull it here.
+  not worth it). Traffic data IS pullable here, contrary to what this file said until
+  2026-08-06: the Vercel MCP exposes `get_web_analytics` (project
+  `prj_thAY1ZFoahuVCLksBfXAyjyzo1b1`, team `team_VWA1Ar7nCeuyUifvSyeFTT1T`). mode=count
+  for totals; mode=aggregate with by=[requestPath|referrerHostname|day|deviceType|country]
+  for breakdowns. Data starts 2026-07-21, the day it was enabled.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
@@ -119,6 +123,14 @@ domain switch (July 2027). Removing them early throws away that equity.
   2026-07-19): 276 clicks / 11,792 impr / pos 17.1 / CTR 2.34%. Non-branded was 5,555
   impr converting 0.36% (ranked page 3 for the money terms the new location/condition
   pages target — that's the growth thesis). Compare next export against this.
+  READ THE TOTALS OFF `Devices.csv`, NOT `Queries.csv`. GSC truncates and anonymises the
+  query table: the 2026-08-06 export showed 123 clicks / 10,413 impr in Queries.csv but
+  308 clicks / 17,108 impr in Devices.csv. Same for Pages.csv, which is also partial.
+  Export 2 (last 3 months to 2026-08-06): 308 clicks / 17,108 impr / pos 18.6 / CTR 1.80%.
+  Impressions +45% on the baseline, clicks only +12%, so CTR fell 2.34% -> 1.80% and
+  position drifted 17.1 -> 18.6. That is the expected shape when many new pages start
+  ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
+  two windows overlap by roughly 80% of their days, so this is not a clean before/after.
 
 ## Conversion
 - Sticky **mobile Call Now** button (`.mobile-call`, emitted after </footer>): fixed
@@ -217,8 +229,9 @@ because the Routines tab was unreadable and each one needed its connectors wired
 Don't split it back apart; add day-branches to this one instead.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
-YouTube was 81323, died with `invalid_grant`, came back as 81358. Current: Instagram 81353,
-Facebook 81324, YouTube 81358, TikTok 81356, Google Business 81363, LinkedIn business 81322,
+YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
+came back as 81642. Current (verified 2026-08-06): Instagram 81353, Facebook 81324,
+YouTube 81358, TikTok 81356, X 81378, Google Business 81642, LinkedIn business 81322,
 LinkedIn personal 81320 (never post). Google Business takes text or ONE image, **never video**
 — clips go there as a separate text-only call with a LEARN_MORE CTA.
 
@@ -226,9 +239,43 @@ LinkedIn personal 81320 (never post). Google Business takes text or ONE image, *
 `list_post_results` and report per platform. Uploads to Post Bridge are metered — reuse
 existing media IDs (`list_media`) instead of re-uploading.
 
+**The routine runs unattended — `.claude/settings.json` is what makes that true.** Each
+firing spawns a fresh session that clones this repo, and without a permission allow-list
+every Post Bridge call stops and asks Nick to approve it. `permissions.allow` pre-approves
+the eight posting/reading tools plus the five domains the routine fetches (raw
+.githubusercontent, jsDelivr, Spotify, the site, YouTube). `delete_post` and `delete_media`
+are deliberately in `permissions.ask` so removing something still needs a human.
+It MUST be `.claude/settings.json`, committed — `settings.local.json` is gitignored and so
+is absent from the clone the fired session gets. Adding a tool to the routine's prompt
+without adding it here reintroduces the approval prompt.
+
 **Captions carry ZERO dashes** (Nick, 2026-08-02): no em dashes, en dashes, or hyphens in
 prose, bullets, compounds, or titles. Bullets use •. Only 561-624-4263 / 561-624-GAME keep
 their dashes.
+
+## iPhone HDR footage: tonemap it, don't just transcode it
+Video shot on a recent iPhone is Dolby Vision: HEVC Main 10, `yuv420p10le`, BT.2020
+primaries, HLG transfer (`arib-std-b67`). Two consequences, both learned the hard way on
+the 2026-08-05 oyster clip:
+- **Transcode or X rejects it.** Post Bridge accepts a `.mov` upload happily and reports
+  `video/quicktime`, but HEVC-in-MOV is not something X/Twitter will publish. Convert to
+  H.264 High + yuv420p + AAC + faststart before posting anywhere.
+- **Tonemap through linear light or it ships washed out.** A bare `-pix_fmt yuv420p` keeps
+  the HLG-encoded values while tagging them BT.709: lifted blacks, milky whites, grey
+  skin. It looks like a bad camera, not a bad convert, so it is easy to ship. Use:
+
+      -vf "zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p"
+      -color_primaries bt709 -color_trc bt709 -colorspace bt709
+
+  Detect with `ffprobe -show_entries stream=color_transfer,color_primaries,pix_fmt`; a
+  source reading `arib-std-b67` / `bt2020` / `yuv420p10le` needs the filter.
+  **`tools/stage-media.py` does NOT do this yet** — it converts with a bare `-pix_fmt
+  yuv420p`, so every HDR phone clip through it ships flat. Add the filter there.
+
+YouTube decides Shorts eligibility from the media itself — vertical and under 3 minutes is
+enough. There is no API flag and Post Bridge exposes no toggle, so "make it a Short" is a
+property of the file, not the request. Confirm after posting via the channel feed: the
+video's `link rel=alternate` reads `/shorts/<id>` for a Short, `/watch?v=<id>` otherwise.
 
 ## Automating the episode metadata (verified 2026-08-02)
 Both feeds are public and machine-readable, so the Spotify link and YouTube id never need
@@ -349,10 +396,40 @@ into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble 
 - The 4K master was rendered once but never uploaded (GitHub 500 on 5 GB). `final4k2.py`
   re-renders it if needed.
 
+## Recovering camera sync when the clip pipeline is gone
+The Episode 9 clip pipeline (`pipeline/tighten23.py`) was never committed — only its
+`__pycache__` survives on `tmp/sabesan-out` — so cutting more clips meant re-deriving which
+raw camera is which and how each lines up with the transcript. The method is general and
+takes one Actions run:
+
+**Correlate a finished clip against the raw camera.** Every shipped clip's show-time range
+can be recovered by fuzzy-matching `transcripts.md` against `transcript_v4.json` (match on
+word blocks, not exact strings — transcripts.md carries the NAME_FIXES corrections). Then
+FFT cross correlate that clip's audio against the camera's audio: the peak gives the
+camera time of a known show time, so the difference is the camera's offset. Use two clips
+far apart to prove there is no drift, and check SNR — a real peak scores in the hundreds.
+
+Episode 9 (Sabesan), Dropbox `/Podcast - Sabesan/`, all three cameras verified 2026-08-06:
+- **`Video Jul 30 2026, 4 47 25 PM.mov` (6.16 GB) is the GUEST camera.** HEVC 3840x2160
+  with `rotation=-90`, so it decodes to 2160x3840 — vertical, and exactly 2x the 1080x1920
+  target, so clips are a clean downscale at ZERO crop. 8-bit bt709, not HDR, so it needs
+  no tonemapping. `camera_time = show_time - 83.15` (measured -83.20 and -83.10, 22 min
+  apart, SNR 195/119).
+- `Video Jul 30 2026, 4 46 01 PM.mov` (5.80 GB) is the host two shot, landscape, and its
+  audio is 1808.0s — exactly the transcript length, so this camera IS the show timeline
+  (offset ~0). Useful as the reference clock.
+- `Mobile Uploads/Video Jul 30 2026, 4 47 22 PM.mov` (6.22 GB) is the third angle.
+Note ffprobe reports `width,height` plus side data, so a naive `[ "$H" -gt "$W" ]` shell
+test breaks on the trailing comma. Read `rotation` instead; that is what decides
+orientation.
+
 ## Owner to-dos (repeat in reports until done)
-- Flip DNS when ready: Vercel → Domains → add www.firstrehabnpb.com (primary) + apex;
-  registrar: A @ → 76.76.21.21, CNAME www → cname.vercel-dns.com. Then submit
-  sitemap.xml in Google Search Console and update the Google Business Profile link.
+- ~~Flip DNS~~ DONE. Confirmed live 2026-08-06: https://www.firstrehabnpb.com/ serves the
+  new site (200 via pg_net) and Google has indexed the new URLs — /contact.html,
+  /about.html and the /locations/*.html pages all appear in the GSC export with
+  impressions. The Wix redirects are doing their job; legacy URLs still carry ~4,800
+  impressions. Still worth confirming: sitemap.xml submitted in Search Console, and the
+  Google Business Profile website link pointing at the new site.
 - ~~Click the FormSubmit activation email~~ DONE — owner confirmed leads are arriving by email.
 - ~~Send Google Business Profile share URL → add to sameAs~~ DONE — GBP already in the org
   schema via its canonical CID link (maps.google.com/?cid=3809434844265673488); owner's

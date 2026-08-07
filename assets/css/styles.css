@@ -708,7 +708,9 @@ a.tb-item:hover { color: var(--gold); }
 .faq-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.55rem; max-width: var(--max); margin: 0 auto; padding: 0.8rem var(--pad); }
 .faq-jump a { flex-shrink: 0; display: inline-flex; align-items: center; min-height: 44px; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.05rem; transition: all 0.25s ease; }
 .faq-jump a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink-deep); }
-.faq-cat { max-width: 860px; margin: 0 auto; scroll-margin-top: 165px; }
+/* scroll-margin clears the fixed header plus the sticky bar, so a
+   /faq.html#category deep link lands on the heading, not behind the chips. */
+.faq-cat { max-width: 860px; margin: 0 auto; scroll-margin-top: 212px; }
 .faq-cat + .faq-cat { margin-top: clamp(2.8rem, 5vw, 4.2rem); }
 .faq-cat .faq-list { max-width: none; }
 .faq-cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 2px solid var(--gold); padding-bottom: 0.7rem; margin-bottom: 0.4rem; }
@@ -746,6 +748,26 @@ a.tb-item:hover { color: var(--gold); }
 .faq-tool:hover { border-color: var(--gold); background: var(--cream); }
 .faq-hidden { display: none !important; }
 .faq-empty { max-width: 860px; margin: 0 auto 2rem; padding: 1.4rem 1.6rem; background: var(--cream); border: 1px solid var(--line-gold); border-radius: var(--radius); color: var(--muted); }
+
+/* The jump bar is sticky for the whole page, so its height is subtracted from
+   every screen of reading. Below 1100px the chips wrap past two rows — nine
+   rows and 494px on a 393px phone, which pins over a 740px screen and leaves
+   172px to read 73 answers through. It looks like the page will not scroll.
+   One horizontally scrollable row instead keeps the bar ~66px at any width
+   and however many categories exist. */
+@media (max-width: 1099px) {
+  .faq-jump { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; overflow-y: hidden;
+    overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    padding-top: 0.6rem; padding-bottom: 0.6rem;
+    /* wider than the fade below, so the last chip never ends up under it */
+    padding-right: calc(var(--pad) + 1.6rem); }
+  .faq-jump::-webkit-scrollbar { display: none; }
+  /* Fade the right edge so the row reads as "there is more". The bar is
+     position:sticky, which already makes it the containing block for this. */
+  .faq-jump-bar::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 2.4rem;
+    background: linear-gradient(90deg, rgba(251, 248, 242, 0), var(--cream-soft)); pointer-events: none; }
+  .faq-cat { scroll-margin-top: 152px; }
+}
 
 
 /* ---------- Mobile hero: show the FULL video frame (no crop) ---------- */
