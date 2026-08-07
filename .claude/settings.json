@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "mcp__post_bridge_-_social_media_scheduler__list_social_accounts",
+      "mcp__post_bridge_-_social_media_scheduler__list_posts",
+      "mcp__post_bridge_-_social_media_scheduler__list_post_results",
+      "mcp__post_bridge_-_social_media_scheduler__list_media",
+      "mcp__post_bridge_-_social_media_scheduler__upload_media",
+      "mcp__post_bridge_-_social_media_scheduler__create_post",
+      "mcp__post_bridge_-_social_media_scheduler__update_post",
+      "mcp__post_bridge_-_social_media_scheduler__get_post",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "WebFetch(domain:open.spotify.com)",
+      "WebFetch(domain:www.firstrehabnpb.com)",
+      "WebFetch(domain:www.youtube.com)"
+    ],
+    "ask": [
+      "mcp__post_bridge_-_social_media_scheduler__delete_post",
+      "mcp__post_bridge_-_social_media_scheduler__delete_media"
+    ]
+  }
+}

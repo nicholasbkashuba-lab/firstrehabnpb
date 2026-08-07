@@ -239,6 +239,16 @@ LinkedIn personal 81320 (never post). Google Business takes text or ONE image, *
 `list_post_results` and report per platform. Uploads to Post Bridge are metered — reuse
 existing media IDs (`list_media`) instead of re-uploading.
 
+**The routine runs unattended — `.claude/settings.json` is what makes that true.** Each
+firing spawns a fresh session that clones this repo, and without a permission allow-list
+every Post Bridge call stops and asks Nick to approve it. `permissions.allow` pre-approves
+the eight posting/reading tools plus the five domains the routine fetches (raw
+.githubusercontent, jsDelivr, Spotify, the site, YouTube). `delete_post` and `delete_media`
+are deliberately in `permissions.ask` so removing something still needs a human.
+It MUST be `.claude/settings.json`, committed — `settings.local.json` is gitignored and so
+is absent from the clone the fired session gets. Adding a tool to the routine's prompt
+without adding it here reintroduces the approval prompt.
+
 **Captions carry ZERO dashes** (Nick, 2026-08-02): no em dashes, en dashes, or hyphens in
 prose, bullets, compounds, or titles. Bullets use •. Only 561-624-4263 / 561-624-GAME keep
 their dashes.
