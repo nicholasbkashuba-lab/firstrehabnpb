@@ -189,7 +189,22 @@
   const live = document.getElementById('faq-live');
   const search = document.getElementById('faq-search');
   const empty = document.getElementById('faq-empty');
+  const strip = bubbles[0].parentElement;
   let cat = 'all';
+
+  // Below 1100px the bubbles are one horizontally scrollable row, so the
+  // active one can sit off-screen after a deep link or an arrow-key jump.
+  // Nudge the row itself: the bar is sticky, and scrollIntoView would drag
+  // the page along with it.
+  function revealChip(b) {
+    if (strip.scrollWidth <= strip.clientWidth + 1) return;
+    const r = b.getBoundingClientRect();
+    const s = strip.getBoundingClientRect();
+    const delta = (r.left - s.left) - (s.width - r.width) / 2;
+    if (Math.abs(delta) < 2) return;
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    strip.scrollBy({ left: delta, behavior: smooth ? 'smooth' : 'auto' });
+  }
 
   function apply() {
     const q = search ? search.value.trim().toLowerCase() : '';
@@ -228,20 +243,32 @@
     if (history.replaceState) {
       history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat);
     }
+    revealChip(b);
     apply();
   }
 
   bubbles.forEach((b, i) => {
-    b.addEventListener('click', () => activate(b));
+    b.addEventListener('click', () => {
+      activate(b);
+      // Hiding the other topics shortens the page under you: picking one from
+      // halfway down leaves you past its end at the CTA band, and browser
+      // scroll anchoring lands you somewhere arbitrary rather than on the
+      // answers. Put the chosen topic's first question under the bar instead.
+      const sec = sections.filter((s) => !s.classList.contains('faq-hidden'))[0];
+      if (!sec) return;
+      // measure AFTER filtering — the layout and scrollY have both moved
+      const top = window.scrollY + sec.getBoundingClientRect().top
+        - (parseFloat(getComputedStyle(sec).scrollMarginTop) || 0);
+      window.scrollTo({ top: Math.max(0, top) });   // CSS decides smooth vs instant
+    });
     // Arrow keys move focus AND switch the active topic, so keyboard users
     // can flip through categories without pressing Enter each time.
     b.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault();
         const next = bubbles[(i + (e.key === 'ArrowRight' ? 1 : bubbles.length - 1)) % bubbles.length];
-        next.focus();
-        activate(next);
-        if (next.scrollIntoView) next.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        next.focus({ preventScroll: true });
+        activate(next);   // centres the chip in the row on its way through
       }
     });
   });
