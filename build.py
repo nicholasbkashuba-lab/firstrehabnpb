@@ -19,15 +19,11 @@ LINKEDIN = "https://www.linkedin.com/company/firstrehabnpb"
 # Press coverage for the homepage "In the News" band. Newest first.
 # Only add items that actually name this practice — this is a healthcare site and a
 # link implying coverage that isn't ours is a factual claim, not decoration.
+# The band renders only when this list has something in it, so an empty list
+# removes the whole section from the homepage rather than leaving a bare heading.
 NEWS = [
-    {
-        "outlet": "Palm Beach Gardens Living",
-        "date": "August 2026",
-        "title": "Profiles of Leadership: Nick Kashuba",
-        "blurb": "Our Chief Operating Officer on the cover, on running a practice his father "
-                 "opened in 1991 and keeping it a family business three decades later.",
-        "url": "https://palmbeachneighbors.com/digital_magazine/Palm%20Beach%20Grardens%20Living%20August%202026/HTML/index.html",
-    },
+    # The Palm Beach Gardens Living "Profiles of Leadership" magazine feature was
+    # here; Nick asked for it off the site on 2026-08-08.
     # Healthcare IT News ran a piece at
     # /news/first-rehabilitation-boosts-revenue-37-outpatient-platform.
     # Held back because the page sits behind Cloudflare and returns 403 to any
@@ -538,6 +534,18 @@ def build_home():
           <span class="news-go">Read it <span class="arr">&rarr;</span></span>
         </a>''' for n in NEWS
     )
+    # No coverage listed = no band. A heading over an empty grid reads as broken.
+    news_band = f'''
+<section class="section">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">In the News</span>
+      <h2>What They&rsquo;re <em class="accent">Saying About Us</em></h2>
+    </div>
+    <div class="news-grid">{news_cards}</div>
+  </div>
+</section>
+''' if NEWS else ""
 
     social_cards = "".join(
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
@@ -707,17 +715,7 @@ def build_home():
     <div class="quote-grid"{'' if quotes else ' style="grid-template-columns:min(640px,100%);justify-content:center;"'}>{quotes_html}</div>
   </div>
 </section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head center reveal">
-      <span class="eyebrow">In the News</span>
-      <h2>What They&rsquo;re <em class="accent">Saying About Us</em></h2>
-    </div>
-    <div class="news-grid">{news_cards}</div>
-  </div>
-</section>
-
+{news_band}
 <section class="social-band on-paper section" style="padding-bottom:0;">
   <div class="wrap">
     <div class="section-head center reveal" style="margin-bottom:2rem;">
@@ -1468,6 +1466,7 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
+    ("Episode 9", "Dr. Vani Sabesan, MD", "Six weeks in a sling is not the only way to recover from a shoulder replacement. Orthopaedic shoulder surgeon Dr. Vani Sabesan joins Dave and Mike to explain muscle sparing reverse total shoulder surgery — why never cutting the subscapularis lets patients start moving in days rather than weeks, and what that changes about rehab on the other side. She is also refreshingly blunt about the technology arms race: robots in shoulder surgery are excellent marketing and not, so far, better outcomes, and a tool is only ever as good as the surgeon using it. Along the way: why no two shoulders are alike, why she switched to knotless sutures, the sixty-year-old competitive pickleball players reshaping who gets a replacement, the patient who ran twenty-eight marathons, and the ninety-year-old who is still going.", "https://open.spotify.com/episode/5yOVCx7EDEQ6IybU1C6u7i", "Listen"),
     ("Episode 8", "Dr. Ryan Simovitch", "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Orthopedic shoulder surgeon Dr. Ryan Simovitch joins Dave and Mike to explain reverse total shoulder replacement in plain English: why the rotator cuff decides which replacement you get, and how reversing the ball and socket restores stability when the cuff can no longer provide it. They also dig into the &ldquo;constant warrior&rdquo; problem — the play-every-day crowd who train with no moderation and no preparation until something tears — plus the simple at-home shoulder routine Dave gives patients (wall slides, cross-body stretches, shoulder shrugs, and scapular retractions), the Duke anatomy class that pulled Dr. Simovitch into medicine, and why doing your own research beats taking a recommendation from the water cooler.", "https://open.spotify.com/episode/0iMqbfPeqCYGfoZKbHicdb", "Listen"),
     ("Episode 7", "Dr. Rami Elkhechen, M.D.", "Orthopedic surgery isn't always the answer — and knowing when it is may be the most important call a surgeon makes. Dr. Rami Elkhechen, M.D., a board-certified, fellowship-trained sports medicine orthopedic surgeon with Orthopaedic Care Specialists in North Palm Beach, joins Dave and Mike to dig into exactly that. Trained at NYU School of Medicine with a sports medicine fellowship at New Orleans' Ochsner Sports Medicine Institute — and a former assistant team physician for the Saints and Pelicans — he treats everyone from weekend athletes to trauma patients, with a focus on hip arthroscopy, shoulder surgery, cartilage preservation, and orthobiologics. Together they unpack what actually separates a surgical candidate from someone better served by conservative care, why rehab so often decides the outcome, and how patients can take a more active role in their own recovery.", "https://open.spotify.com/episode/1cVdymVweFWtoIRropqKQ7", "Listen"),
     ("Episode 6", "Dr. Richard Weiner, M.D.", "World-renowned orthopedic surgeon Dr. Richard Weiner joins Dave and Mike for a candid conversation about joint replacement, staying active as you age, and what it really takes to get patients moving pain-free again. With more than 35 years in practice and thousands of hip and knee replacements to his name, Dr. Weiner brings a uniquely technical eye to orthopedic care — shaped by his training in both engineering and medicine at the University of Pennsylvania. A must-listen for anyone considering surgery or determined to avoid it.", "https://open.spotify.com/episode/6zhOBEvVnxwH7PvmRAu52e", "Listen"),

@@ -173,11 +173,26 @@ domain switch (July 2027). Removing them early throws away that equity.
   assigned in JS before cloning — both keep the -50% loop seamless.
 - Text accents use --coral-text #A04E14 (~5.4:1 on cream, axe-verified); --coral-deep is
   backgrounds only. --muted is #51646C. Outlined .svc-feature-num strokes use #A07514.
-  Do NOT lighten these — the whole site passes axe-core WCAG 2.1 AA (37/37 pages, zero
-  violations); re-run the axe sweep (npm i --no-save axe-core playwright-core, inject
-  axe.min.js per page on http.server 8901 with animations settled) after any color change.
+  Do NOT lighten these — the whole site passes axe-core WCAG 2.1 AA (43/43 pages at both
+  393px and 1440px, zero violations); re-run the axe sweep (npm i --no-save axe-core
+  playwright-core, inject axe.min.js per page on http.server 8901 with animations settled)
+  after any color change.
 - Video/img inside .hero-media need position:relative+z-index:1 to paint above .hero-fallback.
 - Nav collapses ≤1260px (CSS media query AND matchMedia in main.js — keep in sync).
+- A sticky bar whose height grows with its contents will eventually swallow a phone
+  screen. .faq-jump-bar is sticky inside <main>, so it stays pinned for the WHOLE page:
+  its nine chips wrapped to nine rows and 494px at 393px wide, pinning over a 740px
+  screen and leaving 172px to read 73 answers through. It reads as "the page will not
+  scroll" — that is exactly how it was reported. Below 1100px it is now one horizontal
+  scroll row (flex-wrap: nowrap + overflow-x: auto + overscroll-behavior-x: contain),
+  ~66px whatever the category count; above 1100px the centred two-row wrap is unchanged.
+  Keep .faq-cat scroll-margin-top matched to header + bar at BOTH layouts (212px / 152px)
+  or /faq.html#category deep links land behind the bar. Same trap applies to any new
+  sticky element: measure it pinned at 393×740, not just at desktop.
+- Filtering a long list scrolls the ground out from under the reader: hiding items
+  shortens the page, the browser clamps scrollY and its scroll anchoring lands you
+  somewhere arbitrary. main.js scrolls to the chosen topic's first question after the
+  filter runs, measuring AFTER the DOM changes — a pre-click scrollY is already stale.
 
 ## Location pages
 LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
