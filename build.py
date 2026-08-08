@@ -373,7 +373,11 @@ def linkify_phone(html_out):
     def _protect(m):
         protected.append(m.group(0))
         return f"\x00{len(protected) - 1}\x00"
-    s = re.sub(r"<(a|script)\b[^>]*>.*?</\1>", _protect, html_out, flags=re.S)
+    # <head> is protected wholesale: a tel: anchor is never wanted inside a
+    # title, a meta description or a JSON-LD block, and injecting one there
+    # silently truncates the snippet Google shows. (contact.html shipped that
+    # way; putting the phone number in more descriptions exposed it.)
+    s = re.sub(r"<(a|script|head)\b[^>]*>.*?</\1>", _protect, html_out, flags=re.S)
     s = s.replace(PHONE, f'<a href="tel:+15616244263">{PHONE}</a>')
     return re.sub(r"\x00(\d+)\x00", lambda m: protected[int(m.group(1))], s)
 
