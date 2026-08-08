@@ -744,6 +744,8 @@ def build_home():
 
 SERVICES = {
     "physical-therapy": {
+        "seo_title": "Physical Therapy & Rehabilitation Services | North Palm Beach",
+        "seo_desc": "One-on-one physical therapy and rehabilitation for pain, injury and post-surgical recovery, from a family-owned North Palm Beach clinic open since 1991.",
         "title": "Physical Therapy",
         "kicker": "Restore movement. Eliminate pain.",
         "lede": "Expert, hands-on physical therapy for pain, injuries, and post-surgical recovery — personalized from your very first visit.",
@@ -758,6 +760,8 @@ SERVICES = {
         ],
     },
     "occupational-therapy": {
+        "seo_title": "Occupational Therapy | North Palm Beach & West Palm Beach",
+        "seo_desc": "Occupational therapy that restores daily independence after injury or surgery, from dressing and cooking to returning to work. Serving Palm Beach County.",
         "title": "Occupational Therapy",
         "kicker": "Reclaim the activities that matter.",
         "lede": "From dressing and cooking to returning to work — occupational therapy restores your independence and quality of daily life.",
@@ -772,6 +776,8 @@ SERVICES = {
         ],
     },
     "hand-therapy": {
+        "seo_title": "Certified Hand Therapy | North Palm Beach & Jupiter FL",
+        "seo_desc": "A dedicated certified hand therapy program for the wrist, hand and upper extremity, with splints fabricated on-site and protocols coordinated with your surgeon.",
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
@@ -990,8 +996,8 @@ def build_services():
         svc_bc = breadcrumb_schema([("Home", ""), ("Services", "services/physical-therapy.html"),
                                     (s["title"], f"services/{slug}.html")]) + therapy_schema(slug, s["title"], s["lede"])
         write(f"services/{slug}.html",
-              head(f'{s["title"].replace("&amp;","&")} | First Rehabilitation of North Palm Beach',
-                   svc_desc, depth=1, canonical=f"services/{slug}.html",
+              head(s.get("seo_title") or f'{s["title"].replace("&amp;","&")} | First Rehabilitation of North Palm Beach',
+                   s.get("seo_desc") or svc_desc, depth=1, canonical=f"services/{slug}.html",
                    extra_schema=svc_schema + svc_bc)
               + nav(1) + body + footer(1))
 
@@ -1009,6 +1015,8 @@ CONDITIONS = {
         "approach": "Treatment typically blends hands-on manual therapy to restore mobility, targeted core and hip strengthening to support the spine, and movement retraining so daily activities stop provoking pain. You'll leave every visit with a clear home program and an honest picture of your progress.",
     },
     "neck-pain": {
+        "seo_title": "Neck Pain Treatment in North Palm Beach | First Rehab",
+        "seo_desc": "Whiplash, stiffness, pinched nerves and desk-posture neck pain, treated hands-on. Serving Juno Beach, Palm Beach Gardens and West Palm Beach. 561-624-4263.",
         "name": "Neck Pain Relief",
         "area": "Head &amp; Neck",
         "lede": "Manual therapy, posture correction, and strengthening for neck pain, stiffness, and whiplash.",
@@ -1017,6 +1025,8 @@ CONDITIONS = {
         "approach": "Care usually combines gentle manual therapy and joint mobilization, deep neck flexor and postural strengthening, and workstation or sleep-position coaching. Most patients notice meaningful change within the first few weeks of consistent care.",
     },
     "shoulder-pain": {
+        "seo_title": "Shoulder Pain Treatment North Palm Beach | First Rehab",
+        "seo_desc": "Rotator cuff tears, frozen shoulder, impingement and post-surgical shoulder rehab, treated hands-on by a small family-owned team. Call 561-624-4263.",
         "name": "Shoulder Pain Relief",
         "area": "Shoulder",
         "lede": "Specialized rehabilitation for rotator cuff injuries, frozen shoulder, and everything in between.",
@@ -1025,6 +1035,8 @@ CONDITIONS = {
         "approach": "We progress you deliberately: restoring pain-free range first, then rebuilding rotator cuff and scapular strength, then returning you to overhead reaching, lifting, sport, and sleep without guarding. Post-surgical patients follow protocols coordinated with their surgeon.",
     },
     "knee-pain": {
+        "seo_title": "Knee Pain Treatment in North Palm Beach | First Rehab",
+        "seo_desc": "Arthritis, meniscus tears, ACL recovery and knee replacement rehab. Build strength before surgery or rebuild it after. Serving Palm Beach County.",
         "name": "Knee Pain Relief",
         "area": "Knee",
         "lede": "From arthritis to ACL recovery — rebuild strong, confident knees.",
@@ -1057,6 +1069,8 @@ CONDITIONS = {
         "approach": "Expect early swelling and mobility management, progressive strengthening and balance training, and sport- or activity-specific work before you return to full speed. Our goal is an ankle you never have to think about.",
     },
     "hand-wrist": {
+        "seo_title": "Hand & Wrist Treatment in North Palm Beach | First Rehab",
+        "seo_desc": "Certified hand therapy for carpal tunnel, tendon injuries, arthritis and post-surgical hands, with custom splints made on-site. Serving West Palm Beach.",
         "name": "Hand &amp; Wrist Therapy",
         "area": "Wrist &amp; Hand",
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
@@ -1065,6 +1079,8 @@ CONDITIONS = {
         "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery.",
     },
     "headache-relief": {
+        "seo_title": "Headache Treatment in North Palm Beach | First Rehab",
+        "seo_desc": "Most stubborn headaches start in the neck. We treat cervicogenic and tension headaches at the source with manual therapy and posture work. 561-624-4263.",
         "name": "Headache Relief",
         "area": "Head &amp; Neck",
         "lede": "Physical therapy for cervicogenic headaches and tension-type headaches that start in the neck.",
@@ -1089,6 +1105,8 @@ CONDITIONS = {
         "approach": "Treatment is functional from day one — built around the physical demands of your actual job. We provide objective progress reporting, coordinate with your physician and case manager, and prepare you for a safe, sustainable return to work.",
     },
     "auto-accident": {
+        "seo_title": "Auto Accident Physical Therapy | North Palm Beach FL",
+        "seo_desc": "Whiplash, back and neck injuries after a car accident, including the documentation your claim requires. Serving Palm Beach County since 1991. 561-624-4263.",
         "name": "Auto Accident Recovery",
         "area": "Full Body",
         "lede": "Comprehensive rehabilitation after a car accident — from whiplash to complex multi-area injuries.",
@@ -1119,7 +1137,7 @@ def build_conditions():
 """
     write("treatments/index.html",
           head("Conditions We Treat | Physical Therapy North Palm Beach",
-               "Explore the conditions we treat: back, neck, shoulder, knee, hip, foot, ankle, hand & wrist, headaches, post-surgical rehab, workers' comp, and auto accident recovery.", depth=1, canonical="treatments/index.html",
+               "Back, neck, shoulder, knee, hip, foot and ankle pain, hand and wrist injuries, headaches, post-surgical rehab, workers' comp and auto accident recovery.", depth=1, canonical="treatments/index.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("What We Treat", "treatments/index.html")]))
           + nav(1) + body + footer(1))
 
@@ -1182,10 +1200,15 @@ def build_conditions():
             cond_desc += " Family-owned North Palm Beach clinic since 1991."
         cond_bc = breadcrumb_schema([("Home", ""), ("What We Treat", "treatments/index.html"),
                                      (c["name"], f"treatments/{slug}.html")]) + condition_schema(slug, c["name"], c["lede"], sv, sv_name)
+        # seo_title/seo_desc override the generic pattern. Added for the pages
+        # the 2026-08-08 GSC export shows ranking 5-20 with a ~0% CTR: the
+        # position is fine, the snippet is not winning the click. Match the
+        # wording people actually search ("treatment", not "relief") so Google
+        # bolds it, and spend the description on a reason to pick us.
         write(f"treatments/{slug}.html",
-              head(f"{title_short} in North Palm Beach | First Rehabilitation",
-                   cond_desc, depth=1, canonical=f"treatments/{slug}.html", page_type="article",
-                   extra_schema=cond_bc)
+              head(c.get("seo_title") or f"{title_short} in North Palm Beach | First Rehabilitation",
+                   c.get("seo_desc") or cond_desc, depth=1, canonical=f"treatments/{slug}.html",
+                   page_type="article", extra_schema=cond_bc)
               + nav(1) + body + footer(1))
 
 
@@ -1196,8 +1219,8 @@ def build_conditions():
 LOCATIONS = {
     "palm-beach-gardens": {
         "city": "Palm Beach Gardens",
-        "title": "Physical Therapy Palm Beach Gardens | First Rehabilitation",
-        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Palm Beach Gardens — minutes south on US-1 in North Palm Beach. Family-owned since 1991.",
+        "title": "Physical Therapy for Palm Beach Gardens, FL | First Rehab",
+        "desc": "Physical, occupational and certified hand therapy for Palm Beach Gardens, minutes south on US-1. Named therapists, Medicare accepted. Call 561-624-4263.",
         "h1": "Serving <em class='accent'>Palm Beach Gardens</em>",
         "kicker": "Palm Beach Gardens",
         "lede": "Complete outpatient rehabilitation for Gardens residents — physical therapy, occupational therapy, certified hand therapy, and an on-site wellness gym, minutes away in North Palm Beach.",
@@ -1240,8 +1263,8 @@ LOCATIONS = {
     },
     "palm-beach": {
         "city": "Palm Beach",
-        "title": "Physical Therapy Palm Beach FL | First Rehabilitation",
-        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Palm Beach residents — attentive, one-on-one care in North Palm Beach. Family-owned since 1991.",
+        "title": "Physical Therapy for Palm Beach, FL | First Rehabilitation",
+        "desc": "Physical, occupational and certified hand therapy for Palm Beach residents, minutes north on US-1. Named therapists, one-on-one care, Medicare accepted.",
         "h1": "Serving <em class='accent'>Palm Beach</em>",
         "kicker": "Palm Beach",
         "lede": "Palm Beach residents expect care that is personal, unhurried, and expert. That is exactly how this clinic has run since 1991 — one-on-one, hands-on, and led by the founder.",
@@ -1251,8 +1274,8 @@ LOCATIONS = {
     },
     "west-palm-beach": {
         "city": "West Palm Beach",
-        "title": "Physical Therapy West Palm Beach | First Rehabilitation",
-        "desc": "Physical therapy, occupational therapy, and certified hand therapy for West Palm Beach — north on US-1 or I-95 to our family-owned North Palm Beach clinic.",
+        "title": "Physical Therapy for West Palm Beach, FL | First Rehab",
+        "desc": "Physical, occupational and certified hand therapy for West Palm Beach, north on US-1 or I-95. Family-owned since 1991, Medicare accepted. 561-624-4263.",
         "h1": "Serving <em class='accent'>West Palm Beach</em>",
         "kicker": "West Palm Beach",
         "lede": "Plenty of clinics dot West Palm Beach — but patients drive north to us for what few offer: PT, OT, certified hand therapy, and a wellness gym under one family-owned roof.",
@@ -1273,8 +1296,8 @@ LOCATIONS = {
     },
     "juno-beach": {
         "city": "Juno Beach",
-        "title": "Physical Therapy Juno Beach FL | First Rehabilitation",
-        "desc": "Physical therapy, occupational therapy, certified hand therapy, and wellness for Juno Beach — just down US-1 in North Palm Beach. Family-owned since 1991.",
+        "title": "Physical Therapy for Juno Beach & Juno Ridge, FL | First Rehab",
+        "desc": "Physical, occupational and certified hand therapy for Juno Beach and Juno Ridge, including neck and back pain. Just down US-1 in North Palm Beach.",
         "h1": "Serving <em class='accent'>Juno Beach</em>",
         "kicker": "Juno Beach",
         "lede": "Juno Beach neighbors are practically next door — our family-owned clinic is just down US-1 in North Palm Beach.",
@@ -2220,7 +2243,7 @@ BLOG_POSTS = {
         "date": "July 2026",
         "iso": "2026-07-28",
         "tag": "Knees &amp; Joints",
-        "teaser": "A sports medicine surgeon joined our Pain 2 Power podcast to explain cartilage transplants — who they help, what recovery looks like, and why rehab decides the outcome.",
+        "teaser": "A sports medicine surgeon explains cartilage transplants on our Pain 2 Power podcast: who they help, what recovery looks like, and why rehab decides it.",
         "body": """
 <p>Most people hear two options for a worn-out knee: live with it, or replace the whole joint. On a recent episode of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba and Mike McGann sat down with Dr. Rami Elkhechen, M.D., a fellowship-trained sports medicine orthopedic surgeon now with NYU Langone Health, to talk about a third path — one where the goal isn't to replace your knee with metal and plastic, but to rebuild the cartilage you were born with.</p>
 <p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
@@ -2308,9 +2331,9 @@ def build_blog():
             "five-morning-habits-back-pain": "Five Morning Habits That Ease Back Pain",
             "why-hand-therapy-is-different": "Why Hand Therapy Is Its Own Specialty",
             "knee-arthritis-before-surgery": "Knee Pain: What to Try Before Surgery",
-            "headaches-that-start-in-the-neck": "Headache Treatment in North Palm Beach: The Neck Link",
-            "cartilage-transplant-knee-explained": "Cartilage Transplants: An Alternative to Knee Replacement",
-            "reverse-shoulder-replacement-explained": "Reverse Shoulder Replacement Explained | North Palm Beach",
+            "headaches-that-start-in-the-neck": "Headache Treatment NPB: The Neck Link",
+            "cartilage-transplant-knee-explained": "Cartilage Transplants vs. Knee Replacement",
+            "reverse-shoulder-replacement-explained": "Reverse Shoulder Replacement Explained",
         }
         iso_date = p.get("iso") or _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
         post_schema = '<script type="application/ld+json">' + _json.dumps({
@@ -2728,7 +2751,7 @@ def build_insurance():
 </main>
 """
     write("insurance.html",
-          head("Insurance & Medicare | Physical Therapy North Palm Beach",  # head() escapes; don't pre-escape
+          head("Physical Therapy That Accepts Medicare | Palm Beach County",  # head() escapes; don't pre-escape
                "We accept Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare and VA Community Care in North Palm Beach. We verify your benefits first.",
                canonical="insurance.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Insurance &amp; Medicare", "insurance.html")]))
