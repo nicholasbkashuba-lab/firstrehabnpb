@@ -2,15 +2,6 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/homecrew/(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive"
-        }
-      ]
-    },
-    {
       "source": "/assets/fonts/(.*)",
       "headers": [
         {
