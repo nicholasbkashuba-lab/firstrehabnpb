@@ -1,0 +1,21 @@
+{
+  "name": "Legends Radio 100.3 FM",
+  "short_name": "Legends 100.3",
+  "description": "The Great American Songbook, live from the Palm Beaches.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0A0B16",
+  "theme_color": "#0A0B16",
+  "icons": [
+    {
+      "src": "assets/img/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118 74" role="img" aria-label="Waving red white and blue flag">
+  <defs>
+    <linearGradient id="pole" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#B58E44"/><stop offset="1" stop-color="#E7C572"/>
+    </linearGradient>
+  </defs>
+  <circle cx="9" cy="9" r="5.2" fill="url(#pole)"/>
+  <rect x="6.6" y="10" width="4.8" height="60" rx="2" fill="url(#pole)"/>
+  <g stroke="rgba(0,0,0,.16)" stroke-width="0.6">
+    <path d="M11 14 C34 6 60 22 108 12 L108 27 C60 37 34 21 11 29 Z" fill="#C42B39"/>
+    <path d="M11 29 C34 21 60 37 108 27 L108 42 C60 52 34 36 11 44 Z" fill="#F3ECDD"/>
+    <path d="M11 44 C34 36 60 52 108 42 L108 57 C60 67 34 51 11 59 Z" fill="#26467C"/>
+  </g>
+</svg>
