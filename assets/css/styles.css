@@ -380,7 +380,11 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
 @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .team-grid { grid-template-columns: 1fr; } }
-.team-card { text-align: center; }
+/* Cards stretch to the tallest in the row, so pin the booking link to the
+   bottom — ragged link heights across a grid read as unfinished. */
+.team-card { text-align: center; display: flex; flex-direction: column; height: 100%; }
+.team-card > p { flex: 1 0 auto; }
+.team-card .tc-book { margin-top: auto; padding-top: 0.8rem; }
 .team-photo { aspect-ratio: 4/5; border-radius: 140px 140px var(--radius-lg) var(--radius-lg); overflow: hidden; background: linear-gradient(170deg, var(--mist), var(--cream)); position: relative; margin-bottom: 1.2rem; box-shadow: 0 14px 36px -24px rgba(7,30,39,0.45); border: 1px solid var(--line); }
 .team-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(.2,.8,.2,1); }
 .team-card:hover .team-photo img { transform: scale(1.05); }
@@ -833,7 +837,31 @@ button.team-card:hover .tp-more, button.team-card:focus-visible .tp-more { text-
 .tp-specs { list-style: none; display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0; }
 .tp-specs li { font-size: 0.82rem; font-weight: 600; background: var(--mist); border: 1px solid var(--line); border-radius: 999px; padding: 0.28em 0.85em; }
 .tp-fun { margin-top: 1.05rem; background: var(--cream); border-left: 3px solid var(--gold); border-radius: 10px; padding: 0.75rem 0.95rem; font-size: 0.92rem; }
-@media (max-width: 560px) { .tp-inner { padding: 1.4rem 1.2rem 1.5rem; } .tp-head img { width: 66px; height: 66px; } }
+/* Named booking link on a team card. Tertiary by design: a text link, not a
+   button — six buttons in a grid would compete with each other and with the
+   page's real primary action. Mirrors .tp-more, the slot it sits in. */
+.tc-book { display: inline-block; margin-top: 0.8rem; font-size: 0.84rem; font-weight: 700;
+  color: var(--coral-text); letter-spacing: 0.04em; text-decoration: none; }
+.tc-book:hover, .tc-book:focus-visible { text-decoration: underline; }
+.tc-book .arr { display: inline-block; transition: transform 0.25s ease; }
+.tc-book:hover .arr { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) { .tc-book .arr { transition: none; } }
+/* Booking ask at the foot of a profile. Bled to the dialog edges and sat on a
+   tinted band so it reads as a separate zone from the bio without another
+   shadow — the dialog is already the floating element. One filled primary and
+   one plain text link: two buttons here would just compete. */
+.tp-cta { margin: 1.6rem -1.9rem -1.9rem; padding: 1.3rem 1.9rem 1.5rem;
+  background: var(--cream); border-top: 1px solid var(--line-gold);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+.tp-cta-q { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.3; color: var(--ink); margin: 0 0 0.9rem; }
+.tp-cta-act { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem 1.1rem; }
+.tp-cta-call { font-size: 0.9rem; font-weight: 600; color: var(--coral-text); text-decoration: none; }
+.tp-cta-call:hover, .tp-cta-call:focus-visible { text-decoration: underline; }
+@media (max-width: 560px) {
+  .tp-inner { padding: 1.4rem 1.2rem 1.5rem; } .tp-head img { width: 66px; height: 66px; }
+  .tp-cta { margin: 1.4rem -1.2rem -1.5rem; padding: 1.15rem 1.2rem 1.3rem; }
+  .tp-cta-act { gap: 0.6rem 0.9rem; }
+}
 
 /* ---------- Podcast community: Ask Dave + Dad Jokes ---------- */
 .pod-community { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; align-items: start; }

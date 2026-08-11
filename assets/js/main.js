@@ -384,3 +384,37 @@
   });
   activate(0);
 })();
+
+// Conversion signals: who tried to call, and from where.
+// The phone is this clinic's main conversion path and it has been completely
+// invisible — analytics counts the visit, never the tap. These fire cookieless
+// custom events into the Vercel Analytics tag already emitted in footer(), so
+// "did the clips and the SEO produce patients" becomes answerable instead of
+// guessed at. A tap is not a connected call, but right now there is nothing.
+(function () {
+  // main.js runs BEFORE the analytics queue shim further down the page, so
+  // resolve window.va at click time rather than at load time.
+  function track(name, data) {
+    if (typeof window.va === 'function') window.va('event', { name: name, data: data });
+  }
+  function source(el) {
+    if (el.closest('.mobile-call')) return 'sticky-call';
+    if (el.closest('.site-header')) return 'header';
+    if (el.closest('.site-footer')) return 'footer';
+    if (el.closest('.team-profile')) return 'team-profile';
+    if (el.closest('.side-card')) return 'side-card';
+    if (el.closest('.cta-band')) return 'cta-band';
+    if (el.closest('.intake')) return 'intake';
+    return 'in-page';
+  }
+  document.addEventListener('click', function (e) {
+    const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    let name = null;
+    if (href.indexOf('tel:') === 0) name = 'call_tap';
+    else if (/(^|\/)contact(\.html)?($|[#?])/.test(href)) name = 'book_click';
+    if (!name) return;
+    track(name, { source: source(a), page: location.pathname });
+  }, { passive: true });
+})();
