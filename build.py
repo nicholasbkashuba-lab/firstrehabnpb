@@ -1430,11 +1430,30 @@ def build_about():
           <img src="assets/team/{t["img"]}" alt="{t["name"]}, {t["role"]} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.team-photo').classList.add('empty')">
         </div>
         <h3>{t["name"]}</h3><div class="role">{t["role"]}</div><p>{t["blurb"]}</p>'''
+        # /about is our best page in search (position 5.3, 4.03% CTR) and the
+        # second most visited, and someone reading a specific clinician is the
+        # highest-intent visitor we get — the page had no way to act on that.
+        # A quiet named text link, in the slot the expandable card already
+        # reserves for "Read full profile", so it never fights the grid.
+        first = t["name"].split(",")[0].split()[0]
+        book = (f'<a class="tc-book" href="contact.html">Book with {first} '
+                f'<span class="arr">&rarr;</span></a>')
         if not t["bio"]:
-            return f'<div class="team-card reveal d{i%3+1}">{base}</div>'
+            return f'<div class="team-card reveal d{i%3+1}">{base}{book}</div>'
         spec = ("".join(f'<li>{s}</li>' for s in t["specialties"]))
         spec_html = f'<h4>Specialties</h4><ul class="tp-specs">{spec}</ul>' if spec else ""
         fun_html = f'<p class="tp-fun"><strong>Fun fact:</strong> {t["fun_fact"]}</p>' if t["fun_fact"] else ""
+        # Someone who has opened one clinician's profile and read to the bottom
+        # is the highest-intent visitor on the site — /about is our best page in
+        # search and the second most visited. The ask goes here, named, rather
+        # than on all six cards where it would just compete with itself.
+        cta_html = f'''<div class="tp-cta">
+              <p class="tp-cta-q">Want to work with {first}?</p>
+              <div class="tp-cta-act">
+                <a class="btn btn-coral" href="contact.html">Book with {first} <span class="arr">&rarr;</span></a>
+                <a class="tp-cta-call" href="tel:+15616244263">or call {PHONE}</a>
+              </div>
+            </div>'''
         return f'''<button type="button" class="team-card team-card-open reveal d{i%3+1}" data-profile="tp-{slug}" aria-haspopup="dialog">
         {base}<span class="tp-more" aria-hidden="true">Read full profile &rarr;</span></button>
         <dialog class="team-profile" id="tp-{slug}" aria-label="Profile: {t["name"]}">
@@ -1445,6 +1464,7 @@ def build_about():
               <div><h3>{t["name"]}</h3><div class="role">{t["role"]}</div></div>
             </div>
             <div class="tp-body"><p>{t["bio"]}</p>{spec_html}{fun_html}</div>
+            {cta_html}
           </div>
         </dialog>'''
     team_html = "".join(_team_card(i, t) for i, t in enumerate(TEAM))
