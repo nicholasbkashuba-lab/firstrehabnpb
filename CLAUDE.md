@@ -119,10 +119,21 @@ domain switch (July 2027). Removing them early throws away that equity.
 - **Search Console**: there is NO Claude connector for GSC — it is not in the MCP
   registry, so don't go looking for one to toggle. Use `tools/gsc.py`, which queries the
   Search Console API directly with a service-account key (setup:
-  `docs/SEARCH-CONSOLE-SETUP.md`). `verify` / `summary` / `queries` / `pages` / `compare`
-  / `raw`. Auth comes from `$GSC_SERVICE_ACCOUNT_JSON`, `--key`, or
+  `docs/SEARCH-CONSOLE-SETUP.md`). `sites` / `verify` / `summary` / `queries` / `pages` /
+  `compare` / `raw`. Auth comes from `$GSC_SERVICE_ACCOUNT_JSON`, `--key`, or
   `~/.config/gsc/service-account.json`; the key is a secret and the repo is public, so
-  never commit it (.gitignore covers the usual names). Signing shells out to `openssl`
+  never commit it (.gitignore covers the usual names).
+  **The property is `https://www.firstrehabnpb.com/` — a URL-prefix property, NOT
+  `sc-domain:firstrehabnpb.com`** (verified 2026-08-14 via `gsc.py sites`, service account
+  `claude-gsc-reader@firstrehabnpb-seo.iam.gserviceaccount.com`, siteFullUser). The two
+  are different properties with different data; querying the domain form returns nothing,
+  which reads as "no search traffic" rather than "wrong property". Always run `gsc.py
+  sites` and use exactly what it prints.
+  Setting the key: the cloud environment's **Environment variables** box is `.env` format,
+  one KEY=value per line, so a pretty-printed JSON key is rejected outright ("Couldn't
+  parse"). Either minify it to one line, or — simpler — write it from the **Setup script**
+  box with a heredoc to `~/.config/gsc/service-account.json`, which gsc.py reads by
+  default and which accepts multi-line content. Signing shells out to `openssl`
   and everything else is stdlib — no pip step, so it runs from a fresh clone in a
   routine. Do NOT switch it to the `cryptography` package: the system copy imports fine
   but dies with a pyo3 panic that subclasses BaseException and escapes normal handling.
