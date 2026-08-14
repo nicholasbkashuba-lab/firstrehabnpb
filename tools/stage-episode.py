@@ -25,14 +25,14 @@ import argparse, json, os, re, subprocess, sys, textwrap
 REPO = "https://github.com/nicholasbkashuba-lab/firstrehabnpb"
 
 # Automatic transcription mangles guest names, and a wrong credential on a real
-# physician is a genuine problem rather than a typo. Add corrections here as new
-# guests come up; they are applied to transcripts.md before it is committed.
-NAME_FIXES = [
-    (r"\bSebastian\b", "Sabesan"), (r"\bSabas(i|)an\b", "Sabesan"),
-    (r"\bVanny\b", "Vani"), (r"\bVonnie\b", "Vani"), (r"\bBonnie\b", "Vani"),
-    (r"\bnot less sutures\b", "knotless sutures"),
-    (r"\bsubscapularies\b", "subscapularis"),
-]
+# physician is a genuine problem rather than a typo. The corrections live in one
+# place so a fix made for one episode reaches every tool that touches a
+# transcript; this list used to be duplicated here and in ep9-bonus-spec.py, and
+# the two drifted. Add new guests to the skill's list, not here.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "..", ".claude", "skills", "podcast-episode",
+                                "scripts"))
+from name_fixes import NAME_FIXES  # noqa: E402
 
 
 def sh(cmd, cwd=None, check=True):

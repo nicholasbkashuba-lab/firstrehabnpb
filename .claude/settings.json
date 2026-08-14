@@ -10,6 +10,19 @@
       "mcp__post_bridge_-_social_media_scheduler__create_post",
       "mcp__post_bridge_-_social_media_scheduler__update_post",
       "mcp__post_bridge_-_social_media_scheduler__get_post",
+      "mcp__Dropbox__list_folder",
+      "mcp__Dropbox__search",
+      "mcp__Dropbox__get_file_metadata",
+      "mcp__Dropbox__list_shared_links",
+      "mcp__Dropbox__create_shared_link",
+      "mcp__Descript__get_drive_info",
+      "mcp__Descript__list_projects",
+      "mcp__Descript__get_project",
+      "mcp__Descript__list_jobs",
+      "mcp__Descript__wait_for_job",
+      "mcp__Descript__import_media",
+      "mcp__Descript__prompt_project_agent",
+      "mcp__Descript__export_transcript",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:cdn.jsdelivr.net)",
       "WebFetch(domain:open.spotify.com)",
@@ -18,7 +31,10 @@
     ],
     "ask": [
       "mcp__post_bridge_-_social_media_scheduler__delete_post",
-      "mcp__post_bridge_-_social_media_scheduler__delete_media"
+      "mcp__post_bridge_-_social_media_scheduler__delete_media",
+      "mcp__Descript__publish_project",
+      "mcp__Dropbox__delete",
+      "mcp__Dropbox__move"
     ]
   }
 }

@@ -284,8 +284,9 @@ the 2026-08-05 oyster clip:
 
   Detect with `ffprobe -show_entries stream=color_transfer,color_primaries,pix_fmt`; a
   source reading `arib-std-b67` / `bt2020` / `yuv420p10le` needs the filter.
-  **`tools/stage-media.py` does NOT do this yet** — it converts with a bare `-pix_fmt
-  yuv420p`, so every HDR phone clip through it ships flat. Add the filter there.
+  **`tools/stage-media.py` handles this** as of commit `d578b8f` (`is_hdr()` + `TONEMAP`).
+  This note used to say it did not; that was stale and sent a session off to "fix" working
+  code. If you touch that converter, keep the tonemap branch.
 
 YouTube decides Shorts eligibility from the media itself — vertical and under 3 minutes is
 enough. There is no API flag and Post Bridge exposes no toggle, so "make it a Short" is a
@@ -306,6 +307,18 @@ GitHub Actions runner.
 - Site update = add `EPISODES[0]` (Spotify URL) + a `VIDEOS` entry (YouTube id) in build.py,
   rebuild, push. Both values now derive automatically from the two feeds above.
 
+## Cutting a whole episode — use the `podcast-episode` skill
+`.claude/skills/podcast-episode/` owns the end-to-end weekly cycle: Dropbox → Descript
+import and multicam sync, the full-episode cut, hook-first clips, staging, and scheduling
+the week in Post Bridge. It is committed (not personal) so the fired routine's clone gets
+it. Its `episodes/` folder is the running log — read the most recent entry before starting
+a new episode. The sections below are the individual mechanics it calls.
+
+**Descript can only import a Dropbox link that is genuinely public.** `create_shared_link`
+via MCP is hard-locked to `audience: no_one` and mints links with no `st=` token, and every
+such link 403s or returns an HTML preview page. Links copied from the Dropbox web UI carry
+`st=` and work. Keep the episode footage folder set to "Anyone with the link · Can view".
+
 ## Staging a new episode — DO THIS FIRST, every time
 `python3 tools/stage-episode.py <NN> <clips-dir> --transcripts <text-dir> --guest "..." --credential "..."`
 
@@ -324,8 +337,10 @@ Three things the script does NOT do, by design:
   and EPISODES needs the Spotify URL, which does not exist until the episode publishes.
 - **Write captions.** The routine does that at post time, from transcripts.md.
 
-Name corrections live in `NAME_FIXES` at the top of the script — ASR renders "Sabesan" as
-"Sebastian" and "Vani" as "Bonnie". Add new guests there rather than fixing by hand.
+Name corrections live in ONE place, `.claude/skills/podcast-episode/scripts/name_fixes.py`
+— ASR renders "Sabesan" as "Sebastian", "Vani" as "Bonnie" and "McVicker" as "McVicar".
+Both `stage-episode.py` and `ep9-bonus-spec.py` import it; the list used to be duplicated
+in each and the two drifted. Add new guests there rather than fixing by hand.
 
 Verify before the week starts: fetch playlist.txt off raw.githubusercontent, and range
 request one clip off the Vercel branch host. Both must return 200/206.
@@ -372,11 +387,12 @@ Standing preferences for a one off post, unless told otherwise:
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
   narrow slice of an already cropped face — visibly worse, do not do it.
 - **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
-- Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
-  better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
-  Episode 8 and 9 clip currently opens on an interviewer question or mid sentence on "But",
-  which is the single biggest thing holding their reach back. Not yet changed — flagged to
-  Nick 2026-08-03, no decision taken.
+- **Hook first, 15 to 25s — DECIDED 2026-08-14, starting Episode 10.** Open on the most
+  surprising sentence and cut the setup entirely. If a candidate's first six words are a
+  question, a conjunction or a pronoun with no referent, move the in point or drop it.
+  Clips ran 20 to 75 seconds through Episode 9, and every one of those opens on an
+  interviewer question or mid sentence on "But", which was the single biggest thing holding
+  their reach back. Flagged 2026-08-03, decided 2026-08-14.
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
 
@@ -412,6 +428,12 @@ into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble 
   re-renders it if needed.
 
 ## Recovering camera sync when the clip pipeline is gone
+This is now CODE, not just prose: `.claude/skills/podcast-episode/scripts/sync_offsets.py`
+(`extract` to mono 16kHz WAV, `measure` to cross correlate). Verified 2026-08-14 against a
+synthetic 83.15s offset — recovered +83.150s at two probes, SNR 916, spread 0.000s. It
+probes 30s windows rather than whole tracks; a long window averages over drift and blurs
+the peak. The narrative below is why it works.
+
 The Episode 9 clip pipeline (`pipeline/tighten23.py`) was never committed — only its
 `__pycache__` survives on `tmp/sabesan-out` — so cutting more clips meant re-deriving which
 raw camera is which and how each lines up with the transcript. The method is general and
