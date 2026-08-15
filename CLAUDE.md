@@ -123,16 +123,43 @@ domain switch (July 2027). Removing them early throws away that equity.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
-- **Search Console**: owner-only (locked to their Google account). Working flow: owner
-  exports the GSC "Performance" ZIP (Dates/Queries/Pages/Countries CSVs) and drops it
-  here; unzip and analyze. The Google Drive connector is picker-scoped and can't read
-  files by link — don't fight it, use the ZIP/paste. Baseline (old Wix site, 90d to
+- **Search Console**: there is NO Claude connector for GSC — it is not in the MCP
+  registry, so don't go looking for one to toggle. Use `tools/gsc.py`, which queries the
+  Search Console API directly with a service-account key (setup:
+  `docs/SEARCH-CONSOLE-SETUP.md`). `sites` / `verify` / `summary` / `queries` / `pages` /
+  `compare` / `raw`. Auth comes from `$GSC_SERVICE_ACCOUNT_JSON`, `--key`, or
+  `~/.config/gsc/service-account.json`; the key is a secret and the repo is public, so
+  never commit it (.gitignore covers the usual names).
+  **The property is `https://www.firstrehabnpb.com/` — a URL-prefix property, NOT
+  `sc-domain:firstrehabnpb.com`** (verified 2026-08-14 via `gsc.py sites`, service account
+  `claude-gsc-reader@firstrehabnpb-seo.iam.gserviceaccount.com`, siteFullUser). The two
+  are different properties with different data; querying the domain form returns nothing,
+  which reads as "no search traffic" rather than "wrong property". Always run `gsc.py
+  sites` and use exactly what it prints.
+  Setting the key: the cloud environment's **Environment variables** box is `.env` format,
+  one KEY=value per line, so a pretty-printed JSON key is rejected outright ("Couldn't
+  parse"). Either minify it to one line, or — simpler — write it from the **Setup script**
+  box with a heredoc to `~/.config/gsc/service-account.json`, which gsc.py reads by
+  default and which accepts multi-line content. Signing shells out to `openssl`
+  and everything else is stdlib — no pip step, so it runs from a fresh clone in a
+  routine. Do NOT switch it to the `cryptography` package: the system copy imports fine
+  but dies with a pyo3 panic that subclasses BaseException and escapes normal handling.
+  Google API hosts ARE reachable from the sandbox (unlike Dropbox/Supabase/*.vercel.app),
+  so no pg_net or Actions relay is needed here.
+  The old flow — owner exports the "Performance" ZIP (Dates/Queries/Pages/Countries CSVs)
+  and drops it here — still works as a fallback if the key is unavailable. The Google
+  Drive connector is picker-scoped and can't read files by link; don't fight it.
+  Two traps the API removes, which still apply to any CSV export: READ THE TOTALS OFF
+  `Devices.csv`, NOT `Queries.csv` (GSC truncates/anonymises the query table — the
+  2026-08-06 export showed 123 clicks / 10,413 impr in Queries.csv vs 308 / 17,108 in
+  Devices.csv; Pages.csv is partial too), and watch for overlapping windows. `gsc.py
+  summary` reads totals from a zero-dimension API row (true by construction, nothing to
+  truncate) and `compare` builds non-overlapping windows. Default window ends 3 days back
+  because GSC finalises data on a lag.
+  Baseline (old Wix site, 90d to
   2026-07-19): 276 clicks / 11,792 impr / pos 17.1 / CTR 2.34%. Non-branded was 5,555
   impr converting 0.36% (ranked page 3 for the money terms the new location/condition
-  pages target — that's the growth thesis). Compare next export against this.
-  READ THE TOTALS OFF `Devices.csv`, NOT `Queries.csv`. GSC truncates and anonymises the
-  query table: the 2026-08-06 export showed 123 clicks / 10,413 impr in Queries.csv but
-  308 clicks / 17,108 impr in Devices.csv. Same for Pages.csv, which is also partial.
+  pages target — that's the growth thesis). Compare next pull against this.
   Export 2 (last 3 months to 2026-08-06): 308 clicks / 17,108 impr / pos 18.6 / CTR 1.80%.
   Impressions +45% on the baseline, clicks only +12%, so CTR fell 2.34% -> 1.80% and
   position drifted 17.1 -> 18.6. That is the expected shape when many new pages start
@@ -466,6 +493,12 @@ orientation.
 - ~~Send Google Business Profile share URL → add to sameAs~~ DONE — GBP already in the org
   schema via its canonical CID link (maps.google.com/?cid=3809434844265673488); owner's
   share.google link resolves to the same listing. No further action.
+- **Connect Search Console via service account** (~10 min, one time, owner only — needs
+  their Google account). Follow `docs/SEARCH-CONSOLE-SETUP.md`: create a Cloud project,
+  enable the Search Console API, make a service account, download the JSON key, then add
+  its `client_email` as a user under Search Console → Settings → Users and permissions.
+  Step 4 is the one people skip; without it the key authenticates but sees no properties.
+  Then `python3 tools/gsc.py verify`. After that no more manual ZIP exports.
 - Cross-check the GSC top-pages export against vercel.json redirects when provided.
 - Homepage gallery photos (Dave + guest; team with Celsius) never arrived as files —
   re-request as attachments, then add as assets/social/post-8.jpg, post-9.jpg (extend

@@ -6,3 +6,10 @@ node_modules/
 .vercel/
 .env
 .env.*
+
+# Google Search Console service-account keys — never commit these.
+# The repo is public; a leaked key hands over read access to the property.
+service-account.json
+*service-account*.json
+gsc-key*.json
+*.gsc.json

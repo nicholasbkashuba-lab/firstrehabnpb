@@ -1021,7 +1021,7 @@ CONDITIONS = {
     },
     "neck-pain": {
         "seo_title": "Neck Pain Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Whiplash, stiffness, pinched nerves and desk-posture neck pain, treated hands-on. Serving Juno Beach, Palm Beach Gardens and West Palm Beach. 561-624-4263.",
+        "seo_desc": "Whiplash, stiffness, pinched nerves and desk-posture neck pain, treated hands-on. Serving Juno Beach, Juno Ridge, Palm Beach Gardens and WPB. 561-624-4263.",
         "name": "Neck Pain Relief",
         "area": "Head &amp; Neck",
         "lede": "Manual therapy, posture correction, and strengthening for neck pain, stiffness, and whiplash.",
@@ -1224,6 +1224,7 @@ def build_conditions():
 LOCATIONS = {
     "palm-beach-gardens": {
         "city": "Palm Beach Gardens",
+        "deep_eyebrow": "Why Gardens Residents Choose Us",
         "title": "Physical Therapy for Palm Beach Gardens, FL | First Rehab",
         "desc": "Physical, occupational and certified hand therapy for Palm Beach Gardens, minutes south on US-1. Named therapists, Medicare accepted. Call 561-624-4263.",
         "h1": "Serving <em class='accent'>Palm Beach Gardens</em>",
@@ -1246,12 +1247,19 @@ LOCATIONS = {
     },
     "tequesta": {
         "city": "Tequesta",
-        "title": "Physical Therapy Tequesta FL | First Rehabilitation",
-        "desc": "Physical therapy, occupational therapy, and certified hand therapy for Tequesta residents — a scenic drive down US-1 to our North Palm Beach clinic. Since 1991.",
+        "title": "Physical Therapy Clinic in Tequesta FL | First Rehab",
+        "desc": "Physical therapists serving the Village of Tequesta — physical and occupational therapy plus certified hand therapy, one-on-one, at our North Palm Beach clinic.",
         "h1": "Serving <em class='accent'>Tequesta</em>",
         "kicker": "Tequesta",
         "lede": "From the Village of Tequesta, our family-owned clinic is a simple drive south — and the depth of care under one roof makes the trip worth it.",
-        "deep": False,
+        "deep": True,
+        "deep_eyebrow": "Why Tequesta Residents Choose Us",
+        "local": [
+            ("Physical therapists serving the Village of Tequesta", [
+                "Tequesta patients have plenty of physical therapy clinics closer to home. The ones who make the drive south usually do it for a specific reason: they want the same therapist every visit, and they want physical therapy, occupational therapy, and certified hand therapy available in one place instead of being referred around.",
+                "Every session here is therapist-led and one-on-one. You are not handed to an aide with a printed exercise sheet, and you are not sharing your therapist with three other patients on the hour.",
+            ]),
+        ],
         "drive": "From Tequesta, follow US-1 south through Jupiter and Juno Beach straight to our door at 733 US Highway 1, Suite 2A, North Palm Beach — or take I-95 to Northlake Boulevard. Call 561-624-4263 and our front desk will talk you through directions and parking.",
         "conditions": ["back-pain", "shoulder-pain", "hip-pain", "post-surgical"],
     },
@@ -1301,14 +1309,25 @@ LOCATIONS = {
     },
     "juno-beach": {
         "city": "Juno Beach",
-        "title": "Physical Therapy for Juno Beach & Juno Ridge, FL | First Rehab",
-        "desc": "Physical, occupational and certified hand therapy for Juno Beach and Juno Ridge, including neck and back pain. Just down US-1 in North Palm Beach.",
+        "title": "Neck Pain Therapy Juno Beach & Juno Ridge FL | First Rehab",
+        "desc": "Neck pain, back pain, hip and hand therapy for Juno Beach and Juno Ridge, FL. One-on-one care at our North Palm Beach clinic, just south on US-1.",
         "h1": "Serving <em class='accent'>Juno Beach</em>",
-        "kicker": "Juno Beach",
-        "lede": "Juno Beach neighbors are practically next door — our family-owned clinic is just down US-1 in North Palm Beach.",
-        "deep": False,
-        "drive": "Juno Beach sits immediately north of us on US-1 — our clinic at 733 US Highway 1, Suite 2A, North Palm Beach is just a few minutes down the road. Call 561-624-4263 for directions and parking guidance.",
-        "conditions": ["back-pain", "hip-pain", "foot-pain", "post-surgical"],
+        "kicker": "Juno Beach &amp; Juno Ridge",
+        "lede": "Juno Beach and Juno Ridge neighbors are practically next door — our family-owned clinic is just down US-1 in North Palm Beach.",
+        "deep": True,
+        "deep_eyebrow": "Why Juno Beach Residents Choose Us",
+        "drive": "Juno Beach and Juno Ridge sit immediately north of us on US-1 — our clinic at 733 US Highway 1, Suite 2A, North Palm Beach is just a few minutes down the road. Call 561-624-4263 for directions and parking guidance.",
+        "local": [
+            ("Neck pain care for Juno Beach and Juno Ridge", [
+                "Neck pain is one of the most common reasons neighbors from Juno Beach and Juno Ridge first call us. Sometimes it builds slowly over years at a desk; sometimes it arrives overnight after a collision on US-1. Either way it tends to respond well to skilled, hands-on physical therapy.",
+                "Rather than treating the sore spot in isolation, we identify the joints, muscles, and postural patterns actually driving your symptoms. Care usually combines gentle manual therapy and joint mobilization, deep neck flexor and postural strengthening, and practical coaching on how you sit, drive, and sleep. Most patients notice meaningful change within the first few weeks of consistent care.",
+                'We treat chronic neck stiffness, whiplash after an auto accident, cervical radiculopathy (a pinched nerve), tension and postural neck pain, and pain that radiates into the shoulder or arm. You can read more on our <a href="../treatments/neck-pain.html">neck pain relief page</a>, or about <a href="../treatments/auto-accident.html">auto accident recovery</a> if a crash is what brought you here.',
+            ]),
+            ("One clinic, four kinds of care", [
+                "Because Juno Beach and Juno Ridge are only minutes away, patients often keep coming back to us as their needs change — physical therapy for the neck, occupational therapy when daily tasks are the problem, a Certified Hand Therapist for the wrist and hand, and the wellness gym once formal therapy ends. Same building, same team, same records.",
+            ]),
+        ],
+        "conditions": ["neck-pain", "back-pain", "auto-accident", "hip-pain", "foot-pain", "post-surgical"],
     },
 }
 
@@ -1324,13 +1343,22 @@ def build_locations():
             f'<div><h3>{t["name"]}</h3><p><strong>{t["role"]}.</strong> {t["blurb"]}</p></div></div>'
             for i, t in enumerate(TEAM) if L["deep"] or i < 3
         )
+        # Optional city-specific prose, rendered under "Getting here".
+        # Shape: [(heading, [paragraph, ...]), ...]
+        local_block = "".join(
+            f'      <h2>{h}</h2>\n' + "".join(f'      <p>{p}</p>\n' for p in paras)
+            for h, paras in L.get("local", [])
+        )
         deep_extra = ""
         if L["deep"]:
+            # Was hardcoded to Palm Beach Gardens; any other deep city would have
+            # rendered Gardens copy under its own name.
+            deep_eyebrow = L.get("deep_eyebrow", f'Why {L["city"]} Residents Choose Us')
             deep_extra = f'''
 <section class="section on-cream">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">Why Gardens Residents Choose Us</span>
+      <span class="eyebrow">{deep_eyebrow}</span>
       <h2>Care No PT-Only Clinic <em class="accent">Can Offer</em></h2>
       <p class="lede">Plenty of clinics offer physical therapy. Very few pair it with occupational therapy, a Certified Hand Therapist, and a wellness gym under the same roof.</p>
     </div>
@@ -1351,7 +1379,7 @@ def build_locations():
       <p>{L["lede"]} We accept Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare, the VA Community Care Network (VACCN), workers' compensation, and self-pay — and our front desk verifies your coverage before your first visit.</p>
       <h2>Getting here from {L["city"]}</h2>
       <p>{L["drive"]}</p>
-      <h2>Our team, by name</h2>
+{local_block}      <h2>Our team, by name</h2>
       <p>Unlike clinics that list no practitioners at all, we're proud to tell you exactly who will guide your recovery: David Kashuba, Ph.D. (CEO &amp; Occupational Therapist, treating patients since 1991), Kayla Dorsey, DPT and Logan Van Sant (Physical Therapists), Joni Janik (Occupational Therapist), and Laura Drumm (Certified Hand Therapist). Meet everyone on our <a href="../about.html">About page</a>.</p>
       <p class="related-links"><strong>Common conditions we treat for {L["city"]} patients:</strong> {cond_links}</p>
     </div>
