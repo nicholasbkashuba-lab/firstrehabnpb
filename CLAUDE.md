@@ -228,8 +228,18 @@ One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask eac
   episode video on YouTube. The show "airs" 8:30 AM Sat on 100.3 Legends Radio; episodes
   are prerecorded but Saturday is the public moment.
 - **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
-  YouTube Shorts, TikTok) + a text-only Google Business post carrying the same takeaway.
+  YouTube Shorts, TikTok).
 - Next Saturday a new episode number takes over. Never mix two episodes in one week.
+
+**The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
+text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived
+from the episode's PILLAR blog post, drafted by `/episode-blog` to `content/gbp/ep{NN}-{pillar}.md`
+and pre-scheduled in Post Bridge once Nick approves the blog. Same volume, real search intent.
+**The routine must NOT post its own weekday Google Business text or the profile double-posts** —
+if you find that call back in the routine prompt, remove it. The Saturday episode post to Google
+Business stays. Format rules are in content/gbp/README.md: 750–1,200 chars, text only, zero
+dashes, `•` bullets, one keyword + one city each, phone number, LEARN_MORE CTA on the blog URL,
+and a different angle per post.
 
 **When Nick sends raw footage for a new episode: build everything, then SCHEDULE it — don't
 ask first, and don't publish immediately.** He reviews scheduled posts in Post Bridge before
@@ -468,6 +478,44 @@ firstrehabnpb@gmail.com CC nick@firstrehabnpb.com, subject "New Job Application:
 JobPosting schema per role (validThrough = posted + 60d — bump posted dates to refresh).
 
 ## Blog agent
-/blog slash command (.claude/commands/blog.md) + BLOG-PLAYBOOK.md + BLOG-TOPICS.md.
+Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
+`/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into
+TWO posts plus a Google Business set, because an episode is worth both:
+- **Post A, the recap** (600–900 words, tag "Pain 2 Power", slug `pain-2-power-ep{NN}-…`)
+  belongs to the show. Targets the guest's name + specialty + geography. Links podcast.html,
+  videos.html, the pillar service page.
+- **Post B, the pillar post** (900–1,200 words, tag = one of Physical Therapy / Occupational
+  Therapy / Hand Therapy / Wellness) belongs to the practice. Same transcript, written as our
+  expertise with the guest's words as support. Takes a SECONDARY or long-tail keyword from
+  SEO-KEYWORDS.md, never a pillar's primary (the service pages and homepage own those).
+  More than one Post B when the transcript genuinely supports a second pillar; older episodes
+  get mined the same way when a pillar needs coverage.
+
 Posts reviewed by Dr. Dave Kashuba, Ph.D. (byline + reviewedBy schema). Facts only from
 build.py/site/owner input — never web research, never invented stats or testimonials.
+
+**SEO-KEYWORDS.md is the only source of keyword targets.** Four pillar blocks (primary /
+secondary / long tail / geo / internal links / do-not-claim), plus a coverage table at the
+bottom recording what each live post owns. Update that table whenever a post ships. Two rules
+in it came from real GSC data: use "treatment" not "relief" in title tags, and never target a
+keyword one of our own pages already owns. Current holes: OT and Wellness have zero posts.
+
+**Anti-AI-slop rules live in BLOG-PLAYBOOK.md** ("No AI slop") and are enforced by
+`python3 tools/slop-check.py` (`--new` skips the seven pre-rules posts, which are warn-only
+via its BASELINE set; `--slug`, `--file` for one target; exit 1 on a violation). Zero em
+dashes in prose, no "it's not X it's Y", one bold phrase and one list max, two attributed
+quotes minimum, a concrete checkable detail per h2. Keep the checker's BANNED list in sync
+with the playbook. A draft also gets an `avoid-ai-writing` detect pass; quotes and the
+disclaimer are flag-only.
+
+`EPISODE_POSTS` in build.py maps an episode number to its recap slug and renders a
+"Read the recap" link on /podcast.html (`.pod-recap` in styles.css). Episodes 8, 7 and 6 are
+already mapped to existing posts. Add the new slug there when a recap ships.
+
+Full-episode transcripts: `tools/stage-episode.py --full-transcript <path>` now writes
+`transcript-full.md` (timestamped [mm:ss], NAME_FIXES applied) onto the load-bearing
+`media/ep{NN}-clips` branch. Before this, full transcripts landed on ad hoc branches like
+`tmp/sabesan-out` that nothing knew to look for, so drafts fell back to clip-level text.
+`/episode-blog` resolves a transcript in this order: owner-supplied path → Descript
+`export_transcript` → `transcript_v4.json` on a `tmp/*-out` branch → `transcript-full.md` →
+`transcripts.md` (clip-level, must be declared on the flag list).

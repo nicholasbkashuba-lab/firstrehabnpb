@@ -1524,6 +1524,15 @@ EPISODES = [
     ("Episode 1", "Intro to Dave's Background", "The one that started it all. In this first episode, Dr. Dave Kashuba tells his story — how he built First Rehabilitation of North Palm Beach from the ground up in 1991, what four decades and 87,000 patients of his own have taught him about healing, and the philosophy behind the name Pain 2 Power. Co-host Mike McGann draws out the moments that shaped Dave's approach to care, resilience, and why &ldquo;our people make the difference&rdquo; is more than a tagline.", "https://open.spotify.com/episode/70Yn3oyi2YcesDkivraogc", "Listen"),
 ]
 
+# Episode number -> the slug of its recap post in BLOG_POSTS. Written by /episode-blog.
+# EPISODES entries are 5-tuples unpacked positionally in three places, so the link lives
+# here instead of becoming a sixth field. An episode with no recap simply has no entry.
+EPISODE_POSTS = {
+    "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
+    "Episode 7": "cartilage-transplant-knee-explained",      # Dr. Rami Elkhechen
+    "Episode 6": "knee-arthritis-before-surgery",            # Dr. Richard Weiner
+}
+
 def _podcast_schema():
     """PodcastSeries + PodcastEpisode JSON-LD from the EPISODES list."""
     import json as _json
@@ -1560,8 +1569,14 @@ def build_podcast():
                       f'title="{title} — Pain 2 Power on Spotify"></iframe>')
         else:
             action = f'<a class="btn btn-ink" href="{url}" target="_blank" rel="noopener">{label}</a>'
+        # A recap post, when one exists, gets a link from this strong page to that new one.
+        recap = ""
+        slug = EPISODE_POSTS.get(num)
+        if slug and slug in BLOG_POSTS:
+            recap = (f'<p class="pod-recap"><a href="blog/{slug}.html">'
+                     f'Read the recap: {BLOG_POSTS[slug]["title"]}</a></p>')
         return f'''<div class="pod-card reveal">
-          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p></div>
+          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p>{recap}</div>
           {action}
         </div>'''
     featured = _episode_block(*EPISODES[0])
