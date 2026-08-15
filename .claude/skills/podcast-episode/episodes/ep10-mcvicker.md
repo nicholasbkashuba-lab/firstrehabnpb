@@ -61,29 +61,43 @@ raw-sample correlation improving and the offset going constant to within 6ms.
 **Check this on every future episode.** It is a property of how the station delivers the
 file, so it will almost certainly recur, and it is invisible unless you look for it.
 
+## The SECOND problem — the board feed also has a hidden splice
+
+The 3% stretch is not the whole story. There is also an **edit inside the board audio at
+93.2s** where roughly 2.42 seconds were cut out. So a single offset cannot serve the whole
+episode, and the first version shipped 2.43s out of sync for its opening 93 seconds. Nick
+caught it immediately: "off from the very start, seconds or more."
+
+**Why it was missed the first time:** every probe was at board time 120s or later, and past
+the splice the offset is genuinely constant. The opening was never measured. **Always probe
+the first 60 seconds**, and probe densely enough to see a step change rather than assuming
+one number covers the show.
+
+Localising it was fiddly because that stretch is where the phone number gets repeated, and
+repeated content produces strong false correlation peaks (a spurious lock at +121.6s scored
+SNR 15-23). The technique that worked was abandoning argmax entirely: score the two KNOWN
+candidate offsets directly and take whichever correlates better. Repeated content cannot
+hijack a two-hypothesis test. All three cameras then agreed — strongly pre through 91s,
+near-zero through the 92-94s pause, strongly post from 95s.
+
 ## Measured sync offsets
 
-Against `rawaudio_synced`, measured by envelope cross-correlation over six probes spanning
-the episode, discarding false peaks below SNR 15:
+Two regimes, split at composition time **93.2s**. Camera source time at composition time t:
 
-| Camera | Offset vs corrected board audio | Spread across probes |
-|---|---|---|
-| `mikecam` | **+78.12s** | 0.034s |
-| `mckvickercam` | **+68.29s** | 0.056s |
-| `davecam2` | **+269.99s** | 0.032s |
+| Camera | Segment A (t < 93.2) | Segment B (t ≥ 93.2) | Shift |
+|---|---|---|---|
+| `mikecam` | t + **75.715** | t + **78.145** | +2.430 |
+| `mckvickercam` | t + **65.870** | t + **68.290** | +2.420 |
+| `davecam2` | t + **267.590** | t + **269.990** | +2.400 |
 
-Independently cross-checked camera-to-camera: `mck − mike = −9.840s` and
-`dave − mike = +191.88s`, both agreeing with the board-derived numbers to within 15ms.
+Segment A offsets locked with **zero spread** across four probes at SNR 16-20. Segment B
+held to within 0.045s across the remaining 28 minutes. The three cameras cross-check
+against each other independently: `mck − mike = −9.85s`, `dave − mike = +191.87s`, in both
+regimes.
 
-As composition offsets from a common origin at davecam2 (which rolled earliest):
-
-    davecam2         0
-    mikecam          191.87
-    mckvickercam     201.70
-    rawaudio_synced  269.99
-
-So the show itself starts at **269.99s** into that timeline — that is where Mike opens, and
-where the FINAL cut begins.
+The residual 0.045s drift from board 80s to 1680s implies the true rate is a hair off
+1/0.97 (about 2.8e-5). That is 45ms end to end, at the edge of perceptible, and was left
+alone. If a future episode looks slightly soft at the very end, this is the knob.
 
 ## Standing decisions this episode set
 

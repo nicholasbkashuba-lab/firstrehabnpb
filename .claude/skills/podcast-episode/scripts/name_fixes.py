@@ -29,32 +29,49 @@ NAME_FIXES = [
     (r"\bnot less sutures\b", "knotless sutures"),
     (r"\bsubscapularies\b", "subscapularis"),
 
-    # Episode 10 — Dr. Zack McVicker. Every one of these was observed in the
-    # real transcript, not guessed.
+    # Episode 6.
+    (r"\bpoaching my son's baseball\b", "coaching my son's baseball"),
+    (r"\bdrive Weiner\b", "Dr. Weiner"),
+    (r"\bAdls\b", "ADLs"),
+
+    # Episode 7. ASR heard "Elkhechen" four ways and "Rami" as "Romney".
+    (r"\b(?:El|Al)\s?Catch(?:ens|ins|in|en|es)?\b", "Elkhechen"),
+    (r"\bRomney\b", "Rami"),
+    (r"\bNYU Lingo\b", "NYU Langone"),
+    (r"\bcounter ?sites\b", "chondrocytes"),
+
+    # Episode 10 — Dr. McVicker. ASR gave four spellings of one surgeon and
+    # four of his practice. All observed in the real transcript, not guessed.
+    (r"\bMck?[vf]i(?:ck|g|k)er\b", "McVicker"),
     (r"\bMc ?Vicar\b", "McVicker"),
     (r"\bMc ?Vickar\b", "McVicker"),
     (r"\bMick ?Vicker\b", "McVicker"),
-    (r"\bMcVikker\b", "McVicker"),
-    # ASR invented a surname and a practice out of "McVicker at Paley".
-    (r"\bZach McPherter at Family Orthopedic\b", "Zack McVicker at Paley Orthopedic"),
+    # ASR invented a surname AND a practice out of "McVicker at Paley".
     (r"\bMcPherter\b", "McVicker"),
-    (r"\bZach\b", "Zack"),
-    # Paley Institute, heard as Haley or Family throughout.
-    (r"\bHaley Orthopedic\b", "Paley Orthopedic"),
-    (r"\bHaley Orthopaedic\b", "Paley Orthopaedic"),
-    (r"\bHaley Institute\b", "Paley Institute"),
     (r"\bFamily Orthopedic\b", "Paley Orthopedic"),
-    # The clinic's own name and domain. Getting the domain wrong in a burned-in
-    # caption sends viewers to a dead address, so this one really matters.
+    (r"\bPaleorthopedic\b", "Paley Orthopedic"),
+    (r"\b(?:Pelley|Haley|Paleo|Pale)\b(?=\s*(?:Institute|Orthop))", "Paley"),
+    # Clinical terms. A mangled diagnosis in a burned-in caption is worse than
+    # no caption, and these are the episode's subject matter.
+    (r"\bfemoral acetabular\b", "femoroacetabular"),
+    (r"\bastabulum\b", "acetabulum"),
+    (r"\bpincer legion\b", "pincer lesion"),
+    (r"\bcaught on Aquina\b", "cauda equina"),
+    (r"\bcue angle\b", "Q angle"),
+    # "groin pain" is the episode's single most important phrase and ASR heard
+    # "growing pain" throughout.
+    (r"\bgrowing pain\b", "groin pain"),
+    (r"\bthe camp side\b", "the cam side"),
+    # The clinic's own name and domain. A wrong domain in a caption sends
+    # viewers to a dead address, so this one really matters.
     (r"firstrehabnpv\.com", "firstrehabnpb.com"),
     (r"\bFirst Real Rehabilitation of Palm Beach\b",
      "First Rehabilitation of North Palm Beach"),
-    # Hip context: "groin pain" is the symptom, "growing pain" is not.
-    (r"\bgrowing pain\b", "groin pain"),
-    (r"\bthe camp side\b", "the cam side"),
+    (r"\bpublic's line\b", "Publix line"),
 
     # Hosts and the show itself.
-    (r"\bPain to Power\b", "Pain 2 Power"),
+    (r"\bPain[s]? (?:to|of) Power\b", "Pain 2 Power"),
+    (r"\bFame to Power\b", "Pain 2 Power"),
     (r"\bCashuba\b", "Kashuba"),
     (r"\bKachuba\b", "Kashuba"),
     (r"\bMike McGahn\b", "Mike McGann"),
