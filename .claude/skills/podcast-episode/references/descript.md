@@ -88,11 +88,29 @@ removal.
 ## prompt_project_agent
 
 Natural language, targeted at a `composition_id`. Returns a `job_id`; poll `wait_for_job`
-and show the user `project_url`. Phrasings that did the work:
+and show the user `project_url`. Expect minutes, not seconds — a 30 minute episode's angle
+switching took about 6 minutes and burned 68 AI credits.
 
-- *"Align the three camera tracks to the rawaudio track by matching their audio waveforms.
-  Report the offset in seconds you applied to each."* — ask it to report, so the numbers
-  land in the episode log even when Descript does the aligning.
+**The agent cannot cross-correlate audio. Do not ask it to sync anything.** Asked to align
+by waveform on Episode 10 it correctly refused, saying none of its tools compare audio
+content and that it would not invent the numbers. That is the right answer and it will not
+change. Measure the offsets yourself with `scripts/sync_offsets.py`, then hand it exact
+figures and tell it not to re-align:
+
+> *"I have already measured the sync myself by cross-correlation, so you do NOT need to
+> analyze any audio — just place the tracks at the exact offsets below … Do not attempt to
+> re-sync, auto-align, or adjust them."*
+
+Give offsets from a common origin so every number is non-negative — anchor on whichever
+camera rolled earliest. Episode 10 used davecam2 at 0, mikecam 191.87, mckvickercam 201.70,
+rawaudio_synced 269.99.
+
+Trimming the head will drop any track whose offset sat before the new zero. The agent
+handles this by re-inserting them with source offsets re-expressed against the new start,
+and on Episode 10 it independently arrived at 78.12s and 68.29s — matching the measured
+numbers exactly. Worth checking its report for that, since it doubles as a sync check.
+
+Other phrasings that did the work:
 - *"Mute the audio on every camera track. The rawaudio track is the only audio source for
   this composition."*
 - *"Trim the start of the composition to the first word spoken on the rawaudio track. Remove

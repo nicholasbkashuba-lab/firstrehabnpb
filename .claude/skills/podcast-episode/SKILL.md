@@ -62,19 +62,29 @@ stable name.
 Import and transcription of three 4K files is the long pole — hours, not minutes. Start it
 before you do anything else, then write captions or the episode log while it runs.
 
-**Sync everything to the board audio, not to a camera.** Ask the project agent to align by
-waveform first; Descript does this natively and when it works the problem disappears. If
-it will not, fall back to measuring the offsets yourself:
+**Sync everything to the board audio, not to a camera — and measure it yourself.**
+Descript's project agent cannot cross-correlate audio and will tell you so; do not waste a
+round trip asking. Pull each camera down, keep only its audio, and measure:
 
 ```
-python3 "${SKILL_DIR}/scripts/sync_offsets.py" --episode 10
+python3 tools/dropbox-grab.py fetch --url "<download_url>" --out cam.mov --size N
+python3 "${SKILL_DIR}/scripts/sync_offsets.py" extract cam.mov cam.wav && rm cam.mov
+python3 "${SKILL_DIR}/scripts/sync_offsets.py" measure --board board.wav \
+    --cam cam.wav --probe 300 --probe 900 --probe 1500
 ```
 
-That relays a mono 16 kHz WAV of each camera out through a GitHub Actions runner (a few MB
-each, nothing near the 100 MB blob limit) and FFT cross-correlates it against the board
-audio. Measure at two points far apart to prove there is no drift; a real peak scores in
-the hundreds. Episode 9's guest camera came out at `-83.15s` and held to within 0.1s across
-22 minutes.
+A 30 minute mono 16 kHz WAV is ~57 MB against 12 GB of 4K, so delete each video as soon as
+its audio is out. Probe far apart: agreement proves there is no drift, and the spread is
+the real confidence measure.
+
+**Two failure modes that look like each other and are not.** Scattered offsets with weak
+SNR mean the correlation is failing — usually because you are matching raw samples across
+different microphones, which does not work. Offsets that instead grow *steadily* with probe
+position mean a rate mismatch, and no offset exists at all until you fix the rate. Episode
+10's board feed was time-compressed 3% for its radio slot and needed `atempo=0.97` before
+anything would line up. Check for this on every episode; it is invisible unless you look.
+
+Then hand Descript the finished numbers and tell it not to re-align.
 
 Write the measured offsets into `episodes/ep{NN}-{guest}.md`. They are the one number
 nobody can rediscover without redoing the work.
