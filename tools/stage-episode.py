@@ -34,6 +34,18 @@ NAME_FIXES = [
     (r"\bVanny\b", "Vani"), (r"\bVonnie\b", "Vani"), (r"\bBonnie\b", "Vani"),
     (r"\bnot less sutures\b", "knotless sutures"),
     (r"\bsubscapularies\b", "subscapularis"),
+    # Episode 10. ASR gave four spellings of one surgeon and four of his practice.
+    (r"\bMck?[vf]i(?:ck|g|k)er\b", "McVicker"),
+    (r"\bPaleorthopedic\b", "Paley Orthopedic"),
+    (r"\b(?:Pelley|Haley|Paleo|Pale)\b(?=\s*(?:Institute|Orthopedic|Ortho))", "Paley"),
+    (r"\bfemoral acetabular\b", "femoroacetabular"),
+    (r"\bastabulum\b", "acetabulum"), (r"\bpincer legion\b", "pincer lesion"),
+    (r"\bcaught on Aquina\b", "cauda equina"),
+    # "groin pain" is the episode's single most important phrase and ASR heard "growing".
+    (r"\bgrowing pain\b", "groin pain"),
+    (r"\bthe camp side\b", "the cam side"), (r"\bcue angle\b", "Q angle"),
+    (r"\bpublic's line\b", "Publix line"),
+    (r"\bPain[s]? (?:to|of) Power\b", "Pain 2 Power"), (r"\bFame to Power\b", "Pain 2 Power"),
 ]
 
 

@@ -32,6 +32,13 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
   hero video renditions (see Hero Video below), hero-poster.jpg, podcast-cover.jpg, photos.
 - `assets/team/` — staff portraits. `assets/social/post-1..8.jpg` — homepage gallery tiles.
 
+## Branches
+`main` is the trunk as of 2026-08-15. Before that the repo had NO main branch at all: the default
+was `claude/site-intake-agent-popup-hdfmxw`, a session branch that became the trunk by accident,
+and Vercel served production from it. `main` was created at that branch's exact commit
+(`df5a4a7`), so no content moved. Keep the old branch until production has deployed from `main`
+at least once. PRs target `main`.
+
 ## Workflow
 1. Edit `build.py` (or CSS/JS)
 2. `python3 build.py`

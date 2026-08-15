@@ -196,6 +196,8 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 
 | Post slug | Pillar | Keyword it owns |
 |---|---|---|
+| `hip-impingement-back-pain-north-palm-beach` | Physical Therapy | hip impingement treatment North Palm Beach |
+| `pain-2-power-ep10-mcvicker` | Pain 2 Power (Ep 10) | Dr. Zach McVicker / hip surgeon Jupiter |
 | `reverse-shoulder-replacement-explained` | Physical Therapy | reverse shoulder replacement recovery |
 | `what-to-expect-first-pt-visit` | Physical Therapy | what to expect at your first physical therapy visit |
 | `five-morning-habits-back-pain` | Physical Therapy | morning habits for back pain |
@@ -204,6 +206,8 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
 
-**Holes as of this file's creation:** Occupational Therapy has zero posts. Wellness has zero
-posts. Hand Therapy has one. Physical Therapy has five and does not need a sixth before the other
-three catch up. Every location except Palm Beach Gardens is unsupported by any post.
+**Holes as of 2026-08-15:** Occupational Therapy has zero posts. Wellness has zero posts. Hand
+Therapy has one. Physical Therapy has six and does not need a seventh before the other three catch
+up, so the next two episodes should be mined for an OT or Wellness angle even if the pillar post
+comes from an older transcript. Locations remain thin: only Palm Beach Gardens and now Jupiter are
+referenced from any post.
