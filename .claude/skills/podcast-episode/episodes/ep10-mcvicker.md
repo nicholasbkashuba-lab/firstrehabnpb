@@ -1,4 +1,12 @@
-# Episode 10 — Dr. Zack McVicker
+# Episode 10 — Dr. McVicker
+
+**Unresolved: is it Zack or Zach?** Nick's own Dropbox filename says
+`Pain to Power 10-Zack McVicker RAW (1).mp3`, but the blog post published from the other
+session says "Zach McVicker" 15 times. Both spellings are now live in different places.
+Nobody has checked it against the Paley Institute listing. Deliberately NOT normalised in
+`name_fixes.py` — a blanket rewrite would silently change published posts to a spelling
+that may be the wrong one. Get it confirmed, then fix both places at once.
+
 
 Recorded Aug 13 2026. Target air date **Saturday Aug 22 2026, 9:00 AM ET**; clips Sun Aug 23
 through Fri Aug 28.
