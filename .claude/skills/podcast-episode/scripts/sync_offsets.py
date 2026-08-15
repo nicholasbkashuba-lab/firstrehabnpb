@@ -5,33 +5,52 @@ Ask Descript to align by waveform first — when it works, none of this is neede
 This exists for when it does not, and for recovering sync months later when the
 edit project is gone but the raw files remain.
 
-The method (proven on Episode 9, which measured -83.20s and -83.10s for the same
-camera 22 minutes apart, SNR 195 and 119):
+The method:
 
-  1. Reduce both the board audio and the camera audio to mono 16 kHz.
-  2. Take a short probe window out of the camera track.
-  3. FFT cross-correlate the probe against the board audio.
-  4. The peak's lag is where that probe sits on the show clock, so
-     offset = camera_probe_time - board_time.
-  5. Repeat far away in the recording. If the two offsets disagree by more than
-     ~0.2s the cameras are drifting and a single offset will not hold.
+  1. Reduce every track to mono 16 kHz WAV (`extract`).
+  2. Take a probe window out of one track.
+  3. FFT cross-correlate it against the reference.
+  4. The peak's lag says where that probe sits on the reference clock, so
+     offset = probe_time - lag.
+  5. Repeat far apart. Offsets that disagree mean drift, and no single offset
+     will hold.
 
-Correlating whole multi-hour tracks is both slower and worse than correlating a
-30s probe: a long window averages over drift and blurs the peak.
+**Correlate ENVELOPES, not raw samples.** Raw-sample correlation only works when
+both recordings are essentially the same signal. Different microphones in the
+same room are not: Episode 10 scored SNR 9-19 on raw samples with offsets
+disagreeing by 790 seconds. The speech energy envelope survives different mics,
+placement and AGC, because everyone gets loud and quiet at the same instants.
+Camera-to-camera then scored SNR 20-31 with a 5 millisecond spread.
+
+**A rate mismatch looks like a bad measurement, not like drift.** If offsets grow
+steadily with probe position rather than scattering, the two recordings run at
+different speeds and NO offset exists. Search the rate before concluding the
+audio does not match:
+
+    for rate in ...: stretch reference by rate, correlate, keep the sharpest peak
+
+Episode 10's board feed was time-compressed exactly 3% for its radio slot
+(rate 1/0.97). All three cameras independently agreed on 1.0309 at SNR 107-143.
+Correct it with `atempo=0.97`, which preserves pitch, and the offset becomes
+constant to within 6 milliseconds. `asetrate` also aligns but shifts pitch;
+prefer atempo, and verify by checking that raw-sample correlation improves.
+
+Beware false peaks: on raw samples anything under SNR ~15 is noise, even though
+the envelope pass is trustworthy down to ~12. Take the MEDIAN of several probes
+and look at the spread rather than trusting any single number.
 
 Two subcommands:
 
   extract   ffmpeg a source file down to mono 16 kHz WAV
-  measure   cross-correlate camera WAVs against the board WAV
+  measure   cross-correlate WAVs against a reference WAV
 
 Needs numpy and ffmpeg, neither of which ships in this sandbox:
-    pip3 install numpy && apt-get install -y ffmpeg
+    pip3 install numpy && apt-get update && apt-get install -y ffmpeg
+(the apt index is stale on a fresh box, so the update is not optional)
 
-The cameras cannot be downloaded into this sandbox (Dropbox is proxy-blocked and
-the files are tens of GB regardless). Run `extract` wherever the bytes are — a
-GitHub Actions runner has open egress and enough disk — and push just the WAVs
-back. A 30 minute mono 16 kHz WAV is about 57 MB, comfortably under GitHub's
-100 MB blob limit, and you only need the probe windows.
+Dropbox is reachable as of 2026-08-15, so pull the cameras straight down with
+tools/dropbox-grab.py, extract the audio, and delete the video — a 30 minute
+mono 16 kHz WAV is about 57 MB, against 12 GB of 4K.
 """
 import argparse
 import subprocess
@@ -39,6 +58,9 @@ import sys
 import wave
 
 SR = 16000
+# Envelope sample rate. 200 Hz gives 5ms resolution, well inside one video
+# frame at 30fps, while making the correlation cheap enough to probe repeatedly.
+ENV_RATE = 200
 
 
 def sh(cmd):
@@ -71,8 +93,37 @@ def load(path):
     return a
 
 
-def correlate(board, probe):
-    """Return (lag_seconds, snr) for probe's best position within board."""
+def envelope(sig, rate=ENV_RATE):
+    """Speech energy envelope, downsampled to `rate` Hz.
+
+    Correlating raw samples only works when both recordings are essentially the
+    same signal. A board feed and a camera's on-board mic are NOT: different
+    microphones, different placement in the room, different AGC. Episode 10
+    scored SNR 9-19 on raw samples with offsets disagreeing by 790s — confidently
+    useless.
+
+    What survives all of that is the ENVELOPE: speech gets loud and quiet at the
+    same instants on every microphone in the room. Rectify, smooth, downsample,
+    and correlate that instead.
+    """
+    import numpy as np
+    step = SR // rate
+    n = (len(sig) // step) * step
+    if n == 0:
+        return np.zeros(0)
+    # RMS per step is steadier than mean-abs when one mic is much hotter.
+    blocks = sig[:n].reshape(-1, step)
+    env = np.sqrt((blocks.astype(np.float64) ** 2).mean(axis=1))
+    # Log compression stops one loud laugh from dominating the correlation.
+    env = np.log1p(env)
+    return env - env.mean()
+
+
+def correlate(board, probe, rate=ENV_RATE):
+    """Return (lag_seconds, snr) for probe's best position within board.
+
+    Both inputs are envelopes at `rate` Hz, not raw samples.
+    """
     import numpy as np
     n = 1
     while n < len(board) + len(probe):
@@ -83,31 +134,32 @@ def correlate(board, probe):
     corr = np.fft.irfft(np.fft.rfft(b, n) * np.conj(np.fft.rfft(p, n)), n)
     peak = int(np.argmax(corr))
     top = corr[peak]
-    # SNR against the rest of the surface. A real match scores in the hundreds;
-    # single digits means these two recordings do not share audio.
+    # SNR against the rest of the surface. Exclude a second either side of the
+    # peak so the peak's own shoulders do not inflate the noise floor.
     mask = np.ones(len(corr), dtype=bool)
-    lo, hi = max(0, peak - SR), min(len(corr), peak + SR)
+    lo, hi = max(0, peak - rate), min(len(corr), peak + rate)
     mask[lo:hi] = False
     noise = corr[mask].std() or 1e-12
-    return peak / SR, float(top / noise)
+    return peak / rate, float(top / noise)
 
 
-def measure(board_path, cams, probes):
-    board = load(board_path)
-    print(f"board {board_path}  {len(board)/SR:.1f}s\n")
+def measure(board_path, cams, probes, window=120.0):
+    board_env = envelope(load(board_path))
+    print(f"board {board_path}  {len(board_env)/ENV_RATE:.1f}s  "
+          f"(envelope at {ENV_RATE} Hz, {window:.0f}s probes)\n")
     for cam in cams:
-        audio = load(cam)
+        cam_env = envelope(load(cam))
         results = []
         for at in probes:
-            s = int(at * SR)
-            e = s + 30 * SR
-            if e > len(audio):
+            s = int(at * ENV_RATE)
+            e = s + int(window * ENV_RATE)
+            if e > len(cam_env):
                 print(f"  {cam}: probe at {at}s is past the end, skipped")
                 continue
-            lag, snr = correlate(board, audio[s:e])
+            lag, snr = correlate(board_env, cam_env[s:e])
             offset = at - lag
             results.append((at, offset, snr))
-            flag = "" if snr > 50 else "   <-- WEAK, do not trust"
+            flag = "" if snr > 12 else "   <-- WEAK, do not trust"
             print(f"  {cam}  probe {at:7.1f}s  ->  offset {offset:+8.3f}s  "
                   f"snr {snr:6.1f}{flag}")
         if len(results) > 1:
@@ -136,12 +188,16 @@ def main():
     m.add_argument("--probe", action="append", type=float, dest="probes",
                    help="seconds into the CAMERA to probe from; repeat, use two "
                         "far apart to prove there is no drift (default 300 and 1500)")
+    m.add_argument("--window", type=float, default=120.0,
+                   help="probe length in seconds (default 120). Envelopes carry "
+                        "less information per second than raw audio, so they need "
+                        "a longer window than you would expect.")
 
     a = ap.parse_args()
     if a.cmd == "extract":
         extract(a.src, a.dest, a.start, a.dur)
     else:
-        measure(a.board, a.cams, a.probes or [300.0, 1500.0])
+        measure(a.board, a.cams, a.probes or [300.0, 1500.0], a.window)
 
 
 if __name__ == "__main__":

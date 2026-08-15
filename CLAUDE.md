@@ -202,8 +202,10 @@ Service schema per city, footer "Areas We Serve" links every city. North Palm Be
 deliberately has NO location page — the homepage owns that keyword; footer links it to /.
 
 ## Verification pattern
-The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);
-GitHub (api/raw/codeload/objects) IS allowed. Verify live deploys via Supabase MCP:
+The sandbox cannot reach *.vercel.app or Supabase hosts directly (proxy 403);
+GitHub (api/raw/codeload/objects) IS allowed. **Dropbox IS allowed as of 2026-08-15** —
+see the Dropbox section below; that line used to list Dropbox as blocked and no longer
+applies. Verify live deploys via Supabase MCP:
 `create extension pg_net` → `net.http_get(...)` (Range headers work: 206 + content-range
 proves deployed file size) → read net._http_response → `drop extension pg_net`. NOTE:
 production URLs are public but PREVIEW deploys sit behind Vercel Authentication (Pro
@@ -211,7 +213,38 @@ default) — pg_net gets a login page, not the site. Playwright (playwright-core
 via npm --no-save, chromium at /opt/pw-browsers, NODE_PATH=<repo>/node_modules) tests
 locally on http.server 8901; that browser has NO H.264 but DOES decode VP9/webm.
 
-## Fetching big files the proxy blocks (e.g. the Dropbox video master)
+## Dropbox — just download it (unblocked 2026-08-15)
+Nick allowlisted `www.dropbox.com`, `*.dropboxusercontent.com`, `api.dropboxapi.com` and
+`content.dropboxapi.com` in the environment's egress policy. Dropbox bytes now come
+straight down at ~35 MB/s. Everything that used to be needed to work around the block is
+DEAD: no public share links, no `st=` tokens, no "Anyone with the link" folder settings,
+no GitHub Actions relay. Do not rebuild any of it.
+
+The way in is the Dropbox MCP's `download_link` (authenticated — works on ANY file in
+Nick's Dropbox with no sharing changes), then curl. `tools/dropbox-grab.py` wraps it:
+
+    python3 tools/dropbox-grab.py fetch --url "<download_url>" --out F --size N
+    python3 tools/dropbox-grab.py push  --file F --url "<presigned PUT url>"
+    python3 tools/dropbox-grab.py relay --url "<download_url>" --upload-url "<put url>" --size N
+
+Four traps, each of which cost real time on 2026-08-15:
+- **Never `curl --data-binary @file` to upload.** It buffers the whole file in RAM: fine on
+  a 69MB mp3, "out of memory" on a 6.6GB camera. Use `-T`, which streams.
+- **`download_link` URLs are single use**, burned by the FIRST request of any method — a
+  HEAD or Range preflight consumes them. Never probe one; mint a fresh link on failure.
+- **Verify byte size, never sha256.** Dropbox's `content_hash` is its own block algorithm
+  and never matches a sha256.
+- **~30GB writable disk.** Three 4K cameras are 26.7GB together, so one at a time, and
+  delete each after its upload confirms.
+
+Descript cannot fetch a Dropbox URL (it needs a genuinely public one), so the route into
+Descript is `import_media` with `content_type`+`file_size` → `upload_urls` → PUT the bytes.
+A failed upload still RESERVES the media name in the project, so a retry must use a new
+key — Episode 10's Dave angle is `davecam2` for exactly this reason. Report a dead upload
+with `report_upload_status` so the import job stops waiting on it.
+
+## Fetching big files the proxy blocks (non-Dropbox hosts only)
+NOT needed for Dropbox any more — see above. Still the pattern for any other blocked host.
 GitHub Actions relay: push an orphan temp branch with an on:push workflow (workflow_dispatch
 via API 404s unless the workflow exists on the DEFAULT branch — use on:push instead);
 the runner has open egress: curl the file, `split -b 45m` (GitHub hard-blocks >100MB
@@ -365,12 +398,12 @@ When Nick says post something, the only two things that ever block it are:
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
 
-**Prefer an attached file over a Dropbox link.** This sandbox is proxy blocked from Dropbox
-hosts: the Dropbox MCP tools work for browsing and metadata, but the bytes cannot be
-downloaded here. A file attached to the chat lands on disk immediately and skips a
-GitHub Actions relay that takes several minutes and has its own failure modes
-(`scl/fi` share links serve an HTML interstitial even with `dl=1`; runners have no ffmpeg
-preinstalled; the default GITHUB_TOKEN is read only).
+**A Dropbox link is fine now, and so is an attachment.** This note used to say Dropbox was
+proxy blocked and to insist on attachments; that stopped being true on 2026-08-15. Either
+works: an attached file lands on disk immediately, and anything in Nick's Dropbox comes
+down via `download_link` + `tools/dropbox-grab.py` at ~35 MB/s with no sharing changes.
+Do NOT ask him to make a link public — that request was always a workaround for the
+network block and is pure friction now.
 
 Standing preferences for a one off post, unless told otherwise:
 - Captions carry ZERO dashes outside the phone numbers. Bullets use •.
