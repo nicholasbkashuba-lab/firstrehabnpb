@@ -46,6 +46,7 @@ physical therapy North Palm Beach
 
 **Long tail**
 - how long does physical therapy take after knee replacement
+- partial versus total knee replacement, and who is a candidate
 - do you need a referral for physical therapy in Florida
 - physical therapy before surgery instead of surgery
 - what to expect at your first physical therapy visit
@@ -196,6 +197,9 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 
 | Post slug | Pillar | Keyword it owns |
 |---|---|---|
+| `partial-vs-total-knee-replacement` | Physical Therapy | partial vs total knee replacement |
+| `physical-therapy-vs-occupational-therapy` | Occupational Therapy | difference between physical and occupational therapy |
+| `/exercises.html` (page, not a post) | All four | home exercises for knee / hip / shoulder pain |
 | `hip-impingement-back-pain-north-palm-beach` | Physical Therapy | hip impingement treatment North Palm Beach |
 | `pain-2-power-ep10-mcvicker` | Pain 2 Power (Ep 10) | Dr. Zach McVicker / hip surgeon Jupiter |
 | `reverse-shoulder-replacement-explained` | Physical Therapy | reverse shoulder replacement recovery |
@@ -206,8 +210,12 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
 
-**Holes as of 2026-08-15:** Occupational Therapy has zero posts. Wellness has zero posts. Hand
-Therapy has one. Physical Therapy has six and does not need a seventh before the other three catch
-up, so the next two episodes should be mined for an OT or Wellness angle even if the pillar post
-comes from an older transcript. Locations remain thin: only Palm Beach Gardens and now Jupiter are
-referenced from any post.
+**Holes as of 2026-08-15, end of day:** Occupational Therapy now has one post. **Wellness still has
+zero**, and it is the only pillar with none, so it is the next thing to write. Two Wellness posts
+are already sourced from the Episode 8 transcript and waiting: "the invention of the chair is one
+of our demise", and the TheraBand home program behind Dave's "I do everything I can to let people
+not ever come to see me". Hand Therapy has one. Physical Therapy has seven and needs nothing.
+Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach.
+
+`/exercises.html` is not a blog post but it targets long-tail exercise searches across all four
+pillars, so check it before writing an exercise-led post that would compete with it.

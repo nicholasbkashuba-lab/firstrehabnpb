@@ -284,6 +284,7 @@ def footer(depth=0):
         <h3 class="f-head">Explore</h3>
         <ul>
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
+          <li><a href="{p}exercises.html">Home Exercise Library</a></li>
           <li><a href="{p}about.html">About Us</a></li>
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}insurance.html">Insurance &amp; Medicare</a></li>
@@ -1528,6 +1529,134 @@ EPISODES = [
 # Episode number -> the slug of its recap post in BLOG_POSTS. Written by /episode-blog.
 # EPISODES entries are 5-tuples unpacked positionally in three places, so the link lives
 # here instead of becoming a sixth field. An episode with no recap simply has no entry.
+# ----------------------------------------------------------------------------
+# HOME EXERCISE LIBRARY
+# ----------------------------------------------------------------------------
+# Dave promised this on air twice (Ep 7: "all the exercises that I've been
+# talking about, we're going to put them on our website"; Ep 8: "if you go onto
+# my website, there's 5,000 different exercises"). Until 2026-08 the site had
+# none, so listeners were being sent somewhere that did not exist.
+#
+# Every exercise below is one Dave actually prescribed on the show. "ep" records
+# which episode, so nothing here is invented and each entry can be checked
+# against a transcript on the media/ep{NN}-clips branches. Do not add an exercise
+# that Dave has not described on air or approved in writing.
+EXERCISES = {
+    "shoulder": {
+        "name": "Shoulder &amp; Upper Back",
+        "lede": "Dave's at-home shoulder set. Most of what we do all day pulls the shoulders forward and inward, so this works the other direction.",
+        "items": [
+            ("Wall slides", "Stand facing a wall with a towel between your forearms and the wall. Start with both arms bent at 90 degrees in front of you, then slide them all the way up the wall and back down.",
+             "3 sets of 10", "Approximates the humerus and stabilizes the subscapularis while it stretches. Dave uses the wall version because it is the same idea as a downward dog without asking a 90 year old to get down on the floor.", "Episode 8"),
+            ("Cross-body stretch", "Take your right elbow in your left hand and draw that arm across your body. Hold, then switch sides.",
+             "Hold and repeat both sides", "Stretches the posterior capsule at the back of the shoulder.", "Episode 8"),
+            ("Shoulder shrugs", "Bring both shoulders straight up toward your ears, then let them down.",
+             "3 sets of 10", "Simple, and it keeps the whole shoulder girdle moving.", "Episode 8"),
+            ("Scapular retractions", "Draw both shoulders back and try to touch your shoulder blades together behind you.",
+             "3 sets of 10", "Works directly against the forward, rounded posture that daily life builds in.", "Episode 8"),
+            ("Band rows and extensions", "Anchor a resistance band and pull backward, elbows past your ribs. Then work extensions, drawing the arm behind you.",
+             "Build gradually", "Dave's reasoning: everything we do all day is internal rotation, so pulling the other way is the correction. Water bottles work as a substitute, but a proper therapy band is better.", "Episode 8"),
+        ],
+    },
+    "knee": {
+        "name": "Knee",
+        "lede": "Strong muscles around the knee mean fewer symptoms. All you need is a chair and a small step stool.",
+        "items": [
+            ("Seated leg extensions", "Sit and scoot to the front edge of a chair. Straighten one leg out in front of you, then lower it.",
+             "3 sets of 10, building to 3 sets of 20", "Strengthens the quadriceps, including the vastus medialis on the inside of the knee that tracks the kneecap.", "Episode 6"),
+            ("Standing heel to buttock", "Hold the back of a chair and stand tall. Bring one heel up toward your backside, as far as it goes comfortably. One leg at a time.",
+             "3 sets of 10, building to 3 sets of 20", "Works the hamstring through range. Dave's note: doing both legs at once is how you end up on the floor.", "Episode 6"),
+            ("Pillow sit to stands", "Hold a light pillow in both hands out in front of you. Push the pillow forward as you stand, keep it forward as you sit back down.",
+             "3 sets of 10", "The pillow makes you hinge at the hip. Whatever joint starts the movement takes the brunt of the load, and hips carry weight better than knees do.", "Episode 6"),
+            ("Step stool leans", "Put one foot up on a low step stool, keep the other on the floor, and hold something stable. Lean your weight forward over the raised foot, then back. No stepping up.",
+             "Slow and controlled", "Loads the knee through a small, safe range without impact.", "Episode 6"),
+            ("Glute bridge", "Lie on your back with your knees bent and both feet flat on the floor or the bed. Lift your hips up, pause at the top and squeeze your backside, then lower.",
+             "3 sets of 10", "The glutes support the knee from above. Dave pairs this with quad work rather than doing either alone.", "Episode 7"),
+        ],
+    },
+    "hip": {
+        "name": "Hip &amp; Pelvis",
+        "lede": "Behind most painful hips is a weak gluteus medius, the muscle that keeps your pelvis level while you stand on one leg.",
+        "items": [
+            ("Banded sit to stands", "Loop a resistance band around both legs just above the knees. Stand up and sit down as normal, letting the band push your knees outward.",
+             "3 sets of 10", "A sore hip makes you shift weight onto the good leg without noticing. The band forces both sides to share the work.", "Episode 10"),
+            ("Standing leg abductions", "Hold the back of a chair and kick one leg out away from your midline, keeping it straight. Lower with control.",
+             "3 sets of 10 each side", "Direct work for the gluteus medius.", "Episode 10"),
+            ("Clams", "Lie on your side with knees bent and stacked. Keep your feet together and open the top knee like a clam shell.",
+             "3 sets of 10 each side", "Strengthens the external rotators, which are weak in almost everyone because nothing in daily life asks for them.", "Episode 10"),
+            ("Side lying leg raise", "Lie on your side and raise the top leg straight up, then lower it slowly.",
+             "3 sets of 10 each side", "Supports the same muscles from a different angle.", "Episode 10"),
+            ("Prone press up", "Lie face down and push up onto your forearms or hands, keeping your pelvis down on the floor.",
+             "Hold, then rest", "Opens the front of the hip. Before you get down on the floor, make sure you can get back up.", "Episode 10"),
+        ],
+    },
+    "everyday": {
+        "name": "Everyday Movement",
+        "lede": "Dave's view: the invention of the chair is one of our demise. These are not workouts, they are the baseline.",
+        "items": [
+            ("Walk", "Get up and walk. Start at three minutes a day if that is where you are, and work up toward 10 or 15.",
+             "Daily", "Gets blood moving, helps clear swelling and lowers a long list of risks. Good for the back and the knees at the same time.", "Episode 8"),
+            ("Sit to stands", "Stand up out of a chair and sit back down, without pushing off with your hands if you can manage it.",
+             "Little and often", "The single most functional movement most people stop practising.", "Episode 8"),
+            ("Put the phone down", "Set it aside and stand up. Dave's whole point is that the movement you already know how to do is the one that gets skipped.",
+             "As often as you notice", "Forward head and shoulder posture is partly gravity and partly how long we sit still.", "Episode 8"),
+            ("Stretch before you start the day", "Dave's observation: babies stretch when they wake, dogs and cats stretch before they do anything, and we reach for glasses and coffee and go to work.",
+             "Every morning", "Costs nothing and sets up everything else on this page.", "Episode 8"),
+        ],
+    },
+}
+
+def build_exercises():
+    """The home exercise library Dave promised on air. Content lives in EXERCISES."""
+    blocks = []
+    for key, group in EXERCISES.items():
+        cards = "".join(
+            f'<div class="ex-card reveal"><span class="cond-tag">{reps}</span><h3>{name}</h3>'
+            f'<p class="ex-how">{how}</p><p class="ex-why">{why}</p>'
+            f'<p class="ex-src">Heard on Pain 2 Power, {ep}</p></div>'
+            for name, how, reps, why, ep in group["items"])
+        blocks.append(
+            f'<section class="section" id="{key}"><div class="wrap">'
+            f'<div class="section-head reveal"><h2>{group["name"]}</h2>'
+            f'<p class="lede">{group["lede"]}</p></div>'
+            f'<div class="ex-grid">{cards}</div></div></section>')
+    jump = " ".join(f'<a class="faq-chip" href="#{k}">{g["name"]}</a>' for k, g in EXERCISES.items())
+    crumbs = '<div class="crumbs"><a href="index.html">Home</a> / Home Exercises</div>'
+    body = f"""
+<main>
+{page_hero("Home Exercise Library", "Exercises You Can Do <em class='accent'>At Home</em>",
+  "The exercises Dr. Dave Kashuba talks through on Pain 2 Power, written down. A chair, a step stool and a resistance band cover almost all of it.", crumbs)}
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="ex-jump">{jump}</div>
+    <p class="ex-warn"><strong>Read this first.</strong> These are general exercises, not a treatment plan and not medical advice.
+    Nothing here should hurt. If an exercise causes pain, swelling or warmth in the joint, stop and call us.
+    If you are recovering from surgery or an injury, follow the protocol your surgeon and therapist gave you instead of this page,
+    and check with them before adding anything. When you want a program built for your body, that is what an evaluation is for:
+    call {PHONE}.</p>
+  </div>
+</section>
+{"".join(blocks)}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <p class="lede">Not sure which of these applies to you, or whether you should be doing them at all?
+    A one on one evaluation answers that in a single visit. Call <strong>{PHONE}</strong> or
+    <a href="contact.html">request an appointment</a>. You can also read how we structure
+    <a href="services/physical-therapy.html">physical therapy</a> and
+    <a href="services/wellness.html">our wellness program</a>, or hear these exercises explained on
+    <a href="podcast.html">the Pain 2 Power podcast</a>.</p>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("exercises.html",
+          head("Home Exercises for Knee, Hip &amp; Shoulder Pain | North Palm Beach",
+               "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
+               canonical="exercises.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
+          + nav(0) + body + footer(0))
+
 EPISODE_POSTS = {
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
@@ -2114,6 +2243,72 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "partial-vs-total-knee-replacement": {
+        "title": "Partial vs Total Knee Replacement: The Option Most People Never Hear About",
+        "date": "August 2026",
+        "iso": "2026-08-15",
+        "tag": "Physical Therapy",
+        "teaser": "Many people who get a total knee could have had a partial. What separates the two, why partials are offered less often, and what rehab looks like after each.",
+        "body": """
+<p>If a surgeon has told you it is time for a knee replacement, there is a second question worth asking before you book anything. Not whether to have it. Which one.</p>
+<p>Most people know total knee replacement exists. Far fewer know that a partial is a separate operation with a different risk profile, and that plenty of candidates never get told about it.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The numbers a surgeon gave us on air</h2>
+<p>Orthopedic surgeon Dr. Richard Weiner, who has been in practice since before our clinic opened in 1991, laid this out on the Pain 2 Power podcast. Statistics show that over 40% of everyone receiving a total knee could have had a partial instead, he said, while in the United States only about 10% actually get one.</p>
+<p>His explanation for the gap is not clinical. "Most of the surgeons who do total knees are not trained to do partials," he said, "so they don't even offer it as an option." Fewer than half of orthopedic surgeons do knee replacements at all. Of those, fewer than half do partials. Of those, fewer than half will do the lateral compartment.</p>
+<p>All of which means the operation you are offered can depend on who you happen to be sitting across from.</p>
+<h2>What makes them different operations</h2>
+<p>The knee has separate compartments, and arthritis does not always take all of them. A partial replaces only the worn one and leaves the rest of your knee alone.</p>
+<p>The structural difference Dr. Weiner emphasises is the ligaments. A total knee "requires dislocation of the joint," a much larger procedure, and the anterior cruciate ligament comes out. About half the time the posterior cruciate goes too. A partial preserves all of them, and that is the reason for the thing patients notice most: "a partial knee can feel like a normal knee, because all the ligaments are preserved." A total knee, in his words, never quite does. It is a tremendously successful operation and it still feels a little different.</p>
+<p>His shorthand for the rest was a repeated phrase. Pain, less than half. Risk of infection, less than half. Time to get back to sport, less than half. Blood loss and clot risk, lower again, though the risks with a modern total knee are low to begin with.</p>
+<p>Which compartment wears matters too. The inside of the knee goes about eight to ten times more often than the outside, which is the reason worn knees tend to look bow legged. The smaller group who wear the outside look knock kneed, and that lateral partial takes training that fewer surgeons have.</p>
+<h2>How the decision actually gets made</h2>
+<p>Not from a scan alone. "You don't treat an X-ray, you treat the patient," Dr. Weiner said, and his sequence starts with your symptoms and your history, then a clinical exam, then imaging, including stress X-rays that show whether the other compartments are holding up.</p>
+<p>The question he weighs is durability. A small share of partials, well under one in ten, eventually need converting to a total. Over 90% do not. When the odds of it lasting look good, that is what he recommends.</p>
+<p>Age is less of a barrier than people assume. He described doing a partial knee for a 95 year old patient of twenty years, who had done therapy and injections for as long as they worked and then decided she wanted the knee.</p>
+<h2>Surgery is still the last resort</h2>
+<p>Worth saying plainly, because a post about replacements can read as an argument for having one. It is not. "Surgery is the last resort," Dr. Weiner said. "The first thing is conservative treatment."</p>
+<p>That means avoiding what aggravates the joint, then therapy, then medication or a targeted injection, and only then bracing or an operation. On therapy he was direct about why it comes first: "physical therapy is key because you need to have strong muscles to stabilize the knee to have fewer symptoms." He also prefers injections to pills for a single joint, on the logic that you put the oil where it squeaks rather than exposing the whole body.</p>
+<p>Dave's aside during that conversation is the most honest endorsement a partial is going to get from a therapist. He told Dr. Weiner he loses money on them, because those patients need far less rehab than a total knee does.</p>
+<h2>What rehab looks like either way</h2>
+<p>Both operations need therapy, and the partial needs less of it. The work is the same in kind: restoring range, then rebuilding the muscles that support the joint, quadriceps first and glutes and calves alongside them, because the knee is carried from above and below.</p>
+<p>The strongest thing you can do is start before the operation. Building strength ahead of surgery, sometimes called prehab, means recovering from a stronger baseline, and it changes outcomes. You can begin with the <a href="../exercises.html">home exercises Dave walks through on the show</a> and bring the rest to an evaluation.</p>
+<p>So take one question to your appointment. Ask whether you are a candidate for a partial, and ask whether the surgeon performs both. Dave's advice about choosing anyone who treats you applies here more than usual: do your homework, and do not take the recommendation from the person next to you in the Publix line.</p>
+<p>If you are weighing a knee replacement, or recovering from one, we can help with the part that decides how well it goes. We see patients from North Palm Beach and across the county, including <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens</a>. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>. Read more about <a href="../treatments/knee-pain.html">how we treat knee pain</a> and <a href="../treatments/post-surgical.html">post-surgical rehabilitation</a>, browse the <a href="../faq.html#physical-therapy">physical therapy questions in our FAQ</a>, or hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "physical-therapy-vs-occupational-therapy": {
+        "title": "PT or OT: Which One Do You Actually Need?",
+        "date": "August 2026",
+        "iso": "2026-08-15",
+        "tag": "Occupational Therapy",
+        "teaser": "Physical therapy and occupational therapy overlap, but they are aiming at different things. How we decide, and what occupational therapy looks like in practice.",
+        "body": """
+<p>Two people come in the same week with the same shoulder. One wants to serve a tennis ball again. The other wants to reach the top shelf and get a shirt on without help.</p>
+<p>Same joint, same injury on paper, and two different plans. That gap is roughly where physical therapy ends and occupational therapy begins.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The short version</h2>
+<p>Physical therapy is aimed at the body part. Restore the motion, rebuild the strength, resolve the pain, get the mechanics working again.</p>
+<p>Occupational therapy is aimed at the day. The "occupation" in the name has nothing to do with your job. It means everything that occupies your time: dressing, cooking, bathing, driving, handling a phone, getting through a shift at work. An occupational therapist starts from the task you cannot do and works backward to whatever is stopping you, which might be strength, or coordination, or memory, or simply that your kitchen is arranged for a version of you that had two working hands.</p>
+<p>Dr. Dave Kashuba puts the split in patient terms. Some people, he says, are "building up their rotator, building up their knee, building up their ankle to go back running, playing sports. Other people are just wanting to get off the chair and be able to make themselves a pot of coffee without pain." Both are legitimate goals. They are not the same goal, and they do not get the same plan.</p>
+<h2>Nobody gets a cookie cutter</h2>
+<p>Dave is blunt about why the distinction matters: "no cookie cutters. Everyone gets evaluated, everyone gets treated differently. In many industries that's not politically correct, but in ours it is."</p>
+<p>His reasoning goes past paperwork. "No two bodies are alike, no two human beings are alike," he said on the show. "The parts, they're generally the same, but nobody has the same set." Everyone has a slightly different angle to produce the same motion, which is why we train our therapists to look at the person rather than the diagnosis.</p>
+<p>Practically, that means the evaluation decides the discipline, not the referral slip. Sometimes the answer is physical therapy. Sometimes it is occupational therapy. Often it is both, running together, with the two therapists talking to each other about the same patient.</p>
+<h2>What occupational therapy actually does here</h2>
+<p>Our occupational therapy program works on activities of daily living: the dressing, bathing and cooking that independence is made of. It covers upper extremity function and coordination, which is where it hands off to and borrows from our <a href="../services/hand-therapy.html">certified hand therapy program</a>. It includes post-stroke recovery, where the work is task specific rather than general conditioning. It covers cognitive rehabilitation, the memory and attention and problem solving side of living safely on your own. And it covers return to work, using graded conditioning and simulated job tasks, which is why so much of our <a href="../treatments/workers-comp.html">workers' compensation</a> work sits on the OT side.</p>
+<p>Ergonomics belongs here too. Sometimes the fastest win is not more strength but a different chair, a repositioned monitor, or a piece of adaptive equipment that takes a task from impossible to routine.</p>
+<h2>The signal that you need one of us</h2>
+<p>Orthopedic surgeon Dr. Richard Weiner, on our podcast, gave the cleanest version of when to stop waiting. You seek help, he said, "when your symptoms interfere with ADLs, which means activities of daily living."</p>
+<p>That is a useful test precisely because it is not about pain scores. Pain is hard to rank and easy to talk yourself out of. Whether you can carry a laundry basket up the stairs is not. Dave says the same thing in his own words: you know it is time when you cannot do the normal things you like to do. People retire for a reason, and the reason was not a rocking chair.</p>
+<h2>Which one should you ask for?</h2>
+<p>Honestly, you do not have to decide. That is the evaluation's job, and getting it wrong is not on you.</p>
+<p>Come in and tell us what you cannot do right now. If the answer is a motion, we will probably start on the <a href="../services/physical-therapy.html">physical therapy</a> side. If the answer is a task, we will probably start on the <a href="../services/occupational-therapy.html">occupational therapy</a> side. If it is both, you will see both, in the same building, with people who compare notes.</p>
+<p>We serve North Palm Beach and the surrounding Palm Beaches, including <a href="../locations/west-palm-beach.html">West Palm Beach</a>. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>. Our <a href="../faq.html#occupational-therapy">FAQ answers more occupational therapy questions</a>, and you can hear Dave work through this on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "pain-2-power-ep10-mcvicker": {
         "title": "When Back Pain Is Really a Hip: Dr. Zach McVicker on Pain 2 Power",
         "date": "August 2026",
@@ -2431,6 +2626,8 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "partial-vs-total-knee-replacement": "Partial vs Total Knee Replacement",
+            "physical-therapy-vs-occupational-therapy": "Physical Therapy vs Occupational Therapy",
             "pain-2-power-ep10-mcvicker": "Dr. Zach McVicker: Hip Pain vs Back Pain",
             "hip-impingement-back-pain-north-palm-beach": "Hip Impingement Treatment North Palm Beach",
             "what-to-expect-first-pt-visit": "Your First PT Visit: What to Expect",
@@ -2973,7 +3170,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html", "exercises.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -3075,5 +3272,6 @@ if __name__ == "__main__":
     build_first_visit()
     build_insurance()
     build_videos()
+    build_exercises()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
