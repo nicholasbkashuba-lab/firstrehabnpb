@@ -284,6 +284,7 @@ def footer(depth=0):
         <h3 class="f-head">Explore</h3>
         <ul>
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
+          <li><a href="{p}exercises.html">Home Exercise Library</a></li>
           <li><a href="{p}about.html">About Us</a></li>
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}insurance.html">Insurance &amp; Medicare</a></li>
@@ -1541,6 +1542,7 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
+    ("Episode 10", "Dr. Zach McVicker, MD", "&ldquo;A lot of times it&rsquo;s causing the back pain, it&rsquo;s causing the groin pain.&rdquo; Plenty of people arrive certain their problem is their back, and the hip turns out to be the thing driving it. Orthopedic surgeon Dr. Zach McVicker joins Dave and Mike to explain femoroacetabular impingement in plain English: the two shapes it comes in, the cam lesion where the ball is misshapen (&ldquo;instead of being round, it&rsquo;s more like an oval peg in a round hole&rdquo;) and the pincer lesion where the socket covers too much of it, which skews female and is the harder of the two to repair. The labrum, he explains, works like a gasket between two pipes, creating the suction seal that spreads your weight across the whole dome of the joint; lose the seal and the cartilage starts taking pressure it was never meant to take. They get into hip dysplasia, the opposite problem, where an underdeveloped socket edge-loads the cartilage and ends in arthritis; who tends to get it, from gymnasts and dancers to marathon runners to the seventy-year-olds playing tennis six days a week down here; and why arthroscopic repair, done early, keeps the hip you were born with along with the proprioception a replacement cannot give back. Dave walks through the home program he actually hands patients for a weak gluteus medius, including sit-to-stands with a band above the knees to stop the asymmetrical weight shift, and makes his usual case for doing your homework before you choose a surgeon rather than taking advice from the Publix line.<br><br>Dr. McVicker is board certified by the American Board of Orthopaedic Surgery and fellowship trained in sports medicine at the Cedars Sinai Kerlan Jobe Institute in Los Angeles. He practices with the Paley Orthopedic and Spine Institute in Jupiter and West Palm Beach, focusing on minimally invasive arthroscopic surgery of the hip, knee, shoulder and elbow, and has served as assistant team physician for the Miami Marlins and the Jupiter Hammerheads.", "https://open.spotify.com/episode/6gVRS8Cmqd0263HdZfc37L", "Listen"),
     ("Episode 9", "Dr. Vani Sabesan, MD", "&ldquo;We&rsquo;re really good at fixing rotator cuffs. We&rsquo;re not great at getting them to heal.&rdquo; Orthopaedic shoulder surgeon Dr. Vani Sabesan — the Florida Orthopaedic Society&rsquo;s first female president — joins Dave and Mike for an unusually candid hour about the limits of surgery. Roughly 17 million people have a rotator cuff problem, and past 60 it is closer to one in three, so the interesting question is not whether a repair can be done but whether the body will knit it back together. Hence her interest in muscle sparing technique and in biologic scaffolds, and her impatience with six weeks in a sling. She is equally blunt about the technology arms race: robots in shoulder and joint surgery are a great marketing tool, but the science has not shown them to be the next panacea. Along the way — why she switched to knotless sutures fourteen years ago when it was still heresy, why &ldquo;ninety is the new seventy&rdquo; in Palm Beach, the sixty-year-olds playing competitive pickleball six days a week who just want to be shot up so they can keep going, and the ninety-year-old who still trains six days a week. She has also run 28 marathons herself.", "https://open.spotify.com/episode/5yOVCx7EDEQ6IybU1C6u7i", "Listen"),
     ("Episode 8", "Dr. Ryan Simovitch", "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Orthopedic shoulder surgeon Dr. Ryan Simovitch joins Dave and Mike to explain reverse total shoulder replacement in plain English: why the rotator cuff decides which replacement you get, and how reversing the ball and socket restores stability when the cuff can no longer provide it. They also dig into the &ldquo;constant warrior&rdquo; problem — the play-every-day crowd who train with no moderation and no preparation until something tears — plus the simple at-home shoulder routine Dave gives patients (wall slides, cross-body stretches, shoulder shrugs, and scapular retractions), the Duke anatomy class that pulled Dr. Simovitch into medicine, and why doing your own research beats taking a recommendation from the water cooler.", "https://open.spotify.com/episode/0iMqbfPeqCYGfoZKbHicdb", "Listen"),
     ("Episode 7", "Dr. Rami Elkhechen, M.D.", "Orthopedic surgery isn't always the answer — and knowing when it is may be the most important call a surgeon makes. Dr. Rami Elkhechen, M.D., a board-certified, fellowship-trained sports medicine orthopedic surgeon with Orthopaedic Care Specialists in North Palm Beach, joins Dave and Mike to dig into exactly that. Trained at NYU School of Medicine with a sports medicine fellowship at New Orleans' Ochsner Sports Medicine Institute — and a former assistant team physician for the Saints and Pelicans — he treats everyone from weekend athletes to trauma patients, with a focus on hip arthroscopy, shoulder surgery, cartilage preservation, and orthobiologics. Together they unpack what actually separates a surgical candidate from someone better served by conservative care, why rehab so often decides the outcome, and how patients can take a more active role in their own recovery.", "https://open.spotify.com/episode/1cVdymVweFWtoIRropqKQ7", "Listen"),
@@ -1551,6 +1553,144 @@ EPISODES = [
     ("Episode 2", "Dr. Tom Saylor, M.D.", "The hand is the body's most intricate tool — and repairing it takes a specialist. Hand and upper-extremity surgeon Dr. Tom Saylor joins Dave and Mike to talk about the surgical side of restoring hand function, from carpal tunnel and tendon repairs to complex reconstruction. It's a natural fit for First Rehabilitation, home to a certified hand therapy program, and a fascinating look at how surgeon and therapist work hand-in-hand to bring patients back to full function.", "https://open.spotify.com/episode/1a4jO3BCBrYhYL8KF01hOi", "Listen"),
     ("Episode 1", "Intro to Dave's Background", "The one that started it all. In this first episode, Dr. Dave Kashuba tells his story — how he built First Rehabilitation of North Palm Beach from the ground up in 1991, what four decades and 87,000 patients of his own have taught him about healing, and the philosophy behind the name Pain 2 Power. Co-host Mike McGann draws out the moments that shaped Dave's approach to care, resilience, and why &ldquo;our people make the difference&rdquo; is more than a tagline.", "https://open.spotify.com/episode/70Yn3oyi2YcesDkivraogc", "Listen"),
 ]
+
+# Episode number -> the slug of its recap post in BLOG_POSTS. Written by /episode-blog.
+# EPISODES entries are 5-tuples unpacked positionally in three places, so the link lives
+# here instead of becoming a sixth field. An episode with no recap simply has no entry.
+# ----------------------------------------------------------------------------
+# HOME EXERCISE LIBRARY
+# ----------------------------------------------------------------------------
+# Dave promised this on air twice (Ep 7: "all the exercises that I've been
+# talking about, we're going to put them on our website"; Ep 8: "if you go onto
+# my website, there's 5,000 different exercises"). Until 2026-08 the site had
+# none, so listeners were being sent somewhere that did not exist.
+#
+# Every exercise below is one Dave actually prescribed on the show. "ep" records
+# which episode, so nothing here is invented and each entry can be checked
+# against a transcript on the media/ep{NN}-clips branches. Do not add an exercise
+# that Dave has not described on air or approved in writing.
+EXERCISES = {
+    "shoulder": {
+        "name": "Shoulder &amp; Upper Back",
+        "lede": "Dave's at-home shoulder set. Most of what we do all day pulls the shoulders forward and inward, so this works the other direction.",
+        "items": [
+            ("Wall slides", "Stand facing a wall with a towel between your forearms and the wall. Start with both arms bent at 90 degrees in front of you, then slide them all the way up the wall and back down.",
+             "3 sets of 10", "Approximates the humerus and stabilizes the subscapularis while it stretches. Dave uses the wall version because it is the same idea as a downward dog without asking a 90 year old to get down on the floor.", "Episode 8"),
+            ("Cross-body stretch", "Take your right elbow in your left hand and draw that arm across your body. Hold, then switch sides.",
+             "Hold and repeat both sides", "Stretches the posterior capsule at the back of the shoulder.", "Episode 8"),
+            ("Shoulder shrugs", "Bring both shoulders straight up toward your ears, then let them down.",
+             "3 sets of 10", "Simple, and it keeps the whole shoulder girdle moving.", "Episode 8"),
+            ("Scapular retractions", "Draw both shoulders back and try to touch your shoulder blades together behind you.",
+             "3 sets of 10", "Works directly against the forward, rounded posture that daily life builds in.", "Episode 8"),
+            ("Band rows and extensions", "Anchor a resistance band and pull backward, elbows past your ribs. Then work extensions, drawing the arm behind you.",
+             "Build gradually", "Dave's reasoning: everything we do all day is internal rotation, so pulling the other way is the correction. Water bottles work as a substitute, but a proper therapy band is better.", "Episode 8"),
+        ],
+    },
+    "knee": {
+        "name": "Knee",
+        "lede": "Strong muscles around the knee mean fewer symptoms. All you need is a chair and a small step stool.",
+        "items": [
+            ("Seated leg extensions", "Sit and scoot to the front edge of a chair. Straighten one leg out in front of you, then lower it.",
+             "3 sets of 10, building to 3 sets of 20", "Strengthens the quadriceps, including the vastus medialis on the inside of the knee that tracks the kneecap.", "Episode 6"),
+            ("Standing heel to buttock", "Hold the back of a chair and stand tall. Bring one heel up toward your backside, as far as it goes comfortably. One leg at a time.",
+             "3 sets of 10, building to 3 sets of 20", "Works the hamstring through range. Dave's note: doing both legs at once is how you end up on the floor.", "Episode 6"),
+            ("Pillow sit to stands", "Hold a light pillow in both hands out in front of you. Push the pillow forward as you stand, keep it forward as you sit back down.",
+             "3 sets of 10", "The pillow makes you hinge at the hip. Whatever joint starts the movement takes the brunt of the load, and hips carry weight better than knees do.", "Episode 6"),
+            ("Step stool leans", "Put one foot up on a low step stool, keep the other on the floor, and hold something stable. Lean your weight forward over the raised foot, then back. No stepping up.",
+             "Slow and controlled", "Loads the knee through a small, safe range without impact.", "Episode 6"),
+            ("Glute bridge", "Lie on your back with your knees bent and both feet flat on the floor or the bed. Lift your hips up, pause at the top and squeeze your backside, then lower.",
+             "3 sets of 10", "The glutes support the knee from above. Dave pairs this with quad work rather than doing either alone.", "Episode 7"),
+        ],
+    },
+    "hip": {
+        "name": "Hip &amp; Pelvis",
+        "lede": "Behind most painful hips is a weak gluteus medius, the muscle that keeps your pelvis level while you stand on one leg.",
+        "items": [
+            ("Banded sit to stands", "Loop a resistance band around both legs just above the knees. Stand up and sit down as normal, letting the band push your knees outward.",
+             "3 sets of 10", "A sore hip makes you shift weight onto the good leg without noticing. The band forces both sides to share the work.", "Episode 10"),
+            ("Standing leg abductions", "Hold the back of a chair and kick one leg out away from your midline, keeping it straight. Lower with control.",
+             "3 sets of 10 each side", "Direct work for the gluteus medius.", "Episode 10"),
+            ("Clams", "Lie on your side with knees bent and stacked. Keep your feet together and open the top knee like a clam shell.",
+             "3 sets of 10 each side", "Strengthens the external rotators, which are weak in almost everyone because nothing in daily life asks for them.", "Episode 10"),
+            ("Side lying leg raise", "Lie on your side and raise the top leg straight up, then lower it slowly.",
+             "3 sets of 10 each side", "Supports the same muscles from a different angle.", "Episode 10"),
+            ("Prone press up", "Lie face down and push up onto your forearms or hands, keeping your pelvis down on the floor.",
+             "Hold, then rest", "Opens the front of the hip. Before you get down on the floor, make sure you can get back up.", "Episode 10"),
+        ],
+    },
+    "everyday": {
+        "name": "Everyday Movement",
+        "lede": "Dave's view: the invention of the chair is one of our demise. These are not workouts, they are the baseline.",
+        "items": [
+            ("Walk", "Get up and walk. Start at three minutes a day if that is where you are, and work up toward 10 or 15.",
+             "Daily", "Gets blood moving, helps clear swelling and lowers a long list of risks. Good for the back and the knees at the same time.", "Episode 8"),
+            ("Sit to stands", "Stand up out of a chair and sit back down, without pushing off with your hands if you can manage it.",
+             "Little and often", "The single most functional movement most people stop practising.", "Episode 8"),
+            ("Put the phone down", "Set it aside and stand up. Dave's whole point is that the movement you already know how to do is the one that gets skipped.",
+             "As often as you notice", "Forward head and shoulder posture is partly gravity and partly how long we sit still.", "Episode 8"),
+            ("Stretch before you start the day", "Dave's observation: babies stretch when they wake, dogs and cats stretch before they do anything, and we reach for glasses and coffee and go to work.",
+             "Every morning", "Costs nothing and sets up everything else on this page.", "Episode 8"),
+        ],
+    },
+}
+
+def build_exercises():
+    """The home exercise library Dave promised on air. Content lives in EXERCISES."""
+    blocks = []
+    for key, group in EXERCISES.items():
+        cards = "".join(
+            f'<div class="ex-card reveal"><span class="cond-tag">{reps}</span><h3>{name}</h3>'
+            f'<p class="ex-how">{how}</p><p class="ex-why">{why}</p>'
+            f'<p class="ex-src">Heard on Pain 2 Power, {ep}</p></div>'
+            for name, how, reps, why, ep in group["items"])
+        blocks.append(
+            f'<section class="section" id="{key}"><div class="wrap">'
+            f'<div class="section-head reveal"><h2>{group["name"]}</h2>'
+            f'<p class="lede">{group["lede"]}</p></div>'
+            f'<div class="ex-grid">{cards}</div></div></section>')
+    jump = " ".join(f'<a class="faq-chip" href="#{k}">{g["name"]}</a>' for k, g in EXERCISES.items())
+    crumbs = '<div class="crumbs"><a href="index.html">Home</a> / Home Exercises</div>'
+    body = f"""
+<main>
+{page_hero("Home Exercise Library", "Exercises You Can Do <em class='accent'>At Home</em>",
+  "The exercises Dr. Dave Kashuba talks through on Pain 2 Power, written down. A chair, a step stool and a resistance band cover almost all of it.", crumbs)}
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="ex-jump">{jump}</div>
+    <p class="ex-warn"><strong>Read this first.</strong> These are general exercises, not a treatment plan and not medical advice.
+    Nothing here should hurt. If an exercise causes pain, swelling or warmth in the joint, stop and call us.
+    If you are recovering from surgery or an injury, follow the protocol your surgeon and therapist gave you instead of this page,
+    and check with them before adding anything. When you want a program built for your body, that is what an evaluation is for:
+    call {PHONE}.</p>
+  </div>
+</section>
+{"".join(blocks)}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <p class="lede">Not sure which of these applies to you, or whether you should be doing them at all?
+    A one on one evaluation answers that in a single visit. Call <strong>{PHONE}</strong> or
+    <a href="contact.html">request an appointment</a>. You can also read how we structure
+    <a href="services/physical-therapy.html">physical therapy</a> and
+    <a href="services/wellness.html">our wellness program</a>, or hear these exercises explained on
+    <a href="podcast.html">the Pain 2 Power podcast</a>.</p>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("exercises.html",
+          head("Home Exercises for Knee, Hip &amp; Shoulder Pain | North Palm Beach",
+               "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
+               canonical="exercises.html",
+               extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
+          + nav(0) + body + footer(0))
+
+EPISODE_POSTS = {
+    "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
+    "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
+    "Episode 7": "cartilage-transplant-knee-explained",      # Dr. Rami Elkhechen
+    "Episode 6": "knee-arthritis-before-surgery",            # Dr. Richard Weiner
+}
 
 def _podcast_schema():
     """PodcastSeries + PodcastEpisode JSON-LD from the EPISODES list."""
@@ -1588,8 +1728,14 @@ def build_podcast():
                       f'title="{title} — Pain 2 Power on Spotify"></iframe>')
         else:
             action = f'<a class="btn btn-ink" href="{url}" target="_blank" rel="noopener">{label}</a>'
+        # A recap post, when one exists, gets a link from this strong page to that new one.
+        recap = ""
+        slug = EPISODE_POSTS.get(num)
+        if slug and slug in BLOG_POSTS:
+            recap = (f'<p class="pod-recap"><a href="blog/{slug}.html">'
+                     f'Read the recap: {BLOG_POSTS[slug]["title"]}</a></p>')
         return f'''<div class="pod-card reveal">
-          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p></div>
+          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p>{recap}</div>
           {action}
         </div>'''
     featured = _episode_block(*EPISODES[0])
@@ -2125,6 +2271,135 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "partial-vs-total-knee-replacement": {
+        "title": "Partial vs Total Knee Replacement: The Option Most People Never Hear About",
+        "date": "August 2026",
+        "iso": "2026-08-15",
+        "tag": "Physical Therapy",
+        "teaser": "Many people who get a total knee could have had a partial. What separates the two, why partials are offered less often, and what rehab looks like after each.",
+        "body": """
+<p>If a surgeon has told you it is time for a knee replacement, there is a second question worth asking before you book anything. Not whether to have it. Which one.</p>
+<p>Most people know total knee replacement exists. Far fewer know that a partial is a separate operation with a different risk profile, and that plenty of candidates never get told about it.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The numbers a surgeon gave us on air</h2>
+<p>Orthopedic surgeon Dr. Richard Weiner, who has been in practice since before our clinic opened in 1991, laid this out on the Pain 2 Power podcast. Statistics show that over 40% of everyone receiving a total knee could have had a partial instead, he said, while in the United States only about 10% actually get one.</p>
+<p>His explanation for the gap is not clinical. "Most of the surgeons who do total knees are not trained to do partials," he said, "so they don't even offer it as an option." Fewer than half of orthopedic surgeons do knee replacements at all. Of those, fewer than half do partials. Of those, fewer than half will do the lateral compartment.</p>
+<p>All of which means the operation you are offered can depend on who you happen to be sitting across from.</p>
+<h2>What makes them different operations</h2>
+<p>The knee has separate compartments, and arthritis does not always take all of them. A partial replaces only the worn one and leaves the rest of your knee alone.</p>
+<p>The structural difference Dr. Weiner emphasises is the ligaments. A total knee "requires dislocation of the joint," a much larger procedure, and the anterior cruciate ligament comes out. About half the time the posterior cruciate goes too. A partial preserves all of them, and that is the reason for the thing patients notice most: "a partial knee can feel like a normal knee, because all the ligaments are preserved." A total knee, in his words, never quite does. It is a tremendously successful operation and it still feels a little different.</p>
+<p>His shorthand for the rest was a repeated phrase. Pain, less than half. Risk of infection, less than half. Time to get back to sport, less than half. Blood loss and clot risk, lower again, though the risks with a modern total knee are low to begin with.</p>
+<p>Which compartment wears matters too. The inside of the knee goes about eight to ten times more often than the outside, which is the reason worn knees tend to look bow legged. The smaller group who wear the outside look knock kneed, and that lateral partial takes training that fewer surgeons have.</p>
+<h2>How the decision actually gets made</h2>
+<p>Not from a scan alone. "You don't treat an X-ray, you treat the patient," Dr. Weiner said, and his sequence starts with your symptoms and your history, then a clinical exam, then imaging, including stress X-rays that show whether the other compartments are holding up.</p>
+<p>The question he weighs is durability. A small share of partials, well under one in ten, eventually need converting to a total. Over 90% do not. When the odds of it lasting look good, that is what he recommends.</p>
+<p>Age is less of a barrier than people assume. He described doing a partial knee for a 95 year old patient of twenty years, who had done therapy and injections for as long as they worked and then decided she wanted the knee.</p>
+<h2>Surgery is still the last resort</h2>
+<p>Worth saying plainly, because a post about replacements can read as an argument for having one. It is not. "Surgery is the last resort," Dr. Weiner said. "The first thing is conservative treatment."</p>
+<p>That means avoiding what aggravates the joint, then therapy, then medication or a targeted injection, and only then bracing or an operation. On therapy he was direct about why it comes first: "physical therapy is key because you need to have strong muscles to stabilize the knee to have fewer symptoms." He also prefers injections to pills for a single joint, on the logic that you put the oil where it squeaks rather than exposing the whole body.</p>
+<p>Dave's aside during that conversation is the most honest endorsement a partial is going to get from a therapist. He told Dr. Weiner he loses money on them, because those patients need far less rehab than a total knee does.</p>
+<h2>What rehab looks like either way</h2>
+<p>Both operations need therapy, and the partial needs less of it. The work is the same in kind: restoring range, then rebuilding the muscles that support the joint, quadriceps first and glutes and calves alongside them, because the knee is carried from above and below.</p>
+<p>The strongest thing you can do is start before the operation. Building strength ahead of surgery, sometimes called prehab, means recovering from a stronger baseline, and it changes outcomes. You can begin with the <a href="../exercises.html">home exercises Dave walks through on the show</a> and bring the rest to an evaluation.</p>
+<p>So take one question to your appointment. Ask whether you are a candidate for a partial, and ask whether the surgeon performs both. Dave's advice about choosing anyone who treats you applies here more than usual: do your homework, and do not take the recommendation from the person next to you in the Publix line.</p>
+<p>If you are weighing a knee replacement, or recovering from one, we can help with the part that decides how well it goes. We see patients from North Palm Beach and across the county, including <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens</a>. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>. Read more about <a href="../treatments/knee-pain.html">how we treat knee pain</a> and <a href="../treatments/post-surgical.html">post-surgical rehabilitation</a>, browse the <a href="../faq.html#physical-therapy">physical therapy questions in our FAQ</a>, or hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "physical-therapy-vs-occupational-therapy": {
+        "title": "PT or OT: Which One Do You Actually Need?",
+        "date": "August 2026",
+        "iso": "2026-08-15",
+        "tag": "Occupational Therapy",
+        "teaser": "Physical therapy and occupational therapy overlap, but they are aiming at different things. How we decide, and what occupational therapy looks like in practice.",
+        "body": """
+<p>Two people come in the same week with the same shoulder. One wants to serve a tennis ball again. The other wants to reach the top shelf and get a shirt on without help.</p>
+<p>Same joint, same injury on paper, and two different plans. That gap is roughly where physical therapy ends and occupational therapy begins.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The short version</h2>
+<p>Physical therapy is aimed at the body part. Restore the motion, rebuild the strength, resolve the pain, get the mechanics working again.</p>
+<p>Occupational therapy is aimed at the day. The "occupation" in the name has nothing to do with your job. It means everything that occupies your time: dressing, cooking, bathing, driving, handling a phone, getting through a shift at work. An occupational therapist starts from the task you cannot do and works backward to whatever is stopping you, which might be strength, or coordination, or memory, or simply that your kitchen is arranged for a version of you that had two working hands.</p>
+<p>Dr. Dave Kashuba puts the split in patient terms. Some people, he says, are "building up their rotator, building up their knee, building up their ankle to go back running, playing sports. Other people are just wanting to get off the chair and be able to make themselves a pot of coffee without pain." Both are legitimate goals. They are not the same goal, and they do not get the same plan.</p>
+<h2>Nobody gets a cookie cutter</h2>
+<p>Dave is blunt about why the distinction matters: "no cookie cutters. Everyone gets evaluated, everyone gets treated differently. In many industries that's not politically correct, but in ours it is."</p>
+<p>His reasoning goes past paperwork. "No two bodies are alike, no two human beings are alike," he said on the show. "The parts, they're generally the same, but nobody has the same set." Everyone has a slightly different angle to produce the same motion, which is why we train our therapists to look at the person rather than the diagnosis.</p>
+<p>Practically, that means the evaluation decides the discipline, not the referral slip. Sometimes the answer is physical therapy. Sometimes it is occupational therapy. Often it is both, running together, with the two therapists talking to each other about the same patient.</p>
+<h2>What occupational therapy actually does here</h2>
+<p>Our occupational therapy program works on activities of daily living: the dressing, bathing and cooking that independence is made of. It covers upper extremity function and coordination, which is where it hands off to and borrows from our <a href="../services/hand-therapy.html">certified hand therapy program</a>. It includes post-stroke recovery, where the work is task specific rather than general conditioning. It covers cognitive rehabilitation, the memory and attention and problem solving side of living safely on your own. And it covers return to work, using graded conditioning and simulated job tasks, which is why so much of our <a href="../treatments/workers-comp.html">workers' compensation</a> work sits on the OT side.</p>
+<p>Ergonomics belongs here too. Sometimes the fastest win is not more strength but a different chair, a repositioned monitor, or a piece of adaptive equipment that takes a task from impossible to routine.</p>
+<h2>The signal that you need one of us</h2>
+<p>Orthopedic surgeon Dr. Richard Weiner, on our podcast, gave the cleanest version of when to stop waiting. You seek help, he said, "when your symptoms interfere with ADLs, which means activities of daily living."</p>
+<p>That is a useful test precisely because it is not about pain scores. Pain is hard to rank and easy to talk yourself out of. Whether you can carry a laundry basket up the stairs is not. Dave says the same thing in his own words: you know it is time when you cannot do the normal things you like to do. People retire for a reason, and the reason was not a rocking chair.</p>
+<h2>Which one should you ask for?</h2>
+<p>Honestly, you do not have to decide. That is the evaluation's job, and getting it wrong is not on you.</p>
+<p>Come in and tell us what you cannot do right now. If the answer is a motion, we will probably start on the <a href="../services/physical-therapy.html">physical therapy</a> side. If the answer is a task, we will probably start on the <a href="../services/occupational-therapy.html">occupational therapy</a> side. If it is both, you will see both, in the same building, with people who compare notes.</p>
+<p>We serve North Palm Beach and the surrounding Palm Beaches, including <a href="../locations/west-palm-beach.html">West Palm Beach</a>. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>. Our <a href="../faq.html#occupational-therapy">FAQ answers more occupational therapy questions</a>, and you can hear Dave work through this on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep10-mcvicker": {
+        "title": "When Back Pain Is Really a Hip: Dr. Zach McVicker on Pain 2 Power",
+        "date": "August 2026",
+        "iso": "2026-08-15",
+        "tag": "Pain 2 Power",
+        "teaser": "Hip surgeon Dr. Zach McVicker joins Dave and Mike on hip impingement, why it so often shows up as back pain, and when early surgery beats waiting.",
+        "body": """
+<p>Someone walks in convinced the problem is their back. The ache sits low, it has been there for months, and every conversation so far has been about the spine. Then you ask where exactly it hurts, and the answer is the groin.</p>
+<p>That moment is the whole subject of this week's Pain 2 Power. Dr. Dave Kashuba and Mike McGann sat down with orthopedic surgeon Dr. Zach McVicker of the Paley Orthopedic and Spine Institute in Jupiter, who spends his days on the joint that keeps getting blamed on its neighbor.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The hip that hides behind the back</h2>
+<p>Dave opened with the pattern he watches for. A patient reports back pain, but the pain travels toward the groin rather than down the leg. That points at femoroacetabular impingement, where the socket and the ball of the hip do not clear each other properly through range.</p>
+<p>Dr. McVicker sees the same referral pattern from the other side of the table. &ldquo;A lot of times it's causing the back pain, it's causing the groin pain and other symptoms that you're having,&rdquo; he said. He listed what else should raise the question: pain toward the buttock, SI joint pain, soreness on the outside of the hip, and in some patients pelvic floor dysfunction. His summary of when to get it looked at was short. If you cannot find a reason for these things, the hips are worth checking, and often they are the answer.</p>
+<h2>An oval peg in a round hole</h2>
+<p>Impingement arrives in two shapes, and Dr. McVicker has a plain way of describing each. In a cam lesion the ball itself is misshapen: &ldquo;instead of being round, it's more like an oval peg in a round hole.&rdquo; In a pincer lesion the socket covers too much of the ball. Cam lesions skew male, pincer lesions skew female, and the pincer side is the harder repair. The labrum is often calcified by then and has to be reconstructed rather than simply repaired.</p>
+<p>His description of the labrum is the one worth keeping. Think of a gasket between two pipes. It creates negative pressure, and that suction seal spreads your body weight across the whole dome of the joint every time you take a step. Lose the seal and the pressure concentrates on cartilage that was never built to carry it that way.</p>
+<h2>Dysplasia, and why it does not wait</h2>
+<p>The second most common problem he treats is hip dysplasia, which is the mirror image of a pincer. The socket is underdeveloped, so instead of load spreading across the dome there is not enough dome to spread it across. The result is edge loading, and he was blunt about where that goes: it &ldquo;ends up in arthritis 100% of the time.&rdquo; Labral tears show up early, and the soft tissue around the joint takes the stress.</p>
+<p>The patient he described is a gymnast or a dancer who put in five hours a day for years while the hip was still developing. Around here the list also runs to basketball players, marathon runners, and, as Dave pointed out, seventy-year-olds playing tennis who are meeting this diagnosis for the first time.</p>
+<h2>Why early matters more than dramatic</h2>
+<p>Arthroscopic hip surgery is small: little cameras, poke holes, and a recovery Dr. McVicker described as much less painful than a total hip, though return to sport takes somewhat longer. The trade he cares about is a different one. A replacement gets you feeling normal quickly, &ldquo;but it's not your own hip. You don't have the proprioception&rdquo; that a native joint gives you.</p>
+<p>Dave picked that word up and turned it into something you can test at the kitchen table. Close your eyes, let someone lift one of your fingers, and see whether you know it moved. People lose that sense, and in the lower body losing it means missteps. Missteps become falls, and a broken hip in an older adult starts a decline that is hard to reverse. Prevention work like this sits at the heart of our <a href="../services/physical-therapy.html">physical therapy program</a>.</p>
+<h2>What Dave sends people home with</h2>
+<p>Behind most painful hips he finds a weak gluteus medius, and one exercise does the heavy lifting. Sit to stands, with a resistance band looped just above the knees. A sore hip makes you shift your weight onto the other leg without noticing; the band forces both sides to share the work. He adds standing leg abductions at the back of a chair, clams for the external rotators, and a prone cobra with the pelvis staying on the floor. His practical note was to make sure you can get back up before you get down there.</p>
+<p>He also had advice about choosing who treats you, delivered in his usual style: do your research, and do not take a recommendation from the lady at the water cooler or in the Publix line.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch episodes on our <a href="../videos.html">video library</a>, and read more about how we treat <a href="../treatments/hip-pain.html">hip pain</a> and <a href="../treatments/back-pain.html">back pain</a>. If your back pain has never quite added up, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "hip-impingement-back-pain-north-palm-beach": {
+        "title": "Hip Impingement: When Your Back Pain Is Coming From Your Hip",
+        "date": "August 2026",
+        "iso": "2026-08-15",
+        "tag": "Physical Therapy",
+        "teaser": "Groin pain and a stubborn low back often point at the hip. How we evaluate and treat hip impingement in North Palm Beach, and the exercises that come first.",
+        "body": """
+<p>You have been treating your back for months. You have stretched it, rested it, maybe had it imaged, and it keeps coming back. Somewhere in there, nobody asked about your groin.</p>
+<p>That is the gap where hip impingement lives. It is common and it responds well to treatment. It also spends a remarkable amount of time being mistaken for a lumbar problem.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>What hip impingement actually is</h2>
+<p>The hip is a ball sitting in a socket. Femoroacetabular impingement means the two do not clear each other cleanly through their full range, so they collide at the edges instead of gliding.</p>
+<p>It comes in two shapes. In a cam lesion the ball is misshapen. Orthopedic surgeon Dr. Zach McVicker, who joined Dr. Dave Kashuba on our Pain 2 Power podcast, puts it this way: &ldquo;instead of being round, it's more like an oval peg in a round hole.&rdquo; In a pincer lesion the shape problem is on the socket side, which covers more of the ball than it should. Cam lesions turn up more often in men, pincer lesions more often in women, and pincer cases are the more technically demanding to repair.</p>
+<p>Around the rim of the socket sits the labrum. Dr. McVicker compares it to a gasket between two pipes. It creates a suction seal that spreads your body weight across the whole dome of the joint with every step. When that seal fails, load stops being shared and starts concentrating on cartilage that was not designed for it.</p>
+<h2>The symptoms people miss</h2>
+<p>Groin pain is the one to know. It is the most common first symptom, and it is the detail that separates a hip problem from a back problem, because a disc tends to send pain down the leg rather than into the groin.</p>
+<p>Around it cluster the symptoms that get attributed elsewhere: low back pain, pain over the SI joint, aching toward the buttock, soreness on the outside of the hip, and for some people pelvic floor dysfunction. Pain shows up with anything that torques or pivots under load, which in Palm Beach County means golf, tennis and pickleball. Dave has seen this diagnosed for the first time in seventy-year-olds who are still on the court several days a week.</p>
+<p>One more clue Dave uses in the clinic: watch where a man's belt buckle points. If it tips downward rather than sitting flat, the pelvis is already tilted, and hip pain is usually not far behind.</p>
+<h2>Physical therapy for hip pain in North Palm Beach</h2>
+<p>Most painful hips we evaluate have one thing in common, and it is not the joint surface. It is a weak gluteus medius, the muscle on the side of the hip that keeps your pelvis level while you stand on one leg. Every step you take is briefly a single leg stance, so when that muscle gives up, the joint absorbs what the muscle should have.</p>
+<p>The exercise Dave starts nearly everyone on is a sit to stand with a resistance band looped just above the knees. The band matters. A sore hip makes you quietly shift your weight onto the good leg, and you will do it for weeks without noticing. The band pushes both knees outward and forces the two sides to share the work, so the movement retrains the pattern instead of reinforcing it.</p>
+<p>From there the program builds: standing leg abductions holding the back of a chair, kicking away from the midline; clams to strengthen the external rotators, which are weak in almost everybody because nothing in daily life asks for them; a side lying leg raise; and a prone cobra with the pelvis staying down on the floor to open the front of the hip. One piece of practical advice from Dave that belongs with any floor exercise: make sure you can get back up before you get down there.</p>
+<p>Load management does the rest. Stop sitting with your legs crossed. Break up repetitive bending. And rather than giving up golf, change the swing so it stops driving torque through the hip.</p>
+<h2>When it is time for a surgeon</h2>
+<p>Therapy is where this should start, and for many people it is where it ends. The reason we do not wait indefinitely is that a torn labral seal keeps letting the joint grind at itself.</p>
+<p>Hip dysplasia raises the stakes. There the socket is underdeveloped, so the load concentrates at the edge of the cartilage rather than spreading across it. Dr. McVicker's assessment was direct: that edge loading &ldquo;ends up in arthritis 100% of the time.&rdquo; Labral tears come early, and the surrounding soft tissue takes a beating. Gymnasts, dancers and long distance runners are the classic histories.</p>
+<p>Modern hip arthroscopy is small work, done through a few poke holes with a camera, and it preserves the joint you were born with. That is the argument for looking early rather than waiting for the conversation to become about replacement. As Dr. McVicker noted, a replacement can feel close to normal, &ldquo;but it's not your own hip. You don't have the proprioception&rdquo; that your native joint provides. That positional sense is what keeps you from missteps, and missteps are what turn into falls.</p>
+<p>Dr. McVicker practices with the Paley Orthopedic and Spine Institute in <a href="../locations/jupiter.html">Jupiter</a>, and he is one of the surgeons Dave sends hip patients to when a joint needs more than therapy can give it.</p>
+<h2>Start with an evaluation</h2>
+<p>If your back pain has never fully explained itself, or the ache sits in your groin when you get up from a chair, an evaluation is the fastest way to find out which joint is actually responsible. We will look at how your hip moves, how your pelvis behaves under load, and how much work that gluteus medius is really doing, then build the program from what we find.</p>
+<p>Call <strong>561-624-4263</strong> or <a href="../contact.html">request an appointment</a>. You can read more about our approach to <a href="../treatments/hip-pain.html">hip pain</a> and <a href="../treatments/back-pain.html">back pain</a>, see how we structure <a href="../services/physical-therapy.html">physical therapy</a>, browse the <a href="../faq.html#physical-therapy">physical therapy questions in our FAQ</a>, or hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "reverse-shoulder-replacement-explained": {
         "title": "Total vs. Reverse Shoulder Replacement: How Surgeons Decide",
         "date": "August 2026",
@@ -2379,6 +2654,10 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "partial-vs-total-knee-replacement": "Partial vs Total Knee Replacement",
+            "physical-therapy-vs-occupational-therapy": "Physical Therapy vs Occupational Therapy",
+            "pain-2-power-ep10-mcvicker": "Dr. Zach McVicker: Hip Pain vs Back Pain",
+            "hip-impingement-back-pain-north-palm-beach": "Hip Impingement Treatment North Palm Beach",
             "what-to-expect-first-pt-visit": "Your First PT Visit: What to Expect",
             "five-morning-habits-back-pain": "Five Morning Habits That Ease Back Pain",
             "why-hand-therapy-is-different": "Why Hand Therapy Is Its Own Specialty",
@@ -2919,7 +3198,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html", "exercises.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -3021,5 +3300,6 @@ if __name__ == "__main__":
     build_first_visit()
     build_insurance()
     build_videos()
+    build_exercises()
     build_meta()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
