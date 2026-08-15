@@ -34,6 +34,13 @@ NAME_FIXES = [
     (r"\bVanny\b", "Vani"), (r"\bVonnie\b", "Vani"), (r"\bBonnie\b", "Vani"),
     (r"\bnot less sutures\b", "knotless sutures"),
     (r"\bsubscapularies\b", "subscapularis"),
+    # Episode 6.
+    (r"\bpoaching my son's baseball\b", "coaching my son's baseball"),
+    (r"\bdrive Weiner\b", "Dr. Weiner"), (r"\bAdls\b", "ADLs"),
+    # Episode 7. ASR heard "Elkhechen" four ways and "Rami" as "Romney".
+    (r"\b(?:El|Al)\s?Catch(?:ens|ins|in|en|es)?\b", "Elkhechen"),
+    (r"\bRomney\b", "Rami"), (r"\bNYU Lingo\b", "NYU Langone"),
+    (r"\bcounter ?sites\b", "chondrocytes"),
     # Episode 10. ASR gave four spellings of one surgeon and four of his practice.
     (r"\bMck?[vf]i(?:ck|g|k)er\b", "McVicker"),
     (r"\bPaleorthopedic\b", "Paley Orthopedic"),
