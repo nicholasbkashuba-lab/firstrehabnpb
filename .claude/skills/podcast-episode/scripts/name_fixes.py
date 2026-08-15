@@ -29,21 +29,35 @@ NAME_FIXES = [
     (r"\bnot less sutures\b", "knotless sutures"),
     (r"\bsubscapularies\b", "subscapularis"),
 
-    # Episode 10 — Dr. Zack McVicker.
-    # Seeded from how ASR handles the name generally; confirm against the real
-    # transcript when it lands and prune whatever never actually appears.
+    # Episode 10 — Dr. Zack McVicker. Every one of these was observed in the
+    # real transcript, not guessed.
     (r"\bMc ?Vicar\b", "McVicker"),
     (r"\bMc ?Vickar\b", "McVicker"),
-    (r"\bMc ?Vicker\b", "McVicker"),
     (r"\bMick ?Vicker\b", "McVicker"),
     (r"\bMcVikker\b", "McVicker"),
-    (r"\bZach McVicker\b", "Zack McVicker"),
+    # ASR invented a surname and a practice out of "McVicker at Paley".
+    (r"\bZach McPherter at Family Orthopedic\b", "Zack McVicker at Paley Orthopedic"),
+    (r"\bMcPherter\b", "McVicker"),
+    (r"\bZach\b", "Zack"),
+    # Paley Institute, heard as Haley or Family throughout.
+    (r"\bHaley Orthopedic\b", "Paley Orthopedic"),
+    (r"\bHaley Orthopaedic\b", "Paley Orthopaedic"),
+    (r"\bHaley Institute\b", "Paley Institute"),
+    (r"\bFamily Orthopedic\b", "Paley Orthopedic"),
+    # The clinic's own name and domain. Getting the domain wrong in a burned-in
+    # caption sends viewers to a dead address, so this one really matters.
+    (r"firstrehabnpv\.com", "firstrehabnpb.com"),
+    (r"\bFirst Real Rehabilitation of Palm Beach\b",
+     "First Rehabilitation of North Palm Beach"),
+    # Hip context: "groin pain" is the symptom, "growing pain" is not.
+    (r"\bgrowing pain\b", "groin pain"),
+    (r"\bthe camp side\b", "the cam side"),
 
-    # Hosts and the show itself, which ASR also gets wrong.
+    # Hosts and the show itself.
     (r"\bPain to Power\b", "Pain 2 Power"),
-    (r"\bKashuba\b", "Kashuba"),
     (r"\bCashuba\b", "Kashuba"),
     (r"\bKachuba\b", "Kashuba"),
+    (r"\bMike McGahn\b", "Mike McGann"),
 ]
 
 _COMPILED = [(re.compile(p, re.I), r) for p, r in NAME_FIXES]
