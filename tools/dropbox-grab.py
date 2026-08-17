@@ -45,8 +45,12 @@ import shutil
 import subprocess
 import sys
 
-# curl's own timeout, seconds. 12.6 GB at the ~17 MB/s upload rate is ~12
-# minutes; this leaves generous headroom without hanging forever on a dead link.
+# curl's own timeout, seconds. 12.6 GB at ~17 MB/s is about 12 minutes, so 3000
+# looks generous — but Descript's upload endpoint throttled hard once and a
+# 12.6 GB PUT blew straight through it ("timed out after 3000000 milliseconds").
+# Raise it with --timeout rather than editing this, and remember the presigned
+# URL usually outlives the transfer (Descript's are good for 3 hours), so a
+# timeout is retryable against the SAME url.
 TIMEOUT = 3000
 
 
@@ -61,7 +65,7 @@ def free_bytes(path):
     return shutil.disk_usage(path).free
 
 
-def fetch(url, out, expect_size=None):
+def fetch(url, out, expect_size=None, timeout=TIMEOUT):
     parent = os.path.dirname(os.path.abspath(out)) or "."
     os.makedirs(parent, exist_ok=True)
 
@@ -73,7 +77,7 @@ def fetch(url, out, expect_size=None):
                      f"about 30 GB and one 4K camera at a time.")
 
     r = subprocess.run(
-        ["curl", "-sS", "-L", "--max-time", str(TIMEOUT), "-o", out,
+        ["curl", "-sS", "-L", "--max-time", str(timeout), "-o", out,
          "-w", "%{http_code} %{size_download}", url],
         capture_output=True, text=True)
     if r.returncode != 0:
@@ -96,7 +100,7 @@ def fetch(url, out, expect_size=None):
     return actual
 
 
-def push(path, url):
+def push(path, url, timeout=TIMEOUT):
     if not os.path.isfile(path):
         sys.exit(f"no such file: {path}")
     size = os.path.getsize(path)
@@ -105,7 +109,7 @@ def push(path, url):
     # and OOM; see the module docstring.
     r = subprocess.run(
         ["curl", "-sS", "-X", "PUT", "-H", "Content-Type: application/octet-stream",
-         "-T", path, "--max-time", str(TIMEOUT), "-o", "/dev/null",
+         "-T", path, "--max-time", str(timeout), "-o", "/dev/null",
          "-w", "%{http_code} %{size_upload}", url],
         capture_output=True, text=True)
     if r.returncode != 0:
@@ -133,10 +137,12 @@ def main():
     f.add_argument("--url", required=True, help="download_url from the Dropbox MCP")
     f.add_argument("--out", required=True)
     f.add_argument("--size", type=int, help="expected bytes; strongly recommended")
+    f.add_argument("--timeout", type=int, default=TIMEOUT, help="curl --max-time seconds")
 
     p = sub.add_parser("push", help="local file -> presigned PUT URL")
     p.add_argument("--file", required=True)
     p.add_argument("--url", required=True)
+    p.add_argument("--timeout", type=int, default=TIMEOUT, help="curl --max-time seconds")
 
     r = sub.add_parser("relay", help="fetch then push, then delete the local copy")
     r.add_argument("--url", required=True)
@@ -147,9 +153,9 @@ def main():
 
     a = ap.parse_args()
     if a.cmd == "fetch":
-        fetch(a.url, a.out, a.size)
+        fetch(a.url, a.out, a.size, a.timeout)
     elif a.cmd == "push":
-        push(a.file, a.url)
+        push(a.file, a.url, a.timeout)
     else:
         tmp = os.path.join(a.work, "dropbox-relay.bin")
         fetch(a.url, tmp, a.size)
