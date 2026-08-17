@@ -124,6 +124,28 @@ Other phrasings that did the work:
 Use `model: claude-opus` for clip selection and headline writing; `auto` is fine for the
 mechanical passes.
 
+## Descript cannot split a video track — plan around it
+
+`sourceOffset` rewrites an entire continuous clip; there is no split-preserving operation
+exposed for visual video tracks, and Script tracks reject `sourceOffset` and `replace`
+outright. **One media item can carry exactly one offset for the whole timeline.**
+
+This only bites when the board feed has an internal edit, because then a camera needs one
+offset before it and another after. Three ways out, cheapest first:
+
+1. **Check whether the camera actually needs both.** A camera only ever on screen after the
+   splice can take the post-splice value for its whole track and needs nothing. Episode
+   10's guest camera was exactly this — the fix was one number.
+2. **Keep the camera off screen on one side.** Free and immediate, but you lose that angle
+   for that stretch.
+3. **Import the same camera twice under different keys** (`mikecam` and `mikecam_b`), each
+   pinned to one offset, and switch between them at the splice. Costs a second upload of
+   the whole file, but it is robust and survives later edits. This is what Episode 10 used
+   to get the host back on screen.
+
+A human can also just split the clip in the Descript app in about two minutes, which is
+worth offering before spending 20 minutes on a re-upload.
+
 ## Publish
 
 `publish_project` with `access_level: "unlisted"`, `resolution: "1080p"`. Republishing the

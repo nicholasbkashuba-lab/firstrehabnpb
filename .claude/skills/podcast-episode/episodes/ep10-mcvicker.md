@@ -78,6 +78,15 @@ the splice the offset is genuinely constant. The opening was never measured. **A
 the first 60 seconds**, and probe densely enough to see a step change rather than assuming
 one number covers the show.
 
+**The splice is in the BOARD FEED, not the cameras — verified two ways.** Nick pointed out
+that the three cameras all start and stop at different moments but each contains the whole
+podcast, which is true and worth checking against: (1) re-running the measurement with a
+pure resample (`asetrate`) instead of `atempo` shows the identical 2.43s step, so WSOLA
+time-stretching did not invent it; (2) all three cameras jump by the same ~2.42s at the
+same instant AND stay locked to each other across it (`mck − mike` is −9.845s before and
+−9.855s after). Cameras glitching individually would not stay in lockstep. The cameras are
+continuous and complete; the board feed is the edited one.
+
 Localising it was fiddly because that stretch is where the phone number gets repeated, and
 repeated content produces strong false correlation peaks (a spurious lock at +121.6s scored
 SNR 15-23). The technique that worked was abandoning argmax entirely: score the two KNOWN
