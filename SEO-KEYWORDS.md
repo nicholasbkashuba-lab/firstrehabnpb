@@ -209,13 +209,14 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `knee-arthritis-before-surgery` | Physical Therapy | knee arthritis treatment before surgery |
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
+| `why-sitting-hurts-your-joints` | Wellness | senior functional fitness / sitting and aging joints |
 
-**Holes as of 2026-08-15, end of day:** Occupational Therapy now has one post. **Wellness still has
-zero**, and it is the only pillar with none, so it is the next thing to write. Two Wellness posts
-are already sourced from the Episode 8 transcript and waiting: "the invention of the chair is one
-of our demise", and the TheraBand home program behind Dave's "I do everything I can to let people
-not ever come to see me". Hand Therapy has one. Physical Therapy has seven and needs nothing.
-Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach.
+**Holes as of 2026-08-17:** Wellness now has one post (`why-sitting-hurts-your-joints`, sourced
+from the Episode 8 transcript's chair/TheraBand segments, linking `locations/juno-beach.html` and
+`locations/tequesta.html` per this pillar's location list). A second Wellness post is still
+sourced and waiting: the TheraBand home program angle not fully used by the chair post. Occupational
+Therapy has one post. Hand Therapy has one. Physical Therapy has seven and needs nothing.
+Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach, Juno Beach, Tequesta.
 
 `/exercises.html` is not a blog post but it targets long-tail exercise searches across all four
 pillars, so check it before writing an exercise-led post that would compete with it.
