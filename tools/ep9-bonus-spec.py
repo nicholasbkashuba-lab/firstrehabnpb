@@ -5,17 +5,21 @@ Times are SHOW time (transcript_v4.json). The render seeks the guest camera at
 show_time + CAM_OFFSET, measured by cross correlating two known clips against
 the camera audio (-83.20s and -83.10s, 22 minutes apart, so no drift).
 """
-import json, os, re, textwrap
+import json, os, re, sys, textwrap
 
 CAM_OFFSET = -83.15          # guest camera (rootA) time = show time + this
 PRE, POST = 0.35, 0.45
 # 56pt DejaVu Sans Bold in 1080 wide with 60px margins fits about 26 chars
 WRAP = 26       # breathing room either side
 
-# ASR corrections. NAME_FIXES from tools/stage-episode.py plus two this episode.
-FIXES = [
-    (r"\bSebastian\b", "Sabesan"), (r"\bSebasan\b", "Sabesan"),
-    (r"\bBonnie\b", "Vani"), (r"\bVanny\b", "Vani"), (r"\bVanni\b", "Vani"),
+# ASR corrections: the shared name list, plus judgement calls specific to this
+# episode's transcript that do not belong in a list every episode inherits.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "..", ".claude", "skills", "podcast-episode",
+                                "scripts"))
+from name_fixes import NAME_FIXES  # noqa: E402
+
+FIXES = NAME_FIXES + [
     # context is Palm Beach, "people in my neighbourhood", an aging active
     # population and competitive play. Six is an ASR slip for sixty.
     (r"\ba six-year-old\b", "a sixty year old"),

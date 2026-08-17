@@ -209,8 +209,10 @@ Service schema per city, footer "Areas We Serve" links every city. North Palm Be
 deliberately has NO location page — the homepage owns that keyword; footer links it to /.
 
 ## Verification pattern
-The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);
-GitHub (api/raw/codeload/objects) IS allowed. Verify live deploys via Supabase MCP:
+The sandbox cannot reach *.vercel.app or Supabase hosts directly (proxy 403);
+GitHub (api/raw/codeload/objects) IS allowed. **Dropbox IS allowed as of 2026-08-15** —
+see the Dropbox section below; that line used to list Dropbox as blocked and no longer
+applies. Verify live deploys via Supabase MCP:
 `create extension pg_net` → `net.http_get(...)` (Range headers work: 206 + content-range
 proves deployed file size) → read net._http_response → `drop extension pg_net`. NOTE:
 production URLs are public but PREVIEW deploys sit behind Vercel Authentication (Pro
@@ -218,7 +220,38 @@ default) — pg_net gets a login page, not the site. Playwright (playwright-core
 via npm --no-save, chromium at /opt/pw-browsers, NODE_PATH=<repo>/node_modules) tests
 locally on http.server 8901; that browser has NO H.264 but DOES decode VP9/webm.
 
-## Fetching big files the proxy blocks (e.g. the Dropbox video master)
+## Dropbox — just download it (unblocked 2026-08-15)
+Nick allowlisted `www.dropbox.com`, `*.dropboxusercontent.com`, `api.dropboxapi.com` and
+`content.dropboxapi.com` in the environment's egress policy. Dropbox bytes now come
+straight down at ~35 MB/s. Everything that used to be needed to work around the block is
+DEAD: no public share links, no `st=` tokens, no "Anyone with the link" folder settings,
+no GitHub Actions relay. Do not rebuild any of it.
+
+The way in is the Dropbox MCP's `download_link` (authenticated — works on ANY file in
+Nick's Dropbox with no sharing changes), then curl. `tools/dropbox-grab.py` wraps it:
+
+    python3 tools/dropbox-grab.py fetch --url "<download_url>" --out F --size N
+    python3 tools/dropbox-grab.py push  --file F --url "<presigned PUT url>"
+    python3 tools/dropbox-grab.py relay --url "<download_url>" --upload-url "<put url>" --size N
+
+Four traps, each of which cost real time on 2026-08-15:
+- **Never `curl --data-binary @file` to upload.** It buffers the whole file in RAM: fine on
+  a 69MB mp3, "out of memory" on a 6.6GB camera. Use `-T`, which streams.
+- **`download_link` URLs are single use**, burned by the FIRST request of any method — a
+  HEAD or Range preflight consumes them. Never probe one; mint a fresh link on failure.
+- **Verify byte size, never sha256.** Dropbox's `content_hash` is its own block algorithm
+  and never matches a sha256.
+- **~30GB writable disk.** Three 4K cameras are 26.7GB together, so one at a time, and
+  delete each after its upload confirms.
+
+Descript cannot fetch a Dropbox URL (it needs a genuinely public one), so the route into
+Descript is `import_media` with `content_type`+`file_size` → `upload_urls` → PUT the bytes.
+A failed upload still RESERVES the media name in the project, so a retry must use a new
+key — Episode 10's Dave angle is `davecam2` for exactly this reason. Report a dead upload
+with `report_upload_status` so the import job stops waiting on it.
+
+## Fetching big files the proxy blocks (non-Dropbox hosts only)
+NOT needed for Dropbox any more — see above. Still the pattern for any other blocked host.
 GitHub Actions relay: push an orphan temp branch with an on:push workflow (workflow_dispatch
 via API 404s unless the workflow exists on the DEFAULT branch — use on:push instead);
 the runner has open egress: curl the file, `split -b 45m` (GitHub hard-blocks >100MB
@@ -301,8 +334,9 @@ the 2026-08-05 oyster clip:
 
   Detect with `ffprobe -show_entries stream=color_transfer,color_primaries,pix_fmt`; a
   source reading `arib-std-b67` / `bt2020` / `yuv420p10le` needs the filter.
-  **`tools/stage-media.py` does NOT do this yet** — it converts with a bare `-pix_fmt
-  yuv420p`, so every HDR phone clip through it ships flat. Add the filter there.
+  **`tools/stage-media.py` handles this** as of commit `d578b8f` (`is_hdr()` + `TONEMAP`).
+  This note used to say it did not; that was stale and sent a session off to "fix" working
+  code. If you touch that converter, keep the tonemap branch.
 
 YouTube decides Shorts eligibility from the media itself — vertical and under 3 minutes is
 enough. There is no API flag and Post Bridge exposes no toggle, so "make it a Short" is a
@@ -323,6 +357,18 @@ GitHub Actions runner.
 - Site update = add `EPISODES[0]` (Spotify URL) + a `VIDEOS` entry (YouTube id) in build.py,
   rebuild, push. Both values now derive automatically from the two feeds above.
 
+## Cutting a whole episode — use the `podcast-episode` skill
+`.claude/skills/podcast-episode/` owns the end-to-end weekly cycle: Dropbox → Descript
+import and multicam sync, the full-episode cut, hook-first clips, staging, and scheduling
+the week in Post Bridge. It is committed (not personal) so the fired routine's clone gets
+it. Its `episodes/` folder is the running log — read the most recent entry before starting
+a new episode. The sections below are the individual mechanics it calls.
+
+**Descript can only import a Dropbox link that is genuinely public.** `create_shared_link`
+via MCP is hard-locked to `audience: no_one` and mints links with no `st=` token, and every
+such link 403s or returns an HTML preview page. Links copied from the Dropbox web UI carry
+`st=` and work. Keep the episode footage folder set to "Anyone with the link · Can view".
+
 ## Staging a new episode — DO THIS FIRST, every time
 `python3 tools/stage-episode.py <NN> <clips-dir> --transcripts <text-dir> --guest "..." --credential "..."`
 
@@ -341,8 +387,10 @@ Three things the script does NOT do, by design:
   and EPISODES needs the Spotify URL, which does not exist until the episode publishes.
 - **Write captions.** The routine does that at post time, from transcripts.md.
 
-Name corrections live in `NAME_FIXES` at the top of the script — ASR renders "Sabesan" as
-"Sebastian" and "Vani" as "Bonnie". Add new guests there rather than fixing by hand.
+Name corrections live in ONE place, `.claude/skills/podcast-episode/scripts/name_fixes.py`
+— ASR renders "Sabesan" as "Sebastian", "Vani" as "Bonnie" and "McVicker" as "McVicar".
+Both `stage-episode.py` and `ep9-bonus-spec.py` import it; the list used to be duplicated
+in each and the two drifted. Add new guests there rather than fixing by hand.
 
 Verify before the week starts: fetch playlist.txt off raw.githubusercontent, and range
 request one clip off the Vercel branch host. Both must return 200/206.
@@ -367,12 +415,12 @@ When Nick says post something, the only two things that ever block it are:
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
 
-**Prefer an attached file over a Dropbox link.** This sandbox is proxy blocked from Dropbox
-hosts: the Dropbox MCP tools work for browsing and metadata, but the bytes cannot be
-downloaded here. A file attached to the chat lands on disk immediately and skips a
-GitHub Actions relay that takes several minutes and has its own failure modes
-(`scl/fi` share links serve an HTML interstitial even with `dl=1`; runners have no ffmpeg
-preinstalled; the default GITHUB_TOKEN is read only).
+**A Dropbox link is fine now, and so is an attachment.** This note used to say Dropbox was
+proxy blocked and to insist on attachments; that stopped being true on 2026-08-15. Either
+works: an attached file lands on disk immediately, and anything in Nick's Dropbox comes
+down via `download_link` + `tools/dropbox-grab.py` at ~35 MB/s with no sharing changes.
+Do NOT ask him to make a link public — that request was always a workaround for the
+network block and is pure friction now.
 
 Standing preferences for a one off post, unless told otherwise:
 - Captions carry ZERO dashes outside the phone numbers. Bullets use •.
@@ -389,11 +437,12 @@ Standing preferences for a one off post, unless told otherwise:
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
   narrow slice of an already cropped face — visibly worse, do not do it.
 - **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
-- Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
-  better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
-  Episode 8 and 9 clip currently opens on an interviewer question or mid sentence on "But",
-  which is the single biggest thing holding their reach back. Not yet changed — flagged to
-  Nick 2026-08-03, no decision taken.
+- **Hook first, 15 to 25s — DECIDED 2026-08-14, starting Episode 10.** Open on the most
+  surprising sentence and cut the setup entirely. If a candidate's first six words are a
+  question, a conjunction or a pronoun with no referent, move the in point or drop it.
+  Clips ran 20 to 75 seconds through Episode 9, and every one of those opens on an
+  interviewer question or mid sentence on "But", which was the single biggest thing holding
+  their reach back. Flagged 2026-08-03, decided 2026-08-14.
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
 
@@ -429,6 +478,12 @@ into `master.chunk_NN` on a `tmp/` branch alongside `master.sha256`. Reassemble 
   re-renders it if needed.
 
 ## Recovering camera sync when the clip pipeline is gone
+This is now CODE, not just prose: `.claude/skills/podcast-episode/scripts/sync_offsets.py`
+(`extract` to mono 16kHz WAV, `measure` to cross correlate). Verified 2026-08-14 against a
+synthetic 83.15s offset — recovered +83.150s at two probes, SNR 916, spread 0.000s. It
+probes 30s windows rather than whole tracks; a long window averages over drift and blurs
+the peak. The narrative below is why it works.
+
 The Episode 9 clip pipeline (`pipeline/tighten23.py`) was never committed — only its
 `__pycache__` survives on `tmp/sabesan-out` — so cutting more clips meant re-deriving which
 raw camera is which and how each lines up with the transcript. The method is general and

@@ -27,33 +27,14 @@ import argparse, json, os, re, subprocess, sys, textwrap
 REPO = "https://github.com/nicholasbkashuba-lab/firstrehabnpb"
 
 # Automatic transcription mangles guest names, and a wrong credential on a real
-# physician is a genuine problem rather than a typo. Add corrections here as new
-# guests come up; they are applied to transcripts.md before it is committed.
-NAME_FIXES = [
-    (r"\bSebastian\b", "Sabesan"), (r"\bSabas(i|)an\b", "Sabesan"),
-    (r"\bVanny\b", "Vani"), (r"\bVonnie\b", "Vani"), (r"\bBonnie\b", "Vani"),
-    (r"\bnot less sutures\b", "knotless sutures"),
-    (r"\bsubscapularies\b", "subscapularis"),
-    # Episode 6.
-    (r"\bpoaching my son's baseball\b", "coaching my son's baseball"),
-    (r"\bdrive Weiner\b", "Dr. Weiner"), (r"\bAdls\b", "ADLs"),
-    # Episode 7. ASR heard "Elkhechen" four ways and "Rami" as "Romney".
-    (r"\b(?:El|Al)\s?Catch(?:ens|ins|in|en|es)?\b", "Elkhechen"),
-    (r"\bRomney\b", "Rami"), (r"\bNYU Lingo\b", "NYU Langone"),
-    (r"\bcounter ?sites\b", "chondrocytes"),
-    # Episode 10. ASR gave four spellings of one surgeon and four of his practice.
-    (r"\bMck?[vf]i(?:ck|g|k)er\b", "McVicker"),
-    (r"\bPaleorthopedic\b", "Paley Orthopedic"),
-    (r"\b(?:Pelley|Haley|Paleo|Pale)\b(?=\s*(?:Institute|Orthopedic|Ortho))", "Paley"),
-    (r"\bfemoral acetabular\b", "femoroacetabular"),
-    (r"\bastabulum\b", "acetabulum"), (r"\bpincer legion\b", "pincer lesion"),
-    (r"\bcaught on Aquina\b", "cauda equina"),
-    # "groin pain" is the episode's single most important phrase and ASR heard "growing".
-    (r"\bgrowing pain\b", "groin pain"),
-    (r"\bthe camp side\b", "the cam side"), (r"\bcue angle\b", "Q angle"),
-    (r"\bpublic's line\b", "Publix line"),
-    (r"\bPain[s]? (?:to|of) Power\b", "Pain 2 Power"), (r"\bFame to Power\b", "Pain 2 Power"),
-]
+# physician is a genuine problem rather than a typo. The corrections live in one
+# place so a fix made for one episode reaches every tool that touches a
+# transcript; this list used to be duplicated here and in ep9-bonus-spec.py, and
+# the two drifted. Add new guests to the skill's list, not here.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "..", ".claude", "skills", "podcast-episode",
+                                "scripts"))
+from name_fixes import NAME_FIXES  # noqa: E402
 
 
 def sh(cmd, cwd=None, check=True):
