@@ -2570,6 +2570,40 @@ BLOG_POSTS = {
 <p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>
 """,
     },
+    "why-sitting-hurts-your-joints": {
+        "title": "The Chair Is Working Against You",
+        "date": "August 2026",
+        "iso": "2026-08-17",
+        "tag": "Wellness",
+        "teaser": "Dr. Dave Kashuba on why sitting quietly undoes recovery, the ten minutes a day that fight it, and how our North Palm Beach wellness program keeps people moving after therapy ends.",
+        "body": """
+<p>You have probably sat down without thinking about it a dozen times today. Dr. Dave Kashuba, founder of First Rehabilitation, has spent decades watching that habit undo the very recovery his patients worked to build.</p>
+<p>On a recent episode of Pain 2 Power, he named the problem outright, and it was not a diagnosis or a piece of equipment. It was furniture.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The chair is working against you</h2>
+<p>As we age, the body tends to drift forward. Rounded shoulders, a head that leans ahead of the spine instead of stacking over it. Dave puts the blame on gravity first, and on one invention second. "That's just gravity, that's how life is," he said on the show. "And again, I tell everyone the invention of the chair is one of our demise."</p>
+<p>The goal is to break the habit of sitting as your default for most of the day, not to eliminate chairs. You were built with two legs to walk on, and the body notices when they go unused for most of a day. Forward head posture does not arrive overnight. It accumulates, one long meeting or one long drive at a time, until it is simply how someone stands.</p>
+<h2>The fix is smaller than you think</h2>
+<p>Dave's prescription takes minutes, not a new gym membership or an hour you do not have.</p>
+<p>"Just a little bit of exercises, ten, fifteen minutes a day," he said, "three minutes a day, and work your way up." His short list, repeated on air, comes down to a few habits most people can start today:</p>
+<ul>
+<li>Put the phone down and get up, even for a minute</li>
+<li>Practice sit-to-stands from a firm chair, a few at a time</li>
+<li>Walk every day, not just when you remember to</li>
+</ul>
+<p>None of it requires equipment. Blood flow improves, swelling eases, and the risks that come with a sedentary day start to fall. Ten minutes counts.</p>
+<h2>Bands, not bulk</h2>
+<p>The same episode covered what to do once you have graduated from formal therapy, and Dave's answer leaned on one cheap tool. He recommends therapy bands for shoulder rows, pulls, and extensions that offset the internal rotation most of us live in all day at a desk or behind a wheel. "You go onto our website and you can see the different exercises you could do," he said, pointing viewers toward the same routines his own patients get. You can start with the <a href="../exercises.html">home exercise library</a> he built and add to it as you go.</p>
+<p>He is direct about why he pushes this so hard. "I do everything I can to let people not ever come to see me," he said. Building a habit that outlasts the discharge date, in his telling, is the goal, not a lost appointment.</p>
+<h2>Who this is really for</h2>
+<p>It is not only the post-surgical patient counting down to discharge. It is the desk worker whose shoulders round forward by 3 PM, the retiree who walks the beach most mornings but sits the rest of the day, and the pickleball player who is active twice a week and sedentary the other five days. Dave's point applies to all three: the chair does not care what your reason for sitting was.</p>
+<h2>What comes after therapy ends</h2>
+<p>That is the gap our <a href="../services/wellness.html">on-site wellness and gym program</a> is built to close. Graduates of physical or occupational therapy, and community members who simply want expert-guided fitness, train in the same clinic, with a team that already knows their history. Senior functional fitness work focuses on balance, strength, and the kind of mobility that keeps a stumble from turning into a hospital visit. It runs alongside personal training, post-rehab exercise, and sports performance programming for people who are still active and competitive.</p>
+<p>We see wellness patients from across the county, including <a href="../locations/juno-beach.html">Juno Beach</a> and <a href="../locations/tequesta.html">Tequesta</a>, many of whom started as therapy patients and simply never wanted to stop moving forward.</p>
+<p>If sitting has quietly become your default, or you finished therapy and do not want to lose the ground you gained, we can help you build a plan around the ten minutes you actually have. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>. Read more in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>, or hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
 }
 
 def build_blog():
@@ -2637,6 +2671,7 @@ def build_blog():
             "headaches-that-start-in-the-neck": "Headache Treatment NPB: The Neck Link",
             "cartilage-transplant-knee-explained": "Cartilage Transplants vs. Knee Replacement",
             "reverse-shoulder-replacement-explained": "Reverse Shoulder Replacement Explained",
+            "why-sitting-hurts-your-joints": "Senior Functional Fitness North Palm Beach",
         }
         iso_date = p.get("iso") or _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
         post_schema = '<script type="application/ld+json">' + _json.dumps({
