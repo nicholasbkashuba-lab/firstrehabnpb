@@ -120,6 +120,24 @@ alone. If a future episode looks slightly soft at the very end, this is the knob
 - **Clips are hook-first, 15 to 25 seconds.** Settles the question CLAUDE.md carried open
   from 2026-08-03.
 
+## How the splice was worked around
+
+Descript cannot split a video track, so a camera can carry only one offset. That decided
+the whole edit:
+
+| Track | Source offset | Visible | Why |
+|---|---|---|---|
+| `mikecam` | 75.715 | 0 to 93.2s only | pre-splice value |
+| `mikecam_b` | 78.145 | after 93.2s only | second import of the SAME file, pinned post-splice |
+| `mckvickercam` | 68.290 | after 93.2s only | never on screen before it, so no split needed |
+| Script (`davecam2`) | 269.990 | after 93.2s | already post-splice |
+
+Importing Mike's camera a second time is what let him stay on screen after the intro. It
+cost a second 12.6GB upload and is the general answer whenever one camera is wanted on
+both sides of a splice.
+
+Final screen share: guest 48.2%, Dave 33.7%, Mike 18.2%.
+
 ## Still to do
 
 - FINAL 1080p composition, trimmed to the show start, filler removed, angles switched.
