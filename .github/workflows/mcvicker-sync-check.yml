@@ -1,0 +1,31 @@
+name: mcvicker-sync-check
+on:
+  push:
+    branches:
+      - tmp/mcvicker-sync-check
+jobs:
+  correlate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg
+          pip3 install numpy
+      - name: Extract master audio (first 20 min)
+        env:
+          MP3_URL: "https://uc8c25615bde207ed9d7b15773ec.dl.dropboxusercontent.com/cd/0/get/DGgLwEoWVxwtCyPhDzpGppCJTDHQ8aO1nP0Auak5x7GW8KEJrBrqpqckOW1AL5oXS7A6Wwb2u909059-HNxhZEPWhUjmMeeOUueBx6PhvlFk3l5bL5gYxV0-rOAKlF9_096cx0sAQQ2dOjiX0Glqq-Vs1_OBPXDkP6Ewvo5ZGBt8fw/file?c_luid=b636c39b"
+        run: |
+          ffmpeg -nostdin -y -i "$MP3_URL" -t 1200 -ar 8000 -ac 1 -acodec pcm_s16le master.wav
+      - name: Extract davecam audio (first 20 min)
+        env:
+          VIDEO_URL: "https://uc2b93ff9e81abe66ad118aecef4.dl.dropboxusercontent.com/cd/0/get/DGjDkAFzXyoHfqq3h_mazc64oJh7wHN8JKulevzli4alRQ-_OIpiIFaEur6hef6KNxaMQHUmGi4UbG85jlmQJlpufDsS0A9NJYOk1epIu9ZMe-428AooKKdrTbqGNgysg6I66PoYXBPtAPGKZzH9yxY6HDHDg2qOu59bu0GQB6YidA/file?c_luid=b636c39b"
+        run: |
+          ffmpeg -nostdin -y -i "$VIDEO_URL" -t 1200 -vn -ar 8000 -ac 1 -acodec pcm_s16le dave.wav
+      - name: Cross-correlate
+        run: python3 correlate.py
+      - name: Cleanup temp branches
+        if: always()
+        run: echo "done"
