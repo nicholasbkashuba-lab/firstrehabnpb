@@ -201,6 +201,7 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `physical-therapy-vs-occupational-therapy` | Occupational Therapy | difference between physical and occupational therapy |
 | `/exercises.html` (page, not a post) | All four | home exercises for knee / hip / shoulder pain |
 | `hip-impingement-back-pain-north-palm-beach` | Physical Therapy | hip impingement treatment North Palm Beach |
+| `pain-2-power-ep11-joyce` | Pain 2 Power (Ep 11) | Paul Joyce / peptides and GLP-1 muscle loss |
 | `pain-2-power-ep10-mcvicker` | Pain 2 Power (Ep 10) | Dr. Zach McVicker / hip surgeon Jupiter |
 | `reverse-shoulder-replacement-explained` | Physical Therapy | reverse shoulder replacement recovery |
 | `what-to-expect-first-pt-visit` | Physical Therapy | what to expect at your first physical therapy visit |
@@ -209,6 +210,12 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `knee-arthritis-before-surgery` | Physical Therapy | knee arthritis treatment before surgery |
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
+
+**Ep 11 note (2026-08-22):** the Paul Joyce recap is a Pain 2 Power post, not a Wellness pillar post,
+so the Wellness hole below is still open. The transcript does hold a real Wellness pillar angle that
+nothing on the site covers yet: keeping muscle and strength while losing weight on a GLP-1, built on
+Dave's "it's going to make you better, but it's not gonna make you healthier" and Paul's "you lose a
+lot of muscle". Awaiting owner sign-off on the angle before it is written.
 
 **Holes as of 2026-08-15, end of day:** Occupational Therapy now has one post. **Wellness still has
 zero**, and it is the only pillar with none, so it is the next thing to write. Two Wellness posts

@@ -1542,6 +1542,7 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
+    ("Episode 11", "Paul Joyce", "&ldquo;You definitely have to make sure you&rsquo;re getting enough protein.&rdquo; Peptides, GLP-1s and hormone replacement therapy are on everyone&rsquo;s lips and understood by almost nobody, so Dave and Mike brought in Paul Joyce of New Life HRT, a friend of Dave&rsquo;s for 22 years and the man a lot of doctors quietly learn these protocols from before they offer them themselves. He explains what a peptide actually is (a short chain of amino acids, usually under 50, of which he counts around 150), where the GLP-1 medicines came from (a gut hormone your body already makes, and the Gila monster version of it that stays around long enough to keep working), and why he began prescribing Ozempic off label for weight loss back in 2017, before the rest of the country caught on. The part that matters most to a rehab clinic is what the weight takes with it. &ldquo;Yeah, you lose a lot of muscle,&rdquo; he says, and he is talking about himself as much as his patients: he started at 209 pounds, weighs 153 now, and says he took it too far. Dave&rsquo;s warning is the one to write down, that people who are not monitored start looking frail, and that the shot will make you better without making you healthier unless the protein and the strength work come with it. They also get into the counterfeit peptide trade, where Paul had six research only websites tested and all six came back with major flaws, from heavy metals to bacteria to a vial sold as retatrutide that turned out to be underdosed semaglutide, plus the fabricated certificates of analysis he was called to testify about in Atlanta.<br><br>Paul Joyce runs New Life HRT, where physicians go to be trained on peptide and hormone replacement protocols. He is also, as of this episode, one of Dave&rsquo;s patients: he has a completely torn rotator cuff, cancelled the shoulder replacement he had scheduled, and explains on air why he is rehabbing it instead.", "https://open.spotify.com/episode/1HXEy4xcDFRk40hwbdQrD5", "Listen"),
     ("Episode 10", "Dr. Zach McVicker, MD", "&ldquo;A lot of times it&rsquo;s causing the back pain, it&rsquo;s causing the groin pain.&rdquo; Plenty of people arrive certain their problem is their back, and the hip turns out to be the thing driving it. Orthopedic surgeon Dr. Zach McVicker joins Dave and Mike to explain femoroacetabular impingement in plain English: the two shapes it comes in, the cam lesion where the ball is misshapen (&ldquo;instead of being round, it&rsquo;s more like an oval peg in a round hole&rdquo;) and the pincer lesion where the socket covers too much of it, which skews female and is the harder of the two to repair. The labrum, he explains, works like a gasket between two pipes, creating the suction seal that spreads your weight across the whole dome of the joint; lose the seal and the cartilage starts taking pressure it was never meant to take. They get into hip dysplasia, the opposite problem, where an underdeveloped socket edge-loads the cartilage and ends in arthritis; who tends to get it, from gymnasts and dancers to marathon runners to the seventy-year-olds playing tennis six days a week down here; and why arthroscopic repair, done early, keeps the hip you were born with along with the proprioception a replacement cannot give back. Dave walks through the home program he actually hands patients for a weak gluteus medius, including sit-to-stands with a band above the knees to stop the asymmetrical weight shift, and makes his usual case for doing your homework before you choose a surgeon rather than taking advice from the Publix line.<br><br>Dr. McVicker is board certified by the American Board of Orthopaedic Surgery and fellowship trained in sports medicine at the Cedars Sinai Kerlan Jobe Institute in Los Angeles. He practices with the Paley Orthopedic and Spine Institute in Jupiter and West Palm Beach, focusing on minimally invasive arthroscopic surgery of the hip, knee, shoulder and elbow, and has served as assistant team physician for the Miami Marlins and the Jupiter Hammerheads.", "https://open.spotify.com/episode/6gVRS8Cmqd0263HdZfc37L", "Listen"),
     ("Episode 9", "Dr. Vani Sabesan, MD", "&ldquo;We&rsquo;re really good at fixing rotator cuffs. We&rsquo;re not great at getting them to heal.&rdquo; Orthopaedic shoulder surgeon Dr. Vani Sabesan — the Florida Orthopaedic Society&rsquo;s first female president — joins Dave and Mike for an unusually candid hour about the limits of surgery. Roughly 17 million people have a rotator cuff problem, and past 60 it is closer to one in three, so the interesting question is not whether a repair can be done but whether the body will knit it back together. Hence her interest in muscle sparing technique and in biologic scaffolds, and her impatience with six weeks in a sling. She is equally blunt about the technology arms race: robots in shoulder and joint surgery are a great marketing tool, but the science has not shown them to be the next panacea. Along the way — why she switched to knotless sutures fourteen years ago when it was still heresy, why &ldquo;ninety is the new seventy&rdquo; in Palm Beach, the sixty-year-olds playing competitive pickleball six days a week who just want to be shot up so they can keep going, and the ninety-year-old who still trains six days a week. She has also run 28 marathons herself.", "https://open.spotify.com/episode/5yOVCx7EDEQ6IybU1C6u7i", "Listen"),
     ("Episode 8", "Dr. Ryan Simovitch", "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Orthopedic shoulder surgeon Dr. Ryan Simovitch joins Dave and Mike to explain reverse total shoulder replacement in plain English: why the rotator cuff decides which replacement you get, and how reversing the ball and socket restores stability when the cuff can no longer provide it. They also dig into the &ldquo;constant warrior&rdquo; problem — the play-every-day crowd who train with no moderation and no preparation until something tears — plus the simple at-home shoulder routine Dave gives patients (wall slides, cross-body stretches, shoulder shrugs, and scapular retractions), the Duke anatomy class that pulled Dr. Simovitch into medicine, and why doing your own research beats taking a recommendation from the water cooler.", "https://open.spotify.com/episode/0iMqbfPeqCYGfoZKbHicdb", "Listen"),
@@ -1686,6 +1687,7 @@ def build_exercises():
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
+    "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
     "Episode 7": "cartilage-transplant-knee-explained",      # Dr. Rami Elkhechen
@@ -2271,6 +2273,35 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "pain-2-power-ep11-joyce": {
+        "title": "The Muscle Comes Off Too: Paul Joyce on GLP-1s and Peptides",
+        "date": "August 2026",
+        "iso": "2026-08-22",
+        "tag": "Pain 2 Power",
+        "teaser": "Paul Joyce of New Life HRT joins Dave and Mike on peptides, GLP-1s and hormone therapy, why the weight takes muscle with it, and what six lab tests found.",
+        "body": """
+<p>Paul Joyce has a completely torn rotator cuff and no plans to have it repaired. He plays golf most days, and the swing itself does not bother him. What used to be excruciating was turning the steering wheel on the drive over.</p>
+<p>He had a shoulder replacement on the schedule and cancelled it. Now he comes to Dave instead. That is how this week&rsquo;s Pain 2 Power opened, before turning into an hour on peptides, GLP-1s and hormone replacement therapy with the man a lot of doctors quietly learn this material from.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>What a peptide actually is</h2>
+<p>Mike started where these conversations should start and almost never do. What is a peptide? Paul Joyce, who runs New Life HRT, gave the short version. &ldquo;A peptide is a chain of amino acids. A short chain of amino acids, usually under 50, that are bound together,&rdquo; he said. They carry messages about repairing injury, losing weight, and mood, and he counts around 150 of them.</p>
+<p>Dave filled in where the weight loss drugs came from. GLP-1 stands for glucagon like peptide, which your gut already makes, though your own clears too fast to do much. The version in the medications was modeled on a compound found in the Gila monster, which stays in the body long enough to keep working. And no, Paul confirmed, you are not injecting lizard venom. He gets asked constantly.</p>
+<h2>The weight comes off with muscle attached</h2>
+<p>Here is the stretch that walks straight into our gym. Dave sees people well into a course of a GLP-1 who have lost the weight and started to look frail, because nothing else about how they eat or train has changed. &ldquo;It&rsquo;s going to make you better, but it&rsquo;s not gonna make you healthier if you don&rsquo;t do something more with it,&rdquo; he said.</p>
+<p>Paul agreed flatly. &ldquo;You definitely have to make sure you&rsquo;re getting enough protein,&rdquo; he said, and when Dave asked whether the loss includes muscle, the answer was &ldquo;Yeah, you lose a lot of muscle.&rdquo; He was describing himself as much as his patients. He started at 209 pounds, weighs 153 now, and says he took it too far. He stopped about a month before the show and his appetite is still catching up.</p>
+<p>Lean mass matters more the older you are. Strength is what gets you off a low couch, up a curb, and back onto your feet after a stumble. Lose enough and a trip that used to be nothing becomes a fall. Holding onto it while the scale moves is ordinary work, resistance training and protein, and the first half of that is what our <a href="../services/wellness.html">wellness gym</a> and <a href="../services/physical-therapy.html">physical therapy</a> teams do all day.</p>
+<h2>Six websites, six sets of problems</h2>
+<p>The most useful part of the episode was about where people buy this stuff. Search for a peptide online and you will find it sold cheap, labeled not for human consumption, for research purposes only. Paul had six of those sites tested.</p>
+<p>All six came back with flaws he called major. Heavy metals in some. One carried a low level of bacteria. One was sold as retatrutide and turned out to be underdosed semaglutide, a different drug altogether. He has since served as an expert witness in an Atlanta case against a company using a fabricated certificate of analysis, the document these sellers hold up to look legitimate and, he says, often just invent.</p>
+<p>The regulated end of the supply chain looks different. Everything he uses comes from a 503A or 503B compounding pharmacy, FDA inspected and DEA licensed. Of every thousand vials produced, a hundred go to an independent lab for sterility and potency testing.</p>
+<h2>Three weeks without pain, still no strength</h2>
+<p>Back to that shoulder. Paul started BPC-157 while the surgery was still on the calendar, and within about three weeks, on his account, the pain was gone. The strength did not come with it. &ldquo;But I&rsquo;m still weak. I have no strength in my shoulder,&rdquo; he said. &ldquo;I can&rsquo;t even lift my arm up some ways. But there&rsquo;s no pain anymore.&rdquo;</p>
+<p>We meet that gap every week. A cuff that is fully torn does not knit itself back together because it stopped hurting, so pain leaving is the moment to start rehab rather than skip it. Paul took the first road. &ldquo;So I started going to Dave, and it&rsquo;s been a Godsend,&rdquo; he said. &ldquo;My shoulder is, like, a lot better.&rdquo; The work is range of motion plus the muscles around a tear that will not close on its own, which is most of what <a href="../treatments/shoulder-pain.html">shoulder rehab</a> looks like when surgery is off the table.</p>
+<p>One thing worth saying plainly. BPC-157 is not FDA approved, Paul said so himself on air, and we do not prescribe, sell or advise on any of it. Peptides and hormone replacement belong in a conversation with a physician who runs your bloodwork. What comes after, the strength and the movement, is ours.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch past episodes in our <a href="../videos.html">video library</a>, and see what patients ask us most in the <a href="../faq.html#physical-therapy">physical therapy FAQ</a>. If you are dropping weight and want to keep the strength, or your shoulder hurts less than it did and still cannot do what you need, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "partial-vs-total-knee-replacement": {
         "title": "Partial vs Total Knee Replacement: The Option Most People Never Hear About",
         "date": "August 2026",
@@ -2654,6 +2685,7 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "pain-2-power-ep11-joyce": "Paul Joyce: GLP-1s, Peptides and Muscle Loss",
             "partial-vs-total-knee-replacement": "Partial vs Total Knee Replacement",
             "physical-therapy-vs-occupational-therapy": "Physical Therapy vs Occupational Therapy",
             "pain-2-power-ep10-mcvicker": "Dr. Zach McVicker: Hip Pain vs Back Pain",
@@ -2988,6 +3020,13 @@ def build_first_visit():
 # fake empty state. Thumbnails come from YouTube's CDN; players are click-to-load
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
+    {
+        "id": "wdcHPvySKHk",
+        "ep": "Episode 10",
+        "title": "What&rsquo;s Really Causing Your Hip Pain?",
+        "guest": "Dr. Zach McVicker, MD",
+        "teaser": "Plenty of people arrive certain the problem is their back, and the hip turns out to be driving it. Orthopedic surgeon Dr. Zach McVicker explains hip impingement in plain English, the cam and pincer shapes it comes in, why the labrum works like a gasket between two pipes, and why an early arthroscopic repair keeps the hip you were born with.",
+    },
     {
         "id": "h_sNZv2q65E",
         "ep": "Episode 9",
