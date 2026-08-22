@@ -2993,6 +2993,13 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        "id": "wdcHPvySKHk",
+        "ep": "Episode 10",
+        "title": "What&rsquo;s Really Causing Your Hip Pain?",
+        "guest": "Dr. Zach McVicker, MD",
+        "teaser": "Plenty of people arrive certain the problem is their back, and the hip turns out to be driving it. Orthopedic surgeon Dr. Zach McVicker explains hip impingement in plain English, the cam and pincer shapes it comes in, why the labrum works like a gasket between two pipes, and why an early arthroscopic repair keeps the hip you were born with.",
+    },
+    {
         "id": "h_sNZv2q65E",
         "ep": "Episode 9",
         "title": "Shoulder Replacement, Muscle Sparing Surgery &amp; Why Robots Are Marketing",
