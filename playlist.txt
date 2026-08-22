@@ -3,13 +3,17 @@
 # gone out. Anything not listed here is never posted.
 # Edit freely: reorder lines to change priority, delete a line to pull a clip.
 #
-# 01 leads because the "oval peg in a round hole" line is the single most
-# visual, most quotable explanation in the episode and needs no setup.
-# 02 (the gasket) and 03 (100% arthritis) are the next strongest standalone
-# medical explainers. 04 (proprioception) and 05 (Dave's belt buckle tip)
-# close the week with the surgery-vs-therapy tradeoff and a practical takeaway.
+# 7 clips for 7 slots (Sat + Sun-Fri, or Sun-Sat if the week starts Sunday).
+# 01 leads because "oval peg in a round hole" is the single most visual,
+# most quotable line in the episode and needs no setup. 02 and 03 are the
+# next strongest standalone medical explainers. 06 (the patient story) is a
+# deliberate change of pace, emotional rather than clinical, placed mid-week.
+# 04 and 07 close with the surgery tradeoff and Dave's water-cooler line.
+# 05 is a practical, shareable one-off and can slot anywhere.
 01-oval-peg.mp4
 02-gasket.mp4
 03-arthritis-100.mp4
-04-proprioception.mp4
+06-patient-story.mp4
 05-belt-buckle.mp4
+04-proprioception.mp4
+07-water-cooler.mp4
