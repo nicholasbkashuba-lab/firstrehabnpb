@@ -1,0 +1,15 @@
+# Posting order for Episode 10 clips (Dr. Zach McVicker), strongest first.
+# The daily routine posts the first clip in this list that has not already
+# gone out. Anything not listed here is never posted.
+# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+#
+# 01 leads because the "oval peg in a round hole" line is the single most
+# visual, most quotable explanation in the episode and needs no setup.
+# 02 (the gasket) and 03 (100% arthritis) are the next strongest standalone
+# medical explainers. 04 (proprioception) and 05 (Dave's belt buckle tip)
+# close the week with the surgery-vs-therapy tradeoff and a practical takeaway.
+01-oval-peg.mp4
+02-gasket.mp4
+03-arthritis-100.mp4
+04-proprioception.mp4
+05-belt-buckle.mp4
