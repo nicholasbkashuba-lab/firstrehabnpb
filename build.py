@@ -912,6 +912,22 @@ def build_services():
             )
             svc_cond_links = f'<p class="related-links reveal"><strong>Conditions we treat with {s["title"].lower()}:</strong> {links}</p>'
 
+        # Service page -> the blog posts that explain it. Same reasoning as
+        # COND_BLOG on the condition pages: without these, posts like the
+        # PT-vs-OT explainer had one inbound link in the whole site.
+        SVC_BLOG = {
+            "physical-therapy": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit"],
+            "occupational-therapy": ["physical-therapy-vs-occupational-therapy", "why-hand-therapy-is-different"],
+            "hand-therapy": ["why-hand-therapy-is-different"],
+            "wellness": ["pain-2-power-ep11-joyce"],
+        }
+        _sposts = [b for b in SVC_BLOG.get(slug, []) if b in BLOG_POSTS]
+        svc_blog_links = ""
+        if _sposts:
+            _slinks = " &middot; ".join(
+                f'<a href="../blog/{b}.html">{BLOG_POSTS[b]["title"]}</a>' for b in _sposts)
+            svc_blog_links = f'<p class="related-links reveal"><strong>From the blog:</strong> {_slinks}</p>'
+
         # Cross-link to this service's category on the filterable FAQ page
         faq_cat = {"physical-therapy": "physical-therapy", "occupational-therapy": "occupational-therapy",
                    "hand-therapy": "hand-therapy", "wellness": "wellness-gym"}[slug]
@@ -958,6 +974,7 @@ def build_services():
     </div>
     <div class="svc-feature-grid">{items}</div>
     {svc_cond_links}
+    {svc_blog_links}
   </div>
 </section>
 {cht_callout}
@@ -1151,12 +1168,27 @@ def build_conditions():
                "workers-comp": ("occupational-therapy", "Occupational Therapy"),
                "post-surgical": ("physical-therapy", "Physical Therapy")}
     for slug, c in CONDITIONS.items():
-        COND_BLOG = {"knee-pain": ("knee-arthritis-before-surgery", "Knee Pain: What to Try Before You Think About Surgery"),
-                     "back-pain": ("five-morning-habits-back-pain", "Five Morning Habits That Ease Back Pain"),
-                     "hand-wrist": ("why-hand-therapy-is-different", "Why Hand Therapy Is Its Own Specialty")}
-        if slug in COND_BLOG:
-            _bslug, _btitle = COND_BLOG[slug]
-            blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="crumbs" style="margin:0;">From the blog: <a href="../blog/{_bslug}.html">{_btitle}</a></p></div></section>'
+        # Condition page -> the blog posts that go deeper on it. Several posts had
+        # exactly one inbound link (their card on blog/index.html) until these
+        # were added; a condition page is the natural, topical place to link them.
+        # Condition page -> the blog posts that go deeper on it. Several posts had
+        # exactly one inbound link (their card on blog/index.html) until these
+        # were added; a condition page is the natural, topical place to link them.
+        # Slugs only — link text comes from BLOG_POSTS so titles never drift.
+        COND_BLOG = {
+            "knee-pain": ["knee-arthritis-before-surgery", "partial-vs-total-knee-replacement"],
+            "back-pain": ["five-morning-habits-back-pain", "hip-impingement-back-pain-north-palm-beach"],
+            "hand-wrist": ["why-hand-therapy-is-different"],
+            "hip-pain": ["hip-impingement-back-pain-north-palm-beach", "pain-2-power-ep10-mcvicker"],
+            "neck-pain": ["headaches-that-start-in-the-neck"],
+            "headache-relief": ["headaches-that-start-in-the-neck"],
+            "post-surgical": ["partial-vs-total-knee-replacement", "reverse-shoulder-replacement-explained"],
+        }
+        _posts = [b for b in COND_BLOG.get(slug, []) if b in BLOG_POSTS]
+        if _posts:
+            _links = " &middot; ".join(
+                f'<a href="../blog/{b}.html">{BLOG_POSTS[b]["title"]}</a>' for b in _posts)
+            blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="crumbs" style="margin:0;">From the blog: {_links}</p></div></section>'
         else:
             blog_link = ""
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
@@ -1542,11 +1574,11 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
-    ("Episode 11", "Paul Joyce", "&ldquo;You definitely have to make sure you&rsquo;re getting enough protein.&rdquo; Peptides, GLP-1s and hormone replacement therapy are on everyone&rsquo;s lips and understood by almost nobody, so Dave and Mike brought in Paul Joyce of New Life HRT, a friend of Dave&rsquo;s for 22 years and the man a lot of doctors quietly learn these protocols from before they offer them themselves. He explains what a peptide actually is (a short chain of amino acids, usually under 50, of which he counts around 150), where the GLP-1 medicines came from (a gut hormone your body already makes, and the Gila monster version of it that stays around long enough to keep working), and why he began prescribing Ozempic off label for weight loss back in 2017, before the rest of the country caught on. The part that matters most to a rehab clinic is what the weight takes with it. &ldquo;Yeah, you lose a lot of muscle,&rdquo; he says, and he is talking about himself as much as his patients: he started at 209 pounds, weighs 153 now, and says he took it too far. Dave&rsquo;s warning is the one to write down, that people who are not monitored start looking frail, and that the shot will make you better without making you healthier unless the protein and the strength work come with it. They also get into the counterfeit peptide trade, where Paul had six research only websites tested and all six came back with major flaws, from heavy metals to bacteria to a vial sold as retatrutide that turned out to be underdosed semaglutide, plus the fabricated certificates of analysis he was called to testify about in Atlanta.<br><br>Paul Joyce runs New Life HRT, where physicians go to be trained on peptide and hormone replacement protocols. He is also, as of this episode, one of Dave&rsquo;s patients: he has a completely torn rotator cuff, cancelled the shoulder replacement he had scheduled, and explains on air why he is rehabbing it instead.", "https://open.spotify.com/episode/1HXEy4xcDFRk40hwbdQrD5", "Listen"),
-    ("Episode 10", "Dr. Zach McVicker, MD", "&ldquo;A lot of times it&rsquo;s causing the back pain, it&rsquo;s causing the groin pain.&rdquo; Plenty of people arrive certain their problem is their back, and the hip turns out to be the thing driving it. Orthopedic surgeon Dr. Zach McVicker joins Dave and Mike to explain femoroacetabular impingement in plain English: the two shapes it comes in, the cam lesion where the ball is misshapen (&ldquo;instead of being round, it&rsquo;s more like an oval peg in a round hole&rdquo;) and the pincer lesion where the socket covers too much of it, which skews female and is the harder of the two to repair. The labrum, he explains, works like a gasket between two pipes, creating the suction seal that spreads your weight across the whole dome of the joint; lose the seal and the cartilage starts taking pressure it was never meant to take. They get into hip dysplasia, the opposite problem, where an underdeveloped socket edge-loads the cartilage and ends in arthritis; who tends to get it, from gymnasts and dancers to marathon runners to the seventy-year-olds playing tennis six days a week down here; and why arthroscopic repair, done early, keeps the hip you were born with along with the proprioception a replacement cannot give back. Dave walks through the home program he actually hands patients for a weak gluteus medius, including sit-to-stands with a band above the knees to stop the asymmetrical weight shift, and makes his usual case for doing your homework before you choose a surgeon rather than taking advice from the Publix line.<br><br>Dr. McVicker is board certified by the American Board of Orthopaedic Surgery and fellowship trained in sports medicine at the Cedars Sinai Kerlan Jobe Institute in Los Angeles. He practices with the Paley Orthopedic and Spine Institute in Jupiter and West Palm Beach, focusing on minimally invasive arthroscopic surgery of the hip, knee, shoulder and elbow, and has served as assistant team physician for the Miami Marlins and the Jupiter Hammerheads.", "https://open.spotify.com/episode/6gVRS8Cmqd0263HdZfc37L", "Listen"),
-    ("Episode 9", "Dr. Vani Sabesan, MD", "&ldquo;We&rsquo;re really good at fixing rotator cuffs. We&rsquo;re not great at getting them to heal.&rdquo; Orthopaedic shoulder surgeon Dr. Vani Sabesan — the Florida Orthopaedic Society&rsquo;s first female president — joins Dave and Mike for an unusually candid hour about the limits of surgery. Roughly 17 million people have a rotator cuff problem, and past 60 it is closer to one in three, so the interesting question is not whether a repair can be done but whether the body will knit it back together. Hence her interest in muscle sparing technique and in biologic scaffolds, and her impatience with six weeks in a sling. She is equally blunt about the technology arms race: robots in shoulder and joint surgery are a great marketing tool, but the science has not shown them to be the next panacea. Along the way — why she switched to knotless sutures fourteen years ago when it was still heresy, why &ldquo;ninety is the new seventy&rdquo; in Palm Beach, the sixty-year-olds playing competitive pickleball six days a week who just want to be shot up so they can keep going, and the ninety-year-old who still trains six days a week. She has also run 28 marathons herself.", "https://open.spotify.com/episode/5yOVCx7EDEQ6IybU1C6u7i", "Listen"),
-    ("Episode 8", "Dr. Ryan Simovitch", "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Orthopedic shoulder surgeon Dr. Ryan Simovitch joins Dave and Mike to explain reverse total shoulder replacement in plain English: why the rotator cuff decides which replacement you get, and how reversing the ball and socket restores stability when the cuff can no longer provide it. They also dig into the &ldquo;constant warrior&rdquo; problem — the play-every-day crowd who train with no moderation and no preparation until something tears — plus the simple at-home shoulder routine Dave gives patients (wall slides, cross-body stretches, shoulder shrugs, and scapular retractions), the Duke anatomy class that pulled Dr. Simovitch into medicine, and why doing your own research beats taking a recommendation from the water cooler.", "https://open.spotify.com/episode/0iMqbfPeqCYGfoZKbHicdb", "Listen"),
-    ("Episode 7", "Dr. Rami Elkhechen, M.D.", "Orthopedic surgery isn't always the answer — and knowing when it is may be the most important call a surgeon makes. Dr. Rami Elkhechen, M.D., a board-certified, fellowship-trained sports medicine orthopedic surgeon with Orthopaedic Care Specialists in North Palm Beach, joins Dave and Mike to dig into exactly that. Trained at NYU School of Medicine with a sports medicine fellowship at New Orleans' Ochsner Sports Medicine Institute — and a former assistant team physician for the Saints and Pelicans — he treats everyone from weekend athletes to trauma patients, with a focus on hip arthroscopy, shoulder surgery, cartilage preservation, and orthobiologics. Together they unpack what actually separates a surgical candidate from someone better served by conservative care, why rehab so often decides the outcome, and how patients can take a more active role in their own recovery.", "https://open.spotify.com/episode/1cVdymVweFWtoIRropqKQ7", "Listen"),
+    ("Episode 11", "Paul Joyce", "&ldquo;You definitely have to make sure you&rsquo;re getting enough protein.&rdquo; Peptides, GLP-1s and hormone replacement therapy are on everyone&rsquo;s lips and understood by almost nobody, so Dave and Mike brought in Paul Joyce of New Life HRT, a friend of Dave&rsquo;s for 22 years and the man a lot of doctors quietly learn these protocols from before they offer them themselves. <br><br>He explains what a peptide actually is (a short chain of amino acids, usually under 50, of which he counts around 150), where the GLP-1 medicines came from (a gut hormone your body already makes, and the Gila monster version of it that stays around long enough to keep working), and why he began prescribing Ozempic off label for weight loss back in 2017, before the rest of the country caught on. <br><br>The part that matters most to a rehab clinic is what the weight takes with it. &ldquo;Yeah, you lose a lot of muscle,&rdquo; he says, and he is talking about himself as much as his patients: he started at 209 pounds, weighs 153 now, and says he took it too far. <br><br>Dave&rsquo;s warning is the one to write down, that people who are not monitored start looking frail, and that the shot will make you better without making you healthier unless the protein and the strength work come with it. <br><br>They also get into the counterfeit peptide trade, where Paul had six research only websites tested and all six came back with major flaws, from heavy metals to bacteria to a vial sold as retatrutide that turned out to be underdosed semaglutide, plus the fabricated certificates of analysis he was called to testify about in Atlanta.<br><br>Paul Joyce runs New Life HRT, where physicians go to be trained on peptide and hormone replacement protocols. He is also, as of this episode, one of Dave&rsquo;s patients: he has a completely torn rotator cuff, cancelled the shoulder replacement he had scheduled, and explains on air why he is rehabbing it instead.", "https://open.spotify.com/episode/1HXEy4xcDFRk40hwbdQrD5", "Listen"),
+    ("Episode 10", "Dr. Zach McVicker, MD", "&ldquo;A lot of times it&rsquo;s causing the back pain, it&rsquo;s causing the groin pain.&rdquo; Plenty of people arrive certain their problem is their back, and the hip turns out to be the thing driving it. <br><br>Orthopedic surgeon Dr. Zach McVicker joins Dave and Mike to explain femoroacetabular impingement in plain English: the two shapes it comes in, the cam lesion where the ball is misshapen (&ldquo;instead of being round, it&rsquo;s more like an oval peg in a round hole&rdquo;) and the pincer lesion where the socket covers too much of it, which skews female and is the harder of the two to repair. <br><br>The labrum, he explains, works like a gasket between two pipes, creating the suction seal that spreads your weight across the whole dome of the joint; lose the seal and the cartilage starts taking pressure it was never meant to take. <br><br>They get into hip dysplasia, the opposite problem, where an underdeveloped socket edge-loads the cartilage and ends in arthritis; who tends to get it, from gymnasts and dancers to marathon runners to the seventy-year-olds playing tennis six days a week down here; and why arthroscopic repair, done early, keeps the hip you were born with along with the proprioception a replacement cannot give back. <br><br>Dave walks through the home program he actually hands patients for a weak gluteus medius, including sit-to-stands with a band above the knees to stop the asymmetrical weight shift, and makes his usual case for doing your homework before you choose a surgeon rather than taking advice from the Publix line.<br><br>Dr. McVicker is board certified by the American Board of Orthopaedic Surgery and fellowship trained in sports medicine at the Cedars Sinai Kerlan Jobe Institute in Los Angeles. He practices with the Paley Orthopedic and Spine Institute in Jupiter and West Palm Beach, focusing on minimally invasive arthroscopic surgery of the hip, knee, shoulder and elbow, and has served as assistant team physician for the Miami Marlins and the Jupiter Hammerheads.", "https://open.spotify.com/episode/6gVRS8Cmqd0263HdZfc37L", "Listen"),
+    ("Episode 9", "Dr. Vani Sabesan, MD", "&ldquo;We&rsquo;re really good at fixing rotator cuffs. We&rsquo;re not great at getting them to heal.&rdquo; Orthopaedic shoulder surgeon Dr. Vani Sabesan — the Florida Orthopaedic Society&rsquo;s first female president — joins Dave and Mike for an unusually candid hour about the limits of surgery. <br><br>Roughly 17 million people have a rotator cuff problem, and past 60 it is closer to one in three, so the interesting question is not whether a repair can be done but whether the body will knit it back together. Hence her interest in muscle sparing technique and in biologic scaffolds, and her impatience with six weeks in a sling. <br><br>She is equally blunt about the technology arms race: robots in shoulder and joint surgery are a great marketing tool, but the science has not shown them to be the next panacea. <br><br>Along the way — why she switched to knotless sutures fourteen years ago when it was still heresy, why &ldquo;ninety is the new seventy&rdquo; in Palm Beach, the sixty-year-olds playing competitive pickleball six days a week who just want to be shot up so they can keep going, and the ninety-year-old who still trains six days a week. She has also run 28 marathons herself.", "https://open.spotify.com/episode/5yOVCx7EDEQ6IybU1C6u7i", "Listen"),
+    ("Episode 8", "Dr. Ryan Simovitch", "The shoulder is the most mobile joint in the body — and that mobility is exactly why it breaks down. Orthopedic shoulder surgeon Dr. Ryan Simovitch joins Dave and Mike to explain reverse total shoulder replacement in plain English: why the rotator cuff decides which replacement you get, and how reversing the ball and socket restores stability when the cuff can no longer provide it. <br><br>They also dig into the &ldquo;constant warrior&rdquo; problem — the play-every-day crowd who train with no moderation and no preparation until something tears — plus the simple at-home shoulder routine Dave gives patients (wall slides, cross-body stretches, shoulder shrugs, and scapular retractions), the Duke anatomy class that pulled Dr. Simovitch into medicine, and why doing your own research beats taking a recommendation from the water cooler.", "https://open.spotify.com/episode/0iMqbfPeqCYGfoZKbHicdb", "Listen"),
+    ("Episode 7", "Dr. Rami Elkhechen, M.D.", "Orthopedic surgery isn't always the answer — and knowing when it is may be the most important call a surgeon makes. Dr. Rami Elkhechen, M.D., a board-certified, fellowship-trained sports medicine orthopedic surgeon with Orthopaedic Care Specialists in North Palm Beach, joins Dave and Mike to dig into exactly that. <br><br>Trained at NYU School of Medicine with a sports medicine fellowship at New Orleans' Ochsner Sports Medicine Institute — and a former assistant team physician for the Saints and Pelicans — he treats everyone from weekend athletes to trauma patients, with a focus on hip arthroscopy, shoulder surgery, cartilage preservation, and orthobiologics. <br><br>Together they unpack what actually separates a surgical candidate from someone better served by conservative care, why rehab so often decides the outcome, and how patients can take a more active role in their own recovery.", "https://open.spotify.com/episode/1cVdymVweFWtoIRropqKQ7", "Listen"),
     ("Episode 6", "Dr. Richard Weiner, M.D.", "World-renowned orthopedic surgeon Dr. Richard Weiner joins Dave and Mike for a candid conversation about joint replacement, staying active as you age, and what it really takes to get patients moving pain-free again. With more than 35 years in practice and thousands of hip and knee replacements to his name, Dr. Weiner brings a uniquely technical eye to orthopedic care — shaped by his training in both engineering and medicine at the University of Pennsylvania. A must-listen for anyone considering surgery or determined to avoid it.", "https://open.spotify.com/episode/6zhOBEvVnxwH7PvmRAu52e", "Listen"),
     ("Episode 5", "Logan Van Sant, DPT", "Doctor of Physical Therapy Logan Van Sant sits down to share what modern physical therapy really looks like — beyond the stretches and exercises most people expect. Logan digs into how the right movement, at the right time, restores strength and confidence after injury, and why the therapist-patient relationship is at the heart of every successful recovery. A genuine wealth of knowledge from one of the sharp young minds shaping PT today.", "https://open.spotify.com/episode/4HIjJt1f7U7Uv0IJCQnyxr", "Listen"),
     ("Episode 4", "Kayla Dorsey, DPT &amp; Dr. Murray Goldberg, M.D.", "A double-header of expertise. Kayla Dorsey, a Doctor of Physical Therapy with over a decade of hands-on experience, unpacks how personalized, one-on-one care changes recovery outcomes. Then Dr. Murray Goldberg — a board-certified urologist serving Palm Beach County since 1991 — joins to discuss men's health, aging well, and why staying proactive about your body pays off for decades. Two perspectives, one theme: taking ownership of your health.", "https://open.spotify.com/episode/3BRC4CtKqjyOGf1BmJrztj", "Listen"),
@@ -1708,10 +1740,23 @@ def _podcast_schema():
     for num, title, desc, url, label in EPISODES:
         if "open.spotify.com/episode/" in url:
             graph.append({"@type": "PodcastEpisode", "name": _faq_plain(title),
-                          "description": _faq_plain(desc), "url": url,
+                          "description": _faq_plain(desc.replace("<br><br>", " ")), "url": url,
                           "partOfSeries": {"@type": "PodcastSeries", "name": "Pain 2 Power"}})
     data = {"@context": "https://schema.org", "@graph": graph}
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
+def _paras(text):
+    """Split an episode blurb on <br><br> into separate <p> elements.
+
+    One 330-word <p> is a full phone screen of unbroken text — flagged by the
+    Semrush crawl (2026-08-23) for both readability and passage-level retrieval,
+    which works better on discrete chunks. The break points live in the EPISODES
+    copy as <br><br>; keep new blurbs to roughly 40-80 words per chunk and give
+    an opening quote its own break.
+    """
+    parts = [t.strip() for t in text.split("<br><br>")]
+    return "".join(f"<p>{t}</p>" for t in parts if t)
+
 
 def build_podcast():
     import re as _re
@@ -1737,7 +1782,7 @@ def build_podcast():
             recap = (f'<p class="pod-recap"><a href="blog/{slug}.html">'
                      f'Read the recap: {BLOG_POSTS[slug]["title"]}</a></p>')
         return f'''<div class="pod-card reveal">
-          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3><p>{desc}</p>{recap}</div>
+          <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3>{_paras(desc)}{recap}</div>
           {action}
         </div>'''
     featured = _episode_block(*EPISODES[0])
@@ -2631,6 +2676,58 @@ BLOG_POSTS = {
     },
 }
 
+# Related reading, post -> post. Before this every blog post's only inbound link
+# was its card on blog/index.html: no post linked to another, which left several
+# posts with a single internal link (flagged by the Semrush crawl, 2026-08-23).
+# Curated rather than tag-matched — the tags are per-topic ("Knees & Joints",
+# "Pain 2 Power") and too narrow to pair posts usefully. Every post appears as a
+# target at least once, so adding a post means adding it to somebody's list too.
+# Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
+RELATED_POSTS = {
+    "pain-2-power-ep11-joyce": ["pain-2-power-ep10-mcvicker", "reverse-shoulder-replacement-explained", "what-to-expect-first-pt-visit"],
+    "partial-vs-total-knee-replacement": ["knee-arthritis-before-surgery", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
+    "physical-therapy-vs-occupational-therapy": ["why-hand-therapy-is-different", "what-to-expect-first-pt-visit", "five-morning-habits-back-pain"],
+    "pain-2-power-ep10-mcvicker": ["hip-impingement-back-pain-north-palm-beach", "five-morning-habits-back-pain", "pain-2-power-ep11-joyce"],
+    "hip-impingement-back-pain-north-palm-beach": ["pain-2-power-ep10-mcvicker", "five-morning-habits-back-pain", "what-to-expect-first-pt-visit"],
+    "reverse-shoulder-replacement-explained": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
+    "what-to-expect-first-pt-visit": ["physical-therapy-vs-occupational-therapy", "five-morning-habits-back-pain", "knee-arthritis-before-surgery"],
+    "five-morning-habits-back-pain": ["hip-impingement-back-pain-north-palm-beach", "headaches-that-start-in-the-neck", "what-to-expect-first-pt-visit"],
+    "why-hand-therapy-is-different": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit", "reverse-shoulder-replacement-explained"],
+    "knee-arthritis-before-surgery": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "pain-2-power-ep10-mcvicker"],
+    "headaches-that-start-in-the-neck": ["five-morning-habits-back-pain", "what-to-expect-first-pt-visit", "physical-therapy-vs-occupational-therapy"],
+    "cartilage-transplant-knee-explained": ["knee-arthritis-before-surgery", "partial-vs-total-knee-replacement", "reverse-shoulder-replacement-explained"],
+}
+
+def _related_block(slug):
+    """Three-post 'Keep reading' grid for a blog post."""
+    picks = [s for s in RELATED_POSTS.get(slug, []) if s in BLOG_POSTS and s != slug]
+    if len(picks) < 3:                      # fall back to the next posts in order
+        order = list(BLOG_POSTS)
+        i = order.index(slug)
+        for s in order[i + 1:] + order[:i]:
+            if s not in picks and s != slug:
+                picks.append(s)
+            if len(picks) == 3:
+                break
+    picks = picks[:3]
+    if not picks:
+        return ""
+    cards = "".join(
+        f'''<a class="cond-card reveal" href="{s}.html" style="padding:1.7rem 1.5rem;">
+        <span class="cond-tag">{BLOG_POSTS[s]["tag"]}</span>
+        <h3 style="margin-top:0.4rem;font-size:1.15rem;">{BLOG_POSTS[s]["title"]}</h3>
+        <p>{BLOG_POSTS[s]["teaser"]}</p>
+        <p style="margin-top:0.9rem;font-weight:600;color:var(--ink);">Read article &rarr;</p>
+        </a>''' for s in picks)
+    return f'''<section class="section on-cream" style="padding-top:2.6rem;">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:1.4rem;">
+      <span class="eyebrow">Keep Reading</span><h2>Related Articles</h2>
+    </div>
+    <div class="cond-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.3rem;">{cards}</div>
+  </div>
+</section>'''
+
 def build_blog():
     cards = "".join(
         f'''<a class="cond-card reveal" href="{slug}.html" style="padding:1.9rem 1.7rem;">
@@ -2679,6 +2776,7 @@ def build_blog():
     </aside>
   </div>
 </section>
+{_related_block(slug)}
 {cta_band(1)}
 </main>
 """
@@ -2699,18 +2797,35 @@ def build_blog():
             "reverse-shoulder-replacement-explained": "Reverse Shoulder Replacement Explained",
         }
         iso_date = p.get("iso") or _dt.strptime(p["date"], "%B %Y").strftime("%Y-%m")
+        # reviewedBy is a property of WebPage, NOT of Article/BlogPosting. It used
+        # to hang off the BlogPosting, which made validators (Semrush, 2026-08-23)
+        # reject the whole item — an invalid item risks being dropped rather than
+        # partially parsed. Medical-reviewer attribution is still exactly what we
+        # want for E-E-A-T, so it moved to a WebPage node in the same @graph and
+        # the BlogPosting points at that node via mainEntityOfPage. The Person is
+        # defined in full on about.html; here it is referenced by @id only.
+        page_url = f"https://www.firstrehabnpb.com/blog/{slug}.html"
         post_schema = '<script type="application/ld+json">' + _json.dumps({
-            "@context": "https://schema.org", "@type": "BlogPosting",
-            "headline": _faq_plain(p["title"]),
-            "description": _faq_plain(p["teaser"]),
-            "datePublished": iso_date, "dateModified": iso_date,
-            "image": "https://www.firstrehabnpb.com/assets/media/hero-poster.jpg",
-            "author": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach"},
-            "reviewedBy": {"@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba",
-                           "name": "David Kashuba, Ph.D.", "jobTitle": "CEO & Occupational Therapist"},
-            "publisher": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach",
-                          "logo": {"@type": "ImageObject", "url": "https://www.firstrehabnpb.com/assets/media/logo.png"}},
-            "mainEntityOfPage": f"https://www.firstrehabnpb.com/blog/{slug}.html",
+            "@context": "https://schema.org",
+            "@graph": [{
+                "@type": "BlogPosting",
+                "@id": page_url + "#article",
+                "headline": _faq_plain(p["title"]),
+                "description": _faq_plain(p["teaser"]),
+                "datePublished": iso_date, "dateModified": iso_date,
+                "image": "https://www.firstrehabnpb.com/assets/media/hero-poster.jpg",
+                "author": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach"},
+                "publisher": {"@type": "Organization", "name": "First Rehabilitation of North Palm Beach",
+                              "logo": {"@type": "ImageObject", "url": "https://www.firstrehabnpb.com/assets/media/logo.png"}},
+                "mainEntityOfPage": {"@id": page_url + "#webpage"},
+            }, {
+                "@type": "WebPage",
+                "@id": page_url + "#webpage",
+                "url": page_url,
+                "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
+                "reviewedBy": {"@id": "https://www.firstrehabnpb.com/about.html#david-kashuba"},
+                "lastReviewed": iso_date,
+            }],
         }, ensure_ascii=False) + '</script>\n'
         post_bc = breadcrumb_schema([("Home", ""), ("Blog", "blog/index.html"), (p["title"], f"blog/{slug}.html")])
         write(f"blog/{slug}.html",
@@ -3022,6 +3137,13 @@ def build_first_visit():
 VIDEOS = [
     {
         "id": "wdcHPvySKHk",
+        # YouTube publish date, ISO-8601. Required by Google's video structured
+        # data spec — without it the episode is not eligible for video rich
+        # results. Read it off the channel feed
+        # (youtube.com/feeds/videos.xml?channel_id=UCFzCl3RvdVahfIjKZ1SfRvQ,
+        # <published> per entry) or the watch page's publishDate, and set it
+        # whenever a new episode is added here.
+        "uploaded": "2026-08-22T08:57:33-04:00",
         "ep": "Episode 10",
         "title": "What&rsquo;s Really Causing Your Hip Pain?",
         "guest": "Dr. Zach McVicker, MD",
@@ -3029,6 +3151,7 @@ VIDEOS = [
     },
     {
         "id": "h_sNZv2q65E",
+        "uploaded": "2026-08-08",   # premiered Aug 8, 2026; exact time not published
         "ep": "Episode 9",
         "title": "Shoulder Replacement, Muscle Sparing Surgery &amp; Why Robots Are Marketing",
         "guest": "Dr. Vani Sabesan",
@@ -3036,6 +3159,7 @@ VIDEOS = [
     },
     {
         "id": "hv1bNdFurrc",
+        "uploaded": "2026-08-01",   # premiered Aug 1, 2026; exact time not published
         "ep": "Episode 8",
         "title": "Shoulder Pain, Rotator Cuffs &amp; Replacements",
         "guest": "Dr. Ryan Simovitch",
@@ -3161,7 +3285,7 @@ def _video_schema():
     import json as _json
     graph = []
     for v in VIDEOS:
-        graph.append({
+        node = {
             "@type": "VideoObject",
             "name": _faq_plain(f'{v["ep"]}: {v["title"]}'),
             "description": _faq_plain(v["teaser"]),
@@ -3169,7 +3293,13 @@ def _video_schema():
             "embedUrl": f'https://www.youtube.com/embed/{v["id"]}',
             "contentUrl": f'https://www.youtube.com/watch?v={v["id"]}',
             "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
-        })
+        }
+        # uploadDate is REQUIRED by schema.org and by Google's video structured
+        # data spec. A VideoObject without it is not eligible for video rich
+        # results, so never add an episode to VIDEOS without one.
+        if v.get("uploaded"):
+            node["uploadDate"] = v["uploaded"]
+        graph.append(node)
     if not graph:
         return ""
     data = {"@context": "https://schema.org", "@graph": graph}
