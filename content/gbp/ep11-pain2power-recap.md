@@ -1,13 +1,16 @@
-# Episode 11 · Wellness
+# Episode 11 · Pain 2 Power recap
 
-source_post: none yet — Paul Joyce has no blog post or Descript render as of 2026-08-23
-pillar: wellness
-cta_url: https://www.firstrehabnpb.com/services/wellness.html
+source_post: pain-2-power-ep11-joyce
+pillar: Pain 2 Power (Ep 11) — the recap post, not a Wellness pillar post
+cta_url: https://www.firstrehabnpb.com/blog/pain-2-power-ep11-joyce.html
 cta_type: LEARN_MORE
 
-No pillar blog post exists yet for this episode, so per README.md this points at the
-pillar service page instead of a post slug. Swap cta_url to the blog post once one
-ships, and re-point this post's live copy in Post Bridge to match.
+Written and scheduled 2026-08-23 before the recap post existed, pointed at the wellness
+service page as a fallback. The recap shipped later that day (pain-2-power-ep11-joyce,
+"Paul Joyce / peptides and GLP-1 muscle loss" per SEO-KEYWORDS.md) — updated cta_url here
+and on the live Post Bridge post to match. The real Wellness pillar post (muscle loss on
+a GLP-1) is still awaiting owner sign off per SEO-KEYWORDS.md's Ep 11 note; write that
+GBP post separately once it ships instead of reusing this file.
 
 ---
 slot: monday
