@@ -29,3 +29,9 @@ pass shorter again.
 
 Branch name matters: the daily routine builds its URLs from the episode number,
 so it must be media/ep10-clips and nothing else.
+
+At 47-80s these clips run 20-58MB, over jsDelivr's ~20MB ceiling — only
+07-water-cooler.mp4 (19.7MB) still resolves there (verified 200). The other
+six 403 on jsDelivr and must be fetched from the Vercel branch host
+(firstrehabnpb-zywd-git-media-ep10-clips-thedesignofman.vercel.app/clips/
+{name}.mp4) instead — verified 206 on a range request for all six.
