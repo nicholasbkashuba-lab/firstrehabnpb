@@ -35,3 +35,31 @@ At 47-80s these clips run 20-58MB, over jsDelivr's ~20MB ceiling — only
 six 403 on jsDelivr and must be fetched from the Vercel branch host
 (firstrehabnpb-zywd-git-media-ep10-clips-thedesignofman.vercel.app/clips/
 {name}.mp4) instead — verified 206 on a range request for all six.
+
+2026-08-24: Nick reported captions off on every posted/scheduled reel. Root
+cause: the "paced evenly across the transcript" approach from the note above
+does not hold once a clip includes host banter and asides that never made it
+into the condensed transcripts.md text (interjections like "Right, right,"
+follow-up questions, "you know" filler). The raw clip audio runs longer and
+less uniformly than the condensed caption text implies, so pacing captions
+evenly across clip duration drifted them off the actual words by several
+seconds in spots — confirmed via faster-whisper word-level transcription of
+each clip's own audio track against the burned caption timing.
+
+Fix: re-transcribed each clip's audio with faster-whisper (word timestamps),
+regenerated captions chunked ~3-6 words per card broken on
+sentence/clause boundaries, and re-burned. Old burned-in captions could not
+be removed (no separate uncaptioned source survived — clips are pushed
+already-cropped-and-captioned), so a solid black bar was added behind the
+caption band (y 1400-1770, full width) to fully hide the old incorrect text;
+new captions are drawn on top of the bar. This is a permanent style change
+going forward, not just a one-time patch — it also reads cleaner against
+busy backgrounds. All 7 clips (01-07) were re-rendered and pushed to this
+branch 2026-08-24.
+
+Caption text is now VERBATIM to what's actually said in each clip (including
+host banter), not the condensed paraphrase in transcripts.md — that file is
+now stale for caption purposes (still fine for the "what each clip says"
+summary use). If future clips need condensed/paraphrased captions instead of
+verbatim ASR, redo the fuzzy-match-then-time approach instead of burning the
+condensed text on an even pace — that's what caused this bug.
