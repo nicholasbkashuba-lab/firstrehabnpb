@@ -1,0 +1,25 @@
+name: joyce-relay
+on: push
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch master v2 from Dropbox and chunk
+        run: |
+          curl -L -o master.mp4 "https://www.dropbox.com/scl/fi/u0nqco7trrpa4f73gmegi/Pain-to-Power-Paul-Joyce-multicam-v2.mp4?rlkey=87n8ffvgyfz4jz735gfp2eojp&dl=1"
+          ls -la master.mp4
+          sha256sum master.mp4 > master.sha256
+          cat master.sha256
+          split -b 90m master.mp4 master.chunk_
+          ls -la master.chunk_* | head
+      - name: Push chunks to tmp/joyce-out
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Relay"
+          git checkout --orphan tmp/joyce-out
+          git rm -rf . 2>/dev/null || true
+          mv master.chunk_* master.sha256 .
+          git add master.chunk_* master.sha256
+          git commit -m "Relay Paul Joyce multicam v2 master"
+          git push -f origin tmp/joyce-out
