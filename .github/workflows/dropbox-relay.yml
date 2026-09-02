@@ -1,0 +1,46 @@
+name: dropbox-relay
+on:
+  workflow_dispatch:
+    inputs:
+      download_url:
+        description: 'Temporary signed Dropbox download URL (from download_link, not a share link)'
+        required: true
+      out_branch:
+        description: 'Branch to push chunked output to'
+        required: true
+      min_bytes:
+        description: 'Abort if downloaded file is smaller than this many bytes'
+        required: true
+        default: '1000000'
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch and chunk
+        env:
+          DL_URL: ${{ inputs.download_url }}
+          MIN_BYTES: ${{ inputs.min_bytes }}
+        run: |
+          curl -L -f -o master.bin "$DL_URL"
+          size=$(stat -c%s master.bin)
+          echo "downloaded $size bytes"
+          if [ "$size" -lt "$MIN_BYTES" ]; then echo "FILE TOO SMALL, ABORTING"; exit 1; fi
+          sha256sum master.bin > master.sha256
+          cat master.sha256
+          split -b 90m master.bin master.chunk_
+          ls -la master.chunk_* | head
+      - name: Push chunks to output branch
+        env:
+          OUT_BRANCH: ${{ inputs.out_branch }}
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Relay"
+          mkdir -p /tmp/relay-out
+          cp master.chunk_* master.sha256 /tmp/relay-out/
+          git checkout --orphan "$OUT_BRANCH"
+          git rm -rf . 2>/dev/null || true
+          cp /tmp/relay-out/* .
+          git add master.chunk_* master.sha256
+          git commit -m "Relay: $OUT_BRANCH"
+          git push -f origin "$OUT_BRANCH"
