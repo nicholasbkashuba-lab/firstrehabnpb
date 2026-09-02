@@ -1,0 +1,32 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Liberation Sans,54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:02.86,Cap,,0,0,0,,Rotator cuff repairs, I\Nthink 17 million people
+Dialogue: 0,0:00:02.86,0:00:03.92,Cap,,0,0,0,,from a rotator cuff.
+Dialogue: 0,0:00:03.92,0:00:07.56,Cap,,0,0,0,,Probably anyone, if you sat\Nnext to you in any sort of
+Dialogue: 0,0:00:07.56,0:00:09.58,Cap,,0,0,0,,retirement home community,\Nany
+Dialogue: 0,0:00:09.58,0:00:12.00,Cap,,0,0,0,,sort of thing over 60\Nliving, one out of three
+Dialogue: 0,0:00:12.00,0:00:13.24,Cap,,0,0,0,,are going to have a rotator
+Dialogue: 0,0:00:13.24,0:00:14.84,Cap,,0,0,0,,cuff pathology.
+Dialogue: 0,0:00:14.84,0:00:16.80,Cap,,0,0,0,,And so what we know is that\Nthey occur.
+Dialogue: 0,0:00:16.80,0:00:18.20,Cap,,0,0,0,,We're really good at fixing\Nthem.
+Dialogue: 0,0:00:18.20,0:00:20.68,Cap,,0,0,0,,We're not great at getting\Nthem to heal.
+Dialogue: 0,0:00:20.68,0:00:24.16,Cap,,0,0,0,,And I tell people in Palm\NBeach, 90 is the new 70.
+Dialogue: 0,0:00:24.16,0:00:26.08,Cap,,0,0,0,,And the reality is, guess\Nwhat?
+Dialogue: 0,0:00:26.08,0:00:29.38,Cap,,0,0,0,,Our blood cells, our biology\Nisn't as good as when we
+Dialogue: 0,0:00:29.38,0:00:29.88,Cap,,0,0,0,,were 20.
+Dialogue: 0,0:00:29.88,0:00:32.73,Cap,,0,0,0,,So if you can create some\Nsort of scaffold to make
+Dialogue: 0,0:00:32.73,0:00:34.18,Cap,,0,0,0,,better, to give you a better
+Dialogue: 0,0:00:34.18,0:00:37.11,Cap,,0,0,0,,chance to be 20 again, or\N40, or maybe even just 60
+Dialogue: 0,0:00:37.11,0:00:39.00,Cap,,0,0,0,,again, you're going to get\Nbetter
+Dialogue: 0,0:00:39.00,0:00:42.48,Cap,,0,0,0,,healing of that rotator\Ncuff.

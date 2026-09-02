@@ -1,0 +1,30 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Liberation Sans,54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.06,Cap,,0,0,0,,I think it's a great point.
+Dialogue: 0,0:00:01.06,0:00:02.34,Cap,,0,0,0,,And maybe I'll just bring\Nup,
+Dialogue: 0,0:00:02.34,0:00:05.38,Cap,,0,0,0,,we wanted to talk a little\Nbit about technology.
+Dialogue: 0,0:00:05.38,0:00:07.54,Cap,,0,0,0,,And I think that's a really\Nimportant part
+Dialogue: 0,0:00:07.54,0:00:10.50,Cap,,0,0,0,,of where we are going in\Northopedic surgery.
+Dialogue: 0,0:00:10.50,0:00:12.54,Cap,,0,0,0,,I'm part of a company on a\Ndesign team
+Dialogue: 0,0:00:12.54,0:00:14.10,Cap,,0,0,0,,that they're personalizing\Nimplants,
+Dialogue: 0,0:00:14.10,0:00:17.14,Cap,,0,0,0,,they 3D print the implant\Nfor you.
+Dialogue: 0,0:00:17.14,0:00:18.56,Cap,,0,0,0,,Can you imagine?
+Dialogue: 0,0:00:18.56,0:00:22.90,Cap,,0,0,0,,Yeah, so you imagine,\Nobviously, if you think that
+Dialogue: 0,0:00:22.90,0:00:25.84,Cap,,0,0,0,,something's made specialized\Nto you,
+Dialogue: 0,0:00:25.84,0:00:28.37,Cap,,0,0,0,,it might be a little bit\Nmore tailored to you, your
+Dialogue: 0,0:00:28.37,0:00:30.00,Cap,,0,0,0,,anatomy, your size, and\Nhopefully
+Dialogue: 0,0:00:30.00,0:00:32.89,Cap,,0,0,0,,that would just sort of get\Nyou in a better place,
+Dialogue: 0,0:00:32.89,0:00:34.92,Cap,,0,0,0,,better outcome back to the\Ngym fast
+Dialogue: 0,0:00:34.92,0:00:37.97,Cap,,0,0,0,,or whatever it is, but\Nthat's where sort of the
+Dialogue: 0,0:00:37.97,0:00:39.20,Cap,,0,0,0,,technology's going.

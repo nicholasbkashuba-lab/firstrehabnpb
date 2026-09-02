@@ -1,0 +1,31 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Liberation Sans,54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:02.36,Cap,,0,0,0,,Can I just say one point on\Ntherapy, right?
+Dialogue: 0,0:00:02.36,0:00:05.08,Cap,,0,0,0,,We all talk about sort of\Nmedicine now, right?
+Dialogue: 0,0:00:05.08,0:00:07.76,Cap,,0,0,0,,And it's sort of become\Ndepersonalized
+Dialogue: 0,0:00:07.76,0:00:10.76,Cap,,0,0,0,,and you go in, you're like a\Nnumber in the cog
+Dialogue: 0,0:00:10.76,0:00:13.20,Cap,,0,0,0,,of however many patients,\Nyou know, therapy.
+Dialogue: 0,0:00:13.20,0:00:15.08,Cap,,0,0,0,,We did a survey study on\Ntherapy
+Dialogue: 0,0:00:15.08,0:00:17.76,Cap,,0,0,0,,and we've looked at all of\Nour shoulder replacements.
+Dialogue: 0,0:00:17.76,0:00:20.68,Cap,,0,0,0,,We said, you know, how\Nimportant is this to you?
+Dialogue: 0,0:00:20.68,0:00:23.52,Cap,,0,0,0,,And 98% of patients said the\Ntherapist
+Dialogue: 0,0:00:23.52,0:00:26.34,Cap,,0,0,0,,was a huge impact on their\Noutcome.
+Dialogue: 0,0:00:26.34,0:00:30.08,Cap,,0,0,0,,And 95% of them said that\Ntheir therapist changed
+Dialogue: 0,0:00:30.08,0:00:32.00,Cap,,0,0,0,,what they did, how they did\Nit.
+Dialogue: 0,0:00:32.00,0:00:33.48,Cap,,0,0,0,,And it's like having a\Nhairdresser.
+Dialogue: 0,0:00:33.48,0:00:35.44,Cap,,0,0,0,,They talk to you, they\Nlisten to you.
+Dialogue: 0,0:00:35.44,0:00:37.16,Cap,,0,0,0,,It's the company you need.
+Dialogue: 0,0:00:37.16,0:00:39.60,Cap,,0,0,0,,So whether you're remote in\Ntelemedicine and therapy,
+Dialogue: 0,0:00:39.60,0:00:42.24,Cap,,0,0,0,,whether you're in person,\Nit's a huge factor
+Dialogue: 0,0:00:42.24,0:00:44.56,Cap,,0,0,0,,in everything that we do as\Nsurgeons.

@@ -1,0 +1,27 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Liberation Sans,54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.68,Cap,,0,0,0,,She's great, but I\Nunderstand that recently,
+Dialogue: 0,0:00:04.68,0:00:08.52,Cap,,0,0,0,,over the last 75 years, the\NFlorida Orthopedic Society
+Dialogue: 0,0:00:08.52,0:00:11.52,Cap,,0,0,0,,has never chosen a woman to\Nbe president.
+Dialogue: 0,0:00:11.52,0:00:13.70,Cap,,0,0,0,,However, there's somebody\Nthat we know
+Dialogue: 0,0:00:13.70,0:00:16.36,Cap,,0,0,0,,that's the president and\Nchosen one.
+Dialogue: 0,0:00:16.36,0:00:19.24,Cap,,0,0,0,,Wow, that's a huge feather\Nin your cap.
+Dialogue: 0,0:00:19.24,0:00:21.08,Cap,,0,0,0,,Well, you know, I think it's\Nnot about my cap.
+Dialogue: 0,0:00:21.08,0:00:23.43,Cap,,0,0,0,,I think that I created hats,\Nand actually all my
+Dialogue: 0,0:00:23.43,0:00:25.82,Cap,,0,0,0,,mentees, I have a couple\Nresearch fellows and med
+Dialogue: 0,0:00:25.82,0:00:26.26,Cap,,0,0,0,,students,
+Dialogue: 0,0:00:26.46,0:00:29.67,Cap,,0,0,0,,They helped print out hats\Nand it says first of many to
+Dialogue: 0,0:00:29.67,0:00:29.90,Cap,,0,0,0,,come
+Dialogue: 0,0:00:30.46,0:00:33.45,Cap,,0,0,0,,So I think that's really the\Nlegacy I want to leave. I'm
+Dialogue: 0,0:00:33.45,0:00:35.74,Cap,,0,0,0,,just the beginning of a\Nreally good legacy.

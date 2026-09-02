@@ -1,0 +1,35 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Liberation Sans,54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.76,Cap,,0,0,0,,Do you want to spend six\Nweeks in a sling
+Dialogue: 0,0:00:01.76,0:00:04.24,Cap,,0,0,0,,or would you rather start\Nmoving tomorrow?
+Dialogue: 0,0:00:04.24,0:00:06.04,Cap,,0,0,0,,And we sort of said, let's\Npush the envelope
+Dialogue: 0,0:00:06.04,0:00:08.72,Cap,,0,0,0,,because my mom has had two\Nreverses.
+Dialogue: 0,0:00:08.72,0:00:10.32,Cap,,0,0,0,,You know, just because\Nyou're 76,
+Dialogue: 0,0:00:10.32,0:00:13.24,Cap,,0,0,0,,not driving for six weeks\Ncan really disable you
+Dialogue: 0,0:00:13.24,0:00:16.48,Cap,,0,0,0,,from your life, your\Nlifestyle, your family.
+Dialogue: 0,0:00:16.48,0:00:18.28,Cap,,0,0,0,,She drives my kids to\Nschool.
+Dialogue: 0,0:00:18.28,0:00:20.68,Cap,,0,0,0,,And so really, we said, what\Nif we get people
+Dialogue: 0,0:00:20.68,0:00:23.46,Cap,,0,0,0,,moving earlier, our\Ntechniques have gotten
+Dialogue: 0,0:00:23.46,0:00:26.74,Cap,,0,0,0,,we can push the envelope and\Nget people back faster.
+Dialogue: 0,0:00:26.74,0:00:28.18,Cap,,0,0,0,,And so we did a head-to-head\Nstudy.
+Dialogue: 0,0:00:28.18,0:00:29.50,Cap,,0,0,0,,We actually did one of my\Npartners
+Dialogue: 0,0:00:29.50,0:00:30.74,Cap,,0,0,0,,who did six weeks of\Nslinging,
+Dialogue: 0,0:00:30.74,0:00:32.26,Cap,,0,0,0,,and I did people in a week.
+Dialogue: 0,0:00:32.26,0:00:35.18,Cap,,0,0,0,,For a few days afterwards,\Nyou start moving it right
+Dialogue: 0,0:00:35.18,0:00:35.46,Cap,,0,0,0,,away.
+Dialogue: 0,0:00:35.46,0:00:38.02,Cap,,0,0,0,,And we found that the\Noutcomes were similar,
+Dialogue: 0,0:00:38.02,0:00:41.14,Cap,,0,0,0,,no complications, no loss to\Na patient.
+Dialogue: 0,0:00:41.14,0:00:44.06,Cap,,0,0,0,,And in fact, at six weeks,\Nthey're doing a ton better.
+Dialogue: 0,0:00:44.06,0:00:46.76,Cap,,0,0,0,,So sometimes, evidence shows\Nit,
+Dialogue: 0,0:00:46.76,0:00:48.10,Cap,,0,0,0,,and you have to change what\Nyou do.

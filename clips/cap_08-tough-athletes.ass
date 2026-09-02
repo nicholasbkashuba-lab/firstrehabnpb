@@ -1,0 +1,44 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Liberation Sans,54,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,5,3,2,60,60,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:03.80,Cap,,0,0,0,,And I'm going to put a plug\Nin for Dave in first rehab.
+Dialogue: 0,0:00:03.80,0:00:06.04,Cap,,0,0,0,,I think that we also have a\Nlot of young athletes,
+Dialogue: 0,0:00:06.04,0:00:08.99,Cap,,0,0,0,,and I think we have a lot of\Ngrowth in terms of
+Dialogue: 0,0:00:08.99,0:00:09.56,Cap,,0,0,0,,families.
+Dialogue: 0,0:00:09.56,0:00:10.92,Cap,,0,0,0,,We all have kids.
+Dialogue: 0,0:00:10.92,0:00:13.40,Cap,,0,0,0,,And the athletes are just\Nincredible.
+Dialogue: 0,0:00:13.40,0:00:15.28,Cap,,0,0,0,,But the problem is, in\NFlorida, we
+Dialogue: 0,0:00:15.28,0:00:18.14,Cap,,0,0,0,,have the indulgence of being\Nable to play all year
+Dialogue: 0,0:00:18.14,0:00:18.48,Cap,,0,0,0,,round.
+Dialogue: 0,0:00:18.48,0:00:21.52,Cap,,0,0,0,,And Dave is an expert and\Nsort of a scientist
+Dialogue: 0,0:00:21.52,0:00:24.36,Cap,,0,0,0,,of trying to get people back\Nto their game.
+Dialogue: 0,0:00:24.36,0:00:26.84,Cap,,0,0,0,,And I always send him these\Ndifficult athletes
+Dialogue: 0,0:00:26.84,0:00:30.66,Cap,,0,0,0,,and he's gotten back people\Nback to, you know, MLB
+Dialogue: 0,0:00:30.66,0:00:31.12,Cap,,0,0,0,,level,
+Dialogue: 0,0:00:31.12,0:00:33.06,Cap,,0,0,0,,you know, these athletes\Nback to playing
+Dialogue: 0,0:00:33.06,0:00:36.50,Cap,,0,0,0,,and being recruited by\Nnational, international
+Dialogue: 0,0:00:36.50,0:00:37.32,Cap,,0,0,0,,superstars.
+Dialogue: 0,0:00:37.32,0:00:39.57,Cap,,0,0,0,,But I think the thing is is\Nthat we really have to
+Dialogue: 0,0:00:39.57,0:00:39.88,Cap,,0,0,0,,realize
+Dialogue: 0,0:00:39.88,0:00:43.48,Cap,,0,0,0,,that rehab science in these\Nsports is just as critical,
+Dialogue: 0,0:00:43.48,0:00:44.68,Cap,,0,0,0,,probably maybe more critical
+Dialogue: 0,0:00:44.68,0:00:47.60,Cap,,0,0,0,,than even or as much of our\Nsurgical treatments.
+Dialogue: 0,0:00:47.60,0:00:50.92,Cap,,0,0,0,,You know, Tommy John\Nsurgery, rotator cuff
+Dialogue: 0,0:00:50.92,0:00:52.12,Cap,,0,0,0,,talk about tennis players,
+Dialogue: 0,0:00:52.12,0:00:53.80,Cap,,0,0,0,,you talk about pickleball\Nplayers,
+Dialogue: 0,0:00:53.80,0:00:55.04,Cap,,0,0,0,,I mean, baseball players.
+Dialogue: 0,0:00:55.04,0:00:57.76,Cap,,0,0,0,,And I think that I've sent\Nyou a lot of tough athletes.
+Dialogue: 0,0:00:57.76,0:01:00.24,Cap,,0,0,0,,I think you really enjoy\Nthose challenges.
+Dialogue: 0,0:01:00.24,0:01:01.08,Cap,,0,0,0,,I do, I do.
+Dialogue: 0,0:01:01.08,0:01:02.40,Cap,,0,0,0,,You find the science of it.
+Dialogue: 0,0:01:02.40,0:01:04.48,Cap,,0,0,0,,And not every therapist does\Nthat, you know?
