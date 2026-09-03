@@ -404,7 +404,7 @@
     if (el.closest('.team-profile')) return 'team-profile';
     if (el.closest('.side-card')) return 'side-card';
     if (el.closest('.cta-band')) return 'cta-band';
-    if (el.closest('.intake')) return 'intake';
+    if (el.closest('.fri-root')) return 'intake';
     return 'in-page';
   }
   document.addEventListener('click', function (e) {

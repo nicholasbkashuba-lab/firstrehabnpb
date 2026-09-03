@@ -12,6 +12,8 @@ on:
         description: 'Abort if downloaded file is smaller than this many bytes'
         required: true
         default: '1000000'
+permissions:
+  contents: write
 jobs:
   relay:
     runs-on: ubuntu-latest

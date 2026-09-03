@@ -1,0 +1,68 @@
+name: leighton-clips
+on:
+  workflow_dispatch:
+    inputs:
+      download_url:
+        description: 'Temporary signed Dropbox download URL for the Leighton master (from download_link, not a share link)'
+        required: true
+      out_branch:
+        description: 'Branch to push the finished clips to'
+        required: true
+      min_bytes:
+        description: 'Abort if downloaded master is smaller than this many bytes'
+        required: true
+        default: '500000000'
+permissions:
+  contents: write
+jobs:
+  clip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch master
+        env:
+          DL_URL: ${{ inputs.download_url }}
+          MIN_BYTES: ${{ inputs.min_bytes }}
+        run: |
+          curl -L -f -o master.mp4 "$DL_URL"
+          size=$(stat -c%s master.mp4)
+          echo "downloaded $size bytes"
+          if [ "$size" -lt "$MIN_BYTES" ]; then echo "FILE TOO SMALL, ABORTING"; exit 1; fi
+          ffprobe -v error -show_entries stream=width,height,r_frame_rate -show_entries format=duration -of default=noprint_wrappers=1 master.mp4
+      - name: Cut, crop, caption, encode
+        run: |
+          set -e
+          mkdir -p out
+          declare -A SEGMENTS=(
+            [vaping_vasoconstrictor]="368.615 393.363"
+            [glp1_weight_loss]="965.739 1000.659"
+            [best_operation_in_orthopedics]="1351.414 1387.264"
+            [old_school_traction]="1156.860 1193.639"
+          )
+          for name in "${!SEGMENTS[@]}"; do
+            read -r start end <<< "${SEGMENTS[$name]}"
+            dur=$(python3 -c "print(f'{$end - $start:.3f}')")
+            ass="tools/relay-work/leighton-ep12-clips-ass/${name}.ass"
+            echo "=== $name: start=$start dur=$dur ass=$ass ==="
+            ffmpeg -y -v error -ss "$start" -i master.mp4 -t "$dur" \
+              -vf "scale=1080:1350:force_original_aspect_ratio=increase,crop=1080:1350,ass=${ass}" \
+              -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p -r 30 \
+              -c:a aac -b:a 192k -ar 48000 \
+              -movflags +faststart \
+              "out/${name}.mp4"
+            ls -la "out/${name}.mp4"
+          done
+      - name: Push clips to output branch
+        env:
+          OUT_BRANCH: ${{ inputs.out_branch }}
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Relay"
+          mkdir -p /tmp/relay-out
+          cp out/*.mp4 /tmp/relay-out/
+          git checkout --orphan "$OUT_BRANCH"
+          git rm -rf . 2>/dev/null || true
+          cp /tmp/relay-out/*.mp4 .
+          git add *.mp4
+          git commit -m "Leighton (Ep 12) clips: 4 more"
+          git push -f origin "$OUT_BRANCH"
