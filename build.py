@@ -751,8 +751,8 @@ def build_home():
 </main>
 """
     write("index.html",
-          head("Physical Therapy North Palm Beach | First Rehabilitation",
-               "Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in North Palm Beach, FL. Serving Palm Beach County since 1991.",
+          head("Physical Therapy North Palm Beach | First Rehab, Since 1991",
+               "Family-owned physical, occupational and certified hand therapy in North Palm Beach since 1991. One-on-one care, 4.9★ on Google, Medicare accepted. Book today.",
                canonical="", og_image="assets/media/clinic.jpg",
                extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=9" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
