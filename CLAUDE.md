@@ -56,6 +56,14 @@ at least once. PRs target `main`.
   Answers are PLAIN TEXT (they feed both the accordions and the single FAQPage JSON-LD,
   which must stay in sync — it's generated from the same data, so just rebuild). Service
   pages cross-link to /faq.html#category anchors instead of duplicating Q&As.
+- Every blog post gets a 3-card "Related Articles" block from RELATED_POSTS in build.py.
+  A new post needs an entry there AND needs adding to somebody else's list, or it ships
+  with one inbound link (its card on /blog/index.html) — that was the whole finding in
+  the 2026-08-23 Semrush crawl. Condition and service pages also link posts topically
+  via COND_BLOG / SVC_BLOG (slugs only; link text is read from BLOG_POSTS).
+- Episode blurbs in EPISODES are split into paragraphs on `<br><br>` by _paras(). Keep
+  each chunk roughly 40-80 words and give an opening quote its own break; a single
+  330-word <p> is a full phone screen and reads badly to crawlers and people alike.
 - Keep quotes/testimonials verbatim; don't invent credentials or clinical claims.
 - Intake agent copy lives in `assets/js/intake.js` (STEPS object). It is plain JS served
   to every visitor — never put secret keys in it (the Supabase publishable key is safe by design).
@@ -71,9 +79,14 @@ availableService (links the 4 MedicalTherapy service @ids), geo, hasMap, 10 area
 cities, Saturday hours, 5 sameAs (incl. the Google listing cid link). Per-page schema
 via head(extra_schema=...): Person ×6 on About, MedicalTherapy on services,
 MedicalCondition on conditions, PodcastSeries+Episodes on podcast, FAQPage on faq,
-BlogPosting (+reviewedBy Dave) on posts, BreadcrumbList on interior pages, JobPosting
+BlogPosting + a WebPage node carrying reviewedBy Dave on posts (reviewedBy is a
+property of WebPage, NOT of Article/BlogPosting — it hung off the BlogPosting until
+2026-08-23 and validators rejected the whole item; the BlogPosting points at the
+WebPage via mainEntityOfPage and the Person is referenced by @id only),
+VideoObject with uploadDate on /videos.html (uploadDate is REQUIRED — no video rich
+results without it, so every new VIDEOS entry needs one), BreadcrumbList on interior pages, JobPosting
 per open role on careers, Service on location pages — all referencing the org @id.
-Schema is complete as of 2026-07-21 (104 valid JSON-LD blocks). To re-verify Google's
+Schema is complete as of 2026-08-23 (138 valid JSON-LD blocks). To re-verify Google's
 actual rendering, the owner runs a URL through search.google.com/test/rich-results.
 DELIBERATE: no aggregateRating in our own schema (self-serving review markup violates
 Google's guidelines — the Google Business Profile carries the review signal). Do not re-add.
