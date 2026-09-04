@@ -17,8 +17,13 @@ permissions:
 jobs:
   clip:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Install ffmpeg
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: sudo -E apt-get update && sudo -E apt-get install -y --no-install-recommends ffmpeg
       - name: Fetch master
         env:
           DL_URL: ${{ inputs.download_url }}
@@ -60,8 +65,10 @@ jobs:
           git config user.name "GitHub Actions Relay"
           mkdir -p /tmp/relay-out
           cp out/*.mp4 /tmp/relay-out/
+          rm -f master.mp4
           git checkout --orphan "$OUT_BRANCH"
           git rm -rf . 2>/dev/null || true
+          rm -f master.mp4
           cp /tmp/relay-out/*.mp4 .
           git add *.mp4
           git commit -m "Leighton (Ep 12) clips: 4 more"
