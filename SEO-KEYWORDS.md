@@ -226,3 +226,25 @@ Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach.
 
 `/exercises.html` is not a blog post but it targets long-tail exercise searches across all four
 pillars, so check it before writing an exercise-led post that would compete with it.
+
+## Homepage title/meta CTR test (started 2026-09-03)
+
+The homepage carries more impressions than every other page combined but converts them poorly.
+Rewrote the title and description to add differentiators (since 1991, one-on-one, 4.9 stars,
+Medicare) while keeping "Physical Therapy North Palm Beach" front-loaded. Judge it on CTR at
+roughly the same position, not on clicks alone.
+
+| window | impressions | clicks | CTR | avg position |
+|---|---|---|---|---|
+| baseline, 2026-06-03 to 2026-08-31 (90d) | 13,011 | 207 | 1.59% | 15.1 |
+| read 1: 28d ending ~2026-10-05 | | | | |
+| read 2: 28d ending ~2026-11-02 | | | | |
+
+Before: `Physical Therapy North Palm Beach | First Rehabilitation` /
+`Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in
+North Palm Beach, FL. Serving Palm Beach County since 1991.`
+After: `Physical Therapy North Palm Beach | First Rehab, Since 1991` /
+`Family-owned physical, occupational and certified hand therapy in North Palm Beach since 1991.
+One-on-one care, 4.9★ on Google, Medicare accepted. Book today.`
+If CTR has not moved after read 2, revert the title first (Google rewrites titles more than
+descriptions) and keep the description.

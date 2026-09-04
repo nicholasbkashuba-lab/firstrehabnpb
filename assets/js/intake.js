@@ -512,6 +512,19 @@
     });
   }
 
+  // A lead reaching Supabase/email is the real conversion — main.js only ever
+  // sees a click toward /contact.html or a tel: tap, never whether the chat
+  // (which submits in place, no navigation) or the static form actually
+  // delivered. Fire the same window.va queue main.js uses so this shows up
+  // next to call_tap/book_click instead of being invisible.
+  function trackLeadSent(payload) {
+    if (typeof window.va !== 'function') return;
+    window.va('event', {
+      name: 'lead_submit',
+      data: { source: payload.topic === 'Contact form' ? 'contact-form' : 'intake', page: payload.page, intent: payload.intent }
+    });
+  }
+
   // Deliver a lead two ways at once — Supabase (permanent record) and email
   // (clinic inbox). Resolves if EITHER channel succeeds, so a lead still reaches
   // the clinic if one path is down; rejects only if both fail (then it's queued).
@@ -539,6 +552,7 @@
     if (!q.length) return;
     var payload = q[0];
     deliverLead(payload).then(function () {
+      trackLeadSent(payload);
       var rest = (get(KEYS.queue) || []).slice(1);
       if (rest.length) { set(KEYS.queue, rest); flushQueue(); }
       else del(KEYS.queue);
@@ -555,6 +569,7 @@
     scrollLog();
 
     deliverLead(payload).then(function () {
+      trackLeadSent(payload);
       typing.remove();
       busy = false;
       del(KEYS.draft);
@@ -658,6 +673,7 @@
         doneBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
       deliverLead(payload).then(function () {
+        trackLeadSent(payload);
         finish(false);
       }).catch(function () {
         queueLead(payload);
