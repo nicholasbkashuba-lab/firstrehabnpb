@@ -3169,6 +3169,22 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        "id": "FBaBGdzNksM",
+        "uploaded": "2026-08-31T17:38:11-04:00",
+        "ep": "Episode 12",
+        "title": "Total Hip Replacement, Explained: Anterior vs. Posterior",
+        "guest": "Dr. Michael Leighton, MD",
+        "teaser": "Orthopedic surgeon Dr. Michael Leighton breaks down total hip replacement in plain English: the anterior versus posterior approach, what actually drives infection risk, and the flat Medicare payment that covers the surgery and 90 days of follow-up care.",
+    },
+    {
+        "id": "F8jyVhOeuX0",
+        "uploaded": "2026-08-31T15:15:26-04:00",
+        "ep": "Episode 11",
+        "title": "Peptides, GLP-1s &amp; Hormone Replacement Therapy, Explained",
+        "guest": "Paul Joyce",
+        "teaser": "Paul Joyce of New Life HRT joins Dave and Mike to explain what a peptide actually is, where GLP-1 medications like Ozempic came from, and why the weight they take off comes with a real cost in muscle if the protein and strength work don&rsquo;t come with it.",
+    },
+    {
         "id": "wdcHPvySKHk",
         # YouTube publish date, ISO-8601. Required by Google's video structured
         # data spec — without it the episode is not eligible for video rich
