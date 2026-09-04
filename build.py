@@ -3169,6 +3169,22 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        "id": "FBaBGdzNksM",
+        "uploaded": "2026-08-31T17:38:11-04:00",
+        "ep": "Episode 12",
+        "title": "Total Hip Replacement, Explained: Anterior vs. Posterior",
+        "guest": "Dr. Michael Leighton, MD",
+        "teaser": "Orthopedic surgeon Dr. Michael Leighton breaks down total hip replacement in plain English: the anterior versus posterior approach, what actually drives infection risk, and the flat Medicare payment that covers the surgery and 90 days of follow-up care.",
+    },
+    {
+        "id": "F8jyVhOeuX0",
+        "uploaded": "2026-08-31T15:15:26-04:00",
+        "ep": "Episode 11",
+        "title": "Peptides, GLP-1s &amp; Hormone Replacement Therapy, Explained",
+        "guest": "Paul Joyce",
+        "teaser": "Paul Joyce of New Life HRT joins Dave and Mike to explain what a peptide actually is, where GLP-1 medications like Ozempic came from, and why the weight they take off comes with a real cost in muscle if the protein and strength work don&rsquo;t come with it.",
+    },
+    {
         "id": "wdcHPvySKHk",
         # YouTube publish date, ISO-8601. Required by Google's video structured
         # data spec — without it the episode is not eligible for video rich
@@ -3488,6 +3504,27 @@ Pain 2 Power, hosted by Dr. Dave Kashuba with Mike McGann. Saturdays 8:30 AM on
                "That page took a wrong turn. Find physical therapy, occupational therapy, hand therapy, and wellness services at First Rehabilitation of North Palm Beach.",
                extra_schema='<meta name="robots" content="noindex">\n') + nav(0, solid=True) + body + footer(0))
 
+def check_episode_video_sync():
+    """Warn when EPISODES and VIDEOS have drifted apart.
+
+    Every new episode needs both an EPISODES[0] entry (Spotify) and a VIDEOS
+    entry (YouTube) added together per the release-cycle doc in CLAUDE.md —
+    but Episodes 11 and 12 both shipped with the Spotify half only, and the
+    gap sat unnoticed for days because nothing surfaced it at build time.
+    This can't catch every case (a same-day episode's YouTube video may
+    genuinely not be up yet), so it warns instead of failing the build.
+    """
+    ep_num = lambda label: int(label.split()[-1])
+    video_labels = {v["ep"] for v in VIDEOS}
+    if not video_labels:
+        return
+    earliest_video_ep = min(ep_num(l) for l in video_labels)
+    episode_labels = {e[0] for e in EPISODES if ep_num(e[0]) >= earliest_video_ep}
+    missing = sorted(episode_labels - video_labels, key=ep_num, reverse=True)
+    if missing:
+        print(f"\n WARNING: in EPISODES (Spotify) but missing from VIDEOS (YouTube): {', '.join(missing)}")
+        print("   If the YouTube video is live, add its VIDEOS entry now — see 'Automating the episode metadata' in CLAUDE.md.")
+
 if __name__ == "__main__":
     build_home()
     build_services()
@@ -3504,4 +3541,5 @@ if __name__ == "__main__":
     build_videos()
     build_exercises()
     build_meta()
+    check_episode_video_sync()
     print("\nDone. Open index.html or deploy the folder to Vercel.")
