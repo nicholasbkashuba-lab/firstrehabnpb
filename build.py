@@ -1687,6 +1687,7 @@ def build_exercises():
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
+    "Episode 12": "pain-2-power-ep12-captain-kerry",         # Captain Kerry
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
@@ -2273,6 +2274,34 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "pain-2-power-ep12-captain-kerry": {
+        "title": "Below Deck's Captain Kerry on the Rehab, and the Reason He Talks About It",
+        "date": "September 2026",
+        "iso": "2026-09-05",
+        "tag": "Pain 2 Power",
+        "teaser": "Bravo's Captain Kerry rehabbed a torn rotator cuff through two surgeries with Dave, then came on Pain 2 Power to talk about the workout, and about why he built a platform around mental health.",
+        "body": """
+<p>Captain Kerry left a job site in Miami before dawn to make it to the Legends Radio studio on time. He runs his own boat maintenance business on the side of the Bravo career, and Saturday morning something threw off his whole schedule. He came anyway. He had given his word.</p>
+<p>That is the kind of friendship this episode of Pain 2 Power is built on. Dave and Captain Kerry, known to Bravo audiences from Below Deck, have known each other more than twenty years, since Dave studied occupational therapy at Curtin University in Perth, Australia, and the Australians he met there took care of him the way he now tries to take care of them.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>A rollover accident, and a favor that became a friendship</h2>
+<p>Kerry&rsquo;s doctor called Dave directly. &ldquo;Dave, I know you&rsquo;re not on this insurance, but can you take it?&rdquo; Kerry had dislocated and injured his shoulder in a rollover accident, one of a group of Australians working in the area at the time, and Dave said yes without hesitation. &ldquo;They took good care of me,&rdquo; he said of the friends who hosted him in Perth, &ldquo;and I really wasn&rsquo;t taking any workman&rsquo;s comp.&rdquo;</p>
+<p>It was a torn rotator cuff, and Kerry was working on deck at the time, which meant full overhead motion was not optional. Dave built him a program. When Kerry&rsquo;s work sent him to the Northeast before it was finished, Dave sent him away with resistance bands and instructions. &ldquo;You gave me what I needed to do when I was away,&rdquo; Kerry said. He has had two surgeries on that shoulder since, and both times, his words, &ldquo;Dave and his team have got me back together.&rdquo;</p>
+<h2>The workout that outran the branding</h2>
+<p>Somewhere in those years, Dave built Kerry a specific program using blood flow restriction training, designed to let someone reach real conditioning in twenty to twenty five minutes, three times a week, by maximizing blood supply to the working muscle instead of grinding through longer sessions. A television producer noticed the results and put Kerry on camera talking about it. &ldquo;Twenty years of programming for this went away in ten seconds,&rdquo; Dave said, laughing, &ldquo;and now it&rsquo;s the Captain Kerry workout.&rdquo;</p>
+<p>Neither of them minds. What the branding does not change is why it works: Dave sees patients two to three times a week for the guided sessions, and holds them to the homework in between. &ldquo;Sometimes ten, if I could do ten, I should do fifty. No, other times I&rsquo;ll do it every other day,&rdquo; he said. &ldquo;It&rsquo;s just important for consistency.&rdquo; Kerry is the case study. &ldquo;If anything I could tell about Kerry,&rdquo; Dave said, &ldquo;very consistent, very dedicated to everything he does.&rdquo;</p>
+<h2>The mission underneath the reality show</h2>
+<p>Kerry runs his own podcast, Charting the Course and Weathering the Storms Within, and Monday episodes are what he calls Mental Health Mondays, where he talks through what he is personally working on. &ldquo;There is no destination, it&rsquo;s the journey,&rdquo; he said. &ldquo;I&rsquo;m still working that out, but this is how I&rsquo;m trying to work through it.&rdquo;</p>
+<p>He cited a statistic that stuck with him: roughly one in five people will experience depression at some point, women are diagnosed at twice the rate of men, and yet men account for the large majority of suicides, by his account around eighty percent, because men are less likely to reach out. &ldquo;Someone like Kerry, who&rsquo;s going out of his way to say hey guys, it&rsquo;s okay to talk about this,&rdquo; Dave said, is doing something most people in his position never bother to do. Kerry put it in his own terms: if a public platform can hand one struggling person what he calls a cheat code, a way out found faster because somebody else was honest first, then staying quiet about his own hard years would be, in his word, a disservice.</p>
+<h2>Where the giving goes when the cameras are off</h2>
+<p>Kerry also runs a 501(c)(3) foundation called Remember Me, built around early onset dementia, helping people find housing and nursing care. He fosters dogs for a Husky rescue and supports Big Dog Ranch Rescue, and he drives to Port St. Lucie for Wounded Waters, a program that takes veterans and first responders out fishing and diving. None of it, he said, asks much of him individually. &ldquo;It&rsquo;s very little effort for me to get in a car and drive an hour, just to help others out.&rdquo;</p>
+<p>He traced the instinct back to a moment running charter boats years ago, before his television career, catching himself thinking, &ldquo;I&rsquo;m just pumping diesel fumes everywhere. What am I doing for anybody else?&rdquo; The first season of Below Deck gave him an audience, and a fan named Adrienne asked what he wanted to raise money for on his birthday. He picked presents for kids of single parents at Christmas, worried privately that only one gift would show up. The stage ended up full of boxes. &ldquo;This is from like two posts,&rdquo; he said. &ldquo;Imagine what I could do if I really thought about this.&rdquo;</p>
+<h2>What this has to do with a rehab clinic</h2>
+<p>Kerry&rsquo;s shoulder is the throughline. He is proof that a torn rotator cuff, even one that needed surgery twice, does not have to end a physically demanding career if the rehab is consistent and the patient stays with it years after the injury. That is what we do with every <a href="../treatments/shoulder-pain.html">shoulder rehab</a> patient who walks through our doors, famous or not.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, and catch past episodes in our <a href="../videos.html">video library</a>. If an old shoulder injury is still limiting you, or you want to ask about the training approach behind it, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "pain-2-power-ep11-joyce": {
         "title": "The Muscle Comes Off Too: Paul Joyce on GLP-1s and Peptides",
         "date": "August 2026",
