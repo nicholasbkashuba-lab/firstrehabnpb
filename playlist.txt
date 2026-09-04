@@ -1,0 +1,13 @@
+# Posting order for Episode 13 clips, strongest first.
+# The daily routine posts the first clip in this list that has not already
+# gone out. A clip absent from this file is never posted.
+# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+#
+# SEEDED IN NUMERIC ORDER. Reorder before the week starts: six weekday slots
+# and 5 clips means only the top six air, so order decides what runs.
+
+01-trial-by-fire.mp4
+02-not-afraid-to-talk.mp4
+03-cheat-code.mp4
+04-amazon-boxes.mp4
+05-sons-smile.mp4
