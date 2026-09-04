@@ -1193,7 +1193,8 @@ def build_conditions():
             "knee-pain": ["knee-arthritis-before-surgery", "partial-vs-total-knee-replacement"],
             "back-pain": ["five-morning-habits-back-pain", "hip-impingement-back-pain-north-palm-beach"],
             "hand-wrist": ["why-hand-therapy-is-different"],
-            "hip-pain": ["hip-impingement-back-pain-north-palm-beach", "pain-2-power-ep10-mcvicker"],
+            "hip-pain": ["hip-impingement-back-pain-north-palm-beach", "pain-2-power-ep10-mcvicker", "pain-2-power-ep12-leighton"],
+            "shoulder-pain": ["reverse-shoulder-replacement-explained", "pain-2-power-ep9-sabesan"],
             "neck-pain": ["headaches-that-start-in-the-neck"],
             "headache-relief": ["headaches-that-start-in-the-neck"],
             "post-surgical": ["partial-vs-total-knee-replacement", "reverse-shoulder-replacement-explained"],
@@ -1752,8 +1753,10 @@ def build_exercises():
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
+    "Episode 12": "pain-2-power-ep12-leighton",              # Dr. Michael Leighton
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
+    "Episode 9": "pain-2-power-ep9-sabesan",                 # Dr. Vani Sabesan
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
     "Episode 7": "cartilage-transplant-knee-explained",      # Dr. Rami Elkhechen
     "Episode 6": "knee-arthritis-before-surgery",            # Dr. Richard Weiner
@@ -2351,6 +2354,28 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "pain-2-power-ep12-leighton": {
+        "title": "Anterior or Posterior: Dr. Michael Leighton on Total Hip Replacement",
+        "date": "August 2026",
+        "iso": "2026-08-29",
+        "tag": "Pain 2 Power",
+        "teaser": "Dr. Michael Leighton of Palm Beach Orthopedic Institute joins Dave and Mike to break down hip replacement surgery, what actually prevents infection, and why Medicare pays surgeons far less than most patients guess.",
+        "body": """
+<p>Dr. Michael Leighton has never had a surgical infection in his career. When Dave said so on air, Leighton stopped him. &ldquo;I will not tell you that I&rsquo;ve had zero infections in my orthopedic life,&rdquo; he said, &ldquo;but the good news is that the risk of infection in a total hip or a total knee replacement is actually quite low, certainly less than one or two percent.&rdquo; His own grandmother had a word for tempting fate that way, and he used it on air.</p>
+<p>That instinct for precision ran through the whole hour. Dr. Leighton, an orthopedic surgeon at Palm Beach Orthopedic Institute who trained at Duke before a sports medicine fellowship, joined Dave and Mike to talk through total hip replacement: how the two surgical approaches actually differ, what lowers infection risk before a patient ever reaches the operating room, and what Medicare pays for one of the most successful operations in medicine.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Anterior or posterior is not a coin flip</h2>
+<p>Dr. Leighton performs both approaches and said the choice depends on the patient, not on which technique is newer. &ldquo;I&rsquo;m more partial to a posterior approach,&rdquo; he said, though he has plenty of patients who chose otherwise. The literature shows a small group of anterior patients get out of a chair faster in the first two to four weeks, an edge that disappears by six weeks either way. Fracture risk runs higher with an anterior approach. Dislocation risk runs slightly higher with posterior, though both stay low. Heavier patients complicate the anterior incision site in particular, since it sits in a spot the body has a harder time keeping dry while it heals.</p>
+<h2>Infection prevention starts at the dentist, not the hospital</h2>
+<p>Three things came up before surgery ever entered the conversation: teeth, cigarettes, and blood sugar. &ldquo;It&rsquo;s critical to make sure there&rsquo;s no active site of infection,&rdquo; Dr. Leighton said, &ldquo;make sure your dental hygiene is up to speed.&rdquo; Bacteria from the mouth travels through the bloodstream during something as routine as brushing, and a new joint replacement gives it somewhere to settle. Smoking narrows blood vessels and slows healing outright. Vaping is a function of the nicotine itself, so a nicotine free vape does not carry the same risk. For diabetic patients, he watches hemoglobin A1c specifically. Above 7.5, he holds off on elective surgery until it comes down.</p>
+<h2>The old restrictions are mostly gone</h2>
+<p>The rule about never bending your new hip past 90 degrees goes back to a technique pioneered by John Charnley decades ago, one that removed and reattached a piece of bone called the greater trochanter and required real precautions while it healed. Modern hip implants rely on bone growing into a roughened surface instead, a process that takes about six weeks. After that, Dr. Leighton lets patients ease back into pickleball, golf, and tennis. Many go home the day of surgery or the next morning now, instead of the week in traction he remembers from his training, when patients lay immobilized long enough to raise their own risk of blood clots.</p>
+<h2>What Medicare actually pays</h2>
+<p>Dr. Leighton asked Mike to guess what Medicare reimburses a surgeon for a total hip replacement, covering the operation, the hospital stay, and 90 days of follow up care. Mike guessed $136,014. &ldquo;This is going to be an eye opener,&rdquo; Dr. Leighton said. The real number is $1,162, a figure due to drop another three to five percent after a July announcement, while rent, staff pay, and the cost of running an office do not move in the same direction.</p>
+<p>Have questions about hip pain or whether you are a candidate for hip replacement? First Rehabilitation of North Palm Beach can walk you through what recovery actually looks like, and can put you in touch with Dr. Leighton&rsquo;s team at Palm Beach Orthopedic Institute directly. Hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch past episodes in our <a href="../videos.html">video library</a>, or read more in our <a href="../treatments/hip-pain.html">hip pain treatment guide</a>. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "pain-2-power-ep11-joyce": {
         "title": "The Muscle Comes Off Too: Paul Joyce on GLP-1s and Peptides",
         "date": "August 2026",
@@ -2506,6 +2531,28 @@ BLOG_POSTS = {
 <h2>Start with an evaluation</h2>
 <p>If your back pain has never fully explained itself, or the ache sits in your groin when you get up from a chair, an evaluation is the fastest way to find out which joint is actually responsible. We will look at how your hip moves, how your pelvis behaves under load, and how much work that gluteus medius is really doing, then build the program from what we find.</p>
 <p>Call <strong>561-624-4263</strong> or <a href="../contact.html">request an appointment</a>. You can read more about our approach to <a href="../treatments/hip-pain.html">hip pain</a> and <a href="../treatments/back-pain.html">back pain</a>, see how we structure <a href="../services/physical-therapy.html">physical therapy</a>, browse the <a href="../faq.html#physical-therapy">physical therapy questions in our FAQ</a>, or hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep9-sabesan": {
+        "title": "We Can Fix a Rotator Cuff. Getting It to Heal Is the Hard Part.",
+        "date": "August 2026",
+        "iso": "2026-08-08",
+        "tag": "Pain 2 Power",
+        "teaser": "Dr. Vani Sabesan, the Florida Orthopaedic Society's first female president, joins Dave and Mike on rotator cuff surgery, why robots are not the next panacea, and the ninety year olds still training six days a week.",
+        "body": """
+<p>&ldquo;We&rsquo;re really good at fixing rotator cuffs,&rdquo; Dr. Vani Sabesan said. &ldquo;We&rsquo;re not great at getting them to heal.&rdquo; That gap between repairing a tendon and getting the body to actually knit it back together ran through her entire hour on Pain 2 Power.</p>
+<p>Dr. Sabesan is an orthopaedic shoulder surgeon and, as of this year, the Florida Orthopaedic Society&rsquo;s first female president in the organization&rsquo;s 74 year history. She joined Dave and Mike for a candid conversation about where shoulder surgery actually stands today, and where the hype outruns the evidence.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Seventeen million people, one in three past sixty</h2>
+<p>Rotator cuff problems are not rare. &ldquo;I think 17 million people suffer from a rotator cuff,&rdquo; Dr. Sabesan said, and past 60 the odds climb fast. &ldquo;Anyone, if you sat next to someone in any sort of retirement community over 60, one out of three people are going to have a rotator cuff pathology.&rdquo; The surgery to repair a tear is well established. What happens after, whether the tendon actually heals to the bone instead of just sitting there stitched, is the part she said the field still has not solved, which is why she has leaned into muscle sparing technique and biologic scaffolds rather than treating a successful repair as the finish line.</p>
+<h2>Robots are a marketing department win, not yet a patient one</h2>
+<p>Ask a hospital marketing team and robotic surgery sounds like the future. Ask Dr. Sabesan and the answer is more careful. &ldquo;Robots have affected a lot of other parts of medicine, but in shoulders and joints, total hips and knees, there&rsquo;s actually been not a lot of science to say robots are the next panacea,&rdquo; she said. Patients gravitate toward a surgeon who operates with one because it reads as the newest option. Her point was not that the technology is bad, only that the outcomes data has not caught up to the marketing yet, and a patient choosing a surgeon on that basis alone is choosing on the wrong evidence.</p>
+<h2>Fourteen years ago, this was heresy</h2>
+<p>Dr. Sabesan switched to knotless sutures roughly fourteen years into her career, on the advice of her own residents and reps. At the time, she said, going against the standard suture technique &ldquo;was a heresy to do it.&rdquo; The technique is common practice now. She brought it up as a habit worth keeping: listening to the people earlier in their careers than you, checking the evidence behind what they suggest, and being willing to change a technique that is working fine if a better one shows up.</p>
+<h2>An eighty year old with a rotator cuff is not an eighty year old built like 1990</h2>
+<p>South Florida&rsquo;s patients skew active and old at the same time, a combination Dr. Sabesan said she does not see the same way anywhere else she has practiced. Ninety year olds are coming off the pickleball court with the same complaints a sixty year old would have. Patients she describes as competitive, playing six days a week, come in with one request: get them back on the court, whatever it takes. She has run 28 marathons herself, which she brought up not as a credential but as the reason she takes an athlete&rsquo;s impatience with a sling seriously instead of dismissing it.</p>
+<p>Have shoulder pain that is not improving, or a rotator cuff tear you have been told to just live with? First Rehabilitation of North Palm Beach can walk you through what nonsurgical treatment and post surgical rehab actually involve. Hear the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch past episodes in our <a href="../videos.html">video library</a>, or read our <a href="../treatments/shoulder-pain.html">shoulder pain treatment guide</a>. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
 <p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
 """,
     },
@@ -2717,12 +2764,14 @@ BLOG_POSTS = {
 # target at least once, so adding a post means adding it to somebody's list too.
 # Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
 RELATED_POSTS = {
+    "pain-2-power-ep12-leighton": ["pain-2-power-ep10-mcvicker", "hip-impingement-back-pain-north-palm-beach", "partial-vs-total-knee-replacement"],
+    "pain-2-power-ep9-sabesan": ["reverse-shoulder-replacement-explained", "pain-2-power-ep10-mcvicker", "what-to-expect-first-pt-visit"],
     "pain-2-power-ep11-joyce": ["pain-2-power-ep10-mcvicker", "reverse-shoulder-replacement-explained", "what-to-expect-first-pt-visit"],
     "partial-vs-total-knee-replacement": ["knee-arthritis-before-surgery", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
     "physical-therapy-vs-occupational-therapy": ["why-hand-therapy-is-different", "what-to-expect-first-pt-visit", "five-morning-habits-back-pain"],
     "pain-2-power-ep10-mcvicker": ["hip-impingement-back-pain-north-palm-beach", "five-morning-habits-back-pain", "pain-2-power-ep11-joyce"],
-    "hip-impingement-back-pain-north-palm-beach": ["pain-2-power-ep10-mcvicker", "five-morning-habits-back-pain", "what-to-expect-first-pt-visit"],
-    "reverse-shoulder-replacement-explained": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
+    "hip-impingement-back-pain-north-palm-beach": ["pain-2-power-ep10-mcvicker", "pain-2-power-ep12-leighton", "what-to-expect-first-pt-visit"],
+    "reverse-shoulder-replacement-explained": ["partial-vs-total-knee-replacement", "pain-2-power-ep9-sabesan", "what-to-expect-first-pt-visit"],
     "what-to-expect-first-pt-visit": ["physical-therapy-vs-occupational-therapy", "five-morning-habits-back-pain", "knee-arthritis-before-surgery"],
     "five-morning-habits-back-pain": ["hip-impingement-back-pain-north-palm-beach", "headaches-that-start-in-the-neck", "what-to-expect-first-pt-visit"],
     "why-hand-therapy-is-different": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit", "reverse-shoulder-replacement-explained"],
@@ -2816,6 +2865,8 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "pain-2-power-ep12-leighton": "Dr. Michael Leighton: Hip Replacement Explained",
+            "pain-2-power-ep9-sabesan": "Dr. Vani Sabesan: Rotator Cuff Surgery Explained",
             "pain-2-power-ep11-joyce": "Paul Joyce: GLP-1s, Peptides and Muscle Loss",
             "partial-vs-total-knee-replacement": "Partial vs Total Knee Replacement",
             "physical-therapy-vs-occupational-therapy": "Physical Therapy vs Occupational Therapy",
