@@ -1752,7 +1752,7 @@ def build_exercises():
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
-    "Episode 12": "pain-2-power-ep12-captain-kerry",         # Captain Kerry
+    "Episode 13": "pain-2-power-ep13-captain-kerry",         # Captain Kerry
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
@@ -2352,7 +2352,7 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
-    "pain-2-power-ep12-captain-kerry": {
+    "pain-2-power-ep13-captain-kerry": {
         "title": "Below Deck's Captain Kerry on the Rehab, and the Reason He Talks About It",
         "date": "September 2026",
         "iso": "2026-09-05",
