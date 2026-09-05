@@ -201,6 +201,7 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `physical-therapy-vs-occupational-therapy` | Occupational Therapy | difference between physical and occupational therapy |
 | `/exercises.html` (page, not a post) | All four | home exercises for knee / hip / shoulder pain |
 | `hip-impingement-back-pain-north-palm-beach` | Physical Therapy | hip impingement treatment North Palm Beach |
+| `pain-2-power-ep13-captain-kerry` | Pain 2 Power (Ep 13) | Captain Kerry / Below Deck rotator cuff rehab |
 | `pain-2-power-ep11-joyce` | Pain 2 Power (Ep 11) | Paul Joyce / peptides and GLP-1 muscle loss |
 | `pain-2-power-ep10-mcvicker` | Pain 2 Power (Ep 10) | Dr. Zach McVicker / hip surgeon Jupiter |
 | `reverse-shoulder-replacement-explained` | Physical Therapy | reverse shoulder replacement recovery |
@@ -210,6 +211,15 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `knee-arthritis-before-surgery` | Physical Therapy | knee arthritis treatment before surgery |
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
+
+**Ep 13 note (2026-09-05):** the Captain Kerry recap is a Pain 2 Power post, not a Wellness pillar
+post, so the Wellness hole below is still open. The transcript holds a real Wellness pillar angle
+nothing on the site covers yet: blood flow restriction training, built on Dave's description of a
+twenty to twenty five minute, three times a week protocol (branded informally as the "Captain Kerry
+workout") and Kerry's own two rotator cuff surgeries and years of consistent follow through. No
+matching keyword sits in the Wellness block above yet; closest fits are "personal training with a
+therapist who knows your injury history" and "strength training after 60 where to start". Awaiting
+owner sign-off on the angle and keyword before it is written.
 
 **Ep 11 note (2026-08-22):** the Paul Joyce recap is a Pain 2 Power post, not a Wellness pillar post,
 so the Wellness hole below is still open. The transcript does hold a real Wellness pillar angle that
