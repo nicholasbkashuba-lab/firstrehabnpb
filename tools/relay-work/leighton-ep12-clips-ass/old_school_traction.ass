@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1350
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Arial Black,58,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,0,0,3,12,0,2,60,60,170,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:05.49,Caption,,0,0,0,,When I was training, we would keep people in traction
+Dialogue: 0,0:00:05.50,0:00:12.17,Caption,,0,0,0,,in the hospital for a week, just lying there
+Dialogue: 0,0:00:12.42,0:00:16.71,Caption,,0,0,0,,with their leg up in balanced traction, and they couldn't move.
+Dialogue: 0,0:00:16.95,0:00:21.52,Caption,,0,0,0,,Those patients did just fine ultimately.
+Dialogue: 0,0:00:21.67,0:00:25.56,Caption,,0,0,0,,Many of them got blood clots because we didn't understand the risk
+Dialogue: 0,0:00:25.56,0:00:30.63,Caption,,0,0,0,,of blood clots in those days, and it was a balanced
+Dialogue: 0,0:00:30.64,0:00:34.67,Caption,,0,0,0,,battle between preventing them from getting blood clots, yet keeping them
+Dialogue: 0,0:00:34.67,0:00:36.43,Caption,,0,0,0,,in bed in this balanced traction.

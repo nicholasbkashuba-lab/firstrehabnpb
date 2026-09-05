@@ -1606,6 +1606,7 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
+    ("Episode 13", "Captain Kerry Titheradge", "&ldquo;Twenty years of programming for this went away in ten seconds,&rdquo; Dave says, laughing, about the blood flow restriction workout he built for this week&rsquo;s guest, since rebranded by Bravo as the Captain Kerry Workout. Dave welcomes Captain Kerry Titheradge, known to Bravo audiences from Below Deck, and a friend of more than twenty years going back to Dave&rsquo;s graduate studies in occupational therapy at Curtin University in Perth, Australia. <br><br>Kerry was one of Dave&rsquo;s earliest patients: a torn rotator cuff from a rollover accident, treated years before First Rehabilitation ever ran insurance for it, because the Australians who hosted Dave in Perth had taken care of him first. Two surgeries later, Kerry still trains with the same program. <br><br>The conversation moves past the shoulder into why Kerry built his own podcast, Charting the Course and Weathering the Storms Within, around Mental Health Mondays, why he believes men are undertreated for depression, and Remember Me, the 501(c)(3) foundation Dave started for families facing early onset dementia, which Kerry has personally supported with his own time and money. Kerry runs his own causes too, fostering dogs for a Husky rescue and driving to Port St. Lucie for Wounded Waters, a program that takes veterans and first responders out fishing and diving. <br><br>Captain Kerry Titheradge is a yacht captain known worldwide from Bravo&rsquo;s Below Deck, and off camera runs Charting the Course and Weathering the Storms Within, a podcast built around honest conversations about mental health with people the public assumes has it all figured out.", "https://open.spotify.com/episode/6DoHiOTVJLUtKCYNaxqzRi", "Listen"),
     ("Episode 12", "Dr. Michael Leighton, MD", "&ldquo;This is the best operation that&rsquo;s done in orthopedics&hellip; the single best operation that Medicare pays for.&rdquo; Orthopedic surgeon Dr. Michael Leighton — a friend Dave has referred patients to since 1994 — joins Dave and Mike to break down total hip replacement: the anterior versus posterior surgical approach, and why he steers heavier or older patients toward posterior while thinner, younger patients can go either way. <br><br>They cover what actually drives infection risk (under 1&ndash;2% over a lifetime, far lower than most people assume, but higher in smokers, in vapers using nicotine, and in diabetics whose A1C runs above 7.5), why dental hygiene matters before joint surgery, and the six-week window bone needs to grow into a modern non-cemented implant. <br><br>Also: the old dislocation precautions that used to keep patients in traction for a week are mostly gone, prehab isn&rsquo;t one-size-fits-all, and an eye-opening dose of Medicare economics — a single flat payment of $1,162 covers the surgery and 90 days of follow-up care, a number Dave says deserves a lot more attention than it gets.<br><br>Dr. Leighton is an orthopedic surgeon with Palm Beach Orthopedic Institute in Palm Beach Gardens, board certified by the American Board of Orthopaedic Surgery with a subspecialty certification in Orthopaedic Sports Medicine. A former Division I baseball player at Duke, he has practiced in Palm Beach County since 1994, treating Hall of Fame athletes alongside weekend pickleball players, and performs minimally invasive hip replacement (anterior and posterior) and robotic-arm assisted (Mako) knee replacement.", "https://open.spotify.com/episode/2HTkgf8nOXbTrEqrPyzYtL", "Listen"),
     ("Episode 11", "Paul Joyce", "&ldquo;You definitely have to make sure you&rsquo;re getting enough protein.&rdquo; Peptides, GLP-1s and hormone replacement therapy are on everyone&rsquo;s lips and understood by almost nobody, so Dave and Mike brought in Paul Joyce of New Life HRT, a friend of Dave&rsquo;s for 22 years and the man a lot of doctors quietly learn these protocols from before they offer them themselves. <br><br>He explains what a peptide actually is (a short chain of amino acids, usually under 50, of which he counts around 150), where the GLP-1 medicines came from (a gut hormone your body already makes, and the Gila monster version of it that stays around long enough to keep working), and why he began prescribing Ozempic off label for weight loss back in 2017, before the rest of the country caught on. <br><br>The part that matters most to a rehab clinic is what the weight takes with it. &ldquo;Yeah, you lose a lot of muscle,&rdquo; he says, and he is talking about himself as much as his patients: he started at 209 pounds, weighs 153 now, and says he took it too far. <br><br>Dave&rsquo;s warning is the one to write down, that people who are not monitored start looking frail, and that the shot will make you better without making you healthier unless the protein and the strength work come with it. <br><br>They also get into the counterfeit peptide trade, where Paul had six research only websites tested and all six came back with major flaws, from heavy metals to bacteria to a vial sold as retatrutide that turned out to be underdosed semaglutide, plus the fabricated certificates of analysis he was called to testify about in Atlanta.<br><br>Paul Joyce runs New Life HRT, where physicians go to be trained on peptide and hormone replacement protocols. He is also, as of this episode, one of Dave&rsquo;s patients: he has a completely torn rotator cuff, cancelled the shoulder replacement he had scheduled, and explains on air why he is rehabbing it instead.", "https://open.spotify.com/episode/1HXEy4xcDFRk40hwbdQrD5", "Listen"),
     ("Episode 10", "Dr. Zach McVicker, MD", "&ldquo;A lot of times it&rsquo;s causing the back pain, it&rsquo;s causing the groin pain.&rdquo; Plenty of people arrive certain their problem is their back, and the hip turns out to be the thing driving it. <br><br>Orthopedic surgeon Dr. Zach McVicker joins Dave and Mike to explain femoroacetabular impingement in plain English: the two shapes it comes in, the cam lesion where the ball is misshapen (&ldquo;instead of being round, it&rsquo;s more like an oval peg in a round hole&rdquo;) and the pincer lesion where the socket covers too much of it, which skews female and is the harder of the two to repair. <br><br>The labrum, he explains, works like a gasket between two pipes, creating the suction seal that spreads your weight across the whole dome of the joint; lose the seal and the cartilage starts taking pressure it was never meant to take. <br><br>They get into hip dysplasia, the opposite problem, where an underdeveloped socket edge-loads the cartilage and ends in arthritis; who tends to get it, from gymnasts and dancers to marathon runners to the seventy-year-olds playing tennis six days a week down here; and why arthroscopic repair, done early, keeps the hip you were born with along with the proprioception a replacement cannot give back. <br><br>Dave walks through the home program he actually hands patients for a weak gluteus medius, including sit-to-stands with a band above the knees to stop the asymmetrical weight shift, and makes his usual case for doing your homework before you choose a surgeon rather than taking advice from the Publix line.<br><br>Dr. McVicker is board certified by the American Board of Orthopaedic Surgery and fellowship trained in sports medicine at the Cedars Sinai Kerlan Jobe Institute in Los Angeles. He practices with the Paley Orthopedic and Spine Institute in Jupiter and West Palm Beach, focusing on minimally invasive arthroscopic surgery of the hip, knee, shoulder and elbow, and has served as assistant team physician for the Miami Marlins and the Jupiter Hammerheads.", "https://open.spotify.com/episode/6gVRS8Cmqd0263HdZfc37L", "Listen"),
@@ -3198,6 +3199,22 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        "id": "FBaBGdzNksM",
+        "uploaded": "2026-08-31T17:38:11-04:00",
+        "ep": "Episode 12",
+        "title": "Total Hip Replacement, Explained: Anterior vs. Posterior",
+        "guest": "Dr. Michael Leighton, MD",
+        "teaser": "Orthopedic surgeon Dr. Michael Leighton breaks down total hip replacement in plain English: the anterior versus posterior approach, what actually drives infection risk, and the flat Medicare payment that covers the surgery and 90 days of follow-up care.",
+    },
+    {
+        "id": "F8jyVhOeuX0",
+        "uploaded": "2026-08-31T15:15:26-04:00",
+        "ep": "Episode 11",
+        "title": "Peptides, GLP-1s &amp; Hormone Replacement Therapy, Explained",
+        "guest": "Paul Joyce",
+        "teaser": "Paul Joyce of New Life HRT joins Dave and Mike to explain what a peptide actually is, where GLP-1 medications like Ozempic came from, and why the weight they take off comes with a real cost in muscle if the protein and strength work don&rsquo;t come with it.",
+    },
+    {
         "id": "wdcHPvySKHk",
         # YouTube publish date, ISO-8601. Required by Google's video structured
         # data spec — without it the episode is not eligible for video rich
@@ -3517,6 +3534,27 @@ Pain 2 Power, hosted by Dr. Dave Kashuba with Mike McGann. Saturdays 8:30 AM on
                "That page took a wrong turn. Find physical therapy, occupational therapy, hand therapy, and wellness services at First Rehabilitation of North Palm Beach.",
                extra_schema='<meta name="robots" content="noindex">\n') + nav(0, solid=True) + body + footer(0))
 
+def check_episode_video_sync():
+    """Warn when EPISODES and VIDEOS have drifted apart.
+
+    Every new episode needs both an EPISODES[0] entry (Spotify) and a VIDEOS
+    entry (YouTube) added together per the release-cycle doc in CLAUDE.md —
+    but Episodes 11 and 12 both shipped with the Spotify half only, and the
+    gap sat unnoticed for days because nothing surfaced it at build time.
+    This can't catch every case (a same-day episode's YouTube video may
+    genuinely not be up yet), so it warns instead of failing the build.
+    """
+    ep_num = lambda label: int(label.split()[-1])
+    video_labels = {v["ep"] for v in VIDEOS}
+    if not video_labels:
+        return
+    earliest_video_ep = min(ep_num(l) for l in video_labels)
+    episode_labels = {e[0] for e in EPISODES if ep_num(e[0]) >= earliest_video_ep}
+    missing = sorted(episode_labels - video_labels, key=ep_num, reverse=True)
+    if missing:
+        print(f"\n WARNING: in EPISODES (Spotify) but missing from VIDEOS (YouTube): {', '.join(missing)}")
+        print("   If the YouTube video is live, add its VIDEOS entry now — see 'Automating the episode metadata' in CLAUDE.md.")
+
 if __name__ == "__main__":
     build_home()
     build_services()
@@ -3533,4 +3571,5 @@ if __name__ == "__main__":
     build_videos()
     build_exercises()
     build_meta()
+    check_episode_video_sync()
     print("\nDone. Open index.html or deploy the folder to Vercel.")

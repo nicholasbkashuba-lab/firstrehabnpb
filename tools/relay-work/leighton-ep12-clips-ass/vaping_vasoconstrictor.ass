@@ -1,0 +1,23 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1350
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Arial Black,58,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,0,0,3,12,0,2,60,60,170,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.90,Caption,,0,0,0,,Let me ask a question on that note.
+Dialogue: 0,0:00:01.91,0:00:03.13,Caption,,0,0,0,,What about vaping?
+Dialogue: 0,0:00:03.97,0:00:04.75,Caption,,0,0,0,,Oh, good question.
+Dialogue: 0,0:00:04.79,0:00:08.82,Caption,,0,0,0,,It's really a function of the nicotine.
+Dialogue: 0,0:00:08.82,0:00:13.29,Caption,,0,0,0,,If the vape is nicotine-free, it's not really an issue.
+Dialogue: 0,0:00:13.40,0:00:15.68,Caption,,0,0,0,,So it's a vasoconstrictor you're saying? Correct.
+Dialogue: 0,0:00:16.77,0:00:19.36,Caption,,0,0,0,,so you wanna prevent that vasoconstriction or
+Dialogue: 0,0:00:19.36,0:00:21.00,Caption,,0,0,0,,narrowing of the blood vessels.
+Dialogue: 0,0:00:21.06,0:00:22.09,Caption,,0,0,0,,Never thought of that either.
+Dialogue: 0,0:00:22.09,0:00:23.42,Caption,,0,0,0,,I've been doing this for 40 years.
+Dialogue: 0,0:00:23.42,0:00:24.75,Caption,,0,0,0,,I, I learn something new every day
