@@ -7,7 +7,9 @@
      1. Every answer is saved to localStorage immediately (drafts
         survive refreshes and navigation).
      2. Submissions insert into Supabase (insert-only anon policy).
-     3. A copy is emailed to the clinic inbox via FormSubmit.
+     3. A copy is emailed to the clinic inbox via FormSubmit, plus a
+        second independent copy to the owner. Only the clinic copy and
+        the Supabase write decide whether a lead counts as delivered.
      4. If the network fails, the lead is queued locally and
         retried automatically on every page view + when the
         browser comes back online.
@@ -22,6 +24,7 @@
     supabaseKey: 'sb_publishable_ERdB1Hn8B5cZ74Lq8otSKg_3bSwv5_K',
     table: 'intake_leads',
     notifyEmail: 'firstrehabnpb@gmail.com',
+    notifyEmailCc: 'nick@firstrehabnpb.com',
     phone: '561-624-4263',
     phoneHref: 'tel:+15616244263',
     autoOpenDelay: 4500,
@@ -486,30 +489,66 @@
     });
   }
 
-  // Email the lead to the clinic inbox (firstrehabnpb@gmail.com) via FormSubmit.
-  // Returns a promise so delivery can be tracked independently of the database.
-  function sendEmail(payload) {
-    return fetch('https://formsubmit.co/ajax/' + CFG.notifyEmail, {
+  // The email body, built once so the clinic copy and the owner copy can never
+  // drift apart — both inboxes always see the identical lead.
+  function emailFields(payload) {
+    return {
+      _subject: (payload.intent === 'question' ? 'Website question ' : 'Appointment request ') + (payload.ref_code || '') + ' — ' + payload.full_name,
+      _template: 'table',
+      Reference: payload.ref_code,
+      Type: payload.intent === 'question' ? 'Question / message' : 'Appointment request',
+      Care: payload.topic || '—',
+      Details: payload.message || '—',
+      Name: payload.full_name,
+      Phone: payload.phone,
+      Email: payload.email || '—',
+      'Preferred call time': payload.preferred_time || '—',
+      Insurance: payload.insurance || '—',
+      Page: payload.page
+    };
+  }
+
+  function postToFormSubmit(address, payload) {
+    return fetch('https://formsubmit.co/ajax/' + address, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: (payload.intent === 'question' ? 'Website question ' : 'Appointment request ') + (payload.ref_code || '') + ' — ' + payload.full_name,
-        _template: 'table',
-        Reference: payload.ref_code,
-        Type: payload.intent === 'question' ? 'Question / message' : 'Appointment request',
-        Care: payload.topic || '—',
-        Details: payload.message || '—',
-        Name: payload.full_name,
-        Phone: payload.phone,
-        Email: payload.email || '—',
-        'Preferred call time': payload.preferred_time || '—',
-        Insurance: payload.insurance || '—',
-        Page: payload.page
-      })
+      body: JSON.stringify(emailFields(payload))
     }).then(function (r) {
       if (!r.ok) throw new Error('email ' + r.status);
       return r.json();
     });
+  }
+
+  // Email the lead to the clinic inbox (firstrehabnpb@gmail.com) via FormSubmit.
+  // Returns a promise so delivery can be tracked independently of the database.
+  // This is the clinic's channel and one of the two that deliverLead counts —
+  // nothing below is allowed to interfere with it.
+  function sendEmail(payload) {
+    return postToFormSubmit(CFG.notifyEmail, payload);
+  }
+
+  // A second, completely independent copy to the owner (nick@firstrehabnpb.com),
+  // sent IN ADDITION to the clinic inbox, never instead of it.
+  //
+  // Why a separate POST rather than FormSubmit's _cc field: _cc is documented for
+  // FormSubmit forms, but FormSubmit's docs nowhere state that it is honoured on
+  // the /ajax/ JSON endpoint (the only AJAX behaviour they document is that
+  // _autoresponse does NOT work there). Adding an unverified field to the payload
+  // that already reaches the clinic risks the whole submission being rejected, and
+  // the clinic notification is the one thing that must not regress. A separate
+  // request cannot do that: the clinic's call is byte-for-byte what it was before.
+  //
+  // Fire and forget, deliberately: this returns nothing, is not counted by
+  // deliverLead, swallows its own rejection so it can never surface as an
+  // unhandled promise, and is wrapped in try/catch so even a synchronous throw
+  // (no fetch, blocked request, CSP) cannot escape into the caller.
+  function sendOwnerCopy(payload) {
+    try {
+      var sending = postToFormSubmit(CFG.notifyEmailCc, payload);
+      if (sending && typeof sending.catch === 'function') {
+        sending.catch(function () { /* owner copy failed; clinic delivery is unaffected */ });
+      }
+    } catch (e) { /* never let the owner copy break the clinic path */ }
   }
 
   // A lead reaching Supabase/email is the real conversion — main.js only ever
@@ -538,6 +577,7 @@
       }
       sendToSupabase(payload).then(function () { settle(true); }, function () { settle(false); });
       sendEmail(payload).then(function () { settle(true); }, function () { settle(false); });
+      sendOwnerCopy(payload); // extra copy to the owner; never counted, never blocking
     });
   }
 
