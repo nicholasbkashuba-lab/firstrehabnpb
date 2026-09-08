@@ -67,6 +67,45 @@ will not walk again, and a 13-year-old whose organs were being harvested. It is 
 most powerful thirty seconds in the episode and the hardest to place on a clinic's
 feed. Your call — I have not scheduled it.
 
+## Caption burn-in style — CHANGED, approved 2026-09-08
+
+Nick picked a **solid black box behind white lettering**, not the outline style used
+up to Episode 13. Compared side by side on a real frame from this episode, the
+outline softens against the guest's white coat; the box never depends on what is
+behind it. Apply the box to every clip in this set.
+
+- White bold text, **solid opaque black box**, no outline, no shadow
+- Centred, two lines maximum, sitting in the lower third
+- Box hugs each line with even padding rather than running full width
+
+Burning a `.srt` with libass — `BorderStyle=3` is what makes the box opaque, and
+`Outline` becomes the box padding rather than a stroke:
+
+```
+[V4+ Styles]
+Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+Style: Default,Inter,64,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,3,8,0,2,60,60,320,1
+```
+
+```bash
+ffmpeg -i clip.mp4 -vf "subtitles=clip.srt:force_style='BorderStyle=3,Outline=8,Shadow=0,\
+Fontsize=64,Bold=-1,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Alignment=2,MarginV=320'" \
+  -c:v libx264 -preset veryfast -crf 20 -c:a copy out.mp4
+```
+
+Or with `drawtext`, if the caption text is baked per segment rather than from a
+subtitle file:
+
+```
+drawtext=fontfile=Inter-Bold.ttf:fontsize=64:fontcolor=white:box=1:boxcolor=black:\
+boxborderw=28:x=(w-tw)/2:y=h*0.72
+```
+
+**Open: which font.** The preview that settled this used DejaVu Sans Bold, the only
+bold face available in the sandbox. Whatever the Episode 8 to 13 clips used should be
+carried forward; Inter Bold is the assumption above because the site runs Inter, but
+confirm before cutting.
+
 ## Caption rules for this set
 
 - Zero dashes anywhere in prose. Bullets use `•`. Only 561-624-4263 and

@@ -422,8 +422,13 @@ Standing preferences for a one off post, unless told otherwise:
 - Finish with `list_post_results` per platform. "processing" is not proof.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
-- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, dark
-  outline, centred, two lines max, sitting around the lower third.
+- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold,
+  centred, two lines max, sitting around the lower third. **The background is a SOLID
+  BLACK BOX, not an outline** (Nick, 2026-09-08, chosen from a side-by-side on real
+  Episode 14 footage: an outline softens against a guest in a white coat, a box never
+  depends on what is behind it). Episodes up to 13 shipped with the old dark-outline
+  style. With libass that is `BorderStyle=3` with `Outline` as box padding and
+  `Shadow=0`; with drawtext it is `box=1:boxcolor=black:boxborderw=28`.
 - **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
   and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
