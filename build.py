@@ -55,6 +55,23 @@ def asset_v(path):
         ASSET_V[path] = _v(path)
     return ASSET_V[path]
 
+# Google tag (gtag.js) — GA4 property G-GZKFNKSP6D, First Rehabilitation of North
+# Palm Beach ONLY. This measurement ID belongs to this clinic and must never be
+# emitted on any other site. Kept as a plain (non f-string) constant so the
+# snippet's own braces need no escaping, and injected by head() immediately
+# after <head> on every generated page — exactly once, since head() is the only
+# thing that writes that tag.
+GA_MEASUREMENT_ID = "G-GZKFNKSP6D"
+GA_TAG = """<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '%s');
+</script>""" % (GA_MEASUREMENT_ID, GA_MEASUREMENT_ID)
+
 def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema=""):
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
@@ -62,6 +79,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
+{GA_TAG}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>

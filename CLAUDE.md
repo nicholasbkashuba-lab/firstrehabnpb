@@ -133,6 +133,14 @@ domain switch (July 2027). Removing them early throws away that equity.
   `prj_thAY1ZFoahuVCLksBfXAyjyzo1b1`, team `team_VWA1Ar7nCeuyUifvSyeFTT1T`). mode=count
   for totals; mode=aggregate with by=[requestPath|referrerHostname|day|deviceType|country]
   for breakdowns. Data starts 2026-07-21, the day it was enabled.
+- **Google Analytics 4** is live: the standard gtag.js snippet for property
+  **G-GZKFNKSP6D** is emitted by `head()` in build.py immediately after `<head>` on
+  every generated page, so it is exactly once per page and never hand-edited. The
+  measurement ID lives in `GA_MEASUREMENT_ID` / `GA_TAG` next to `head()` — it is
+  First Rehabilitation's property ONLY and must never be copied onto another client
+  site. GA4 sat empty until 2026-09-08 because no tag existed anywhere on the site;
+  data starts from the deploy that carries it. GA4 and Vercel Web Analytics run side
+  by side and count differently — do not expect their numbers to match.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
