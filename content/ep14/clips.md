@@ -75,7 +75,9 @@ outline softens against the guest's white coat; the box never depends on what is
 behind it. Apply the box to every clip in this set.
 
 - White bold text, **solid opaque black box**, no outline, no shadow
-- Centred, two lines maximum, sitting in the lower third
+- Centred, two lines maximum, sitting LOW in the frame (`y=h*0.72`), approved 2026-09-08.
+  This is a deliberate move down: Episodes 8-13 sat mid-frame at ~46%. A box carries more
+  visual weight than a shadow, and mid-frame it lands across the speaker's chest.
 - Box hugs each line with even padding rather than running full width
 
 Burning a `.srt` with libass — `BorderStyle=3` is what makes the box opaque, and
@@ -101,10 +103,11 @@ drawtext=fontfile=Inter-Bold.ttf:fontsize=64:fontcolor=white:box=1:boxcolor=blac
 boxborderw=28:x=(w-tw)/2:y=h*0.72
 ```
 
-**Open: which font.** The preview that settled this used DejaVu Sans Bold, the only
-bold face available in the sandbox. Whatever the Episode 8 to 13 clips used should be
-carried forward; Inter Bold is the assumption above because the site runs Inter, but
-confirm before cutting.
+**Open: which font.** The previews that settled this used DejaVu Sans Bold, the only bold
+face in the sandbox. The real font is recorded nowhere in the repo and cannot be read off
+a rendered frame with confidence, so it has to come from whichever tool cut the Episode
+8-13 clips. `Inter` appears in the style block above as a placeholder because the site
+runs Inter; replace it before cutting.
 
 ## Caption rules for this set
 

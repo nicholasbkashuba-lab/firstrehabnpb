@@ -423,12 +423,18 @@ Standing preferences for a one off post, unless told otherwise:
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold,
-  centred, two lines max, sitting around the lower third. **The background is a SOLID
-  BLACK BOX, not an outline** (Nick, 2026-09-08, chosen from a side-by-side on real
-  Episode 14 footage: an outline softens against a guest in a white coat, a box never
-  depends on what is behind it). Episodes up to 13 shipped with the old dark-outline
-  style. With libass that is `BorderStyle=3` with `Outline` as box padding and
-  `Shadow=0`; with drawtext it is `box=1:boxcolor=black:boxborderw=28`.
+  centred, two lines max. **From Episode 14 on: a SOLID BLACK BOX behind the text,
+  sitting LOW in the frame** (Nick, 2026-09-08, both picked from side-by-sides on real
+  Episode 14 footage). An outline softens against a guest in a white coat; a box never
+  depends on what is behind it. With libass that is `BorderStyle=3` with `Outline` as
+  box padding and `Shadow=0`; with drawtext, `box=1:boxcolor=black:boxborderw=28` at
+  `y=h*0.72`.
+  What Episodes 8-13 ACTUALLY shipped, read off the frames of `media/ep13-clips` rather
+  than from memory: white bold with a soft drop shadow, no box, positioned MID-FRAME at
+  roughly 46% height. This file previously said "dark outline" and "lower third" and was
+  wrong on both counts, so do not treat the old episodes as the reference for either.
+  The caption FONT is recorded nowhere in this repo and is not recoverable from a
+  rendered frame; it lives in whichever tool cut those clips. Ask before assuming Inter.
 - **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
   and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
