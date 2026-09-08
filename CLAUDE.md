@@ -24,7 +24,11 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
   submissions deliver two ways at once (deliverLead): insert into the Supabase project
   "First Rehabilitation App" (table `intake_leads`, anon key is INSERT-only via RLS) AND
   email firstrehabnpb@gmail.com via FormSubmit — either channel succeeding counts; if both
-  fail the lead queues locally + auto-retries. View leads in the Supabase dashboard →
+  fail the lead queues locally + auto-retries. A THIRD, fire-and-forget copy goes to
+  nick@firstrehabnpb.com (CFG.notifyEmailCc) as its own FormSubmit POST — deliberately not
+  FormSubmit's _cc (undocumented on the /ajax/ endpoint) and deliberately not counted by
+  deliverLead, so it can never block or fail the clinic notification. Both emails share one
+  emailFields() body builder so the two inboxes can never drift apart. View leads in the Supabase dashboard →
   Table Editor → intake_leads.
 - `assets/media/` — logo.png/logo-dark.png (full-size, schema/OG), logo-nav.png/
   logo-dark-nav.png (333px, header+footer). Favicons = the FULL wordmark logo on cream
