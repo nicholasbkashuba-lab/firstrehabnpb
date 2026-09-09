@@ -155,9 +155,31 @@ domain switch (July 2027). Removing them early throws away that equity.
   `compare` / `raw`. Auth comes from `$GSC_SERVICE_ACCOUNT_JSON`, `--key`, or
   `~/.config/gsc/service-account.json`; the key is a secret and the repo is public, so
   never commit it (.gitignore covers the usual names).
+  **Ownership verification is emitted by `head()`** via `GSC_VERIFICATION` in build.py
+  (added 2026-09-09). It sits empty until the token is pasted, and an empty value emits no
+  tag at all, so the build is unaffected either way. Paste from Search Console -> Settings
+  -> Ownership verification -> HTML tag, copying ONLY the `content="..."` value. Use the
+  OWNER's token, not a service account's: the tag is what keeps Nick's ownership permanent,
+  while the service account is a delegated user under Users and permissions and does not
+  need to own the property. Once pasted, rebuild and the tag ships on all 48 pages plus
+  404.html, and every future build renews it.
+  Why this exists: the property lost verification some time before 2026-09-09 and every API
+  route went 403 — no queries, no page data, no index coverage, no sitemap submission, and
+  the homepage title/description CTR test started 2026-09-03 had no way to be read.
+  Verification had never been carried by the site (a DNS record or a leftover Wix token), so
+  nothing in this repo kept it alive and nothing warned when it lapsed. Note that
+  re-verifying the property restores the OWNER's access only — the service account still has
+  to be re-added separately under Users and permissions, which is the step that looks like
+  the fix has failed.
+  A service account CAN mint its own token via the Site Verification API
+  (`siteVerification/v1/token`, scope `.../auth/siteverification`), but that API is not
+  enabled on the `design-of-man-seo` Cloud project (403), and it would verify the SERVICE
+  ACCOUNT as owner rather than Nick. Not the right tool here; do not reach for it.
+
   **The property is `https://www.firstrehabnpb.com/` — a URL-prefix property, NOT
   `sc-domain:firstrehabnpb.com`** (verified 2026-08-14 via `gsc.py sites`, service account
-  `claude-gsc-reader@firstrehabnpb-seo.iam.gserviceaccount.com`, siteFullUser). The two
+  `claude-gsc-reader@design-of-man-seo.iam.gserviceaccount.com`, siteFullUser —
+  re-confirmed 2026-09-09; the `firstrehabnpb-seo` address recorded here previously was wrong). The two
   are different properties with different data; querying the domain form returns nothing,
   which reads as "no search traffic" rather than "wrong property". Always run `gsc.py
   sites` and use exactly what it prints.

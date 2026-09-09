@@ -61,6 +61,28 @@ def asset_v(path):
 # snippet's own braces need no escaping, and injected by head() immediately
 # after <head> on every generated page — exactly once, since head() is the only
 # thing that writes that tag.
+# Search Console HTML-tag ownership verification.
+#
+# The property lost verification some time before 2026-09-09 and every API route
+# went 403 — no queries, no page data, no index coverage, no sitemap submission.
+# It had never been carried by the site: verification lived in a DNS record or a
+# leftover Wix token, so nothing in this repo kept it alive and nothing warned
+# when it lapsed. Emitting the tag from head() puts it on all 48 pages, where a
+# rebuild renews it and it cannot quietly expire again.
+#
+# PASTE THE TOKEN HERE: Search Console -> Settings -> Ownership verification ->
+# HTML tag. Copy ONLY the content="..." value, not the whole <meta> element.
+# Use the token from the OWNER's account (Nick's), not a service account's — the
+# tag is what keeps his ownership permanent; the service account is a delegated
+# user under Users and permissions and does not need to own the property.
+# Empty string = no tag emitted, which is exactly today's behaviour, so the build
+# stays green until the token is pasted.
+GSC_VERIFICATION = ""
+GSC_VERIFY_TAG = (
+    f'\n<meta name="google-site-verification" content="{html.escape(GSC_VERIFICATION)}">'
+    if GSC_VERIFICATION else ""
+)
+
 GA_MEASUREMENT_ID = "G-GZKFNKSP6D"
 GA_TAG = """<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
@@ -80,7 +102,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <html lang="en">
 <head>
 {GA_TAG}
-<meta charset="UTF-8">
+<meta charset="UTF-8">{GSC_VERIFY_TAG}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
