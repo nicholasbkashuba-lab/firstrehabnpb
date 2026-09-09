@@ -9,6 +9,13 @@ observations recorded in CLAUDE.md.
 No search-volume numbers appear here on purpose. We do not have a keyword tool wired in, and an
 invented volume is worse than no number.
 
+## FREEZE: no new posts as of 2026-09-09
+
+New blog posts are frozen (Nick approved). Do not pick a target from this file for a NEW post.
+The keyword map stays live for re-targeting EXISTING pages, which is the work that replaces
+posting. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom is
+still accurate and still worth reading before touching any page's target.
+
 ## Two rules that came from real GSC data
 
 1. **Use "treatment", not "relief", in title tags.** The 2026-08-08 export showed condition pages

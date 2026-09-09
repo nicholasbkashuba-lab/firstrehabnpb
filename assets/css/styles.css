@@ -1026,3 +1026,8 @@ body.nav-locked .p2p-mini { display: none; }
 .news-go { font-size: 0.9rem; font-weight: 600; color: var(--teal); margin-top: 0.3rem; }
 .news-card:hover .arr { transform: translateX(4px); }
 @media (prefers-reduced-motion: reduce) { .news-card, .news-card .arr { transition: none; } }
+
+/* Standalone appointment form on service, condition, location and blog pages.
+   The contact page places .appt-form-card inside .contact-grid; everywhere else
+   it stands alone, so cap its measure rather than letting it run the full wrap. */
+.appt-form-solo { max-width: 680px; }

@@ -61,6 +61,28 @@ def asset_v(path):
 # snippet's own braces need no escaping, and injected by head() immediately
 # after <head> on every generated page — exactly once, since head() is the only
 # thing that writes that tag.
+# Search Console HTML-tag ownership verification.
+#
+# The property lost verification some time before 2026-09-09 and every API route
+# went 403 — no queries, no page data, no index coverage, no sitemap submission.
+# It had never been carried by the site: verification lived in a DNS record or a
+# leftover Wix token, so nothing in this repo kept it alive and nothing warned
+# when it lapsed. Emitting the tag from head() puts it on all 48 pages, where a
+# rebuild renews it and it cannot quietly expire again.
+#
+# PASTE THE TOKEN HERE: Search Console -> Settings -> Ownership verification ->
+# HTML tag. Copy ONLY the content="..." value, not the whole <meta> element.
+# Use the token from the OWNER's account (Nick's), not a service account's — the
+# tag is what keeps his ownership permanent; the service account is a delegated
+# user under Users and permissions and does not need to own the property.
+# Empty string = no tag emitted, which is exactly today's behaviour, so the build
+# stays green until the token is pasted.
+GSC_VERIFICATION = "AIrqh67-C88X6VuoDTLQZdUvpFPQYpytxgqsf9ZHjAM"
+GSC_VERIFY_TAG = (
+    f'\n<meta name="google-site-verification" content="{html.escape(GSC_VERIFICATION)}">'
+    if GSC_VERIFICATION else ""
+)
+
 GA_MEASUREMENT_ID = "G-GZKFNKSP6D"
 GA_TAG = """<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
@@ -80,7 +102,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <html lang="en">
 <head>
 {GA_TAG}
-<meta charset="UTF-8">
+<meta charset="UTF-8">{GSC_VERIFY_TAG}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
@@ -355,6 +377,76 @@ def footer(depth=0):
 </body>
 </html>
 """
+
+def appt_form(heading="Request an Appointment", sub=None, wrapped=True, depth=0):
+    # The five-field contact form. Until 2026-09-09 this markup lived inline in
+    # build_contact() and so existed on exactly one page — and that one page
+    # produced 34 of the site's 41 lifetime leads, while every service,
+    # condition, location and blog page produced zero between them. Those pages
+    # were never short of calls to action; they carried three to five links each
+    # to the phone number and to contact.html. They were short of somewhere to
+    # convert: their only job was to send the reader one hop further, and 84% of
+    # visitors never took it.
+    #
+    # So the form is a function now, and interior pages embed the real thing.
+    # `wrapped=False` returns the bare card for the contact page, which places it
+    # inside its own two-column grid.
+    #
+    # intake.js binds by getElementById('appt-form'), so exactly one of these may
+    # appear per page — hence no id suffixing here. It records location.pathname
+    # as the lead's `page`, so per-page attribution keeps working for free.
+    sub = sub or ("Tell us a little about what you need and our front desk will call "
+                  "you back within one business day.")
+    card = f"""<div class="appt-form-card reveal">
+      <h2 class="h3-size">{heading}</h2>
+      <p class="af-sub">{sub}</p>
+      <form class="appt-form" id="appt-form" novalidate>
+        <div class="af-field">
+          <label for="af-name">Full name *</label>
+          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-phone">Phone *</label>
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+          </div>
+          <div class="af-field">
+            <label for="af-email">Email</label>
+            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="af-reason">Reason for visit *</label>
+          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
+        </div>
+        <div class="af-field">
+          <label for="af-time">Preferred call time</label>
+          <select id="af-time" name="time">
+            <option>Anytime</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+          </select>
+        </div>
+        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
+        <p class="af-error" id="af-error" role="alert"></p>
+        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="af-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
+      </div>
+    </div>"""
+    if not wrapped:
+        return card
+    return f"""
+<section class="section on-cream" id="request">
+  <div class="wrap appt-form-solo">
+    {card}
+  </div>
+</section>
+"""
+
 
 def cta_band(depth=0, heading='Life is too short to <em>live in pain.</em>', sub="Start your recovery today with a team dedicated to your long-term wellness and total healing."):
     p = "../" * depth
@@ -1041,6 +1133,7 @@ def build_services():
   </div>
 </section>
 {svc_faq_html}
+{appt_form(heading='Start ' + s['title'], sub='Tell us what you need and our front desk will call you back within one business day. We will check your insurance before your first visit.')}
 {cta_band(1)}
 </main>
 """
@@ -1259,6 +1352,7 @@ def build_conditions():
     </aside>
   </div>
 </section>
+{appt_form(heading='Get Help With ' + c['name'], sub='Tell us what is going on and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -1486,6 +1580,7 @@ def build_locations():
     <p class="related-links reveal"><strong>Explore our care:</strong> <a href="../services/physical-therapy.html">Physical Therapy</a> &middot; <a href="../services/occupational-therapy.html">Occupational Therapy</a> &middot; <a href="../services/hand-therapy.html">Certified Hand Therapy</a> &middot; <a href="../services/wellness.html">Wellness &amp; Gym</a> &middot; <a href="../faq.html">Read our FAQ</a></p>
   </div>
 </section>
+{appt_form(heading='Book From ' + L['city'], sub='Tell us what you need and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -1764,7 +1859,7 @@ def build_exercises():
 </main>
 """
     write("exercises.html",
-          head("Home Exercises for Knee, Hip &amp; Shoulder Pain | North Palm Beach",
+          head("Home Exercises for Knee, Hip & Shoulder Pain | North Palm Beach",
                "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
                canonical="exercises.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
@@ -2299,46 +2394,7 @@ def build_contact():
   '<div class="crumbs"><a href="/">Home</a> / Contact</div>')}
 <section class="section">
   <div class="wrap contact-grid">
-    <div class="appt-form-card reveal">
-      <h2 class="h3-size">Request an Appointment</h2>
-      <p class="af-sub">Tell us a little about what you need and our front desk will call you back within one business day.</p>
-      <form class="appt-form" id="appt-form" novalidate>
-        <div class="af-field">
-          <label for="af-name">Full name *</label>
-          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
-        </div>
-        <div class="af-two">
-          <div class="af-field">
-            <label for="af-phone">Phone *</label>
-            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
-          </div>
-          <div class="af-field">
-            <label for="af-email">Email</label>
-            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
-          </div>
-        </div>
-        <div class="af-field">
-          <label for="af-reason">Reason for visit *</label>
-          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
-        </div>
-        <div class="af-field">
-          <label for="af-time">Preferred call time</label>
-          <select id="af-time" name="time">
-            <option>Anytime</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-          </select>
-        </div>
-        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
-        <p class="af-error" id="af-error" role="alert"></p>
-        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
-      </form>
-      <div class="af-done" id="af-done" hidden>
-        <div class="af-check">&#10003;</div>
-        <h3>Request received!</h3>
-        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
-      </div>
-    </div>
+    {appt_form(wrapped=False)}
     <div class="reveal d2">
       <div class="contact-card" style="margin-bottom:1.5rem;">
         <h3>First Rehabilitation of North Palm Beach</h3>
@@ -2829,6 +2885,7 @@ def build_blog():
   </div>
 </section>
 {_related_block(slug)}
+{appt_form(heading='Talk To Someone About This', sub='If any of this sounds like what you are dealing with, tell us and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
