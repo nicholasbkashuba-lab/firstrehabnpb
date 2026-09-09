@@ -125,3 +125,86 @@ Cut from the RAW cameras, not from the finished master: `Arlosoroff.MP4` is the
 guest angle (720p, shot upside down, needs a 180 rotation), `Mike.mov` and `Dave.mov`
 are 4K. `Dave.mov` is HLG/BT.2020 HDR and must be tone-mapped or he will look washed
 out against the other two at every cut.
+
+---
+
+# AS BUILT, 2026-09-09
+
+The plan above is what was intended; this is what actually shipped. Where they
+differ, this section wins.
+
+## Final clips
+
+Six clips on branch `media/ep14-clips` (the branch name is load bearing: the
+daily routine builds its fetch URLs from the episode number). 1080x1920, h264
+crf 20, AAC 192 kb/s, audio from the raw board master normalised for social.
+
+| day | file | master in - out | len | camera | LUFS |
+|---|---|---|---|---|---|
+| Sun 13 Sep | `01-15-versus-50.mp4` | 753.90 - 767.10 | 13.2 s | Mike, 4K | -14.8 |
+| Mon 14 Sep | `02-average-age-13.mp4` | 648.40 - 673.80 | 25.4 s | guest, 720p | -13.8 |
+| Tue 15 Sep | `03-county-numbers.mp4` | 600.20 - 619.15 | 19.0 s | guest, 720p | -13.4 |
+| Wed 16 Sep | `04-nobody-is-moving.mp4` | 834.87 - 864.65 | 29.8 s | Dave, 4K | -14.3 |
+| Thu 17 Sep | `05-sight-unseen.mp4` | 448.59 - 470.70 | 22.1 s | guest, 720p | -13.8 |
+| Fri 18 Sep | `06-pedal-assist.mp4` | 964.39 - 989.45 | 25.1 s | guest, 720p | -15.1 |
+
+Camera time = master time plus the offset in `pair_offsets.json`: Mike +257.7503,
+Dave +91.0766, guest +3.4043.
+
+## Crops
+
+All three cameras are LANDSCAPE this episode. Episode 9's guest camera was
+natively vertical and used full frame at zero crop; that does not apply here.
+The guest camera is 1280x720, so a 9:16 crop is 405 px wide and upscales 2.67x
+to 1080. That is the quality ceiling for four of the six clips and there is
+nothing in the footage to recover.
+
+Mike and Dave were cut from the 4K originals, so their crops are 1215x2160
+DOWNSCALED to 1080x1920. Horizontal crop centre as a fraction of the spare
+width: Mike 0.52, Dave 0.56, guest 0.45. Mike faces LEFT, so he sits right of
+centre for look room; 0.47 put his nose on the frame edge.
+
+**Getting 4K without downloading 4K.** The originals are 21.86 GB and 13.55 GB
+and had already been deleted. Rather than refetch them, fetch the tail holding
+the `moov`, write it plus the file header into a SPARSE file of the full size,
+then fetch only the byte window covering the clip (proportional estimate from
+the mdat span, plus 60 s of slack each side) and write that at its true offset.
+ffmpeg then seeks into holes it never reads. 2.6 GB fetched instead of 35.4 GB,
+and both windows were confirmed by cross correlating the extracted audio against
+the master (lag -2.6 ms and -7.4 ms, PSR 216 and 311).
+
+## Captions
+
+Burned with libass. Style: Liberation Sans Bold 66, white, `BorderStyle=3`
+(opaque black box), `Outline=10` as box padding, `Shadow=0`, `Alignment=2`,
+`MarginV=300`, `MarginL/R=70`.
+
+**Wrap by MEASURED width, never by character count.** The first build wrapped at
+26 characters, which at 66 px measures up to 1214 px against 920 px of usable
+width, and `WrapStyle: 2` means libass does not reflow: the text simply ran off
+both edges and shipped clipped. The builder now measures each line with the real
+font and splits an over-long cue into extra cards, dividing the cue's time
+across them in proportion to text length. Widest line in the final set: 880 px.
+
+Font is still not confirmed. Liberation Sans Bold was chosen by comparing
+candidates against a real frame from `media/ep13-clips`: DejaVu is visibly wider
+and rounder than what Episodes 8 to 13 shipped, Liberation matches closely. If
+the tool that cut those clips used Inter, re-burn.
+
+Hyphens are KEPT inside burned subtitles ("13-year-olds") because they are
+verbatim speech and stripping them reads as an error. The zero dash rule is
+applied to the post copy, where it belongs.
+
+## Scheduled
+
+Sun 13 Sep to Fri 18 Sep, 9:00 AM ET (13:00 UTC), to Instagram 81353, Facebook
+81324, YouTube 81358, TikTok 81356. Not Google Business: since 2026-08-15 the
+weekday GBP slot carries the pillar blog SEO posts, and posting clip text there
+too would double post the profile.
+
+**CONFLICT, unresolved at time of writing.** Five Paul Joyce clips (Episode 11)
+were already scheduled to the same four accounts for 10, 11, 12, 13 and 14
+September. The 13th and 14th collide directly with Episode 14 clips, two posts
+at the same minute, and the 12th lands a stale episode's clip on Episode 14's
+episode post day. That breaks "one episode owns one week". Nothing was deleted:
+`delete_post` sits in `permissions.ask` on purpose.
