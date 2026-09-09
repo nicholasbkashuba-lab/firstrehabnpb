@@ -270,13 +270,25 @@ run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never co
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
 ## Episode release cycle — STANDING AUTHORIZATION
-One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask each time.
+Nick approved this flow 2026-08-02; do not re-ask each time.
 - **Saturday 9:00 AM ET** — episode post (LinkedIn, Facebook, Google Business) + the full
   episode video on YouTube. The show "airs" 8:30 AM Sat on 100.3 Legends Radio; episodes
   are prerecorded but Saturday is the public moment.
-- **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
+- **Sun–Fri 9:00 AM ET** — one clip per day from the current episode (Instagram, Facebook,
   YouTube Shorts, TikTok).
-- Next Saturday a new episode number takes over. Never mix two episodes in one week.
+
+**TWO clips a day is fine, and episodes may overlap** (Nick, 2026-09-09). This file used to
+say "one episode owns one week, never mix two episodes in one week". That was already untrue
+in practice: Joyce (Ep 11) and Leighton (Ep 12) clips both posted at 13:00 UTC on 7 and 8
+September, same minute, same four accounts. Treat the daily 13:00 UTC slot as holding up to
+two clips, and run a backlog episode alongside the current one rather than dropping it. Do
+NOT delete an existing scheduled post just because a newer episode wants the same day: check
+first whether doubling up is fine, which it usually is. `delete_post` stays in
+`permissions.ask` regardless.
+- A clip set that never went out is not automatically stale. Episode 13 (Captain Kerry) sat
+  fully built on `media/ep13-clips` with only the episode announcements posted; its five
+  clips were scheduled 15 to 19 September, after Ep 11's run ended, while Ep 14 held the
+  first slot.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
 text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived

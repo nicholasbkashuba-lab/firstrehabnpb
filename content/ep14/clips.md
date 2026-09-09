@@ -202,9 +202,14 @@ Sun 13 Sep to Fri 18 Sep, 9:00 AM ET (13:00 UTC), to Instagram 81353, Facebook
 weekday GBP slot carries the pillar blog SEO posts, and posting clip text there
 too would double post the profile.
 
-**CONFLICT, unresolved at time of writing.** Five Paul Joyce clips (Episode 11)
-were already scheduled to the same four accounts for 10, 11, 12, 13 and 14
-September. The 13th and 14th collide directly with Episode 14 clips, two posts
-at the same minute, and the 12th lands a stale episode's clip on Episode 14's
-episode post day. That breaks "one episode owns one week". Nothing was deleted:
-`delete_post` sits in `permissions.ask` on purpose.
+**Overlap with Episode 11, resolved 2026-09-09.** Five Paul Joyce clips were
+already scheduled to the same four accounts for 10 to 14 September, overlapping
+Episode 14 on the 13th and 14th. Nick confirmed two posts a day is fine and that
+episodes may overlap, so nothing was deleted. Checking the posted history first
+would have shown this was already routine: Joyce and Leighton clips both went out
+at 13:00 UTC on 7 and 8 September.
+
+Episode 13 (Captain Kerry) turned out to have five built but never posted clips on
+`media/ep13-clips`. Scheduled 15 to 19 September in the second slot, in the human
+set playlist order, with `capt_kerry` as an Instagram collaborator as on earlier
+Kerry posts.
