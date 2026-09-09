@@ -218,6 +218,26 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
 
+## Hand therapy push, 2026-09-09
+
+Acted on the 2026-09-09 Search Console pull. `/services/hand-therapy.html` sat at position 25.3
+with "hand therapist" (95 impr) at 28.7 and "hand therapy" at 73.7 — real demand, ranking
+nowhere, and unlike the city-qualified location terms these carry no map pack in the way.
+
+Changed: the service page `seo_title` now leads with "Certified Hand Therapist" rather than
+"Hand Therapy", because the noun people actually search is the practitioner; the `seo_desc`
+names the specific conditions; the page gained a condition-by-condition section (702 -> 1,200
+words) and `/treatments/hand-wrist.html` was deepened (422 -> 546).
+
+Judge it on position for "hand therapist" and "hand therapist near me" (the latter was already
+at 11.1, the closest thing to a winnable term the pull showed). Give it 4-8 weeks. Do not read
+anything into clicks alone at this volume.
+
+Honest expectation: bare "hand therapy" at position 73.7 is a national informational term owned
+by professional bodies and hospital systems. It is not a realistic target for one clinic and
+should not be treated as one. The winnable set is the practitioner and near-me variants, plus
+the specific conditions.
+
 **Ep 11 note (2026-08-22):** the Paul Joyce recap is a Pain 2 Power post, not a Wellness pillar post,
 so the Wellness hole below is still open. The transcript does hold a real Wellness pillar angle that
 nothing on the site covers yet: keeping muscle and strength while losing weight on a GLP-1, built on
