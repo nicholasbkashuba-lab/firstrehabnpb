@@ -905,8 +905,8 @@ SERVICES = {
         ],
     },
     "hand-therapy": {
-        "seo_title": "Certified Hand Therapy | North Palm Beach & Jupiter FL",
-        "seo_desc": "A dedicated certified hand therapy program for the wrist, hand and upper extremity, with splints fabricated on-site and protocols coordinated with your surgeon.",
+        "seo_title": "Certified Hand Therapist | North Palm Beach & Jupiter FL",
+        "seo_desc": "Certified hand therapist in North Palm Beach treating carpal tunnel, trigger finger, thumb arthritis, tendon repairs and wrist fractures. Splints made on-site.",
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
@@ -1023,6 +1023,83 @@ def build_services():
     </div>
   </div>
 </section>'''
+        # Condition-level depth, currently hand therapy only.
+        #
+        # Why this exists: the 2026-09-09 Search Console pull put
+        # /services/hand-therapy.html at position 25.3, with "hand therapist"
+        # (95 impr) at 28.7 and "hand therapy" at 73.7 — real demand, ranking
+        # nowhere. Unlike the city-qualified location-page terms, these carry no
+        # map pack, and the clinic has a defensible claim in Laura Drumm, CHT and
+        # on-site splint fabrication. The page was 702 words against hand centres
+        # and hospital systems, so the gap was depth on the page that has to rank.
+        #
+        # Every sentence below restates something the site already asserts (the
+        # hand-therapy FAQ category, SERVICES, CONDITIONS). It does NOT copy the
+        # Q&As — those stay on /faq.html and are cross-linked, per CLAUDE.md — and
+        # it adds no new clinical claim. Do not add mechanisms, statistics or
+        # outcomes here without owner sign-off, and never claim hand surgery: we
+        # rehabilitate, surgeons operate.
+        SVC_DEEP = {
+            "hand-therapy": [
+                ("Carpal tunnel syndrome",
+                 "Conservative care helps many people, particularly when symptoms are caught early. "
+                 "Treatment can include a custom night splint that holds the wrist in a neutral position "
+                 "while you sleep, nerve and tendon gliding exercises, and practical changes to the "
+                 "activities and workstation setup that keep provoking symptoms. If your case turns out "
+                 "to warrant a surgical consult, we will say so plainly and coordinate with your physician."),
+                ("Arthritis of the hand and thumb",
+                 "Hand therapy is one of the most effective conservative options for arthritic hands and "
+                 "thumbs. Joint-protection technique, targeted strengthening, a custom supportive splint "
+                 "and smart activity modification work together to reduce pain and protect the things "
+                 "arthritis threatens to take first, from opening jars to gardening and golf."),
+                ("Tendon injuries and repairs",
+                 "Repaired tendons heal on a strict timeline, and the margin for error is small: move too "
+                 "soon and you risk the repair, too late and you lose motion. We work from your surgeon\u2019s "
+                 "protocol, fabricate any splint to it, and stage motion and strengthening to the tissue "
+                 "rather than the calendar."),
+                ("Hand and wrist fractures",
+                 "Recovery continues well after the cast comes off, when stiffness, swelling and lost grip "
+                 "are usually the real obstacles. Care is staged: protect what is still healing, restore "
+                 "motion in a graded way, then rebuild the strength and dexterity the hand needs to go "
+                 "back to work and ordinary life."),
+                ("Trigger finger and nerve conditions",
+                 "Both are treated within the program, conservatively where that is appropriate and "
+                 "post-operatively where surgery has already happened. Splinting, graded motion and "
+                 "activity modification are the usual tools."),
+                ("The elbow and forearm, not just the hand",
+                 "The arm works as one connected chain, so the program covers the full upper extremity \u2014 "
+                 "hand, wrist, forearm and elbow. Tennis elbow, wrist fractures and nerve entrapments all "
+                 "fall inside a certified hand therapist\u2019s scope."),
+            ],
+        }
+        svc_deep_html = ""
+        if slug in SVC_DEEP:
+            _blocks = "".join(
+                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in SVC_DEEP[slug]
+            )
+            svc_deep_html = f'''
+<section class="section">
+  <div class="wrap">
+    <div class="prose reveal">
+      <h2>What we treat, and how</h2>
+      <p>Hand therapy is not general rehabilitation applied to a smaller limb. Dozens of tendons,
+      joints and nerves work in tight quarters, each on its own healing timeline, which is why
+      hand surgeons refer post-operative patients to certified hand therapists specifically.
+      Here is what that looks like condition by condition.</p>
+      {_blocks}<h3>Splints and orthoses, made here</h3>
+      <p>Custom splints and orthoses are fabricated in our clinic rather than ordered in. Each one
+      is molded to your hand for your specific condition, adjusted as healing progresses, and built
+      to your surgeon\u2019s protocol when you are recovering from surgery. Call 561-624-4263 if you
+      want to know whether your plan covers one \u2014 our front desk will check before you come in.</p>
+      <h3>Working with your surgeon</h3>
+      <p>Post-operative timelines are set by your surgeon, and they vary widely: some repairs begin
+      protected motion within days, others need a period of immobilization first. We work from that
+      protocol and coordinate with their office directly, so send us your surgery details before or
+      just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule.</p>
+    </div>
+  </div>
+</section>'''
+
         # Conditions treated with this service — internal links for SEO + discovery
         svc_conds = {
             "physical-therapy": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hip-pain", "ankle-pain", "post-surgical", "auto-accident"],
@@ -1101,7 +1178,7 @@ def build_services():
     {svc_blog_links}
   </div>
 </section>
-{cht_callout}
+{cht_callout}{svc_deep_html}
 <section class="section on-ink">
   <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
@@ -1223,7 +1300,7 @@ CONDITIONS = {
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
         "intro": "Few areas of the body demand more specialized rehabilitation than the hand. Our certified hand therapy program — led by Laura Drumm, CHT — provides precise, protocol-driven care for conditions and surgeries of the hand, wrist, and forearm, including custom splinting fabricated in-clinic. Patients travel to us from across the county for this specialty, including <a href=\"../locations/west-palm-beach.html\">West Palm Beach</a> and <a href=\"../locations/palm-beach.html\">Palm Beach</a>.",
         "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation"],
-        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery.",
+        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. See our <a href=\"../services/hand-therapy.html\">certified hand therapy program</a> for the full condition-by-condition detail.",
     },
     "headache-relief": {
         "seo_title": "Headache Treatment in North Palm Beach | First Rehab",
