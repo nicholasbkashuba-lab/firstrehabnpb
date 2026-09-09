@@ -191,6 +191,34 @@ domain switch (July 2027). Removing them early throws away that equity.
   ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
   two windows overlap by roughly 80% of their days, so this is not a clean before/after.
 
+  **API pull 2026-09-09, first clean non-overlapping compare** (28d to 09-06 vs the 28d
+  before it): 105 clicks / 11,672 impr / CTR 0.90% / pos 20.2, against 122 clicks / 9,654
+  impr / CTR 1.26% / pos 20.1. Impressions +21%, clicks -14%. Two months of adding pages
+  has added impressions and REMOVED clicks. This is what froze new blog posts.
+
+  **The location-page growth thesis above is now disproven — do not keep investing in it.**
+  City-qualified queries ("physical therapy west palm beach", "neck pain juno ridge fl", and
+  89 others in the same pull) earned 1,144 impressions and ONE click in 28 days. That is not
+  a ranking problem: /locations/juno-beach.html sits at position 7.3 overall and ranks 3.6 to
+  6.3 for the Juno Ridge neck-pain terms, and still earns 0.2% CTR. The location pages are
+  40%+ of all site impressions (WPB 1,883 / PBG 1,222 / PB 788 / Juno 408) at 0.2-0.4% CTR.
+  The most likely cause is that city-qualified local searches are answered by the map pack,
+  which lists clinics IN that city, so an organic result saying "served from North Palm
+  Beach" cannot win the click at any position we can reach. NOT verified from here — the
+  sandbox cannot see a live SERP — but the click data holds whatever the cause. Practical
+  rule: city-qualified intent is a Google Business Profile lever (service areas, categories,
+  reviews), not a page-content lever. Do not write more location pages, and do not "fix" the
+  existing ones by adding words.
+  What IS winnable, from the same pull: non-city service terms where the clinic has a real
+  claim. "hand therapist" 95 impr at pos 28.7, "hand therapy" 40 impr at pos 73.7,
+  "carpal tunnel syndrome therapies near me" 25 impr at pos 37.2. Laura Drumm CHT and
+  on-site splint fabrication are a genuine differentiator and these rank nowhere. That is
+  where depth pays.
+  Also note branded vs non-branded: branded 31 clicks / 550 impr (5.6% CTR), non-branded
+  6 clicks / 1,786 impr (0.34%). The Wix baseline was 0.36% non-branded. Non-branded CTR has
+  not moved in the rebuild. Both figures come from the truncated query table, so treat them
+  as directional, not exact.
+
 ## Conversion
 - **The appointment form is on 37 pages, not one** (changed 2026-09-09). `appt_form()` in
   build.py renders the five-field card; `build_contact()` embeds it bare (`wrapped=False`)
