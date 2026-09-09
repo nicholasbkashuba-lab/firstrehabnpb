@@ -203,6 +203,17 @@ domain switch (July 2027). Removing them early throws away that equity.
   do not add a second, and do not suffix the ids. The lead's `page` column records
   `location.pathname`, so per-page attribution works with no extra wiring; query it to judge
   whether this change paid off.
+- **The chat auto-invite holds while that form is on screen** (added 2026-09-09, Nick approved).
+  On a phone the teaser card pins to the bottom of the viewport, which is exactly where the
+  form's Send Request button sits — the assistant was covering the thing it exists to help
+  with. `watchApptForm()` in intake.js puts an IntersectionObserver on `#appt-form` and
+  `showAutoInvite()` defers while it is visible, then fires the moment the reader scrolls it
+  away, so the invite is delayed and never lost. It only claims the once-per-session
+  `KEYS.auto` slot when it actually appears — setting that on a deferred run would silently
+  burn it. The launcher bubble is untouched and stays tappable throughout.
+  Measured: contact.html is UNCHANGED, because its hero pushes the form below the fold at
+  393x740 so the form is not in view when the invite fires. Do not "simplify" this to a
+  pathname test — the whole point is that it keys off what is actually on screen.
 - Sticky **mobile Call Now** button (`.mobile-call`, emitted after </footer>): fixed
   bottom-LEFT coral pill, phones only (<768px), one tap to tel:561-624-4263. Bottom-left
   so it never collides with the intake chat launcher (bottom-right); hidden on desktop
