@@ -1764,7 +1764,7 @@ def build_exercises():
 </main>
 """
     write("exercises.html",
-          head("Home Exercises for Knee, Hip &amp; Shoulder Pain | North Palm Beach",
+          head("Home Exercises for Knee, Hip & Shoulder Pain | North Palm Beach",
                "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
                canonical="exercises.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
