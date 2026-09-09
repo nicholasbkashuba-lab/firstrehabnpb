@@ -77,7 +77,7 @@ def asset_v(path):
 # user under Users and permissions and does not need to own the property.
 # Empty string = no tag emitted, which is exactly today's behaviour, so the build
 # stays green until the token is pasted.
-GSC_VERIFICATION = ""
+GSC_VERIFICATION = "AIrqh67-C88X6VuoDTLQZdUvpFPQYpytxgqsf9ZHjAM"
 GSC_VERIFY_TAG = (
     f'\n<meta name="google-site-verification" content="{html.escape(GSC_VERIFICATION)}">'
     if GSC_VERIFICATION else ""
