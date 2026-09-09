@@ -334,7 +334,13 @@ deliberately has NO location page — the homepage owns that keyword; footer lin
 
 ## Verification pattern
 The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);
-GitHub (api/raw/codeload/objects) IS allowed. Verify live deploys via Supabase MCP:
+GitHub (api/raw/codeload/objects) IS allowed. **The production domain
+https://www.firstrehabnpb.com/ IS reachable directly** — plain `curl` returns 200 (verified
+2026-09-09). This file previously implied otherwise and sent two sessions through pg_net for
+checks a one-line curl does faster. Use curl for anything on the live domain, including
+polling a deploy: `until curl -s <url> | grep -q '<marker>'; do sleep 10; done` in a
+BACKGROUND bash task (foreground sleep is blocked). Reserve the pg_net dance below for hosts
+the proxy really does block. Verify live deploys via Supabase MCP:
 `create extension pg_net` → `net.http_get(...)` (Range headers work: 206 + content-range
 proves deployed file size) → read net._http_response → `drop extension pg_net`. NOTE:
 production URLs are public but PREVIEW deploys sit behind Vercel Authentication (Pro
