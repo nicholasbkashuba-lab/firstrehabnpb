@@ -192,6 +192,17 @@ domain switch (July 2027). Removing them early throws away that equity.
   two windows overlap by roughly 80% of their days, so this is not a clean before/after.
 
 ## Conversion
+- **The appointment form is on 37 pages, not one** (changed 2026-09-09). `appt_form()` in
+  build.py renders the five-field card; `build_contact()` embeds it bare (`wrapped=False`)
+  inside its two-column grid, and the service, condition, location and blog templates embed
+  the wrapped `<section id="request">` version above `cta_band`. Before this it existed only
+  on /contact.html — which had produced 34 of the site's 41 lifetime leads while every
+  service, condition, location and blog page produced ZERO. Those pages were never short of
+  CTAs (three to five phone/contact links each); they were short of somewhere to convert.
+  intake.js binds by `getElementById('appt-form')`, so exactly ONE form may appear per page —
+  do not add a second, and do not suffix the ids. The lead's `page` column records
+  `location.pathname`, so per-page attribution works with no extra wiring; query it to judge
+  whether this change paid off.
 - Sticky **mobile Call Now** button (`.mobile-call`, emitted after </footer>): fixed
   bottom-LEFT coral pill, phones only (<768px), one tap to tel:561-624-4263. Bottom-left
   so it never collides with the intake chat launcher (bottom-right); hidden on desktop
@@ -543,6 +554,31 @@ firstrehabnpb@gmail.com CC nick@firstrehabnpb.com, subject "New Job Application:
 JobPosting schema per role (validThrough = posted + 60d — bump posted dates to refresh).
 
 ## Blog agent
+
+**NEW POSTS ARE FROZEN as of 2026-09-09 (Nick approved).** Do not write, draft or ship a new
+blog post — `/blog` and `/episode-blog` included — until the freeze is lifted. Reason, from the
+2026-09-09 analysis: the site carries ~12,400 monthly search impressions at average position
+20.1 and converts them at 0.94%. Impressions grew 32% while clicks grew 1%, because every new
+page lands on page two or three and adds impressions nobody clicks, which drags site-wide CTR
+down. Thirteen posts have produced zero leads between them. Publishing more of them makes the
+CTR number worse, not better.
+
+What replaces it: work the queries already sitting at position 8-15 — the ones one push from
+page one — by deepening the pages that own them. That is the move that worked. The two location
+pages given real content in PR #66 both moved up (West Palm Beach 23.4 -> 20.3, Juno Beach
+8.6 -> 7.1) in the same window. Depth moves positions; breadth does not.
+
+The freeze covers NEW posts only. Still allowed, and still wanted:
+- Editing, expanding or re-targeting an EXISTING post or page.
+- `EPISODE_POSTS`, `RELATED_POSTS`, `COND_BLOG` / `SVC_BLOG` internal-link work.
+- The Google Business Profile posts `/episode-blog` produces — those are not blog posts and
+  are not frozen. An episode week still needs its GBP set.
+- Anything Nick asks for directly. He can lift the freeze at any time; when he does, delete
+  this block rather than leaving a stale rule in place.
+
+Note that a frozen backlog is not a lost one: the Wellness and OT pillar holes recorded below
+are real and still worth filling once ranking work has caught up.
+
 Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
 `/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into
 TWO posts plus a Google Business set, because an episode is worth both:

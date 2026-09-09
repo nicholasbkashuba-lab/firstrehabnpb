@@ -38,7 +38,7 @@
 <link rel="manifest" href="../site.webmanifest">
 <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-latin-400-normal.woff2" crossorigin>
-<link rel="stylesheet" href="../assets/css/styles.css?v=56a10eb8">
+<link rel="stylesheet" href="../assets/css/styles.css?v=d0c21bf3">
 <link rel="stylesheet" href="../assets/css/intake.css?v=97f4dab1">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -261,6 +261,52 @@
     <a class="btn btn-ink" href="../faq.html#hand-therapy">See all Hand Therapy FAQs <span class="arr">&rarr;</span></a>
   </div>
 </section>
+
+<section class="section on-cream" id="request">
+  <div class="wrap appt-form-solo">
+    <div class="appt-form-card reveal">
+      <h2 class="h3-size">Start Hand Therapy</h2>
+      <p class="af-sub">Tell us what you need and our front desk will call you back within one business day. We will check your insurance before your first visit.</p>
+      <form class="appt-form" id="appt-form" novalidate>
+        <div class="af-field">
+          <label for="af-name">Full name *</label>
+          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-phone">Phone *</label>
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+          </div>
+          <div class="af-field">
+            <label for="af-email">Email</label>
+            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="af-reason">Reason for visit *</label>
+          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
+        </div>
+        <div class="af-field">
+          <label for="af-time">Preferred call time</label>
+          <select id="af-time" name="time">
+            <option>Anytime</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+          </select>
+        </div>
+        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
+        <p class="af-error" id="af-error" role="alert"></p>
+        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="af-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">561-624-4263</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="cta-band">
   <div class="hero-fallback"></div>
