@@ -1,0 +1,14 @@
+# Posting order for Episode 14 clips, strongest first.
+# The daily routine posts the first clip in this list that has not already
+# gone out. A clip absent from this file is never posted.
+# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+#
+# SEEDED IN NUMERIC ORDER. Reorder before the week starts: six weekday slots
+# and 6 clips means only the top six air, so order decides what runs.
+
+01-15-versus-50.mp4
+02-average-age-13.mp4
+03-county-numbers.mp4
+04-nobody-is-moving.mp4
+05-sight-unseen.mp4
+06-pedal-assist.mp4
