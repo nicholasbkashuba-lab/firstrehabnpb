@@ -1,23 +1,27 @@
 # Episode 14 · Chaim Arlosoroff
 
 air_date: 2026-09-12
-post_at: 2026-09-11 16:00 ET
+post_at: 2026-09-11 08:00 ET (12:00 UTC)
 platforms: instagram, facebook, linkedin-business, x
-image: assets/media/podcast-cover.jpg
-status: BLOCKED — needs the guest credential before it can be scheduled
+image: content/announcements/pain2power-cover.jpg
+status: SCHEDULED — Post Bridge post 7ecf3fb6-8b60-4073-8f56-4fbef3ed11d1
 
-> **[CREDENTIAL]** is a placeholder. Nothing in this repo records who Chaim Arlosoroff is:
-> no Episode 14 in EPISODES, no `media/ep14-clips` branch, no transcript, no bio. Replace the
-> placeholder with the line Nick supplies, exactly as the guest should be introduced, and do
-> not guess a title or specialty for a real person. Episode number 14 is assumed from
-> Episode 13 (Captain Kerry Titheradge) being the latest in build.py; confirm before shipping.
+> Scheduled 2026-09-10 for Friday 8:00 AM ET, an hour ahead of that morning's clip because
+> Nick asked for it there rather than the standing 4:00 PM slot. Accounts: Instagram 81353,
+> Facebook 81324, LinkedIn business 81322, X 81378.
+>
+> The credential came from Episode 14's own clip captions, already scheduled in Post Bridge
+> and written from the transcript: Dr. Chaim Arlosoroff, orthopedic trauma surgeon at
+> St. Mary's. The repo itself still records nothing about him — no EPISODES entry, no
+> `media/ep14-clips` branch, no transcript — so if that title is wrong, it is wrong in the
+> clip captions too and both need fixing.
 
 ---
 platform: instagram, facebook, linkedin-business
 
 Tomorrow morning has two settings. Coffee, and Pain 2 Power.
 
-Dr. Dave Kashuba and Mike McGann are joined by Chaim Arlosoroff, [CREDENTIAL].
+Dr. Dave Kashuba and Mike McGann are joined by Dr. Chaim Arlosoroff, orthopedic trauma surgeon at St. Mary's.
 
 • 8:30 AM Saturday on 100.3 Legends Radio
 • Streaming right after on Spotify and YouTube
@@ -35,7 +39,7 @@ platform: x
 
 Tomorrow morning has two settings. Coffee, and Pain 2 Power.
 
-Chaim Arlosoroff, [CREDENTIAL], joins Dave and Mike. 8:30 AM Saturday on 100.3 Legends Radio, streaming right after on Spotify and YouTube.
+Dr. Chaim Arlosoroff, orthopedic trauma surgeon at St. Mary's, joins Dave and Mike. 8:30 AM Saturday on 100.3 Legends Radio, streaming right after on Spotify and YouTube.
 
 561-624-4263
 
