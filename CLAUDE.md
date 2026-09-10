@@ -324,11 +324,23 @@ second trigger. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
 Don't split it back apart; add day-branches to this one instead.
 
-**MISSING as of 2026-09-10.** `list_triggers` returned 10 routines on the account and this one
-was not among them — there is no `0 13 * * *` daily entry at all, so nothing has been posting
-episodes or clips automatically. Recreate it before relying on the cycle above. Note that
-`list_triggers` does NOT return a routine's prompt, so the prompt has to be rewritten from this
-file rather than read back and patched.
+**The trigger ID above is DEAD. The live one is `trig_01R5iPGmt45aWsNkwNoX5zDc`** (recreated
+2026-09-10, same name, same `0 13 * * *` cron, fresh session per fire, first run 2026-09-11).
+`list_triggers` showed the old ID gone from the account entirely and no daily entry in its
+place, so nothing had been posting episodes or clips automatically for some unknown stretch.
+The rewritten prompt carries all four branches: Saturday episode post, Sun–Fri clip, the Friday
+announcement, and the no-weekday-Google-Business rule.
+
+Two things to know before touching it again:
+- `list_triggers` does NOT return a routine's prompt. Editing means rewriting the whole prompt
+  from this file; there is nothing to read back and patch. Keep this file current, because it
+  IS the backup of that prompt.
+- **`create_trigger` cannot attach connectors on this org** (the API rejects the `connectors`
+  parameter outright), so a routine created from here fires with NO `mcp__*` tools and cannot
+  reach Post Bridge. **Post Bridge has to be attached to the routine by hand in the claude.ai
+  Routines UI.** Until that is done the routine wakes up, reads the repo, and can post nothing.
+  Check this first if a firing reports "no such tool" — see the Connectors section below, which
+  covers the separate per-chat toggle problem.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
 YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
