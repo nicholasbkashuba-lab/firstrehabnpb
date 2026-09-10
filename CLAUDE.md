@@ -411,21 +411,23 @@ Standing preferences for a one off post, unless told otherwise:
 ## How the clips are cut (observed spec, Episode 9 pipeline)
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
   two lines max.
-- **Captions sit LOW, in the lower third. Nick has asked for this twice — do not drift back
-  up.** The Episode 13 clips first shipped with captions near the vertical middle, which is
-  what he was reacting to. Burn them with libass and keep `MarginV` in the 55 to 65 range:
-  that value is in ASS script units (libass defaults SRT to PlayResY=288, NOT the 1920 pixel
-  height), so 60 lands the text about 80% of the way down the frame. Setting MarginV to a
-  pixel-scale number like 880 pushes the text clean off the canvas and it renders with no
-  captions at all, which is easy to miss if you only check that the file encoded. The style
-  that produced the approved Episode 13 look:
+- **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
+  White text on a SOLID BLACK box, sitting LOW in the frame. The reference he pointed at is
+  the Episode 11 Paul Joyce clip `05-top-of-the-range.mp4` on `media/joyce-recut` (the
+  testosterone one) — pull a frame off it if there is ever any doubt. Exact style:
 
-      FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H90000000,
-      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=60
+      FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H00000000,
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=35
 
-  Do not go below ~55: TikTok, Reels and Shorts overlay their own username and caption UI
-  across the bottom ~15% and will cover the text. Always eyeball an actual frame at 55%
-  through the clip before shipping.
+  Two things he corrected, twice each, so do not let them drift back:
+  - **Low.** MarginV=35 puts the text ~88% down. It first shipped near the vertical middle,
+    then at 60 (~80% down), and he asked for lower both times. 35 is the approved value.
+  - **Solid black box.** `BorderStyle=4` with `BackColour=&H00000000` — alpha `00` is OPAQUE
+    in ASS. A semi transparent box (`&H90000000`) is what it looked like before and is wrong.
+  `MarginV` is in ASS script units — libass defaults SRT to PlayResY=288, NOT the 1920 pixel
+  height. A pixel-scale value like 880 pushes the text clean off the canvas and the file still
+  encodes fine with NO captions at all, which is easy to ship if you only check the exit code.
+  Always eyeball a real frame before shipping.
 - **Caption TEXT comes from the reviewed `transcripts.md` on the episode's media branch, never
   from raw ASR.** Time it by fuzzy-matching the reviewed words against word-level ASR
   timestamps. Enforce monotonic non-overlapping cues or two captions render on top of
