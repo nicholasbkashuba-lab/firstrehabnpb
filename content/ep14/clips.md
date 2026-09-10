@@ -213,3 +213,52 @@ Episode 13 (Captain Kerry) turned out to have five built but never posted clips 
 `media/ep13-clips`. Scheduled 15 to 19 September in the second slot, in the human
 set playlist order, with `capt_kerry` as an Instagram collaborator as on earlier
 Kerry posts.
+
+## Recrop, 2026-09-10 — subjects were off centre
+
+Nick: "some of his clips are not centered." He was right, and the error was in
+every clip, not some. The crop fractions had been set by eye off a contact
+sheet, which is exactly where the mistake hides: at tile size a large head
+reads as centred when it is not.
+
+Measured position of each subject in the shipped frame, then the corrected
+crop centre:
+
+| clip | subject | sat at | frac was | frac now |
+|---|---|---|---|---|
+| 01-15-versus-50 | Mike | 72% | 0.520 | 0.590 |
+| 02-average-age-13 | Arlosoroff | 69% | 0.450 | 0.538 |
+| 03-county-numbers | Arlosoroff | 70% | 0.450 | 0.545 |
+| 04-nobody-is-moving | Dave | 60% | 0.560 | 0.604 |
+| 05-sight-unseen | Arlosoroff | 64% | 0.450 | 0.516 |
+| 06-pedal-assist | Arlosoroff | 69% | 0.450 | 0.538 |
+
+The guest clips were the worst of it because he faces screen RIGHT and sat
+right of centre, so his face ran into the right edge with dead white coat
+behind him. That is the framing error people actually notice.
+
+How the measurement was done, since eyeballing is what caused this:
+
+- An OpenCV Haar face cascade is useless here. It locks onto the guest's white
+  coat and returns a box twice the size of the real face, centred ~90px off.
+  It also no longer exists in OpenCV 5.x; pin `opencv-python-headless<5`.
+- What works: skin-tone blob, YCrCb `inRange((70,135,85),(255,180,135))` over
+  the upper 60% of the frame, morphological open then close, largest connected
+  component. Median centre over 12 sampled frames per clip.
+- `frac = (head_x - cropw/2) / (srcw - cropw)`.
+- Sanity check before trusting any of it: re-crop one frame with the EXACT
+  filter string the clip shipped with and diff it against the shipped clip. If
+  the repro matches, the coordinate frame is right. This caught nothing here
+  but would have caught a rotation-metadata mismatch.
+
+Cut points, captions and audio are untouched; all six durations match the
+originals exactly. New clips are on `media/ep14-clips` at commit b1cfb8a.
+
+Uploaded to Post Bridge as `ep14-NN-...-v2.mp4` and the six scheduled posts
+repointed in place, so captions, YouTube titles and account lists survived.
+NOTE the jsDelivr trap: the URL must be pinned to the COMMIT SHA, not the
+branch name. jsDelivr caches per ref, so `@media/ep14-clips/clips/01-...mp4`
+would have served the old off centre clip back. A freshly pushed SHA also 403s
+or 404s for a few seconds while jsDelivr warms; retry rather than concluding it
+is missing. Clip 04 is 41.8MB, over jsDelivr's 20MB limit, so it went via the
+Vercel branch host, which serves the branch tip and needed no cache busting.
