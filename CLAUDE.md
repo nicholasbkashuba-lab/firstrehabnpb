@@ -409,13 +409,46 @@ Standing preferences for a one off post, unless told otherwise:
 - Finish with `list_post_results` per platform. "processing" is not proof.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
-- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, dark
-  outline, centred, two lines max, sitting around the lower third.
+- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
+  two lines max.
+- **Captions sit LOW, in the lower third. Nick has asked for this twice — do not drift back
+  up.** The Episode 13 clips first shipped with captions near the vertical middle, which is
+  what he was reacting to. Burn them with libass and keep `MarginV` in the 55 to 65 range:
+  that value is in ASS script units (libass defaults SRT to PlayResY=288, NOT the 1920 pixel
+  height), so 60 lands the text about 80% of the way down the frame. Setting MarginV to a
+  pixel-scale number like 880 pushes the text clean off the canvas and it renders with no
+  captions at all, which is easy to miss if you only check that the file encoded. The style
+  that produced the approved Episode 13 look:
+
+      FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H90000000,
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=60
+
+  Do not go below ~55: TikTok, Reels and Shorts overlay their own username and caption UI
+  across the bottom ~15% and will cover the text. Always eyeball an actual frame at 55%
+  through the clip before shipping.
+- **Caption TEXT comes from the reviewed `transcripts.md` on the episode's media branch, never
+  from raw ASR.** Time it by fuzzy-matching the reviewed words against word-level ASR
+  timestamps. Enforce monotonic non-overlapping cues or two captions render on top of
+  each other.
 - **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
   and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
   narrow slice of an already cropped face — visibly worse, do not do it.
 - **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
+- **Audit who is on screen against who is actually talking, before clips ship.** The Episode 13
+  multicam showed the wrong person a lot, and it hit the GUEST hardest: Kerry was on screen for
+  only 52% of his own speech (Mike was shown 41% of it) while the two hosts sat at 88 to 90%.
+  Three of the five staged clips were wrong, one for its entire 45 seconds. Eyeballing does not
+  catch this and wardrobe guessing gets it backwards — measure it:
+  sync each camera to the master by audio cross correlation, take the speaker at each moment
+  from whichever camera's own close mic is hottest (normalise each by its median so mic gain
+  cancels), classify who is on screen from the master's own frames, then compare. Validate the
+  speaker detector against segments where the transcript names someone ("he goes Dave, what
+  size is that shirt") before trusting a single number. Expect ~82% agreement as normal for
+  room mics; the corrected Episode 13 episode reached 92.9%, with Kerry at 95.8%.
+  NOTE the master is an EDIT, so the camera offset does not drift smoothly — it STEPS at each
+  cut (Episode 13: four cuts, at show 191.0 / 576.5 / 666.0 / 945.5s). Fit one offset per
+  plateau and split any shot that spans a cut, or lip sync breaks at that boundary.
 - Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
   better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
   Episode 8 and 9 clip currently opens on an interviewer question or mid sentence on "But",
