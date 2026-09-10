@@ -366,6 +366,16 @@ One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask eac
   are prerecorded but Saturday is the public moment.
 - **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
   YouTube Shorts, TikTok).
+- **Friday 4:00 PM ET — next guest announcement** (Nick set this 2026-09-10). The day before
+  the show, announce who is on tomorrow: name, credential, and the airing details. Instagram,
+  Facebook, LinkedIn business and X, with the podcast cover art as the image. NOT Google
+  Business — Friday 9:00 AM already carries that day's pillar GBP post and Saturday carries the
+  episode post; a third would spam the profile.
+  **An announcement must not contain anything said inside the episode.** It has not aired yet,
+  Nick sells Saturday as the live moment, and a teaser built from the transcript spoils it. The
+  hook is the airing itself, never a quote from it. Friday still posts its clip at 9:00 AM as
+  usual — the announcement is an extra post, not a replacement, which is why it sits at 4:00 PM.
+  Drafts live in `content/announcements/ep{NN}-announcement.md`; rules in that folder's README.
 - Next Saturday a new episode number takes over. Never mix two episodes in one week.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
@@ -386,9 +396,29 @@ clips one per day after it. Scheduling IS the deliverable; waiting for approval 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
 `trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
 (9:00 AM ET daily). It branches on the ET day of week: Saturday → episode post, Sunday
-through Friday → the next unposted clip. Consolidated 2026-08-02 from two separate routines
+through Friday → the next unposted clip, and (from 2026-09-10) Friday additionally drafts the
+next guest announcement and schedules it for 20:00 UTC the same day — one routine, one cron, no
+second trigger. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
 Don't split it back apart; add day-branches to this one instead.
+
+**The trigger ID above is DEAD. The live one is `trig_01R5iPGmt45aWsNkwNoX5zDc`** (recreated
+2026-09-10, same name, same `0 13 * * *` cron, fresh session per fire, first run 2026-09-11).
+`list_triggers` showed the old ID gone from the account entirely and no daily entry in its
+place, so nothing had been posting episodes or clips automatically for some unknown stretch.
+The rewritten prompt carries all four branches: Saturday episode post, Sun–Fri clip, the Friday
+announcement, and the no-weekday-Google-Business rule.
+
+Two things to know before touching it again:
+- `list_triggers` does NOT return a routine's prompt. Editing means rewriting the whole prompt
+  from this file; there is nothing to read back and patch. Keep this file current, because it
+  IS the backup of that prompt.
+- **`create_trigger` cannot attach connectors on this org** (the API rejects the `connectors`
+  parameter outright), so a routine created from here fires with NO `mcp__*` tools and cannot
+  reach Post Bridge. **Post Bridge has to be attached to the routine by hand in the claude.ai
+  Routines UI.** Until that is done the routine wakes up, reads the repo, and can post nothing.
+  Check this first if a firing reports "no such tool" — see the Connectors section below, which
+  covers the separate per-chat toggle problem.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
 YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
