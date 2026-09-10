@@ -441,16 +441,35 @@ Standing preferences for a one off post, unless told otherwise:
   depends on what is behind it. With libass that is `BorderStyle=3` with `Outline` as
   box padding and `Shadow=0`; with drawtext, `box=1:boxcolor=black:boxborderw=28` at
   `y=h*0.72`.
-  What Episodes 8-13 ACTUALLY shipped, read off the frames of `media/ep13-clips` rather
-  than from memory: white bold with a soft drop shadow, no box, positioned MID-FRAME at
-  roughly 46% height. This file previously said "dark outline" and "lower third" and was
-  wrong on both counts, so do not treat the old episodes as the reference for either.
+  Episode 13 ALREADY ships exactly that, measured off a full-resolution frame of
+  `media/ep13-clips/01-trial-by-fire.mp4` on 2026-09-10: solid black box, white bold,
+  box spanning roughly y1540 to y1680 of 1920, so 80 to 87% height. The Episode 14 style
+  is therefore continuity, not a change. Two earlier descriptions in this file were both
+  wrong and both were written from downscaled contact-sheet tiles rather than real
+  pixels: "dark outline / lower third", then "soft drop shadow, no box, mid-frame at
+  roughly 46%". A caption band reads as a grey smear at tile size. Crop the region at
+  FULL resolution before recording anything about caption style.
   The caption FONT is recorded nowhere in this repo and is not recoverable from a
   rendered frame; it lives in whichever tool cut those clips. Ask before assuming Inter.
-- **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
-  and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
+- **Source is the RAW camera, not the master.** On Episode 9 the guest camera shot
+  natively vertical and was used full frame at ZERO crop. Do NOT assume that holds:
+  Episode 14's guest camera was 1280x720 LANDSCAPE, so every guest clip is a 405x720
+  window upscaled 2.67x, and the crop centre is then the whole framing decision.
+  Probe the camera before planning the crop. Host moments crop the 4K two shot to a 9:16 window
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
   narrow slice of an already cropped face — visibly worse, do not do it.
+- **Crop centres are MEASURED, never eyeballed.** Episode 14 shipped with all six
+  subjects off centre (the guest at 64 to 70% of frame width, looking screen right, so
+  his face ran into the right edge with dead coat behind him) because the fractions were
+  set by eye. Two traps: a downscaled contact sheet makes a large head look centred when
+  it is not, and an OpenCV Haar face cascade locks onto a guest's WHITE COAT, returning a
+  box twice the size of the real face and a centre 90px off. What works is a skin-tone
+  blob: YCrCb inRange (70,135,85)-(255,180,135) over the upper 60% of the frame, open then
+  close, largest connected component. Take the median centre over ~12 sampled frames,
+  then `frac = (head_x - cropw/2) / (srcw - cropw)`. Verify by re-cropping one frame with
+  the exact shipped filter string and diffing it against the shipped clip; if the repro
+  matches, the measurement frame is right. Note OpenCV 5.x DROPPED `CascadeClassifier`
+  anyway, so pin `opencv-python-headless<5` if you ever want the cascades.
 - **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
 - Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
   better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
