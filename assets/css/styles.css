@@ -465,6 +465,10 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .prose h2 { font-size: clamp(1.7rem, 2.8vw, 2.2rem); margin: 2.8rem 0 1rem; }
 .prose h2:first-child { margin-top: 0; }
 .prose p + p { margin-top: 1rem; }
+/* .prose had no h3 rule, so subheadings collided with the paragraph above them
+   the moment a page used them for real structure (hand therapy, 2026-09-09). */
+.prose h3 { font-size: clamp(1.12rem, 1.6vw, 1.28rem); margin: 2rem 0 0.5rem; }
+.prose h3:first-child { margin-top: 0; }
 .two-col { display: grid; grid-template-columns: 1fr 350px; gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
 @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 .side-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 2rem 1.8rem; position: sticky; top: 100px; box-shadow: var(--shadow-card); }
@@ -1026,3 +1030,8 @@ body.nav-locked .p2p-mini { display: none; }
 .news-go { font-size: 0.9rem; font-weight: 600; color: var(--teal); margin-top: 0.3rem; }
 .news-card:hover .arr { transform: translateX(4px); }
 @media (prefers-reduced-motion: reduce) { .news-card, .news-card .arr { transition: none; } }
+
+/* Standalone appointment form on service, condition, location and blog pages.
+   The contact page places .appt-form-card inside .contact-grid; everywhere else
+   it stands alone, so cap its measure rather than letting it run the full wrap. */
+.appt-form-solo { max-width: 680px; }
