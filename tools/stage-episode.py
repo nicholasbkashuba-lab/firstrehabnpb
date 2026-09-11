@@ -53,6 +53,13 @@ NAME_FIXES = [
     (r"\bthe camp side\b", "the cam side"), (r"\bcue angle\b", "Q angle"),
     (r"\bpublic's line\b", "Publix line"),
     (r"\bPain[s]? (?:to|of) Power\b", "Pain 2 Power"), (r"\bFame to Power\b", "Pain 2 Power"),
+    # Episode 14. ASR heard the guest's surname at least five ways.
+    (r"\bOlasseraph\b", "Arlosoroff"), (r"\bElassarof\b", "Arlosoroff"),
+    (r"\b(?:C|)[AE]?rlosor[ao]f{1,2}\b", "Arlosoroff"),
+    (r"\bLosor[ao]f{1,2}\b", "Arlosoroff"),
+    (r"\bHaim\b", "Chaim"),
+    (r"\bcareshpecialists\b", "Care Specialists"),
+    (r"\b[Oo]rthopedic Care Specialists\b", "Orthopaedic Care Specialists"),
 ]
 
 

@@ -360,13 +360,25 @@ run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never co
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
 ## Episode release cycle — STANDING AUTHORIZATION
-One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask each time.
+Nick approved this flow 2026-08-02; do not re-ask each time.
 - **Saturday 9:00 AM ET** — episode post (LinkedIn, Facebook, Google Business) + the full
   episode video on YouTube. The show "airs" 8:30 AM Sat on 100.3 Legends Radio; episodes
   are prerecorded but Saturday is the public moment.
-- **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
+- **Sun–Fri 9:00 AM ET** — one clip per day from the current episode (Instagram, Facebook,
   YouTube Shorts, TikTok).
-- Next Saturday a new episode number takes over. Never mix two episodes in one week.
+
+**TWO clips a day is fine, and episodes may overlap** (Nick, 2026-09-09). This file used to
+say "one episode owns one week, never mix two episodes in one week". That was already untrue
+in practice: Joyce (Ep 11) and Leighton (Ep 12) clips both posted at 13:00 UTC on 7 and 8
+September, same minute, same four accounts. Treat the daily 13:00 UTC slot as holding up to
+two clips, and run a backlog episode alongside the current one rather than dropping it. Do
+NOT delete an existing scheduled post just because a newer episode wants the same day: check
+first whether doubling up is fine, which it usually is. `delete_post` stays in
+`permissions.ask` regardless.
+- A clip set that never went out is not automatically stale. Episode 13 (Captain Kerry) sat
+  fully built on `media/ep13-clips` with only the episode announcements posted; its five
+  clips were scheduled 15 to 19 September, after Ep 11's run ended, while Ep 14 held the
+  first slot.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
 text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived
@@ -512,12 +524,42 @@ Standing preferences for a one off post, unless told otherwise:
 - Finish with `list_post_results` per platform. "processing" is not proof.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
-- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, dark
-  outline, centred, two lines max, sitting around the lower third.
-- **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
-  and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
+- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold,
+  centred, two lines max. **From Episode 14 on: a SOLID BLACK BOX behind the text,
+  sitting LOW in the frame** (Nick, 2026-09-08, both picked from side-by-sides on real
+  Episode 14 footage). An outline softens against a guest in a white coat; a box never
+  depends on what is behind it. With libass that is `BorderStyle=3` with `Outline` as
+  box padding and `Shadow=0`; with drawtext, `box=1:boxcolor=black:boxborderw=28` at
+  `y=h*0.72`.
+  Episode 13 ALREADY ships exactly that, measured off a full-resolution frame of
+  `media/ep13-clips/01-trial-by-fire.mp4` on 2026-09-10: solid black box, white bold,
+  box spanning roughly y1540 to y1680 of 1920, so 80 to 87% height. The Episode 14 style
+  is therefore continuity, not a change. Two earlier descriptions in this file were both
+  wrong and both were written from downscaled contact-sheet tiles rather than real
+  pixels: "dark outline / lower third", then "soft drop shadow, no box, mid-frame at
+  roughly 46%". A caption band reads as a grey smear at tile size. Crop the region at
+  FULL resolution before recording anything about caption style.
+  The caption FONT is recorded nowhere in this repo and is not recoverable from a
+  rendered frame; it lives in whichever tool cut those clips. Ask before assuming Inter.
+- **Source is the RAW camera, not the master.** On Episode 9 the guest camera shot
+  natively vertical and was used full frame at ZERO crop. Do NOT assume that holds:
+  Episode 14's guest camera was 1280x720 LANDSCAPE, so every guest clip is a 405x720
+  window upscaled 2.67x, and the crop centre is then the whole framing decision.
+  Probe the camera before planning the crop. Host moments crop the 4K two shot to a 9:16 window
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
   narrow slice of an already cropped face — visibly worse, do not do it.
+- **Crop centres are MEASURED, never eyeballed.** Episode 14 shipped with all six
+  subjects off centre (the guest at 64 to 70% of frame width, looking screen right, so
+  his face ran into the right edge with dead coat behind him) because the fractions were
+  set by eye. Two traps: a downscaled contact sheet makes a large head look centred when
+  it is not, and an OpenCV Haar face cascade locks onto a guest's WHITE COAT, returning a
+  box twice the size of the real face and a centre 90px off. What works is a skin-tone
+  blob: YCrCb inRange (70,135,85)-(255,180,135) over the upper 60% of the frame, open then
+  close, largest connected component. Take the median centre over ~12 sampled frames,
+  then `frac = (head_x - cropw/2) / (srcw - cropw)`. Verify by re-cropping one frame with
+  the exact shipped filter string and diffing it against the shipped clip; if the repro
+  matches, the measurement frame is right. Note OpenCV 5.x DROPPED `CascadeClassifier`
+  anyway, so pin `opencv-python-headless<5` if you ever want the cascades.
 - **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
 - Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
   better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
@@ -526,6 +568,36 @@ Standing preferences for a one off post, unless told otherwise:
   Nick 2026-08-03, no decision taken.
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
+
+## Finished episode video ALWAYS goes to Dropbox — STANDING INSTRUCTION
+Nick, 2026-09-11: "u need to put it in dropbox every time." The finished full episode
+video belongs in that episode's Dropbox folder as part of building it, not on request.
+Episode 14 went to `/Arlosoroff/`; the newer layout is `/Pain2Power/<Guest>/`, which is
+where raw footage now arrives, so put the finished cut beside its rushes there.
+
+**The Dropbox connector CANNOT do this.** Its `create_file` is UTF-8 text only and `copy`
+only moves files already inside Dropbox; there is no binary upload tool, and the server's
+own instructions list "uploading local/binary artifacts" as unsupported. Do not burn time
+looking for one. Downloads are fine (the proxy block this file used to claim is gone,
+measured ~21 MB/s), so the asymmetry is real: Dropbox in, not out.
+
+The pipe is `.github/workflows/dropbox-upload.yml`, the mirror of `dropbox-relay.yml`.
+It fetches a chunked file off a branch, reassembles it, verifies the sha256 when the
+branch carries one, and PUTs it into Dropbox with an upload session (64MB per append,
+inside Dropbox's 8-150MB window), then checks the stored byte count. Dropbox returns its
+own block hash rather than sha256, so size is the post-upload contract.
+
+It needs three repo secrets, created ONCE from a Dropbox app at dropbox.com/developers
+with scopes `files.content.write` + `files.content.read`:
+`DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, `DROPBOX_REFRESH_TOKEN`. A REFRESH token, not a
+raw access token, which dies after 4 hours. Until those exist the workflow fails fast
+with "secret DROPBOX_... is not set" rather than half uploading.
+
+Two ways to run it, matching the workflow_dispatch trap already documented above:
+- Once it is on the DEFAULT branch: `workflow_dispatch` with source_branch, chunk_prefix,
+  dest_path, sha256_file.
+- Before it reaches main: push a `tmp/dropbox-upload` branch containing `upload.json`
+  with those same four keys. `on: push` fires; `workflow_dispatch` would 404.
 
 ## Full episode to YouTube — publish from Descript, by hand
 Descript holds the finished multicam edit and has YouTube connected in the app. Publish the
