@@ -1,0 +1,170 @@
+name: dropbox-upload
+# Pushes a chunked file from a git branch UP into Dropbox.
+# The sibling dropbox-relay.yml goes the other way (Dropbox -> GitHub).
+#
+# Needs three repo secrets, created once from a Dropbox app
+# (dropbox.com/developers/apps, scopes files.content.write + files.content.read):
+#   DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_REFRESH_TOKEN
+# A refresh token, not a raw access token: raw ones expire after 4 hours.
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: 'Branch holding the chunks (e.g. tmp/ep14-video)'
+        required: true
+      chunk_prefix:
+        description: 'Chunk filename prefix (e.g. ep14.chunk_)'
+        required: true
+      dest_path:
+        description: 'Full Dropbox destination path (e.g. /Arlosoroff/ep14-arlosoroff-FINAL.mp4)'
+        required: true
+      sha256_file:
+        description: 'Optional file in the branch holding the expected sha256'
+        required: false
+        default: ''
+  push:
+    branches: [ 'tmp/dropbox-upload' ]
+permissions:
+  contents: read
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve parameters
+        id: p
+        env:
+          EV: ${{ github.event_name }}
+          IN_BRANCH: ${{ inputs.source_branch }}
+          IN_PREFIX: ${{ inputs.chunk_prefix }}
+          IN_DEST: ${{ inputs.dest_path }}
+          IN_SHA: ${{ inputs.sha256_file }}
+        run: |
+          set -euo pipefail
+          if [ "$EV" = "push" ]; then
+            # Parameters ride along in the pushed branch, because workflow_dispatch
+            # 404s until the workflow exists on the default branch.
+            git init -q cfg && cd cfg
+            git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+            git fetch -q --depth 1 origin tmp/dropbox-upload
+            git checkout -q FETCH_HEAD
+            test -f upload.json || { echo "::error::tmp/dropbox-upload must contain upload.json"; exit 1; }
+            python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          c = json.load(open("upload.json"))
+          for k in ("source_branch", "chunk_prefix", "dest_path"):
+              if k not in c:
+                  raise SystemExit(f"upload.json missing {k}")
+              print(f"{k}={c[k]}")
+          print(f"sha256_file={c.get('sha256_file','')}")
+          PY
+          else
+            {
+              echo "source_branch=$IN_BRANCH"
+              echo "chunk_prefix=$IN_PREFIX"
+              echo "dest_path=$IN_DEST"
+              echo "sha256_file=$IN_SHA"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fetch chunks
+        env:
+          SRC: ${{ steps.p.outputs.source_branch }}
+        run: |
+          set -euo pipefail
+          git init -q src && cd src
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch -q --depth 1 origin "$SRC"
+          git checkout -q FETCH_HEAD
+          ls -la
+
+      - name: Reassemble and verify
+        env:
+          PREFIX: ${{ steps.p.outputs.chunk_prefix }}
+          SHAFILE: ${{ steps.p.outputs.sha256_file }}
+        run: |
+          set -euo pipefail
+          cd src
+          shopt -s nullglob
+          chunks=( ${PREFIX}* )
+          [ ${#chunks[@]} -gt 0 ] || { echo "::error::no chunks matched ${PREFIX}*"; exit 1; }
+          printf 'joining %d chunks\n' "${#chunks[@]}"
+          cat "${chunks[@]}" > ../payload.bin
+          size=$(stat -c%s ../payload.bin)
+          echo "payload is $size bytes"
+          [ "$size" -gt 1000000 ] || { echo "::error::payload suspiciously small"; exit 1; }
+          if [ -n "$SHAFILE" ] && [ -f "$SHAFILE" ]; then
+            want=$(awk '{print $1}' "$SHAFILE")
+            got=$(sha256sum ../payload.bin | awk '{print $1}')
+            echo "want $want"
+            echo "got  $got"
+            [ "$want" = "$got" ] || { echo "::error::sha256 mismatch, refusing to upload"; exit 1; }
+            echo "sha256 verified"
+          fi
+
+      - name: Upload to Dropbox
+        env:
+          APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+          APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
+          DEST: ${{ steps.p.outputs.dest_path }}
+        run: |
+          set -euo pipefail
+          for v in APP_KEY APP_SECRET REFRESH_TOKEN; do
+            [ -n "${!v}" ] || { echo "::error::secret DROPBOX_$v is not set"; exit 1; }
+          done
+
+          cat > finish_check.py <<'PYCHK'
+          import json, sys
+          r = json.load(open(sys.argv[1]))
+          if "path_display" not in r:
+              print("::error::upload_session/finish failed:", json.dumps(r))
+              raise SystemExit(1)
+          print("landed at", r["path_display"], "size", r["size"])
+          PYCHK
+          TOKEN=$(curl -sS -X POST https://api.dropbox.com/oauth2/token \
+            -u "$APP_KEY:$APP_SECRET" \
+            -d grant_type=refresh_token \
+            -d refresh_token="$REFRESH_TOKEN" | python3 -c 'import sys,json; print(json.load(sys.stdin)["access_token"])')
+          [ -n "$TOKEN" ] || { echo "::error::could not mint an access token"; exit 1; }
+          echo "::add-mask::$TOKEN"
+
+          # Dropbox upload sessions take 8-150MB per call. 64MB keeps each
+          # request comfortably inside the limit and retries cheaply.
+          CHUNK=$((64 * 1024 * 1024))
+          TOTAL=$(stat -c%s payload.bin)
+          split -b "$CHUNK" -d -a 4 payload.bin part_
+
+          SESSION=""
+          OFFSET=0
+          for part in part_*; do
+            n=$(stat -c%s "$part")
+            if [ -z "$SESSION" ]; then
+              SESSION=$(curl -sS -X POST https://content.dropboxapi.com/2/files/upload_session/start \
+                -H "Authorization: Bearer $TOKEN" \
+                -H 'Dropbox-API-Arg: {"close":false}' \
+                -H 'Content-Type: application/octet-stream' \
+                --data-binary @"$part" | python3 -c 'import sys,json; print(json.load(sys.stdin)["session_id"])')
+              [ -n "$SESSION" ] || { echo "::error::upload_session/start failed"; exit 1; }
+              echo "::add-mask::$SESSION"
+            else
+              curl -sS -f -X POST https://content.dropboxapi.com/2/files/upload_session/append_v2 \
+                -H "Authorization: Bearer $TOKEN" \
+                -H "Dropbox-API-Arg: {\"cursor\":{\"session_id\":\"$SESSION\",\"offset\":$OFFSET},\"close\":false}" \
+                -H 'Content-Type: application/octet-stream' \
+                --data-binary @"$part" > /dev/null
+            fi
+            OFFSET=$((OFFSET + n))
+            echo "uploaded $OFFSET / $TOTAL bytes"
+          done
+
+          RESULT=$(curl -sS -X POST https://content.dropboxapi.com/2/files/upload_session/finish \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Dropbox-API-Arg: {\"cursor\":{\"session_id\":\"$SESSION\",\"offset\":$OFFSET},\"commit\":{\"path\":\"$DEST\",\"mode\":\"overwrite\",\"autorename\":false,\"mute\":false}}" \
+            -H 'Content-Type: application/octet-stream' \
+            --data-binary @/dev/null)
+          echo "$RESULT" > finish.json
+          python3 finish_check.py finish.json
+          # Size is the contract here: Dropbox returns its own block hash, not sha256.
+          GOT=$(echo "$RESULT" | python3 -c 'import sys,json; print(json.load(sys.stdin)["size"])')
+          [ "$GOT" = "$TOTAL" ] || { echo "::error::Dropbox stored $GOT bytes, expected $TOTAL"; exit 1; }
+          echo "verified $GOT bytes in Dropbox at $DEST"

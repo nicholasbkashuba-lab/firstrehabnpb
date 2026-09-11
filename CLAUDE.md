@@ -479,6 +479,36 @@ Standing preferences for a one off post, unless told otherwise:
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
 
+## Finished episode video ALWAYS goes to Dropbox — STANDING INSTRUCTION
+Nick, 2026-09-11: "u need to put it in dropbox every time." The finished full episode
+video belongs in that episode's Dropbox folder as part of building it, not on request.
+Episode 14 went to `/Arlosoroff/`; the newer layout is `/Pain2Power/<Guest>/`, which is
+where raw footage now arrives, so put the finished cut beside its rushes there.
+
+**The Dropbox connector CANNOT do this.** Its `create_file` is UTF-8 text only and `copy`
+only moves files already inside Dropbox; there is no binary upload tool, and the server's
+own instructions list "uploading local/binary artifacts" as unsupported. Do not burn time
+looking for one. Downloads are fine (the proxy block this file used to claim is gone,
+measured ~21 MB/s), so the asymmetry is real: Dropbox in, not out.
+
+The pipe is `.github/workflows/dropbox-upload.yml`, the mirror of `dropbox-relay.yml`.
+It fetches a chunked file off a branch, reassembles it, verifies the sha256 when the
+branch carries one, and PUTs it into Dropbox with an upload session (64MB per append,
+inside Dropbox's 8-150MB window), then checks the stored byte count. Dropbox returns its
+own block hash rather than sha256, so size is the post-upload contract.
+
+It needs three repo secrets, created ONCE from a Dropbox app at dropbox.com/developers
+with scopes `files.content.write` + `files.content.read`:
+`DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, `DROPBOX_REFRESH_TOKEN`. A REFRESH token, not a
+raw access token, which dies after 4 hours. Until those exist the workflow fails fast
+with "secret DROPBOX_... is not set" rather than half uploading.
+
+Two ways to run it, matching the workflow_dispatch trap already documented above:
+- Once it is on the DEFAULT branch: `workflow_dispatch` with source_branch, chunk_prefix,
+  dest_path, sha256_file.
+- Before it reaches main: push a `tmp/dropbox-upload` branch containing `upload.json`
+  with those same four keys. `on: push` fires; `workflow_dispatch` would 404.
+
 ## Full episode to YouTube — publish from Descript, by hand
 Descript holds the finished multicam edit and has YouTube connected in the app. Publish the
 FINAL composition straight from Descript to YouTube, then set scheduling in YouTube Studio.
