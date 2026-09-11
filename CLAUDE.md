@@ -298,6 +298,25 @@ LinkedIn personal 81320 (never post). Google Business takes text or ONE image, *
 `list_post_results` and report per platform. Uploads to Post Bridge are metered — reuse
 existing media IDs (`list_media`) instead of re-uploading.
 
+**Add the GUEST as an Instagram collaborator on every clip post from their episode**
+(Nick, 2026-09-11). `platform_configurations.instagram.collaborators: ["handle"]` — the post
+then also appears on the guest's own profile and shares its likes and comments, which is the
+whole reason to do it. It is an invite, so it shows on their profile once they accept.
+Instagram only; there is no equivalent field for Facebook, TikTok or YouTube, so a clip post
+carries it on the IG leg alone. Max 3 handles.
+**A private or misspelled handle fails the WHOLE post**, so confirm the handle with Nick
+rather than guessing it, and never copy one from memory. Known: Episode 13 Captain Kerry is
+`capt_kerry` (set by an earlier session; not independently verified).
+
+**Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
+uploaded copy, not a reference to the branch, so re-cutting a clip and pushing it does NOT
+change what a scheduled post will publish. On 2026-09-11 four of the five scheduled Episode 13
+posts were still pointing at the original pre-fix uploads, the ones showing the wrong speaker,
+and would have published those. Compare `list_media` size_bytes against the file on the media
+branch; a mismatch means the post is stale. Fix with `upload_media` (the Vercel branch host
+serves any size) then `update_post` with the new media id, and pass
+`platform_configurations` back in full or the collaborators and YouTube title are dropped.
+
 **The routine runs unattended — `.claude/settings.json` is what makes that true.** Each
 firing spawns a fresh session that clones this repo, and without a permission allow-list
 every Post Bridge call stops and asks Nick to approve it. `permissions.allow` pre-approves
