@@ -263,7 +263,18 @@ One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask eac
   are prerecorded but Saturday is the public moment.
 - **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
   YouTube Shorts, TikTok).
-- Next Saturday a new episode number takes over. Never mix two episodes in one week.
+- Next Saturday a new episode number takes over.
+
+**SUPERSEDED 2026-09-11 for the CLIP slot: clips now rotate across episodes, not one episode
+per week.** Nick: "since we have so many clips, including clips from other shows itd be cool
+to stagger and randomize the clips so its not just kerry 7 days in a row." The Saturday
+EPISODE post is unchanged and still belongs to that week's episode. The daily clip slot draws
+from the whole unposted library across episodes, interleaved so no guest runs many days
+straight. Build the calendar by spreading each episode's clips as evenly as its count allows
+and only allowing back to back days from one episode when the arithmetic forces it (Episode 13
+had 23 clips against 40 days, so 5 doubles were the mathematical minimum). The first mixed run
+is scheduled Sept 12 through Oct 21 2026: Episode 13 (Captain Kerry) 23, Susan Mann 8,
+Episode 14 (Dr. Arlosoroff) 6, Paul Joyce 3.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
 text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived
