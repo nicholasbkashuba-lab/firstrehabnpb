@@ -25,9 +25,6 @@ Yeah, one's an infinite increase over zero. So I didn't think much of, you know,
 
 I'm sorry, I might get emotional here. But one of the most beautiful and powerful things for me ever is if I'm taking a walk with my son, and there are times he'll just stop and look at me. And he gives me this smile, you know. And it's like, that's a legacy, right?
 
-## 06-below-deck-not-the-deck.mp4
-
-Kerry doesn't know this. I have Captain Kerry to say hello to everyone. G'day, g'day, how's it going? And of course Captain Kerry has his show that's on Bravo, and it's called Below the Deck. Below Deck. Not Below the Deck.
 
 ## 07-kerry-on-dave.mp4
 
