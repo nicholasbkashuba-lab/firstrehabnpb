@@ -3322,6 +3322,14 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        "id": "HHTgwYIzsyk",
+        "uploaded": "2026-09-09T13:09:54-04:00",
+        "ep": "Episode 13",
+        "title": "Mental Health Mondays, Rescue Dogs &amp; Legacy",
+        "guest": "Captain Kerry Titheradge",
+        "teaser": "Captain Kerry Titheradge of Bravo&rsquo;s Below Deck joins Dave and Mike on why he started Mental Health Mondays, what the yachting life really costs, the rescue dogs that became an anchor for his kids, and the charities he quietly backs for veterans and first responders.",
+    },
+    {
         "id": "FBaBGdzNksM",
         "uploaded": "2026-08-31T17:38:11-04:00",
         "ep": "Episode 12",
