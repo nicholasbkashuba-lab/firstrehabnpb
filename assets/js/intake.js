@@ -660,6 +660,42 @@
     teaser.classList.remove('show');
   }
 
+  // ---------- keep the auto-invite off the appointment form ----------
+  // The five-field form now sits on 37 pages (see CLAUDE.md > Conversion), and on
+  // a phone the teaser card is pinned to the bottom of the viewport — exactly
+  // where that form's Send Request button sits. The assistant was covering the
+  // thing it exists to help with. So: while the form is on screen the auto-invite
+  // holds; the moment the reader scrolls it out of view they get offered the
+  // assistant as before. Nothing here touches the launcher bubble, which stays
+  // tappable throughout, or an invite the reader has already been shown.
+  var formOnScreen = false;
+  var autoDeferred = false;
+
+  function showAutoInvite() {
+    if (root.classList.contains('open')) return;
+    if (formOnScreen) { autoDeferred = true; return; }
+    autoDeferred = false;
+    // Only claim the once-per-session slot when the invite actually appears —
+    // setting it on a deferred run would silently burn it.
+    set(KEYS.auto, 1, 's');
+    if (window.matchMedia('(max-width: 640px)').matches) {
+      teaser.classList.add('show');
+      setTimeout(hideTeaser, 14000);
+    } else {
+      openPanel(true);
+    }
+  }
+
+  function watchApptForm() {
+    var form = document.getElementById('appt-form');
+    if (!form || typeof IntersectionObserver !== 'function') return;
+    new IntersectionObserver(function (entries) {
+      formOnScreen = entries[entries.length - 1].isIntersecting;
+      if (formOnScreen) hideTeaser();
+      else if (autoDeferred) showAutoInvite();
+    }, { threshold: 0 }).observe(form);
+  }
+
   // ---------- contact-page appointment form ----------
   function initApptForm() {
     var form = document.getElementById('appt-form');
@@ -762,16 +798,8 @@
     if (!done && !alreadyAuto) {
       var isContact = /contact\.html$/.test(location.pathname);
       var delay = isContact ? CFG.contactPageDelay : CFG.autoOpenDelay;
-      setTimeout(function () {
-        if (root.classList.contains('open')) return;
-        set(KEYS.auto, 1, 's');
-        if (window.matchMedia('(max-width: 640px)').matches) {
-          teaser.classList.add('show');
-          setTimeout(hideTeaser, 14000);
-        } else {
-          openPanel(true);
-        }
-      }, delay);
+      watchApptForm();
+      setTimeout(showAutoInvite, delay);
     }
   }
 
