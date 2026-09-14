@@ -3,14 +3,15 @@
 # gone out. A clip absent from this file is never posted.
 # Edit freely: reorder lines to change priority, delete a line to pull a clip.
 #
-# SEEDED IN NUMERIC ORDER. Reorder before the week starts: six weekday slots
-# and 8 clips means only the top six air, so order decides what runs.
+# Ordered by hook strength. Six weekday slots, 8 clips, so the bottom two are
+# spares. The two stats lead because they are the most shareable; 07 closes the
+# week because it carries the brightmindsprocessing.org call to action.
 
-01-origin-story.mp4
 02-one-in-four.mp4
+05-juvenile-stat.mp4
 03-oxbridge.mp4
 04-sixteen-weeks.mp4
-05-juvenile-stat.mp4
-06-coach-carter.mp4
+01-origin-story.mp4
 07-how-it-works.mp4
+06-coach-carter.mp4
 08-breakthrough.mp4
