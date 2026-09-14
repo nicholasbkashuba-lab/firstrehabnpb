@@ -333,8 +333,18 @@ Service schema per city, footer "Areas We Serve" links every city. North Palm Be
 deliberately has NO location page — the homepage owns that keyword; footer links it to /.
 
 ## Verification pattern
-The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);
-GitHub (api/raw/codeload/objects) IS allowed. **The production domain
+**Measure reachability, do not assume it.** Every host this file once listed as blocked
+turned out to be reachable when actually tested (2026-09-11/12):
+- **Dropbox API and content hosts ARE reachable.** `api.dropboxapi.com` and
+  `content.dropboxapi.com` answer directly, and raw camera files download from
+  `dl.dropboxusercontent.com` at 37-90 MB/s. A 21.9 GB camera pulled in about 4 minutes.
+- **`*.vercel.app` IS reachable.** Preview deploys return 200 and can be read directly.
+- **The YouTube channel feed IS reachable** (`youtube.com/feeds/videos.xml`, HTTP 200).
+- GitHub (api/raw/codeload/objects) is allowed, as always.
+
+Those three false blockers cost days. Sessions built GitHub Actions relays and pg_net
+workarounds for things a plain curl does, and one session used them to argue a render
+could not be done here at all. One curl settles it. Test before you conclude. **The production domain
 https://www.firstrehabnpb.com/ IS reachable directly** — plain `curl` returns 200 (verified
 2026-09-09). This file previously implied otherwise and sent two sessions through pg_net for
 checks a one-line curl does faster. Use curl for anything on the live domain, including
@@ -441,8 +451,10 @@ video's `link rel=alternate` reads `/shorts/<id>` for a Short, `/watch?v=<id>` o
 
 ## Automating the episode metadata (verified 2026-08-02)
 Both feeds are public and machine-readable, so the Spotify link and YouTube id never need
-typing. Neither is reachable from the sandbox (proxy 403) — fetch via Supabase `pg_net` or a
-GitHub Actions runner.
+typing. **Both ARE reachable from the sandbox by plain curl** (verified 2026-09-12, HTTP 200);
+the old "proxy 403, use pg_net or an Actions runner" note here was wrong. Note that a video
+scheduled or private on YouTube does NOT appear in the feed until it goes public, so an absent
+id means "not published yet", not "missing".
 - Newest Spotify episode id: GET `https://open.spotify.com/embed/show/033A1BQq9qqsygFFCq9SIu`,
   regex `spotify:episode:([A-Za-z0-9]{22})`. Returns exactly one id, the current episode.
   Title via `https://open.spotify.com/oembed?url=<url-encoded show url>` → `.title`
@@ -497,9 +509,11 @@ When Nick says post something, the only two things that ever block it are:
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
 
-**Prefer an attached file over a Dropbox link.** This sandbox is proxy blocked from Dropbox
-hosts: the Dropbox MCP tools work for browsing and metadata, but the bytes cannot be
-downloaded here. A file attached to the chat lands on disk immediately and skips a
+**Dropbox bytes CAN be downloaded here** (corrected 2026-09-12; this section previously said
+the opposite and was wrong). The connector's `download_link` mints a single-use temporary URL
+that curl fetches at 37-90 MB/s, so raw footage does not need to be attached to the chat.
+The one real asymmetry: the connector CANNOT upload binaries, so writing a finished render
+back to Dropbox still needs `DROPBOX_APP_KEY` + `DROPBOX_REFRESH_TOKEN` and an upload session. A file attached to the chat lands on disk immediately and skips a
 GitHub Actions relay that takes several minutes and has its own failure modes
 (`scl/fi` share links serve an HTML interstitial even with `dl=1`; runners have no ffmpeg
 preinstalled; the default GITHUB_TOKEN is read only).
@@ -527,9 +541,23 @@ Standing preferences for a one off post, unless told otherwise:
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
 
-## Full episode to YouTube — publish from Descript, by hand
-Descript holds the finished multicam edit and has YouTube connected in the app. Publish the
-FINAL composition straight from Descript to YouTube, then set scheduling in YouTube Studio.
+## Full episode to YouTube — by hand, and check WHERE the edit lives first
+**This route only exists when the episode was edited in Descript.** Episodes 8, 9, 10 and 13
+have Descript multicam projects and publish straight from the app, which has YouTube connected:
+open the FINAL composition, publish, then schedule in YouTube Studio.
+
+**Episode 14 did not, and that broke the chain.** It was rendered entirely by the ffmpeg
+pipeline (podcast-multicam skill) and never imported to Descript, so the only project there was
+a transcript. The one-click route silently did not exist and the upload had to be done by hand
+from a local file. When an episode is rendered by the ffmpeg pipeline, either import the final
+render to Descript (`import_media` takes a direct upload with no 500MB ceiling) so the usual
+publish route works, or plan on a manual Studio upload from the start. Decide which at render
+time, not on the Friday before it airs.
+
+Post Bridge cannot ingest a full episode by ANY route — measured 2026-09-11 on a 1.18 GB file:
+base64 upload caps at 3MB, the upload page caps at 500MB, and URL mode needs a public URL that
+cannot be made (GitHub blocks blobs over 100MB, jsDelivr caps ~20MB, raw and release assets
+serve `application/octet-stream` which Post Bridge rejects). Do not re-test this.
 
 Do NOT route the full episode through Post Bridge or a downloaded file:
 - Post Bridge times out fetching anything that large (2.9GB Descript export failed at 60s).
@@ -539,6 +567,55 @@ Do NOT route the full episode through Post Bridge or a downloaded file:
   produces the same error.
 The Descript share page (`share.descript.com/view/...`, access "unlisted") is also the right
 way to let a guest watch their episode: streams in any browser, no account, no download.
+
+## Rendering an episode here — what the skill's scripts actually do
+The podcast-multicam scripts run in this sandbox, but three things bite:
+
+- **ffprobe is NOT installed** and `render_final_v3.py` calls it in `video_info()` and `dur()`,
+  so it dies immediately. `pip install imageio-ffmpeg` gives ffmpeg only. Get both from the
+  johnvansickle static build (`ffmpeg-release-amd64-static.tar.xz`, ~42MB, downloads fine);
+  it carries `--enable-libzimg`, so zscale and tonemap are present for HDR cameras. When
+  checking for those filters, note `ffmpeg -filters` prints them as ` .S. tonemap`, so a
+  `grep '^ *tonemap'` pattern reports a false absence.
+- **Disk is ~26GB and one episode's raw cameras exceed it** (ep14: 21.86 + 13.55 + 0.78 = 36.2GB).
+  Hold ONE original at a time: download, transcode to a 1080p proxy, delete the original.
+  Output is 1080p anyway so nothing is lost. Put `fps=30` BEFORE `scale` in the filter chain
+  when a camera is 59.94fps: it halves both scale and encode work and took Mike's proxy from an
+  85-minute run to about 27.
+- **The renderer picks cameras by MIC ENERGY** (`win=np.argmax(E)`), and there is no `--cuts`
+  flag despite what the speaker-attribution note elsewhere in this file implies. Always
+  `--dry-run` first and compare its screen-time split against the transcript's speaking split
+  before spending an hour on an encode.
+
+**A fresh render is the RAW length and contains everything the air cuts remove.** `sync_lock.json`
+and `warp.json` are keyed to the raw master (ep14: 28:51), not the edited one (27:38). The air
+cuts are a post-render step. Re-render and you re-introduce whatever was cut, so reapply them
+and re-run the PII check before the file goes anywhere.
+
+Beware `pkill -f <pattern>`: a monitor or wrapper whose command line contains the same pattern
+gets killed too, including the shell running the pkill. Match on a wrapper script name instead.
+
+## Edit maps and as-built docs are CLAIMS, not evidence — measure first
+`content/ep{NN}/spotify.md` carries an "Edit map" table of which raw ranges were cut. **The
+Episode 14 table is wrong**: it records p2 as raw 1351.68-1362.66 when the true kept window is
+raw ~1338.85-1349.15, about 13 seconds earlier. Measured 2026-09-12 by locating slices of the
+edited master inside the raw with FFT cross correlation: offsets run +0.00s, then +30.85s,
+then +72.17s, all at PSR 53-90.
+
+That error cost real damage. A session did arithmetic on the documented range, concluded the
+guest's personal email was still in the published episode, and told Nick to pull a scheduled
+YouTube video. The edit was fine. The DOC was wrong.
+
+Before acting on any claim that audio contains or omits something, prove it against the file:
+take the suspect audio out of the RAW as a needle, search the published file for it, and
+include a positive control you know IS present. PSR >= 20 means present, < 12 is noise. On
+Episode 14 both controls scored 62 and 101 while all four PII needles sat at 11.7-15.9, which
+is what "genuinely removed" looks like. Scripts: `qa/hunt_pii.py`, `qa/xcorr2.py` pattern.
+
+The same applies to as-built docs. Episode 14's `clips.md` says all six clips were scheduled
+Sun 13 to Fri 18; the live Post Bridge queue had them spread across five weeks with clip 04
+carrying no post at all, dropped during the 2026-09-10 recrop repoint. Check the live system,
+not the write-up.
 
 ## Connectors — check this before assuming a tool is broken
 `ListConnectors` reports `connected` AND `enabledInChat`. A connector can be connected to the
