@@ -1,17 +1,26 @@
-# Posting order for Episode 15 clips, strongest first.
-# The daily routine posts the first clip in this list that has not already
-# gone out. A clip absent from this file is never posted.
-# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+# Episode 15 (Susan Mann, Bright Minds Processing). Episode airs Sat 19 Sept.
 #
-# Ordered by hook strength. Six weekday slots, 8 clips, so the bottom two are
-# spares. The two stats lead because they are the most shareable; 07 closes the
-# week because it carries the brightmindsprocessing.org call to action.
+# AS SCHEDULED IN POST BRIDGE, 5:00 PM ET daily, Sun 20 to Fri 25 Sept.
+# The 9:00 AM ET slot that week was already held by other episodes' clips, so
+# Nick chose to double up rather than move them. Accounts: Instagram 81353,
+# TikTok 81356, X 81378, YouTube 81358.
+#
+# Sun 20  02-one-in-four      ed8ebba1-c736-4614-9360-cef2e9337e0f
+# Mon 21  05-juvenile-stat    fe6948ac-18c0-4009-9a53-36656a2e1276
+# Tue 22  03-oxbridge         fdfdf8d8-210e-4958-aa6a-3a06c233c49d
+# Wed 23  04-sixteen-weeks    b30e8f41-a5d4-4f01-960d-1f9c632b2d79
+# Thu 24  07-how-it-works     b8a0ab1a-96f9-4280-a1e3-3c3c45923c8b
+# Fri 25  08-breakthrough     c50ff9e8-2b8a-4548-9e9a-bff1079296b9
+#
+# Spares, not on the week:
+#   06-coach-carter  e30e5106-380b-4dd2-8006-331cd9a09fe1, parked at 2027-01-07
+#   01-origin-story  attached to the pre show draft cc643e9e instead
 
 02-one-in-four.mp4
 05-juvenile-stat.mp4
 03-oxbridge.mp4
 04-sixteen-weeks.mp4
-01-origin-story.mp4
 07-how-it-works.mp4
-06-coach-carter.mp4
 08-breakthrough.mp4
+06-coach-carter.mp4
+01-origin-story.mp4
