@@ -366,7 +366,18 @@ One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask eac
   are prerecorded but Saturday is the public moment.
 - **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
   YouTube Shorts, TikTok).
-- Next Saturday a new episode number takes over. Never mix two episodes in one week.
+- Next Saturday a new episode number takes over.
+
+**SUPERSEDED 2026-09-11 for the CLIP slot: clips now rotate across episodes, not one episode
+per week.** Nick: "since we have so many clips, including clips from other shows itd be cool
+to stagger and randomize the clips so its not just kerry 7 days in a row." The Saturday
+EPISODE post is unchanged and still belongs to that week's episode. The daily clip slot draws
+from the whole unposted library across episodes, interleaved so no guest runs many days
+straight. Build the calendar by spreading each episode's clips as evenly as its count allows
+and only allowing back to back days from one episode when the arithmetic forces it (Episode 13
+had 23 clips against 40 days, so 5 doubles were the mathematical minimum). The first mixed run
+is scheduled Sept 12 through Oct 21 2026: Episode 13 (Captain Kerry) 23, Susan Mann 8,
+Episode 14 (Dr. Arlosoroff) 6, Paul Joyce 3.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
 text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived
@@ -400,6 +411,25 @@ LinkedIn personal 81320 (never post). Google Business takes text or ONE image, *
 `create_post` returning "processing" is NOT proof of publication. Always finish with
 `list_post_results` and report per platform. Uploads to Post Bridge are metered — reuse
 existing media IDs (`list_media`) instead of re-uploading.
+
+**Add the GUEST as an Instagram collaborator on every clip post from their episode**
+(Nick, 2026-09-11). `platform_configurations.instagram.collaborators: ["handle"]` — the post
+then also appears on the guest's own profile and shares its likes and comments, which is the
+whole reason to do it. It is an invite, so it shows on their profile once they accept.
+Instagram only; there is no equivalent field for Facebook, TikTok or YouTube, so a clip post
+carries it on the IG leg alone. Max 3 handles.
+**A private or misspelled handle fails the WHOLE post**, so confirm the handle with Nick
+rather than guessing it, and never copy one from memory. Known: Episode 13 Captain Kerry is
+`capt_kerry` (set by an earlier session; not independently verified).
+
+**Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
+uploaded copy, not a reference to the branch, so re-cutting a clip and pushing it does NOT
+change what a scheduled post will publish. On 2026-09-11 four of the five scheduled Episode 13
+posts were still pointing at the original pre-fix uploads, the ones showing the wrong speaker,
+and would have published those. Compare `list_media` size_bytes against the file on the media
+branch; a mismatch means the post is stale. Fix with `upload_media` (the Vercel branch host
+serves any size) then `update_post` with the new media id, and pass
+`platform_configurations` back in full or the collaborators and YouTube title are dropped.
 
 **The routine runs unattended — `.claude/settings.json` is what makes that true.** Each
 firing spawns a fresh session that clones this repo, and without a permission allow-list
@@ -512,13 +542,48 @@ Standing preferences for a one off post, unless told otherwise:
 - Finish with `list_post_results` per platform. "processing" is not proof.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
-- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, dark
-  outline, centred, two lines max, sitting around the lower third.
+- **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
+  two lines max.
+- **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
+  White text on a SOLID BLACK box, sitting LOW in the frame. The reference he pointed at is
+  the Episode 11 Paul Joyce clip `05-top-of-the-range.mp4` on `media/joyce-recut` (the
+  testosterone one) — pull a frame off it if there is ever any doubt. Exact style:
+
+      FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H00000000,
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=35
+
+  Two things he corrected, twice each, so do not let them drift back:
+  - **Low.** MarginV=35 puts the text ~88% down. It first shipped near the vertical middle,
+    then at 60 (~80% down), and he asked for lower both times. 35 is the approved value.
+  - **Solid black box.** `BorderStyle=4` with `BackColour=&H00000000` — alpha `00` is OPAQUE
+    in ASS. A semi transparent box (`&H90000000`) is what it looked like before and is wrong.
+  `MarginV` is in ASS script units — libass defaults SRT to PlayResY=288, NOT the 1920 pixel
+  height. A pixel-scale value like 880 pushes the text clean off the canvas and the file still
+  encodes fine with NO captions at all, which is easy to ship if you only check the exit code.
+  Always eyeball a real frame before shipping.
+- **Caption TEXT comes from the reviewed `transcripts.md` on the episode's media branch, never
+  from raw ASR.** Time it by fuzzy-matching the reviewed words against word-level ASR
+  timestamps. Enforce monotonic non-overlapping cues or two captions render on top of
+  each other.
 - **Source is the RAW camera, not the master.** The guest camera shoots natively vertical
   and is used full frame at ZERO crop. Host moments crop the 4K two shot to a 9:16 window
   on whoever is speaking. Cropping the finished 16:9 master instead means upscaling a
   narrow slice of an already cropped face — visibly worse, do not do it.
 - **Audio** comes from the finished master's mixed track, normalised to -14 LUFS for social.
+- **Audit who is on screen against who is actually talking, before clips ship.** The Episode 13
+  multicam showed the wrong person a lot, and it hit the GUEST hardest: Kerry was on screen for
+  only 52% of his own speech (Mike was shown 41% of it) while the two hosts sat at 88 to 90%.
+  Three of the five staged clips were wrong, one for its entire 45 seconds. Eyeballing does not
+  catch this and wardrobe guessing gets it backwards — measure it:
+  sync each camera to the master by audio cross correlation, take the speaker at each moment
+  from whichever camera's own close mic is hottest (normalise each by its median so mic gain
+  cancels), classify who is on screen from the master's own frames, then compare. Validate the
+  speaker detector against segments where the transcript names someone ("he goes Dave, what
+  size is that shirt") before trusting a single number. Expect ~82% agreement as normal for
+  room mics; the corrected Episode 13 episode reached 92.9%, with Kerry at 95.8%.
+  NOTE the master is an EDIT, so the camera offset does not drift smoothly — it STEPS at each
+  cut (Episode 13: four cuts, at show 191.0 / 576.5 / 666.0 / 945.5s). Fit one offset per
+  plateau and split any shot that spans a cut, or lip sync breaks at that boundary.
 - Clips have run 20 to 75 seconds. For REACH specifically, shorter and hook first performs
   better: open on the most surprising sentence, cut the setup entirely, aim 15 to 25s. Every
   Episode 8 and 9 clip currently opens on an interviewer question or mid sentence on "But",
