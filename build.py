@@ -41,6 +41,108 @@ TIKTOK = "https://www.tiktok.com/@firstrehabilitation"
 TWITTER = "https://x.com/first_rehab_npb"
 MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed"
 
+# ---------------------------------------------------------------------------
+# PHOTOS — the single registry of every real photograph on this site.
+#
+# One entry per photograph. Nothing else in this file may hardcode a photo path:
+# templates call photo(name, ...) and get a <picture> with WebP + JPEG sources,
+# a responsive srcset, and the focal point baked in.
+#
+# "focal" is an object-position value chosen by LOOKING at each frame, because a
+# default centre crop decapitates people. It is the design decision; the pixel
+# work (rendition ladder, WebP/JPEG encode) lives in tools/build-images.py, which
+# reads this dict and writes assets/img/manifest.json.
+#
+# Every entry below is a genuine photograph of this clinic, its staff, or its
+# building. There are 15 of them and they are the entire photographic library.
+# No stock, no illustration, no AI imagery. If a layout needs a photo that is not
+# in this dict, the layout is wrong — do not invent a slot and fill it with a
+# gradient or an icon.
+#
+# NOTE ON SOURCE RESOLUTION: several of these are small (the exterior is 680px
+# wide). build-images.py never upscales, so the manifest records a real cap and
+# photo() emits a srcset that stops there. That is why some photos are used in
+# constrained frames rather than full-bleed — it is a source limit, not a choice.
+# ---------------------------------------------------------------------------
+PHOTOS = {
+    "treatment": {
+        "src": "assets/media/clinic.jpg",
+        # Dave's head and treating hands sit left of centre, upper third.
+        "focal": "38% 30%",
+        "alt": "Dr. Dave Kashuba, Occupational Therapist, stretching a patient's "
+               "leg during a session at First Rehabilitation in North Palm Beach",
+    },
+    "gym": {
+        "src": "assets/media/gym.jpg",
+        # Wide interior. Ceiling eats the top third, so bias down to the floor.
+        "focal": "center 62%",
+        "alt": "The on-site rehabilitation gym at First Rehabilitation of "
+               "North Palm Beach, with cardio and strength equipment",
+    },
+    # Previously named founder.jpg and captioned as a portrait of Dr. Kashuba.
+    # It is not a portrait — it is the clinic building. The alt text was wrong
+    # on every page that used it; corrected here (2026-09-15).
+    "exterior": {
+        "src": "assets/media/founder.jpg",
+        "focal": "center 45%",
+        "alt": "The First Rehabilitation of North Palm Beach clinic building "
+               "at 733 US Highway 1, with covered entrance and palm trees",
+    },
+    "mike": {
+        "src": "assets/media/mike.jpg",
+        "focal": "center 18%",
+        "alt": "Mike McGann, co-host of the Pain 2 Power podcast",
+    },
+}
+
+# Team portraits join the same registry, so a headshot is fetched exactly the way
+# any other photo is. Five of the six were shot in one session against the same
+# hedge, so a shared 4:5 crop with per-face focal points reads as a real set.
+_TEAM_FOCAL = {
+    "david.jpg": ("45% 24%", "Dr. David Kashuba, Ph.D., founder and CEO of First Rehabilitation"),
+    "nick.jpg": ("50% 26%", "Nick Kashuba, Chief Operating Officer of First Rehabilitation"),
+    "logan.jpg": ("44% 26%", "Logan Van Sant, Physical Therapist at First Rehabilitation"),
+    "kayla.jpg": ("56% 20%", "Kayla Dorsey, DPT, Physical Therapist at First Rehabilitation"),
+    "joni.jpg": ("50% 27%", "Joni Janik, Occupational Therapist at First Rehabilitation"),
+    "laura.jpg": ("47% 25%", "Laura Drumm, Certified Hand Therapist at First Rehabilitation"),
+}
+for _f, (_focal, _alt) in _TEAM_FOCAL.items():
+    PHOTOS[f"team-{_f[:-4]}"] = {"src": f"assets/team/{_f}", "focal": _focal, "alt": _alt}
+
+# The ten homepage gallery tiles are Instagram exports at ~520px. They are real
+# photographs of this clinic, but they are small, so they are only ever used at
+# gallery-tile size and never promoted into a hero.
+for _i in range(1, 11):
+    PHOTOS[f"social-{_i}"] = {
+        "src": f"assets/social/post-{_i}.jpg",
+        "focal": "center 45%",
+        "alt": f"First Rehabilitation of North Palm Beach on social media, photo {_i}",
+    }
+
+# SERVICE_MEDIA — what photograph each service page leads with.
+#
+# Only two services have a genuine photograph OF THAT SERVICE: physical therapy
+# (the treatment frame) and wellness (the gym). The other two previously shipped
+# stand-ins — an Instagram tile stretched across the physical-therapy hero, and
+# Laura's staff portrait cropped to look like a scene. Both were placeholders.
+#
+# Rather than fake a scene, a service without one leads with a CREDITED PORTRAIT
+# of the clinician who actually runs it, framed and captioned as a portrait. That
+# is an honest photograph doing honest work, and it is the reason a "portrait"
+# kind exists alongside "scene" below.
+SERVICE_MEDIA = {
+    # The treatment frame is Dave — who is an Occupational Therapist — stretching
+    # a patient, so it belongs to occupational therapy, not physical therapy.
+    # It led the PT page briefly; that was wrong about who is in the photograph.
+    "occupational-therapy": ("scene", "treatment", None, None),
+    "wellness":             ("scene", "gym", None, None),
+    # Logan rather than Kayla: the lead frame is landscape, and Kayla's source is
+    # a portrait-orientation full-body shot that crops to a small face and dead
+    # sky. Logan's is chest-up and landscape, matching Laura's on hand therapy.
+    "physical-therapy":     ("portrait", "team-logan", "Logan Van Sant", "Physical Therapist"),
+    "hand-therapy":         ("portrait", "team-laura", "Laura Drumm", "Certified Hand Therapist"),
+}
+
 # ----------------------------------------------------------------------------
 
 
@@ -54,6 +156,79 @@ def asset_v(path):
     if path not in ASSET_V:
         ASSET_V[path] = _v(path)
     return ASSET_V[path]
+
+# --- Responsive imagery -----------------------------------------------------
+# tools/build-images.py writes assets/img/manifest.json from PHOTOS. photo()
+# turns a registry name into a <picture> with WebP + JPEG, a srcset capped at the
+# source's real resolution, intrinsic width/height (so nothing shifts on load),
+# and the focal point applied as object-position.
+import json as _json
+
+_MANIFEST = None
+def _manifest():
+    global _MANIFEST
+    if _MANIFEST is None:
+        p = os.path.join(ROOT, "assets", "img", "manifest.json")
+        try:
+            with open(p) as f:
+                _MANIFEST = _json.load(f)
+        except FileNotFoundError:
+            _MANIFEST = {}
+    return _MANIFEST
+
+
+def service_media(slug):
+    """Lead image for a service page: a real scene, or a credited clinician portrait."""
+    kind, name, person, credential = SERVICE_MEDIA[slug]
+    if kind == "scene":
+        return ('<div class="split-media tilt2 reveal d2">'
+                + photo(name, depth=1, sizes="(max-width:900px) 92vw, 560px")
+                + "</div>")
+    return (
+        '<figure class="split-media split-portrait tilt2 reveal d2">'
+        + photo(name, depth=1, sizes="(max-width:900px) 92vw, 560px", ratio="4/5")
+        + f'<figcaption><strong>{person}</strong><span>{credential}</span></figcaption>'
+        + "</figure>"
+    )
+
+
+def photo(name, depth=0, cls="", sizes="100vw", eager=False, ratio=None, alt=None):
+    """Render a registry photograph as a responsive, art-directed <picture>.
+
+    ratio: optional "W/H" forced aspect for the frame. The focal point keeps the
+           subject in frame when the source is cropped to it.
+    """
+    m = _manifest().get(name)
+    spec = PHOTOS.get(name)
+    if spec is None:
+        raise KeyError(f"photo('{name}') is not in PHOTOS — add it there, not inline")
+    up = "../" * depth
+    alt_text = html.escape(alt if alt is not None else spec["alt"], quote=True)
+    focal = spec["focal"]
+
+    if not m:
+        # Manifest missing (build-images.py has not run). Fall back to the source
+        # file so the page is still correct, just unoptimised.
+        return (f'<img src="{up}{spec["src"]}" alt="{alt_text}" '
+                f'style="object-position:{focal}" class="{cls}" '
+                f'{"" if eager else "loading=lazy decoding=async"}>')
+
+    widths = m["widths"]
+    w, h = m["native"]
+    webp = ", ".join(f"{up}assets/img/{name}-{x}.webp {x}w" for x in widths)
+    jpg = ", ".join(f"{up}assets/img/{name}-{x}.jpg {x}w" for x in widths)
+    biggest = m["max_width"]
+    style = f"object-position:{focal}"
+    if ratio:
+        style += f";aspect-ratio:{ratio}"
+    load = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
+    return (
+        f'<picture class="{cls}">'
+        f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+        f'<img src="{up}assets/img/{name}-{biggest}.jpg" srcset="{jpg}" sizes="{sizes}" '
+        f'width="{w}" height="{h}" alt="{alt_text}" style="{style}" {load}>'
+        f"</picture>"
+    )
 
 # Google tag (gtag.js) — GA4 property G-GZKFNKSP6D, First Rehabilitation of North
 # Palm Beach ONLY. This measurement ID belongs to this clinic and must never be
@@ -143,7 +318,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   "description": "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness clinic serving Palm Beach County since 1991.",
   "url": "https://www.firstrehabnpb.com",
   "logo": "https://www.firstrehabnpb.com/assets/media/logo.png",
-  "image": "https://www.firstrehabnpb.com/assets/media/clinic.jpg",
+  "image": "https://www.firstrehabnpb.com/" + PHOTOS["treatment"]["src"],
   "telephone": "+1-561-624-4263",
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
@@ -312,7 +487,7 @@ def footer(depth=0):
         {social_row()}
       </div>
       <div>
-        <h3 class="f-head">Services</h3>
+        <h2 class="f-head">Services</h2>
         <ul>
           <li><a href="{p}services/physical-therapy.html">Physical Therapy</a></li>
           <li><a href="{p}services/occupational-therapy.html">Occupational Therapy</a></li>
@@ -321,7 +496,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Explore</h3>
+        <h2 class="f-head">Explore</h2>
         <ul>
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
           <li><a href="{p}exercises.html">Home Exercise Library</a></li>
@@ -337,7 +512,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Areas We Serve</h3>
+        <h2 class="f-head">Areas We Serve</h2>
         <ul>
           <li><a href="{p}locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
           <li><a href="/">North Palm Beach</a></li>
@@ -351,7 +526,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Visit Us</h3>
+        <h2 class="f-head">Visit Us</h2>
         <ul class="f-contact">
           <li>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</li>
           <li>Phone: <a href="tel:+15616244263">{PHONE}</a></li>
@@ -672,9 +847,9 @@ def build_home():
 
     social_cards = "".join(
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
-          <img src="assets/social/post-{i}.jpg" alt="" loading="lazy" onerror="this.closest('.sm-card').classList.add('empty')">
+          {photo(f"social-{i}", sizes="(max-width:768px) 45vw, 220px", alt="")}
         </a>''' for i in range(1, 11)
-        if os.path.exists(os.path.join(ROOT, f"assets/social/post-{i}.jpg"))
+        if f"social-{i}" in PHOTOS and os.path.exists(os.path.join(ROOT, PHOTOS[f"social-{i}"]["src"]))
     )
 
     bm_list = [
@@ -812,7 +987,7 @@ def build_home():
 <section class="section on-paper">
   <div class="wrap split">
     <div class="split-media tilt reveal">
-      <img src="assets/media/clinic.jpg" alt="Dr. Dave Kashuba treating a patient at First Rehabilitation" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+      {photo("treatment", sizes="(max-width:900px) 92vw, 560px")}
     </div>
     <div class="reveal d2">
       <span class="eyebrow">Our Story</span>
@@ -863,7 +1038,7 @@ def build_home():
     write("index.html",
           head("Physical Therapy North Palm Beach | First Rehab, Since 1991",
                "Family-owned physical, occupational and certified hand therapy in North Palm Beach since 1991. One-on-one care, 4.9★ on Google, Medicare accepted. Book today.",
-               canonical="", og_image="assets/media/clinic.jpg",
+               canonical="", og_image=PHOTOS["treatment"]["src"],
                extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=9" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
@@ -981,13 +1156,6 @@ SERVICE_EXTRAS = {
 }
 
 def build_services():
-    # (path under assets/, object-position for the cover crop)
-    svc_photo = {
-        "physical-therapy": ("social/post-1.jpg", "center 30%"),
-        "occupational-therapy": ("media/clinic.jpg", "center"),
-        "hand-therapy": ("team/laura.jpg", "center 25%"),
-        "wellness": ("media/gym.jpg", "center"),
-    }
     for slug, s in SERVICES.items():
         x = SERVICE_EXTRAS[slug]
         # Numbered feature cards with alternating gold accent
@@ -1159,9 +1327,7 @@ def build_services():
         <div class="svc-stats">{stats}</div>
         <div class="mt-2"><a class="btn btn-coral" href="../contact.html">Book an Evaluation <span class="arr">&rarr;</span></a></div>
       </div>
-      <div class="split-media tilt2 reveal d2">
-        <img src="../assets/{svc_photo[slug][0]}" style="object-position:{svc_photo[slug][1]};" alt="{s['title']} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
-      </div>
+      {service_media(slug)}
     </div>
   </div>
 </section>
@@ -1390,7 +1556,7 @@ def build_conditions():
         if _posts:
             _links = " &middot; ".join(
                 f'<a href="../blog/{b}.html">{BLOG_POSTS[b]["title"]}</a>' for b in _posts)
-            blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="crumbs" style="margin:0;">From the blog: {_links}</p></div></section>'
+            blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="inline-refs">From the blog: {_links}</p></div></section>'
         else:
             blog_link = ""
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
@@ -1710,7 +1876,7 @@ def build_about():
     def _team_card(i, t):
         slug = t["name"].lower().split(",")[0].replace(" ", "-").replace(".", "")
         base = f'''<div class="team-photo">
-          <img src="assets/team/{t["img"]}" alt="{t["name"]}, {t["role"]} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.team-photo').classList.add('empty')">
+          {photo("team-" + t["img"][:-4], sizes="(max-width:768px) 46vw, 300px", ratio="4/5")}
         </div>
         <h3>{t["name"]}</h3><div class="role">{t["role"]}</div><p>{t["blurb"]}</p>'''
         # /about is our best page in search (position 5.3, 4.03% CTR) and the
@@ -1743,7 +1909,7 @@ def build_about():
           <div class="tp-inner">
             <button type="button" class="tp-close" aria-label="Close profile">&#10005;</button>
             <div class="tp-head">
-              <img src="assets/team/{t["img"]}" alt="" loading="lazy">
+              {photo("team-" + t["img"][:-4], sizes="120px", alt="")}
               <div><h3>{t["name"]}</h3><div class="role">{t["role"]}</div></div>
             </div>
             <div class="tp-body"><p>{t["bio"]}</p>{spec_html}{fun_html}</div>
@@ -1771,7 +1937,7 @@ def build_about():
       </div>
     </div>
     <div class="split-media tilt2 reveal d2">
-      <img src="assets/media/founder.jpg" alt="Dr. Dave Kashuba, founder of First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+      {photo("exterior", sizes="(max-width:900px) 92vw, 560px")}
     </div>
   </div>
 </section>
@@ -2034,7 +2200,7 @@ def build_podcast():
       </div>
       <div class="hosts-stack">
         <div class="host-bio reveal">
-          <img src="assets/team/david.jpg" alt="Dr. Dave Kashuba" loading="lazy">
+          {photo("team-david", sizes="140px", ratio="1/1")}
           <div>
             <h3>Dave Kashuba, Ph.D.</h3>
             <div class="role">Founder &amp; Occupational Therapist</div>
@@ -2042,7 +2208,7 @@ def build_podcast():
           </div>
         </div>
         <div class="host-bio reveal d2">
-          <img src="assets/media/mike.jpg" alt="Mike McGann" loading="lazy">
+          {photo("mike", sizes="140px", ratio="1/1")}
           <div>
             <h3>Mike McGann</h3>
             <div class="role">Co-Host</div>
@@ -3088,7 +3254,7 @@ def build_careers():
         for label, key in (("Responsibilities", "responsibilities"), ("Qualifications", "qualifications"), ("Benefits", "benefits")):
             items = r.get(key) or []
             if items:
-                out += f'<h4>{label}</h4><ul>' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
+                out += f'<h3>{label}</h3><ul>' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
         return out
 
     if OPEN_POSITIONS:
@@ -3322,6 +3488,28 @@ def build_first_visit():
 # fake empty state. Thumbnails come from YouTube's CDN; players are click-to-load
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
+    {
+        # Verified 2026-09-15 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "E-Bikes Are Putting Kids in the Trauma Bay… | Pain 2 Power Ep 14".
+        "id": "tEWqztCDdVI",
+        "uploaded": "2026-09-15T15:11:11+00:00",
+        "ep": "Episode 14",
+        "title": "E-Bikes Are Putting Kids in the Trauma Bay",
+        "guest": "Dr. Chaim Arlosoroff, M.D.",
+        "teaser": "Orthopedic trauma surgeon Dr. Chaim Arlosoroff, on staff at St. Mary&rsquo;s Medical Center for 30 years, joins Dave and Mike on the surge in e-bike injuries he sees firsthand in the Level 1 trauma center &mdash; ER visits are up more than 400% nationwide since 2017.",
+    },
+    {
+        # Verified 2026-09-15 against the channel feed: the only long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "…Captain Kerry Titheradge… | Pain 2 Power Ep 13".
+        "id": "HHTgwYIzsyk",
+        "uploaded": "2026-09-09T17:09:54+00:00",
+        "ep": "Episode 13",
+        "title": "Captain Kerry Titheradge on Mental Health, Rescue Dogs and Legacy",
+        "guest": "Captain Kerry Titheradge",
+        "teaser": "Twenty years after Dave built him a rotator cuff program, Bravo&rsquo;s Captain Kerry from Below Deck catches up with Dave and Mike on the workout that took his name, and what he does with the platform the show gave him.",
+    },
     {
         "id": "FBaBGdzNksM",
         "uploaded": "2026-08-31T17:38:11-04:00",
