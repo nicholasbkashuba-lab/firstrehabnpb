@@ -236,6 +236,28 @@ def photo(name, depth=0, cls="", sizes="100vw", eager=False, ratio=None, alt=Non
 # snippet's own braces need no escaping, and injected by head() immediately
 # after <head> on every generated page — exactly once, since head() is the only
 # thing that writes that tag.
+# Search Console HTML-tag ownership verification.
+#
+# The property lost verification some time before 2026-09-09 and every API route
+# went 403 — no queries, no page data, no index coverage, no sitemap submission.
+# It had never been carried by the site: verification lived in a DNS record or a
+# leftover Wix token, so nothing in this repo kept it alive and nothing warned
+# when it lapsed. Emitting the tag from head() puts it on all 48 pages, where a
+# rebuild renews it and it cannot quietly expire again.
+#
+# PASTE THE TOKEN HERE: Search Console -> Settings -> Ownership verification ->
+# HTML tag. Copy ONLY the content="..." value, not the whole <meta> element.
+# Use the token from the OWNER's account (Nick's), not a service account's — the
+# tag is what keeps his ownership permanent; the service account is a delegated
+# user under Users and permissions and does not need to own the property.
+# Empty string = no tag emitted, which is exactly today's behaviour, so the build
+# stays green until the token is pasted.
+GSC_VERIFICATION = "AIrqh67-C88X6VuoDTLQZdUvpFPQYpytxgqsf9ZHjAM"
+GSC_VERIFY_TAG = (
+    f'\n<meta name="google-site-verification" content="{html.escape(GSC_VERIFICATION)}">'
+    if GSC_VERIFICATION else ""
+)
+
 GA_MEASUREMENT_ID = "G-GZKFNKSP6D"
 GA_TAG = """<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
@@ -255,7 +277,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <html lang="en">
 <head>
 {GA_TAG}
-<meta charset="UTF-8">
+<meta charset="UTF-8">{GSC_VERIFY_TAG}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
@@ -530,6 +552,76 @@ def footer(depth=0):
 </body>
 </html>
 """
+
+def appt_form(heading="Request an Appointment", sub=None, wrapped=True, depth=0):
+    # The five-field contact form. Until 2026-09-09 this markup lived inline in
+    # build_contact() and so existed on exactly one page — and that one page
+    # produced 34 of the site's 41 lifetime leads, while every service,
+    # condition, location and blog page produced zero between them. Those pages
+    # were never short of calls to action; they carried three to five links each
+    # to the phone number and to contact.html. They were short of somewhere to
+    # convert: their only job was to send the reader one hop further, and 84% of
+    # visitors never took it.
+    #
+    # So the form is a function now, and interior pages embed the real thing.
+    # `wrapped=False` returns the bare card for the contact page, which places it
+    # inside its own two-column grid.
+    #
+    # intake.js binds by getElementById('appt-form'), so exactly one of these may
+    # appear per page — hence no id suffixing here. It records location.pathname
+    # as the lead's `page`, so per-page attribution keeps working for free.
+    sub = sub or ("Tell us a little about what you need and our front desk will call "
+                  "you back within one business day.")
+    card = f"""<div class="appt-form-card reveal">
+      <h2 class="h3-size">{heading}</h2>
+      <p class="af-sub">{sub}</p>
+      <form class="appt-form" id="appt-form" novalidate>
+        <div class="af-field">
+          <label for="af-name">Full name *</label>
+          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-phone">Phone *</label>
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+          </div>
+          <div class="af-field">
+            <label for="af-email">Email</label>
+            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="af-reason">Reason for visit *</label>
+          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
+        </div>
+        <div class="af-field">
+          <label for="af-time">Preferred call time</label>
+          <select id="af-time" name="time">
+            <option>Anytime</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+          </select>
+        </div>
+        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
+        <p class="af-error" id="af-error" role="alert"></p>
+        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="af-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
+      </div>
+    </div>"""
+    if not wrapped:
+        return card
+    return f"""
+<section class="section on-cream" id="request">
+  <div class="wrap appt-form-solo">
+    {card}
+  </div>
+</section>
+"""
+
 
 def cta_band(depth=0, heading='Life is too short to <em>live in pain.</em>', sub="Start your recovery today with a team dedicated to your long-term wellness and total healing."):
     p = "../" * depth
@@ -988,8 +1080,8 @@ SERVICES = {
         ],
     },
     "hand-therapy": {
-        "seo_title": "Certified Hand Therapy | North Palm Beach & Jupiter FL",
-        "seo_desc": "A dedicated certified hand therapy program for the wrist, hand and upper extremity, with splints fabricated on-site and protocols coordinated with your surgeon.",
+        "seo_title": "Certified Hand Therapist | North Palm Beach & Jupiter FL",
+        "seo_desc": "Certified hand therapist in North Palm Beach treating carpal tunnel, trigger finger, thumb arthritis, tendon repairs and wrist fractures. Splints made on-site.",
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
@@ -1099,6 +1191,83 @@ def build_services():
     </div>
   </div>
 </section>'''
+        # Condition-level depth, currently hand therapy only.
+        #
+        # Why this exists: the 2026-09-09 Search Console pull put
+        # /services/hand-therapy.html at position 25.3, with "hand therapist"
+        # (95 impr) at 28.7 and "hand therapy" at 73.7 — real demand, ranking
+        # nowhere. Unlike the city-qualified location-page terms, these carry no
+        # map pack, and the clinic has a defensible claim in Laura Drumm, CHT and
+        # on-site splint fabrication. The page was 702 words against hand centres
+        # and hospital systems, so the gap was depth on the page that has to rank.
+        #
+        # Every sentence below restates something the site already asserts (the
+        # hand-therapy FAQ category, SERVICES, CONDITIONS). It does NOT copy the
+        # Q&As — those stay on /faq.html and are cross-linked, per CLAUDE.md — and
+        # it adds no new clinical claim. Do not add mechanisms, statistics or
+        # outcomes here without owner sign-off, and never claim hand surgery: we
+        # rehabilitate, surgeons operate.
+        SVC_DEEP = {
+            "hand-therapy": [
+                ("Carpal tunnel syndrome",
+                 "Conservative care helps many people, particularly when symptoms are caught early. "
+                 "Treatment can include a custom night splint that holds the wrist in a neutral position "
+                 "while you sleep, nerve and tendon gliding exercises, and practical changes to the "
+                 "activities and workstation setup that keep provoking symptoms. If your case turns out "
+                 "to warrant a surgical consult, we will say so plainly and coordinate with your physician."),
+                ("Arthritis of the hand and thumb",
+                 "Hand therapy is one of the most effective conservative options for arthritic hands and "
+                 "thumbs. Joint-protection technique, targeted strengthening, a custom supportive splint "
+                 "and smart activity modification work together to reduce pain and protect the things "
+                 "arthritis threatens to take first, from opening jars to gardening and golf."),
+                ("Tendon injuries and repairs",
+                 "Repaired tendons heal on a strict timeline, and the margin for error is small: move too "
+                 "soon and you risk the repair, too late and you lose motion. We work from your surgeon\u2019s "
+                 "protocol, fabricate any splint to it, and stage motion and strengthening to the tissue "
+                 "rather than the calendar."),
+                ("Hand and wrist fractures",
+                 "Recovery continues well after the cast comes off, when stiffness, swelling and lost grip "
+                 "are usually the real obstacles. Care is staged: protect what is still healing, restore "
+                 "motion in a graded way, then rebuild the strength and dexterity the hand needs to go "
+                 "back to work and ordinary life."),
+                ("Trigger finger and nerve conditions",
+                 "Both are treated within the program, conservatively where that is appropriate and "
+                 "post-operatively where surgery has already happened. Splinting, graded motion and "
+                 "activity modification are the usual tools."),
+                ("The elbow and forearm, not just the hand",
+                 "The arm works as one connected chain, so the program covers the full upper extremity \u2014 "
+                 "hand, wrist, forearm and elbow. Tennis elbow, wrist fractures and nerve entrapments all "
+                 "fall inside a certified hand therapist\u2019s scope."),
+            ],
+        }
+        svc_deep_html = ""
+        if slug in SVC_DEEP:
+            _blocks = "".join(
+                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in SVC_DEEP[slug]
+            )
+            svc_deep_html = f'''
+<section class="section">
+  <div class="wrap">
+    <div class="prose reveal">
+      <h2>What we treat, and how</h2>
+      <p>Hand therapy is not general rehabilitation applied to a smaller limb. Dozens of tendons,
+      joints and nerves work in tight quarters, each on its own healing timeline, which is why
+      hand surgeons refer post-operative patients to certified hand therapists specifically.
+      Here is what that looks like condition by condition.</p>
+      {_blocks}<h3>Splints and orthoses, made here</h3>
+      <p>Custom splints and orthoses are fabricated in our clinic rather than ordered in. Each one
+      is molded to your hand for your specific condition, adjusted as healing progresses, and built
+      to your surgeon\u2019s protocol when you are recovering from surgery. Call 561-624-4263 if you
+      want to know whether your plan covers one \u2014 our front desk will check before you come in.</p>
+      <h3>Working with your surgeon</h3>
+      <p>Post-operative timelines are set by your surgeon, and they vary widely: some repairs begin
+      protected motion within days, others need a period of immobilization first. We work from that
+      protocol and coordinate with their office directly, so send us your surgery details before or
+      just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule.</p>
+    </div>
+  </div>
+</section>'''
+
         # Conditions treated with this service — internal links for SEO + discovery
         svc_conds = {
             "physical-therapy": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hip-pain", "ankle-pain", "post-surgical", "auto-accident"],
@@ -1175,7 +1344,7 @@ def build_services():
     {svc_blog_links}
   </div>
 </section>
-{cht_callout}
+{cht_callout}{svc_deep_html}
 <section class="section on-ink">
   <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
@@ -1207,6 +1376,7 @@ def build_services():
   </div>
 </section>
 {svc_faq_html}
+{appt_form(heading='Start ' + s['title'], sub='Tell us what you need and our front desk will call you back within one business day. We will check your insurance before your first visit.')}
 {cta_band(1)}
 </main>
 """
@@ -1296,7 +1466,7 @@ CONDITIONS = {
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
         "intro": "Few areas of the body demand more specialized rehabilitation than the hand. Our certified hand therapy program — led by Laura Drumm, CHT — provides precise, protocol-driven care for conditions and surgeries of the hand, wrist, and forearm, including custom splinting fabricated in-clinic. Patients travel to us from across the county for this specialty, including <a href=\"../locations/west-palm-beach.html\">West Palm Beach</a> and <a href=\"../locations/palm-beach.html\">Palm Beach</a>.",
         "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation"],
-        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery.",
+        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. See our <a href=\"../services/hand-therapy.html\">certified hand therapy program</a> for the full condition-by-condition detail.",
     },
     "headache-relief": {
         "seo_title": "Headache Treatment in North Palm Beach | First Rehab",
@@ -1425,6 +1595,7 @@ def build_conditions():
     </aside>
   </div>
 </section>
+{appt_form(heading='Get Help With ' + c['name'], sub='Tell us what is going on and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -1652,6 +1823,7 @@ def build_locations():
     <p class="related-links reveal"><strong>Explore our care:</strong> <a href="../services/physical-therapy.html">Physical Therapy</a> &middot; <a href="../services/occupational-therapy.html">Occupational Therapy</a> &middot; <a href="../services/hand-therapy.html">Certified Hand Therapy</a> &middot; <a href="../services/wellness.html">Wellness &amp; Gym</a> &middot; <a href="../faq.html">Read our FAQ</a></p>
   </div>
 </section>
+{appt_form(heading='Book From ' + L['city'], sub='Tell us what you need and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -1790,6 +1962,7 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
+    ("Episode 14", "Dr. Chaim Arlosoroff, M.D.", "&ldquo;These are the injuries that make it to the emergency room&hellip; or as a trauma admission.&rdquo; Orthopedic trauma surgeon Dr. Chaim Arlosoroff, on staff at St. Mary&rsquo;s Medical Center for the past 30 years, joins Dave and Mike for a September conversation about the surge in e-bike injuries he sees firsthand in the Level 1 trauma center and ER.<br><br>The numbers are stark: ER visits for e-bike injuries are up more than 400% nationwide since 2017, and Dr. Arlosoroff&rsquo;s own count for South Florida runs even higher &mdash; Palm Beach County up 130% from 2023 to 2024, Broward up 180%, and Miami-Dade over 500%. About 83% of the injured riders weren&rsquo;t wearing a helmet, and the average age is 13.<br><br>He and Dave walk through the modified &ldquo;governors&rdquo; that let bikes built for 15 to 20 mph hit 50 or 60, the skull fractures and spinal cord injuries that follow, and why they see these as motor vehicle injuries &mdash; riding on sidewalks, against traffic, without helmets &mdash; rather than bicycle accidents.<br><br>Dr. Arlosoroff&rsquo;s path to medicine started at 16, volunteering in a hospital operating room during Israel&rsquo;s 1973 Yom Kippur War, and continued through three years as an Israeli Defense Forces combat medic. He also played professional tennis, reaching a world ranking of 283 in 1981, before a full scholarship brought him to Duke University, where he was later inducted into the Duke Tennis Hall of Fame.<br><br>Dr. Arlosoroff and Dave have been friends for more than 30 years, and their practices &mdash; Dr. Arlosoroff&rsquo;s orthopedic trauma and fracture care, and First Rehabilitation&rsquo;s therapy right across the street &mdash; refer patients back and forth every week.", "https://open.spotify.com/episode/10CHQ7OeGRGXtqQAkTdI8p", "Listen"),
     ("Episode 13", "Captain Kerry Titheradge", "Twenty years ago Dave got a call from a friend&rsquo;s doctor asking whether he would take on a patient who was not on his insurance. That patient is now known worldwide as Captain Kerry from Bravo&rsquo;s Below Deck, and the two have stayed close ever since.<br><br>Dr. Dave Kashuba and Mike McGann catch up with Kerry on the rotator cuff program Dave built him back in the day, since nicknamed the &ldquo;Captain Kerry workout,&rdquo; and how a television producer stumbled onto it and turned it into a bit of a brand.<br><br>They also get into what Kerry does with the platform Below Deck gave him, from a Mental Health Mondays series on his own podcast to helping Dave&rsquo;s Remember Me foundation, which supports families facing early onset dementia.<br><br>Equal parts old friends catching up, and a good story about how one shoulder injury turned into two decades of friendship.", "https://open.spotify.com/episode/6DoHiOTVJLUtKCYNaxqzRi", "Listen"),
     ("Episode 12", "Dr. Michael Leighton, MD", "&ldquo;This is the best operation that&rsquo;s done in orthopedics&hellip; the single best operation that Medicare pays for.&rdquo; Orthopedic surgeon Dr. Michael Leighton — a friend Dave has referred patients to since 1994 — joins Dave and Mike to break down total hip replacement: the anterior versus posterior surgical approach, and why he steers heavier or older patients toward posterior while thinner, younger patients can go either way. <br><br>They cover what actually drives infection risk (under 1&ndash;2% over a lifetime, far lower than most people assume, but higher in smokers, in vapers using nicotine, and in diabetics whose A1C runs above 7.5), why dental hygiene matters before joint surgery, and the six-week window bone needs to grow into a modern non-cemented implant. <br><br>Also: the old dislocation precautions that used to keep patients in traction for a week are mostly gone, prehab isn&rsquo;t one-size-fits-all, and an eye-opening dose of Medicare economics — a single flat payment of $1,162 covers the surgery and 90 days of follow-up care, a number Dave says deserves a lot more attention than it gets.<br><br>Dr. Leighton is an orthopedic surgeon with Palm Beach Orthopedic Institute in Palm Beach Gardens, board certified by the American Board of Orthopaedic Surgery with a subspecialty certification in Orthopaedic Sports Medicine. A former Division I baseball player at Duke, he has practiced in Palm Beach County since 1994, treating Hall of Fame athletes alongside weekend pickleball players, and performs minimally invasive hip replacement (anterior and posterior) and robotic-arm assisted (Mako) knee replacement.", "https://open.spotify.com/episode/2HTkgf8nOXbTrEqrPyzYtL", "Listen"),
     ("Episode 11", "Paul Joyce", "&ldquo;You definitely have to make sure you&rsquo;re getting enough protein.&rdquo; Peptides, GLP-1s and hormone replacement therapy are on everyone&rsquo;s lips and understood by almost nobody, so Dave and Mike brought in Paul Joyce of New Life HRT, a friend of Dave&rsquo;s for 22 years and the man a lot of doctors quietly learn these protocols from before they offer them themselves. <br><br>He explains what a peptide actually is (a short chain of amino acids, usually under 50, of which he counts around 150), where the GLP-1 medicines came from (a gut hormone your body already makes, and the Gila monster version of it that stays around long enough to keep working), and why he began prescribing Ozempic off label for weight loss back in 2017, before the rest of the country caught on. <br><br>The part that matters most to a rehab clinic is what the weight takes with it. &ldquo;Yeah, you lose a lot of muscle,&rdquo; he says, and he is talking about himself as much as his patients: he started at 209 pounds, weighs 153 now, and says he took it too far. <br><br>Dave&rsquo;s warning is the one to write down, that people who are not monitored start looking frail, and that the shot will make you better without making you healthier unless the protein and the strength work come with it. <br><br>They also get into the counterfeit peptide trade, where Paul had six research only websites tested and all six came back with major flaws, from heavy metals to bacteria to a vial sold as retatrutide that turned out to be underdosed semaglutide, plus the fabricated certificates of analysis he was called to testify about in Atlanta.<br><br>Paul Joyce runs New Life HRT, where physicians go to be trained on peptide and hormone replacement protocols. He is also, as of this episode, one of Dave&rsquo;s patients: he has a completely torn rotator cuff, cancelled the shoulder replacement he had scheduled, and explains on air why he is rehabbing it instead.", "https://open.spotify.com/episode/1HXEy4xcDFRk40hwbdQrD5", "Listen"),
@@ -1930,7 +2103,7 @@ def build_exercises():
 </main>
 """
     write("exercises.html",
-          head("Home Exercises for Knee, Hip &amp; Shoulder Pain | North Palm Beach",
+          head("Home Exercises for Knee, Hip & Shoulder Pain | North Palm Beach",
                "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
                canonical="exercises.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
@@ -2465,46 +2638,7 @@ def build_contact():
   '<div class="crumbs"><a href="/">Home</a> / Contact</div>')}
 <section class="section">
   <div class="wrap contact-grid">
-    <div class="appt-form-card reveal">
-      <h2 class="h3-size">Request an Appointment</h2>
-      <p class="af-sub">Tell us a little about what you need and our front desk will call you back within one business day.</p>
-      <form class="appt-form" id="appt-form" novalidate>
-        <div class="af-field">
-          <label for="af-name">Full name *</label>
-          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
-        </div>
-        <div class="af-two">
-          <div class="af-field">
-            <label for="af-phone">Phone *</label>
-            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
-          </div>
-          <div class="af-field">
-            <label for="af-email">Email</label>
-            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
-          </div>
-        </div>
-        <div class="af-field">
-          <label for="af-reason">Reason for visit *</label>
-          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
-        </div>
-        <div class="af-field">
-          <label for="af-time">Preferred call time</label>
-          <select id="af-time" name="time">
-            <option>Anytime</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-          </select>
-        </div>
-        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
-        <p class="af-error" id="af-error" role="alert"></p>
-        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
-      </form>
-      <div class="af-done" id="af-done" hidden>
-        <div class="af-check">&#10003;</div>
-        <h3>Request received!</h3>
-        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
-      </div>
-    </div>
+    {appt_form(wrapped=False)}
     <div class="reveal d2">
       <div class="contact-card" style="margin-bottom:1.5rem;">
         <h3>First Rehabilitation of North Palm Beach</h3>
@@ -2995,6 +3129,7 @@ def build_blog():
   </div>
 </section>
 {_related_block(slug)}
+{appt_form(heading='Talk To Someone About This', sub='If any of this sounds like what you are dealing with, tell us and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -3353,6 +3488,17 @@ def build_first_visit():
 # fake empty state. Thumbnails come from YouTube's CDN; players are click-to-load
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
+    {
+        # Verified 2026-09-15 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "E-Bikes Are Putting Kids in the Trauma Bay… | Pain 2 Power Ep 14".
+        "id": "tEWqztCDdVI",
+        "uploaded": "2026-09-15T15:11:11+00:00",
+        "ep": "Episode 14",
+        "title": "E-Bikes Are Putting Kids in the Trauma Bay",
+        "guest": "Dr. Chaim Arlosoroff, M.D.",
+        "teaser": "Orthopedic trauma surgeon Dr. Chaim Arlosoroff, on staff at St. Mary&rsquo;s Medical Center for 30 years, joins Dave and Mike on the surge in e-bike injuries he sees firsthand in the Level 1 trauma center &mdash; ER visits are up more than 400% nationwide since 2017.",
+    },
     {
         # Verified 2026-09-15 against the channel feed: the only long-form entry
         # (link rel=alternate is /watch?v=, not /shorts/), titled

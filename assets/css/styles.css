@@ -571,6 +571,10 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .prose h2 { font-size: var(--step-3); margin: var(--space-6) 0 var(--space-3); }
 .prose h2:first-child { margin-top: 0; }
 .prose p + p { margin-top: 1rem; }
+/* .prose had no h3 rule, so subheadings collided with the paragraph above them
+   the moment a page used them for real structure (hand therapy, 2026-09-09). */
+.prose h3 { font-size: clamp(1.12rem, 1.6vw, 1.28rem); margin: 2rem 0 0.5rem; }
+.prose h3:first-child { margin-top: 0; }
 .two-col { display: grid; grid-template-columns: 1fr 350px; gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
 @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 .side-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 2rem 1.8rem; position: sticky; top: 100px; box-shadow: var(--shadow-card); }
@@ -1108,7 +1112,7 @@ body.nav-locked .p2p-mini { display: none; }
    count so adding or removing a plan in PLANS never leaves an orphan row. */
 .ins-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 2rem; }
 .ins-card { background: var(--cream); border: 1px solid var(--line-gold); border-radius: 14px; padding: 1.1rem 1.2rem; }
-.ins-card h3 { font-family: var(--serif); font-size: 1.12rem; margin: 0 0 0.35rem; color: var(--teal); }
+.ins-card h3 { font-family: var(--font-display); font-size: 1.12rem; margin: 0 0 0.35rem; color: var(--ink); }
 .ins-card p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
 
 /* "In the News" band — external press. auto-fit so adding a third item reflows
@@ -1127,9 +1131,9 @@ body.nav-locked .p2p-mini { display: none; }
   color: var(--coral-text); font-weight: 600;
 }
 .news-date { color: var(--muted); letter-spacing: 0.08em; font-weight: 400; }
-.news-card h3 { font-family: var(--serif); font-size: 1.22rem; line-height: 1.25; color: var(--teal); margin: 0; }
+.news-card h3 { font-family: var(--font-display); font-size: 1.22rem; line-height: 1.25; color: var(--ink); margin: 0; }
 .news-card p { font-size: 0.94rem; color: var(--muted); line-height: 1.55; margin: 0; flex: 1; }
-.news-go { font-size: 0.9rem; font-weight: 600; color: var(--teal); margin-top: 0.3rem; }
+.news-go { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-top: 0.3rem; }
 .news-card:hover .arr { transform: translateX(4px); }
 @media (prefers-reduced-motion: reduce) { .news-card, .news-card .arr { transition: none; } }
 
@@ -1160,3 +1164,7 @@ body.nav-locked .p2p-mini { display: none; }
 @media (max-width: 560px) {
   .split-portrait figcaption { left: var(--space-2); right: var(--space-2); bottom: var(--space-2); padding: var(--space-3); }
 }
+/* Standalone appointment form on service, condition, location and blog pages.
+   The contact page places .appt-form-card inside .contact-grid; everywhere else
+   it stands alone, so cap its measure rather than letting it run the full wrap. */
+.appt-form-solo { max-width: 680px; }

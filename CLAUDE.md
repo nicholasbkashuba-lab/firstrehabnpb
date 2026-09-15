@@ -155,9 +155,31 @@ domain switch (July 2027). Removing them early throws away that equity.
   `compare` / `raw`. Auth comes from `$GSC_SERVICE_ACCOUNT_JSON`, `--key`, or
   `~/.config/gsc/service-account.json`; the key is a secret and the repo is public, so
   never commit it (.gitignore covers the usual names).
+  **Ownership verification is emitted by `head()`** via `GSC_VERIFICATION` in build.py
+  (added 2026-09-09). It sits empty until the token is pasted, and an empty value emits no
+  tag at all, so the build is unaffected either way. Paste from Search Console -> Settings
+  -> Ownership verification -> HTML tag, copying ONLY the `content="..."` value. Use the
+  OWNER's token, not a service account's: the tag is what keeps Nick's ownership permanent,
+  while the service account is a delegated user under Users and permissions and does not
+  need to own the property. Once pasted, rebuild and the tag ships on all 48 pages plus
+  404.html, and every future build renews it.
+  Why this exists: the property lost verification some time before 2026-09-09 and every API
+  route went 403 — no queries, no page data, no index coverage, no sitemap submission, and
+  the homepage title/description CTR test started 2026-09-03 had no way to be read.
+  Verification had never been carried by the site (a DNS record or a leftover Wix token), so
+  nothing in this repo kept it alive and nothing warned when it lapsed. Note that
+  re-verifying the property restores the OWNER's access only — the service account still has
+  to be re-added separately under Users and permissions, which is the step that looks like
+  the fix has failed.
+  A service account CAN mint its own token via the Site Verification API
+  (`siteVerification/v1/token`, scope `.../auth/siteverification`), but that API is not
+  enabled on the `design-of-man-seo` Cloud project (403), and it would verify the SERVICE
+  ACCOUNT as owner rather than Nick. Not the right tool here; do not reach for it.
+
   **The property is `https://www.firstrehabnpb.com/` — a URL-prefix property, NOT
   `sc-domain:firstrehabnpb.com`** (verified 2026-08-14 via `gsc.py sites`, service account
-  `claude-gsc-reader@firstrehabnpb-seo.iam.gserviceaccount.com`, siteFullUser). The two
+  `claude-gsc-reader@design-of-man-seo.iam.gserviceaccount.com`, siteFullUser —
+  re-confirmed 2026-09-09; the `firstrehabnpb-seo` address recorded here previously was wrong). The two
   are different properties with different data; querying the domain form returns nothing,
   which reads as "no search traffic" rather than "wrong property". Always run `gsc.py
   sites` and use exactly what it prints.
@@ -191,7 +213,57 @@ domain switch (July 2027). Removing them early throws away that equity.
   ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
   two windows overlap by roughly 80% of their days, so this is not a clean before/after.
 
+  **API pull 2026-09-09, first clean non-overlapping compare** (28d to 09-06 vs the 28d
+  before it): 105 clicks / 11,672 impr / CTR 0.90% / pos 20.2, against 122 clicks / 9,654
+  impr / CTR 1.26% / pos 20.1. Impressions +21%, clicks -14%. Two months of adding pages
+  has added impressions and REMOVED clicks. This is what froze new blog posts.
+
+  **The location-page growth thesis above is now disproven — do not keep investing in it.**
+  City-qualified queries ("physical therapy west palm beach", "neck pain juno ridge fl", and
+  89 others in the same pull) earned 1,144 impressions and ONE click in 28 days. That is not
+  a ranking problem: /locations/juno-beach.html sits at position 7.3 overall and ranks 3.6 to
+  6.3 for the Juno Ridge neck-pain terms, and still earns 0.2% CTR. The location pages are
+  40%+ of all site impressions (WPB 1,883 / PBG 1,222 / PB 788 / Juno 408) at 0.2-0.4% CTR.
+  The most likely cause is that city-qualified local searches are answered by the map pack,
+  which lists clinics IN that city, so an organic result saying "served from North Palm
+  Beach" cannot win the click at any position we can reach. NOT verified from here — the
+  sandbox cannot see a live SERP — but the click data holds whatever the cause. Practical
+  rule: city-qualified intent is a Google Business Profile lever (service areas, categories,
+  reviews), not a page-content lever. Do not write more location pages, and do not "fix" the
+  existing ones by adding words.
+  What IS winnable, from the same pull: non-city service terms where the clinic has a real
+  claim. "hand therapist" 95 impr at pos 28.7, "hand therapy" 40 impr at pos 73.7,
+  "carpal tunnel syndrome therapies near me" 25 impr at pos 37.2. Laura Drumm CHT and
+  on-site splint fabrication are a genuine differentiator and these rank nowhere. That is
+  where depth pays.
+  Also note branded vs non-branded: branded 31 clicks / 550 impr (5.6% CTR), non-branded
+  6 clicks / 1,786 impr (0.34%). The Wix baseline was 0.36% non-branded. Non-branded CTR has
+  not moved in the rebuild. Both figures come from the truncated query table, so treat them
+  as directional, not exact.
+
 ## Conversion
+- **The appointment form is on 37 pages, not one** (changed 2026-09-09). `appt_form()` in
+  build.py renders the five-field card; `build_contact()` embeds it bare (`wrapped=False`)
+  inside its two-column grid, and the service, condition, location and blog templates embed
+  the wrapped `<section id="request">` version above `cta_band`. Before this it existed only
+  on /contact.html — which had produced 34 of the site's 41 lifetime leads while every
+  service, condition, location and blog page produced ZERO. Those pages were never short of
+  CTAs (three to five phone/contact links each); they were short of somewhere to convert.
+  intake.js binds by `getElementById('appt-form')`, so exactly ONE form may appear per page —
+  do not add a second, and do not suffix the ids. The lead's `page` column records
+  `location.pathname`, so per-page attribution works with no extra wiring; query it to judge
+  whether this change paid off.
+- **The chat auto-invite holds while that form is on screen** (added 2026-09-09, Nick approved).
+  On a phone the teaser card pins to the bottom of the viewport, which is exactly where the
+  form's Send Request button sits — the assistant was covering the thing it exists to help
+  with. `watchApptForm()` in intake.js puts an IntersectionObserver on `#appt-form` and
+  `showAutoInvite()` defers while it is visible, then fires the moment the reader scrolls it
+  away, so the invite is delayed and never lost. It only claims the once-per-session
+  `KEYS.auto` slot when it actually appears — setting that on a deferred run would silently
+  burn it. The launcher bubble is untouched and stays tappable throughout.
+  Measured: contact.html is UNCHANGED, because its hero pushes the form below the fold at
+  393x740 so the form is not in view when the invite fires. Do not "simplify" this to a
+  pathname test — the whole point is that it keys off what is actually on screen.
 - Sticky **mobile Call Now** button (`.mobile-call`, emitted after </footer>): fixed
   bottom-LEFT coral pill, phones only (<768px), one tap to tel:561-624-4263. Bottom-left
   so it never collides with the intake chat launcher (bottom-right); hidden on desktop
@@ -262,7 +334,13 @@ deliberately has NO location page — the homepage owns that keyword; footer lin
 
 ## Verification pattern
 The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);
-GitHub (api/raw/codeload/objects) IS allowed. Verify live deploys via Supabase MCP:
+GitHub (api/raw/codeload/objects) IS allowed. **The production domain
+https://www.firstrehabnpb.com/ IS reachable directly** — plain `curl` returns 200 (verified
+2026-09-09). This file previously implied otherwise and sent two sessions through pg_net for
+checks a one-line curl does faster. Use curl for anything on the live domain, including
+polling a deploy: `until curl -s <url> | grep -q '<marker>'; do sleep 10; done` in a
+BACKGROUND bash task (foreground sleep is blocked). Reserve the pg_net dance below for hosts
+the proxy really does block. Verify live deploys via Supabase MCP:
 `create extension pg_net` → `net.http_get(...)` (Range headers work: 206 + content-range
 proves deployed file size) → read net._http_response → `drop extension pg_net`. NOTE:
 production URLs are public but PREVIEW deploys sit behind Vercel Authentication (Pro
@@ -543,6 +621,31 @@ firstrehabnpb@gmail.com CC nick@firstrehabnpb.com, subject "New Job Application:
 JobPosting schema per role (validThrough = posted + 60d — bump posted dates to refresh).
 
 ## Blog agent
+
+**NEW POSTS ARE FROZEN as of 2026-09-09 (Nick approved).** Do not write, draft or ship a new
+blog post — `/blog` and `/episode-blog` included — until the freeze is lifted. Reason, from the
+2026-09-09 analysis: the site carries ~12,400 monthly search impressions at average position
+20.1 and converts them at 0.94%. Impressions grew 32% while clicks grew 1%, because every new
+page lands on page two or three and adds impressions nobody clicks, which drags site-wide CTR
+down. Thirteen posts have produced zero leads between them. Publishing more of them makes the
+CTR number worse, not better.
+
+What replaces it: work the queries already sitting at position 8-15 — the ones one push from
+page one — by deepening the pages that own them. That is the move that worked. The two location
+pages given real content in PR #66 both moved up (West Palm Beach 23.4 -> 20.3, Juno Beach
+8.6 -> 7.1) in the same window. Depth moves positions; breadth does not.
+
+The freeze covers NEW posts only. Still allowed, and still wanted:
+- Editing, expanding or re-targeting an EXISTING post or page.
+- `EPISODE_POSTS`, `RELATED_POSTS`, `COND_BLOG` / `SVC_BLOG` internal-link work.
+- The Google Business Profile posts `/episode-blog` produces — those are not blog posts and
+  are not frozen. An episode week still needs its GBP set.
+- Anything Nick asks for directly. He can lift the freeze at any time; when he does, delete
+  this block rather than leaving a stale rule in place.
+
+Note that a frozen backlog is not a lost one: the Wellness and OT pillar holes recorded below
+are real and still worth filling once ranking work has caught up.
+
 Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
 `/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into
 TWO posts plus a Google Business set, because an episode is worth both:

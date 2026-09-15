@@ -9,6 +9,13 @@ observations recorded in CLAUDE.md.
 No search-volume numbers appear here on purpose. We do not have a keyword tool wired in, and an
 invented volume is worse than no number.
 
+## FREEZE: no new posts as of 2026-09-09
+
+New blog posts are frozen (Nick approved). Do not pick a target from this file for a NEW post.
+The keyword map stays live for re-targeting EXISTING pages, which is the work that replaces
+posting. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom is
+still accurate and still worth reading before touching any page's target.
+
 ## Two rules that came from real GSC data
 
 1. **Use "treatment", not "relief", in title tags.** The 2026-08-08 export showed condition pages
@@ -210,6 +217,26 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `knee-arthritis-before-surgery` | Physical Therapy | knee arthritis treatment before surgery |
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
+
+## Hand therapy push, 2026-09-09
+
+Acted on the 2026-09-09 Search Console pull. `/services/hand-therapy.html` sat at position 25.3
+with "hand therapist" (95 impr) at 28.7 and "hand therapy" at 73.7 — real demand, ranking
+nowhere, and unlike the city-qualified location terms these carry no map pack in the way.
+
+Changed: the service page `seo_title` now leads with "Certified Hand Therapist" rather than
+"Hand Therapy", because the noun people actually search is the practitioner; the `seo_desc`
+names the specific conditions; the page gained a condition-by-condition section (702 -> 1,200
+words) and `/treatments/hand-wrist.html` was deepened (422 -> 546).
+
+Judge it on position for "hand therapist" and "hand therapist near me" (the latter was already
+at 11.1, the closest thing to a winnable term the pull showed). Give it 4-8 weeks. Do not read
+anything into clicks alone at this volume.
+
+Honest expectation: bare "hand therapy" at position 73.7 is a national informational term owned
+by professional bodies and hospital systems. It is not a realistic target for one clinic and
+should not be treated as one. The winnable set is the practitioner and near-me variants, plus
+the specific conditions.
 
 **Ep 11 note (2026-08-22):** the Paul Joyce recap is a Pain 2 Power post, not a Wellness pillar post,
 so the Wellness hole below is still open. The transcript does hold a real Wellness pillar angle that

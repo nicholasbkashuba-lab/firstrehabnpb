@@ -16,3 +16,4 @@ gsc-key*.json
 
 # static-site-forge verification screenshots
 out/
+.ssf-browser.js
