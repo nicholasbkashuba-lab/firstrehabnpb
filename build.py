@@ -69,8 +69,8 @@ PHOTOS = {
         "src": "assets/media/clinic.jpg",
         # Dave's head and treating hands sit left of centre, upper third.
         "focal": "38% 30%",
-        "alt": "Dr. Dave Kashuba treating a patient's shoulder in the "
-               "First Rehabilitation clinic in North Palm Beach",
+        "alt": "Dr. Dave Kashuba, Occupational Therapist, stretching a patient's "
+               "leg during a session at First Rehabilitation in North Palm Beach",
     },
     "gym": {
         "src": "assets/media/gym.jpg",
@@ -131,9 +131,15 @@ for _i in range(1, 11):
 # is an honest photograph doing honest work, and it is the reason a "portrait"
 # kind exists alongside "scene" below.
 SERVICE_MEDIA = {
-    "physical-therapy":     ("scene", "treatment", None, None),
+    # The treatment frame is Dave — who is an Occupational Therapist — stretching
+    # a patient, so it belongs to occupational therapy, not physical therapy.
+    # It led the PT page briefly; that was wrong about who is in the photograph.
+    "occupational-therapy": ("scene", "treatment", None, None),
     "wellness":             ("scene", "gym", None, None),
-    "occupational-therapy": ("portrait", "team-joni", "Joni Janik", "Occupational Therapist"),
+    # Logan rather than Kayla: the lead frame is landscape, and Kayla's source is
+    # a portrait-orientation full-body shot that crops to a small face and dead
+    # sky. Logan's is chest-up and landscape, matching Laura's on hand therapy.
+    "physical-therapy":     ("portrait", "team-logan", "Logan Van Sant", "Physical Therapist"),
     "hand-therapy":         ("portrait", "team-laura", "Laura Drumm", "Certified Hand Therapist"),
 }
 
