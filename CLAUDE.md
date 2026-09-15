@@ -13,6 +13,8 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
 - `assets/css/styles.css` — the whole design system (deep teal #0E3A47, cream #F6F1E7,
   coral #F4A261, gold #E9C46A; Playfair Display + Inter). Signature elements: rotating
   lighthouse beam on dark sections, film grain, interactive body map, social marquee.
+  **Every value lives in the `:root` token block at the top — consume tokens, never
+  literals.** See "Design tokens" below before touching any colour, size or easing.
 - `assets/js/main.js` — hero video source picker, nav (Escape closes mobile menu),
   scroll reveals, counters (reduced-motion aware), seamless marquees, body-map attract
   cycle + tap panel, FAQ filter bubbles/search/expand (arrow keys switch categories).
@@ -35,6 +37,72 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
   (owner insists; no monograms), regenerate via Pillow from logo.png, bump ?v= (now v5).
   hero video renditions (see Hero Video below), hero-poster.jpg, podcast-cover.jpg, photos.
 - `assets/team/` — staff portraits. `assets/social/post-1..8.jpg` — homepage gallery tiles.
+
+## Design tokens — consume them, never write a literal
+Everything visual is declared once in the `:root` block at the top of `styles.css`.
+Nothing below that block may contain a literal colour, a literal shadow, or an off-scale
+size. `intake.css` has no `:root` of its own — it is always loaded after `styles.css`
+and consumes the same tokens.
+
+- **Colour is declared as channel triplets** (`--ink-deep-rgb: 7 30 39`) with solid
+  aliases beside them (`--ink-deep: rgb(var(--ink-deep-rgb))`). Transparency is then
+  `rgb(var(--ink-deep-rgb) / 0.45)`, not a hand-written `rgba()`. This exists because
+  the sheet had accumulated 88 literal `rgba()` values across 11 nearly-identical
+  triplets — that is how a palette silently drifts out of sync with itself.
+- **Type** rides a ~1.25 fluid modular scale, `--step--2` through `--step-6`, with
+  `--leading-*` and `--measure*` beside it. Do not invent a per-selector `clamp()`.
+  The only two left are viewport-scaled display graphics (the hero watermark and the
+  outlined section numerals), which are drawings, not text on the reading ramp.
+- **Spacing** is `--space-1`…`--space-8` (4/8/16/24/32/48/64/96) plus `--space-section*`.
+- **Elevation** is four rungs, `--shadow-sm|md|lg|xl`. Pick a rung; never write a shadow.
+- **Motion** uses `--ease-out|quart|inout|spring` and `--dur-fast|base|slow`. The bare
+  keywords `ease`, `ease-in`, `ease-out`, `ease-in-out` are banned. The three continuous
+  loops (marquee, ticker, lighthouse sweep) stay `linear` on purpose — an eased loop
+  visibly stutters at the seam.
+- `--coral-text`, `--gold-stroke` and `--danger-text` are the AA-safe variants for text
+  and thin strokes. Do not lighten them; the site passes axe WCAG 2.1 AA at both widths.
+- A `var()` naming a token no `:root` defines fails SILENTLY — the property falls back to
+  inherited and the page looks almost right. `--serif` and `--teal` sat broken this way in
+  three rules until 2026-09-15. verify.py now fails the build on it.
+
+## Photography — the PHOTOS registry
+`PHOTOS` in build.py is the single registry of every real photograph on the site. There
+are 15 of them and that is the entire library: no stock, no illustration, no AI imagery.
+
+- Each entry carries `src`, an `object-position` **focal point chosen by looking at the
+  frame**, and `alt`. A default centre crop cuts heads off; that is what focal points are for.
+- Templates call `photo(name, depth=, sizes=, ratio=, eager=)`, which emits a `<picture>`
+  with WebP + JPEG, a srcset, intrinsic `width`/`height`, and the focal point applied.
+  **Never hardcode an image path in a template** — schema and `og:image` read the registry too.
+- `python3 tools/build-images.py` derives the renditions into `assets/img/` and writes
+  `manifest.json`. Run it after adding a photo. **It never upscales**: a 680px source caps
+  at 680px rather than shipping a blurry 1440, and the manifest records the real cap.
+- `SERVICE_MEDIA` decides what each service page leads with. Only two services have a
+  genuine photograph of that service: occupational therapy gets the treatment frame, and
+  wellness gets the gym. **The treatment frame is Dave, and Dave is an Occupational
+  Therapist** — it is not a physical therapy photo, and it led that page in error until
+  the owner caught it. A service without a scene photo leads with a CREDITED CLINICIAN PORTRAIT
+  of the person who runs it, captioned with name and credential. That is the honest
+  alternative to faking a scene — do not crop a staff portrait wide and pass it off as one.
+- `assets/media/founder.jpg` is the clinic BUILDING, not a portrait of the founder. Its alt
+  text claimed otherwise until 2026-09-15.
+- If a layout wants a photograph the registry does not have, the layout is wrong. Do not
+  invent a slot and fill it with a gradient, an icon, or a grey box.
+
+## Verifying a change — `static-site-forge`
+    python3 ~/.claude/skills/static-site-forge/verify.py --root . --shots out/
+
+Runs every check and reports all failures rather than stopping at the first: BUILD (clean
+generator run, no warnings), LINKS (every internal href/src resolves; host-served runtime
+paths like `/_vercel/` are exempt), IMAGES (alt present, intrinsic size, no placeholder in
+a photo slot), TOKENS (no literal colour outside `:root`, and no `var()` naming an
+undefined token), SEO (one `h1`, no skipped heading levels, title/description/canonical,
+sitemap coverage), A11Y (axe-core WCAG 2.1 AA at 393px and 1440px with animations settled)
+and SHOTS (full-page screenshots into `--shots`).
+
+Needs `npm i --no-save playwright-core axe-core`. `--skip-browser` reports A11Y and SHOTS
+as SKIPPED and exits non-zero — an unrun check must never read as a pass. Exit 0 only when
+everything genuinely passes.
 
 ## Branches
 `main` is the trunk as of 2026-08-15. Before that the repo had NO main branch at all: the default
