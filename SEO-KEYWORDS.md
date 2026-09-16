@@ -210,6 +210,8 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `knee-arthritis-before-surgery` | Physical Therapy | knee arthritis treatment before surgery |
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
+| `pain-2-power-ep15-mann` | Pain 2 Power (Ep 15) | Susan Mann / Bright Minds Processing / auditory and visual processing disorders |
+| `post-stroke-occupational-therapy-north-palm-beach` | Occupational Therapy | post stroke occupational therapy North Palm Beach |
 
 **Ep 11 note (2026-08-22):** the Paul Joyce recap is a Pain 2 Power post, not a Wellness pillar post,
 so the Wellness hole below is still open. The transcript does hold a real Wellness pillar angle that
@@ -217,8 +219,20 @@ nothing on the site covers yet: keeping muscle and strength while losing weight 
 Dave's "it's going to make you better, but it's not gonna make you healthier" and Paul's "you lose a
 lot of muscle". Awaiting owner sign-off on the angle before it is written.
 
-**Holes as of 2026-08-15, end of day:** Occupational Therapy now has one post. **Wellness still has
-zero**, and it is the only pillar with none, so it is the next thing to write. Two Wellness posts
+**Ep 15 note (2026-09-16):** the Susan Mann episode is about auditory and visual processing
+disorders in children. There is no honest pillar post in that subject for us: the OT block above
+says plainly **do not claim pediatric OT**, and Bright Minds Processing is the guest's own nonprofit,
+not a service we offer. The pillar post therefore takes the ADULT thread in the transcript instead,
+Susan Mann's finding that the same processing therapy is used with brain injury and stroke patients,
+which lands on post stroke OT, a service the OT page really does list (Post-Stroke Recovery and
+Cognitive Rehabilitation). The recap states in the body that we do not test for or treat APD or VPD.
+Do not write a pediatric processing post off this episode.
+
+**Holes as of 2026-09-16:** Occupational Therapy now has two posts, the second being the Episode 15
+pillar post on post stroke OT, which takes the "post stroke occupational therapy North Palm Beach"
+secondary and also works in the "cognitive rehabilitation after injury" and "return to work program
+after injury" long tails. **Wellness still has zero**, and it is the only pillar with none, so it is
+the next thing to write. Two Wellness posts
 are already sourced from the Episode 8 transcript and waiting: "the invention of the chair is one
 of our demise", and the TheraBand home program behind Dave's "I do everything I can to let people
 not ever come to see me". Hand Therapy has one. Physical Therapy has seven and needs nothing.
