@@ -1,0 +1,328 @@
+{
+  "exterior": {
+    "alt": "The First Rehabilitation of North Palm Beach clinic building at 733 US Highway 1, with covered entrance and palm trees",
+    "aspect": 1.7801,
+    "focal": "center 45%",
+    "max_width": 680,
+    "name": "exterior",
+    "native": [
+      680,
+      382
+    ],
+    "source": "assets/media/founder.jpg",
+    "widths": [
+      480,
+      680
+    ]
+  },
+  "gym": {
+    "alt": "The on-site rehabilitation gym at First Rehabilitation of North Palm Beach, with cardio and strength equipment",
+    "aspect": 1.3333,
+    "focal": "center 62%",
+    "max_width": 1120,
+    "name": "gym",
+    "native": [
+      1120,
+      840
+    ],
+    "source": "assets/media/gym.jpg",
+    "widths": [
+      480,
+      768,
+      1024,
+      1120
+    ]
+  },
+  "mike": {
+    "alt": "Mike McGann, co-host of the Pain 2 Power podcast",
+    "aspect": 0.6673,
+    "focal": "center 18%",
+    "max_width": 353,
+    "name": "mike",
+    "native": [
+      353,
+      529
+    ],
+    "source": "assets/media/mike.jpg",
+    "widths": [
+      353
+    ]
+  },
+  "social-1": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 1",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 520,
+    "name": "social-1",
+    "native": [
+      520,
+      520
+    ],
+    "source": "assets/social/post-1.jpg",
+    "widths": [
+      480,
+      520
+    ]
+  },
+  "social-10": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 10",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 520,
+    "name": "social-10",
+    "native": [
+      520,
+      520
+    ],
+    "source": "assets/social/post-10.jpg",
+    "widths": [
+      480,
+      520
+    ]
+  },
+  "social-2": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 2",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 514,
+    "name": "social-2",
+    "native": [
+      514,
+      514
+    ],
+    "source": "assets/social/post-2.jpg",
+    "widths": [
+      480,
+      514
+    ]
+  },
+  "social-3": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 3",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 520,
+    "name": "social-3",
+    "native": [
+      520,
+      520
+    ],
+    "source": "assets/social/post-3.jpg",
+    "widths": [
+      480,
+      520
+    ]
+  },
+  "social-4": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 4",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 520,
+    "name": "social-4",
+    "native": [
+      520,
+      520
+    ],
+    "source": "assets/social/post-4.jpg",
+    "widths": [
+      480,
+      520
+    ]
+  },
+  "social-5": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 5",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 520,
+    "name": "social-5",
+    "native": [
+      520,
+      520
+    ],
+    "source": "assets/social/post-5.jpg",
+    "widths": [
+      480,
+      520
+    ]
+  },
+  "social-6": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 6",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 501,
+    "name": "social-6",
+    "native": [
+      501,
+      501
+    ],
+    "source": "assets/social/post-6.jpg",
+    "widths": [
+      480,
+      501
+    ]
+  },
+  "social-7": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 7",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 520,
+    "name": "social-7",
+    "native": [
+      520,
+      520
+    ],
+    "source": "assets/social/post-7.jpg",
+    "widths": [
+      480,
+      520
+    ]
+  },
+  "social-8": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 8",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 600,
+    "name": "social-8",
+    "native": [
+      600,
+      600
+    ],
+    "source": "assets/social/post-8.jpg",
+    "widths": [
+      480,
+      600
+    ]
+  },
+  "social-9": {
+    "alt": "First Rehabilitation of North Palm Beach on social media, photo 9",
+    "aspect": 1.0,
+    "focal": "center 45%",
+    "max_width": 600,
+    "name": "social-9",
+    "native": [
+      600,
+      600
+    ],
+    "source": "assets/social/post-9.jpg",
+    "widths": [
+      480,
+      600
+    ]
+  },
+  "team-david": {
+    "alt": "Dr. David Kashuba, Ph.D., founder and CEO of First Rehabilitation",
+    "aspect": 0.7505,
+    "focal": "45% 24%",
+    "max_width": 397,
+    "name": "team-david",
+    "native": [
+      397,
+      529
+    ],
+    "source": "assets/team/david.jpg",
+    "widths": [
+      397
+    ]
+  },
+  "team-joni": {
+    "alt": "Joni Janik, Occupational Therapist at First Rehabilitation",
+    "aspect": 1.3968,
+    "focal": "50% 27%",
+    "max_width": 880,
+    "name": "team-joni",
+    "native": [
+      880,
+      630
+    ],
+    "source": "assets/team/joni.jpg",
+    "widths": [
+      480,
+      768,
+      880
+    ]
+  },
+  "team-kayla": {
+    "alt": "Kayla Dorsey, DPT, Physical Therapist at First Rehabilitation",
+    "aspect": 0.75,
+    "focal": "56% 20%",
+    "max_width": 780,
+    "name": "team-kayla",
+    "native": [
+      780,
+      1040
+    ],
+    "source": "assets/team/kayla.jpg",
+    "widths": [
+      480,
+      768,
+      780
+    ]
+  },
+  "team-laura": {
+    "alt": "Laura Drumm, Certified Hand Therapist at First Rehabilitation",
+    "aspect": 1.5068,
+    "focal": "47% 25%",
+    "max_width": 880,
+    "name": "team-laura",
+    "native": [
+      880,
+      584
+    ],
+    "source": "assets/team/laura.jpg",
+    "widths": [
+      480,
+      768,
+      880
+    ]
+  },
+  "team-logan": {
+    "alt": "Logan Van Sant, Physical Therapist at First Rehabilitation",
+    "aspect": 1.1848,
+    "focal": "44% 26%",
+    "max_width": 1000,
+    "name": "team-logan",
+    "native": [
+      1000,
+      844
+    ],
+    "source": "assets/team/logan.jpg",
+    "widths": [
+      480,
+      768,
+      1000
+    ]
+  },
+  "team-nick": {
+    "alt": "Nick Kashuba, Chief Operating Officer of First Rehabilitation",
+    "aspect": 1.0,
+    "focal": "50% 26%",
+    "max_width": 508,
+    "name": "team-nick",
+    "native": [
+      508,
+      508
+    ],
+    "source": "assets/team/nick.jpg",
+    "widths": [
+      480,
+      508
+    ]
+  },
+  "treatment": {
+    "alt": "Dr. Dave Kashuba, Occupational Therapist, stretching a patient's leg during a session at First Rehabilitation in North Palm Beach",
+    "aspect": 1.0081,
+    "focal": "38% 30%",
+    "max_width": 1120,
+    "name": "treatment",
+    "native": [
+      1120,
+      1111
+    ],
+    "source": "assets/media/clinic.jpg",
+    "widths": [
+      480,
+      768,
+      1024,
+      1120
+    ]
+  }
+}
