@@ -595,18 +595,44 @@ Standing preferences for a one off post, unless told otherwise:
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
 
-## Full episode to YouTube — publish from Descript, by hand
-Descript holds the finished multicam edit and has YouTube connected in the app. Publish the
-FINAL composition straight from Descript to YouTube, then set scheduling in YouTube Studio.
+## Full episode to YouTube — Nick uploads it himself
+**Nick uploads the full episode to YouTube himself.** Do not build a publish path for it,
+and do not route it through Post Bridge: Post Bridge times out fetching anything that
+large (a 2.9GB export failed at 60s) and rejects GitHub release assets, which serve
+`application/octet-stream`.
 
-Do NOT route the full episode through Post Bridge or a downloaded file:
-- Post Bridge times out fetching anything that large (2.9GB Descript export failed at 60s).
-- GitHub release assets serve `application/octet-stream` and Post Bridge rejects them.
-- A browser download of the 1.2GB master truncates easily, and YouTube then reports
-  "file unreadable". A cloud synced folder holding the file as an online only placeholder
-  produces the same error.
-The Descript share page (`share.descript.com/view/...`, access "unlisted") is also the right
-way to let a guest watch their episode: streams in any browser, no account, no download.
+The deliverable from here is the finished file, not a publish. Hand Nick the multicam
+render; he takes it from there and sets scheduling in YouTube Studio.
+
+This section used to say "publish from Descript, by hand" and was wrong — corrected
+2026-09-16 by Nick. **Descript is being cancelled** (see below); nothing in the episode
+pipeline may depend on it.
+
+## Descript is gone — what that means for the pipeline
+Nick cancelled the Descript subscription on 2026-09-16. Nothing about the edit depended
+on it, and this is the record of what did:
+
+- **The clips and the full multicam are cut by SCRIPT, not in Descript.** Episode 14's
+  finished video (`tmp/ep14-video`, 27:38.96, 105 shots) was rendered by the multicam
+  script from the raw cameras. That capability is ours and is unaffected.
+- **Masters and raw sources live in Dropbox and git, never in Descript.** Ep 15's source
+  is `/Pain2Power/Susan Mann/P2P-Susan mann 9-19 RAW.mp3`. Anything that was only in
+  Descript was a derivative of something we already hold.
+- **THE ONE REAL LOSS IS SPEAKER DIARISATION.** Read this before cutting the next
+  multicam. The multicam script picks the camera by microphone energy, and that does not
+  work: all three cameras sit in one small studio, every mic hears everyone, and the
+  script z-scores each camera by its own standard deviation, handing the argmax to
+  whichever mic has the lowest noise floor. On Episode 14 that put the guest on screen for
+  12.5% of his own interview and the co-host on 57.7%. The fix was to drive the cuts from
+  SPEAKER TURNS instead (`--cuts`), and those turns came from Descript's diarisation of
+  the board mix. With Descript gone there is no diarisation source, so `--cuts` has no
+  input and the script silently falls back to the broken mic-energy path.
+  **The edit still renders. It just points the camera at the wrong person.** That is why
+  this is written down rather than left to be rediscovered.
+  Replacement not yet chosen or tested. Whisper gives a transcript but not who is speaking;
+  speaker turns need pyannote locally or an ASR service that returns diarisation. Ep 14 is
+  the clean test case: its Descript speaker turns are known good, so any candidate can be
+  scored against them before it is trusted on a live episode.
 
 ## Connectors — check this before assuming a tool is broken
 `ListConnectors` reports `connected` AND `enabledInChat`. A connector can be connected to the
@@ -752,6 +778,7 @@ Full-episode transcripts: `tools/stage-episode.py --full-transcript <path>` now 
 `transcript-full.md` (timestamped [mm:ss], NAME_FIXES applied) onto the load-bearing
 `media/ep{NN}-clips` branch. Before this, full transcripts landed on ad hoc branches like
 `tmp/sabesan-out` that nothing knew to look for, so drafts fell back to clip-level text.
-`/episode-blog` resolves a transcript in this order: owner-supplied path → Descript
-`export_transcript` → `transcript_v4.json` on a `tmp/*-out` branch → `transcript-full.md` →
-`transcripts.md` (clip-level, must be declared on the flag list).
+`/episode-blog` resolves a transcript in this order: owner-supplied path →
+`transcript_v4.json` on a `tmp/*-out` branch → `transcript-full.md` → `transcripts.md`
+(clip-level, must be declared on the flag list). The Descript `export_transcript` step that
+used to sit second in this chain was removed 2026-09-16 when the subscription was cancelled.
