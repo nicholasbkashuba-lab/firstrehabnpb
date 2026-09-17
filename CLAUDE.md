@@ -634,6 +634,56 @@ on it, and this is the record of what did:
   the clean test case: its Descript speaker turns are known good, so any candidate can be
   scored against them before it is trusted on a live episode.
 
+## Cutting the full multicam — the pipeline EXISTS, do not rebuild it
+The `podcast-multicam` skill carries the whole thing: `lock_rate.py`,
+`build_warp2.py`, `sync_preview.py`, `sync_probe.py`, `render_final_v3.py`.
+Two sessions have now wasted time concluding "the pipeline was never committed"
+because only the RENDERED OUTPUT survives on the tmp branches. Load the skill first.
+
+Run order, in a folder holding the cameras and the audio master, nothing else
+(a stray video file gets adopted as a fourth camera): lock_rate -> build_warp2 ->
+**sync_preview (checkpoint, never skip)** -> render_final_v3 --dry-run -> render.
+Needs ffmpeg with zscale+tonemap, ffprobe, numpy. **This sandbox ships neither
+ffmpeg nor numpy** — `pip install numpy` and drop a johnvansickle static ffmpeg
+into /usr/local/bin.
+
+**Dropbox bytes ARE reachable from the sandbox** (verified 2026-09-17: all 2.35 GB
+of Episode 15 pulled directly via `download_link`, hashes verified). The note
+elsewhere in this file saying otherwise cost a session's worth of planning an
+Actions relay that was never needed. Verify with Dropbox's own content_hash, which
+is sha256 over concatenated sha256s of 4 MB blocks, NOT a plain sha256 of the file.
+
+### The stock speaker attribution is not shippable, and this is why
+`render_final_v3.py` picks the camera by z-scored mic energy. In this studio all
+three mics hear everyone and Dave shares a desk with the guest, so his mic hears
+the guest nearly as well as hers does. On Episode 15 that gave the GUEST 17% of
+her own interview, zero screen time in the final five minutes, and one 176-second
+static shot. Episode 14 hit the identical failure (guest on screen 12.5%).
+
+`tools/podcast-attrib.py` fixes it and is the thing to reuse:
+- pitch off the board mix separates a female guest from male hosts (f0 gate,
+  Schmitt trigger so a value near the threshold cannot flap, plus a short sustain
+  so a music bed cannot latch the gate)
+- a calibrated bias splits the two male hosts on camera-mic energy
+- reaction cuts break any shot over ~34s at the quietest nearby point
+- `render_final_v3.py` was patched to take `--cuts cuts_final.json`
+
+Episode 15 result: 118 shots, avg 14.3s, longest 36s, guest 44.1% / Dave 28.1% /
+Mike 27.8%, everyone present in every five-minute block. Tunables that worked:
+`THR=175 BIAS=0.15 SUSTAIN=0.3 ENT=0.62 EXT=0.40`. **Re-tune per episode**; a
+1.5s sustain crushed the guest to 15%, and the parameters depend on who is in
+the room and where they sit.
+
+**Verify without watching**: contact sheet, one frame per minute tiled, audited
+against `transcript-full.md`. Episode 15 scored ~22/28 frames on the right person,
+about 79%, against the skill's stated ~82% ceiling. Say the real number; do not
+claim perfection. Coverage per five-minute block matters more than the overall
+percentages.
+
+Finished masters ship chunked as usual: `split -b 45m`, push in small batches or
+the git proxy resets it, then ALWAYS fetch it back and verify the sha256 before
+telling anyone it is done. Episode 15 is on `tmp/ep15-video`.
+
 ## Connectors — check this before assuming a tool is broken
 `ListConnectors` reports `connected` AND `enabledInChat`. A connector can be connected to the
 account while switched OFF for the current conversation, in which case its tools simply do not
