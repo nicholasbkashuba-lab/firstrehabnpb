@@ -618,21 +618,18 @@ on it, and this is the record of what did:
 - **Masters and raw sources live in Dropbox and git, never in Descript.** Ep 15's source
   is `/Pain2Power/Susan Mann/P2P-Susan mann 9-19 RAW.mp3`. Anything that was only in
   Descript was a derivative of something we already hold.
-- **THE ONE REAL LOSS IS SPEAKER DIARISATION.** Read this before cutting the next
-  multicam. The multicam script picks the camera by microphone energy, and that does not
-  work: all three cameras sit in one small studio, every mic hears everyone, and the
-  script z-scores each camera by its own standard deviation, handing the argmax to
-  whichever mic has the lowest noise floor. On Episode 14 that put the guest on screen for
-  12.5% of his own interview and the co-host on 57.7%. The fix was to drive the cuts from
-  SPEAKER TURNS instead (`--cuts`), and those turns came from Descript's diarisation of
-  the board mix. With Descript gone there is no diarisation source, so `--cuts` has no
-  input and the script silently falls back to the broken mic-energy path.
-  **The edit still renders. It just points the camera at the wrong person.** That is why
-  this is written down rather than left to be rediscovered.
-  Replacement not yet chosen or tested. Whisper gives a transcript but not who is speaking;
-  speaker turns need pyannote locally or an ASR service that returns diarisation. Ep 14 is
-  the clean test case: its Descript speaker turns are known good, so any candidate can be
-  scored against them before it is trusted on a live episode.
+- **Speaker attribution was the only thing Descript was load bearing for, and it is now
+  SOLVED without it.** The multicam script picks the camera by microphone energy, which does
+  not work here: all three cameras sit in one small studio, every mic hears everyone, and the
+  script z-scores each camera by its own standard deviation. On Episode 14 that put the guest
+  on screen for 12.5% of his own interview; on Episode 15 it gave the guest 17% and dropped
+  her from the last five minutes entirely. Episode 14 solved it with `--cuts` fed by
+  Descript's diarisation of the board mix.
+  **No diarisation service is needed.** `tools/podcast-attrib.py` derives speaker turns from
+  PITCH on the board mix, which is how Episode 9 did it before Descript was ever involved
+  (see `transcript_v4.json` on `tmp/sabesan-out`: it carries `f0` and `voiced` alongside
+  `spk`). Full detail in "Cutting the full multicam" below. Do not go shopping for pyannote
+  or an ASR vendor; read that section first.
 
 ## Cutting the full multicam — the pipeline EXISTS, do not rebuild it
 The `podcast-multicam` skill carries the whole thing: `lock_rate.py`,
