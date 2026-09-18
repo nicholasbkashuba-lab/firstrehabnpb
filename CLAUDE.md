@@ -476,12 +476,43 @@ they go live. Target the next Saturday 9:00 AM ET for the episode + full video, 
 clips one per day after it. Scheduling IS the deliverable; waiting for approval is not.
 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
-`trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
+`trig_01R5iPGmt45aWsNkwNoX5zDc` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
 (9:00 AM ET daily). It branches on the ET day of week: Saturday → episode-is-live post,
 every other day → the next clip off the mixed queue, and it checks whether an announcement
 is owed for tomorrow. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
 Don't split it back apart; add day-branches to this one instead.
+
+**The ID above was `trig_01L8gTCsSXAtwCkvG4LMZuSh` until 2026-09-18 and that one is DEAD** —
+`list_triggers` shows it gone from the account entirely. It was recreated as
+`trig_01R5iPGmt45aWsNkwNoX5zDc` on 2026-09-10 (same name, same cron, fresh session per fire);
+this file went on naming the dead one for eight days. Re-confirmed live 2026-09-18, last run
+SUCCEEDED 13:03 UTC. If a session reports the routine missing, check `list_triggers` before
+concluding anything — the ID here is a record, not a guarantee.
+
+Two things to know before touching it:
+- **`list_triggers` does NOT return a routine's prompt.** Editing means rewriting the whole
+  prompt from scratch; there is nothing to read back and patch. Keep this file current,
+  because it IS the backup of that prompt.
+- **`create_trigger` cannot attach connectors on this org** — the API rejects the
+  `connectors` parameter outright, so a routine created from here fires with NO `mcp__*`
+  tools and cannot reach Post Bridge at all. **Post Bridge has to be attached by hand in
+  the claude.ai Routines UI.** Check this first if a firing reports "no such tool".
+
+**Add the GUEST as an Instagram collaborator on every clip from their episode** (Nick,
+2026-09-11). `platform_configurations.instagram.collaborators: ["handle"]` puts the post on
+the guest's own profile and shares its likes and comments, which is the entire point.
+Instagram only; no equivalent on Facebook, TikTok or YouTube. Max 3 handles, and **a private
+or misspelled handle fails the WHOLE post**, so confirm it with Nick rather than guessing.
+Known: Captain Kerry is `capt_kerry` (set by an earlier session, not independently verified).
+
+**Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
+uploaded COPY, not a reference to the branch, so re-cutting a clip and pushing it does not
+change what a scheduled post will publish. On 2026-09-11 four of five scheduled Episode 13
+posts still pointed at pre-fix uploads showing the wrong speaker, and would have published
+them. Compare `list_media` size_bytes against the file on the media branch; a mismatch means
+the post is stale. Fix with `upload_media` then `update_post`, and pass
+`platform_configurations` back IN FULL or the collaborators and YouTube title are dropped.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
 YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
