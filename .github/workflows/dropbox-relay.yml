@@ -12,6 +12,10 @@ on:
         description: 'Abort if downloaded file is smaller than this many bytes'
         required: true
         default: '1000000'
+      output_name:
+        description: 'Optional filename to also publish unsplit (e.g. clip.mp3) when the file is small enough to not need chunking'
+        required: false
+        default: ''
 permissions:
   contents: write
 jobs:
@@ -35,14 +39,19 @@ jobs:
       - name: Push chunks to output branch
         env:
           OUT_BRANCH: ${{ inputs.out_branch }}
+          OUTPUT_NAME: ${{ inputs.output_name }}
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions Relay"
           mkdir -p /tmp/relay-out
           cp master.chunk_* master.sha256 /tmp/relay-out/
+          if [ -n "$OUTPUT_NAME" ]; then
+            cp master.bin "/tmp/relay-out/$OUTPUT_NAME"
+          fi
           git checkout --orphan "$OUT_BRANCH"
           git rm -rf . 2>/dev/null || true
           cp /tmp/relay-out/* .
           git add master.chunk_* master.sha256
+          if [ -n "$OUTPUT_NAME" ]; then git add "$OUTPUT_NAME"; fi
           git commit -m "Relay: $OUT_BRANCH"
           git push -f origin "$OUT_BRANCH"

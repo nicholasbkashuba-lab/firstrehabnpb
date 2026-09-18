@@ -13,6 +13,8 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
 - `assets/css/styles.css` — the whole design system (deep teal #0E3A47, cream #F6F1E7,
   coral #F4A261, gold #E9C46A; Playfair Display + Inter). Signature elements: rotating
   lighthouse beam on dark sections, film grain, interactive body map, social marquee.
+  **Every value lives in the `:root` token block at the top — consume tokens, never
+  literals.** See "Design tokens" below before touching any colour, size or easing.
 - `assets/js/main.js` — hero video source picker, nav (Escape closes mobile menu),
   scroll reveals, counters (reduced-motion aware), seamless marquees, body-map attract
   cycle + tap panel, FAQ filter bubbles/search/expand (arrow keys switch categories).
@@ -24,13 +26,83 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
   submissions deliver two ways at once (deliverLead): insert into the Supabase project
   "First Rehabilitation App" (table `intake_leads`, anon key is INSERT-only via RLS) AND
   email firstrehabnpb@gmail.com via FormSubmit — either channel succeeding counts; if both
-  fail the lead queues locally + auto-retries. View leads in the Supabase dashboard →
+  fail the lead queues locally + auto-retries. A THIRD, fire-and-forget copy goes to
+  nick@firstrehabnpb.com (CFG.notifyEmailCc) as its own FormSubmit POST — deliberately not
+  FormSubmit's _cc (undocumented on the /ajax/ endpoint) and deliberately not counted by
+  deliverLead, so it can never block or fail the clinic notification. Both emails share one
+  emailFields() body builder so the two inboxes can never drift apart. View leads in the Supabase dashboard →
   Table Editor → intake_leads.
 - `assets/media/` — logo.png/logo-dark.png (full-size, schema/OG), logo-nav.png/
   logo-dark-nav.png (333px, header+footer). Favicons = the FULL wordmark logo on cream
   (owner insists; no monograms), regenerate via Pillow from logo.png, bump ?v= (now v5).
   hero video renditions (see Hero Video below), hero-poster.jpg, podcast-cover.jpg, photos.
 - `assets/team/` — staff portraits. `assets/social/post-1..8.jpg` — homepage gallery tiles.
+
+## Design tokens — consume them, never write a literal
+Everything visual is declared once in the `:root` block at the top of `styles.css`.
+Nothing below that block may contain a literal colour, a literal shadow, or an off-scale
+size. `intake.css` has no `:root` of its own — it is always loaded after `styles.css`
+and consumes the same tokens.
+
+- **Colour is declared as channel triplets** (`--ink-deep-rgb: 7 30 39`) with solid
+  aliases beside them (`--ink-deep: rgb(var(--ink-deep-rgb))`). Transparency is then
+  `rgb(var(--ink-deep-rgb) / 0.45)`, not a hand-written `rgba()`. This exists because
+  the sheet had accumulated 88 literal `rgba()` values across 11 nearly-identical
+  triplets — that is how a palette silently drifts out of sync with itself.
+- **Type** rides a ~1.25 fluid modular scale, `--step--2` through `--step-6`, with
+  `--leading-*` and `--measure*` beside it. Do not invent a per-selector `clamp()`.
+  The only two left are viewport-scaled display graphics (the hero watermark and the
+  outlined section numerals), which are drawings, not text on the reading ramp.
+- **Spacing** is `--space-1`…`--space-8` (4/8/16/24/32/48/64/96) plus `--space-section*`.
+- **Elevation** is four rungs, `--shadow-sm|md|lg|xl`. Pick a rung; never write a shadow.
+- **Motion** uses `--ease-out|quart|inout|spring` and `--dur-fast|base|slow`. The bare
+  keywords `ease`, `ease-in`, `ease-out`, `ease-in-out` are banned. The three continuous
+  loops (marquee, ticker, lighthouse sweep) stay `linear` on purpose — an eased loop
+  visibly stutters at the seam.
+- `--coral-text`, `--gold-stroke` and `--danger-text` are the AA-safe variants for text
+  and thin strokes. Do not lighten them; the site passes axe WCAG 2.1 AA at both widths.
+- A `var()` naming a token no `:root` defines fails SILENTLY — the property falls back to
+  inherited and the page looks almost right. `--serif` and `--teal` sat broken this way in
+  three rules until 2026-09-15. verify.py now fails the build on it.
+
+## Photography — the PHOTOS registry
+`PHOTOS` in build.py is the single registry of every real photograph on the site. There
+are 15 of them and that is the entire library: no stock, no illustration, no AI imagery.
+
+- Each entry carries `src`, an `object-position` **focal point chosen by looking at the
+  frame**, and `alt`. A default centre crop cuts heads off; that is what focal points are for.
+- Templates call `photo(name, depth=, sizes=, ratio=, eager=)`, which emits a `<picture>`
+  with WebP + JPEG, a srcset, intrinsic `width`/`height`, and the focal point applied.
+  **Never hardcode an image path in a template** — schema and `og:image` read the registry too.
+- `python3 tools/build-images.py` derives the renditions into `assets/img/` and writes
+  `manifest.json`. Run it after adding a photo. **It never upscales**: a 680px source caps
+  at 680px rather than shipping a blurry 1440, and the manifest records the real cap.
+- `SERVICE_MEDIA` decides what each service page leads with. Only two services have a
+  genuine photograph of that service: occupational therapy gets the treatment frame, and
+  wellness gets the gym. **The treatment frame is Dave, and Dave is an Occupational
+  Therapist** — it is not a physical therapy photo, and it led that page in error until
+  the owner caught it. A service without a scene photo leads with a CREDITED CLINICIAN PORTRAIT
+  of the person who runs it, captioned with name and credential. That is the honest
+  alternative to faking a scene — do not crop a staff portrait wide and pass it off as one.
+- `assets/media/founder.jpg` is the clinic BUILDING, not a portrait of the founder. Its alt
+  text claimed otherwise until 2026-09-15.
+- If a layout wants a photograph the registry does not have, the layout is wrong. Do not
+  invent a slot and fill it with a gradient, an icon, or a grey box.
+
+## Verifying a change — `static-site-forge`
+    python3 ~/.claude/skills/static-site-forge/verify.py --root . --shots out/
+
+Runs every check and reports all failures rather than stopping at the first: BUILD (clean
+generator run, no warnings), LINKS (every internal href/src resolves; host-served runtime
+paths like `/_vercel/` are exempt), IMAGES (alt present, intrinsic size, no placeholder in
+a photo slot), TOKENS (no literal colour outside `:root`, and no `var()` naming an
+undefined token), SEO (one `h1`, no skipped heading levels, title/description/canonical,
+sitemap coverage), A11Y (axe-core WCAG 2.1 AA at 393px and 1440px with animations settled)
+and SHOTS (full-page screenshots into `--shots`).
+
+Needs `npm i --no-save playwright-core axe-core`. `--skip-browser` reports A11Y and SHOTS
+as SKIPPED and exits non-zero — an unrun check must never read as a pass. Exit 0 only when
+everything genuinely passes.
 
 ## Branches
 `main` is the trunk as of 2026-08-15. Before that the repo had NO main branch at all: the default
@@ -56,6 +128,14 @@ at least once. PRs target `main`.
   Answers are PLAIN TEXT (they feed both the accordions and the single FAQPage JSON-LD,
   which must stay in sync — it's generated from the same data, so just rebuild). Service
   pages cross-link to /faq.html#category anchors instead of duplicating Q&As.
+- Every blog post gets a 3-card "Related Articles" block from RELATED_POSTS in build.py.
+  A new post needs an entry there AND needs adding to somebody else's list, or it ships
+  with one inbound link (its card on /blog/index.html) — that was the whole finding in
+  the 2026-08-23 Semrush crawl. Condition and service pages also link posts topically
+  via COND_BLOG / SVC_BLOG (slugs only; link text is read from BLOG_POSTS).
+- Episode blurbs in EPISODES are split into paragraphs on `<br><br>` by _paras(). Keep
+  each chunk roughly 40-80 words and give an opening quote its own break; a single
+  330-word <p> is a full phone screen and reads badly to crawlers and people alike.
 - Keep quotes/testimonials verbatim; don't invent credentials or clinical claims.
 - Intake agent copy lives in `assets/js/intake.js` (STEPS object). It is plain JS served
   to every visitor — never put secret keys in it (the Supabase publishable key is safe by design).
@@ -71,9 +151,14 @@ availableService (links the 4 MedicalTherapy service @ids), geo, hasMap, 10 area
 cities, Saturday hours, 5 sameAs (incl. the Google listing cid link). Per-page schema
 via head(extra_schema=...): Person ×6 on About, MedicalTherapy on services,
 MedicalCondition on conditions, PodcastSeries+Episodes on podcast, FAQPage on faq,
-BlogPosting (+reviewedBy Dave) on posts, BreadcrumbList on interior pages, JobPosting
+BlogPosting + a WebPage node carrying reviewedBy Dave on posts (reviewedBy is a
+property of WebPage, NOT of Article/BlogPosting — it hung off the BlogPosting until
+2026-08-23 and validators rejected the whole item; the BlogPosting points at the
+WebPage via mainEntityOfPage and the Person is referenced by @id only),
+VideoObject with uploadDate on /videos.html (uploadDate is REQUIRED — no video rich
+results without it, so every new VIDEOS entry needs one), BreadcrumbList on interior pages, JobPosting
 per open role on careers, Service on location pages — all referencing the org @id.
-Schema is complete as of 2026-07-21 (104 valid JSON-LD blocks). To re-verify Google's
+Schema is complete as of 2026-08-23 (138 valid JSON-LD blocks). To re-verify Google's
 actual rendering, the owner runs a URL through search.google.com/test/rich-results.
 DELIBERATE: no aggregateRating in our own schema (self-serving review markup violates
 Google's guidelines — the Google Business Profile carries the review signal). Do not re-add.
@@ -120,6 +205,14 @@ domain switch (July 2027). Removing them early throws away that equity.
   `prj_thAY1ZFoahuVCLksBfXAyjyzo1b1`, team `team_VWA1Ar7nCeuyUifvSyeFTT1T`). mode=count
   for totals; mode=aggregate with by=[requestPath|referrerHostname|day|deviceType|country]
   for breakdowns. Data starts 2026-07-21, the day it was enabled.
+- **Google Analytics 4** is live: the standard gtag.js snippet for property
+  **G-GZKFNKSP6D** is emitted by `head()` in build.py immediately after `<head>` on
+  every generated page, so it is exactly once per page and never hand-edited. The
+  measurement ID lives in `GA_MEASUREMENT_ID` / `GA_TAG` next to `head()` — it is
+  First Rehabilitation's property ONLY and must never be copied onto another client
+  site. GA4 sat empty until 2026-09-08 because no tag existed anywhere on the site;
+  data starts from the deploy that carries it. GA4 and Vercel Web Analytics run side
+  by side and count differently — do not expect their numbers to match.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
@@ -130,9 +223,31 @@ domain switch (July 2027). Removing them early throws away that equity.
   `compare` / `raw`. Auth comes from `$GSC_SERVICE_ACCOUNT_JSON`, `--key`, or
   `~/.config/gsc/service-account.json`; the key is a secret and the repo is public, so
   never commit it (.gitignore covers the usual names).
+  **Ownership verification is emitted by `head()`** via `GSC_VERIFICATION` in build.py
+  (added 2026-09-09). It sits empty until the token is pasted, and an empty value emits no
+  tag at all, so the build is unaffected either way. Paste from Search Console -> Settings
+  -> Ownership verification -> HTML tag, copying ONLY the `content="..."` value. Use the
+  OWNER's token, not a service account's: the tag is what keeps Nick's ownership permanent,
+  while the service account is a delegated user under Users and permissions and does not
+  need to own the property. Once pasted, rebuild and the tag ships on all 48 pages plus
+  404.html, and every future build renews it.
+  Why this exists: the property lost verification some time before 2026-09-09 and every API
+  route went 403 — no queries, no page data, no index coverage, no sitemap submission, and
+  the homepage title/description CTR test started 2026-09-03 had no way to be read.
+  Verification had never been carried by the site (a DNS record or a leftover Wix token), so
+  nothing in this repo kept it alive and nothing warned when it lapsed. Note that
+  re-verifying the property restores the OWNER's access only — the service account still has
+  to be re-added separately under Users and permissions, which is the step that looks like
+  the fix has failed.
+  A service account CAN mint its own token via the Site Verification API
+  (`siteVerification/v1/token`, scope `.../auth/siteverification`), but that API is not
+  enabled on the `design-of-man-seo` Cloud project (403), and it would verify the SERVICE
+  ACCOUNT as owner rather than Nick. Not the right tool here; do not reach for it.
+
   **The property is `https://www.firstrehabnpb.com/` — a URL-prefix property, NOT
   `sc-domain:firstrehabnpb.com`** (verified 2026-08-14 via `gsc.py sites`, service account
-  `claude-gsc-reader@firstrehabnpb-seo.iam.gserviceaccount.com`, siteFullUser). The two
+  `claude-gsc-reader@design-of-man-seo.iam.gserviceaccount.com`, siteFullUser —
+  re-confirmed 2026-09-09; the `firstrehabnpb-seo` address recorded here previously was wrong). The two
   are different properties with different data; querying the domain form returns nothing,
   which reads as "no search traffic" rather than "wrong property". Always run `gsc.py
   sites` and use exactly what it prints.
@@ -166,7 +281,57 @@ domain switch (July 2027). Removing them early throws away that equity.
   ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
   two windows overlap by roughly 80% of their days, so this is not a clean before/after.
 
+  **API pull 2026-09-09, first clean non-overlapping compare** (28d to 09-06 vs the 28d
+  before it): 105 clicks / 11,672 impr / CTR 0.90% / pos 20.2, against 122 clicks / 9,654
+  impr / CTR 1.26% / pos 20.1. Impressions +21%, clicks -14%. Two months of adding pages
+  has added impressions and REMOVED clicks. This is what froze new blog posts.
+
+  **The location-page growth thesis above is now disproven — do not keep investing in it.**
+  City-qualified queries ("physical therapy west palm beach", "neck pain juno ridge fl", and
+  89 others in the same pull) earned 1,144 impressions and ONE click in 28 days. That is not
+  a ranking problem: /locations/juno-beach.html sits at position 7.3 overall and ranks 3.6 to
+  6.3 for the Juno Ridge neck-pain terms, and still earns 0.2% CTR. The location pages are
+  40%+ of all site impressions (WPB 1,883 / PBG 1,222 / PB 788 / Juno 408) at 0.2-0.4% CTR.
+  The most likely cause is that city-qualified local searches are answered by the map pack,
+  which lists clinics IN that city, so an organic result saying "served from North Palm
+  Beach" cannot win the click at any position we can reach. NOT verified from here — the
+  sandbox cannot see a live SERP — but the click data holds whatever the cause. Practical
+  rule: city-qualified intent is a Google Business Profile lever (service areas, categories,
+  reviews), not a page-content lever. Do not write more location pages, and do not "fix" the
+  existing ones by adding words.
+  What IS winnable, from the same pull: non-city service terms where the clinic has a real
+  claim. "hand therapist" 95 impr at pos 28.7, "hand therapy" 40 impr at pos 73.7,
+  "carpal tunnel syndrome therapies near me" 25 impr at pos 37.2. Laura Drumm CHT and
+  on-site splint fabrication are a genuine differentiator and these rank nowhere. That is
+  where depth pays.
+  Also note branded vs non-branded: branded 31 clicks / 550 impr (5.6% CTR), non-branded
+  6 clicks / 1,786 impr (0.34%). The Wix baseline was 0.36% non-branded. Non-branded CTR has
+  not moved in the rebuild. Both figures come from the truncated query table, so treat them
+  as directional, not exact.
+
 ## Conversion
+- **The appointment form is on 37 pages, not one** (changed 2026-09-09). `appt_form()` in
+  build.py renders the five-field card; `build_contact()` embeds it bare (`wrapped=False`)
+  inside its two-column grid, and the service, condition, location and blog templates embed
+  the wrapped `<section id="request">` version above `cta_band`. Before this it existed only
+  on /contact.html — which had produced 34 of the site's 41 lifetime leads while every
+  service, condition, location and blog page produced ZERO. Those pages were never short of
+  CTAs (three to five phone/contact links each); they were short of somewhere to convert.
+  intake.js binds by `getElementById('appt-form')`, so exactly ONE form may appear per page —
+  do not add a second, and do not suffix the ids. The lead's `page` column records
+  `location.pathname`, so per-page attribution works with no extra wiring; query it to judge
+  whether this change paid off.
+- **The chat auto-invite holds while that form is on screen** (added 2026-09-09, Nick approved).
+  On a phone the teaser card pins to the bottom of the viewport, which is exactly where the
+  form's Send Request button sits — the assistant was covering the thing it exists to help
+  with. `watchApptForm()` in intake.js puts an IntersectionObserver on `#appt-form` and
+  `showAutoInvite()` defers while it is visible, then fires the moment the reader scrolls it
+  away, so the invite is delayed and never lost. It only claims the once-per-session
+  `KEYS.auto` slot when it actually appears — setting that on a deferred run would silently
+  burn it. The launcher bubble is untouched and stays tappable throughout.
+  Measured: contact.html is UNCHANGED, because its hero pushes the form below the fold at
+  393x740 so the form is not in view when the invite fires. Do not "simplify" this to a
+  pathname test — the whole point is that it keys off what is actually on screen.
 - Sticky **mobile Call Now** button (`.mobile-call`, emitted after </footer>): fixed
   bottom-LEFT coral pill, phones only (<768px), one tap to tel:561-624-4263. Bottom-left
   so it never collides with the intake chat launcher (bottom-right); hidden on desktop
@@ -237,7 +402,13 @@ deliberately has NO location page — the homepage owns that keyword; footer lin
 
 ## Verification pattern
 The sandbox cannot reach *.vercel.app, Dropbox, or Supabase hosts directly (proxy 403);
-GitHub (api/raw/codeload/objects) IS allowed. Verify live deploys via Supabase MCP:
+GitHub (api/raw/codeload/objects) IS allowed. **The production domain
+https://www.firstrehabnpb.com/ IS reachable directly** — plain `curl` returns 200 (verified
+2026-09-09). This file previously implied otherwise and sent two sessions through pg_net for
+checks a one-line curl does faster. Use curl for anything on the live domain, including
+polling a deploy: `until curl -s <url> | grep -q '<marker>'; do sleep 10; done` in a
+BACKGROUND bash task (foreground sleep is blocked). Reserve the pg_net dance below for hosts
+the proxy really does block. Verify live deploys via Supabase MCP:
 `create extension pg_net` → `net.http_get(...)` (Range headers work: 206 + content-range
 proves deployed file size) → read net._http_response → `drop extension pg_net`. NOTE:
 production URLs are public but PREVIEW deploys sit behind Vercel Authentication (Pro
@@ -263,6 +434,16 @@ One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask eac
   are prerecorded but Saturday is the public moment.
 - **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
   YouTube Shorts, TikTok).
+- **Friday 4:00 PM ET — next guest announcement** (Nick set this 2026-09-10). The day before
+  the show, announce who is on tomorrow: name, credential, and the airing details. Instagram,
+  Facebook, LinkedIn business and X, with the podcast cover art as the image. NOT Google
+  Business — Friday 9:00 AM already carries that day's pillar GBP post and Saturday carries the
+  episode post; a third would spam the profile.
+  **An announcement must not contain anything said inside the episode.** It has not aired yet,
+  Nick sells Saturday as the live moment, and a teaser built from the transcript spoils it. The
+  hook is the airing itself, never a quote from it. Friday still posts its clip at 9:00 AM as
+  usual — the announcement is an extra post, not a replacement, which is why it sits at 4:00 PM.
+  Drafts live in `content/announcements/ep{NN}-announcement.md`; rules in that folder's README.
 - Next Saturday a new episode number takes over.
 
 **SUPERSEDED 2026-09-11 for the CLIP slot: clips now rotate across episodes, not one episode
@@ -294,9 +475,29 @@ clips one per day after it. Scheduling IS the deliverable; waiting for approval 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
 `trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
 (9:00 AM ET daily). It branches on the ET day of week: Saturday → episode post, Sunday
-through Friday → the next unposted clip. Consolidated 2026-08-02 from two separate routines
+through Friday → the next unposted clip, and (from 2026-09-10) Friday additionally drafts the
+next guest announcement and schedules it for 20:00 UTC the same day — one routine, one cron, no
+second trigger. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
 Don't split it back apart; add day-branches to this one instead.
+
+**The trigger ID above is DEAD. The live one is `trig_01R5iPGmt45aWsNkwNoX5zDc`** (recreated
+2026-09-10, same name, same `0 13 * * *` cron, fresh session per fire, first run 2026-09-11).
+`list_triggers` showed the old ID gone from the account entirely and no daily entry in its
+place, so nothing had been posting episodes or clips automatically for some unknown stretch.
+The rewritten prompt carries all four branches: Saturday episode post, Sun–Fri clip, the Friday
+announcement, and the no-weekday-Google-Business rule.
+
+Two things to know before touching it again:
+- `list_triggers` does NOT return a routine's prompt. Editing means rewriting the whole prompt
+  from this file; there is nothing to read back and patch. Keep this file current, because it
+  IS the backup of that prompt.
+- **`create_trigger` cannot attach connectors on this org** (the API rejects the `connectors`
+  parameter outright), so a routine created from here fires with NO `mcp__*` tools and cannot
+  reach Post Bridge. **Post Bridge has to be attached to the routine by hand in the claude.ai
+  Routines UI.** Until that is done the routine wakes up, reads the repo, and can post nothing.
+  Check this first if a firing reports "no such tool" — see the Connectors section below, which
+  covers the separate per-chat toggle problem.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
 YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
@@ -583,6 +784,31 @@ firstrehabnpb@gmail.com CC nick@firstrehabnpb.com, subject "New Job Application:
 JobPosting schema per role (validThrough = posted + 60d — bump posted dates to refresh).
 
 ## Blog agent
+
+**NEW POSTS ARE FROZEN as of 2026-09-09 (Nick approved).** Do not write, draft or ship a new
+blog post — `/blog` and `/episode-blog` included — until the freeze is lifted. Reason, from the
+2026-09-09 analysis: the site carries ~12,400 monthly search impressions at average position
+20.1 and converts them at 0.94%. Impressions grew 32% while clicks grew 1%, because every new
+page lands on page two or three and adds impressions nobody clicks, which drags site-wide CTR
+down. Thirteen posts have produced zero leads between them. Publishing more of them makes the
+CTR number worse, not better.
+
+What replaces it: work the queries already sitting at position 8-15 — the ones one push from
+page one — by deepening the pages that own them. That is the move that worked. The two location
+pages given real content in PR #66 both moved up (West Palm Beach 23.4 -> 20.3, Juno Beach
+8.6 -> 7.1) in the same window. Depth moves positions; breadth does not.
+
+The freeze covers NEW posts only. Still allowed, and still wanted:
+- Editing, expanding or re-targeting an EXISTING post or page.
+- `EPISODE_POSTS`, `RELATED_POSTS`, `COND_BLOG` / `SVC_BLOG` internal-link work.
+- The Google Business Profile posts `/episode-blog` produces — those are not blog posts and
+  are not frozen. An episode week still needs its GBP set.
+- Anything Nick asks for directly. He can lift the freeze at any time; when he does, delete
+  this block rather than leaving a stale rule in place.
+
+Note that a frozen backlog is not a lost one: the Wellness and OT pillar holes recorded below
+are real and still worth filling once ranking work has caught up.
+
 Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
 `/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into
 TWO posts plus a Google Business set, because an episode is worth both:

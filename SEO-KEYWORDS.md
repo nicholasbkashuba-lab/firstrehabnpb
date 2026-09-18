@@ -9,6 +9,13 @@ observations recorded in CLAUDE.md.
 No search-volume numbers appear here on purpose. We do not have a keyword tool wired in, and an
 invented volume is worse than no number.
 
+## FREEZE: no new posts as of 2026-09-09
+
+New blog posts are frozen (Nick approved). Do not pick a target from this file for a NEW post.
+The keyword map stays live for re-targeting EXISTING pages, which is the work that replaces
+posting. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom is
+still accurate and still worth reading before touching any page's target.
+
 ## Two rules that came from real GSC data
 
 1. **Use "treatment", not "relief", in title tags.** The 2026-08-08 export showed condition pages
@@ -211,6 +218,26 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `headaches-that-start-in-the-neck` | Physical Therapy | headaches that start in the neck |
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
 
+## Hand therapy push, 2026-09-09
+
+Acted on the 2026-09-09 Search Console pull. `/services/hand-therapy.html` sat at position 25.3
+with "hand therapist" (95 impr) at 28.7 and "hand therapy" at 73.7 — real demand, ranking
+nowhere, and unlike the city-qualified location terms these carry no map pack in the way.
+
+Changed: the service page `seo_title` now leads with "Certified Hand Therapist" rather than
+"Hand Therapy", because the noun people actually search is the practitioner; the `seo_desc`
+names the specific conditions; the page gained a condition-by-condition section (702 -> 1,200
+words) and `/treatments/hand-wrist.html` was deepened (422 -> 546).
+
+Judge it on position for "hand therapist" and "hand therapist near me" (the latter was already
+at 11.1, the closest thing to a winnable term the pull showed). Give it 4-8 weeks. Do not read
+anything into clicks alone at this volume.
+
+Honest expectation: bare "hand therapy" at position 73.7 is a national informational term owned
+by professional bodies and hospital systems. It is not a realistic target for one clinic and
+should not be treated as one. The winnable set is the practitioner and near-me variants, plus
+the specific conditions.
+
 **Ep 11 note (2026-08-22):** the Paul Joyce recap is a Pain 2 Power post, not a Wellness pillar post,
 so the Wellness hole below is still open. The transcript does hold a real Wellness pillar angle that
 nothing on the site covers yet: keeping muscle and strength while losing weight on a GLP-1, built on
@@ -226,3 +253,25 @@ Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach.
 
 `/exercises.html` is not a blog post but it targets long-tail exercise searches across all four
 pillars, so check it before writing an exercise-led post that would compete with it.
+
+## Homepage title/meta CTR test (started 2026-09-03)
+
+The homepage carries more impressions than every other page combined but converts them poorly.
+Rewrote the title and description to add differentiators (since 1991, one-on-one, 4.9 stars,
+Medicare) while keeping "Physical Therapy North Palm Beach" front-loaded. Judge it on CTR at
+roughly the same position, not on clicks alone.
+
+| window | impressions | clicks | CTR | avg position |
+|---|---|---|---|---|
+| baseline, 2026-06-03 to 2026-08-31 (90d) | 13,011 | 207 | 1.59% | 15.1 |
+| read 1: 28d ending ~2026-10-05 | | | | |
+| read 2: 28d ending ~2026-11-02 | | | | |
+
+Before: `Physical Therapy North Palm Beach | First Rehabilitation` /
+`Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in
+North Palm Beach, FL. Serving Palm Beach County since 1991.`
+After: `Physical Therapy North Palm Beach | First Rehab, Since 1991` /
+`Family-owned physical, occupational and certified hand therapy in North Palm Beach since 1991.
+One-on-one care, 4.9★ on Google, Medicare accepted. Book today.`
+If CTR has not moved after read 2, revert the title first (Google rewrites titles more than
+descriptions) and keep the description.

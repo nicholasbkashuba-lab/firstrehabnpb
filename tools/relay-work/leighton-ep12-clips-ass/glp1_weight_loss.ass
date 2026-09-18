@@ -1,0 +1,21 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1350
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Arial Black,58,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,0,0,3,12,0,2,60,60,170,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:05.03,Caption,,0,0,0,,One of these new GLP-1 inhibitors,
+Dialogue: 0,0:00:05.03,0:00:09.60,Caption,,0,0,0,,they, they help you lose weight, and they definitely work.
+Dialogue: 0,0:00:09.84,0:00:14.27,Caption,,0,0,0,,And if it helps you lose those 20 pounds, two things are gonna happen.
+Dialogue: 0,0:00:14.28,0:00:19.49,Caption,,0,0,0,,One, you're gonna get the benefit of not carrying around all that extra weight, and
+Dialogue: 0,0:00:19.49,0:00:21.98,Caption,,0,0,0,,your hip is gonna feel slightly better.
+Dialogue: 0,0:00:22.16,0:00:24.50,Caption,,0,0,0,,Works great for knees as well. Sure.
+Dialogue: 0,0:00:24.53,0:00:28.42,Caption,,0,0,0,,And then you are gonna lose weight, and you're gonna be optimized for
+Dialogue: 0,0:00:28.42,0:00:33.11,Caption,,0,0,0,,surgery, and potentially, this big belly is gonna be smaller, and you're gonna
+Dialogue: 0,0:00:33.11,0:00:34.92,Caption,,0,0,0,,be able to have that anterior approach.

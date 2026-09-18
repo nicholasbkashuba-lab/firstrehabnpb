@@ -89,10 +89,19 @@
     });
   }
 
-  // Scroll reveals
+  // Scroll reveals. threshold MUST stay 0: a ratio threshold is unsatisfiable
+  // for any element taller than viewport/threshold, which silently leaves it at
+  // opacity 0 forever. The podcast page's episode-list wrapper grew to 8151px
+  // and could only ever reach ratio 0.11 against the old 0.12 threshold, so the
+  // entire episode list rendered blank in production. The negative bottom
+  // rootMargin keeps the "reveals just after it enters view" feel instead.
   const io = new IntersectionObserver(
-    (entries) => entries.forEach((en) => en.isIntersecting && en.target.classList.add('in')),
-    { threshold: 0.12 }
+    (entries) => entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+    }),
+    { threshold: 0, rootMargin: '0px 0px -8% 0px' }
   );
   document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
@@ -404,7 +413,7 @@
     if (el.closest('.team-profile')) return 'team-profile';
     if (el.closest('.side-card')) return 'side-card';
     if (el.closest('.cta-band')) return 'cta-band';
-    if (el.closest('.intake')) return 'intake';
+    if (el.closest('.fri-root')) return 'intake';
     return 'in-page';
   }
   document.addEventListener('click', function (e) {
