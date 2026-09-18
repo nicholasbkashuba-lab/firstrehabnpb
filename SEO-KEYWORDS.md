@@ -289,3 +289,66 @@ After: `Physical Therapy North Palm Beach | First Rehab, Since 1991` /
 One-on-one care, 4.9★ on Google, Medicare accepted. Book today.`
 If CTR has not moved after read 2, revert the title first (Google rewrites titles more than
 descriptions) and keep the description.
+
+## Competitor push: occupational + hand therapy in West Palm Beach, 2026-09-18
+
+Acted on the 90-day Search Console pull to 2026-09-15, prompted by the owner flagging
+FIRST Rehab of West Palm Beach (thefirstrehab.com) as the competitor to beat.
+
+**Who they are.** Three Palm Beach County clinics (West Palm Beach at 1920 Palm Beach Lakes
+Blvd, Lake Worth/Atlantis at 5055 S Congress, and Palm Beach Gardens), 155 Google reviews at
+4.9, "over twenty years". Services are outpatient physical therapy, workers' compensation
+(a provider for all major networks), sports and auto injury, pain management, MedX, and home
+health care. Their public team page lists physical therapists and physical therapist
+assistants.
+
+**The asymmetry.** They offer no occupational therapy, no hand therapy, and have no Certified
+Hand Therapist. A CHT is roughly three years of upper-extremity practice plus a national
+exam, so that gap cannot be closed quickly even deliberately. Their name also collides with
+ours, which is why our branded query set carries their cities.
+
+**Where NOT to fight.** "physical therapy west palm beach" and its variants. They hold a
+physical West Palm Beach address and 155 reviews; proximity and review count decide the map
+pack and we have neither. Our West Palm Beach page drew 1,810 impressions at position 19.6
+and converted 0.11% chasing exactly that.
+
+**Where the demand actually is.** 751 impressions and ZERO clicks across 35 occupational
+therapy queries, nearly all of them West Palm Beach:
+
+| query | impr | pos |
+|---|---|---|
+| physical and occupational therapy west palm beach | 150 | 32.9 |
+| physical therapy and occupational therapy west palm | 147 | 33.7 |
+| occupational therapy at home west palm beach | 127 | 29.0 |
+| occupational therapy treatment west palm beach | 108 | 33.5 |
+| occupational therapist 33401 | 72 | 35.4 |
+| occupational therapist west palm beach | 52 | 31.9 |
+| hand pain treatment west palm beach | 224 | 18.2 |
+
+**Changed.** `/services/occupational-therapy.html` got the SVC_DEEP treatment already applied
+to hand therapy (834 -> 1,305 words). `/locations/west-palm-beach.html` was promoted to
+`deep: True`, its title retargeted from "Physical Therapy for West Palm Beach" to
+"Occupational & Hand Therapy West Palm Beach", `hand-wrist` added to its conditions, and two
+city-specific sections added (794 -> 1,200 words). Palm Beach Gardens picked up a block for
+orthopedic rehabilitation, manual therapy, physiotherapy-as-a-synonym and ergonomic
+assessment (939 -> 1,107 words).
+
+**Expect impressions on the West Palm Beach page to FALL.** The physical-therapy impressions
+it loses were converting at 0.11%. Judge this change on clicks and on the occupational
+therapy query positions, not on impression count.
+
+**Palm Beach Gardens is the opposite case.** It borders North Palm Beach, so proximity is
+winnable there and physical therapy IS the demand: 1,626 impressions against 5 clicks across
+70 queries, led by "physical therapy palm beach gardens" (376 impr, pos 24.0). Newly targeted
+long tail: "ergonomic evaluation in palm beach gardens" (22 impr, pos 62.9 — occupational
+therapy work we already do and were invisible for), "physiotherapy in palm beach gardens"
+(25 impr, 23.4), "orthopedic rehabilitation palm beach gardens fl" (51 impr, 36.0), "manual
+therapy palm beach gardens" (23 impr, 21.4).
+
+**Do not target: "physical therapy at home palm beach gardens"** and its variants, 238
+impressions combined. That is home health care. We do not provide it and the competitor does.
+Ranking for it would earn a call we have to turn away.
+
+**Still open.** Occupational therapy has one blog post (`post-stroke-occupational-therapy-
+north-palm-beach`). The West Palm Beach OT cluster above has no post behind it and is the
+highest marginal return on the site.
