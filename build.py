@@ -2110,6 +2110,7 @@ def build_exercises():
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
+    "Episode 15": "pain-2-power-ep15-mann",                # Susan Mann
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
@@ -2670,6 +2671,81 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "pain-2-power-ep15-mann": {
+        "title": "They Were Gifted and Failing: Susan Mann on Processing Disorders",
+        "date": "September 2026",
+        "iso": "2026-09-19",
+        "tag": "Pain 2 Power",
+        "teaser": "Susan Mann of Bright Minds Processing joins Dave and Mike on the auditory and visual processing disorders she says affect one in four kids, and the 16 week fix.",
+        "body": """
+<p>Every teacher told Susan Mann her two children were gifted. Both were also testing near the bottom of the scale and could not get through a page of schoolwork. &ldquo;They can&rsquo;t be gifted if they can&rsquo;t do their schoolwork,&rdquo; she said. So she had them tested.</p>
+<p>What she found ended with both kids on full academic scholarships and with a nonprofit she now runs out of Palm Beach County. She joined Dave and Mike on this week&rsquo;s Pain 2 Power to explain it.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Two disorders your evaluation form has no box for</h2>
+<p>The turn came from her husband. He heard a radio segment describing someone who cannot follow instructions at work, who loses the second or third word of a sentence and then stands there with no idea what to do. He came home and said he thought he had auditory processing disorder. She listened and thought about her kids.</p>
+<p>It runs in families, and it travels with a second condition she had never heard of. Visual processing disorder is the one where a child reads a sentence and skips it, twists the letters, or reaches the bottom of a page with no idea what they just read. Both of hers had both, badly. An audiologist in Hollywood, Dr. Leah Light, put it plainly: your kids cannot hear the teacher talk.</p>
+<p>That reframed years of trouble. At swimming her children were constantly corrected for not doing what they were told. &ldquo;But they didn&rsquo;t know what they were told,&rdquo; she said.</p>
+<p>Her bigger frustration is administrative. A psychological educational evaluation in Palm Beach County offers two boxes, ADHD or dyslexia. &ldquo;They are not allowed to diagnose VPD or APD, and the school does not recognize it,&rdquo; she said. Families who want an answer pay for it themselves.</p>
+<h2>The eyes and ears are only the messengers</h2>
+<p>Mike reached for face blindness as a comparison, the processing fault where someone looks straight at a face and cannot recognize it. The lesson Dr. Light gave Susan Mann was that even though we call these vision and hearing problems, the organ involved is the brain. The eyes and ears are only messengers.</p>
+<p>Her description of the fix is that the wiring is off, and the therapy trains the eyes to work together at the same time, then does the same for the ears. Both sit in the same region, so work on one carries into the other. One exercise is a golf tee turned upside down and a small stick with a ball on the end. A child with a convergence problem cannot judge the distance, knocks the tee over, and starts again.</p>
+<h2>Sixteen weeks, once a week, five evenings of homework</h2>
+<p>The program runs sixteen weeks. You go in once a week, you leave with exercises to practice five evenings, and you come back for the next set until you graduate. Susan Mann quoted a $30 test to start and roughly $2,400 for the whole course. Her own two were retested afterward, scored off the charts, and took full academic scholarships to Oxbridge Academy. Her daughter could not hear the words in a song before that. &ldquo;My daughter has never put down a book since,&rdquo; she said.</p>
+<h2>Why the next program is a basketball team</h2>
+<p>Girls will sit down and do the therapy. Boys, in her experience, fight it. So the program she is building in Palm Beach Gardens is a travel basketball team with a condition attached: you play if you keep turning up for the therapy, and once you graduate you keep your place. Mike called it Coach Carter, and she agreed before he finished.</p>
+<p>The coach is Dwayne McClain, a Villanova name and a retired professional who played for years in Australia, including with the Sydney Kings. That pulled Dave sideways, because Dave trained the Australian swim team in Perth, where McClain trained too. Australia is where the testing comes from as well, and Australian schools screen every child.</p>
+<h2>The number Mike went and looked up</h2>
+<p>Susan Mann puts the rate at one in four children, at any age. Mike brought his own research: a child who does not graduate or earn a GED is 380% more likely to end up in the juvenile justice system. Those figures belong to the guest and to Mike, not to us. What was familiar to everyone in the studio was the shape of it. A child who cannot follow the instruction gets labeled a bad listener, believes it, and stops trying.</p>
+<h2>Where this brushes up against our work</h2>
+<p>One thread runs straight into our building, and it arrived through her husband. After his traumatic brain injury, Susan Mann found in her research that the same processing therapy is used with brain injury and stroke patients.</p>
+<p>A line worth drawing clearly. Bright Minds Processing is her nonprofit at brightmindsprocessing.org, and we do not test for or treat auditory and visual processing disorders. We treat the adult side of that sentence. <a href="../services/occupational-therapy.html">Occupational therapy</a> after a stroke or brain injury covers upper extremity function, attention and memory strategies, and the daily business of dressing, cooking and getting back to work, which we wrote up separately in <a href="post-stroke-occupational-therapy-north-palm-beach.html">what post stroke occupational therapy actually involves</a>.</p>
+<p>Mike caught the other parallel on air. Whatever the therapy, you have to do the work. &ldquo;It is exactly true,&rdquo; Susan Mann said.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch past episodes in our <a href="../videos.html">video library</a>, and see what people ask us most in the <a href="../faq.html#occupational-therapy">occupational therapy FAQ</a>. If someone in your family is recovering from a stroke, a brain injury, or surgery and daily tasks have become the hard part, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "post-stroke-occupational-therapy-north-palm-beach": {
+        "title": "Post Stroke Occupational Therapy in North Palm Beach: What Recovery Involves",
+        "date": "September 2026",
+        "iso": "2026-09-19",
+        "tag": "Occupational Therapy",
+        "teaser": "What occupational therapy after a stroke or brain injury actually covers, from dressing and cooking to cognitive rehab and getting back to work in Palm Beach County.",
+        "body": """
+<p>Post stroke occupational therapy in North Palm Beach is the part of recovery that deals with your actual day. The morning you try to button a shirt with one hand that will not cooperate. The afternoon you stand at a stove and lose track of what you were doing. A stroke or a brain injury damages the wiring that carries messages around, and the arm, the hand and the attention span all pay for it downstream.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<p>This came up on our podcast in an unexpected way. Susan Mann of Bright Minds Processing joined Dave and Mike to talk about children with auditory and visual processing disorders, a condition we do not treat. But her husband had a traumatic brain injury, and in researching her children she found the same processing therapy being used with brain injury and stroke patients. The framing she brought back is worth borrowing.</p>
+<h2>The eyes and the ears are only messengers</h2>
+<p>The audiologist who treated Susan Mann&rsquo;s children, Dr. Leah Light, taught her that even though we call these vision and hearing problems, the organ involved is the brain. &ldquo;They&rsquo;re only the messengers,&rdquo; Susan Mann said of the eyes and ears.</p>
+<p>That is the right way to think about the arm after a stroke too. The muscle is usually intact. The instruction is not arriving, or it arrives scrambled, so the hand closes when you wanted it to open. Which is why post stroke therapy is built around repeated, task specific practice rather than around strengthening alone. The route is the thing being rebuilt.</p>
+<h2>What post stroke occupational therapy actually covers</h2>
+<p>Our occupational therapy program breaks into six areas, and a stroke usually pulls in several at once.</p>
+<ul>
+<li>Activities of daily living: dressing, bathing, cooking, and the ordinary skills independence rests on</li>
+<li>Post stroke recovery: task specific work on upper extremity function, coordination and daily routines</li>
+<li>Cognitive rehabilitation: memory, attention and problem solving strategies</li>
+<li>Hand and upper extremity function: fine motor and functional use training</li>
+<li>Ergonomics and adaptive equipment: workstation assessment, plus the tools that make a task safe again</li>
+<li>Return to work programs: graded conditioning and task simulation</li>
+</ul>
+<p>An evaluation sorts out which of those matter for you, in what order. Somebody who cooks every day and somebody who needs to get back behind a desk get different plans out of the same diagnosis.</p>
+<h2>Cognitive rehabilitation after injury, and what it covers</h2>
+<p>This is the piece families are least prepared for. The arm is visible. The attention span is not, so a patient can look recovered and still be unable to follow a three step instruction, track a conversation, or keep hold of a task through an interruption.</p>
+<p>Cognitive rehabilitation works on memory, attention and problem solving, and it is practical rather than abstract. The target is the medication schedule, the grocery list, the route home, the sequence of getting out of the house in the morning. Susan Mann&rsquo;s description of what her children experienced maps onto it closely. She asks kids what they hear when the teacher talks, and they tell her nothing, they just stare at a blank space on the wall. Adults after a stroke describe that same fade, and they are usually embarrassed by it.</p>
+<h2>Getting the hand and arm back to work</h2>
+<p>Upper extremity recovery is where our occupational therapy and our certified hand therapy program overlap. Laura Drumm, CHT, leads the hand therapy side, and the two run in coordination when a stroke has left the hand weak, clumsy or partly closed. Fine motor work, functional use training, and splinting when the hand needs a position held. The two plans run as one.</p>
+<p>That coordination also matters when the stroke is not the only thing in the chart. Plenty of patients arrive with a shoulder or wrist problem alongside the neurological one, and the plan has to account for both. Our <a href="../treatments/hand-wrist.html">hand and wrist</a> and <a href="../treatments/post-surgical.html">post surgical</a> pages cover how that side of the work runs.</p>
+<h2>A return to work program after injury, for people driving in from Palm Beach Gardens</h2>
+<p>A return to work program is graded. A date on a calendar is not a plan. Task simulation and conditioning that build toward the real demands of the job, rather than a blanket clearance handed out at a fixed number of weeks. For desk work that usually means a workstation assessment and adaptive equipment. For anything physical it means loading the actual movements.</p>
+<p>We see people from across the county for this. The clinic is at 733 US Highway 1, Suite 2A in North Palm Beach, which is a short drive from <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens</a>, Juno Beach and Jupiter. Hours are Monday through Friday 8:00 AM to 5:30 PM, with Saturday mornings 8:00 AM to 12:30 PM, which is the slot working family members tend to want when they are the ones bringing someone in.</p>
+<h2>The homework is the treatment</h2>
+<p>Mike McGann made the point on air that every therapy has the same catch. You have to do the exercises. &ldquo;You&rsquo;re not gonna get a result if you don&rsquo;t,&rdquo; he said, and Susan Mann agreed without hesitation: &ldquo;It is exactly true.&rdquo; Her own program runs sixteen weeks, once a week in the chair with exercises to practice five evenings at home.</p>
+<p>Post stroke occupational therapy works the same way. The hour in the clinic sets the task and corrects it. The repetitions between visits are what move the needle, and that is the honest reason two people with similar strokes end up in very different places a year later. It is also the part a family can help with, once somebody has shown them what the practice actually looks like.</p>
+<h2>Starting, and what it costs</h2>
+<p>An evaluation is one on one, and treatment usually begins the same day. Medicare requires a physician to certify your plan of care, and we take Medicare and Medicare Advantage along with BCBS, Aetna, Humana, Tricare, workers&rsquo; compensation and self pay. The front desk will tell you exactly what your plan needs before you come in. More of those answers sit in our <a href="../faq.html#insurance-cost">insurance and cost FAQ</a> and the <a href="../faq.html#occupational-therapy">occupational therapy FAQ</a>.</p>
+<p>You can read more about the program on our <a href="../services/occupational-therapy.html">occupational therapy page</a>, and hear the conversation that prompted this article on <a href="../podcast.html">the Pain 2 Power podcast page</a>. If someone in your family has had a stroke or a brain injury and the hard part has become the daily routine rather than the diagnosis, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "pain-2-power-ep11-joyce": {
         "title": "The Muscle Comes Off Too: Paul Joyce on GLP-1s and Peptides",
         "date": "August 2026",
@@ -3036,9 +3112,11 @@ BLOG_POSTS = {
 # target at least once, so adding a post means adding it to somebody's list too.
 # Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
 RELATED_POSTS = {
-    "pain-2-power-ep11-joyce": ["pain-2-power-ep10-mcvicker", "reverse-shoulder-replacement-explained", "what-to-expect-first-pt-visit"],
+    "pain-2-power-ep15-mann": ["post-stroke-occupational-therapy-north-palm-beach", "physical-therapy-vs-occupational-therapy", "pain-2-power-ep11-joyce"],
+    "post-stroke-occupational-therapy-north-palm-beach": ["physical-therapy-vs-occupational-therapy", "pain-2-power-ep15-mann", "why-hand-therapy-is-different"],
+    "pain-2-power-ep11-joyce": ["pain-2-power-ep15-mann", "pain-2-power-ep10-mcvicker", "reverse-shoulder-replacement-explained"],
     "partial-vs-total-knee-replacement": ["knee-arthritis-before-surgery", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
-    "physical-therapy-vs-occupational-therapy": ["why-hand-therapy-is-different", "what-to-expect-first-pt-visit", "five-morning-habits-back-pain"],
+    "physical-therapy-vs-occupational-therapy": ["post-stroke-occupational-therapy-north-palm-beach", "why-hand-therapy-is-different", "what-to-expect-first-pt-visit"],
     "pain-2-power-ep10-mcvicker": ["hip-impingement-back-pain-north-palm-beach", "five-morning-habits-back-pain", "pain-2-power-ep11-joyce"],
     "hip-impingement-back-pain-north-palm-beach": ["pain-2-power-ep10-mcvicker", "five-morning-habits-back-pain", "what-to-expect-first-pt-visit"],
     "reverse-shoulder-replacement-explained": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
@@ -3136,6 +3214,8 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "pain-2-power-ep15-mann": "Susan Mann: Processing Disorders in Kids",
+            "post-stroke-occupational-therapy-north-palm-beach": "Post Stroke Occupational Therapy North Palm Beach",
             "pain-2-power-ep11-joyce": "Paul Joyce: GLP-1s, Peptides and Muscle Loss",
             "partial-vs-total-knee-replacement": "Partial vs Total Knee Replacement",
             "physical-therapy-vs-occupational-therapy": "Physical Therapy vs Occupational Therapy",

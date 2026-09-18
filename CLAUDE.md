@@ -428,34 +428,46 @@ run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never co
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
 ## Episode release cycle — STANDING AUTHORIZATION
-One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask each time.
-- **Saturday 9:00 AM ET** — episode post (LinkedIn, Facebook, Google Business) + the full
-  episode video on YouTube. The show "airs" 8:30 AM Sat on 100.3 Legends Radio; episodes
-  are prerecorded but Saturday is the public moment.
-- **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
-  YouTube Shorts, TikTok).
-- **Friday 4:00 PM ET — next guest announcement** (Nick set this 2026-09-10). The day before
-  the show, announce who is on tomorrow: name, credential, and the airing details. Instagram,
-  Facebook, LinkedIn business and X, with the podcast cover art as the image. NOT Google
-  Business — Friday 9:00 AM already carries that day's pillar GBP post and Saturday carries the
-  episode post; a third would spam the profile.
-  **An announcement must not contain anything said inside the episode.** It has not aired yet,
-  Nick sells Saturday as the live moment, and a teaser built from the transcript spoils it. The
-  hook is the airing itself, never a quote from it. Friday still posts its clip at 9:00 AM as
-  usual — the announcement is an extra post, not a replacement, which is why it sits at 4:00 PM.
+Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each time.
+- **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. A studio photo, the
+  guest's background, and "tomorrow 8:30 AM on 100.3 Legends Radio". Instagram, Facebook,
+  LinkedIn business, X, plus its own text-and-one-image Google Business call.
+  The slot has moved twice: PR #78 set it at 4:00 PM ET, Episode 14's actually ran at
+  8:00 AM ET at Nick's request, and 5:00 PM is the current standing time. Any of them is
+  fine on the day; what matters is that it lands on FRIDAY.
+  **Default: an announcement carries nothing said inside the episode** (PR #78). It has not
+  aired, Nick sells Saturday as the live moment, and a teaser assembled from the transcript
+  gives away the show. The hook is the airing itself. NICK OVERRODE THIS for Episode 15 on
+  2026-09-18 — "Listen to the podcast to write about her background" — so that announcement
+  does carry the guest's story. Treat the no-spoiler rule as the default and his instruction
+  for a given week as the exception, rather than quietly picking one.
   Drafts live in `content/announcements/ep{NN}-announcement.md`; rules in that folder's README.
-- Next Saturday a new episode number takes over.
+- **Saturday 9:00 AM ET** — the episode-is-live post carrying the Spotify link (LinkedIn,
+  Facebook, Google Business) + the full episode video on YouTube. The show "airs" 8:30 AM
+  Sat on 100.3 Legends Radio; episodes are prerecorded but Saturday is the public moment.
+- **Every day, 9:00 AM ET** — ONE clip from the mixed queue (Instagram, Facebook, YouTube
+  Shorts, TikTok).
 
-**SUPERSEDED 2026-09-11 for the CLIP slot: clips now rotate across episodes, not one episode
-per week.** Nick: "since we have so many clips, including clips from other shows itd be cool
-to stagger and randomize the clips so its not just kerry 7 days in a row." The Saturday
-EPISODE post is unchanged and still belongs to that week's episode. The daily clip slot draws
-from the whole unposted library across episodes, interleaved so no guest runs many days
-straight. Build the calendar by spreading each episode's clips as evenly as its count allows
-and only allowing back to back days from one episode when the arithmetic forces it (Episode 13
-had 23 clips against 40 days, so 5 doubles were the mathematical minimum). The first mixed run
-is scheduled Sept 12 through Oct 21 2026: Episode 13 (Captain Kerry) 23, Susan Mann 8,
-Episode 14 (Dr. Arlosoroff) 6, Paul Joyce 3.
+**"One episode owns one week" is DEAD as of 2026-09-18 — Nick killed it, and the reason
+matters.** Under that rule a single guest ran six days straight while a second lane ran
+somebody else, so the feed read as a broadcast and five days carried two posts each.
+Clips now come from ONE pool spanning every episode, with a hard rule that the same guest
+never appears on consecutive days. `tools/clip-queue.py` owns that arithmetic:
+
+    python3 tools/clip-queue.py import --posts <dump.json> --write   # after staging
+    python3 tools/clip-queue.py plan  --days 30 --boost "<new guest>"
+    python3 tools/clip-queue.py audit --posts <dump.json>            # find what is wrong
+
+The order is seeded, so the same inputs give the same calendar and a human can review it.
+A new episode's guest gets `--boost` so a fresh episode still gets a push rather than
+queueing behind whoever has the most clips banked. Post Bridge is only reachable through
+MCP tools, never a plain HTTP key, so the script emits a plan and the session applies it
+with update_post, then records it with `clip-queue.py mark`.
+
+**`update_post` SILENTLY IGNORES `is_draft` on a post that is already scheduled.** It
+returns 200 with `is_draft` still false. Parking a scheduled post as a draft does not
+work, and if you edited the caption in the same call you have now left a live post
+carrying a note meant for internal eyes. `delete_post` is the only way to pull one.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
 text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived
@@ -473,31 +485,43 @@ they go live. Target the next Saturday 9:00 AM ET for the episode + full video, 
 clips one per day after it. Scheduling IS the deliverable; waiting for approval is not.
 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
-`trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
-(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode post, Sunday
-through Friday → the next unposted clip, and (from 2026-09-10) Friday additionally drafts the
-next guest announcement and schedules it for 20:00 UTC the same day — one routine, one cron, no
-second trigger. Consolidated 2026-08-02 from two separate routines
+`trig_01R5iPGmt45aWsNkwNoX5zDc` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
+(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode-is-live post,
+every other day → the next clip off the mixed queue, and it checks whether an announcement
+is owed for tomorrow. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
 Don't split it back apart; add day-branches to this one instead.
 
-**The trigger ID above is DEAD. The live one is `trig_01R5iPGmt45aWsNkwNoX5zDc`** (recreated
-2026-09-10, same name, same `0 13 * * *` cron, fresh session per fire, first run 2026-09-11).
-`list_triggers` showed the old ID gone from the account entirely and no daily entry in its
-place, so nothing had been posting episodes or clips automatically for some unknown stretch.
-The rewritten prompt carries all four branches: Saturday episode post, Sun–Fri clip, the Friday
-announcement, and the no-weekday-Google-Business rule.
+**The ID above was `trig_01L8gTCsSXAtwCkvG4LMZuSh` until 2026-09-18 and that one is DEAD** —
+`list_triggers` shows it gone from the account entirely. It was recreated as
+`trig_01R5iPGmt45aWsNkwNoX5zDc` on 2026-09-10 (same name, same cron, fresh session per fire);
+this file went on naming the dead one for eight days. Re-confirmed live 2026-09-18, last run
+SUCCEEDED 13:03 UTC. If a session reports the routine missing, check `list_triggers` before
+concluding anything — the ID here is a record, not a guarantee.
 
-Two things to know before touching it again:
-- `list_triggers` does NOT return a routine's prompt. Editing means rewriting the whole prompt
-  from this file; there is nothing to read back and patch. Keep this file current, because it
-  IS the backup of that prompt.
-- **`create_trigger` cannot attach connectors on this org** (the API rejects the `connectors`
-  parameter outright), so a routine created from here fires with NO `mcp__*` tools and cannot
-  reach Post Bridge. **Post Bridge has to be attached to the routine by hand in the claude.ai
-  Routines UI.** Until that is done the routine wakes up, reads the repo, and can post nothing.
-  Check this first if a firing reports "no such tool" — see the Connectors section below, which
-  covers the separate per-chat toggle problem.
+Two things to know before touching it:
+- **`list_triggers` does NOT return a routine's prompt.** Editing means rewriting the whole
+  prompt from scratch; there is nothing to read back and patch. Keep this file current,
+  because it IS the backup of that prompt.
+- **`create_trigger` cannot attach connectors on this org** — the API rejects the
+  `connectors` parameter outright, so a routine created from here fires with NO `mcp__*`
+  tools and cannot reach Post Bridge at all. **Post Bridge has to be attached by hand in
+  the claude.ai Routines UI.** Check this first if a firing reports "no such tool".
+
+**Add the GUEST as an Instagram collaborator on every clip from their episode** (Nick,
+2026-09-11). `platform_configurations.instagram.collaborators: ["handle"]` puts the post on
+the guest's own profile and shares its likes and comments, which is the entire point.
+Instagram only; no equivalent on Facebook, TikTok or YouTube. Max 3 handles, and **a private
+or misspelled handle fails the WHOLE post**, so confirm it with Nick rather than guessing.
+Known: Captain Kerry is `capt_kerry` (set by an earlier session, not independently verified).
+
+**Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
+uploaded COPY, not a reference to the branch, so re-cutting a clip and pushing it does not
+change what a scheduled post will publish. On 2026-09-11 four of five scheduled Episode 13
+posts still pointed at pre-fix uploads showing the wrong speaker, and would have published
+them. Compare `list_media` size_bytes against the file on the media branch; a mismatch means
+the post is stale. Fix with `upload_media` then `update_post`, and pass
+`platform_configurations` back IN FULL or the collaborators and YouTube title are dropped.
 
 Post Bridge account IDs change on every reconnect — always `list_social_accounts` first.
 YouTube was 81323, died with `invalid_grant`, came back as 81358; Google Business was 81363,
@@ -612,6 +636,37 @@ host embeds the Vercel TEAM SLUG, renamed to `thedesignofman` on 2026-08-03. The
 routine prompt or every clip over 20MB fails to upload. raw.githubusercontent and GitHub
 release assets both serve `application/octet-stream` and are rejected by Post Bridge.
 
+**SHOW NICK THE CLIPS BEFORE ANYTHING IS SCHEDULED** (his ask, 2026-09-18). He wants to
+view them in the Claude conversation, not on an external link and not in Dropbox. Send
+each clip into the chat as a playable file with its draft caption and its assigned slot
+underneath, in one pass, and wait. Until now clips were cut, captioned and scheduled
+without him ever seeing one before it published.
+
+## The whole episode, end to end
+What a new episode actually costs now, in order:
+
+1. `tools/stage-episode.py <NN> <clips-dir> --transcripts <dir> --full-transcript <path>`
+   -> branch `media/ep{NN}-clips` (the name is load bearing; the routine builds URLs from it)
+2. Reorder `playlist.txt` by hand. The strongest clip is rarely the one rendered first.
+3. Cut the multicam: `podcast-multicam` skill, run order lock_rate -> build_warp2 ->
+   sync_preview (checkpoint, never skip) -> render_final_v3 --dry-run -> render, with
+   `tools/podcast-attrib.py` supplying `--cuts`. **Re-tune the attribution per episode**
+   and audit with a contact sheet. This is the one step that stays a judgment call.
+4. `tools/dropbox-put.py put <master> "/Pain2Power/<Guest>/Final/..."`
+5. Write clip captions from `transcript-full.md`.
+6. **Send every clip into the chat for Nick to review.** Wait.
+7. Create the approved clips as posts, then `clip-queue.py import --write`,
+   `clip-queue.py plan --boost "<guest>"`, apply with update_post, `clip-queue.py mark`.
+8. Friday announcement post, Saturday episode-is-live post once the Spotify URL exists.
+9. `/episode-blog <NN>` for the GBP set (blog posts themselves are still frozen).
+
+Steps 2, 3, 5 and 6 need a human. Everything else is mechanical.
+
+NOTE: `stage-episode.py` does NOT feed `clip-queue.py` directly, and deliberately so. The
+queue keys off Post Bridge post ids, which do not exist until step 7, so there is nothing
+to import at staging time. Do not "fix" this by inventing clip ids at step 1; they would
+have to be reconciled against Post Bridge later anyway.
+
 ## Posting on demand — "post it" should be one step
 When Nick says post something, the only two things that ever block it are:
 
@@ -625,12 +680,12 @@ When Nick says post something, the only two things that ever block it are:
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
 
-**Prefer an attached file over a Dropbox link.** This sandbox is proxy blocked from Dropbox
-hosts: the Dropbox MCP tools work for browsing and metadata, but the bytes cannot be
-downloaded here. A file attached to the chat lands on disk immediately and skips a
-GitHub Actions relay that takes several minutes and has its own failure modes
-(`scl/fi` share links serve an HTML interstitial even with `dl=1`; runners have no ffmpeg
-preinstalled; the default GITHUB_TOKEN is read only).
+**A Dropbox link is fine; so is an attached file.** This paragraph used to say the sandbox
+was proxy blocked from Dropbox and that only a chat attachment would do. That is wrong and
+cost at least two sessions planning a GitHub Actions relay nobody needed. Dropbox bytes
+download here via the connector's `download_link` (2.35 GB of Episode 15 pulled directly,
+hashes verified 2026-09-17), and uploads go back up through `tools/dropbox-put.py`. A chat
+attachment is still the fastest path for one small file, nothing more.
 
 Standing preferences for a one off post, unless told otherwise:
 - Captions carry ZERO dashes outside the phone numbers. Bullets use •.
@@ -690,18 +745,97 @@ Standing preferences for a one off post, unless told otherwise:
 - Captions are burned AFTER a human reviews the ASR. Never burn unreviewed transcription
   into a deliverable; ASR mangles guest names badly.
 
-## Full episode to YouTube — publish from Descript, by hand
-Descript holds the finished multicam edit and has YouTube connected in the app. Publish the
-FINAL composition straight from Descript to YouTube, then set scheduling in YouTube Studio.
+## Full episode to YouTube — Nick uploads it himself
+**Nick uploads the full episode to YouTube himself.** Do not build a publish path for it,
+and do not route it through Post Bridge: Post Bridge times out fetching anything that
+large (a 2.9GB export failed at 60s) and rejects GitHub release assets, which serve
+`application/octet-stream`.
 
-Do NOT route the full episode through Post Bridge or a downloaded file:
-- Post Bridge times out fetching anything that large (2.9GB Descript export failed at 60s).
-- GitHub release assets serve `application/octet-stream` and Post Bridge rejects them.
-- A browser download of the 1.2GB master truncates easily, and YouTube then reports
-  "file unreadable". A cloud synced folder holding the file as an online only placeholder
-  produces the same error.
-The Descript share page (`share.descript.com/view/...`, access "unlisted") is also the right
-way to let a guest watch their episode: streams in any browser, no account, no download.
+The deliverable from here is the finished file, not a publish. **Put it in Dropbox at
+`/Pain2Power/<Guest>/Final/Pain to Power - <Guest> - multicam.mp4`** with
+`tools/dropbox-put.py` and tell Nick it is there; he takes it from there and sets
+scheduling in YouTube Studio. Do NOT hand him a PowerShell paste to reassemble chunks on
+his own PC — that was the old handoff and it is retired.
+
+This section used to say "publish from Descript, by hand" and was wrong — corrected
+2026-09-16 by Nick. **Descript is being cancelled** (see below); nothing in the episode
+pipeline may depend on it.
+
+## Descript is gone — what that means for the pipeline
+Nick cancelled the Descript subscription on 2026-09-16. Nothing about the edit depended
+on it, and this is the record of what did:
+
+- **The clips and the full multicam are cut by SCRIPT, not in Descript.** Episode 14's
+  finished video (`tmp/ep14-video`, 27:38.96, 105 shots) was rendered by the multicam
+  script from the raw cameras. That capability is ours and is unaffected.
+- **Masters and raw sources live in Dropbox and git, never in Descript.** Ep 15's source
+  is `/Pain2Power/Susan Mann/P2P-Susan mann 9-19 RAW.mp3`. Anything that was only in
+  Descript was a derivative of something we already hold.
+- **Speaker attribution was the only thing Descript was load bearing for, and it is now
+  SOLVED without it.** The multicam script picks the camera by microphone energy, which does
+  not work here: all three cameras sit in one small studio, every mic hears everyone, and the
+  script z-scores each camera by its own standard deviation. On Episode 14 that put the guest
+  on screen for 12.5% of his own interview; on Episode 15 it gave the guest 17% and dropped
+  her from the last five minutes entirely. Episode 14 solved it with `--cuts` fed by
+  Descript's diarisation of the board mix.
+  **No diarisation service is needed.** `tools/podcast-attrib.py` derives speaker turns from
+  PITCH on the board mix, which is how Episode 9 did it before Descript was ever involved
+  (see `transcript_v4.json` on `tmp/sabesan-out`: it carries `f0` and `voiced` alongside
+  `spk`). Full detail in "Cutting the full multicam" below. Do not go shopping for pyannote
+  or an ASR vendor; read that section first.
+
+## Cutting the full multicam — the pipeline EXISTS, do not rebuild it
+The `podcast-multicam` skill carries the whole thing: `lock_rate.py`,
+`build_warp2.py`, `sync_preview.py`, `sync_probe.py`, `render_final_v3.py`.
+Two sessions have now wasted time concluding "the pipeline was never committed"
+because only the RENDERED OUTPUT survives on the tmp branches. Load the skill first.
+
+Run order, in a folder holding the cameras and the audio master, nothing else
+(a stray video file gets adopted as a fourth camera): lock_rate -> build_warp2 ->
+**sync_preview (checkpoint, never skip)** -> render_final_v3 --dry-run -> render.
+Needs ffmpeg with zscale+tonemap, ffprobe, numpy. **This sandbox ships neither
+ffmpeg nor numpy** — `pip install numpy` and drop a johnvansickle static ffmpeg
+into /usr/local/bin.
+
+**Dropbox bytes ARE reachable from the sandbox** (verified 2026-09-17: all 2.35 GB
+of Episode 15 pulled directly via `download_link`, hashes verified). The note
+elsewhere in this file saying otherwise cost a session's worth of planning an
+Actions relay that was never needed. Verify with Dropbox's own content_hash, which
+is sha256 over concatenated sha256s of 4 MB blocks, NOT a plain sha256 of the file.
+
+### The stock speaker attribution is not shippable, and this is why
+`render_final_v3.py` picks the camera by z-scored mic energy. In this studio all
+three mics hear everyone and Dave shares a desk with the guest, so his mic hears
+the guest nearly as well as hers does. On Episode 15 that gave the GUEST 17% of
+her own interview, zero screen time in the final five minutes, and one 176-second
+static shot. Episode 14 hit the identical failure (guest on screen 12.5%).
+
+`tools/podcast-attrib.py` fixes it and is the thing to reuse:
+- pitch off the board mix separates a female guest from male hosts (f0 gate,
+  Schmitt trigger so a value near the threshold cannot flap, plus a short sustain
+  so a music bed cannot latch the gate)
+- a calibrated bias splits the two male hosts on camera-mic energy
+- reaction cuts break any shot over ~34s at the quietest nearby point
+- `render_final_v3.py` was patched to take `--cuts cuts_final.json`
+
+Episode 15 result: 118 shots, avg 14.3s, longest 36s, guest 44.1% / Dave 28.1% /
+Mike 27.8%, everyone present in every five-minute block. Tunables that worked:
+`THR=175 BIAS=0.15 SUSTAIN=0.3 ENT=0.62 EXT=0.40`. **Re-tune per episode**; a
+1.5s sustain crushed the guest to 15%, and the parameters depend on who is in
+the room and where they sit.
+
+**Verify without watching**: contact sheet, one frame per minute tiled, audited
+against `transcript-full.md`. Episode 15 scored ~22/28 frames on the right person,
+about 79%, against the skill's stated ~82% ceiling. Say the real number; do not
+claim perfection. Coverage per five-minute block matters more than the overall
+percentages.
+
+Finished masters go to DROPBOX first, via `tools/dropbox-put.py put <file>
+"/Pain2Power/<Guest>/Final/..."`, which verifies the upload against Dropbox's
+content_hash. That is the delivery. Chunking to a `tmp/` branch (`split -b 45m`, pushed
+in small batches or the git proxy resets it) is now only a BACKUP, and only worth doing
+while an episode is still in flight. Episode 15's chunks are on `tmp/ep15-video`.
+See docs/DROPBOX-SETUP.md for the one-time credential.
 
 ## Connectors — check this before assuming a tool is broken
 `ListConnectors` reports `connected` AND `enabledInChat`. A connector can be connected to the
@@ -847,6 +981,7 @@ Full-episode transcripts: `tools/stage-episode.py --full-transcript <path>` now 
 `transcript-full.md` (timestamped [mm:ss], NAME_FIXES applied) onto the load-bearing
 `media/ep{NN}-clips` branch. Before this, full transcripts landed on ad hoc branches like
 `tmp/sabesan-out` that nothing knew to look for, so drafts fell back to clip-level text.
-`/episode-blog` resolves a transcript in this order: owner-supplied path → Descript
-`export_transcript` → `transcript_v4.json` on a `tmp/*-out` branch → `transcript-full.md` →
-`transcripts.md` (clip-level, must be declared on the flag list).
+`/episode-blog` resolves a transcript in this order: owner-supplied path →
+`transcript_v4.json` on a `tmp/*-out` branch → `transcript-full.md` → `transcripts.md`
+(clip-level, must be declared on the flag list). The Descript `export_transcript` step that
+used to sit second in this chain was removed 2026-09-16 when the subscription was cancelled.
