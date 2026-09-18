@@ -428,13 +428,37 @@ run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never co
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
 ## Episode release cycle — STANDING AUTHORIZATION
-One episode owns one week. Nick approved this flow 2026-08-02; do not re-ask each time.
-- **Saturday 9:00 AM ET** — episode post (LinkedIn, Facebook, Google Business) + the full
-  episode video on YouTube. The show "airs" 8:30 AM Sat on 100.3 Legends Radio; episodes
-  are prerecorded but Saturday is the public moment.
-- **Sun–Fri 9:00 AM ET** — one clip per day from THAT SAME episode (Instagram, Facebook,
-  YouTube Shorts, TikTok).
-- Next Saturday a new episode number takes over. Never mix two episodes in one week.
+Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each time.
+- **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. A studio photo, the
+  guest's background pulled from the transcript, and "tomorrow 8:30 AM on 100.3 Legends
+  Radio". Instagram, Facebook, LinkedIn, X, plus its own text-and-one-image Google
+  Business call.
+- **Saturday 9:00 AM ET** — the episode-is-live post carrying the Spotify link (LinkedIn,
+  Facebook, Google Business) + the full episode video on YouTube. The show "airs" 8:30 AM
+  Sat on 100.3 Legends Radio; episodes are prerecorded but Saturday is the public moment.
+- **Every day, 9:00 AM ET** — ONE clip from the mixed queue (Instagram, Facebook, YouTube
+  Shorts, TikTok).
+
+**"One episode owns one week" is DEAD as of 2026-09-18 — Nick killed it, and the reason
+matters.** Under that rule a single guest ran six days straight while a second lane ran
+somebody else, so the feed read as a broadcast and five days carried two posts each.
+Clips now come from ONE pool spanning every episode, with a hard rule that the same guest
+never appears on consecutive days. `tools/clip-queue.py` owns that arithmetic:
+
+    python3 tools/clip-queue.py import --posts <dump.json> --write   # after staging
+    python3 tools/clip-queue.py plan  --days 30 --boost "<new guest>"
+    python3 tools/clip-queue.py audit --posts <dump.json>            # find what is wrong
+
+The order is seeded, so the same inputs give the same calendar and a human can review it.
+A new episode's guest gets `--boost` so a fresh episode still gets a push rather than
+queueing behind whoever has the most clips banked. Post Bridge is only reachable through
+MCP tools, never a plain HTTP key, so the script emits a plan and the session applies it
+with update_post, then records it with `clip-queue.py mark`.
+
+**`update_post` SILENTLY IGNORES `is_draft` on a post that is already scheduled.** It
+returns 200 with `is_draft` still false. Parking a scheduled post as a draft does not
+work, and if you edited the caption in the same call you have now left a live post
+carrying a note meant for internal eyes. `delete_post` is the only way to pull one.
 
 **The weekday Google Business slot changed 2026-08-15 (Nick approved).** It used to carry a
 text-only clip takeaway written by the routine. It now carries keyword-led SEO posts derived
@@ -453,8 +477,9 @@ clips one per day after it. Scheduling IS the deliverable; waiting for approval 
 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
 `trig_01L8gTCsSXAtwCkvG4LMZuSh` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
-(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode post, Sunday
-through Friday → the next unposted clip. Consolidated 2026-08-02 from two separate routines
+(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode-is-live post,
+every other day → the next clip off the mixed queue, and it checks whether an announcement
+is owed for tomorrow. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
 Don't split it back apart; add day-branches to this one instead.
 
@@ -552,6 +577,37 @@ host embeds the Vercel TEAM SLUG, renamed to `thedesignofman` on 2026-08-03. The
 routine prompt or every clip over 20MB fails to upload. raw.githubusercontent and GitHub
 release assets both serve `application/octet-stream` and are rejected by Post Bridge.
 
+**SHOW NICK THE CLIPS BEFORE ANYTHING IS SCHEDULED** (his ask, 2026-09-18). He wants to
+view them in the Claude conversation, not on an external link and not in Dropbox. Send
+each clip into the chat as a playable file with its draft caption and its assigned slot
+underneath, in one pass, and wait. Until now clips were cut, captioned and scheduled
+without him ever seeing one before it published.
+
+## The whole episode, end to end
+What a new episode actually costs now, in order:
+
+1. `tools/stage-episode.py <NN> <clips-dir> --transcripts <dir> --full-transcript <path>`
+   -> branch `media/ep{NN}-clips` (the name is load bearing; the routine builds URLs from it)
+2. Reorder `playlist.txt` by hand. The strongest clip is rarely the one rendered first.
+3. Cut the multicam: `podcast-multicam` skill, run order lock_rate -> build_warp2 ->
+   sync_preview (checkpoint, never skip) -> render_final_v3 --dry-run -> render, with
+   `tools/podcast-attrib.py` supplying `--cuts`. **Re-tune the attribution per episode**
+   and audit with a contact sheet. This is the one step that stays a judgment call.
+4. `tools/dropbox-put.py put <master> "/Pain2Power/<Guest>/Final/..."`
+5. Write clip captions from `transcript-full.md`.
+6. **Send every clip into the chat for Nick to review.** Wait.
+7. Create the approved clips as posts, then `clip-queue.py import --write`,
+   `clip-queue.py plan --boost "<guest>"`, apply with update_post, `clip-queue.py mark`.
+8. Friday announcement post, Saturday episode-is-live post once the Spotify URL exists.
+9. `/episode-blog <NN>` for the GBP set (blog posts themselves are still frozen).
+
+Steps 2, 3, 5 and 6 need a human. Everything else is mechanical.
+
+NOTE: `stage-episode.py` does NOT feed `clip-queue.py` directly, and deliberately so. The
+queue keys off Post Bridge post ids, which do not exist until step 7, so there is nothing
+to import at staging time. Do not "fix" this by inventing clip ids at step 1; they would
+have to be reconciled against Post Bridge later anyway.
+
 ## Posting on demand — "post it" should be one step
 When Nick says post something, the only two things that ever block it are:
 
@@ -565,12 +621,12 @@ When Nick says post something, the only two things that ever block it are:
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
 
-**Prefer an attached file over a Dropbox link.** This sandbox is proxy blocked from Dropbox
-hosts: the Dropbox MCP tools work for browsing and metadata, but the bytes cannot be
-downloaded here. A file attached to the chat lands on disk immediately and skips a
-GitHub Actions relay that takes several minutes and has its own failure modes
-(`scl/fi` share links serve an HTML interstitial even with `dl=1`; runners have no ffmpeg
-preinstalled; the default GITHUB_TOKEN is read only).
+**A Dropbox link is fine; so is an attached file.** This paragraph used to say the sandbox
+was proxy blocked from Dropbox and that only a chat attachment would do. That is wrong and
+cost at least two sessions planning a GitHub Actions relay nobody needed. Dropbox bytes
+download here via the connector's `download_link` (2.35 GB of Episode 15 pulled directly,
+hashes verified 2026-09-17), and uploads go back up through `tools/dropbox-put.py`. A chat
+attachment is still the fastest path for one small file, nothing more.
 
 Standing preferences for a one off post, unless told otherwise:
 - Captions carry ZERO dashes outside the phone numbers. Bullets use •.
@@ -601,8 +657,11 @@ and do not route it through Post Bridge: Post Bridge times out fetching anything
 large (a 2.9GB export failed at 60s) and rejects GitHub release assets, which serve
 `application/octet-stream`.
 
-The deliverable from here is the finished file, not a publish. Hand Nick the multicam
-render; he takes it from there and sets scheduling in YouTube Studio.
+The deliverable from here is the finished file, not a publish. **Put it in Dropbox at
+`/Pain2Power/<Guest>/Final/Pain to Power - <Guest> - multicam.mp4`** with
+`tools/dropbox-put.py` and tell Nick it is there; he takes it from there and sets
+scheduling in YouTube Studio. Do NOT hand him a PowerShell paste to reassemble chunks on
+his own PC — that was the old handoff and it is retired.
 
 This section used to say "publish from Descript, by hand" and was wrong — corrected
 2026-09-16 by Nick. **Descript is being cancelled** (see below); nothing in the episode
@@ -677,9 +736,12 @@ about 79%, against the skill's stated ~82% ceiling. Say the real number; do not
 claim perfection. Coverage per five-minute block matters more than the overall
 percentages.
 
-Finished masters ship chunked as usual: `split -b 45m`, push in small batches or
-the git proxy resets it, then ALWAYS fetch it back and verify the sha256 before
-telling anyone it is done. Episode 15 is on `tmp/ep15-video`.
+Finished masters go to DROPBOX first, via `tools/dropbox-put.py put <file>
+"/Pain2Power/<Guest>/Final/..."`, which verifies the upload against Dropbox's
+content_hash. That is the delivery. Chunking to a `tmp/` branch (`split -b 45m`, pushed
+in small batches or the git proxy resets it) is now only a BACKUP, and only worth doing
+while an episode is still in flight. Episode 15's chunks are on `tmp/ep15-video`.
+See docs/DROPBOX-SETUP.md for the one-time credential.
 
 ## Connectors — check this before assuming a tool is broken
 `ListConnectors` reports `connected` AND `enabledInChat`. A connector can be connected to the
