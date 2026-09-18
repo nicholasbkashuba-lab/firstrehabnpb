@@ -1,0 +1,284 @@
+{
+  "clips": [
+    {
+      "post_id": "acddb4df-7f4a-4c39-93d0-806443a8742f",
+      "guest": "Dave and Mike",
+      "media": "770a4cba-59a0-4291-9104-7d09dbea447c",
+      "hook": "Only 20% of American kids get an hour of exercise a day.",
+      "state": "killed",
+      "was_scheduled_at": "2026-10-25T13:00:00+00:00"
+    },
+    {
+      "post_id": "985701a3-f667-4704-908b-6c317a63877b",
+      "guest": "Captain Kerry",
+      "media": "140b1b09-020f-4408-87a1-df4bae3675cd",
+      "hook": "People can tell that it's real. You're not pretending anything.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-21T13:00:00+00:00"
+    },
+    {
+      "post_id": "050f4dae-caa5-4d1b-ae52-e757aa5c3502",
+      "guest": "Captain Kerry",
+      "media": "452d77ab-02ec-4505-ab72-e61e796f384a",
+      "hook": "They need help, they need housing, they need nursing care. The name of our foundation is R",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-17T13:00:00+00:00"
+    },
+    {
+      "post_id": "cfabb46f-76f3-47ca-8892-9ce26f30011d",
+      "guest": "Captain Kerry",
+      "media": "b0c046c2-3a04-43b8-b07d-34ba4d3a2160",
+      "hook": "Dave, what size is that shirt you're wearing? Looks a little tight on me.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-12T13:00:00+00:00"
+    },
+    {
+      "post_id": "74d29874-ecb2-4e41-99e6-d68458cd2bb6",
+      "guest": "Captain Kerry",
+      "media": "c9015b5b-0cd4-4083-bb97-28d15121a056",
+      "hook": "The searchlight is pointed on me. I want to point it everywhere else.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-09T13:00:00+00:00"
+    },
+    {
+      "post_id": "4bd6845e-3c25-472b-9867-dd9c33b030d9",
+      "guest": "Captain Kerry",
+      "media": "7447c4ca-026f-4913-bb1c-21dcc2ab735e",
+      "hook": "There is a moment where you are a victim, and it's okay to be in that place. But what is s",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-07T13:00:00+00:00"
+    },
+    {
+      "post_id": "e75ed5fb-e6f6-4bf6-a0c6-0bab2295a5fd",
+      "guest": "Dave and Mike",
+      "media": "91f452e3-da73-4b5f-8f44-9f2dbdc416d0",
+      "hook": "You can't control what happens to you, but you can control how you respond.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-03T13:00:00+00:00"
+    },
+    {
+      "post_id": "2c2aaefd-ac08-429d-a951-a314c58796cd",
+      "guest": "Dave and Mike",
+      "media": "c8bf81a4-3132-4b59-b83f-d9e126718bed",
+      "hook": "Twenty to twenty five minutes, three times a week. And people started noticing.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-01T13:00:00+00:00"
+    },
+    {
+      "post_id": "71b5eb5f-cc78-46a8-a79a-693f06b65466",
+      "guest": "Captain Kerry",
+      "media": "8e4e928a-ffe7-4d1a-81dc-b64fdc75eaf0",
+      "hook": "I wanted something for the kids that was constant. Kind of an anchor.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-30T13:00:00+00:00"
+    },
+    {
+      "post_id": "a73146e7-8707-4439-846b-0781a0489010",
+      "guest": "Dave and Mike",
+      "media": "9df3a1ef-4070-409e-a1a3-d2507ecc6674",
+      "hook": "The bartender looks at the rabbit and says, hey, you're in the wrong joke.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-28T13:00:00+00:00"
+    },
+    {
+      "post_id": "1f06c121-e01b-4666-b207-5b0b0fafe3e8",
+      "guest": "Captain Kerry",
+      "media": "431e0473-2619-4f8b-a7c8-eccd4a326496",
+      "hook": "People think their life is great because look at where they are. We had the exact same str",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-26T13:00:00+00:00"
+    },
+    {
+      "post_id": "0373a90f-2793-42c3-9337-30392799dd3e",
+      "guest": "Captain Kerry",
+      "media": "61faf1a2-0f37-43f0-a2d4-af6b0b8d6d1d",
+      "hook": "In the end, it is what you give. And that's always what's going to be reflected back at ya",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-24T13:00:00+00:00"
+    },
+    {
+      "post_id": "862a88ab-4cf2-4ab1-af33-ae4e69bccf1a",
+      "guest": "Dave and Mike",
+      "media": "608dec74-4c10-4734-900d-fa68a7c0b8d9",
+      "hook": "Dave, this isn't your time. Jeopardy's on. Click.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-22T13:00:00+00:00"
+    },
+    {
+      "post_id": "97ad4877-495d-423d-9e8d-0adec0e9fdb0",
+      "guest": "Captain Kerry",
+      "media": "be443bc1-1e10-4921-80fa-ebbae946defe",
+      "hook": "I'm at the top of my game, pumping diesel fumes everywhere. What am I doing for anybody el",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-21T13:00:00+00:00"
+    },
+    {
+      "post_id": "a886cc39-8c88-474e-872f-7f562fea8d2e",
+      "guest": "Captain Kerry",
+      "media": "49f67003-390c-4977-b5e8-4a1c7c4b1137",
+      "hook": "There is no destination. This is the journey.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-19T13:00:00+00:00"
+    },
+    {
+      "post_id": "c50ff9e8-2b8a-4548-9e9a-bff1079296b9",
+      "guest": "Dave and Mike",
+      "media": "377541fd-f4bf-4cb7-981d-d865582aee5d",
+      "hook": "Dave told his wife to embrace her mistakes. She ran over and hugged him.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-25T21:00:00+00:00"
+    },
+    {
+      "post_id": "b8a0ab1a-96f9-4280-a1e3-3c3c45923c8b",
+      "guest": "Susan Mann",
+      "media": "9773c853-59c9-479f-8242-a8da6d9f9203",
+      "hook": "You go in once a week. You graduate in 16 weeks.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-24T21:00:00+00:00"
+    },
+    {
+      "post_id": "e30e5106-380b-4dd2-8006-331cd9a09fe1",
+      "guest": "Susan Mann",
+      "media": "7e96d444-501e-4857-bc08-d0ce56243a0c",
+      "hook": "It is like the movie Coach Carter.",
+      "state": "queued",
+      "was_scheduled_at": "2027-01-07T13:00:00+00:00"
+    },
+    {
+      "post_id": "fe6948ac-18c0-4009-9a53-36656a2e1276",
+      "guest": "Susan Mann",
+      "media": "628dea16-306f-433d-8c04-95f153a11a5f",
+      "hook": "380%.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-21T21:00:00+00:00"
+    },
+    {
+      "post_id": "b30e8f41-a5d4-4f01-960d-1f9c632b2d79",
+      "guest": "Susan Mann",
+      "media": "6c022623-5d55-4bb4-a627-9d420b777c5e",
+      "hook": "It is easily fixable. And it takes 16 weeks.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-23T21:00:00+00:00"
+    },
+    {
+      "post_id": "fdfdf8d8-210e-4958-aa6a-3a06c233c49d",
+      "guest": "Susan Mann",
+      "media": "72cbaf4f-303f-430e-9ed2-e3c97f149846",
+      "hook": "She put everything on the line. They came back off the charts.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-22T21:00:00+00:00"
+    },
+    {
+      "post_id": "ed8ebba1-c736-4614-9360-cef2e9337e0f",
+      "guest": "Susan Mann",
+      "media": "33fc53f6-fa7e-4e6d-8f78-ec7ce7390993",
+      "hook": "It is one in four children.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-20T21:00:00+00:00"
+    },
+    {
+      "post_id": "79eda6c6-1de7-4bfd-bbd1-962ddf00bd42",
+      "guest": "Captain Kerry",
+      "media": "d4f61c01-954c-413c-95e9-4ff6cd0b351c",
+      "hook": "Every successful person I have spoken to had adversities they pushed against.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-19T13:00:00+00:00"
+    },
+    {
+      "post_id": "8b847a92-36de-43a4-8a54-6be917b0afff",
+      "guest": "Captain Kerry",
+      "media": "fb29aaca-f748-4324-97ad-9f7406a02d9f",
+      "hook": "He was exactly where I was, and he found a way out.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-10T13:00:00+00:00"
+    },
+    {
+      "post_id": "f0ffc130-deb7-4ec2-b38e-f7d76205e655",
+      "guest": "Captain Kerry",
+      "media": "ee6b7b80-34c9-4522-893d-a331282681c2",
+      "hook": "One present is an infinite increase over zero.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-14T13:00:00+00:00"
+    },
+    {
+      "post_id": "f019d37e-43d8-402d-b266-855adf01efda",
+      "guest": "Captain Kerry",
+      "media": "9b22c4e4-ef57-4e74-95e4-175e4d6a7889",
+      "hook": "He will just stop, look at me and smile. That is a legacy.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-16T13:00:00+00:00"
+    },
+    {
+      "post_id": "b7b91412-6ef4-48ed-9631-ad1dacc7010a",
+      "guest": "Captain Kerry",
+      "media": "8dcc9e4a-bd61-47c8-8609-bf81541abfaa",
+      "hook": "80% of suicides are men, because men do not like to talk about it.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-05T13:00:00+00:00"
+    },
+    {
+      "post_id": "56130b52-d1ce-4e3b-a56d-81be7bc959ad",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "aafd2b9d-3e51-4cdc-b2e8-8e4c00d8e931",
+      "hook": "He rides e bikes himself, in Sedona, Park City and Italy.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-20T13:00:00+00:00"
+    },
+    {
+      "post_id": "4b0c12b4-7e14-406a-8a0c-06ca3bae4f25",
+      "guest": "Dave and Mike",
+      "media": "770a4cba-59a0-4291-9104-7d09dbea447c",
+      "hook": "Only 20% of kids in the United States get an hour of exercise a day.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-25T13:00:00+00:00"
+    },
+    {
+      "post_id": "2fb83784-744e-4868-9f65-41ed756ac93e",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "69fa00e1-6e9b-4617-8209-908b40a5d2bf",
+      "hook": "Miami Dade is up over 500%.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-11T13:00:00+00:00"
+    },
+    {
+      "post_id": "0c4610d4-448e-47b7-b622-bbc5560a158b",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "76e6b6da-c235-4611-8844-ed010d13a1d7",
+      "hook": "The average age of these injuries is 13.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-18T13:00:00+00:00"
+    },
+    {
+      "post_id": "c0690931-4e6f-45c6-b942-16de7dc37979",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "c280c55d-e5c7-4dea-b4df-0aa73574718c",
+      "hook": "Going 15 versus 50 is the difference between a scrape and a cracked skull.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-04T13:00:00+00:00"
+    },
+    {
+      "post_id": "8dcf9719-c027-4d0f-bc2c-fbb1bfbd1bfd",
+      "guest": "Paul Joyce",
+      "media": "5eb6c507-2c29-42a1-8ff7-cd7aa120f69d",
+      "hook": "About 100 patients have tried it. The results have not been that great.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-08T13:00:00+00:00"
+    },
+    {
+      "post_id": "8db34351-b495-49e2-b4b1-02a348555b04",
+      "guest": "Paul Joyce",
+      "media": "6ffcd4de-3271-4b50-b358-2b7204140d42",
+      "hook": "She said she'd never take human growth hormone because it could cause cancer. Then she too",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-15T13:00:00+00:00"
+    },
+    {
+      "post_id": "6b698dc3-44f6-4ab2-ac40-37dae2fd52c6",
+      "guest": "Paul Joyce",
+      "media": "832b1f49-5c0e-464f-aa06-9b4948e26e09",
+      "hook": "They call it the Wolverine stack.",
+      "state": "queued",
+      "was_scheduled_at": "2026-09-29T13:00:00+00:00"
+    }
+  ]
+}

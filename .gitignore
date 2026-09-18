@@ -17,3 +17,9 @@ gsc-key*.json
 # static-site-forge verification screenshots
 out/
 .ssf-browser.js
+
+# Dropbox app credentials (refresh token) — never commit these.
+# The repo is public; a leaked refresh token hands over write access to Dropbox.
+credentials.json
+*credentials*.json
+dropbox-key*.json
