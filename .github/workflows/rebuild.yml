@@ -1,0 +1,56 @@
+# Fails when the committed HTML is not what build.py actually generates.
+#
+# build.py is the single source of truth and the generated pages are committed,
+# because Vercel serves this repo as static files. Nothing enforced that pairing:
+# a commit could change build.py and leave every page a visitor sees untouched,
+# and nothing would say so.
+#
+# This rebuilds the site and fails if anything moved. It does NOT push: a green
+# run means the committed output already matches, so there is nothing to commit.
+# Read-only permissions, so it cannot write to the repo or trigger a deploy.
+name: rebuild
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebuild-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: committed output matches build.py
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # build.py is stdlib only, so there is nothing to install.
+      - name: Rebuild the site
+        run: python3 build.py
+
+      - name: Check for drift
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Committed output matches build.py."
+            exit 0
+          fi
+          echo "::error::The committed site does not match what build.py generates. Run 'python3 build.py' and commit the result."
+          echo
+          echo "Files that build.py changed or created:"
+          git status --porcelain
+          echo
+          git --no-pager diff --stat
+          echo
+          echo "Fix: run 'python3 build.py' locally and commit every file it touches."
+          echo "sitemap-dates.json counts: it carries each page's real lastmod, and"
+          echo "leaving it out makes every page claim it changed today."
+          exit 1
