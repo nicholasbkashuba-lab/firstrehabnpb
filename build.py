@@ -1600,7 +1600,7 @@ CONDITIONS = {
 
 def build_conditions():
     cards = "".join(
-        f'<a class="cond-card reveal" href="{slug}.html"><span class="cond-tag">{c["area"]}</span><h3>{c["name"]}</h3><p>{c["lede"]}</p></a>'
+        f'<a class="cond-card reveal" href="/treatments/{slug}.html"><span class="cond-tag">{c["area"]}</span><h3>{c["name"]}</h3><p>{c["lede"]}</p></a>'
         for slug, c in CONDITIONS.items()
     )
     crumbs = '<div class="crumbs"><a href="/">Home</a> / What We Treat</div>'
@@ -3297,7 +3297,7 @@ def _related_block(slug):
 
 def build_blog():
     cards = "".join(
-        f'''<a class="cond-card reveal" href="{slug}.html" style="padding:1.9rem 1.7rem;">
+        f'''<a class="cond-card reveal" href="/blog/{slug}.html" style="padding:1.9rem 1.7rem;">
         <span class="cond-tag">{p["tag"]} &middot; {p["date"]}</span>
         <h3 style="margin-top:0.4rem;">{p["title"]}</h3>
         <p>{p["teaser"]}</p>
