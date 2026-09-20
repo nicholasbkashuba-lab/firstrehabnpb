@@ -3570,6 +3570,17 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        # Verified 2026-09-20 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "1 in 4 Kids Have a Processing Disorder: Susan Mann | Pain 2 Power Ep 15".
+        "id": "oZJYMOL95cA",
+        "uploaded": "2026-09-20T14:10:52+00:00",
+        "ep": "Episode 15",
+        "title": "1 in 4 Kids Have a Processing Disorder",
+        "guest": "Susan Mann",
+        "teaser": "Every teacher said Susan Mann&rsquo;s two children were gifted; every test put them at the bottom of the scale. A retired San Francisco police officer rather than a clinician, she kept digging until an audiologist named it: auditory and visual processing disorder. Both kids retested off the charts and took full academic scholarships to Oxbridge Academy.",
+    },
+    {
         # Verified 2026-09-15 against the channel feed: long-form entry
         # (link rel=alternate is /watch?v=, not /shorts/), titled
         # "E-Bikes Are Putting Kids in the Trauma Bay… | Pain 2 Power Ep 14".
