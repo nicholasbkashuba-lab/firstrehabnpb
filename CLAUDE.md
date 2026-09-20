@@ -117,6 +117,15 @@ at least once. PRs target `main`.
 3. Preview locally: `python3 -m http.server 8000` → http://localhost:8000
 4. Commit & push → Vercel auto-deploys
 
+**Step 2 is enforced by CI as of 2026-09-20.** `.github/workflows/rebuild.yml` rebuilds
+the site on every PR and every push to `main` and FAILS if the committed output is not
+what `build.py` generates. Before it existed, a commit could change `build.py` and leave
+every page a visitor sees untouched, and nothing surfaced it. The check is read-only
+(`permissions: contents: read`) — it never pushes, never commits, and cannot trigger a
+deploy, so a red run means "you forgot to commit something", not "the site broke".
+Commit every file the build touches, `sitemap-dates.json` included; leaving that one out
+is its own failure mode and the check names it.
+
 ## Conventions
 - Phone 561-624-4263 · 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408
 - Tagline: "Our people make the difference." · Motto headline: Heal. Strengthen. Thrive.
