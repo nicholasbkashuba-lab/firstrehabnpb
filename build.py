@@ -157,6 +157,94 @@ def asset_v(path):
         ASSET_V[path] = _v(path)
     return ASSET_V[path]
 
+# --- sitemap <lastmod> ------------------------------------------------------
+# A page's lastmod must be the date that PAGE last changed, not the date of the
+# build. Stamping today on all 50 URLs every build tells Google the whole site
+# changed whenever anything did, which is how the signal gets ignored — and it
+# is why sitemap.xml used to have to be kept out of commits by hand.
+#
+# So each generated page is hashed and the date its content last changed is
+# remembered in SITEMAP_DATES, which is committed alongside the build. Delete
+# that file and every page silently reverts to claiming it changed today.
+#
+# Asset cache-busters are stripped before hashing: bumping styles.css rewrites
+# `?v=` on every page in the site, and that is not a content change to any of
+# them.
+import re as _re, subprocess as _sp
+SITEMAP_DATES = "sitemap-dates.json"
+_CACHE_BUSTER = _re.compile(r"\?v=[A-Za-z0-9]+")
+_ISO_DATE = _re.compile(r"\d{4}-\d{2}-\d{2}")
+
+def _page_file(page):
+    """Filesystem path for a sitemap entry ("" is the home page)."""
+    return page or "index.html"
+
+def _page_fingerprint(page):
+    f = _page_file(page)
+    try:
+        with open(os.path.join(ROOT, f), encoding="utf-8") as fh:
+            html_src = fh.read()
+    except FileNotFoundError:
+        # Listed in build_meta()'s `pages` but never generated. This used to ship
+        # a sitemap entry pointing at a 404; say so instead.
+        raise SystemExit(
+            f"sitemap: {f} is in the pages list but no such file was built. "
+            f"Add the generator for it, or take it out of `pages` in build_meta().")
+    return _hashlib.sha256(
+        _CACHE_BUSTER.sub("", html_src).encode()).hexdigest()[:16]
+
+_DIRTY = None
+def _uncommitted():
+    """Paths with uncommitted changes, so a seed date is never taken from git
+    for a file whose working copy has already moved past that commit."""
+    global _DIRTY
+    if _DIRTY is None:
+        try:
+            r = _sp.run(["git", "status", "--porcelain", "--"], cwd=ROOT,
+                        capture_output=True, text=True, timeout=30)
+            _DIRTY = {line[3:].strip() for line in r.stdout.splitlines()} if r.returncode == 0 else set()
+        except (OSError, _sp.SubprocessError):
+            _DIRTY = set()
+    return _DIRTY
+
+def _git_last_changed(page):
+    """Date of the last commit touching a page, for seeding a page we have no
+    recorded hash for. None when git cannot answer."""
+    f = _page_file(page)
+    if f in _uncommitted():
+        return None
+    try:
+        r = _sp.run(["git", "log", "-1", "--format=%cs", "--", f], cwd=ROOT,
+                    capture_output=True, text=True, timeout=30)
+    except (OSError, _sp.SubprocessError):
+        return None
+    d = r.stdout.strip()
+    return d if r.returncode == 0 and _ISO_DATE.fullmatch(d) else None
+
+def _lastmods(pages, today):
+    """Per-page lastmod, carried forward for every page that did not change."""
+    path = os.path.join(ROOT, SITEMAP_DATES)
+    try:
+        with open(path, encoding="utf-8") as f:
+            seen = _json.load(f)
+    except (OSError, ValueError):
+        seen = {}
+    out, store = {}, {}
+    for p in pages:
+        fp = _page_fingerprint(p)
+        was = seen.get(p)
+        if was and was.get("hash") == fp:
+            out[p] = was["lastmod"]                      # unchanged
+        elif was:
+            out[p] = today                               # content really changed
+        else:
+            out[p] = _git_last_changed(p) or today       # first sighting
+        store[p] = {"hash": fp, "lastmod": out[p]}       # drops retired pages
+    with open(path, "w", encoding="utf-8") as f:
+        _json.dump(store, f, indent=2, sort_keys=True)
+        f.write("\n")
+    return out
+
 # --- Responsive imagery -----------------------------------------------------
 # tools/build-images.py writes assets/img/manifest.json from PHOTOS. photo()
 # turns a registry name into a <picture> with WebP + JPEG, a srcset capped at the
@@ -3992,8 +4080,8 @@ def build_meta():
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     from datetime import date as _date
-    lastmod = _date.today().isoformat()
-    urls = "".join(f"  <url><loc>{base}/{p}</loc><lastmod>{lastmod}</lastmod></url>\n" for p in pages)
+    lastmod = _lastmods(pages, _date.today().isoformat())
+    urls = "".join(f"  <url><loc>{base}/{p}</loc><lastmod>{lastmod[p]}</lastmod></url>\n" for p in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     ai_crawlers = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "PerplexityBot",
                    "ClaudeBot", "Claude-User", "Google-Extended", "Bingbot",
