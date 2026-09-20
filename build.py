@@ -273,6 +273,15 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
     canon = f"{base}/{canonical}" if canonical else base + "/"
+    # Absolute URL for the organization schema's image. Precomputed because the
+    # template below is a triple-quoted f-string: the original wrote this as a
+    # literal `"..." + PHOTOS["treatment"]["src"]` OUTSIDE any {} placeholder, so
+    # Python emitted the Python expression verbatim into the JSON-LD. That made the
+    # organization node unparseable on all 51 pages that carry it — every page on
+    # the site — and an unparseable node is discarded wholesale by Google, taking
+    # the @id, medicalSpecialty, availableService, geo, areaServed and sameAs with
+    # it. Caught 2026-09-18. Keep this interpolated; do not inline the concatenation.
+    org_image = f"{base}/{PHOTOS['treatment']['src']}"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -318,7 +327,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   "description": "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness clinic serving Palm Beach County since 1991.",
   "url": "https://www.firstrehabnpb.com",
   "logo": "https://www.firstrehabnpb.com/assets/media/logo.png",
-  "image": "https://www.firstrehabnpb.com/" + PHOTOS["treatment"]["src"],
+  "image": "{org_image}",
   "telephone": "+1-561-624-4263",
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
@@ -1208,7 +1217,13 @@ def build_services():
         # outcomes here without owner sign-off, and never claim hand surgery: we
         # rehabilitate, surgeons operate.
         SVC_DEEP = {
-            "hand-therapy": [
+            "hand-therapy": {
+                "h2": "What we treat, and how",
+                "intro": "Hand therapy is not general rehabilitation applied to a smaller limb. Dozens of "
+                         "tendons, joints and nerves work in tight quarters, each on its own healing "
+                         "timeline, which is why hand surgeons refer post-operative patients to certified "
+                         "hand therapists specifically. Here is what that looks like condition by condition.",
+                "blocks": [
                 ("Carpal tunnel syndrome",
                  "Conservative care helps many people, particularly when symptoms are caught early. "
                  "Treatment can include a custom night splint that holds the wrist in a neutral position "
@@ -1238,33 +1253,93 @@ def build_services():
                  "The arm works as one connected chain, so the program covers the full upper extremity \u2014 "
                  "hand, wrist, forearm and elbow. Tennis elbow, wrist fractures and nerve entrapments all "
                  "fall inside a certified hand therapist\u2019s scope."),
-            ],
+                ("Splints and orthoses, made here",
+                 "Custom splints and orthoses are fabricated in our clinic rather than ordered in. Each one "
+                 "is molded to your hand for your specific condition, adjusted as healing progresses, and built "
+                 "to your surgeon\u2019s protocol when you are recovering from surgery. Call 561-624-4263 if you "
+                 "want to know whether your plan covers one \u2014 our front desk will check before you come in."),
+                ("Working with your surgeon",
+                 "Post-operative timelines are set by your surgeon, and they vary widely: some repairs begin "
+                 "protected motion within days, others need a period of immobilization first. We work from that "
+                 "protocol and coordinate with their office directly, so send us your surgery details before or "
+                 "just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule."),
+                ],
+            },
+            # Added 2026-09-18. The Search Console pull for the 90 days to
+            # 2026-09-15 found 751 impressions and ZERO clicks across 35
+            # occupational-therapy queries, nearly all of them West Palm Beach
+            # ("physical and occupational therapy west palm beach" 150 impr at
+            # pos 32.9, "occupational therapy treatment west palm beach" 108 at
+            # 33.5, "occupational therapist 33401" 72 at 35.4). The page sat at
+            # position 36.0 on 834 words. The nearest competitor by name,
+            # thefirstrehab.com, runs three Palm Beach County clinics staffed by
+            # PTs and PTAs and offers no occupational therapy at all, so this is
+            # demand in their own city that they cannot answer. The gap was depth.
+            #
+            # Same rules as the hand-therapy block above: every sentence restates
+            # something the site already asserts (SERVICES, TEAM, the FAQ). No new
+            # clinical claim, no mechanisms, no statistics, no outcomes without
+            # owner sign-off. OT evaluates and treats; we do not diagnose.
+            "occupational-therapy": {
+                "h2": "What occupational therapy actually does",
+                "intro": "Physical therapy asks how well you move. Occupational therapy asks what you need "
+                         "to get done, then works backward from there \u2014 the shirt buttoned, the meal cooked, "
+                         "the job performed, the shower taken safely and alone. Our program is led by a "
+                         "founder who is himself an occupational therapist and has been treating patients "
+                         "since 1991. Here is what the work looks like in practice.",
+                "blocks": [
+                ("Activities of daily living",
+                 "Dressing, bathing, grooming, cooking and home management are the tasks independence "
+                 "actually rests on, and they are the first things an injury, a stroke or a joint "
+                 "replacement takes away. Therapy here is practical and specific: we work on the real task "
+                 "you are struggling with, in the sequence you actually perform it, and adapt the method "
+                 "until you can do it without help."),
+                ("Recovery after stroke",
+                 "Stroke recovery is task-specific work. Rather than exercising an arm in the abstract, we "
+                 "rebuild the routines that arm is needed for, restoring upper-extremity function, "
+                 "coordination and the daily sequences that make a morning possible. Progress is measured "
+                 "in tasks regained, not repetitions completed."),
+                ("Returning to a specific job",
+                 "Return-to-work programs are built around what your job actually demands rather than a "
+                 "general strength target. We use graded conditioning and task simulation so the work you "
+                 "rehearse in the clinic resembles the work waiting for you, which is also what an employer, "
+                 "an adjuster or a case manager needs to see documented before a release."),
+                ("Ergonomics and adaptive equipment",
+                 "Sometimes the fastest route back to a task is changing the task. Workstation assessment, "
+                 "tool and equipment recommendations, and technique changes can make daily activities safer "
+                 "and less painful without waiting on strength to return. Call 561-624-4263 and our front "
+                 "desk can tell you whether an assessment is covered under your plan."),
+                ("Hand and upper-extremity function",
+                 "Fine-motor and functional-use training runs alongside our certified hand therapy program, "
+                 "so a patient whose hand is the limiting factor gets both: the protocol-driven hand work "
+                 "from Laura Drumm, CHT, and the daily-function retraining that turns restored motion into "
+                 "a usable hand. Few clinics in the county can put both in the same building."),
+                ("Cognitive rehabilitation",
+                 "Memory, attention, sequencing and problem-solving are as much a part of safe independent "
+                 "living as strength is. Where they have been affected, therapy targets the strategies that "
+                 "let someone manage medication, follow a recipe or handle a household routine again."),
+                ("Occupational therapy or physical therapy?",
+                 "They overlap and they are frequently prescribed together, which is why we run both under "
+                 "one roof rather than referring out. The short version: physical therapy generally targets "
+                 "movement, strength and pain, while occupational therapy targets the activities that "
+                 "movement is for. If you are not sure which you need, our front desk can talk it through, "
+                 "and your evaluation will settle it."),
+                ],
+            },
         }
         svc_deep_html = ""
         if slug in SVC_DEEP:
+            _d = SVC_DEEP[slug]
             _blocks = "".join(
-                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in SVC_DEEP[slug]
+                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in _d["blocks"]
             )
             svc_deep_html = f'''
 <section class="section">
   <div class="wrap">
     <div class="prose reveal">
-      <h2>What we treat, and how</h2>
-      <p>Hand therapy is not general rehabilitation applied to a smaller limb. Dozens of tendons,
-      joints and nerves work in tight quarters, each on its own healing timeline, which is why
-      hand surgeons refer post-operative patients to certified hand therapists specifically.
-      Here is what that looks like condition by condition.</p>
-      {_blocks}<h3>Splints and orthoses, made here</h3>
-      <p>Custom splints and orthoses are fabricated in our clinic rather than ordered in. Each one
-      is molded to your hand for your specific condition, adjusted as healing progresses, and built
-      to your surgeon\u2019s protocol when you are recovering from surgery. Call 561-624-4263 if you
-      want to know whether your plan covers one \u2014 our front desk will check before you come in.</p>
-      <h3>Working with your surgeon</h3>
-      <p>Post-operative timelines are set by your surgeon, and they vary widely: some repairs begin
-      protected motion within days, others need a period of immobilization first. We work from that
-      protocol and coordinate with their office directly, so send us your surgery details before or
-      just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule.</p>
-    </div>
+      <h2>{_d["h2"]}</h2>
+      <p>{_d["intro"]}</p>
+      {_blocks}</div>
   </div>
 </section>'''
 
@@ -1637,6 +1712,23 @@ LOCATIONS = {
                 "Palm Beach Gardens has more golf courses per square mile than almost anywhere in the county, and it shows in who comes through our door — golfer's elbow, tennis elbow, and overuse wrist and shoulder pain from a game people intend to keep playing, not give up. Laura Drumm, CHT leads one of the area's few certified hand therapy programs, with custom splints fabricated in-clinic rather than ordered from a catalog.",
                 "We also see a steady number of Gardens patients for occupational therapy — help relearning or adapting the daily activities of independent living after a fall, a stroke, or a joint replacement, led by a founder who is himself an occupational therapist. Read more about <a href=\"../treatments/hand-wrist.html\">hand and wrist therapy</a> or <a href=\"../services/occupational-therapy.html\">occupational therapy</a>.",
             ]),
+            # Added 2026-09-18 from the 90-day query pull: Palm Beach Gardens
+            # carries 1,626 impressions against 5 clicks across 70 queries, and
+            # the page was invisible for terms we genuinely serve — "ergonomic
+            # evaluation in palm beach gardens" at position 62.9, "physiotherapy
+            # in palm beach gardens" at 23.4, "orthopedic rehabilitation palm
+            # beach gardens fl" at 36.0, "manual therapy palm beach gardens" at
+            # 21.4. Gardens borders North Palm Beach, so unlike West Palm Beach
+            # this is a proximity fight we can actually win.
+            #
+            # DELIBERATELY NOT TARGETED: "physical therapy at home palm beach
+            # gardens" and its variants (238 impressions combined). That is home
+            # health care. We do not provide it, the nearest competitor does, and
+            # the page will not imply otherwise.
+            ("Orthopedic rehabilitation, manual therapy and ergonomic assessment", [
+                "Physiotherapy and physical therapy are the same profession under two names, and Gardens patients search for both. Whichever term you use, orthopedic rehabilitation is the core of what we do: recovery after joint replacement, rotator cuff repair and spinal surgery, alongside the chronic back, neck and joint pain that has not resolved on its own. Sessions are hands-on and therapist-led, with manual therapy used where it is the right tool rather than as a default.",
+                "Ergonomic and workstation assessment sits on the occupational therapy side of the clinic, and it is one of the more useful things we do for working Gardens residents. If the same wrist, neck or shoulder pain keeps returning every time you go back to your desk, the fastest route out is often changing how the task is set up rather than waiting on strength to return. Call 561-624-4263 and our front desk will check whether an assessment is covered under your plan before you come in.",
+            ]),
         ],
         "drive": "Our clinic sits at 733 US Highway 1, Suite 2A in North Palm Beach — directly south of Palm Beach Gardens, a straight shot down US-1 or Alternate A1A. Most Gardens neighborhoods reach us in one short drive without touching I-95, and our front desk at 561-624-4263 will happily talk you through directions and parking before your first visit.",
         "conditions": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hand-wrist", "post-surgical"],
@@ -1700,20 +1792,47 @@ LOCATIONS = {
     },
     "west-palm-beach": {
         "city": "West Palm Beach",
-        "title": "Physical Therapy for West Palm Beach, FL | First Rehab",
-        "desc": "Physical, occupational and certified hand therapy for West Palm Beach, north on US-1 or I-95. Family-owned since 1991, Medicare accepted. 561-624-4263.",
+        # Retargeted 2026-09-18. This is the highest-impression location page on
+        # the site (1,810 impressions in the 28 days to 2026-09-15) and it was
+        # converting at 0.11% from position 19.6, because the title chased
+        # "physical therapy west palm beach" — a term owned by a three-clinic
+        # competitor with a physical West Palm Beach address and 155 Google
+        # reviews. Proximity and review count decide that query and we have
+        # neither, so the page was fighting where it cannot win.
+        #
+        # The 90-day query pull found what it CAN win: 751 impressions and zero
+        # clicks across occupational-therapy queries, nearly all West Palm Beach
+        # ("physical and occupational therapy west palm beach" 150 impr at pos
+        # 32.9, "occupational therapy at home west palm beach" 127 at 29.0,
+        # "occupational therapist 33401" 72 at 35.4), plus "hand pain treatment
+        # west palm beach" at 224 impr / pos 18.2. That competitor is staffed by
+        # PTs and PTAs and offers neither OT nor hand therapy, so this is demand
+        # in their own city that they structurally cannot answer — a CHT is
+        # roughly three years and a national exam away for anyone starting now.
+        #
+        # So the title front-loads occupational and hand therapy while the h1,
+        # lede and body keep physical therapy. Expect reported impressions to
+        # FALL and clicks to rise; the lost impressions were converting at 0.11%.
+        "title": "Occupational & Hand Therapy West Palm Beach | First Rehab",
+        "desc": "Occupational therapy, certified hand therapy and physical therapy for West Palm Beach, north on US-1 or I-95. Family-owned since 1991, Medicare accepted. 561-624-4263.",
         "h1": "Serving <em class='accent'>West Palm Beach</em>",
         "kicker": "West Palm Beach",
-        "lede": "Plenty of clinics dot West Palm Beach — but patients drive north to us for what few offer: PT, OT, certified hand therapy, and a wellness gym under one family-owned roof.",
-        "deep": False,
+        "lede": "West Palm Beach has no shortage of physical therapy clinics. Patients drive north to us for what most of them don't staff: occupational therapy, a Certified Hand Therapist, and a wellness gym under one family-owned roof.",
+        "deep": True,
+        "deep_eyebrow": "Why West Palm Beach Patients Drive North",
         "local": [
-            ("Occupational therapy and workers' comp care for West Palm Beach", [
-                "West Palm Beach sends us a different mix of patients than our smaller neighboring towns — more work injuries, more auto accident referrals, more people who need occupational therapy to get back to a specific job rather than general daily activity. Our OT program is led by our founder, himself an occupational therapist, which means the person setting your treatment plan has been doing this since 1991, not reading it off a chart.",
-                "For workers' compensation and auto accident cases, we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your job or your case actually requires — regaining a specific lifting capacity, a range of motion, or the daily function an insurer or employer needs to see restored. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident recovery</a>.",
+            ("Occupational therapy for West Palm Beach", [
+                "Most clinics within West Palm Beach are staffed for physical therapy: physical therapists and physical therapist assistants, treating movement, strength and pain. That is genuinely what many people need. But if your problem is that you cannot dress yourself, manage a kitchen, or perform the specific tasks your job requires, the discipline you are looking for is occupational therapy, and it is a different credential with different training.",
+                "Our occupational therapy program is led by our founder, David Kashuba, Ph.D., who is himself an occupational therapist and has been treating patients since 1991, alongside Joni Janik, OT. That matters on a practical level: the person setting your plan has been doing this work for over three decades, not reading it off a protocol sheet. Read more about our <a href=\"../services/occupational-therapy.html\">occupational therapy program</a>.",
+                "West Palm Beach also sends us a different mix than our smaller neighbouring towns — more work injuries, more auto accident referrals, and more people who need to get back to one specific job rather than to general daily activity. For workers' compensation and auto accident cases we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your case actually has to demonstrate. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident recovery</a>.",
+            ]),
+            ("Certified hand therapy, worth the drive north", [
+                "Certified hand therapy is the other reason West Palm Beach patients make the trip. A Certified Hand Therapist has completed thousands of hours of upper-extremity practice plus a rigorous national examination, and it is the credential area hand surgeons look for when they refer a post-operative patient. Laura Drumm, CHT leads our program, and custom splints and orthoses are fabricated here in the clinic rather than ordered from a catalogue.",
+                "It is a genuinely scarce specialty in Palm Beach County, which is why patients travel for it from across the county rather than choosing whichever clinic is closest. If you have hand or wrist pain, are recovering from hand surgery, or have been told you need a custom splint, call 561-624-4263 and our front desk will tell you plainly whether we are the right fit. Read more about <a href=\"../services/hand-therapy.html\">certified hand therapy</a> or <a href=\"../treatments/hand-wrist.html\">hand and wrist treatment</a>.",
             ]),
         ],
-        "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Call 561-624-4263 and our front desk will point you right to the door.",
-        "conditions": ["back-pain", "neck-pain", "auto-accident", "workers-comp", "post-surgical"],
+        "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Most downtown and 33401 addresses reach us in one straight drive up US-1. Call 561-624-4263 and our front desk will point you right to the door.",
+        "conditions": ["hand-wrist", "post-surgical", "workers-comp", "auto-accident", "back-pain", "neck-pain"],
     },
     "riviera-beach": {
         "city": "Riviera Beach",
