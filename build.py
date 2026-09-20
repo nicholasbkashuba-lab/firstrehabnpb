@@ -1070,6 +1070,23 @@ SERVICES = {
             ("Back &amp; Neck Pain", "Manual therapy, posture correction, and core strengthening to resolve spinal pain at its source."),
             ("Auto &amp; Work Injuries", "Documentation-ready care for auto accident and workers' compensation cases, with clear communication to all parties."),
             ("Chronic Pain Management", "Graded, evidence-based programs that help you reclaim activity without fear of flare-ups."),
+            # Added 2026-09-20. Both of these were advertised on the Google
+            # Business Profile and appeared NOWHERE on this site or in SERVICES,
+            # so anyone tapping the service on the listing landed on a site that
+            # never mentioned it. Owner confirmed both are real.
+            #
+            # Wording is adapted from the clinic's own GBP service descriptions,
+            # which are owner-authored, rather than invented here. Massage is
+            # also corroborated repeatedly in the Google reviews, where patients
+            # describe heat and massage as part of a session and contrast it
+            # favourably with clinics that gave them neither.
+            #
+            # Deliberately items on this page rather than two new service pages:
+            # CLAUDE.md's 2026-09-09 finding is that new pages land on page two
+            # or three and add impressions nobody clicks, which drags site-wide
+            # CTR. Depth on a page that already ranks beats breadth.
+            ("Therapeutic Massage", "Soft-tissue work offered alongside your physical, occupational, or hand therapy program \u2014 part of a well-rounded approach to recovery, not an add-on you book separately."),
+            ("Concierge Therapy", "The same therapist-led, hands-on care with added scheduling flexibility and availability, for patients who want more than a standard program allows. Call 561-624-4263 to ask what is open."),
         ],
     },
     "occupational-therapy": {

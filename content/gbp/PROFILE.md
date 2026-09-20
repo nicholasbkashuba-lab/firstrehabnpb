@@ -44,7 +44,7 @@ public claim about what a healthcare business provides. Nothing in this file has
 Reviews: **110 at 4.9**. See `content/reviews/README.md` for why that number matters and where
 the 24 in older notes came from.
 
-### Four things to fix, in priority order
+### Things to fix, in priority order
 
 **1. Four reviews have no reply.** All five stars, the oldest sitting unanswered since October
 2025.
@@ -59,18 +59,23 @@ the 24 in older notes came from.
 Owner responses are surfaced in the pack and a half answered profile reads as inattentive.
 Templates are in `content/reviews/scripts.md`. `reply_to_review` can post these once approved.
 
-**2. Three service items may not describe real services.** These are public claims about what a
-healthcare business offers, and none of them appears anywhere in `SERVICES` in `build.py` or on
-the site:
+**2. RESOLVED 2026-09-20.** Three service items were flagged here as possibly not describing
+real services. Both parts of that turned out to need correcting.
 
-- **Massages**: "Therapeutic massage offered alongside our physical, occupational and hand
-  therapy programs"
-- **Concierge Therapy**: "Premium one on one therapy with added flexibility and availability"
-- **Hydrotherapy training**: attached as a service type under the Physiotherapist category
+**Hydrotherapy training was never on the listing.** This file originally said it was "attached
+as a service type under the Physiotherapist category". It was not. It appeared inside the
+CATEGORY DEFINITION that Google returns for Physiotherapist, which lists the service types
+*available* under that category. The same block listed Breakfast, Lunch, Dinner and
+Drive-through under `moreHoursTypes`, which should have been the giveaway. The clinic's actual
+service items never included it. Nothing was removed because there was nothing to remove.
 
-If the clinic genuinely offers these, the gap is on the website, not the profile, and they
-should be added to `SERVICES`. If it does not, they should come off the listing. Only the owner
-can settle which. Do not guess either way.
+**Massages and Concierge Therapy are real.** Owner confirmed. They stay on the listing.
+
+The gap was the website: neither appeared anywhere in `build.py` or on any page, so anyone
+tapping either service on the Google listing landed on a site that never mentioned it. Both are
+now items on `/services/physical-therapy.html`, worded from the clinic's own GBP descriptions.
+They were deliberately NOT given their own service pages: CLAUDE.md's 2026-09-09 finding is that
+new pages land on page two or three and add impressions nobody clicks.
 
 **3. No accessibility attributes are set.** The only attributes on the listing are the six social
 URLs. For an outpatient rehab clinic treating post surgical, post stroke and older patients,
@@ -96,7 +101,7 @@ at all. Lower impact than the three above, and worth doing in the same pass.
 
 Nothing here needs a Google login except these:
 
-- Deciding the factual questions in items 2 and 3 above
+- Deciding the remaining factual questions in item 3 above (item 2 is resolved)
 - Adding photos. The listing's media gallery was not audited in depth; a rehab clinic profile
   benefits from current interior, exterior, equipment and team photos, and the repo already
   holds `assets/media/clinic.jpg`, `gym.jpg` and the team portraits, which `upload_media` could
