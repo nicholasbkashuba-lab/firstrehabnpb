@@ -427,6 +427,35 @@ tmp branches via `curl -X DELETE .../git/refs/heads/...` with GITHUB_TOKEN, then
 run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never commit
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
+## Keeping the site's newest episode current — AUTOMATED
+Nick, 2026-09-20: "watch for the newest episode and post it onto our website every
+Saturday." The daily routine now does this. `tools/episode-sync.py` is the mechanism.
+
+    python3 tools/episode-sync.py check       # read-only; exit 1 means the site is behind
+    python3 tools/episode-sync.py add-video   # mechanical, adds VIDEOS, rebuilds
+
+**The feeds are the source; the website is the DESTINATION.** Do not scrape
+firstrehabnpb.com looking for the episode link, and do not reach for the Spotify for
+Creators dashboard (`creators.spotify.com/home/show/033A1BQq9qqsygFFCq9SIu`) — it needs
+Nick's login, so a routine cannot read it. The public show embed and the YouTube channel
+feed both answer unauthenticated and are what the script uses.
+
+**Spotify and YouTube do NOT arrive together.** Episode 15 was on Spotify before 9:00 AM
+ET Saturday; Nick uploaded the video at 10:10 AM. So the Saturday run will often add
+EPISODES and not VIDEOS, and a later day backfills the video. That is why `check` runs
+EVERY day rather than only Saturday. A missing VIDEOS entry is a CORRECT build warning,
+not noise — never invent a YouTube id or an uploadDate to silence it, because uploadDate
+is what video rich results key off.
+
+**What the script will not do: write the EPISODES blurb.** That is five paragraphs from
+the episode transcript, and a generated one reads generated. `check` reports the gap and
+stops. `add-video` fills in everything mechanical and leaves the teaser as an explicit
+PLACEHOLDER so an unreviewed one cannot ship silently.
+
+The routine pushes straight to `main` once the build is clean, because Nick wants the
+episode live rather than waiting in a PR. It pushes a branch instead if the build warns
+or the diff touches anything beyond build.py and regenerated HTML.
+
 ## Episode release cycle — STANDING AUTHORIZATION
 Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each time.
 - **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. A studio photo, the
