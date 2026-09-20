@@ -173,6 +173,18 @@ When adding or changing pages, preserve all of it:
 - Don't remove the JSON-LD block, canonical tags, or the sitemap/robots/manifest generation.
 - If the domain ever changes from firstrehabnpb.com, update `base` in `head()` and `build_meta()`.
 - After any build, sitemap.xml must list every live page and robots.txt must point to it.
+- **sitemap.xml `<lastmod>` is per-page and honest — `sitemap-dates.json` is what makes it
+  so, and it MUST be committed with every build.** Until 2026-09-20 the build stamped the
+  build date on all 50 URLs, so any change told Google the whole site changed and the
+  signal was worth nothing; sessions worked around it by hand-reverting sitemap.xml before
+  staging. That workaround is now WRONG — commit sitemap.xml and sitemap-dates.json
+  together, or the recorded dates never persist and every page reverts to claiming it
+  changed today. `_lastmods()` hashes each generated page and carries the old date forward
+  when the hash is unchanged. Asset cache-busters (`?v=`) are stripped before hashing on
+  purpose: a styles.css bump rewrites that query string on all 50 pages and is not a
+  content change to any of them. A page with no recorded hash is seeded from the date of
+  the last commit touching it (today, if the working copy is already dirty). Delete the
+  file and you silently lose every real date.
 
 Local SEO priorities for this business: "physical therapy North Palm Beach", "hand therapy
 Palm Beach Gardens", "occupational therapy Jupiter FL", plus each condition + location.
