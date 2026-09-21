@@ -46,18 +46,14 @@ the 24 in older notes came from.
 
 ### Things to fix, in priority order
 
-**1. Four reviews have no reply.** All five stars, the oldest sitting unanswered since October
-2025.
+**1. SUPERSEDED — the backlog was 34, not 4.** The four listed here came from a 12-month query.
+Widened to 24 months it was **34 unanswered reviews**, the oldest from 2024. Using the shorter
+window made the problem look a tenth of its real size, which is the trap: `get_data` silently
+answers only for the window you ask for.
 
-| date | reviewer | rating |
-|---|---|---|
-| 2026-04-06 | Crystal | 5 |
-| 2026-02-11 | Blake Perez | 5 |
-| 2025-10-07 | Romina Griffis | 5 |
-| 2025-10-03 | scott ferris | 5 |
-
-Owner responses are surfaced in the pack and a half answered profile reads as inattentive.
-Templates are in `content/reviews/scripts.md`. `reply_to_review` can post these once approved.
+The queue and the exact reply text for all 34 now live in `content/reviews/reply-queue.md`,
+batched and tracked. Batches 1 and 2 are posted; 3 and 4 are scheduled. Work from that file,
+not from this table.
 
 **2. RESOLVED 2026-09-20.** Three service items were flagged here as possibly not describing
 real services. Both parts of that turned out to need correcting.
@@ -77,31 +73,64 @@ now items on `/services/physical-therapy.html`, worded from the clinic's own GBP
 They were deliberately NOT given their own service pages: CLAUDE.md's 2026-09-09 finding is that
 new pages land on page two or three and add impressions nobody clicks.
 
-**3. No accessibility attributes are set.** The only attributes on the listing are the six social
-URLs. For an outpatient rehab clinic treating post surgical, post stroke and older patients,
-accessibility is a filter people actually use, and Google shows these prominently. Candidates:
+**3. RESOLVED 2026-09-21.** The three accessibility attributes Nick confirmed are now set and
+verified live: `has_wheelchair_accessible_entrance`, `has_wheelchair_accessible_parking` and
+`has_wheelchair_accessible_restroom`. Note the id prefix: `wi_wheelchair_accessible_*` is
+rejected with a 400, `has_wheelchair_accessible_*` is what Google accepts.
 
-- Wheelchair accessible entrance, car park, lift, toilet
-- Accepts new patients
-- Appointment required
-- Gender neutral toilet
-- Identifies as veteran owned or similar, if applicable
+Not set, and still owner questions: appointment required, gender neutral toilet, veteran owned.
+Each is a factual claim about the business, so none was guessed.
 
-Every one of these is a factual claim about the building. **Ask the owner before setting any of
-them.** Claiming a wheelchair accessible toilet that is not one is worse than claiming nothing.
-
-**4. Service items are all filed under `gcid:physiotherapy_center`.** Including the occupational
-therapy and hand therapy ones. Mapping the OT service to the Occupational therapist category
-would reinforce the exact association the site work is chasing, given the competitor has no OT
-at all. Lower impact than the three above, and worth doing in the same pass.
+**4. RESOLVED — and the finding was already stale when written.** This file said every service
+item sat under `gcid:physiotherapy_center`, including the occupational therapy and hand therapy
+ones. Read live on 2026-09-21, both were already filed under `gcid:occupational_therapist`, and
+"Occupational therapist" was already an additional category. Somebody fixed it before this file
+was updated. **Read the live listing before acting on anything in this file.**
 
 ---
+
+## OT expansion, 2026-09-21
+
+The 45-day Search Console pull after the Wix redirect consolidation showed occupational therapy
+at **391 impressions a month and zero clicks**, positions 28 to 40, almost entirely West Palm
+city-qualified. CLAUDE.md records city-qualified intent as a profile lever rather than a page
+lever, so the work went here rather than into more page copy.
+
+Everything obvious was already done: the category, the West Palm service area, the service item
+filing. The one real gap was **service item coverage** — OT had exactly two items (Occupational
+Therapy, Hand Therapy) against four for wellness.
+
+Six OT service items added, taking the list from 8 to 14. Every one restates a service the site
+already claims in the `SVC_DEEP["occupational-therapy"]` blocks in build.py; none is a new
+clinical claim:
+
+| item | why |
+|---|---|
+| Stroke Rehabilitation | site claims it; distinct search intent |
+| Activities of Daily Living Training | the core of what OT is |
+| Ergonomic Assessment | 34 impressions at position 49 to 65, nothing on the profile matched |
+| Return to Work Program | workers comp is an existing service |
+| Cognitive Rehabilitation | site claims it |
+| Adaptive Equipment Training | site claims it |
+
+Verified by reading the listing back: 14 items live, nothing lost in the replace.
+
+**NOT claimed, deliberately: in-home occupational therapy.** "occupational therapy at home west
+palm beach" is 113 impressions in 45 days, **19% of all OT demand** and the single largest OT
+query. Nothing on the site or the listing says the clinic does home visits, and CLAUDE.md's rule
+for the location pages is honest served-from-NPB content with no invented service. If the clinic
+does NOT offer in-home OT, roughly a fifth of this demand is permanently unwinnable and should be
+written off rather than chased. **If it does, that is a service item, a website section and a
+real differentiator, and it needs the owner to say so first.** Ask before adding it.
 
 ## What only the owner can do
 
 Nothing here needs a Google login except these:
 
-- Deciding the remaining factual questions in item 3 above (item 2 is resolved)
+- Deciding the remaining attribute questions in item 3 (appointment required, gender
+  neutral toilet, veteran owned). Items 2 and 4 are resolved.
+- **Answering whether the clinic offers in-home occupational therapy.** See the OT expansion
+  note above; it is 19% of OT search demand and cannot be guessed.
 - Adding photos. The listing's media gallery was not audited in depth; a rehab clinic profile
   benefits from current interior, exterior, equipment and team photos, and the repo already
   holds `assets/media/clinic.jpg`, `gym.jpg` and the team portraits, which `upload_media` could
