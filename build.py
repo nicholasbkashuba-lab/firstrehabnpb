@@ -1639,8 +1639,8 @@ CONDITIONS = {
         "approach": "Expect early swelling and mobility management, progressive strengthening and balance training, and sport- or activity-specific work before you return to full speed. Our goal is an ankle you never have to think about.",
     },
     "hand-wrist": {
-        "seo_title": "Hand & Wrist Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Certified hand therapy for carpal tunnel, tendon injuries, arthritis and post-surgical hands, with custom splints made on-site. Serving West Palm Beach.",
+        "seo_title": "Hand & Wrist Pain Treatment | North Palm Beach FL",
+        "seo_desc": "Treatment for hand and wrist pain, numbness, stiffness and lost grip. Carpal tunnel, thumb arthritis and post-surgical hands, with splints made on-site.",
         "name": "Hand &amp; Wrist Therapy",
         "area": "Wrist &amp; Hand",
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
@@ -1739,6 +1739,100 @@ def build_conditions():
             blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="inline-refs">From the blog: {_links}</p></div></section>'
         else:
             blog_link = ""
+        # Condition-level depth, currently hand and wrist only.
+        #
+        # Why this exists, and why it is NOT more words on a location page:
+        # the 2026-09-21 Search Console pull showed Google finished collapsing
+        # the old Wix URLs into their redirect targets partway through the
+        # window (/hand-therapy went 655 impressions to 0 across two 45-day
+        # halves while /services/hand-therapy.html went 172 to 865). Every
+        # position averaged over 90 days was therefore a blend of two regimes
+        # and could not be read. On the clean 45 days after consolidation, the
+        # hand and wrist SYMPTOM queries are the live opportunity: "hand pain
+        # treatment west palm beach" 129 impressions at position 14.4 and
+        # "wrist pain treatment west palm beach" 98 at 23.0, 318 impressions a
+        # month of symptom intent converting at zero.
+        #
+        # The problem those numbers describe is targeting, not thinness. The
+        # SERVICE page was ranking for the symptom queries while this condition
+        # page drew 111 impressions in 90 days, so our two pages split the
+        # signal and neither won. The division of labour is now explicit:
+        # /services/hand-therapy.html owns practitioner intent ("hand
+        # therapist", "certified hand therapist"), and this page owns symptom
+        # intent ("hand pain", "wrist pain", "carpal tunnel").
+        #
+        # So this block is written from the SYMPTOM inward, which is also how
+        # people search it, and deliberately shares no sentence with the
+        # diagnosis-first blocks in SVC_DEEP or the 12 hand Q&As on /faq.html.
+        # Duplicating either would make three of our own pages compete.
+        # Same content rules as SVC_DEEP: every statement restates something the
+        # site already asserts, and there is no new clinical claim, no mechanism,
+        # no statistic and no promised outcome. We evaluate and rehabilitate; we
+        # do not diagnose here and we never claim surgery.
+        COND_DEEP = {
+            "hand-wrist": {
+                "h2": "Hand and wrist pain, and what usually helps",
+                "intro": "Most people do not arrive knowing what is wrong. They arrive because something "
+                         "hurts, or has gone numb, or will not grip the way it used to. The evaluation is "
+                         "what sorts that out. What follows is how the most common complaints tend to "
+                         "present, so you have some idea what you are looking at before you call.",
+                "blocks": [
+                ("Numbness or tingling that wakes you up",
+                 "Hand symptoms that are worse at night, or that show up while you are driving or holding "
+                 "a phone, are a common reason people are referred to hand therapy. Caught early, these "
+                 "cases often respond to conservative care, and a custom night splint is frequently part "
+                 "of it. If your case turns out to warrant a surgical opinion we will tell you plainly "
+                 "and coordinate with your physician rather than keep you in therapy."),
+                ("Wrist pain that has not settled",
+                 "A wrist can stay painful and stiff long after the injury that caused it, and it is one "
+                 "of the areas people most often assume they simply have to live with. Wrists fall "
+                 "squarely inside a certified hand therapist\u2019s scope alongside the hand itself, and the "
+                 "evaluation looks at motion, strength and how the whole forearm is loading before "
+                 "anything is treated."),
+                ("Grip and dexterity that have quietly gone",
+                 "Jars, keys, buttons and steering wheels are usually where people first notice. Lost "
+                 "grip and pinch are treated directly here rather than left to come back on their own, "
+                 "and because our occupational therapy program runs in the same building, the daily tasks "
+                 "you are actually struggling with can be worked on alongside the hand itself."),
+                ("Pain at the base of the thumb",
+                 "Thumb pain that flares with pinching, opening and twisting is common and it is one of "
+                 "the conditions conservative hand therapy addresses most effectively. Treatment leans on "
+                 "joint protection technique, targeted strengthening, a supportive splint made here, and "
+                 "changing the specific movements that keep aggravating it."),
+                ("A finger that catches, or a hand that is still swollen after surgery",
+                 "Both are routine referrals to a hand therapy program rather than to general "
+                 "rehabilitation. Post-operative hands in particular are managed to the surgeon\u2019s "
+                 "protocol, and the swelling, stiffness and scar that follow an operation are treated as "
+                 "part of the plan rather than as something to wait out."),
+                ("After a cast comes off",
+                 "The fracture healing and the hand working again are two different problems, and the "
+                 "second one is the reason people come here. Expect the early work to be about motion and "
+                 "swelling before it is about strength, and expect the pace to be set by the tissue that "
+                 "is healing rather than by a fixed number of weeks."),
+                ("Do you need a referral, and will insurance cover it",
+                 "It depends on your plan, and post-operative patients usually arrive with a referral and "
+                 "protocol from their surgeon already. The quickest way to find out is to call the front "
+                 "desk at 561-624-4263 \u2014 they will check what your plan requires, including how it "
+                 "handles a custom splint, before you come in."),
+                ],
+            },
+        }
+        cond_deep_html = ""
+        if slug in COND_DEEP:
+            _cd = COND_DEEP[slug]
+            _cb = "".join(
+                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in _cd["blocks"]
+            )
+            cond_deep_html = f'''
+<section class="section">
+  <div class="wrap">
+    <div class="prose reveal">
+      <h2>{_cd["h2"]}</h2>
+      <p>{_cd["intro"]}</p>
+      {_cb}</div>
+  </div>
+</section>'''
+
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
         # Related-care internal links: primary service + neighboring conditions
         i = cond_slugs.index(slug)
@@ -1775,7 +1869,7 @@ def build_conditions():
     </aside>
   </div>
 </section>
-{appt_form(heading='Get Help With ' + c['name'], sub='Tell us what is going on and our front desk will call you back within one business day.')}
+{cond_deep_html}{appt_form(heading='Get Help With ' + c['name'], sub='Tell us what is going on and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
