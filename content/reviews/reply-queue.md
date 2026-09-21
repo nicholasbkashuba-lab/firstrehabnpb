@@ -24,8 +24,8 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
 |---|---|---|---|
 | 0 | 2026-09-20 14:07 | 4 | posted |
 | 1 | 2026-09-20 14:12 | 9 | posted |
-| 2 | 2026-09-21 10:14 UTC | 9 | scheduled, trig_01BG5aD9QqUZCbimLYVpkbjj |
-| 3 | 2026-09-22 | 8 | chained from batch 2 |
+| 2 | 2026-09-21 10:15 | 9 | posted |
+| 3 | 2026-09-22 | 8 | scheduled |
 | 4 | 2026-09-23 | 8 | chained from batch 3 |
 
 ---
