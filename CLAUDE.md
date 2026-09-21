@@ -1013,7 +1013,8 @@ build.py/site/owner input — never web research, never invented stats or testim
 secondary / long tail / geo / internal links / do-not-claim), plus a coverage table at the
 bottom recording what each live post owns. Update that table whenever a post ships. Two rules
 in it came from real GSC data: use "treatment" not "relief" in title tags, and never target a
-keyword one of our own pages already owns. Current holes: OT and Wellness have zero posts.
+keyword one of our own pages already owns. Current holes: Wellness has zero posts (OT now has
+two, as of the Episode 15 pillar post on post-stroke OT).
 
 **Anti-AI-slop rules live in BLOG-PLAYBOOK.md** ("No AI slop") and are enforced by
 `python3 tools/slop-check.py` (`--new` skips the seven pre-rules posts, which are warn-only
