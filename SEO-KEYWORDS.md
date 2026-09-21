@@ -219,6 +219,8 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `cartilage-transplant-knee-explained` | Physical Therapy | cartilage transplant knee recovery |
 | `pain-2-power-ep15-mann` | Pain 2 Power (Ep 15) | Susan Mann / Bright Minds Processing / auditory and visual processing disorders |
 | `post-stroke-occupational-therapy-north-palm-beach` | Occupational Therapy | post stroke occupational therapy North Palm Beach |
+| `strength-training-after-60-fall-prevention` | Wellness | strength training after 60 / balance and fall prevention |
+| `gym-program-after-physical-therapy-north-palm-beach` | Wellness | gym program after physical therapy North Palm Beach |
 
 ## Hand therapy push, 2026-09-09
 
@@ -255,15 +257,19 @@ which lands on post stroke OT, a service the OT page really does list (Post-Stro
 Cognitive Rehabilitation). The recap states in the body that we do not test for or treat APD or VPD.
 Do not write a pediatric processing post off this episode.
 
-**Holes as of 2026-09-16:** Occupational Therapy now has two posts, the second being the Episode 15
-pillar post on post stroke OT, which takes the "post stroke occupational therapy North Palm Beach"
-secondary and also works in the "cognitive rehabilitation after injury" and "return to work program
-after injury" long tails. **Wellness still has zero**, and it is the only pillar with none, so it is
-the next thing to write. Two Wellness posts
-are already sourced from the Episode 8 transcript and waiting: "the invention of the chair is one
-of our demise", and the TheraBand home program behind Dave's "I do everything I can to let people
-not ever come to see me". Hand Therapy has one. Physical Therapy has seven and needs nothing.
-Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach.
+**Holes as of 2026-09-21:** No pillar has zero posts anymore. Occupational Therapy has two, the
+second being the Episode 15 pillar post on post stroke OT, which takes the "post stroke
+occupational therapy North Palm Beach" secondary and also works in the "cognitive rehabilitation
+after injury" and "return to work program after injury" long tails. Wellness has two, both sourced
+from the Episode 8 transcript and both approved directly by Nick as an exception to the 2026-09-09
+freeze: `strength-training-after-60-fall-prevention` (Dave's "the invention of the chair is one of
+our demise", the "personal training for seniors North Palm Beach" secondary, the "balance exercises
+to prevent falls at home" and "strength training after 60 where to start" long tails) and
+`gym-program-after-physical-therapy-north-palm-beach` (the TheraBand home program behind Dave's "I
+do everything I can to let people not ever come to see me", the "gym program after physical therapy
+North Palm Beach" secondary, the "what to do after you finish physical therapy so you do not lose
+progress" long tail). Hand Therapy has one. Physical Therapy has seven and needs nothing.
+Locations referenced from a post: Palm Beach Gardens, Jupiter, West Palm Beach, Juno Beach, Tequesta.
 
 `/exercises.html` is not a blog post but it targets long-tail exercise searches across all four
 pillars, so check it before writing an exercise-led post that would compete with it.
