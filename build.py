@@ -1468,7 +1468,7 @@ def build_services():
             "physical-therapy": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit"],
             "occupational-therapy": ["physical-therapy-vs-occupational-therapy", "why-hand-therapy-is-different"],
             "hand-therapy": ["why-hand-therapy-is-different"],
-            "wellness": ["pain-2-power-ep11-joyce"],
+            "wellness": ["pain-2-power-ep11-joyce", "strength-training-after-60-fall-prevention", "gym-program-after-physical-therapy-north-palm-beach"],
         }
         _sposts = [b for b in SVC_BLOG.get(slug, []) if b in BLOG_POSTS]
         svc_blog_links = ""
@@ -2896,6 +2896,60 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "strength-training-after-60-fall-prevention": {
+        "title": "Strength Training After 60: Where to Start",
+        "date": "September 2026",
+        "iso": "2026-09-21",
+        "tag": "Wellness",
+        "teaser": "Why sitting is the quiet risk as you age, and what a short daily movement habit plus supervised strength work do for fall risk and independence.",
+        "body": """
+<p>Somewhere between fifty and sixty, gravity starts winning arguments it used to lose. The shoulders round forward, the head drifts ahead of the spine, and most people blame age instead of the eight or ten hours a day they spend sitting down.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The chair is doing more damage than the years are</h2>
+<p>&ldquo;The invention of the chair is one of our demise,&rdquo; says Dr. Dave Kashuba, Ph.D., founder of First Rehabilitation and an occupational therapist who has treated patients since 1991. He is not against furniture. He is pointing at what happens to a body that spends most of the day in one position: forward head posture, tight hips, and blood flow that slows down instead of circulating. &ldquo;That's just gravity, that's how life is,&rdquo; he says of the forward drift that comes with age, &ldquo;but we want to walk every day, we want to try to get the blood flowing.&rdquo;</p>
+<h2>Ten minutes counts, and it beats waiting for an hour you never get</h2>
+<p>The advice Dave gives patients is not a gym plan. It is smaller than that on purpose. &ldquo;Just a little bit of exercises, ten, fifteen minutes a day, three minutes a day, and work your way up,&rdquo; he says. Put the phone down, get up, walk, do a few sit to stands, and repeat that through the day rather than saving it for one long session. The goal is motion that happens often, not motion that happens perfectly.</p>
+<p>Rising from a chair without using your hands is one of the simplest tests of leg strength there is, and it is the same movement that keeps someone able to get off a low couch, a car seat, or the toilet without help. Losing it rarely announces itself. It erodes a few degrees at a time until a fall makes it obvious.</p>
+<h2>Balance and strength are the same project</h2>
+<p>Falls do not usually start with a slip. They start months earlier, with weaker hips, a less steady base, and reaction time that has quietly slowed down. Supervised strength training after 60 addresses both halves at once: the muscle that holds you up, and the balance reactions that catch you when something shifts under your feet.</p>
+<p>This is where our <a href="../services/wellness.html">on-site wellness program</a> picks up where formal therapy leaves off. Patients who finish physical or occupational therapy with us can keep training in the same building, with a team that already knows their history, instead of starting over with a trainer who has never seen their chart. Senior functional fitness work at our North Palm Beach clinic focuses on the strength and balance work that keeps people independent, not on adding plates to a bar.</p>
+<p>The program covers a range of paces on purpose. Some people want one-on-one personal training built around a specific goal or a joint we already know well. Others do better in a small group fitness class, where consistency is easier when someone else is waiting for you to show up. Either way, the person leading the session already has your history, not a blank intake form.</p>
+<h2>If pain is why you have been sitting more</h2>
+<p>Sometimes the sitting is protection rather than habit. A bad hip, knee, or back makes standing and walking hurt, so the chair starts to feel like the safe choice, and the muscles that would have supported those joints get weaker from disuse. We see this constantly in patients recovering from <a href="../treatments/hip-pain.html">hip pain</a>, <a href="../treatments/knee-pain.html">knee pain</a>, and <a href="../treatments/back-pain.html">back pain</a>, and it is exactly the cycle a good evaluation is built to interrupt: treat the pain that is driving the inactivity, then rebuild the strength that inactivity cost.</p>
+<p>Patients from <a href="../locations/juno-beach.html">Juno Beach</a> and the surrounding area often ask us the same question at discharge: what now? The exercises do not stop being useful once the pain does. They become the maintenance plan.</p>
+<h2>Book an evaluation</h2>
+<p>If you have noticed yourself avoiding stairs, standing up more slowly than you used to, or simply sitting more than you would like to admit, an evaluation is the place to start, not a gym membership you are not sure you are ready for. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and read more in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "gym-program-after-physical-therapy-north-palm-beach": {
+        "title": "Your Gym Program After Physical Therapy Ends",
+        "date": "September 2026",
+        "iso": "2026-09-21",
+        "tag": "Wellness",
+        "teaser": "What to do with your home exercises once physical therapy ends, and why an on-site wellness program exists to keep the progress you worked for.",
+        "body": """
+<p>The day your physical therapy ends is the day most clinics stop thinking about you. The exercises that got you better sit in a folder, the appointments stop, and within a few months the strength you built starts quietly going the way it came.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>&ldquo;I do everything I can to let people not ever come to see me&rdquo;</h2>
+<p>Dr. Dave Kashuba, Ph.D., founder of First Rehabilitation, says the line comes up often enough with patients that he has stopped apologizing for it. Building a strong home program, in his view, is the job, not bad for business. &ldquo;Cause again, reiterating the point, I do everything I can to let people not ever come to see me,&rdquo; he says.</p>
+<p>That shows up in what he sends patients home with. Resistance bands over dumbbells, for a start: &ldquo;I recommend you go online and get bands, there's therapy bands that you could do,&rdquo; rather than relying on whatever weight happens to be sitting around the house.</p>
+<h2>Offset what the rest of your day already does to you</h2>
+<p>Most people's daily movement runs one direction. Typing, driving, carrying groceries, looking at a phone, all of it pulls the shoulders forward and rounds the upper back. Dave's home programs are built to work the opposite way on purpose. &ldquo;It's better to offset everything that we do, our daily use, everything we do is internal again,&rdquo; he says, which is why shoulder rows, extensions, and shoulder pulls show up in nearly every program he writes, regardless of which joint sent the patient in.</p>
+<p>The band work is not a substitute for a proper evaluation, and it is not a replacement for hands-on treatment while an injury is active. It is what carries the gains forward once that treatment is done, which is a different job from the treatment itself.</p>
+<h2>Stretching earns its place next to the band work</h2>
+<p>Dave pairs the resistance work with a short stretching routine, and he is specific about why. &ldquo;Especially guys,&rdquo; he says, most people never stretch at all, they grab their glasses, a cup of coffee, and go to work. One move he gives patients is the wall slide: stand facing a wall, slide both arms up from a 90 degree bent position, and bring them back down, three sets of ten. He adds shoulder shrugs, three sets of ten, and scapular retractions, where you squeeze your shoulder blades together and hold. &ldquo;Just simple stretches like that are going to help and support it,&rdquo; he says.</p>
+<p>None of these need equipment beyond a wall and, for the wall slide, a towel. That is deliberate. A home program someone will actually do on a Tuesday night beats a more elaborate one that stays in a folder.</p>
+<h2>Where the program goes once discharge happens</h2>
+<p>This is the gap our <a href="../services/wellness.html">on-site wellness program</a> is built to close. Graduates of our physical, occupational, and hand therapy programs can keep training in the same clinic, with a team that already knows which shoulder was the problem and which movements to avoid. A post rehab exercise program built this way is not generic. It is a continuation of the chart.</p>
+<p>We see this most often with patients coming off <a href="../treatments/post-surgical.html">post-surgical rehabilitation</a>, where the risk of losing hard-won range of motion in the months after discharge is highest, and with <a href="../treatments/knee-pain.html">knee pain</a> patients who need ongoing strength work to keep a joint's mechanics honest. Patients from Palm Beach Gardens and <a href="../locations/tequesta.html">Tequesta</a> traveling in for therapy often ask about this before they have even finished their first course of treatment, which says something about how much the fear of backsliding weighs on people.</p>
+<h2>What this replaces, and what it does not</h2>
+<p>This is not a substitute for an evaluation, and it does not replace hands-on treatment while an injury is still active. A band program is what carries strength forward once that phase of care is finished. Membership details, pricing, and scheduling are a front desk conversation. We are not going to guess at them here.</p>
+<h2>Start with an evaluation</h2>
+<p>If therapy ended for you somewhere else, or your home program has quietly stopped happening, an evaluation is still the right first step. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and see more answers in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "pain-2-power-ep15-mann": {
         "title": "They Were Gifted and Failing: Susan Mann on Processing Disorders",
         "date": "September 2026",
@@ -3337,14 +3391,16 @@ BLOG_POSTS = {
 # target at least once, so adding a post means adding it to somebody's list too.
 # Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
 RELATED_POSTS = {
+    "strength-training-after-60-fall-prevention": ["gym-program-after-physical-therapy-north-palm-beach", "pain-2-power-ep11-joyce", "reverse-shoulder-replacement-explained"],
+    "gym-program-after-physical-therapy-north-palm-beach": ["strength-training-after-60-fall-prevention", "reverse-shoulder-replacement-explained", "why-hand-therapy-is-different"],
     "pain-2-power-ep15-mann": ["post-stroke-occupational-therapy-north-palm-beach", "physical-therapy-vs-occupational-therapy", "pain-2-power-ep11-joyce"],
     "post-stroke-occupational-therapy-north-palm-beach": ["physical-therapy-vs-occupational-therapy", "pain-2-power-ep15-mann", "why-hand-therapy-is-different"],
-    "pain-2-power-ep11-joyce": ["pain-2-power-ep15-mann", "pain-2-power-ep10-mcvicker", "reverse-shoulder-replacement-explained"],
+    "pain-2-power-ep11-joyce": ["strength-training-after-60-fall-prevention", "pain-2-power-ep10-mcvicker", "pain-2-power-ep15-mann"],
     "partial-vs-total-knee-replacement": ["knee-arthritis-before-surgery", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
     "physical-therapy-vs-occupational-therapy": ["post-stroke-occupational-therapy-north-palm-beach", "why-hand-therapy-is-different", "what-to-expect-first-pt-visit"],
     "pain-2-power-ep10-mcvicker": ["hip-impingement-back-pain-north-palm-beach", "five-morning-habits-back-pain", "pain-2-power-ep11-joyce"],
     "hip-impingement-back-pain-north-palm-beach": ["pain-2-power-ep10-mcvicker", "five-morning-habits-back-pain", "what-to-expect-first-pt-visit"],
-    "reverse-shoulder-replacement-explained": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
+    "reverse-shoulder-replacement-explained": ["gym-program-after-physical-therapy-north-palm-beach", "partial-vs-total-knee-replacement", "what-to-expect-first-pt-visit"],
     "what-to-expect-first-pt-visit": ["physical-therapy-vs-occupational-therapy", "five-morning-habits-back-pain", "knee-arthritis-before-surgery"],
     "five-morning-habits-back-pain": ["hip-impingement-back-pain-north-palm-beach", "headaches-that-start-in-the-neck", "what-to-expect-first-pt-visit"],
     "why-hand-therapy-is-different": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit", "reverse-shoulder-replacement-explained"],
@@ -3439,6 +3495,8 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "strength-training-after-60-fall-prevention": "Strength Training After 60 in North Palm Beach",
+            "gym-program-after-physical-therapy-north-palm-beach": "Gym Program After Physical Therapy | North Palm Beach",
             "pain-2-power-ep15-mann": "Susan Mann: Processing Disorders in Kids",
             "post-stroke-occupational-therapy-north-palm-beach": "Post Stroke Occupational Therapy North Palm Beach",
             "pain-2-power-ep11-joyce": "Paul Joyce: GLP-1s, Peptides and Muscle Loss",
