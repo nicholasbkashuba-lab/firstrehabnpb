@@ -195,6 +195,13 @@ When adding or changing pages, preserve all of it:
   the last commit touching it (today, if the working copy is already dirty). Delete the
   file and you silently lose every real date.
 
+**The clinic does NOT offer in-home or mobile therapy, PT or OT** (Nick, 2026-09-21). Home-intent
+queries are 227 impressions a month at ZERO clicks, 2.9% of all site impressions, and the single
+largest is "occupational therapy at home west palm beach". Nothing on the site claims home visits
+and nothing needs fixing; we match those queries incidentally at position 28 to 40. Write the
+demand off, never add it to a page, a service item or the Google listing, and subtract it before
+sizing any OT opportunity. Full record in SEO-KEYWORDS.md.
+
 Local SEO priorities for this business: "physical therapy North Palm Beach", "hand therapy
 Palm Beach Gardens", "occupational therapy Jupiter FL", plus each condition + location.
 

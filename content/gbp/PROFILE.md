@@ -115,13 +115,17 @@ clinical claim:
 
 Verified by reading the listing back: 14 items live, nothing lost in the replace.
 
-**NOT claimed, deliberately: in-home occupational therapy.** "occupational therapy at home west
-palm beach" is 113 impressions in 45 days, **19% of all OT demand** and the single largest OT
-query. Nothing on the site or the listing says the clinic does home visits, and CLAUDE.md's rule
-for the location pages is honest served-from-NPB content with no invented service. If the clinic
-does NOT offer in-home OT, roughly a fifth of this demand is permanently unwinnable and should be
-written off rather than chased. **If it does, that is a service item, a website section and a
-real differentiator, and it needs the owner to say so first.** Ask before adding it.
+**ANSWERED 2026-09-21 — in-home therapy is NOT offered.** Nick: "no in home ot or pt". So
+`occupational therapy at home west palm beach` (113 impressions in 45 days, the largest single
+OT query) is permanently unwinnable, and so is the PT side of it. Across both, home-intent
+queries are 227 impressions a month at zero clicks.
+
+**Never add an in-home service item, and never let a description imply one.** The full record,
+including why nothing on the website needs changing, is in `SEO-KEYWORDS.md` under "In-home
+therapy: confirmed NOT offered".
+
+Practical effect on sizing: OT is 391 impressions a month, of which 75 are the at-home query, so
+the winnable OT pool is about 316. Subtract before planning against it.
 
 ## What only the owner can do
 
@@ -129,8 +133,6 @@ Nothing here needs a Google login except these:
 
 - Deciding the remaining attribute questions in item 3 (appointment required, gender
   neutral toilet, veteran owned). Items 2 and 4 are resolved.
-- **Answering whether the clinic offers in-home occupational therapy.** See the OT expansion
-  note above; it is 19% of OT search demand and cannot be guessed.
 - Adding photos. The listing's media gallery was not audited in depth; a rehab clinic profile
   benefits from current interior, exterior, equipment and team photos, and the repo already
   holds `assets/media/clinic.jpg`, `gym.jpg` and the team portraits, which `upload_media` could

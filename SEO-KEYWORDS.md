@@ -70,6 +70,9 @@ headache-relief, post-surgical, auto-accident
 palm-beach-gardens, jupiter, tequesta, juno-beach, lake-park, west-palm-beach, riviera-beach,
 palm-beach
 
+**Do not claim**: in-home or mobile physical therapy. Owner confirmed 2026-09-21 that the clinic
+does not do home visits, for PT or OT. See the shared note below.
+
 ---
 
 ## Pillar 2: Occupational Therapy
@@ -103,8 +106,9 @@ workers-comp, post-surgical, hand-wrist, shoulder-pain
 **Location pages to link**
 west-palm-beach, lake-park, riviera-beach, palm-beach-gardens
 
-**Do not claim**: driving evaluations, home modification contracting, or pediatric OT. The
-service page does not offer them.
+**Do not claim**: driving evaluations, home modification contracting, pediatric OT, or in-home
+occupational therapy. The service page does not offer them, and the owner confirmed the home
+visit point on 2026-09-21. See the shared note below.
 
 ---
 
@@ -358,3 +362,39 @@ Ranking for it would earn a call we have to turn away.
 **Still open.** Occupational therapy has one blog post (`post-stroke-occupational-therapy-
 north-palm-beach`). The West Palm Beach OT cluster above has no post behind it and is the
 highest marginal return on the site.
+
+---
+
+## In-home therapy: confirmed NOT offered, and it is 227 impressions a month
+
+Nick, 2026-09-21: "no in home ot or pt".
+
+This matters because it is the largest block of demand the site draws that it can never convert.
+On the clean 45 days after the Wix redirect consolidation, home-intent queries ran **340
+impressions, 227 a month, and ZERO clicks** — 2.9% of all site impressions:
+
+| impr | pos | query |
+|---|---|---|
+| 113 | 28.3 | occupational therapy at home west palm beach |
+| 93 | 27.9 | physical therapy at home palm beach gardens |
+| 88 | 39.5 | palm beach gardens physical therapy at home |
+| 19 | 41.4 | physical therapy at home services palm beach |
+| 16 | 26.1 | at home physical therapy services palm beach |
+| 11 | — | six more, all "at home" or "in home" |
+
+**Nothing on the site claims home visits, and nothing needs fixing.** Checked every page: every
+"at home" on the site is a home exercise programme, an intake form filled in at home, or the
+careers page describing at-home techniques taught to families. We appear for these queries
+incidentally, on pages that happen to carry a city name and the word home, at position 28 to 40.
+
+Two practical consequences:
+
+1. **Write this demand off. Do not target it, and never add it to a page, a service item or the
+   Google listing to capture it.** Claiming a service the clinic does not provide on a healthcare
+   listing is the worst version of an SEO win.
+2. **Subtract it before sizing any OT opportunity.** OT is 391 impressions a month, but 75 of
+   those are the "at home" query alone, so the winnable OT pool is nearer 316. An OT plan that
+   counts the full 391 is overstating itself by 19%.
+
+If the clinic ever does start home visits, this becomes a real differentiator and the note should
+be deleted rather than left stale.
