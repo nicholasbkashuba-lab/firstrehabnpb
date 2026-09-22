@@ -1,8 +1,15 @@
 # Review reply backlog, staged
 
-34 reviews on the Google Business Profile had no owner reply as of 2026-09-20. Nick approved
-clearing them, staged rather than posted in one burst: 34 replies landing at once after a year
+**38** reviews on the Google Business Profile had no owner reply as of 2026-09-20. Nick approved
+clearing them, staged rather than posted in one burst: 38 replies landing at once after a year
 of silence looks automated to a reader and is a worse signal than the silence was.
+
+*(This line read 34 until 2026-09-22. The batch lists below always held 4+9+9+8+8 = 38, and a
+live pull that day confirmed it: 42 reviews in the 24 month window, of which 4 already carried
+an older reply in a different voice. The summary sentence was simply wrong, which is now the
+third time a number in this file has needed correcting. Trust the lists and the live listing
+over the prose. Note the window is 24 months, so a review older than that appears in neither
+figure.)*
 
 Posted with `execute_action(connector="google_my_business",
 account="locations/12092306722897872463", action="reply_to_review", params={review_id, comment})`.
@@ -25,8 +32,8 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
 | 0 | 2026-09-20 14:07 | 4 | posted |
 | 1 | 2026-09-20 14:12 | 9 | posted |
 | 2 | 2026-09-21 10:15 | 9 | posted |
-| 3 | 2026-09-22 | 8 | scheduled |
-| 4 | 2026-09-23 | 8 | chained from batch 3 |
+| 3 | 2026-09-22 10:19 UTC | 8 | posted |
+| 4 | 2026-09-23 | 8 | scheduled, chained from batch 3 |
 
 ---
 
@@ -123,7 +130,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
     D S
     Hard to improve on that. Thank you.
 
-## Batch 3, 2026-09-22
+## Batch 3, posted 2026-09-22 10:19 UTC
 
     AbFvOqkV2SLDB9h3L3S3lg8g_wSDj7_Lp_95IgU_4n7bp0sbe_qkh9F_Ug1UJ7Uv3UyRrw-bjMJ5xw
     charlotte Hauck
