@@ -33,7 +33,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
 | 1 | 2026-09-20 14:12 | 9 | posted |
 | 2 | 2026-09-21 10:15 | 9 | posted |
 | 3 | 2026-09-22 10:19 UTC | 8 | posted |
-| 4 | 2026-09-23 | 8 | scheduled, chained from batch 3 |
+| 4 | 2026-09-23 10:18 UTC | 8 | posted |
 
 ---
 
@@ -166,7 +166,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
     PianoMan5312
     Thank you. Families coming back is the best signal we get, and we appreciate you saying so.
 
-## Batch 4, 2026-09-23
+## Batch 4, posted 2026-09-23 10:18 UTC
 
     AbFvOqk5tkIP494F22Kuq_i5aghd-cnxPDOGI6cZn0YwbELNJW_iXZQkZZjnPvDAG9iBzwM4y3Du7g
     Mary Mc Loughlin
@@ -203,3 +203,45 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
     Stephanie Aceti
     Stephanie, thank you. A clean clinic and friendly staff are things we work at, so it is good
     to hear both mentioned.
+
+---
+
+## The 24 month window was hiding 68 more, and they were never in this file
+
+Recorded 2026-09-23, straight after batch 4 posted.
+
+All 38 staged replies are live and verified. **That is not the same as the backlog being clear.**
+
+Every count in this file, including the 34 that was corrected to 38 yesterday, came from a
+`date_preset="last_24m"` pull. That window ends around 2024-09. A full history pull
+(`date_from=2015-01-01`) tells a different story:
+
+| | |
+|---|---|
+| reviews on the listing | **110** (matches `review_total_count`) |
+| answered | 42 (38 posted here + 4 older ones in a different voice) |
+| **still unanswered** | **68** |
+| oldest unanswered | Bobby Root, 2015-02-04 |
+| newest unanswered | Charlie Carlo, 2024-07-29 |
+
+So the real historical backlog was 106, not 34 and not 38. This file cleared the most recent
+38 of it. Everything from 2024-07-29 backwards was never in the queue because the query that
+built the queue could not see it.
+
+**Use `date_from` / `date_to`, not `date_preset`, when the question is "what is unanswered".**
+A preset silently answers a narrower question than the one being asked, and it has now produced
+three wrong numbers in a row here: 4 (12 month window), 34 (a miscount), 38 (24 month window).
+The live listing with an explicit date range is the only figure to trust.
+
+**Whether to reply to the other 68 is an owner decision, not a mechanical continuation of this
+queue.** Reasons it is genuinely a judgment call rather than more of the same:
+
+- Many are five to ten years old. A 2015 review receiving its first owner reply in 2026 reads
+  oddly to anyone who notices the dates.
+- Recency is part of what the map pack weighs. Replying to a decade-old review does not move
+  that, where replying to a recent one does.
+- 68 replies is a large batch to stage even spread out, and the value per reply falls sharply
+  with age.
+
+A reasonable middle is to reply only to those from roughly the last three years and leave the
+older ones, but that is Nick's call and nothing here should be posted until he makes it.
