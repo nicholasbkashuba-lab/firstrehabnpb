@@ -1,8 +1,15 @@
 # Review reply backlog, staged
 
-34 reviews on the Google Business Profile had no owner reply as of 2026-09-20. Nick approved
-clearing them, staged rather than posted in one burst: 34 replies landing at once after a year
+**38** reviews on the Google Business Profile had no owner reply as of 2026-09-20. Nick approved
+clearing them, staged rather than posted in one burst: 38 replies landing at once after a year
 of silence looks automated to a reader and is a worse signal than the silence was.
+
+*(This line read 34 until 2026-09-22. The batch lists below always held 4+9+9+8+8 = 38, and a
+live pull that day confirmed it: 42 reviews in the 24 month window, of which 4 already carried
+an older reply in a different voice. The summary sentence was simply wrong, which is now the
+third time a number in this file has needed correcting. Trust the lists and the live listing
+over the prose. Note the window is 24 months, so a review older than that appears in neither
+figure.)*
 
 Posted with `execute_action(connector="google_my_business",
 account="locations/12092306722897872463", action="reply_to_review", params={review_id, comment})`.
@@ -24,9 +31,11 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
 |---|---|---|---|
 | 0 | 2026-09-20 14:07 | 4 | posted |
 | 1 | 2026-09-20 14:12 | 9 | posted |
-| 2 | 2026-09-21 10:14 UTC | 9 | scheduled, trig_01BG5aD9QqUZCbimLYVpkbjj |
-| 3 | 2026-09-22 | 8 | chained from batch 2 |
-| 4 | 2026-09-23 | 8 | chained from batch 3 |
+| 2 | 2026-09-21 10:15 | 9 | posted |
+| 3 | 2026-09-22 10:19 UTC | 8 | posted |
+| 4 | 2026-09-23 10:18 UTC | 8 | posted |
+| 5 | 2026-09-24 11:54 UTC | 34 | posted, three year backfill |
+| 6 | 2026-09-24 11:59 UTC | 12 | posted, the Aug 2023 cluster |
 
 ---
 
@@ -123,7 +132,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
     D S
     Hard to improve on that. Thank you.
 
-## Batch 3, 2026-09-22
+## Batch 3, posted 2026-09-22 10:19 UTC
 
     AbFvOqkV2SLDB9h3L3S3lg8g_wSDj7_Lp_95IgU_4n7bp0sbe_qkh9F_Ug1UJ7Uv3UyRrw-bjMJ5xw
     charlotte Hauck
@@ -159,7 +168,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
     PianoMan5312
     Thank you. Families coming back is the best signal we get, and we appreciate you saying so.
 
-## Batch 4, 2026-09-23
+## Batch 4, posted 2026-09-23 10:18 UTC
 
     AbFvOqk5tkIP494F22Kuq_i5aghd-cnxPDOGI6cZn0YwbELNJW_iXZQkZZjnPvDAG9iBzwM4y3Du7g
     Mary Mc Loughlin
@@ -196,3 +205,128 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
     Stephanie Aceti
     Stephanie, thank you. A clean clinic and friendly staff are things we work at, so it is good
     to hear both mentioned.
+
+---
+
+## The 24 month window was hiding 68 more, and they were never in this file
+
+Recorded 2026-09-23, straight after batch 4 posted.
+
+All 38 staged replies are live and verified. **That is not the same as the backlog being clear.**
+
+Every count in this file, including the 34 that was corrected to 38 yesterday, came from a
+`date_preset="last_24m"` pull. That window ends around 2024-09. A full history pull
+(`date_from=2015-01-01`) tells a different story:
+
+| | |
+|---|---|
+| reviews on the listing | **110** (matches `review_total_count`) |
+| answered | 42 (38 posted here + 4 older ones in a different voice) |
+| **still unanswered** | **68** |
+| oldest unanswered | Bobby Root, 2015-02-04 |
+| newest unanswered | Charlie Carlo, 2024-07-29 |
+
+So the real historical backlog was 106, not 34 and not 38. This file cleared the most recent
+38 of it. Everything from 2024-07-29 backwards was never in the queue because the query that
+built the queue could not see it.
+
+**Use `date_from` / `date_to`, not `date_preset`, when the question is "what is unanswered".**
+A preset silently answers a narrower question than the one being asked, and it has now produced
+three wrong numbers in a row here: 4 (12 month window), 34 (a miscount), 38 (24 month window).
+The live listing with an explicit date range is the only figure to trust.
+
+**Whether to reply to the other 68 is an owner decision, not a mechanical continuation of this
+queue.** Reasons it is genuinely a judgment call rather than more of the same:
+
+- Many are five to ten years old. A 2015 review receiving its first owner reply in 2026 reads
+  oddly to anyone who notices the dates.
+- Recency is part of what the map pack weighs. Replying to a decade-old review does not move
+  that, where replying to a recent one does.
+- 68 replies is a large batch to stage even spread out, and the value per reply falls sharply
+  with age.
+
+A reasonable middle is to reply only to those from roughly the last three years and leave the
+older ones, but that is Nick's call and nothing here should be posted until he makes it.
+
+---
+
+## Batch 5, the three year backfill, posted 2026-09-24 11:54 UTC
+
+Nick, 2026-09-24: "reply to the last 3 years of reviews". That set the cut at **2023-09-24**.
+
+34 reviews in that window, every one of them five stars, none previously answered. All 34 posted
+and read back off the live listing with the exact text. No failures.
+
+Posted in ONE pass rather than staged. The staging rule earlier in this file exists because 38
+replies landing at once on RECENT reviews, after a year of silence, reads as automated to someone
+watching. These were 14 to 36 months old and nobody is watching a 2024 thread, so the reason did
+not apply.
+
+**What the replies had to avoid.** This set was harder than the first 38. Between them these
+reviews name tennis elbow, an arthritic hip, shoulder pain, degenerative back pain, an ACL
+reconstruction, a hip replacement, shoulder tendinitis, a hip labrum repair, a pinched neck and a
+disability. **Not one of those words appears in any reply.** Each reply picks up something that is
+not clinical: the effort of writing a long review, a staff member the reviewer named, a referral
+they made, the gym, the front desk, the scheduling. Staff named by a reviewer (Laura, Dave, Kayla,
+Sabrina, Evan) are thanked, never tied to that reviewer's care.
+
+One reviewer credited Dave as a DPT. He is an occupational therapist with a Ph.D., so the reply
+thanks him without repeating the credential rather than correcting a patient in public.
+
+### Where the backlog actually stands
+
+| | |
+|---|---|
+| reviews on the listing | 110 |
+| answered | **76** (38 + 34 posted here, plus 4 older ones in a different voice) |
+| still unanswered | **34**, all older than 2023-09-01 |
+| oldest unanswered | Bobby Root, 2015-02-04 |
+| newest unanswered | Luke Ohara, 2023-09-01 |
+
+**Luke Ohara sits 23 days outside the cut.** A three year line drawn on a different day would have
+included him, and there is a cluster of eight more from the last days of August 2023 just behind
+him. If the intent was "recent reviews" rather than "exactly 36 months", that fortnight is the
+obvious thing to extend to. Flagged rather than decided.
+
+The remaining 34 run 2015 to 2023-09-01. The argument against replying to them is unchanged and is
+recorded above: value per reply falls sharply with age, recency is what the map pack weighs, and a
+first owner reply in 2026 to a 2015 review reads oddly to anyone who checks the dates.
+
+---
+
+## Batch 6, the August 2023 cluster, posted 2026-09-24 11:59 UTC
+
+Nick, 2026-09-24: "do the other 9 too". **It was 12, not 9.** The previous note said "Luke Ohara
+plus eight more in the last days of August", which undercounted the tail by three: Anthony
+Mancino, joanne doherty and Aleigha S. All 12 posted, because the next review after this cluster
+is Tristan Jarvin on 2023-06-13, a ten week gap, so 12 is the natural boundary and stopping at 9
+would have orphaned three reviews from the same week.
+
+### A read can serve STALE data, and it nearly produced a false report
+
+Straight after posting these 12, the read-back with `date_from=2015-01-01, date_to=2023-09-24`
+returned `review_reply_comment: null` for **every one of them**. Twelve writes had each returned
+success a minute earlier.
+
+Re-running against a narrower window (`2023-08-20` to `2023-09-05`) returned all 12 replies with
+`review_reply_update_time` values matching the writes to the second. The wide query was served
+from cache; the narrow one was not.
+
+**So "read it back" only proves anything if the read is actually fresh.** Had the report been
+written off that first read, it would have claimed 12 failures that never happened. When verifying
+a write on this connector, query a window you have not just queried, and pull
+`review_reply_update_time` so the timestamps can be matched against the writes rather than trusting
+presence alone.
+
+### Where the backlog stands now
+
+| | |
+|---|---|
+| reviews on the listing | 110 |
+| answered | **88** |
+| still unanswered | **22**, all 2023-06-13 and older |
+| oldest unanswered | Bobby Root, 2015-02-04 |
+| newest unanswered | Tristan Jarvin, 2023-06-13 |
+
+There is no near boundary left. The remaining 22 run from 2015 to mid 2023 with large gaps between
+them, so the next decision is all or nothing rather than another cluster.
