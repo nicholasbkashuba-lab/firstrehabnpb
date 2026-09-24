@@ -41,6 +41,108 @@ TIKTOK = "https://www.tiktok.com/@firstrehabilitation"
 TWITTER = "https://x.com/first_rehab_npb"
 MAPS_EMBED = "https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed"
 
+# ---------------------------------------------------------------------------
+# PHOTOS — the single registry of every real photograph on this site.
+#
+# One entry per photograph. Nothing else in this file may hardcode a photo path:
+# templates call photo(name, ...) and get a <picture> with WebP + JPEG sources,
+# a responsive srcset, and the focal point baked in.
+#
+# "focal" is an object-position value chosen by LOOKING at each frame, because a
+# default centre crop decapitates people. It is the design decision; the pixel
+# work (rendition ladder, WebP/JPEG encode) lives in tools/build-images.py, which
+# reads this dict and writes assets/img/manifest.json.
+#
+# Every entry below is a genuine photograph of this clinic, its staff, or its
+# building. There are 15 of them and they are the entire photographic library.
+# No stock, no illustration, no AI imagery. If a layout needs a photo that is not
+# in this dict, the layout is wrong — do not invent a slot and fill it with a
+# gradient or an icon.
+#
+# NOTE ON SOURCE RESOLUTION: several of these are small (the exterior is 680px
+# wide). build-images.py never upscales, so the manifest records a real cap and
+# photo() emits a srcset that stops there. That is why some photos are used in
+# constrained frames rather than full-bleed — it is a source limit, not a choice.
+# ---------------------------------------------------------------------------
+PHOTOS = {
+    "treatment": {
+        "src": "assets/media/clinic.jpg",
+        # Dave's head and treating hands sit left of centre, upper third.
+        "focal": "38% 30%",
+        "alt": "Dr. Dave Kashuba, Occupational Therapist, stretching a patient's "
+               "leg during a session at First Rehabilitation in North Palm Beach",
+    },
+    "gym": {
+        "src": "assets/media/gym.jpg",
+        # Wide interior. Ceiling eats the top third, so bias down to the floor.
+        "focal": "center 62%",
+        "alt": "The on-site rehabilitation gym at First Rehabilitation of "
+               "North Palm Beach, with cardio and strength equipment",
+    },
+    # Previously named founder.jpg and captioned as a portrait of Dr. Kashuba.
+    # It is not a portrait — it is the clinic building. The alt text was wrong
+    # on every page that used it; corrected here (2026-09-15).
+    "exterior": {
+        "src": "assets/media/founder.jpg",
+        "focal": "center 45%",
+        "alt": "The First Rehabilitation of North Palm Beach clinic building "
+               "at 733 US Highway 1, with covered entrance and palm trees",
+    },
+    "mike": {
+        "src": "assets/media/mike.jpg",
+        "focal": "center 18%",
+        "alt": "Mike McGann, co-host of the Pain 2 Power podcast",
+    },
+}
+
+# Team portraits join the same registry, so a headshot is fetched exactly the way
+# any other photo is. Five of the six were shot in one session against the same
+# hedge, so a shared 4:5 crop with per-face focal points reads as a real set.
+_TEAM_FOCAL = {
+    "david.jpg": ("45% 24%", "Dr. David Kashuba, Ph.D., founder and CEO of First Rehabilitation"),
+    "nick.jpg": ("50% 26%", "Nick Kashuba, Chief Operating Officer of First Rehabilitation"),
+    "logan.jpg": ("44% 26%", "Logan Van Sant, Physical Therapist at First Rehabilitation"),
+    "kayla.jpg": ("56% 20%", "Kayla Dorsey, DPT, Physical Therapist at First Rehabilitation"),
+    "joni.jpg": ("50% 27%", "Joni Janik, Occupational Therapist at First Rehabilitation"),
+    "laura.jpg": ("47% 25%", "Laura Drumm, Certified Hand Therapist at First Rehabilitation"),
+}
+for _f, (_focal, _alt) in _TEAM_FOCAL.items():
+    PHOTOS[f"team-{_f[:-4]}"] = {"src": f"assets/team/{_f}", "focal": _focal, "alt": _alt}
+
+# The ten homepage gallery tiles are Instagram exports at ~520px. They are real
+# photographs of this clinic, but they are small, so they are only ever used at
+# gallery-tile size and never promoted into a hero.
+for _i in range(1, 11):
+    PHOTOS[f"social-{_i}"] = {
+        "src": f"assets/social/post-{_i}.jpg",
+        "focal": "center 45%",
+        "alt": f"First Rehabilitation of North Palm Beach on social media, photo {_i}",
+    }
+
+# SERVICE_MEDIA — what photograph each service page leads with.
+#
+# Only two services have a genuine photograph OF THAT SERVICE: physical therapy
+# (the treatment frame) and wellness (the gym). The other two previously shipped
+# stand-ins — an Instagram tile stretched across the physical-therapy hero, and
+# Laura's staff portrait cropped to look like a scene. Both were placeholders.
+#
+# Rather than fake a scene, a service without one leads with a CREDITED PORTRAIT
+# of the clinician who actually runs it, framed and captioned as a portrait. That
+# is an honest photograph doing honest work, and it is the reason a "portrait"
+# kind exists alongside "scene" below.
+SERVICE_MEDIA = {
+    # The treatment frame is Dave — who is an Occupational Therapist — stretching
+    # a patient, so it belongs to occupational therapy, not physical therapy.
+    # It led the PT page briefly; that was wrong about who is in the photograph.
+    "occupational-therapy": ("scene", "treatment", None, None),
+    "wellness":             ("scene", "gym", None, None),
+    # Logan rather than Kayla: the lead frame is landscape, and Kayla's source is
+    # a portrait-orientation full-body shot that crops to a small face and dead
+    # sky. Logan's is chest-up and landscape, matching Laura's on hand therapy.
+    "physical-therapy":     ("portrait", "team-logan", "Logan Van Sant", "Physical Therapist"),
+    "hand-therapy":         ("portrait", "team-laura", "Laura Drumm", "Certified Hand Therapist"),
+}
+
 # ----------------------------------------------------------------------------
 
 
@@ -55,12 +157,195 @@ def asset_v(path):
         ASSET_V[path] = _v(path)
     return ASSET_V[path]
 
+# --- sitemap <lastmod> ------------------------------------------------------
+# A page's lastmod must be the date that PAGE last changed, not the date of the
+# build. Stamping today on all 50 URLs every build tells Google the whole site
+# changed whenever anything did, which is how the signal gets ignored — and it
+# is why sitemap.xml used to have to be kept out of commits by hand.
+#
+# So each generated page is hashed and the date its content last changed is
+# remembered in SITEMAP_DATES, which is committed alongside the build. Delete
+# that file and every page silently reverts to claiming it changed today.
+#
+# Asset cache-busters are stripped before hashing: bumping styles.css rewrites
+# `?v=` on every page in the site, and that is not a content change to any of
+# them.
+import re as _re, subprocess as _sp
+SITEMAP_DATES = "sitemap-dates.json"
+_CACHE_BUSTER = _re.compile(r"\?v=[A-Za-z0-9]+")
+_ISO_DATE = _re.compile(r"\d{4}-\d{2}-\d{2}")
+
+def _page_file(page):
+    """Filesystem path for a sitemap entry ("" is the home page)."""
+    return page or "index.html"
+
+def _page_fingerprint(page):
+    f = _page_file(page)
+    try:
+        with open(os.path.join(ROOT, f), encoding="utf-8") as fh:
+            html_src = fh.read()
+    except FileNotFoundError:
+        # Listed in build_meta()'s `pages` but never generated. This used to ship
+        # a sitemap entry pointing at a 404; say so instead.
+        raise SystemExit(
+            f"sitemap: {f} is in the pages list but no such file was built. "
+            f"Add the generator for it, or take it out of `pages` in build_meta().")
+    return _hashlib.sha256(
+        _CACHE_BUSTER.sub("", html_src).encode()).hexdigest()[:16]
+
+_DIRTY = None
+def _uncommitted():
+    """Paths with uncommitted changes, so a seed date is never taken from git
+    for a file whose working copy has already moved past that commit."""
+    global _DIRTY
+    if _DIRTY is None:
+        try:
+            r = _sp.run(["git", "status", "--porcelain", "--"], cwd=ROOT,
+                        capture_output=True, text=True, timeout=30)
+            _DIRTY = {line[3:].strip() for line in r.stdout.splitlines()} if r.returncode == 0 else set()
+        except (OSError, _sp.SubprocessError):
+            _DIRTY = set()
+    return _DIRTY
+
+def _git_last_changed(page):
+    """Date of the last commit touching a page, for seeding a page we have no
+    recorded hash for. None when git cannot answer."""
+    f = _page_file(page)
+    if f in _uncommitted():
+        return None
+    try:
+        r = _sp.run(["git", "log", "-1", "--format=%cs", "--", f], cwd=ROOT,
+                    capture_output=True, text=True, timeout=30)
+    except (OSError, _sp.SubprocessError):
+        return None
+    d = r.stdout.strip()
+    return d if r.returncode == 0 and _ISO_DATE.fullmatch(d) else None
+
+def _lastmods(pages, today):
+    """Per-page lastmod, carried forward for every page that did not change."""
+    path = os.path.join(ROOT, SITEMAP_DATES)
+    try:
+        with open(path, encoding="utf-8") as f:
+            seen = _json.load(f)
+    except (OSError, ValueError):
+        seen = {}
+    out, store = {}, {}
+    for p in pages:
+        fp = _page_fingerprint(p)
+        was = seen.get(p)
+        if was and was.get("hash") == fp:
+            out[p] = was["lastmod"]                      # unchanged
+        elif was:
+            out[p] = today                               # content really changed
+        else:
+            out[p] = _git_last_changed(p) or today       # first sighting
+        store[p] = {"hash": fp, "lastmod": out[p]}       # drops retired pages
+    with open(path, "w", encoding="utf-8") as f:
+        _json.dump(store, f, indent=2, sort_keys=True)
+        f.write("\n")
+    return out
+
+# --- Responsive imagery -----------------------------------------------------
+# tools/build-images.py writes assets/img/manifest.json from PHOTOS. photo()
+# turns a registry name into a <picture> with WebP + JPEG, a srcset capped at the
+# source's real resolution, intrinsic width/height (so nothing shifts on load),
+# and the focal point applied as object-position.
+import json as _json
+
+_MANIFEST = None
+def _manifest():
+    global _MANIFEST
+    if _MANIFEST is None:
+        p = os.path.join(ROOT, "assets", "img", "manifest.json")
+        try:
+            with open(p) as f:
+                _MANIFEST = _json.load(f)
+        except FileNotFoundError:
+            _MANIFEST = {}
+    return _MANIFEST
+
+
+def service_media(slug):
+    """Lead image for a service page: a real scene, or a credited clinician portrait."""
+    kind, name, person, credential = SERVICE_MEDIA[slug]
+    if kind == "scene":
+        return ('<div class="split-media tilt2 reveal d2">'
+                + photo(name, depth=1, sizes="(max-width:900px) 92vw, 560px")
+                + "</div>")
+    return (
+        '<figure class="split-media split-portrait tilt2 reveal d2">'
+        + photo(name, depth=1, sizes="(max-width:900px) 92vw, 560px", ratio="4/5")
+        + f'<figcaption><strong>{person}</strong><span>{credential}</span></figcaption>'
+        + "</figure>"
+    )
+
+
+def photo(name, depth=0, cls="", sizes="100vw", eager=False, ratio=None, alt=None):
+    """Render a registry photograph as a responsive, art-directed <picture>.
+
+    ratio: optional "W/H" forced aspect for the frame. The focal point keeps the
+           subject in frame when the source is cropped to it.
+    """
+    m = _manifest().get(name)
+    spec = PHOTOS.get(name)
+    if spec is None:
+        raise KeyError(f"photo('{name}') is not in PHOTOS — add it there, not inline")
+    up = "../" * depth
+    alt_text = html.escape(alt if alt is not None else spec["alt"], quote=True)
+    focal = spec["focal"]
+
+    if not m:
+        # Manifest missing (build-images.py has not run). Fall back to the source
+        # file so the page is still correct, just unoptimised.
+        return (f'<img src="{up}{spec["src"]}" alt="{alt_text}" '
+                f'style="object-position:{focal}" class="{cls}" '
+                f'{"" if eager else "loading=lazy decoding=async"}>')
+
+    widths = m["widths"]
+    w, h = m["native"]
+    webp = ", ".join(f"{up}assets/img/{name}-{x}.webp {x}w" for x in widths)
+    jpg = ", ".join(f"{up}assets/img/{name}-{x}.jpg {x}w" for x in widths)
+    biggest = m["max_width"]
+    style = f"object-position:{focal}"
+    if ratio:
+        style += f";aspect-ratio:{ratio}"
+    load = 'fetchpriority="high"' if eager else 'loading="lazy" decoding="async"'
+    return (
+        f'<picture class="{cls}">'
+        f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+        f'<img src="{up}assets/img/{name}-{biggest}.jpg" srcset="{jpg}" sizes="{sizes}" '
+        f'width="{w}" height="{h}" alt="{alt_text}" style="{style}" {load}>'
+        f"</picture>"
+    )
+
 # Google tag (gtag.js) — GA4 property G-GZKFNKSP6D, First Rehabilitation of North
 # Palm Beach ONLY. This measurement ID belongs to this clinic and must never be
 # emitted on any other site. Kept as a plain (non f-string) constant so the
 # snippet's own braces need no escaping, and injected by head() immediately
 # after <head> on every generated page — exactly once, since head() is the only
 # thing that writes that tag.
+# Search Console HTML-tag ownership verification.
+#
+# The property lost verification some time before 2026-09-09 and every API route
+# went 403 — no queries, no page data, no index coverage, no sitemap submission.
+# It had never been carried by the site: verification lived in a DNS record or a
+# leftover Wix token, so nothing in this repo kept it alive and nothing warned
+# when it lapsed. Emitting the tag from head() puts it on all 48 pages, where a
+# rebuild renews it and it cannot quietly expire again.
+#
+# PASTE THE TOKEN HERE: Search Console -> Settings -> Ownership verification ->
+# HTML tag. Copy ONLY the content="..." value, not the whole <meta> element.
+# Use the token from the OWNER's account (Nick's), not a service account's — the
+# tag is what keeps his ownership permanent; the service account is a delegated
+# user under Users and permissions and does not need to own the property.
+# Empty string = no tag emitted, which is exactly today's behaviour, so the build
+# stays green until the token is pasted.
+GSC_VERIFICATION = "AIrqh67-C88X6VuoDTLQZdUvpFPQYpytxgqsf9ZHjAM"
+GSC_VERIFY_TAG = (
+    f'\n<meta name="google-site-verification" content="{html.escape(GSC_VERIFICATION)}">'
+    if GSC_VERIFICATION else ""
+)
+
 GA_MEASUREMENT_ID = "G-GZKFNKSP6D"
 GA_TAG = """<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
@@ -76,11 +361,20 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
     canon = f"{base}/{canonical}" if canonical else base + "/"
+    # Absolute URL for the organization schema's image. Precomputed because the
+    # template below is a triple-quoted f-string: the original wrote this as a
+    # literal `"..." + PHOTOS["treatment"]["src"]` OUTSIDE any {} placeholder, so
+    # Python emitted the Python expression verbatim into the JSON-LD. That made the
+    # organization node unparseable on all 51 pages that carry it — every page on
+    # the site — and an unparseable node is discarded wholesale by Google, taking
+    # the @id, medicalSpecialty, availableService, geo, areaServed and sameAs with
+    # it. Caught 2026-09-18. Keep this interpolated; do not inline the concatenation.
+    org_image = f"{base}/{PHOTOS['treatment']['src']}"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 {GA_TAG}
-<meta charset="UTF-8">
+<meta charset="UTF-8">{GSC_VERIFY_TAG}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
@@ -121,7 +415,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   "description": "Family-owned outpatient physical therapy, occupational therapy, certified hand therapy, and wellness clinic serving Palm Beach County since 1991.",
   "url": "https://www.firstrehabnpb.com",
   "logo": "https://www.firstrehabnpb.com/assets/media/logo.png",
-  "image": "https://www.firstrehabnpb.com/assets/media/clinic.jpg",
+  "image": "{org_image}",
   "telephone": "+1-561-624-4263",
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
@@ -290,7 +584,7 @@ def footer(depth=0):
         {social_row()}
       </div>
       <div>
-        <h3 class="f-head">Services</h3>
+        <h2 class="f-head">Services</h2>
         <ul>
           <li><a href="{p}services/physical-therapy.html">Physical Therapy</a></li>
           <li><a href="{p}services/occupational-therapy.html">Occupational Therapy</a></li>
@@ -299,7 +593,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Explore</h3>
+        <h2 class="f-head">Explore</h2>
         <ul>
           <li><a href="{p}treatments/index.html">What We Treat</a></li>
           <li><a href="{p}exercises.html">Home Exercise Library</a></li>
@@ -315,7 +609,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Areas We Serve</h3>
+        <h2 class="f-head">Areas We Serve</h2>
         <ul>
           <li><a href="{p}locations/palm-beach-gardens.html">Palm Beach Gardens</a></li>
           <li><a href="/">North Palm Beach</a></li>
@@ -329,7 +623,7 @@ def footer(depth=0):
         </ul>
       </div>
       <div>
-        <h3 class="f-head">Visit Us</h3>
+        <h2 class="f-head">Visit Us</h2>
         <ul class="f-contact">
           <li>733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</li>
           <li>Phone: <a href="tel:+15616244263">{PHONE}</a></li>
@@ -355,6 +649,76 @@ def footer(depth=0):
 </body>
 </html>
 """
+
+def appt_form(heading="Request an Appointment", sub=None, wrapped=True, depth=0):
+    # The five-field contact form. Until 2026-09-09 this markup lived inline in
+    # build_contact() and so existed on exactly one page — and that one page
+    # produced 34 of the site's 41 lifetime leads, while every service,
+    # condition, location and blog page produced zero between them. Those pages
+    # were never short of calls to action; they carried three to five links each
+    # to the phone number and to contact.html. They were short of somewhere to
+    # convert: their only job was to send the reader one hop further, and 84% of
+    # visitors never took it.
+    #
+    # So the form is a function now, and interior pages embed the real thing.
+    # `wrapped=False` returns the bare card for the contact page, which places it
+    # inside its own two-column grid.
+    #
+    # intake.js binds by getElementById('appt-form'), so exactly one of these may
+    # appear per page — hence no id suffixing here. It records location.pathname
+    # as the lead's `page`, so per-page attribution keeps working for free.
+    sub = sub or ("Tell us a little about what you need and our front desk will call "
+                  "you back within one business day.")
+    card = f"""<div class="appt-form-card reveal">
+      <h2 class="h3-size">{heading}</h2>
+      <p class="af-sub">{sub}</p>
+      <form class="appt-form" id="appt-form" novalidate>
+        <div class="af-field">
+          <label for="af-name">Full name *</label>
+          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
+        </div>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-phone">Phone *</label>
+            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
+          </div>
+          <div class="af-field">
+            <label for="af-email">Email</label>
+            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
+          </div>
+        </div>
+        <div class="af-field">
+          <label for="af-reason">Reason for visit *</label>
+          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
+        </div>
+        <div class="af-field">
+          <label for="af-time">Preferred call time</label>
+          <select id="af-time" name="time">
+            <option>Anytime</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+          </select>
+        </div>
+        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
+        <p class="af-error" id="af-error" role="alert"></p>
+        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
+      </form>
+      <div class="af-done" id="af-done" hidden>
+        <div class="af-check">&#10003;</div>
+        <h3>Request received!</h3>
+        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
+      </div>
+    </div>"""
+    if not wrapped:
+        return card
+    return f"""
+<section class="section on-cream" id="request">
+  <div class="wrap appt-form-solo">
+    {card}
+  </div>
+</section>
+"""
+
 
 def cta_band(depth=0, heading='Life is too short to <em>live in pain.</em>', sub="Start your recovery today with a team dedicated to your long-term wellness and total healing."):
     p = "../" * depth
@@ -580,9 +944,9 @@ def build_home():
 
     social_cards = "".join(
         f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
-          <img src="assets/social/post-{i}.jpg" alt="" loading="lazy" onerror="this.closest('.sm-card').classList.add('empty')">
+          {photo(f"social-{i}", sizes="(max-width:768px) 45vw, 220px", alt="")}
         </a>''' for i in range(1, 11)
-        if os.path.exists(os.path.join(ROOT, f"assets/social/post-{i}.jpg"))
+        if f"social-{i}" in PHOTOS and os.path.exists(os.path.join(ROOT, PHOTOS[f"social-{i}"]["src"]))
     )
 
     bm_list = [
@@ -720,7 +1084,7 @@ def build_home():
 <section class="section on-paper">
   <div class="wrap split">
     <div class="split-media tilt reveal">
-      <img src="assets/media/clinic.jpg" alt="Dr. Dave Kashuba treating a patient at First Rehabilitation" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+      {photo("treatment", sizes="(max-width:900px) 92vw, 560px")}
     </div>
     <div class="reveal d2">
       <span class="eyebrow">Our Story</span>
@@ -771,7 +1135,7 @@ def build_home():
     write("index.html",
           head("Physical Therapy North Palm Beach | First Rehab, Since 1991",
                "Family-owned physical, occupational and certified hand therapy in North Palm Beach since 1991. One-on-one care, 4.9★ on Google, Medicare accepted. Book today.",
-               canonical="", og_image="assets/media/clinic.jpg",
+               canonical="", og_image=PHOTOS["treatment"]["src"],
                extra_schema='<link rel="preload" as="image" href="assets/media/hero-poster.jpg?v=9" fetchpriority="high">\n')
           + nav(0) + body + footer(0))
 
@@ -794,6 +1158,23 @@ SERVICES = {
             ("Back &amp; Neck Pain", "Manual therapy, posture correction, and core strengthening to resolve spinal pain at its source."),
             ("Auto &amp; Work Injuries", "Documentation-ready care for auto accident and workers' compensation cases, with clear communication to all parties."),
             ("Chronic Pain Management", "Graded, evidence-based programs that help you reclaim activity without fear of flare-ups."),
+            # Added 2026-09-20. Both of these were advertised on the Google
+            # Business Profile and appeared NOWHERE on this site or in SERVICES,
+            # so anyone tapping the service on the listing landed on a site that
+            # never mentioned it. Owner confirmed both are real.
+            #
+            # Wording is adapted from the clinic's own GBP service descriptions,
+            # which are owner-authored, rather than invented here. Massage is
+            # also corroborated repeatedly in the Google reviews, where patients
+            # describe heat and massage as part of a session and contrast it
+            # favourably with clinics that gave them neither.
+            #
+            # Deliberately items on this page rather than two new service pages:
+            # CLAUDE.md's 2026-09-09 finding is that new pages land on page two
+            # or three and add impressions nobody clicks, which drags site-wide
+            # CTR. Depth on a page that already ranks beats breadth.
+            ("Therapeutic Massage", "Soft-tissue work offered alongside your physical, occupational, or hand therapy program \u2014 part of a well-rounded approach to recovery, not an add-on you book separately."),
+            ("Concierge Therapy", "The same therapist-led, hands-on care with added scheduling flexibility and availability, for patients who want more than a standard program allows. Call 561-624-4263 to ask what is open."),
         ],
     },
     "occupational-therapy": {
@@ -813,8 +1194,8 @@ SERVICES = {
         ],
     },
     "hand-therapy": {
-        "seo_title": "Certified Hand Therapy | North Palm Beach & Jupiter FL",
-        "seo_desc": "A dedicated certified hand therapy program for the wrist, hand and upper extremity, with splints fabricated on-site and protocols coordinated with your surgeon.",
+        "seo_title": "Certified Hand Therapist | North Palm Beach & Jupiter FL",
+        "seo_desc": "Certified hand therapist in North Palm Beach treating carpal tunnel, trigger finger, thumb arthritis, tendon repairs and wrist fractures. Splints made on-site.",
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
@@ -889,13 +1270,6 @@ SERVICE_EXTRAS = {
 }
 
 def build_services():
-    # (path under assets/, object-position for the cover crop)
-    svc_photo = {
-        "physical-therapy": ("social/post-1.jpg", "center 30%"),
-        "occupational-therapy": ("media/clinic.jpg", "center"),
-        "hand-therapy": ("team/laura.jpg", "center 25%"),
-        "wellness": ("media/gym.jpg", "center"),
-    }
     for slug, s in SERVICES.items():
         x = SERVICE_EXTRAS[slug]
         # Numbered feature cards with alternating gold accent
@@ -931,6 +1305,149 @@ def build_services():
     </div>
   </div>
 </section>'''
+        # Condition-level depth, currently hand therapy only.
+        #
+        # Why this exists: the 2026-09-09 Search Console pull put
+        # /services/hand-therapy.html at position 25.3, with "hand therapist"
+        # (95 impr) at 28.7 and "hand therapy" at 73.7 — real demand, ranking
+        # nowhere. Unlike the city-qualified location-page terms, these carry no
+        # map pack, and the clinic has a defensible claim in Laura Drumm, CHT and
+        # on-site splint fabrication. The page was 702 words against hand centres
+        # and hospital systems, so the gap was depth on the page that has to rank.
+        #
+        # Every sentence below restates something the site already asserts (the
+        # hand-therapy FAQ category, SERVICES, CONDITIONS). It does NOT copy the
+        # Q&As — those stay on /faq.html and are cross-linked, per CLAUDE.md — and
+        # it adds no new clinical claim. Do not add mechanisms, statistics or
+        # outcomes here without owner sign-off, and never claim hand surgery: we
+        # rehabilitate, surgeons operate.
+        SVC_DEEP = {
+            "hand-therapy": {
+                "h2": "What we treat, and how",
+                "intro": "Hand therapy is not general rehabilitation applied to a smaller limb. Dozens of "
+                         "tendons, joints and nerves work in tight quarters, each on its own healing "
+                         "timeline, which is why hand surgeons refer post-operative patients to certified "
+                         "hand therapists specifically. Here is what that looks like condition by condition.",
+                "blocks": [
+                ("Carpal tunnel syndrome",
+                 "Conservative care helps many people, particularly when symptoms are caught early. "
+                 "Treatment can include a custom night splint that holds the wrist in a neutral position "
+                 "while you sleep, nerve and tendon gliding exercises, and practical changes to the "
+                 "activities and workstation setup that keep provoking symptoms. If your case turns out "
+                 "to warrant a surgical consult, we will say so plainly and coordinate with your physician."),
+                ("Arthritis of the hand and thumb",
+                 "Hand therapy is one of the most effective conservative options for arthritic hands and "
+                 "thumbs. Joint-protection technique, targeted strengthening, a custom supportive splint "
+                 "and smart activity modification work together to reduce pain and protect the things "
+                 "arthritis threatens to take first, from opening jars to gardening and golf."),
+                ("Tendon injuries and repairs",
+                 "Repaired tendons heal on a strict timeline, and the margin for error is small: move too "
+                 "soon and you risk the repair, too late and you lose motion. We work from your surgeon\u2019s "
+                 "protocol, fabricate any splint to it, and stage motion and strengthening to the tissue "
+                 "rather than the calendar."),
+                ("Hand and wrist fractures",
+                 "Recovery continues well after the cast comes off, when stiffness, swelling and lost grip "
+                 "are usually the real obstacles. Care is staged: protect what is still healing, restore "
+                 "motion in a graded way, then rebuild the strength and dexterity the hand needs to go "
+                 "back to work and ordinary life."),
+                ("Trigger finger and nerve conditions",
+                 "Both are treated within the program, conservatively where that is appropriate and "
+                 "post-operatively where surgery has already happened. Splinting, graded motion and "
+                 "activity modification are the usual tools."),
+                ("The elbow and forearm, not just the hand",
+                 "The arm works as one connected chain, so the program covers the full upper extremity \u2014 "
+                 "hand, wrist, forearm and elbow. Tennis elbow, wrist fractures and nerve entrapments all "
+                 "fall inside a certified hand therapist\u2019s scope."),
+                ("Splints and orthoses, made here",
+                 "Custom splints and orthoses are fabricated in our clinic rather than ordered in. Each one "
+                 "is molded to your hand for your specific condition, adjusted as healing progresses, and built "
+                 "to your surgeon\u2019s protocol when you are recovering from surgery. Call 561-624-4263 if you "
+                 "want to know whether your plan covers one \u2014 our front desk will check before you come in."),
+                ("Working with your surgeon",
+                 "Post-operative timelines are set by your surgeon, and they vary widely: some repairs begin "
+                 "protected motion within days, others need a period of immobilization first. We work from that "
+                 "protocol and coordinate with their office directly, so send us your surgery details before or "
+                 "just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule."),
+                ],
+            },
+            # Added 2026-09-18. The Search Console pull for the 90 days to
+            # 2026-09-15 found 751 impressions and ZERO clicks across 35
+            # occupational-therapy queries, nearly all of them West Palm Beach
+            # ("physical and occupational therapy west palm beach" 150 impr at
+            # pos 32.9, "occupational therapy treatment west palm beach" 108 at
+            # 33.5, "occupational therapist 33401" 72 at 35.4). The page sat at
+            # position 36.0 on 834 words. The nearest competitor by name,
+            # thefirstrehab.com, runs three Palm Beach County clinics staffed by
+            # PTs and PTAs and offers no occupational therapy at all, so this is
+            # demand in their own city that they cannot answer. The gap was depth.
+            #
+            # Same rules as the hand-therapy block above: every sentence restates
+            # something the site already asserts (SERVICES, TEAM, the FAQ). No new
+            # clinical claim, no mechanisms, no statistics, no outcomes without
+            # owner sign-off. OT evaluates and treats; we do not diagnose.
+            "occupational-therapy": {
+                "h2": "What occupational therapy actually does",
+                "intro": "Physical therapy asks how well you move. Occupational therapy asks what you need "
+                         "to get done, then works backward from there \u2014 the shirt buttoned, the meal cooked, "
+                         "the job performed, the shower taken safely and alone. Our program is led by a "
+                         "founder who is himself an occupational therapist and has been treating patients "
+                         "since 1991. Here is what the work looks like in practice.",
+                "blocks": [
+                ("Activities of daily living",
+                 "Dressing, bathing, grooming, cooking and home management are the tasks independence "
+                 "actually rests on, and they are the first things an injury, a stroke or a joint "
+                 "replacement takes away. Therapy here is practical and specific: we work on the real task "
+                 "you are struggling with, in the sequence you actually perform it, and adapt the method "
+                 "until you can do it without help."),
+                ("Recovery after stroke",
+                 "Stroke recovery is task-specific work. Rather than exercising an arm in the abstract, we "
+                 "rebuild the routines that arm is needed for, restoring upper-extremity function, "
+                 "coordination and the daily sequences that make a morning possible. Progress is measured "
+                 "in tasks regained, not repetitions completed."),
+                ("Returning to a specific job",
+                 "Return-to-work programs are built around what your job actually demands rather than a "
+                 "general strength target. We use graded conditioning and task simulation so the work you "
+                 "rehearse in the clinic resembles the work waiting for you, which is also what an employer, "
+                 "an adjuster or a case manager needs to see documented before a release."),
+                ("Ergonomics and adaptive equipment",
+                 "Sometimes the fastest route back to a task is changing the task. Workstation assessment, "
+                 "tool and equipment recommendations, and technique changes can make daily activities safer "
+                 "and less painful without waiting on strength to return. Call 561-624-4263 and our front "
+                 "desk can tell you whether an assessment is covered under your plan."),
+                ("Hand and upper-extremity function",
+                 "Fine-motor and functional-use training runs alongside our certified hand therapy program, "
+                 "so a patient whose hand is the limiting factor gets both: the protocol-driven hand work "
+                 "from Laura Drumm, CHT, and the daily-function retraining that turns restored motion into "
+                 "a usable hand. Few clinics in the county can put both in the same building."),
+                ("Cognitive rehabilitation",
+                 "Memory, attention, sequencing and problem-solving are as much a part of safe independent "
+                 "living as strength is. Where they have been affected, therapy targets the strategies that "
+                 "let someone manage medication, follow a recipe or handle a household routine again."),
+                ("Occupational therapy or physical therapy?",
+                 "They overlap and they are frequently prescribed together, which is why we run both under "
+                 "one roof rather than referring out. The short version: physical therapy generally targets "
+                 "movement, strength and pain, while occupational therapy targets the activities that "
+                 "movement is for. If you are not sure which you need, our front desk can talk it through, "
+                 "and your evaluation will settle it."),
+                ],
+            },
+        }
+        svc_deep_html = ""
+        if slug in SVC_DEEP:
+            _d = SVC_DEEP[slug]
+            _blocks = "".join(
+                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in _d["blocks"]
+            )
+            svc_deep_html = f'''
+<section class="section">
+  <div class="wrap">
+    <div class="prose reveal">
+      <h2>{_d["h2"]}</h2>
+      <p>{_d["intro"]}</p>
+      {_blocks}</div>
+  </div>
+</section>'''
+
         # Conditions treated with this service — internal links for SEO + discovery
         svc_conds = {
             "physical-therapy": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hip-pain", "ankle-pain", "post-surgical", "auto-accident"],
@@ -951,7 +1468,7 @@ def build_services():
             "physical-therapy": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit"],
             "occupational-therapy": ["physical-therapy-vs-occupational-therapy", "why-hand-therapy-is-different"],
             "hand-therapy": ["why-hand-therapy-is-different"],
-            "wellness": ["pain-2-power-ep11-joyce"],
+            "wellness": ["pain-2-power-ep11-joyce", "strength-training-after-60-fall-prevention", "gym-program-after-physical-therapy-north-palm-beach"],
         }
         _sposts = [b for b in SVC_BLOG.get(slug, []) if b in BLOG_POSTS]
         svc_blog_links = ""
@@ -990,9 +1507,7 @@ def build_services():
         <div class="svc-stats">{stats}</div>
         <div class="mt-2"><a class="btn btn-coral" href="../contact.html">Book an Evaluation <span class="arr">&rarr;</span></a></div>
       </div>
-      <div class="split-media tilt2 reveal d2">
-        <img src="../assets/{svc_photo[slug][0]}" style="object-position:{svc_photo[slug][1]};" alt="{s['title']} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
-      </div>
+      {service_media(slug)}
     </div>
   </div>
 </section>
@@ -1009,7 +1524,7 @@ def build_services():
     {svc_blog_links}
   </div>
 </section>
-{cht_callout}
+{cht_callout}{svc_deep_html}
 <section class="section on-ink">
   <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
@@ -1041,6 +1556,7 @@ def build_services():
   </div>
 </section>
 {svc_faq_html}
+{appt_form(heading='Start ' + s['title'], sub='Tell us what you need and our front desk will call you back within one business day. We will check your insurance before your first visit.')}
 {cta_band(1)}
 </main>
 """
@@ -1123,14 +1639,14 @@ CONDITIONS = {
         "approach": "Expect early swelling and mobility management, progressive strengthening and balance training, and sport- or activity-specific work before you return to full speed. Our goal is an ankle you never have to think about.",
     },
     "hand-wrist": {
-        "seo_title": "Hand & Wrist Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Certified hand therapy for carpal tunnel, tendon injuries, arthritis and post-surgical hands, with custom splints made on-site. Serving West Palm Beach.",
+        "seo_title": "Hand & Wrist Pain Treatment | North Palm Beach FL",
+        "seo_desc": "Treatment for hand and wrist pain, numbness, stiffness and lost grip. Carpal tunnel, thumb arthritis and post-surgical hands, with splints made on-site.",
         "name": "Hand &amp; Wrist Therapy",
         "area": "Wrist &amp; Hand",
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
         "intro": "Few areas of the body demand more specialized rehabilitation than the hand. Our certified hand therapy program — led by Laura Drumm, CHT — provides precise, protocol-driven care for conditions and surgeries of the hand, wrist, and forearm, including custom splinting fabricated in-clinic. Patients travel to us from across the county for this specialty, including <a href=\"../locations/west-palm-beach.html\">West Palm Beach</a> and <a href=\"../locations/palm-beach.html\">Palm Beach</a>.",
         "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation"],
-        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery.",
+        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. See our <a href=\"../services/hand-therapy.html\">certified hand therapy program</a> for the full condition-by-condition detail.",
     },
     "headache-relief": {
         "seo_title": "Headache Treatment in North Palm Beach | First Rehab",
@@ -1172,7 +1688,7 @@ CONDITIONS = {
 
 def build_conditions():
     cards = "".join(
-        f'<a class="cond-card reveal" href="{slug}.html"><span class="cond-tag">{c["area"]}</span><h3>{c["name"]}</h3><p>{c["lede"]}</p></a>'
+        f'<a class="cond-card reveal" href="/treatments/{slug}.html"><span class="cond-tag">{c["area"]}</span><h3>{c["name"]}</h3><p>{c["lede"]}</p></a>'
         for slug, c in CONDITIONS.items()
     )
     crumbs = '<div class="crumbs"><a href="/">Home</a> / What We Treat</div>'
@@ -1220,9 +1736,103 @@ def build_conditions():
         if _posts:
             _links = " &middot; ".join(
                 f'<a href="../blog/{b}.html">{BLOG_POSTS[b]["title"]}</a>' for b in _posts)
-            blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="crumbs" style="margin:0;">From the blog: {_links}</p></div></section>'
+            blog_link = f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="inline-refs">From the blog: {_links}</p></div></section>'
         else:
             blog_link = ""
+        # Condition-level depth, currently hand and wrist only.
+        #
+        # Why this exists, and why it is NOT more words on a location page:
+        # the 2026-09-21 Search Console pull showed Google finished collapsing
+        # the old Wix URLs into their redirect targets partway through the
+        # window (/hand-therapy went 655 impressions to 0 across two 45-day
+        # halves while /services/hand-therapy.html went 172 to 865). Every
+        # position averaged over 90 days was therefore a blend of two regimes
+        # and could not be read. On the clean 45 days after consolidation, the
+        # hand and wrist SYMPTOM queries are the live opportunity: "hand pain
+        # treatment west palm beach" 129 impressions at position 14.4 and
+        # "wrist pain treatment west palm beach" 98 at 23.0, 318 impressions a
+        # month of symptom intent converting at zero.
+        #
+        # The problem those numbers describe is targeting, not thinness. The
+        # SERVICE page was ranking for the symptom queries while this condition
+        # page drew 111 impressions in 90 days, so our two pages split the
+        # signal and neither won. The division of labour is now explicit:
+        # /services/hand-therapy.html owns practitioner intent ("hand
+        # therapist", "certified hand therapist"), and this page owns symptom
+        # intent ("hand pain", "wrist pain", "carpal tunnel").
+        #
+        # So this block is written from the SYMPTOM inward, which is also how
+        # people search it, and deliberately shares no sentence with the
+        # diagnosis-first blocks in SVC_DEEP or the 12 hand Q&As on /faq.html.
+        # Duplicating either would make three of our own pages compete.
+        # Same content rules as SVC_DEEP: every statement restates something the
+        # site already asserts, and there is no new clinical claim, no mechanism,
+        # no statistic and no promised outcome. We evaluate and rehabilitate; we
+        # do not diagnose here and we never claim surgery.
+        COND_DEEP = {
+            "hand-wrist": {
+                "h2": "Hand and wrist pain, and what usually helps",
+                "intro": "Most people do not arrive knowing what is wrong. They arrive because something "
+                         "hurts, or has gone numb, or will not grip the way it used to. The evaluation is "
+                         "what sorts that out. What follows is how the most common complaints tend to "
+                         "present, so you have some idea what you are looking at before you call.",
+                "blocks": [
+                ("Numbness or tingling that wakes you up",
+                 "Hand symptoms that are worse at night, or that show up while you are driving or holding "
+                 "a phone, are a common reason people are referred to hand therapy. Caught early, these "
+                 "cases often respond to conservative care, and a custom night splint is frequently part "
+                 "of it. If your case turns out to warrant a surgical opinion we will tell you plainly "
+                 "and coordinate with your physician rather than keep you in therapy."),
+                ("Wrist pain that has not settled",
+                 "A wrist can stay painful and stiff long after the injury that caused it, and it is one "
+                 "of the areas people most often assume they simply have to live with. Wrists fall "
+                 "squarely inside a certified hand therapist\u2019s scope alongside the hand itself, and the "
+                 "evaluation looks at motion, strength and how the whole forearm is loading before "
+                 "anything is treated."),
+                ("Grip and dexterity that have quietly gone",
+                 "Jars, keys, buttons and steering wheels are usually where people first notice. Lost "
+                 "grip and pinch are treated directly here rather than left to come back on their own, "
+                 "and because our occupational therapy program runs in the same building, the daily tasks "
+                 "you are actually struggling with can be worked on alongside the hand itself."),
+                ("Pain at the base of the thumb",
+                 "Thumb pain that flares with pinching, opening and twisting is common and it is one of "
+                 "the conditions conservative hand therapy addresses most effectively. Treatment leans on "
+                 "joint protection technique, targeted strengthening, a supportive splint made here, and "
+                 "changing the specific movements that keep aggravating it."),
+                ("A finger that catches, or a hand that is still swollen after surgery",
+                 "Both are routine referrals to a hand therapy program rather than to general "
+                 "rehabilitation. Post-operative hands in particular are managed to the surgeon\u2019s "
+                 "protocol, and the swelling, stiffness and scar that follow an operation are treated as "
+                 "part of the plan rather than as something to wait out."),
+                ("After a cast comes off",
+                 "The fracture healing and the hand working again are two different problems, and the "
+                 "second one is the reason people come here. Expect the early work to be about motion and "
+                 "swelling before it is about strength, and expect the pace to be set by the tissue that "
+                 "is healing rather than by a fixed number of weeks."),
+                ("Do you need a referral, and will insurance cover it",
+                 "It depends on your plan, and post-operative patients usually arrive with a referral and "
+                 "protocol from their surgeon already. The quickest way to find out is to call the front "
+                 "desk at 561-624-4263 \u2014 they will check what your plan requires, including how it "
+                 "handles a custom splint, before you come in."),
+                ],
+            },
+        }
+        cond_deep_html = ""
+        if slug in COND_DEEP:
+            _cd = COND_DEEP[slug]
+            _cb = "".join(
+                f"<h3>{t}</h3>\n      <p>{d}</p>\n      " for t, d in _cd["blocks"]
+            )
+            cond_deep_html = f'''
+<section class="section">
+  <div class="wrap">
+    <div class="prose reveal">
+      <h2>{_cd["h2"]}</h2>
+      <p>{_cd["intro"]}</p>
+      {_cb}</div>
+  </div>
+</section>'''
+
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
         # Related-care internal links: primary service + neighboring conditions
         i = cond_slugs.index(slug)
@@ -1259,6 +1869,7 @@ def build_conditions():
     </aside>
   </div>
 </section>
+{cond_deep_html}{appt_form(heading='Get Help With ' + c['name'], sub='Tell us what is going on and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -1299,6 +1910,23 @@ LOCATIONS = {
             ("Hand therapy and active-lifestyle rehab for the Gardens", [
                 "Palm Beach Gardens has more golf courses per square mile than almost anywhere in the county, and it shows in who comes through our door — golfer's elbow, tennis elbow, and overuse wrist and shoulder pain from a game people intend to keep playing, not give up. Laura Drumm, CHT leads one of the area's few certified hand therapy programs, with custom splints fabricated in-clinic rather than ordered from a catalog.",
                 "We also see a steady number of Gardens patients for occupational therapy — help relearning or adapting the daily activities of independent living after a fall, a stroke, or a joint replacement, led by a founder who is himself an occupational therapist. Read more about <a href=\"../treatments/hand-wrist.html\">hand and wrist therapy</a> or <a href=\"../services/occupational-therapy.html\">occupational therapy</a>.",
+            ]),
+            # Added 2026-09-18 from the 90-day query pull: Palm Beach Gardens
+            # carries 1,626 impressions against 5 clicks across 70 queries, and
+            # the page was invisible for terms we genuinely serve — "ergonomic
+            # evaluation in palm beach gardens" at position 62.9, "physiotherapy
+            # in palm beach gardens" at 23.4, "orthopedic rehabilitation palm
+            # beach gardens fl" at 36.0, "manual therapy palm beach gardens" at
+            # 21.4. Gardens borders North Palm Beach, so unlike West Palm Beach
+            # this is a proximity fight we can actually win.
+            #
+            # DELIBERATELY NOT TARGETED: "physical therapy at home palm beach
+            # gardens" and its variants (238 impressions combined). That is home
+            # health care. We do not provide it, the nearest competitor does, and
+            # the page will not imply otherwise.
+            ("Orthopedic rehabilitation, manual therapy and ergonomic assessment", [
+                "Physiotherapy and physical therapy are the same profession under two names, and Gardens patients search for both. Whichever term you use, orthopedic rehabilitation is the core of what we do: recovery after joint replacement, rotator cuff repair and spinal surgery, alongside the chronic back, neck and joint pain that has not resolved on its own. Sessions are hands-on and therapist-led, with manual therapy used where it is the right tool rather than as a default.",
+                "Ergonomic and workstation assessment sits on the occupational therapy side of the clinic, and it is one of the more useful things we do for working Gardens residents. If the same wrist, neck or shoulder pain keeps returning every time you go back to your desk, the fastest route out is often changing how the task is set up rather than waiting on strength to return. Call 561-624-4263 and our front desk will check whether an assessment is covered under your plan before you come in.",
             ]),
         ],
         "drive": "Our clinic sits at 733 US Highway 1, Suite 2A in North Palm Beach — directly south of Palm Beach Gardens, a straight shot down US-1 or Alternate A1A. Most Gardens neighborhoods reach us in one short drive without touching I-95, and our front desk at 561-624-4263 will happily talk you through directions and parking before your first visit.",
@@ -1363,20 +1991,47 @@ LOCATIONS = {
     },
     "west-palm-beach": {
         "city": "West Palm Beach",
-        "title": "Physical Therapy for West Palm Beach, FL | First Rehab",
-        "desc": "Physical, occupational and certified hand therapy for West Palm Beach, north on US-1 or I-95. Family-owned since 1991, Medicare accepted. 561-624-4263.",
+        # Retargeted 2026-09-18. This is the highest-impression location page on
+        # the site (1,810 impressions in the 28 days to 2026-09-15) and it was
+        # converting at 0.11% from position 19.6, because the title chased
+        # "physical therapy west palm beach" — a term owned by a three-clinic
+        # competitor with a physical West Palm Beach address and 155 Google
+        # reviews. Proximity and review count decide that query and we have
+        # neither, so the page was fighting where it cannot win.
+        #
+        # The 90-day query pull found what it CAN win: 751 impressions and zero
+        # clicks across occupational-therapy queries, nearly all West Palm Beach
+        # ("physical and occupational therapy west palm beach" 150 impr at pos
+        # 32.9, "occupational therapy at home west palm beach" 127 at 29.0,
+        # "occupational therapist 33401" 72 at 35.4), plus "hand pain treatment
+        # west palm beach" at 224 impr / pos 18.2. That competitor is staffed by
+        # PTs and PTAs and offers neither OT nor hand therapy, so this is demand
+        # in their own city that they structurally cannot answer — a CHT is
+        # roughly three years and a national exam away for anyone starting now.
+        #
+        # So the title front-loads occupational and hand therapy while the h1,
+        # lede and body keep physical therapy. Expect reported impressions to
+        # FALL and clicks to rise; the lost impressions were converting at 0.11%.
+        "title": "Occupational & Hand Therapy West Palm Beach | First Rehab",
+        "desc": "Occupational therapy, certified hand therapy and physical therapy for West Palm Beach, north on US-1 or I-95. Family-owned since 1991, Medicare accepted. 561-624-4263.",
         "h1": "Serving <em class='accent'>West Palm Beach</em>",
         "kicker": "West Palm Beach",
-        "lede": "Plenty of clinics dot West Palm Beach — but patients drive north to us for what few offer: PT, OT, certified hand therapy, and a wellness gym under one family-owned roof.",
-        "deep": False,
+        "lede": "West Palm Beach has no shortage of physical therapy clinics. Patients drive north to us for what most of them don't staff: occupational therapy, a Certified Hand Therapist, and a wellness gym under one family-owned roof.",
+        "deep": True,
+        "deep_eyebrow": "Why West Palm Beach Patients Drive North",
         "local": [
-            ("Occupational therapy and workers' comp care for West Palm Beach", [
-                "West Palm Beach sends us a different mix of patients than our smaller neighboring towns — more work injuries, more auto accident referrals, more people who need occupational therapy to get back to a specific job rather than general daily activity. Our OT program is led by our founder, himself an occupational therapist, which means the person setting your treatment plan has been doing this since 1991, not reading it off a chart.",
-                "For workers' compensation and auto accident cases, we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your job or your case actually requires — regaining a specific lifting capacity, a range of motion, or the daily function an insurer or employer needs to see restored. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident recovery</a>.",
+            ("Occupational therapy for West Palm Beach", [
+                "Most clinics within West Palm Beach are staffed for physical therapy: physical therapists and physical therapist assistants, treating movement, strength and pain. That is genuinely what many people need. But if your problem is that you cannot dress yourself, manage a kitchen, or perform the specific tasks your job requires, the discipline you are looking for is occupational therapy, and it is a different credential with different training.",
+                "Our occupational therapy program is led by our founder, David Kashuba, Ph.D., who is himself an occupational therapist and has been treating patients since 1991, alongside Joni Janik, OT. That matters on a practical level: the person setting your plan has been doing this work for over three decades, not reading it off a protocol sheet. Read more about our <a href=\"../services/occupational-therapy.html\">occupational therapy program</a>.",
+                "West Palm Beach also sends us a different mix than our smaller neighbouring towns — more work injuries, more auto accident referrals, and more people who need to get back to one specific job rather than to general daily activity. For workers' compensation and auto accident cases we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your case actually has to demonstrate. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident recovery</a>.",
+            ]),
+            ("Certified hand therapy, worth the drive north", [
+                "Certified hand therapy is the other reason West Palm Beach patients make the trip. A Certified Hand Therapist has completed thousands of hours of upper-extremity practice plus a rigorous national examination, and it is the credential area hand surgeons look for when they refer a post-operative patient. Laura Drumm, CHT leads our program, and custom splints and orthoses are fabricated here in the clinic rather than ordered from a catalogue.",
+                "It is a genuinely scarce specialty in Palm Beach County, which is why patients travel for it from across the county rather than choosing whichever clinic is closest. If you have hand or wrist pain, are recovering from hand surgery, or have been told you need a custom splint, call 561-624-4263 and our front desk will tell you plainly whether we are the right fit. Read more about <a href=\"../services/hand-therapy.html\">certified hand therapy</a> or <a href=\"../treatments/hand-wrist.html\">hand and wrist treatment</a>.",
             ]),
         ],
-        "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Call 561-624-4263 and our front desk will point you right to the door.",
-        "conditions": ["back-pain", "neck-pain", "auto-accident", "workers-comp", "post-surgical"],
+        "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Most downtown and 33401 addresses reach us in one straight drive up US-1. Call 561-624-4263 and our front desk will point you right to the door.",
+        "conditions": ["hand-wrist", "post-surgical", "workers-comp", "auto-accident", "back-pain", "neck-pain"],
     },
     "riviera-beach": {
         "city": "Riviera Beach",
@@ -1486,6 +2141,7 @@ def build_locations():
     <p class="related-links reveal"><strong>Explore our care:</strong> <a href="../services/physical-therapy.html">Physical Therapy</a> &middot; <a href="../services/occupational-therapy.html">Occupational Therapy</a> &middot; <a href="../services/hand-therapy.html">Certified Hand Therapy</a> &middot; <a href="../services/wellness.html">Wellness &amp; Gym</a> &middot; <a href="../faq.html">Read our FAQ</a></p>
   </div>
 </section>
+{appt_form(heading='Book From ' + L['city'], sub='Tell us what you need and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
@@ -1538,7 +2194,7 @@ def build_about():
     def _team_card(i, t):
         slug = t["name"].lower().split(",")[0].replace(" ", "-").replace(".", "")
         base = f'''<div class="team-photo">
-          <img src="assets/team/{t["img"]}" alt="{t["name"]}, {t["role"]} at First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.team-photo').classList.add('empty')">
+          {photo("team-" + t["img"][:-4], sizes="(max-width:768px) 46vw, 300px", ratio="4/5")}
         </div>
         <h3>{t["name"]}</h3><div class="role">{t["role"]}</div><p>{t["blurb"]}</p>'''
         # /about is our best page in search (position 5.3, 4.03% CTR) and the
@@ -1571,7 +2227,7 @@ def build_about():
           <div class="tp-inner">
             <button type="button" class="tp-close" aria-label="Close profile">&#10005;</button>
             <div class="tp-head">
-              <img src="assets/team/{t["img"]}" alt="" loading="lazy">
+              {photo("team-" + t["img"][:-4], sizes="120px", alt="")}
               <div><h3>{t["name"]}</h3><div class="role">{t["role"]}</div></div>
             </div>
             <div class="tp-body"><p>{t["bio"]}</p>{spec_html}{fun_html}</div>
@@ -1599,7 +2255,7 @@ def build_about():
       </div>
     </div>
     <div class="split-media tilt2 reveal d2">
-      <img src="assets/media/founder.jpg" alt="Dr. Dave Kashuba, founder of First Rehabilitation of North Palm Beach" loading="lazy" onerror="this.closest('.split-media').classList.add('empty')">
+      {photo("exterior", sizes="(max-width:900px) 92vw, 560px")}
     </div>
   </div>
 </section>
@@ -1624,6 +2280,8 @@ def build_about():
           + nav(0) + body + footer(0))
 
 EPISODES = [
+    ("Episode 15", "Susan Mann", "&ldquo;They can&rsquo;t be gifted if they can&rsquo;t do their schoolwork.&rdquo; Every teacher told Susan Mann her two children were gifted. Every test put them at the bottom of the scale, and nobody could explain the gap. Susan is a retired San Francisco police officer, not a clinician, and she went looking for the answer anyway.<br><br>It turned out to be auditory processing disorder and visual processing disorder. Their hearing and their vision were fine &mdash; the brain was not getting the message. As Dr. Leah Light, the audiologist who finally named it, put it to her: the eyes and the ears are only the messengers.<br><br>&ldquo;I put everything on the line,&rdquo; Susan says. Both children retested off the charts, got into the gifted school here in Palm Beach Gardens, and went on to full academic scholarships at Oxbridge Academy. She now runs Bright Minds Processing so other families do not lose years finding the same answer.<br><br>She and Dave get into why a Palm Beach County psychological education evaluation offers two boxes, ADHD or dyslexia, and cannot diagnose either processing disorder; what the therapy actually involves, which is 16 weeks, one session a week, and exercises five evenings a week at home; and the $30 screening that starts it against roughly $2,400 for the whole course.<br><br>Also in this one: why it is one in four children at any age, the fact that the testing itself comes out of the Australian school system where every child is screened, and the travel basketball team Susan is building in Palm Beach Gardens, coached by retired NBA player Dwayne McClain, where you play only if you keep up the therapy.", "https://open.spotify.com/episode/1edWCeBMgCtMgMUCnjaI4R", "Listen"),
+    ("Episode 14", "Dr. Chaim Arlosoroff, M.D.", "&ldquo;These are the injuries that make it to the emergency room&hellip; or as a trauma admission.&rdquo; Orthopedic trauma surgeon Dr. Chaim Arlosoroff, on staff at St. Mary&rsquo;s Medical Center for the past 30 years, joins Dave and Mike for a September conversation about the surge in e-bike injuries he sees firsthand in the Level 1 trauma center and ER.<br><br>The numbers are stark: ER visits for e-bike injuries are up more than 400% nationwide since 2017, and Dr. Arlosoroff&rsquo;s own count for South Florida runs even higher &mdash; Palm Beach County up 130% from 2023 to 2024, Broward up 180%, and Miami-Dade over 500%. About 83% of the injured riders weren&rsquo;t wearing a helmet, and the average age is 13.<br><br>He and Dave walk through the modified &ldquo;governors&rdquo; that let bikes built for 15 to 20 mph hit 50 or 60, the skull fractures and spinal cord injuries that follow, and why they see these as motor vehicle injuries &mdash; riding on sidewalks, against traffic, without helmets &mdash; rather than bicycle accidents.<br><br>Dr. Arlosoroff&rsquo;s path to medicine started at 16, volunteering in a hospital operating room during Israel&rsquo;s 1973 Yom Kippur War, and continued through three years as an Israeli Defense Forces combat medic. He also played professional tennis, reaching a world ranking of 283 in 1981, before a full scholarship brought him to Duke University, where he was later inducted into the Duke Tennis Hall of Fame.<br><br>Dr. Arlosoroff and Dave have been friends for more than 30 years, and their practices &mdash; Dr. Arlosoroff&rsquo;s orthopedic trauma and fracture care, and First Rehabilitation&rsquo;s therapy right across the street &mdash; refer patients back and forth every week.", "https://open.spotify.com/episode/10CHQ7OeGRGXtqQAkTdI8p", "Listen"),
     ("Episode 13", "Captain Kerry Titheradge", "Twenty years ago Dave got a call from a friend&rsquo;s doctor asking whether he would take on a patient who was not on his insurance. That patient is now known worldwide as Captain Kerry from Bravo&rsquo;s Below Deck, and the two have stayed close ever since.<br><br>Dr. Dave Kashuba and Mike McGann catch up with Kerry on the rotator cuff program Dave built him back in the day, since nicknamed the &ldquo;Captain Kerry workout,&rdquo; and how a television producer stumbled onto it and turned it into a bit of a brand.<br><br>They also get into what Kerry does with the platform Below Deck gave him, from a Mental Health Mondays series on his own podcast to helping Dave&rsquo;s Remember Me foundation, which supports families facing early onset dementia.<br><br>Equal parts old friends catching up, and a good story about how one shoulder injury turned into two decades of friendship.", "https://open.spotify.com/episode/6DoHiOTVJLUtKCYNaxqzRi", "Listen"),
     ("Episode 12", "Dr. Michael Leighton, MD", "&ldquo;This is the best operation that&rsquo;s done in orthopedics&hellip; the single best operation that Medicare pays for.&rdquo; Orthopedic surgeon Dr. Michael Leighton — a friend Dave has referred patients to since 1994 — joins Dave and Mike to break down total hip replacement: the anterior versus posterior surgical approach, and why he steers heavier or older patients toward posterior while thinner, younger patients can go either way. <br><br>They cover what actually drives infection risk (under 1&ndash;2% over a lifetime, far lower than most people assume, but higher in smokers, in vapers using nicotine, and in diabetics whose A1C runs above 7.5), why dental hygiene matters before joint surgery, and the six-week window bone needs to grow into a modern non-cemented implant. <br><br>Also: the old dislocation precautions that used to keep patients in traction for a week are mostly gone, prehab isn&rsquo;t one-size-fits-all, and an eye-opening dose of Medicare economics — a single flat payment of $1,162 covers the surgery and 90 days of follow-up care, a number Dave says deserves a lot more attention than it gets.<br><br>Dr. Leighton is an orthopedic surgeon with Palm Beach Orthopedic Institute in Palm Beach Gardens, board certified by the American Board of Orthopaedic Surgery with a subspecialty certification in Orthopaedic Sports Medicine. A former Division I baseball player at Duke, he has practiced in Palm Beach County since 1994, treating Hall of Fame athletes alongside weekend pickleball players, and performs minimally invasive hip replacement (anterior and posterior) and robotic-arm assisted (Mako) knee replacement.", "https://open.spotify.com/episode/2HTkgf8nOXbTrEqrPyzYtL", "Listen"),
     ("Episode 11", "Paul Joyce", "&ldquo;You definitely have to make sure you&rsquo;re getting enough protein.&rdquo; Peptides, GLP-1s and hormone replacement therapy are on everyone&rsquo;s lips and understood by almost nobody, so Dave and Mike brought in Paul Joyce of New Life HRT, a friend of Dave&rsquo;s for 22 years and the man a lot of doctors quietly learn these protocols from before they offer them themselves. <br><br>He explains what a peptide actually is (a short chain of amino acids, usually under 50, of which he counts around 150), where the GLP-1 medicines came from (a gut hormone your body already makes, and the Gila monster version of it that stays around long enough to keep working), and why he began prescribing Ozempic off label for weight loss back in 2017, before the rest of the country caught on. <br><br>The part that matters most to a rehab clinic is what the weight takes with it. &ldquo;Yeah, you lose a lot of muscle,&rdquo; he says, and he is talking about himself as much as his patients: he started at 209 pounds, weighs 153 now, and says he took it too far. <br><br>Dave&rsquo;s warning is the one to write down, that people who are not monitored start looking frail, and that the shot will make you better without making you healthier unless the protein and the strength work come with it. <br><br>They also get into the counterfeit peptide trade, where Paul had six research only websites tested and all six came back with major flaws, from heavy metals to bacteria to a vial sold as retatrutide that turned out to be underdosed semaglutide, plus the fabricated certificates of analysis he was called to testify about in Atlanta.<br><br>Paul Joyce runs New Life HRT, where physicians go to be trained on peptide and hormone replacement protocols. He is also, as of this episode, one of Dave&rsquo;s patients: he has a completely torn rotator cuff, cancelled the shoulder replacement he had scheduled, and explains on air why he is rehabbing it instead.", "https://open.spotify.com/episode/1HXEy4xcDFRk40hwbdQrD5", "Listen"),
@@ -1764,13 +2422,14 @@ def build_exercises():
 </main>
 """
     write("exercises.html",
-          head("Home Exercises for Knee, Hip &amp; Shoulder Pain | North Palm Beach",
+          head("Home Exercises for Knee, Hip & Shoulder Pain | North Palm Beach",
                "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
                canonical="exercises.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
+    "Episode 15": "pain-2-power-ep15-mann",                # Susan Mann
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
     "Episode 8": "reverse-shoulder-replacement-explained",   # Dr. Ryan Simovitch
@@ -1861,7 +2520,7 @@ def build_podcast():
       </div>
       <div class="hosts-stack">
         <div class="host-bio reveal">
-          <img src="assets/team/david.jpg" alt="Dr. Dave Kashuba" loading="lazy">
+          {photo("team-david", sizes="140px", ratio="1/1")}
           <div>
             <h3>Dave Kashuba, Ph.D.</h3>
             <div class="role">Founder &amp; Occupational Therapist</div>
@@ -1869,7 +2528,7 @@ def build_podcast():
           </div>
         </div>
         <div class="host-bio reveal d2">
-          <img src="assets/media/mike.jpg" alt="Mike McGann" loading="lazy">
+          {photo("mike", sizes="140px", ratio="1/1")}
           <div>
             <h3>Mike McGann</h3>
             <div class="role">Co-Host</div>
@@ -2299,46 +2958,7 @@ def build_contact():
   '<div class="crumbs"><a href="/">Home</a> / Contact</div>')}
 <section class="section">
   <div class="wrap contact-grid">
-    <div class="appt-form-card reveal">
-      <h2 class="h3-size">Request an Appointment</h2>
-      <p class="af-sub">Tell us a little about what you need and our front desk will call you back within one business day.</p>
-      <form class="appt-form" id="appt-form" novalidate>
-        <div class="af-field">
-          <label for="af-name">Full name *</label>
-          <input id="af-name" name="name" type="text" autocomplete="name" required maxlength="200">
-        </div>
-        <div class="af-two">
-          <div class="af-field">
-            <label for="af-phone">Phone *</label>
-            <input id="af-phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="561-555-1234">
-          </div>
-          <div class="af-field">
-            <label for="af-email">Email</label>
-            <input id="af-email" name="email" type="email" autocomplete="email" maxlength="200">
-          </div>
-        </div>
-        <div class="af-field">
-          <label for="af-reason">Reason for visit *</label>
-          <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
-        </div>
-        <div class="af-field">
-          <label for="af-time">Preferred call time</label>
-          <select id="af-time" name="time">
-            <option>Anytime</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-          </select>
-        </div>
-        <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
-        <p class="af-error" id="af-error" role="alert"></p>
-        <button class="btn btn-coral" type="submit">Send Request <span class="arr">&rarr;</span></button>
-      </form>
-      <div class="af-done" id="af-done" hidden>
-        <div class="af-check">&#10003;</div>
-        <h3>Request received!</h3>
-        <p id="af-done-msg">Thank you — our front desk will call you back within one business day. Need us sooner? Call <a href="tel:+15616244263">{PHONE}</a>.</p>
-      </div>
-    </div>
+    {appt_form(wrapped=False)}
     <div class="reveal d2">
       <div class="contact-card" style="margin-bottom:1.5rem;">
         <h3>First Rehabilitation of North Palm Beach</h3>
@@ -2370,6 +2990,135 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "strength-training-after-60-fall-prevention": {
+        "title": "Strength Training After 60: Where to Start",
+        "date": "September 2026",
+        "iso": "2026-09-21",
+        "tag": "Wellness",
+        "teaser": "Why sitting is the quiet risk as you age, and what a short daily movement habit plus supervised strength work do for fall risk and independence.",
+        "body": """
+<p>Somewhere between fifty and sixty, gravity starts winning arguments it used to lose. The shoulders round forward, the head drifts ahead of the spine, and most people blame age instead of the eight or ten hours a day they spend sitting down.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>The chair is doing more damage than the years are</h2>
+<p>&ldquo;The invention of the chair is one of our demise,&rdquo; says Dr. Dave Kashuba, Ph.D., founder of First Rehabilitation and an occupational therapist who has treated patients since 1991. He is not against furniture. He is pointing at what happens to a body that spends most of the day in one position: forward head posture, tight hips, and blood flow that slows down instead of circulating. &ldquo;That's just gravity, that's how life is,&rdquo; he says of the forward drift that comes with age, &ldquo;but we want to walk every day, we want to try to get the blood flowing.&rdquo;</p>
+<h2>Ten minutes counts, and it beats waiting for an hour you never get</h2>
+<p>The advice Dave gives patients is not a gym plan. It is smaller than that on purpose. &ldquo;Just a little bit of exercises, ten, fifteen minutes a day, three minutes a day, and work your way up,&rdquo; he says. Put the phone down, get up, walk, do a few sit to stands, and repeat that through the day rather than saving it for one long session. The goal is motion that happens often, not motion that happens perfectly.</p>
+<p>Rising from a chair without using your hands is one of the simplest tests of leg strength there is, and it is the same movement that keeps someone able to get off a low couch, a car seat, or the toilet without help. Losing it rarely announces itself. It erodes a few degrees at a time until a fall makes it obvious.</p>
+<h2>Balance and strength are the same project</h2>
+<p>Falls do not usually start with a slip. They start months earlier, with weaker hips, a less steady base, and reaction time that has quietly slowed down. Supervised strength training after 60 addresses both halves at once: the muscle that holds you up, and the balance reactions that catch you when something shifts under your feet.</p>
+<p>This is where our <a href="../services/wellness.html">on-site wellness program</a> picks up where formal therapy leaves off. Patients who finish physical or occupational therapy with us can keep training in the same building, with a team that already knows their history, instead of starting over with a trainer who has never seen their chart. Senior functional fitness work at our North Palm Beach clinic focuses on the strength and balance work that keeps people independent, not on adding plates to a bar.</p>
+<p>The program covers a range of paces on purpose. Some people want one-on-one personal training built around a specific goal or a joint we already know well. Others do better in a small group fitness class, where consistency is easier when someone else is waiting for you to show up. Either way, the person leading the session already has your history, not a blank intake form.</p>
+<h2>If pain is why you have been sitting more</h2>
+<p>Sometimes the sitting is protection rather than habit. A bad hip, knee, or back makes standing and walking hurt, so the chair starts to feel like the safe choice, and the muscles that would have supported those joints get weaker from disuse. We see this constantly in patients recovering from <a href="../treatments/hip-pain.html">hip pain</a>, <a href="../treatments/knee-pain.html">knee pain</a>, and <a href="../treatments/back-pain.html">back pain</a>, and it is exactly the cycle a good evaluation is built to interrupt: treat the pain that is driving the inactivity, then rebuild the strength that inactivity cost.</p>
+<p>Patients from <a href="../locations/juno-beach.html">Juno Beach</a> and the surrounding area often ask us the same question at discharge: what now? The exercises do not stop being useful once the pain does. They become the maintenance plan.</p>
+<h2>Book an evaluation</h2>
+<p>If you have noticed yourself avoiding stairs, standing up more slowly than you used to, or simply sitting more than you would like to admit, an evaluation is the place to start, not a gym membership you are not sure you are ready for. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and read more in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "gym-program-after-physical-therapy-north-palm-beach": {
+        "title": "Your Gym Program After Physical Therapy Ends",
+        "date": "September 2026",
+        "iso": "2026-09-21",
+        "tag": "Wellness",
+        "teaser": "What to do with your home exercises once physical therapy ends, and why an on-site wellness program exists to keep the progress you worked for.",
+        "body": """
+<p>The day your physical therapy ends is the day most clinics stop thinking about you. The exercises that got you better sit in a folder, the appointments stop, and within a few months the strength you built starts quietly going the way it came.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>&ldquo;I do everything I can to let people not ever come to see me&rdquo;</h2>
+<p>Dr. Dave Kashuba, Ph.D., founder of First Rehabilitation, says the line comes up often enough with patients that he has stopped apologizing for it. Building a strong home program, in his view, is the job, not bad for business. &ldquo;Cause again, reiterating the point, I do everything I can to let people not ever come to see me,&rdquo; he says.</p>
+<p>That shows up in what he sends patients home with. Resistance bands over dumbbells, for a start: &ldquo;I recommend you go online and get bands, there's therapy bands that you could do,&rdquo; rather than relying on whatever weight happens to be sitting around the house.</p>
+<h2>Offset what the rest of your day already does to you</h2>
+<p>Most people's daily movement runs one direction. Typing, driving, carrying groceries, looking at a phone, all of it pulls the shoulders forward and rounds the upper back. Dave's home programs are built to work the opposite way on purpose. &ldquo;It's better to offset everything that we do, our daily use, everything we do is internal again,&rdquo; he says, which is why shoulder rows, extensions, and shoulder pulls show up in nearly every program he writes, regardless of which joint sent the patient in.</p>
+<p>The band work is not a substitute for a proper evaluation, and it is not a replacement for hands-on treatment while an injury is active. It is what carries the gains forward once that treatment is done, which is a different job from the treatment itself.</p>
+<h2>Stretching earns its place next to the band work</h2>
+<p>Dave pairs the resistance work with a short stretching routine, and he is specific about why. &ldquo;Especially guys,&rdquo; he says, most people never stretch at all, they grab their glasses, a cup of coffee, and go to work. One move he gives patients is the wall slide: stand facing a wall, slide both arms up from a 90 degree bent position, and bring them back down, three sets of ten. He adds shoulder shrugs, three sets of ten, and scapular retractions, where you squeeze your shoulder blades together and hold. &ldquo;Just simple stretches like that are going to help and support it,&rdquo; he says.</p>
+<p>None of these need equipment beyond a wall and, for the wall slide, a towel. That is deliberate. A home program someone will actually do on a Tuesday night beats a more elaborate one that stays in a folder.</p>
+<h2>Where the program goes once discharge happens</h2>
+<p>This is the gap our <a href="../services/wellness.html">on-site wellness program</a> is built to close. Graduates of our physical, occupational, and hand therapy programs can keep training in the same clinic, with a team that already knows which shoulder was the problem and which movements to avoid. A post rehab exercise program built this way is not generic. It is a continuation of the chart.</p>
+<p>We see this most often with patients coming off <a href="../treatments/post-surgical.html">post-surgical rehabilitation</a>, where the risk of losing hard-won range of motion in the months after discharge is highest, and with <a href="../treatments/knee-pain.html">knee pain</a> patients who need ongoing strength work to keep a joint's mechanics honest. Patients from Palm Beach Gardens and <a href="../locations/tequesta.html">Tequesta</a> traveling in for therapy often ask about this before they have even finished their first course of treatment, which says something about how much the fear of backsliding weighs on people.</p>
+<h2>What this replaces, and what it does not</h2>
+<p>This is not a substitute for an evaluation, and it does not replace hands-on treatment while an injury is still active. A band program is what carries strength forward once that phase of care is finished. Membership details, pricing, and scheduling are a front desk conversation. We are not going to guess at them here.</p>
+<h2>Start with an evaluation</h2>
+<p>If therapy ended for you somewhere else, or your home program has quietly stopped happening, an evaluation is still the right first step. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and see more answers in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep15-mann": {
+        "title": "They Were Gifted and Failing: Susan Mann on Processing Disorders",
+        "date": "September 2026",
+        "iso": "2026-09-19",
+        "tag": "Pain 2 Power",
+        "teaser": "Susan Mann of Bright Minds Processing joins Dave and Mike on the auditory and visual processing disorders she says affect one in four kids, and the 16 week fix.",
+        "body": """
+<p>Every teacher told Susan Mann her two children were gifted. Both were also testing near the bottom of the scale and could not get through a page of schoolwork. &ldquo;They can&rsquo;t be gifted if they can&rsquo;t do their schoolwork,&rdquo; she said. So she had them tested.</p>
+<p>What she found ended with both kids on full academic scholarships and with a nonprofit she now runs out of Palm Beach County. She joined Dave and Mike on this week&rsquo;s Pain 2 Power to explain it.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Two disorders your evaluation form has no box for</h2>
+<p>The turn came from her husband. He heard a radio segment describing someone who cannot follow instructions at work, who loses the second or third word of a sentence and then stands there with no idea what to do. He came home and said he thought he had auditory processing disorder. She listened and thought about her kids.</p>
+<p>It runs in families, and it travels with a second condition she had never heard of. Visual processing disorder is the one where a child reads a sentence and skips it, twists the letters, or reaches the bottom of a page with no idea what they just read. Both of hers had both, badly. An audiologist in Hollywood, Dr. Leah Light, put it plainly: your kids cannot hear the teacher talk.</p>
+<p>That reframed years of trouble. At swimming her children were constantly corrected for not doing what they were told. &ldquo;But they didn&rsquo;t know what they were told,&rdquo; she said.</p>
+<p>Her bigger frustration is administrative. A psychological educational evaluation in Palm Beach County offers two boxes, ADHD or dyslexia. &ldquo;They are not allowed to diagnose VPD or APD, and the school does not recognize it,&rdquo; she said. Families who want an answer pay for it themselves.</p>
+<h2>The eyes and ears are only the messengers</h2>
+<p>Mike reached for face blindness as a comparison, the processing fault where someone looks straight at a face and cannot recognize it. The lesson Dr. Light gave Susan Mann was that even though we call these vision and hearing problems, the organ involved is the brain. The eyes and ears are only messengers.</p>
+<p>Her description of the fix is that the wiring is off, and the therapy trains the eyes to work together at the same time, then does the same for the ears. Both sit in the same region, so work on one carries into the other. One exercise is a golf tee turned upside down and a small stick with a ball on the end. A child with a convergence problem cannot judge the distance, knocks the tee over, and starts again.</p>
+<h2>Sixteen weeks, once a week, five evenings of homework</h2>
+<p>The program runs sixteen weeks. You go in once a week, you leave with exercises to practice five evenings, and you come back for the next set until you graduate. Susan Mann quoted a $30 test to start and roughly $2,400 for the whole course. Her own two were retested afterward, scored off the charts, and took full academic scholarships to Oxbridge Academy. Her daughter could not hear the words in a song before that. &ldquo;My daughter has never put down a book since,&rdquo; she said.</p>
+<h2>Why the next program is a basketball team</h2>
+<p>Girls will sit down and do the therapy. Boys, in her experience, fight it. So the program she is building in Palm Beach Gardens is a travel basketball team with a condition attached: you play if you keep turning up for the therapy, and once you graduate you keep your place. Mike called it Coach Carter, and she agreed before he finished.</p>
+<p>The coach is Dwayne McClain, a Villanova name and a retired professional who played for years in Australia, including with the Sydney Kings. That pulled Dave sideways, because Dave trained the Australian swim team in Perth, where McClain trained too. Australia is where the testing comes from as well, and Australian schools screen every child.</p>
+<h2>The number Mike went and looked up</h2>
+<p>Susan Mann puts the rate at one in four children, at any age. Mike brought his own research: a child who does not graduate or earn a GED is 380% more likely to end up in the juvenile justice system. Those figures belong to the guest and to Mike, not to us. What was familiar to everyone in the studio was the shape of it. A child who cannot follow the instruction gets labeled a bad listener, believes it, and stops trying.</p>
+<h2>Where this brushes up against our work</h2>
+<p>One thread runs straight into our building, and it arrived through her husband. After his traumatic brain injury, Susan Mann found in her research that the same processing therapy is used with brain injury and stroke patients.</p>
+<p>A line worth drawing clearly. Bright Minds Processing is her nonprofit at brightmindsprocessing.org, and we do not test for or treat auditory and visual processing disorders. We treat the adult side of that sentence. <a href="../services/occupational-therapy.html">Occupational therapy</a> after a stroke or brain injury covers upper extremity function, attention and memory strategies, and the daily business of dressing, cooking and getting back to work, which we wrote up separately in <a href="post-stroke-occupational-therapy-north-palm-beach.html">what post stroke occupational therapy actually involves</a>.</p>
+<p>Mike caught the other parallel on air. Whatever the therapy, you have to do the work. &ldquo;It is exactly true,&rdquo; Susan Mann said.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch past episodes in our <a href="../videos.html">video library</a>, and see what people ask us most in the <a href="../faq.html#occupational-therapy">occupational therapy FAQ</a>. If someone in your family is recovering from a stroke, a brain injury, or surgery and daily tasks have become the hard part, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "post-stroke-occupational-therapy-north-palm-beach": {
+        "title": "Post Stroke Occupational Therapy in North Palm Beach: What Recovery Involves",
+        "date": "September 2026",
+        "iso": "2026-09-19",
+        "tag": "Occupational Therapy",
+        "teaser": "What occupational therapy after a stroke or brain injury actually covers, from dressing and cooking to cognitive rehab and getting back to work in Palm Beach County.",
+        "body": """
+<p>Post stroke occupational therapy in North Palm Beach is the part of recovery that deals with your actual day. The morning you try to button a shirt with one hand that will not cooperate. The afternoon you stand at a stove and lose track of what you were doing. A stroke or a brain injury damages the wiring that carries messages around, and the arm, the hand and the attention span all pay for it downstream.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<p>This came up on our podcast in an unexpected way. Susan Mann of Bright Minds Processing joined Dave and Mike to talk about children with auditory and visual processing disorders, a condition we do not treat. But her husband had a traumatic brain injury, and in researching her children she found the same processing therapy being used with brain injury and stroke patients. The framing she brought back is worth borrowing.</p>
+<h2>The eyes and the ears are only messengers</h2>
+<p>The audiologist who treated Susan Mann&rsquo;s children, Dr. Leah Light, taught her that even though we call these vision and hearing problems, the organ involved is the brain. &ldquo;They&rsquo;re only the messengers,&rdquo; Susan Mann said of the eyes and ears.</p>
+<p>That is the right way to think about the arm after a stroke too. The muscle is usually intact. The instruction is not arriving, or it arrives scrambled, so the hand closes when you wanted it to open. Which is why post stroke therapy is built around repeated, task specific practice rather than around strengthening alone. The route is the thing being rebuilt.</p>
+<h2>What post stroke occupational therapy actually covers</h2>
+<p>Our occupational therapy program breaks into six areas, and a stroke usually pulls in several at once.</p>
+<ul>
+<li>Activities of daily living: dressing, bathing, cooking, and the ordinary skills independence rests on</li>
+<li>Post stroke recovery: task specific work on upper extremity function, coordination and daily routines</li>
+<li>Cognitive rehabilitation: memory, attention and problem solving strategies</li>
+<li>Hand and upper extremity function: fine motor and functional use training</li>
+<li>Ergonomics and adaptive equipment: workstation assessment, plus the tools that make a task safe again</li>
+<li>Return to work programs: graded conditioning and task simulation</li>
+</ul>
+<p>An evaluation sorts out which of those matter for you, in what order. Somebody who cooks every day and somebody who needs to get back behind a desk get different plans out of the same diagnosis.</p>
+<h2>Cognitive rehabilitation after injury, and what it covers</h2>
+<p>This is the piece families are least prepared for. The arm is visible. The attention span is not, so a patient can look recovered and still be unable to follow a three step instruction, track a conversation, or keep hold of a task through an interruption.</p>
+<p>Cognitive rehabilitation works on memory, attention and problem solving, and it is practical rather than abstract. The target is the medication schedule, the grocery list, the route home, the sequence of getting out of the house in the morning. Susan Mann&rsquo;s description of what her children experienced maps onto it closely. She asks kids what they hear when the teacher talks, and they tell her nothing, they just stare at a blank space on the wall. Adults after a stroke describe that same fade, and they are usually embarrassed by it.</p>
+<h2>Getting the hand and arm back to work</h2>
+<p>Upper extremity recovery is where our occupational therapy and our certified hand therapy program overlap. Laura Drumm, CHT, leads the hand therapy side, and the two run in coordination when a stroke has left the hand weak, clumsy or partly closed. Fine motor work, functional use training, and splinting when the hand needs a position held. The two plans run as one.</p>
+<p>That coordination also matters when the stroke is not the only thing in the chart. Plenty of patients arrive with a shoulder or wrist problem alongside the neurological one, and the plan has to account for both. Our <a href="../treatments/hand-wrist.html">hand and wrist</a> and <a href="../treatments/post-surgical.html">post surgical</a> pages cover how that side of the work runs.</p>
+<h2>A return to work program after injury, for people driving in from Palm Beach Gardens</h2>
+<p>A return to work program is graded. A date on a calendar is not a plan. Task simulation and conditioning that build toward the real demands of the job, rather than a blanket clearance handed out at a fixed number of weeks. For desk work that usually means a workstation assessment and adaptive equipment. For anything physical it means loading the actual movements.</p>
+<p>We see people from across the county for this. The clinic is at 733 US Highway 1, Suite 2A in North Palm Beach, which is a short drive from <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens</a>, Juno Beach and Jupiter. Hours are Monday through Friday 8:00 AM to 5:30 PM, with Saturday mornings 8:00 AM to 12:30 PM, which is the slot working family members tend to want when they are the ones bringing someone in.</p>
+<h2>The homework is the treatment</h2>
+<p>Mike McGann made the point on air that every therapy has the same catch. You have to do the exercises. &ldquo;You&rsquo;re not gonna get a result if you don&rsquo;t,&rdquo; he said, and Susan Mann agreed without hesitation: &ldquo;It is exactly true.&rdquo; Her own program runs sixteen weeks, once a week in the chair with exercises to practice five evenings at home.</p>
+<p>Post stroke occupational therapy works the same way. The hour in the clinic sets the task and corrects it. The repetitions between visits are what move the needle, and that is the honest reason two people with similar strokes end up in very different places a year later. It is also the part a family can help with, once somebody has shown them what the practice actually looks like.</p>
+<h2>Starting, and what it costs</h2>
+<p>An evaluation is one on one, and treatment usually begins the same day. Medicare requires a physician to certify your plan of care, and we take Medicare and Medicare Advantage along with BCBS, Aetna, Humana, Tricare, workers&rsquo; compensation and self pay. The front desk will tell you exactly what your plan needs before you come in. More of those answers sit in our <a href="../faq.html#insurance-cost">insurance and cost FAQ</a> and the <a href="../faq.html#occupational-therapy">occupational therapy FAQ</a>.</p>
+<p>You can read more about the program on our <a href="../services/occupational-therapy.html">occupational therapy page</a>, and hear the conversation that prompted this article on <a href="../podcast.html">the Pain 2 Power podcast page</a>. If someone in your family has had a stroke or a brain injury and the hard part has become the daily routine rather than the diagnosis, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "pain-2-power-ep11-joyce": {
         "title": "The Muscle Comes Off Too: Paul Joyce on GLP-1s and Peptides",
         "date": "August 2026",
@@ -2736,12 +3485,16 @@ BLOG_POSTS = {
 # target at least once, so adding a post means adding it to somebody's list too.
 # Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
 RELATED_POSTS = {
-    "pain-2-power-ep11-joyce": ["pain-2-power-ep10-mcvicker", "reverse-shoulder-replacement-explained", "what-to-expect-first-pt-visit"],
+    "strength-training-after-60-fall-prevention": ["gym-program-after-physical-therapy-north-palm-beach", "pain-2-power-ep11-joyce", "reverse-shoulder-replacement-explained"],
+    "gym-program-after-physical-therapy-north-palm-beach": ["strength-training-after-60-fall-prevention", "reverse-shoulder-replacement-explained", "why-hand-therapy-is-different"],
+    "pain-2-power-ep15-mann": ["post-stroke-occupational-therapy-north-palm-beach", "physical-therapy-vs-occupational-therapy", "pain-2-power-ep11-joyce"],
+    "post-stroke-occupational-therapy-north-palm-beach": ["physical-therapy-vs-occupational-therapy", "pain-2-power-ep15-mann", "why-hand-therapy-is-different"],
+    "pain-2-power-ep11-joyce": ["strength-training-after-60-fall-prevention", "pain-2-power-ep10-mcvicker", "pain-2-power-ep15-mann"],
     "partial-vs-total-knee-replacement": ["knee-arthritis-before-surgery", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
-    "physical-therapy-vs-occupational-therapy": ["why-hand-therapy-is-different", "what-to-expect-first-pt-visit", "five-morning-habits-back-pain"],
+    "physical-therapy-vs-occupational-therapy": ["post-stroke-occupational-therapy-north-palm-beach", "why-hand-therapy-is-different", "what-to-expect-first-pt-visit"],
     "pain-2-power-ep10-mcvicker": ["hip-impingement-back-pain-north-palm-beach", "five-morning-habits-back-pain", "pain-2-power-ep11-joyce"],
     "hip-impingement-back-pain-north-palm-beach": ["pain-2-power-ep10-mcvicker", "five-morning-habits-back-pain", "what-to-expect-first-pt-visit"],
-    "reverse-shoulder-replacement-explained": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "what-to-expect-first-pt-visit"],
+    "reverse-shoulder-replacement-explained": ["gym-program-after-physical-therapy-north-palm-beach", "partial-vs-total-knee-replacement", "what-to-expect-first-pt-visit"],
     "what-to-expect-first-pt-visit": ["physical-therapy-vs-occupational-therapy", "five-morning-habits-back-pain", "knee-arthritis-before-surgery"],
     "five-morning-habits-back-pain": ["hip-impingement-back-pain-north-palm-beach", "headaches-that-start-in-the-neck", "what-to-expect-first-pt-visit"],
     "why-hand-therapy-is-different": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit", "reverse-shoulder-replacement-explained"],
@@ -2782,7 +3535,7 @@ def _related_block(slug):
 
 def build_blog():
     cards = "".join(
-        f'''<a class="cond-card reveal" href="{slug}.html" style="padding:1.9rem 1.7rem;">
+        f'''<a class="cond-card reveal" href="/blog/{slug}.html" style="padding:1.9rem 1.7rem;">
         <span class="cond-tag">{p["tag"]} &middot; {p["date"]}</span>
         <h3 style="margin-top:0.4rem;">{p["title"]}</h3>
         <p>{p["teaser"]}</p>
@@ -2829,12 +3582,17 @@ def build_blog():
   </div>
 </section>
 {_related_block(slug)}
+{appt_form(heading='Talk To Someone About This', sub='If any of this sounds like what you are dealing with, tell us and our front desk will call you back within one business day.')}
 {cta_band(1)}
 </main>
 """
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "strength-training-after-60-fall-prevention": "Strength Training After 60 in North Palm Beach",
+            "gym-program-after-physical-therapy-north-palm-beach": "Gym Program After Physical Therapy | North Palm Beach",
+            "pain-2-power-ep15-mann": "Susan Mann: Processing Disorders in Kids",
+            "post-stroke-occupational-therapy-north-palm-beach": "Post Stroke Occupational Therapy North Palm Beach",
             "pain-2-power-ep11-joyce": "Paul Joyce: GLP-1s, Peptides and Muscle Loss",
             "partial-vs-total-knee-replacement": "Partial vs Total Knee Replacement",
             "physical-therapy-vs-occupational-therapy": "Physical Therapy vs Occupational Therapy",
@@ -2953,7 +3711,7 @@ def build_careers():
         for label, key in (("Responsibilities", "responsibilities"), ("Qualifications", "qualifications"), ("Benefits", "benefits")):
             items = r.get(key) or []
             if items:
-                out += f'<h4>{label}</h4><ul>' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
+                out += f'<h3>{label}</h3><ul>' + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
         return out
 
     if OPEN_POSITIONS:
@@ -3187,6 +3945,39 @@ def build_first_visit():
 # fake empty state. Thumbnails come from YouTube's CDN; players are click-to-load
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
+    {
+        # Verified 2026-09-20 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "1 in 4 Kids Have a Processing Disorder: Susan Mann | Pain 2 Power Ep 15".
+        "id": "oZJYMOL95cA",
+        "uploaded": "2026-09-20T14:10:52+00:00",
+        "ep": "Episode 15",
+        "title": "1 in 4 Kids Have a Processing Disorder",
+        "guest": "Susan Mann",
+        "teaser": "Every teacher said Susan Mann&rsquo;s two children were gifted; every test put them at the bottom of the scale. A retired San Francisco police officer rather than a clinician, she kept digging until an audiologist named it: auditory and visual processing disorder. Both kids retested off the charts and took full academic scholarships to Oxbridge Academy.",
+    },
+    {
+        # Verified 2026-09-15 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "E-Bikes Are Putting Kids in the Trauma Bay… | Pain 2 Power Ep 14".
+        "id": "tEWqztCDdVI",
+        "uploaded": "2026-09-15T15:11:11+00:00",
+        "ep": "Episode 14",
+        "title": "E-Bikes Are Putting Kids in the Trauma Bay",
+        "guest": "Dr. Chaim Arlosoroff, M.D.",
+        "teaser": "Orthopedic trauma surgeon Dr. Chaim Arlosoroff, on staff at St. Mary&rsquo;s Medical Center for 30 years, joins Dave and Mike on the surge in e-bike injuries he sees firsthand in the Level 1 trauma center &mdash; ER visits are up more than 400% nationwide since 2017.",
+    },
+    {
+        # Verified 2026-09-15 against the channel feed: the only long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "…Captain Kerry Titheradge… | Pain 2 Power Ep 13".
+        "id": "HHTgwYIzsyk",
+        "uploaded": "2026-09-09T17:09:54+00:00",
+        "ep": "Episode 13",
+        "title": "Captain Kerry Titheradge on Mental Health, Rescue Dogs and Legacy",
+        "guest": "Captain Kerry Titheradge",
+        "teaser": "Twenty years after Dave built him a rotator cuff program, Bravo&rsquo;s Captain Kerry from Below Deck catches up with Dave and Mike on the workout that took his name, and what he does with the platform the show gave him.",
+    },
     {
         "id": "FBaBGdzNksM",
         "uploaded": "2026-08-31T17:38:11-04:00",
@@ -3441,8 +4232,8 @@ def build_meta():
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     from datetime import date as _date
-    lastmod = _date.today().isoformat()
-    urls = "".join(f"  <url><loc>{base}/{p}</loc><lastmod>{lastmod}</lastmod></url>\n" for p in pages)
+    lastmod = _lastmods(pages, _date.today().isoformat())
+    urls = "".join(f"  <url><loc>{base}/{p}</loc><lastmod>{lastmod[p]}</lastmod></url>\n" for p in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     ai_crawlers = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "PerplexityBot",
                    "ClaudeBot", "Claude-User", "Google-Extended", "Bingbot",
