@@ -35,6 +35,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
 | 3 | 2026-09-22 10:19 UTC | 8 | posted |
 | 4 | 2026-09-23 10:18 UTC | 8 | posted |
 | 5 | 2026-09-24 11:54 UTC | 34 | posted, three year backfill |
+| 6 | 2026-09-24 11:59 UTC | 12 | posted, the Aug 2023 cluster |
 
 ---
 
@@ -290,3 +291,42 @@ obvious thing to extend to. Flagged rather than decided.
 The remaining 34 run 2015 to 2023-09-01. The argument against replying to them is unchanged and is
 recorded above: value per reply falls sharply with age, recency is what the map pack weighs, and a
 first owner reply in 2026 to a 2015 review reads oddly to anyone who checks the dates.
+
+---
+
+## Batch 6, the August 2023 cluster, posted 2026-09-24 11:59 UTC
+
+Nick, 2026-09-24: "do the other 9 too". **It was 12, not 9.** The previous note said "Luke Ohara
+plus eight more in the last days of August", which undercounted the tail by three: Anthony
+Mancino, joanne doherty and Aleigha S. All 12 posted, because the next review after this cluster
+is Tristan Jarvin on 2023-06-13, a ten week gap, so 12 is the natural boundary and stopping at 9
+would have orphaned three reviews from the same week.
+
+### A read can serve STALE data, and it nearly produced a false report
+
+Straight after posting these 12, the read-back with `date_from=2015-01-01, date_to=2023-09-24`
+returned `review_reply_comment: null` for **every one of them**. Twelve writes had each returned
+success a minute earlier.
+
+Re-running against a narrower window (`2023-08-20` to `2023-09-05`) returned all 12 replies with
+`review_reply_update_time` values matching the writes to the second. The wide query was served
+from cache; the narrow one was not.
+
+**So "read it back" only proves anything if the read is actually fresh.** Had the report been
+written off that first read, it would have claimed 12 failures that never happened. When verifying
+a write on this connector, query a window you have not just queried, and pull
+`review_reply_update_time` so the timestamps can be matched against the writes rather than trusting
+presence alone.
+
+### Where the backlog stands now
+
+| | |
+|---|---|
+| reviews on the listing | 110 |
+| answered | **88** |
+| still unanswered | **22**, all 2023-06-13 and older |
+| oldest unanswered | Bobby Root, 2015-02-04 |
+| newest unanswered | Tristan Jarvin, 2023-06-13 |
+
+There is no near boundary left. The remaining 22 run from 2015 to mid 2023 with large gaps between
+them, so the next decision is all or nothing rather than another cluster.
