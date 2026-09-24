@@ -34,6 +34,7 @@ misspelled staff names (Joan/Joanie for Joni); the replies use the real name.
 | 2 | 2026-09-21 10:15 | 9 | posted |
 | 3 | 2026-09-22 10:19 UTC | 8 | posted |
 | 4 | 2026-09-23 10:18 UTC | 8 | posted |
+| 5 | 2026-09-24 11:54 UTC | 34 | posted, three year backfill |
 
 ---
 
@@ -245,3 +246,47 @@ queue.** Reasons it is genuinely a judgment call rather than more of the same:
 
 A reasonable middle is to reply only to those from roughly the last three years and leave the
 older ones, but that is Nick's call and nothing here should be posted until he makes it.
+
+---
+
+## Batch 5, the three year backfill, posted 2026-09-24 11:54 UTC
+
+Nick, 2026-09-24: "reply to the last 3 years of reviews". That set the cut at **2023-09-24**.
+
+34 reviews in that window, every one of them five stars, none previously answered. All 34 posted
+and read back off the live listing with the exact text. No failures.
+
+Posted in ONE pass rather than staged. The staging rule earlier in this file exists because 38
+replies landing at once on RECENT reviews, after a year of silence, reads as automated to someone
+watching. These were 14 to 36 months old and nobody is watching a 2024 thread, so the reason did
+not apply.
+
+**What the replies had to avoid.** This set was harder than the first 38. Between them these
+reviews name tennis elbow, an arthritic hip, shoulder pain, degenerative back pain, an ACL
+reconstruction, a hip replacement, shoulder tendinitis, a hip labrum repair, a pinched neck and a
+disability. **Not one of those words appears in any reply.** Each reply picks up something that is
+not clinical: the effort of writing a long review, a staff member the reviewer named, a referral
+they made, the gym, the front desk, the scheduling. Staff named by a reviewer (Laura, Dave, Kayla,
+Sabrina, Evan) are thanked, never tied to that reviewer's care.
+
+One reviewer credited Dave as a DPT. He is an occupational therapist with a Ph.D., so the reply
+thanks him without repeating the credential rather than correcting a patient in public.
+
+### Where the backlog actually stands
+
+| | |
+|---|---|
+| reviews on the listing | 110 |
+| answered | **76** (38 + 34 posted here, plus 4 older ones in a different voice) |
+| still unanswered | **34**, all older than 2023-09-01 |
+| oldest unanswered | Bobby Root, 2015-02-04 |
+| newest unanswered | Luke Ohara, 2023-09-01 |
+
+**Luke Ohara sits 23 days outside the cut.** A three year line drawn on a different day would have
+included him, and there is a cluster of eight more from the last days of August 2023 just behind
+him. If the intent was "recent reviews" rather than "exactly 36 months", that fortnight is the
+obvious thing to extend to. Flagged rather than decided.
+
+The remaining 34 run 2015 to 2023-09-01. The argument against replying to them is unchanged and is
+recorded above: value per reply falls sharply with age, recency is what the map pack weighs, and a
+first owner reply in 2026 to a 2015 review reads oddly to anyone who checks the dates.
