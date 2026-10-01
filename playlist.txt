@@ -1,0 +1,16 @@
+# Episode 16 (Dr. Don Goodwin, radiologist, TGH Imaging). Airs Sat 3 Oct 2026.
+# Breast Cancer Awareness Month episode.
+#
+# Ordered by hook strength. Clips go into the mixed daily queue (tools/clip-queue.py),
+# first one Sunday 4 Oct, never the same guest two days running. The post ids and
+# dates actually scheduled are recorded in content/clip-queue.json on main.
+
+02-dense-breasts.mp4
+01-radiation-dose.mp4
+05-men-get-it-too.mp4
+03-brca-mri.mp4
+06-benign-surgeries.mp4
+04-start-at-40.mp4
+09-callback-rates.mp4
+07-stage-one.mp4
+08-dad-joke.mp4
