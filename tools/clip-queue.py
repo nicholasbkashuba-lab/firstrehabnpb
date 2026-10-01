@@ -56,6 +56,7 @@ VIDEO_ACCOUNTS = {81358, 81356}
 # pattern that hits wins, so the named guest beats the generic host patterns.
 # A clip nobody matches is reported, not silently filed under a host.
 GUEST_PATTERNS = [
+    ("Dr. Don Goodwin", r"Don Goodwin|TGH Imaging|mammogra"),
     ("Susan Mann", r"Susan Mann|Bright Minds|processing disorder|Coach Carter"),
     ("Captain Kerry", r"Captain Kerry|Below Deck"),
     ("Dr. Chaim Arlosoroff", r"Arlosoroff|e bike|e-bike|electric bike"),
