@@ -10,15 +10,36 @@
       "mcp__post_bridge_-_social_media_scheduler__create_post",
       "mcp__post_bridge_-_social_media_scheduler__update_post",
       "mcp__post_bridge_-_social_media_scheduler__get_post",
+      "Bash(python3 tools/clip-queue.py:*)",
+      "Bash(python3 tools/dropbox-put.py put:*)",
+      "Bash(python3 tools/dropbox-put.py verify:*)",
+      "Bash(python3 tools/dropbox-put.py hash:*)",
+      "Bash(python3 tools/dropbox-put.py whoami:*)",
+      "Bash(python3 tools/stage-media.py:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:cdn.jsdelivr.net)",
       "WebFetch(domain:open.spotify.com)",
       "WebFetch(domain:www.firstrehabnpb.com)",
-      "WebFetch(domain:www.youtube.com)"
+      "WebFetch(domain:www.youtube.com)",
+      "Bash(python3 tools/episode-sync.py:*)",
+      "Bash(python3 build.py)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "ask": [
       "mcp__post_bridge_-_social_media_scheduler__delete_post",
-      "mcp__post_bridge_-_social_media_scheduler__delete_media"
+      "mcp__post_bridge_-_social_media_scheduler__delete_media",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git rebase:*)"
     ]
   }
 }
