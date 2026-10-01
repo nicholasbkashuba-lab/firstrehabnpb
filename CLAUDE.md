@@ -881,6 +881,16 @@ Mike 27.8%, everyone present in every five-minute block. Tunables that worked:
 1.5s sustain crushed the guest to 15%, and the parameters depend on who is in
 the room and where they sit.
 
+**An all-male room defeats the pitch gate — use voice embeddings (Episode 16).** Dr. Don
+Goodwin, Dave and Mike are three men, so `podcast-attrib.py` had nothing to separate. What
+worked: ECAPA speaker embeddings (speechbrain, CPU torch) on 1.5 s windows of the board mix,
+one centroid per person seeded from transcript-certain stretches, then fused with each
+camera's own mic energy. The two signals are independent and agreed on 89% of speech; the
+cut matched the speaker on 91%. Scripts and run order: `tools/relay-work/ep16-goodwin/`.
+Two more things that episode taught: a RAW radio mp3 can carry outtakes the hosts expect to
+be cut (grep the transcript for "edit"), and the 30 min default background timeout kills a
+full render, so launch it with an explicit long timeout.
+
 **Verify without watching**: contact sheet, one frame per minute tiled, audited
 against `transcript-full.md`. Episode 15 scored ~22/28 frames on the right person,
 about 79%, against the skill's stated ~82% ceiling. Say the real number; do not
