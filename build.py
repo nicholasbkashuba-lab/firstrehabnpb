@@ -3947,6 +3947,17 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        # Verified 2026-10-04 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "What Your Mammogram Can Miss | Pain 2 Power Ep 17: Dr. Don Goodwin".
+        "id": "gpfRW1C9aeo",
+        "uploaded": "2026-10-04T14:51:23+00:00",
+        "ep": "Episode 17",
+        "title": "What Your Mammogram Can Miss",
+        "guest": "Dr. Donald Goodwin, MD",
+        "teaser": "Radiologist Dr. Don Goodwin has read breast imaging for more than 50 years. He explains why most medical societies still say screen every year from 40, why dense breasts can hide up to 60% of cancers under 10mm on a mammogram, and when ultrasound or MRI should be added.",
+    },
+    {
         # Verified 2026-09-20 against the channel feed: long-form entry
         # (link rel=alternate is /watch?v=, not /shorts/), titled
         # "1 in 4 Kids Have a Processing Disorder: Susan Mann | Pain 2 Power Ep 15".
