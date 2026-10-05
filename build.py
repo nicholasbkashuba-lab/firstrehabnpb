@@ -4413,7 +4413,45 @@ def check_episode_video_sync():
         print(f"\n WARNING: in EPISODES (Spotify) but missing from VIDEOS (YouTube): {', '.join(missing)}")
         print("   If the YouTube video is live, add its VIDEOS entry now — see 'Automating the episode metadata' in CLAUDE.md.")
 
+def build_staff_leads():
+    # Front-desk lead inbox. Not a public page: unlinked, noindex, never in the
+    # sitemap, and deliberately carries NO analytics tags (GA4 / Vercel) and no
+    # intake chat, because it renders patient contact details. The page holds no
+    # data or secret of its own. Access is enforced in Supabase: rows are readable
+    # only by signed-in users listed in public.lead_staff, and the only write path
+    # is the public.set_lead_status() RPC (see docs/LEAD-INBOX.md).
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Inbox | First Rehab Staff</title>
+<meta name="description" content="Front-desk lead inbox for First Rehabilitation staff.">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0E3A47">
+<link rel="icon" href="../assets/icons/favicon.ico?v=6" sizes="any">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-latin-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/styles.css?v={asset_v('assets/css/styles.css')}">
+<link rel="stylesheet" href="../assets/css/staff.css?v={asset_v('assets/css/staff.css')}">
+</head>
+<body>
+<main id="main" class="staff-wrap">
+  <div id="staff-app"><noscript><p class="staff-empty">The lead inbox needs JavaScript.</p></noscript></div>
+</main>
+<script src="../assets/js/staff-leads.js?v={asset_v('assets/js/staff-leads.js')}" defer></script>
+</body>
+</html>
+"""
+    full = os.path.join(ROOT, "staff/leads.html")
+    os.makedirs(os.path.dirname(full), exist_ok=True)
+    with open(full, "w") as f:
+        f.write(page)
+    print("wrote staff/leads.html")
+
 if __name__ == "__main__":
+    build_staff_leads()
     build_home()
     build_services()
     build_conditions()
