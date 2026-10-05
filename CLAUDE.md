@@ -244,6 +244,13 @@ domain switch (July 2027). Removing them early throws away that equity.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
+- **Lead outcomes are tracked as of 2026-10-05.** The front desk works leads at
+  `/staff/leads.html` (unlinked, noindex, no analytics) and `intake_leads.status` is now one of
+  `new | contacted | booked | no_show | not_a_fit | test`, with `status_by` / `status_updated_at`
+  stamped server-side. Access = Supabase app login AND an email in `public.lead_staff`; the only
+  write path is the `set_lead_status()` RPC. Full model and the allow-list SQL:
+  `docs/LEAD-INBOX.md`. Reports should now show BOOKED leads by page, not just form fills; a
+  pile of `new` older than a few days means the inbox is not being worked, so say so.
 - **Search Console**: there is NO Claude connector for GSC — it is not in the MCP
   registry, so don't go looking for one to toggle. Use `tools/gsc.py`, which queries the
   Search Console API directly with a service-account key (setup:

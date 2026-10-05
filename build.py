@@ -1577,6 +1577,8 @@ def build_services():
 
 CONDITIONS = {
     "back-pain": {
+        "seo_title": "Low Back Pain Treatment in North Palm Beach | First Rehab",
+        "seo_desc": "One-on-one physical therapy for low back pain, sciatica and disc problems in North Palm Beach. Family-owned since 1991, Medicare accepted. Call 561-624-4263.",
         "name": "Back Pain Relief",
         "area": "Lower Back &amp; Spine",
         "lede": "Evidence-based physical therapy for low back pain, sciatica, and spinal conditions — treating the cause, not just the symptoms.",
@@ -1586,7 +1588,7 @@ CONDITIONS = {
     },
     "neck-pain": {
         "seo_title": "Neck Pain Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Whiplash, stiffness, pinched nerves and desk-posture neck pain, treated hands-on. Serving Juno Beach, Juno Ridge, Palm Beach Gardens and WPB. 561-624-4263.",
+        "seo_desc": "One-on-one physical therapy for neck pain, stiffness, whiplash and pinched nerves in North Palm Beach. Family-owned since 1991, Medicare accepted. 561-624-4263.",
         "name": "Neck Pain Relief",
         "area": "Head &amp; Neck",
         "lede": "Manual therapy, posture correction, and strengthening for neck pain, stiffness, and whiplash.",
@@ -1606,7 +1608,7 @@ CONDITIONS = {
     },
     "knee-pain": {
         "seo_title": "Knee Pain Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Arthritis, meniscus tears, ACL recovery and knee replacement rehab. Build strength before surgery or rebuild it after. Serving Palm Beach County.",
+        "seo_desc": "Knee arthritis, meniscus and ACL injuries, and knee replacement rehab in North Palm Beach. One-on-one physical therapy, Medicare accepted. Call 561-624-4263.",
         "name": "Knee Pain Relief",
         "area": "Knee",
         "lede": "From arthritis to ACL recovery — rebuild strong, confident knees.",
@@ -1675,8 +1677,8 @@ CONDITIONS = {
         "approach": "Treatment is functional from day one — built around the physical demands of your actual job. We provide objective progress reporting, coordinate with your physician and case manager, and prepare you for a safe, sustainable return to work.",
     },
     "auto-accident": {
-        "seo_title": "Auto Accident Physical Therapy | North Palm Beach FL",
-        "seo_desc": "Whiplash, back and neck injuries after a car accident, including the documentation your claim requires. Serving Palm Beach County since 1991. 561-624-4263.",
+        "seo_title": "Auto & Car Accident Physical Therapy | North Palm Beach",
+        "seo_desc": "Physical therapy after a car accident for whiplash, neck and back injuries. We document your recovery and work with your adjuster or attorney. 561-624-4263.",
         "name": "Auto Accident Recovery",
         "area": "Full Body",
         "lede": "Comprehensive rehabilitation after a car accident — from whiplash to complex multi-area injuries.",
@@ -1814,6 +1816,58 @@ def build_conditions():
                  "protocol from their surgeon already. The quickest way to find out is to call the front "
                  "desk at 561-624-4263 \u2014 they will check what your plan requires, including how it "
                  "handles a custom splint, before you come in."),
+                ],
+            },
+            # Auto accident. The 2026-10-05 Search Console pull showed "auto
+            # accident physical therapy near me" ranking 7.1 on the West Palm
+            # Beach LOCATION page while this page sat at 23.8, so the city page
+            # was winning intent it does not own. Same rules as hand-wrist:
+            # symptom-first, every sentence restates something the site already
+            # asserts. Deliberately NO Florida PIP / 14-day rule here: that is a
+            # legal claim the site has never made and it needs Nick to confirm
+            # it before it ships.
+            "auto-accident": {
+                "h2": "After a car accident, and what usually helps",
+                "intro": "After a crash it is not always obvious what was hurt, and symptoms do not always "
+                         "show up right away. The evaluation is where that gets sorted out. This is how the most "
+                         "common post-accident complaints tend to present, so you have some idea what you "
+                         "are looking at before you call.",
+                "blocks": [
+                ("Pain that showed up days after the accident",
+                 "Even a minor collision can leave lasting pain, and symptoms often surface days later "
+                 "rather than at the scene. That delay is normal, and it is the reason early evaluation "
+                 "matters. Care starts gently, calming irritated tissue and restoring basic motion before "
+                 "anything is loaded."),
+                ("Whiplash and a stiff, sore neck",
+                 "Whiplash and neck injuries are a common reason people come to us after a collision, "
+                 "and neck pain responds well to skilled physical therapy. Care usually combines gentle "
+                 "manual therapy, deep neck strengthening and posture work, and most patients notice "
+                 "meaningful change within the first few weeks of consistent care. More on our "
+                 "<a href=\"neck-pain.html\">neck pain treatment</a> page."),
+                ("Headaches that started after the crash",
+                 "Many headaches start in the neck rather than the head, and headaches after whiplash "
+                 "are among those we treat. When the neck is "
+                 "the driver, treating the upper neck joints and the muscles around them can reduce how "
+                 "often they come and how hard they hit. See <a href=\"headache-relief.html\">headache "
+                 "treatment</a>."),
+                ("Back pain from the impact",
+                 "Back and spine injuries after a crash are treated the way we treat any back pain. "
+                 "Treatment blends hands-on work to restore mobility, core and hip strengthening, and movement "
+                 "retraining so everyday activity stops provoking the pain. See "
+                 "<a href=\"back-pain.html\">back pain treatment</a>."),
+                ("Nervous about moving normally again",
+                 "Being wary of driving, lifting or turning your head after a crash is common, and it is "
+                 "part of what we treat. The plan progresses at a pace you can trust, from basic motion "
+                 "to full return to daily activity."),
+                ("The documentation your claim needs",
+                 "We document your recovery objectively from the first visit and communicate with your "
+                 "physician and your representatives as your claim requires. For auto accident cases we "
+                 "work directly with your adjuster or attorney’s office, and treatment is built "
+                 "around what your case actually has to demonstrate."),
+                ("Will insurance cover it",
+                 "It depends on your coverage. The quickest way to find out is to call the front desk at "
+                 "561-624-4263. They will check what your plan requires before you come in. More in our "
+                 "<a href=\"../faq.html#insurance-cost\">insurance and cost FAQ</a>."),
                 ],
             },
         }
@@ -2023,7 +2077,7 @@ LOCATIONS = {
             ("Occupational therapy for West Palm Beach", [
                 "Most clinics within West Palm Beach are staffed for physical therapy: physical therapists and physical therapist assistants, treating movement, strength and pain. That is genuinely what many people need. But if your problem is that you cannot dress yourself, manage a kitchen, or perform the specific tasks your job requires, the discipline you are looking for is occupational therapy, and it is a different credential with different training.",
                 "Our occupational therapy program is led by our founder, David Kashuba, Ph.D., who is himself an occupational therapist and has been treating patients since 1991, alongside Joni Janik, OT. That matters on a practical level: the person setting your plan has been doing this work for over three decades, not reading it off a protocol sheet. Read more about our <a href=\"../services/occupational-therapy.html\">occupational therapy program</a>.",
-                "West Palm Beach also sends us a different mix than our smaller neighbouring towns — more work injuries, more auto accident referrals, and more people who need to get back to one specific job rather than to general daily activity. For workers' compensation and auto accident cases we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your case actually has to demonstrate. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident recovery</a>.",
+                "West Palm Beach also sends us a different mix than our smaller neighbouring towns — more work injuries, more auto accident referrals, and more people who need to get back to one specific job rather than to general daily activity. For workers' compensation and auto accident cases we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your case actually has to demonstrate. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident physical therapy</a>.",
             ]),
             ("Certified hand therapy, worth the drive north", [
                 "Certified hand therapy is the other reason West Palm Beach patients make the trip. A Certified Hand Therapist has completed thousands of hours of upper-extremity practice plus a rigorous national examination, and it is the credential area hand surgeons look for when they refer a post-operative patient. Laura Drumm, CHT leads our program, and custom splints and orthoses are fabricated here in the clinic rather than ordered from a catalogue.",
@@ -4359,7 +4413,45 @@ def check_episode_video_sync():
         print(f"\n WARNING: in EPISODES (Spotify) but missing from VIDEOS (YouTube): {', '.join(missing)}")
         print("   If the YouTube video is live, add its VIDEOS entry now — see 'Automating the episode metadata' in CLAUDE.md.")
 
+def build_staff_leads():
+    # Front-desk lead inbox. Not a public page: unlinked, noindex, never in the
+    # sitemap, and deliberately carries NO analytics tags (GA4 / Vercel) and no
+    # intake chat, because it renders patient contact details. The page holds no
+    # data or secret of its own. Access is enforced in Supabase: rows are readable
+    # only by signed-in users listed in public.lead_staff, and the only write path
+    # is the public.set_lead_status() RPC (see docs/LEAD-INBOX.md).
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Inbox | First Rehab Staff</title>
+<meta name="description" content="Front-desk lead inbox for First Rehabilitation staff.">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0E3A47">
+<link rel="icon" href="../assets/icons/favicon.ico?v=6" sizes="any">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-latin-400-normal.woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/styles.css?v={asset_v('assets/css/styles.css')}">
+<link rel="stylesheet" href="../assets/css/staff.css?v={asset_v('assets/css/staff.css')}">
+</head>
+<body>
+<main id="main" class="staff-wrap">
+  <div id="staff-app"><noscript><p class="staff-empty">The lead inbox needs JavaScript.</p></noscript></div>
+</main>
+<script src="../assets/js/staff-leads.js?v={asset_v('assets/js/staff-leads.js')}" defer></script>
+</body>
+</html>
+"""
+    full = os.path.join(ROOT, "staff/leads.html")
+    os.makedirs(os.path.dirname(full), exist_ok=True)
+    with open(full, "w") as f:
+        f.write(page)
+    print("wrote staff/leads.html")
+
 if __name__ == "__main__":
+    build_staff_leads()
     build_home()
     build_services()
     build_conditions()
