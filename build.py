@@ -357,7 +357,8 @@ GA_TAG = """<!-- Google tag (gtag.js) -->
   gtag('config', '%s');
 </script>""" % (GA_MEASUREMENT_ID, GA_MEASUREMENT_ID)
 
-def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema=""):
+def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema="",
+         robots="index, follow, max-image-preview:large"):
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
     canon = f"{base}/{canonical}" if canonical else base + "/"
@@ -379,7 +380,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{canon}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="{robots}">
 <meta name="author" content="First Rehabilitation of North Palm Beach">
 <meta name="geo.region" content="US-FL">
 <meta name="geo.placename" content="North Palm Beach">
@@ -1688,6 +1689,64 @@ CONDITIONS = {
     },
 }
 
+# ----------------------------------------------------------------------------
+# CONDITION DETAIL PAGES — one researched page per specific condition
+# ----------------------------------------------------------------------------
+# The 12 CONDITIONS above are body-area hubs ("Knee Pain"). People search the
+# specific condition ("meniscus tear treatment", "trigger finger treatment
+# without surgery"), and a hub page can only list those names. Each detail page
+# answers one condition properly: what it is, symptoms, causes, how therapy
+# helps, the first visit, recovery, red flags, FAQs and the sources it rests on.
+#
+# Content lives in content/conditions/{slug}.json, one file per condition,
+# researched from AAOS, APTA/JOSPT clinical practice guidelines, ASHT, NIH and
+# major health-system pages (every page lists its sources). This is a
+# deliberate, owner-approved exception (2026-10-07) to the blog's no-web-research
+# rule: a condition page has to be clinically accurate to rank, and accuracy
+# means citing the bodies therapists actually follow.
+#
+# THE REVIEW GATE. Medical content does not go in front of Google until one of
+# our clinicians has read it. A page is built either way, but until its slug is
+# in CONDITION_REVIEW it is noindex, left out of sitemap.xml and llms.txt, and
+# linked from nowhere except the unlisted staff review page
+# (/staff/condition-review.html). Adding the reviewer here is the single switch
+# that makes a page indexable, links it from its hub, and emits the visible
+# "Clinically reviewed by" line plus reviewedBy/lastReviewed schema. Never add a
+# name here on a clinician's behalf: the line is a public claim that they read it.
+CONDITION_REVIEW = {
+    # "carpal-tunnel-syndrome": ("Laura Drumm", "2026-10-15"),
+}
+COND_DETAIL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content", "conditions")
+
+
+def _load_condition_details():
+    import json as _json
+    out = {}
+    if os.path.isdir(COND_DETAIL_DIR):
+        for fn in sorted(os.listdir(COND_DETAIL_DIR)):
+            if fn.endswith(".json"):
+                with open(os.path.join(COND_DETAIL_DIR, fn), encoding="utf-8") as f:
+                    d = _json.load(f)
+                out[d["slug"]] = d
+    return out
+
+
+CONDITION_DETAILS = _load_condition_details()
+
+
+def _detail_live(slug):
+    return slug in CONDITION_REVIEW
+
+
+def _detail_cards(slugs, depth_prefix=""):
+    return "".join(
+        f'<a class="cond-card reveal" href="{depth_prefix}{s}.html">'
+        f'<span class="cond-tag">{html.escape(CONDITIONS[CONDITION_DETAILS[s]["hub"]]["area"].replace("&amp;", "&"))}</span>'
+        f'<h3>{html.escape(CONDITION_DETAILS[s]["name"])}</h3>'
+        f'<p>{html.escape(CONDITION_DETAILS[s]["lede"])}</p></a>'
+        for s in slugs)
+
+
 def build_conditions():
     cards = "".join(
         f'<a class="cond-card reveal" href="/treatments/{slug}.html"><span class="cond-tag">{c["area"]}</span><h3>{c["name"]}</h3><p>{c["lede"]}</p></a>'
@@ -1887,6 +1946,19 @@ def build_conditions():
   </div>
 </section>'''
 
+        # Reviewed detail pages for this hub. Empty until a clinician signs off
+        # on at least one (CONDITION_REVIEW), so an unreviewed page is never
+        # linked from a public page.
+        _live = [s for s, d in CONDITION_DETAILS.items() if d["hub"] == slug and _detail_live(s)]
+        if _live:
+            cond_deep_html = f'''
+<section class="section">
+  <div class="wrap">
+    <h2>Specific conditions we treat</h2>
+    <div class="cond-grid" style="margin-top:var(--space-4);">{_detail_cards(_live)}</div>
+  </div>
+</section>''' + cond_deep_html
+
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
         # Related-care internal links: primary service + neighboring conditions
         i = cond_slugs.index(slug)
@@ -1944,6 +2016,220 @@ def build_conditions():
                    c.get("seo_desc") or cond_desc, depth=1, canonical=f"treatments/{slug}.html",
                    page_type="article", extra_schema=cond_bc)
               + nav(1) + body + footer(1))
+
+
+DETAIL_SVC_NAME = {"physical-therapy": "Physical Therapy", "hand-therapy": "Certified Hand Therapy",
+                   "occupational-therapy": "Occupational Therapy"}
+# Detail page -> blog posts that go deeper (slugs only; titles come from BLOG_POSTS).
+DETAIL_BLOG = {
+    "knee-arthritis": ["knee-arthritis-before-surgery"],
+    "knee-replacement-rehab": ["partial-vs-total-knee-replacement", "knee-arthritis-before-surgery"],
+    "cervicogenic-headache": ["headaches-that-start-in-the-neck"],
+    "hip-labral-tear": ["hip-impingement-back-pain-north-palm-beach"],
+    "hip-arthritis": ["pain-2-power-ep10-mcvicker"],
+    "carpal-tunnel-syndrome": ["why-hand-therapy-is-different"],
+    "trigger-finger": ["why-hand-therapy-is-different"],
+    "thumb-arthritis": ["why-hand-therapy-is-different"],
+    "wrist-fracture": ["why-hand-therapy-is-different"],
+    "rotator-cuff-repair-rehab": ["reverse-shoulder-replacement-explained"],
+}
+
+
+def _person_id(name):
+    return "https://www.firstrehabnpb.com/about.html#" + name.lower().split(",")[0].replace(" ", "-").replace(".", "")
+
+
+def _detail_schema(d, url, reviewed):
+    """@graph: MedicalWebPage + MedicalCondition (or MedicalTherapy for post-op rehab)."""
+    import json as _json
+    sch = d.get("schema", {})
+    svc = d["service"]
+    therapy_ref = {"@type": "MedicalTherapy", "@id": f"https://www.firstrehabnpb.com/services/{svc}.html#therapy",
+                   "name": DETAIL_SVC_NAME.get(svc, "Physical Therapy"), "provider": ORG_REF}
+    if d["hub"] == "post-surgical":
+        entity = {"@type": "MedicalTherapy", "@id": url + "#therapy", "name": d["name"],
+                  "alternateName": d.get("also_called", []), "description": d["lede"],
+                  "relevantSpecialty": "PhysicalTherapy", "provider": ORG_REF}
+    else:
+        entity = {"@type": "MedicalCondition", "@id": url + "#condition", "name": d["name"],
+                  "alternateName": d.get("also_called", []), "description": d["lede"],
+                  "signOrSymptom": [{"@type": "MedicalSignOrSymptom", "name": s} for s in sch.get("signOrSymptom", [])],
+                  "riskFactor": [{"@type": "MedicalRiskFactor", "name": s} for s in sch.get("riskFactor", [])],
+                  "possibleTreatment": [therapy_ref] + [{"@type": "MedicalTherapy", "name": t}
+                                                        for t in sch.get("possibleTreatment", [])]}
+        if sch.get("associatedAnatomy"):
+            entity["associatedAnatomy"] = {"@type": "AnatomicalStructure", "name": sch["associatedAnatomy"]}
+        if sch.get("icd10"):
+            entity["code"] = {"@type": "MedicalCode", "codeValue": sch["icd10"], "codingSystem": "ICD-10"}
+    page = {"@type": "MedicalWebPage", "@id": url + "#webpage", "url": url,
+            "name": d["seo_title"], "description": d["seo_desc"],
+            "about": {"@id": entity["@id"]}, "mainEntity": {"@id": entity["@id"]},
+            "audience": {"@type": "Patient"},
+            "specialty": "PhysicalTherapy",
+            "publisher": ORG_REF, "inLanguage": "en-US",
+            "citation": [{"@type": "CreativeWork", "name": s["title"], "url": s["url"],
+                          "publisher": {"@type": "Organization", "name": s.get("publisher", "")}}
+                         for s in d.get("sources", [])]}
+    if reviewed:
+        who, when = reviewed
+        page["reviewedBy"] = {"@id": _person_id(who)}
+        page["lastReviewed"] = when
+    graph = {"@context": "https://schema.org", "@graph": [page, entity]}
+    return '<script type="application/ld+json">' + _json.dumps(graph, ensure_ascii=False) + '</script>\n'
+
+
+def build_condition_details():
+    e = html.escape
+    for slug, d in CONDITION_DETAILS.items():
+        hub = CONDITIONS[d["hub"]]
+        hub_name = hub["name"].replace("&amp;", "&")
+        svc = d["service"]
+        svc_name = DETAIL_SVC_NAME.get(svc, "Physical Therapy")
+        therapy_word = "hand therapy" if svc == "hand-therapy" else "physical therapy"
+        url = f"https://www.firstrehabnpb.com/treatments/{slug}.html"
+        reviewed = CONDITION_REVIEW.get(slug)
+
+        def ul(items, cls="check-list"):
+            # Plain lists get a left indent so their bullets sit inside the
+            # 16px phone gutter instead of on the screen edge.
+            attr = f'class="{cls}"' if cls else 'style="padding-left:var(--space-5);"'
+            return f'<ul {attr}>' + "".join(f"<li>{e(i)}</li>" for i in items) + "</ul>"
+
+        paras = "".join(f"<p>{e(p)}</p>" for p in d["what_it_is"])
+        paras = paras.replace(e("our blog post on hip impingement"),
+                              '<a href="../blog/hip-impingement-back-pain-north-palm-beach.html">our blog post on hip impingement</a>')
+        aka = ""
+        if d.get("also_called"):
+            aka = f'<p class="inline-refs">Also called: {e(", ".join(d["also_called"]))}</p>'
+        methods = "".join(f"<h3>{e(lbl)}</h3><p>{e(txt)}</p>" for lbl, txt in d["how_therapy_helps"]["methods"])
+        is_postop = d["hub"] == "post-surgical"
+        sym_h2 = "What rehab works on" if is_postop else "Common symptoms"
+        cause_h2 = "Why people have this surgery" if is_postop else "Causes and risk factors"
+        what_h2 = f"What is {d['name']}?" if not is_postop else "About the surgery, and why rehab matters"
+
+        # Related links: hub, service, blog posts, sibling details that are live.
+        sibs = [s for s, x in CONDITION_DETAILS.items() if x["hub"] == d["hub"] and s != slug and _detail_live(s)]
+        rel = [f'<a href="{d["hub"]}.html">{e(hub_name)}</a>', f'<a href="../services/{svc}.html">{svc_name}</a>']
+        rel += [f'<a href="{s}.html">{e(CONDITION_DETAILS[s]["name"])}</a>' for s in sibs[:4]]
+        rel += [f'<a href="../blog/{b}.html">{BLOG_POSTS[b]["title"]}</a>' for b in DETAIL_BLOG.get(slug, []) if b in BLOG_POSTS]
+        rel_html = '<p class="related-links"><strong>Related:</strong> ' + " &middot; ".join(rel) + "</p>"
+
+        faq_html = "".join(
+            f'<details class="faq-item reveal"><summary>{e(f["q"])}</summary><div class="faq-a">{e(f["a"])}</div></details>'
+            for f in d["faqs"])
+        sources = "".join(
+            f'<li><a href="{e(s["url"])}" rel="noopener">{e(s["title"])}</a>, {e(s.get("publisher", ""))}</li>'
+            for s in d["sources"])
+        review_line = ""
+        if reviewed:
+            who, when = reviewed
+            role = next((t["role"] for t in TEAM if t["name"].startswith(who)), "")
+            review_line = (f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="inline-refs">'
+                           f'Clinically reviewed by <a href="../about.html">{e(who)}</a>, {role}. Last reviewed {e(when)}.</p></div></section>')
+
+        crumbs = (f'<div class="crumbs"><a href="/">Home</a> / <a href="index.html">What We Treat</a> / '
+                  f'<a href="{d["hub"]}.html">{hub["name"]}</a> / {e(d["name"])}</div>')
+        body = f"""
+<main>
+{page_hero(hub["area"], e(d["name"]), e(d["lede"]), crumbs, cta_href="../contact.html", cta_label="Book an Evaluation")}{review_line}
+<section class="section">
+  <div class="wrap two-col">
+    <div class="prose reveal">
+      {aka}
+      <h2>{e(what_h2)}</h2>
+      {paras}
+      <h2>{sym_h2}</h2>
+      {ul(d["symptoms"])}
+      <h2>{cause_h2}</h2>
+      {ul(d["causes"], "")}
+      <h2>How {therapy_word} helps</h2>
+      <p>{e(d["how_therapy_helps"]["intro"])}</p>
+      {methods}
+      <h2>What to expect at your first visit</h2>
+      <p>{e(d["first_visit"])}</p>
+      <h2>Recovery</h2>
+      <p>{e(d["recovery"])}</p>
+      <h2>What you can do in the meantime</h2>
+      {ul(d["self_care"], "")}
+      <h2>When to see a doctor right away</h2>
+      {ul(d["see_a_doctor"], "")}
+      {rel_html}
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Start feeling better</h3>
+      <p>Serving the Palm Beaches since 1991. Family-owned, one-on-one care, Medicare accepted.</p>
+      <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
+      <div class="side-meta">
+        <p>Call us directly<br><a href="tel:+15616244263">{PHONE}</a></p>
+        <p style="margin-top:0.8rem;">733 US Highway 1, Suite 2A<br>North Palm Beach, FL 33408</p>
+      </div>
+    </aside>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="faq-list">
+      <h2>{e(d["name"])}: common questions</h2>
+      {faq_html}
+    </div>
+  </div>
+</section>
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="prose">
+      <h2>Sources</h2>
+      <ol class="inline-refs">{sources}</ol>
+      <p class="inline-refs" style="margin-top:var(--space-4);">This page is general information, not medical advice. Please talk with a qualified clinician about your own situation.</p>
+    </div>
+  </div>
+</section>
+{appt_form(heading='Get Help With ' + e(d['name']), sub='Tell us what is going on and our front desk will call you back within one business day.')}
+{cta_band(1)}
+</main>
+"""
+        schema = (breadcrumb_schema([("Home", ""), ("What We Treat", "treatments/index.html"),
+                                     (hub["name"], f"treatments/{d['hub']}.html"),
+                                     (d["name"], f"treatments/{slug}.html")])
+                  + _detail_schema(d, url, reviewed)
+                  + faq_schema([(f["q"], f["a"]) for f in d["faqs"]]))
+        write(f"treatments/{slug}.html",
+              head(d["seo_title"], d["seo_desc"], depth=1, canonical=f"treatments/{slug}.html",
+                   page_type="article", extra_schema=schema,
+                   robots=("index, follow, max-image-preview:large" if reviewed else "noindex, follow"))
+              + nav(1) + body + footer(1))
+
+
+def build_condition_review():
+    """Unlisted staff page: every detail page, its review status, sources and reviewer notes."""
+    e = html.escape
+    rows = []
+    for slug, d in sorted(CONDITION_DETAILS.items(), key=lambda kv: (kv[1]["hub"], kv[0])):
+        status = (f'Reviewed by {e(CONDITION_REVIEW[slug][0])} on {e(CONDITION_REVIEW[slug][1])}'
+                  if slug in CONDITION_REVIEW else "Awaiting clinician review (noindex)")
+        notes = "".join(f"<li>{e(n)}</li>" for n in d.get("notes_for_reviewer", []))
+        rows.append(f'''<details class="faq-item"><summary>{e(d["name"])} &middot; {e(CONDITIONS[d["hub"]]["name"].replace("&amp;", "&"))} &middot; {status}</summary>
+<div class="faq-a"><p><a href="../treatments/{slug}.html">Open the page</a> &middot; {len(d["sources"])} sources &middot; ICD-10 {e(str(d.get("schema", {}).get("icd10")))}</p>
+<p><strong>Things to check:</strong></p><ul>{notes}</ul></div></details>''')
+    pending = sum(1 for s in CONDITION_DETAILS if s not in CONDITION_REVIEW)
+    body = f"""
+<main>
+<section class="section">
+  <div class="wrap">
+    <div class="prose">
+      <h1>Condition pages: clinical review</h1>
+      <p>{len(CONDITION_DETAILS)} condition pages are built. {pending} are waiting for a clinician. A page stays hidden from Google, and unlinked from the public site, until it is reviewed.</p>
+      <h2>How to review a page</h2>
+      <p>Open the page, read it as you would a patient handout, and check the list under its name below. Send corrections to Nick. When a page is right, tell Nick your name and the date, and he adds it to CONDITION_REVIEW in build.py. That one line publishes the page, links it from its body area page, and shows "Clinically reviewed by" with your name.</p>
+    </div>
+    <div class="faq-list" style="margin-top:var(--space-5);">{"".join(rows)}</div>
+  </div>
+</section>
+</main>
+"""
+    write("staff/condition-review.html",
+          head("Condition Page Review | First Rehabilitation Staff", "Internal review list for condition pages.",
+               depth=1, canonical="staff/condition-review.html", robots="noindex, nofollow")
+          + nav(1) + body + footer(1))
 
 
 # ----------------------------------------------------------------------------
@@ -4308,6 +4594,8 @@ def build_meta():
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
+    # Condition detail pages enter the sitemap only once a clinician has reviewed them.
+    pages += [f"treatments/{s}.html" for s in CONDITION_DETAILS if _detail_live(s)]
     pages += [f"blog/{s}.html" for s in BLOG_POSTS]
     from datetime import date as _date
     lastmod = _lastmods(pages, _date.today().isoformat())
@@ -4323,6 +4611,7 @@ def build_meta():
           "User-agent: *\nAllow: /\n\n"
           f"{ai_blocks}Sitemap: {base}/sitemap.xml\n")
     cond_lines = "\n".join(f"- {c['name']}: {base}/treatments/{slug}.html" for slug, c in CONDITIONS.items())
+    cond_lines += "".join(f"\n- {d['name']}: {base}/treatments/{slug}.html" for slug, d in CONDITION_DETAILS.items() if _detail_live(slug))
     blog_lines = "\n".join(f"- {p['title']}: {base}/blog/{slug}.html" for slug, p in BLOG_POSTS.items())
     write("llms.txt", f'''# First Rehabilitation of North Palm Beach
 
@@ -4455,6 +4744,8 @@ if __name__ == "__main__":
     build_home()
     build_services()
     build_conditions()
+    build_condition_details()
+    build_condition_review()
     build_locations()
     build_about()
     build_podcast()

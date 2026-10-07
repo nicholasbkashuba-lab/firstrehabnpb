@@ -428,6 +428,23 @@ domain switch (July 2027). Removing them early throws away that equity.
   somewhere arbitrary. main.js scrolls to the chosen topic's first question after the
   filter runs, measuring AFTER the DOM changes — a pre-click scrollY is already stale.
 
+## Condition detail pages (added 2026-10-07)
+`content/conditions/{slug}.json` holds one researched page per specific condition (39 so far:
+sciatica, rotator cuff tear, carpal tunnel, meniscus tear, knee replacement rehab, ...).
+`build_condition_details()` renders them to `/treatments/{slug}.html` under their body-area hub
+(the `hub` field is a CONDITIONS key). Each page carries MedicalWebPage + MedicalCondition (or
+MedicalTherapy for post-op rehab) in one @graph, FAQPage and BreadcrumbList, and lists its
+sources on the page. Content was researched from AAOS, APTA/JOSPT guidelines, ASHT, NIH and
+major health systems, then independently fact-checked claim by claim
+(`docs/condition-pages-factcheck-log.md`). This is a deliberate exception to the blog's
+no-web-research rule; the blog rule still stands for posts.
+**Review gate:** a page is noindex, out of the sitemap/llms.txt and unlinked until its slug is
+in `CONDITION_REVIEW` in build.py with the reviewing clinician's name and date. That entry is a
+public "Clinically reviewed by" claim, so only add it when that clinician has actually read the
+page. Clinicians work from the unlisted `/staff/condition-review.html`, which shows each page's
+open questions (`notes_for_reviewer`). Do not claim services the notes flag as unconfirmed
+(traction, taping, pelvic belts, NMES) until the owner confirms them.
+
 ## Location pages
 LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
 lake-park,palm-beach,west-palm-beach,riviera-beach}.html. Honest served-from-NPB content

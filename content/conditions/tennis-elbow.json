@@ -1,0 +1,177 @@
+{
+  "slug": "tennis-elbow",
+  "name": "Tennis Elbow (Lateral Epicondylitis)",
+  "also_called": [
+    "lateral epicondylitis",
+    "lateral epicondylosis",
+    "lateral elbow tendinopathy"
+  ],
+  "hub": "hand-wrist",
+  "service": "hand-therapy",
+  "primary_query": "tennis elbow treatment",
+  "secondary_queries": [
+    "tennis elbow physical therapy",
+    "tennis elbow exercises",
+    "tennis elbow brace",
+    "lateral epicondylitis treatment",
+    "outer elbow pain when gripping",
+    "how long does tennis elbow last"
+  ],
+  "seo_title": "Tennis Elbow Treatment in North Palm Beach | First Rehab",
+  "seo_desc": "Tennis elbow treatment in North Palm Beach. Guideline-based strengthening, bracing and one-on-one care with a certified hand therapist. Call 561-624-4263.",
+  "lede": "Burning on the outside of your elbow when you lift a cup or grip a tool? Targeted exercise and activity changes help the tendon handle load again.",
+  "what_it_is": [
+    "The muscles that lift your wrist and fingers attach by tendon to a bony bump on the outside of the elbow called the lateral epicondyle. The AAOS points to one muscle in particular, the extensor carpi radialis brevis. With repeated gripping and wrist use, tiny tears build up in its tendon. StatPearls describes the tissue as degenerative and disorganized with few inflammatory cells, which is why ASHT notes it is also called lateral epicondylosis.",
+    "Despite the name, you do not need to play tennis to get it. The AAOS reports it most often affects people between 30 and 50 and is common among painters, plumbers, carpenters, cooks, and butchers. StatPearls estimates an annual incidence of 1% to 3% in the US, affecting men and women equally. The NHS adds typing, using a mouse or screwdriver, sewing, and playing an instrument as common triggers."
+  ],
+  "symptoms": [
+    "Pain or burning on the outside of the elbow",
+    "Pain when gripping or lifting, even something as light as a coffee cup",
+    "Weak grip strength",
+    "Tenderness when you press on the outer elbow bone",
+    "Pain that spreads into the forearm",
+    "Pain that builds gradually over weeks to months",
+    "Pain at night in some people"
+  ],
+  "causes": [
+    "Repetitive gripping and wrist extension",
+    "Racquet sports with poor stroke technique or poorly fitted equipment",
+    "Trades such as painting, plumbing, carpentry, and cooking",
+    "Age between about 30 and 50",
+    "Long hours of typing and mouse use",
+    "Sometimes no clear cause"
+  ],
+  "how_therapy_helps": {
+    "intro": "Tennis elbow often responds to conservative care. The AAOS reports that approximately 80 to 95% of patients have success with nonsurgical treatment. The 2022 lateral elbow pain clinical practice guideline published in JOSPT recommends resisted exercises for the wrist extensor muscles, combined with hands-on manual therapy, for people whose symptoms have lasted weeks or longer. The American Society of Hand Therapists adds identifying aggravating activities and recommending braces as part of care.",
+    "methods": [
+      [
+        "Progressive tendon loading",
+        "Isometric, concentric, and eccentric exercises for the wrist extensors load the tendon gradually, the central exercise recommendation in the JOSPT guideline."
+      ],
+      [
+        "Manual therapy",
+        "Hands-on mobilization at the elbow can reduce pain and improve pain-free grip strength in the short term, according to the same guideline."
+      ],
+      [
+        "Counterforce brace or wrist orthosis",
+        "A forearm strap or wrist support worn during activity may give immediate pain relief. The guideline found conflicting evidence for long-term benefit, so we use bracing alongside exercise."
+      ],
+      [
+        "Activity and equipment review",
+        "We look at how you grip tools, lift, and set up your workstation. The AAOS also recommends checking racquet equipment and stroke technique for players."
+      ],
+      [
+        "Shoulder and shoulder blade strength",
+        "When weakness shows up higher in the arm, the JOSPT guideline supports adding shoulder and scapular exercises to wrist strengthening."
+      ]
+    ]
+  },
+  "first_visit": "Your first visit takes about an hour, with treatment the same day. Laura Drumm, CHT, presses along the outer elbow to find the most tender spot, tests resisted wrist and middle finger extension, and measures pain-free grip strength. She checks elbow, wrist, and neck motion so other sources of pain, such as an irritated radial nerve, are not missed. You leave with a starting exercise plan and advice for your work tasks.",
+  "recovery": "Tennis elbow tends to improve slowly. StatPearls reports that 80% to 90% of people recover within 1 to 2 years, and Cleveland Clinic notes it typically resolves in about six months, though some people need up to 18 months. The JOSPT guideline highlights that recurrence is common, so building tendon capacity and changing aggravating tasks both matter. If symptoms persist despite nonsurgical care, a surgeon may discuss options. The AAOS reports surgery helps 80 to 90% of patients, with return to sports in 4 to 6 months.",
+  "self_care": [
+    "Rest from the gripping and lifting that bring on pain.",
+    "Use a hot or cold pack wrapped in a towel for up to 20 minutes every 2 to 3 hours, as the NHS suggests.",
+    "If you play racquet sports, have your grip size and technique checked.",
+    "Over-the-counter pain relievers may help if your doctor says they are safe for you."
+  ],
+  "see_a_doctor": [
+    "Elbow pain that has not improved after at least 2 weeks of rest and self-care (NHS)",
+    "You cannot move or bend your arm (Cleveland Clinic)",
+    "Severe swelling, bruising or bleeding around the elbow (Cleveland Clinic)",
+    "Elbow pain after a suspected serious injury, or pain with numbness or tingling (Cleveland Clinic)",
+    "Weakness in the hand or fingers that keeps getting worse"
+  ],
+  "faqs": [
+    {
+      "q": "How long does tennis elbow last?",
+      "a": "Tennis elbow often takes months to settle. Cleveland Clinic says it typically resolves within about six months, though some people need up to 18 months, and StatPearls reports that 80% to 90% of people recover within 1 to 2 years. The NHS notes it can sometimes last over a year. Guideline-based exercise and changing aggravating tasks aim to keep symptoms from dragging on or returning."
+    },
+    {
+      "q": "What exercises are best for tennis elbow?",
+      "a": "The 2022 JOSPT clinical practice guideline for lateral elbow pain recommends resisted exercises for the wrist extensor muscles, using isometric, concentric, or eccentric contractions, for people whose symptoms have lasted weeks or longer. It also supports combining them with manual therapy and adding shoulder exercises when weakness is found. The right starting load depends on how irritable your tendon is."
+    },
+    {
+      "q": "Does a tennis elbow brace work?",
+      "a": "A forearm counterforce strap or wrist support can help in the moment. The JOSPT lateral elbow pain guideline says these orthoses may be worn during activity for immediate improvement in pain and strength. It found conflicting evidence for intermediate or long-term benefit, so a brace works best alongside a strengthening program."
+    },
+    {
+      "q": "Can I get tennis elbow if I do not play tennis?",
+      "a": "Yes. The American Society of Hand Therapists notes that any activity involving gripping or repeated grasping can strain the tendon attachment at the outer elbow. The AAOS lists painters, plumbers, carpenters, auto workers, cooks, and butchers among people commonly affected, and the NHS adds computer work, sewing, and playing musical instruments. Most cases occur between ages 30 and 50."
+    },
+    {
+      "q": "Should I rest tennis elbow completely or keep using my arm?",
+      "a": "Complete rest is rarely the goal. The AAOS recommends resting from the activities that aggravate the elbow, while the JOSPT guideline recommends progressive resisted exercise to rebuild the tendon. In practice, that means backing off the tasks that flare pain while doing a structured exercise program that loads the tendon in a controlled way. A therapist helps you find that balance."
+    },
+    {
+      "q": "Will I need surgery for tennis elbow?",
+      "a": "Most people do not. The American Academy of Orthopaedic Surgeons reports that approximately 80 to 95% of patients have success with nonsurgical treatment, and Cleveland Clinic describes surgery for tennis elbow as rarely necessary. When symptoms persist despite a thorough course of conservative care, a surgeon may discuss options, and the AAOS notes return to sports usually takes 4 to 6 months after surgery."
+    }
+  ],
+  "schema": {
+    "signOrSymptom": [
+      "pain on the outside of the elbow",
+      "weak grip",
+      "tenderness over the lateral epicondyle",
+      "pain lifting objects"
+    ],
+    "riskFactor": [
+      "age 30 to 50",
+      "repetitive gripping",
+      "manual trades",
+      "racquet sports"
+    ],
+    "possibleTreatment": [
+      "progressive resisted wrist extensor exercise",
+      "manual therapy",
+      "counterforce brace",
+      "activity modification",
+      "shoulder and scapular strengthening"
+    ],
+    "associatedAnatomy": "extensor carpi radialis brevis tendon",
+    "icd10": "M77.1"
+  },
+  "sources": [
+    {
+      "title": "Tennis Elbow (Lateral Epicondylitis)",
+      "publisher": "American Academy of Orthopaedic Surgeons (OrthoInfo)",
+      "url": "https://orthoinfo.aaos.org/en/diseases--conditions/tennis-elbow-lateral-epicondylitis/"
+    },
+    {
+      "title": "Tennis Elbow (patient handout)",
+      "publisher": "American Society of Hand Therapists",
+      "url": "https://asht.org/sites/asht/files/docs/2018/Tennis%20Elbow%202018.pdf"
+    },
+    {
+      "title": "Lateral Elbow Pain and Muscle Function Impairments: Clinical Practice Guidelines (Lucado et al, 2022)",
+      "publisher": "Journal of Orthopaedic & Sports Physical Therapy (APTA Academies)",
+      "url": "https://www.jospt.org/doi/10.2519/jospt.2022.0302"
+    },
+    {
+      "title": "Lateral Epicondylitis (StatPearls)",
+      "publisher": "NCBI Bookshelf, National Library of Medicine",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK431092/"
+    },
+    {
+      "title": "Tennis elbow",
+      "publisher": "NHS",
+      "url": "https://www.nhs.uk/conditions/tennis-elbow/"
+    },
+    {
+      "title": "Tennis Elbow (Lateral Epicondylitis): Treatment and Symptoms",
+      "publisher": "Cleveland Clinic",
+      "url": "https://my.clevelandclinic.org/health/diseases/7049-tennis-elbow-lateral-epicondylitis"
+    },
+    {
+      "title": "Elbow Pain",
+      "publisher": "Cleveland Clinic",
+      "url": "https://my.clevelandclinic.org/health/symptoms/elbow-pain"
+    }
+  ],
+  "notes_for_reviewer": [
+    "ICD-10 M77.1 verified on icd10data.com as a category; billable codes are M77.10 (unspecified elbow), M77.11 (right), M77.12 (left).",
+    "Manual therapy (elbow mobilization) is included because the JOSPT guideline gives it a 'should' recommendation. The brief's clinic list does not explicitly name manual therapy; confirm the clinic offers it, or remove that method and the schema entry.",
+    "The first-visit paragraph assigns the evaluation to Laura Drumm, CHT, because the assigned service is hand therapy. If a PT usually sees elbow patients, change the name.",
+    "Several sources differ on ages: AAOS 30 to 50, ASHT 30 to 60, NHS 35 to 54, StatPearls over 40. The body uses AAOS and attributes it.",
+    "Fact-check: the radial tunnel red flag (forearm pain with weak middle finger extension, attributed to StatPearls) could not be verified because the StatPearls page was blocked; it was replaced with a conservative 'worsening hand or finger weakness' item. Cleveland Clinic elbow pain page is now listed as a source, and its red flags are quoted as that page states them."
+  ]
+}
