@@ -2105,7 +2105,7 @@ def build_condition_details():
         is_postop = d["hub"] == "post-surgical"
         sym_h2 = "What rehab works on" if is_postop else "Common symptoms"
         cause_h2 = "Why people have this surgery" if is_postop else "Causes and risk factors"
-        what_h2 = f"What is {d['name']}?" if not is_postop else "About the surgery, and why rehab matters"
+        what_h2 = f"{d['name']}, explained" if not is_postop else "About the surgery, and why rehab matters"
 
         # Related links: hub, service, blog posts, sibling details that are live.
         sibs = [s for s, x in CONDITION_DETAILS.items() if x["hub"] == d["hub"] and s != slug and _detail_live(s)]
