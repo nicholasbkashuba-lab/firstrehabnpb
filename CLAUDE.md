@@ -344,6 +344,25 @@ domain switch (July 2027). Removing them early throws away that equity.
   not moved in the rebuild. Both figures come from the truncated query table, so treat them
   as directional, not exact.
 
+## Social link tracking (UTM) — added 2026-10-07
+Every link from our social accounts to the site carries UTM tags. Before this, social looked like
+~40 visitors in 11 weeks against ~200k post views. In-app browsers (Instagram, TikTok) usually drop
+the referrer, so most of that traffic was being filed as "direct". Vercel can't break traffic down
+by UTM on our plan (that needs the paid Web Analytics Plus add-on and returns 402), so read UTMs in
+**GA4** (Acquisition → Traffic acquisition, session source / medium).
+- **Profile and bio links** use the short redirects in `vercel.json`: `/ig` `/fb` `/tt` `/yt` `/x`
+  `/li` → `/?utm_source={instagram|facebook|tiktok|youtube|x|linkedin}&utm_medium=social&utm_campaign=profile`.
+  They are 302s, like `/review`, so a destination can change later without breaking printed links.
+  The owner pastes `firstrehabnpb.com/ig` etc. into each profile by hand. No API sets bios.
+- **Links inside posts** use the full tagged URL, `utm_campaign=clip` for the daily clips and
+  `utm_campaign=episode` for the Saturday and Friday episode posts, in the places where a link is
+  clickable: the Facebook caption, the YouTube description, the X first_comment and LinkedIn. Instagram
+  and TikTok captions aren't clickable, so leave them alone; their traffic comes through the bio link.
+- **Google Business** post CTAs end in `?utm_source=google&utm_medium=gbp&utm_campaign=post`
+  (content/gbp/README.md). The profile's website link already uses `utm_campaign=profile`.
+- The tagged homepage shows up as its own row in GSC Pages. That's expected; the canonical still
+  points at `/`.
+
 ## Conversion
 - **The appointment form is on 37 pages, not one** (changed 2026-09-09). `appt_form()` in
   build.py renders the five-field card; `build_contact()` embeds it bare (`wrapped=False`)
