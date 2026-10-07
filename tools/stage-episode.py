@@ -53,6 +53,11 @@ NAME_FIXES = [
     (r"\bthe camp side\b", "the cam side"), (r"\bcue angle\b", "Q angle"),
     (r"\bpublic's line\b", "Publix line"),
     (r"\bPain[s]? (?:to|of) Power\b", "Pain 2 Power"), (r"\bFame to Power\b", "Pain 2 Power"),
+    # Episode 18. The Dropbox file says "Elise"; her own site spells it Elyse Marrone.
+    (r"\bElise\b", "Elyse"), (r"\bMaroney\b", "Marrone"),
+    (r"\bRamona Curesanowska\b", "Romana Kryzanowska"), (r"\bCuresanowska\b", "Kryzanowska"),
+    (r"\bchoriferous\b", "cruciferous"), (r"\bMunch and Gladbach\b", "Mönchengladbach"),
+    (r"\bWoop band\b", "Whoop band"),
 ]
 
 
