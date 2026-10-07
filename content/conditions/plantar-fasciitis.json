@@ -18,8 +18,8 @@
     "plantar fasciitis taping"
   ],
   "seo_title": "Plantar Fasciitis Treatment, North Palm Beach | First Rehab",
-  "seo_desc": "Plantar fasciitis treatment in North Palm Beach. One-on-one physical therapy for morning heel pain with stretching, taping and strengthening. 561-624-4263.",
-  "lede": "Physical therapy for plantar fasciitis that targets first-step morning heel pain with stretching, strengthening, taping and night splint guidance.",
+  "seo_desc": "Plantar fasciitis treatment in North Palm Beach. One-on-one physical therapy for first-step morning heel pain with stretching and strengthening. 561-624-4263.",
+  "lede": "Physical therapy for plantar fasciitis that targets first-step morning heel pain with stretching, strengthening and night splint guidance.",
   "what_it_is": [
     "The plantar fascia is a thick band of tissue running along the bottom of your foot from the heel bone to the front of the foot. It supports your arch and helps with push-off as you walk. Plantar fasciitis is irritation of this band near its attachment on the inner part of the heel. The name suggests inflammation, but the APTA heel pain guideline describes a spectrum that includes both inflammatory and degenerative changes.",
     "The American Physical Therapy Association estimates it affects as many as 2 million Americans each year and about 10% of people over their lifetimes. It is most common between ages 40 and 60. Runners, people carrying extra weight, and those who stand on hard surfaces for much of the day, such as teachers, factory workers and healthcare staff, are especially prone, according to the American Academy of Orthopaedic Surgeons."
@@ -53,8 +53,8 @@
         "Joint and soft tissue techniques for the foot, ankle and calf to improve mobility and ease pain."
       ],
       [
-        "Foot taping",
-        "Rigid or elastic taping to support the arch and offload the fascia, used together with other treatment."
+        "Foot taping (guideline option)",
+        "The 2023 APTA heel pain guideline supports rigid or elastic taping to support the arch, used together with other treatment. Your therapist can tell you whether it fits your plan."
       ],
       [
         "Foot and ankle strengthening",
@@ -164,6 +164,7 @@
     "The 2023 JOSPT guideline also gives strong grades to dry needling and low-level laser therapy; both were left out because the clinic does not list them.",
     "FAQ on morning pain includes a plain-language mechanism (foot rests in a shortened position overnight) that is not quoted from a source.",
     "The stress fracture red flag is clinical framing built on the guideline's differential diagnosis list; the 'hurts even at rest' wording is not quoted from a source.",
-    "Fact-check: grades confirmed in the 2023 CPG summary. Manual therapy, stretching, taping and night splints are grade A; foot and ankle resistance training is grade B; orthoses alone grade B against, combined grade C. Intro now reflects this."
+    "Fact-check: grades confirmed in the 2023 CPG summary. Manual therapy, stretching, taping and night splints are grade A; foot and ankle resistance training is grade B; orthoses alone grade B against, combined grade C. Intro now reflects this.",
+    "CLINIC DECISION: this page mentions foot taping as a treatment option. CLAUDE.md says not to claim it as a clinic service until Nick confirms the clinic offers it. Confirm, or delete the method."
   ]
 }

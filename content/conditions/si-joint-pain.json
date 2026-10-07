@@ -159,6 +159,7 @@
     "ChoosePT says SIJ pain eases with sitting or lying down, while Mayo lists prolonged sitting as an aggravator. The page follows Mayo (prolonged sitting can worsen it) and avoids the conflicting claim.",
     "Self-care tips about a pillow between the knees and stair technique are common clinical advice not stated in the fetched sources; clinician should confirm.",
     "Sources are thinner here than for the disc conditions: no SIJ-specific APTA CPG exists, and no recovery timeline was found. Only 4 sources.",
-    "Fact-check: StatPearls (NCBI Bookshelf) could not be fetched (reCAPTCHA). StatPearls-only claims (2 to 4 mm motion, exercise as first-line, three or more provocation tests, belts, leg-length difference and lumbar fusion as causes) were removed or re-sourced to Mayo Clinic and ChoosePT. Note ChoosePT says pain improves with sitting or lying while Mayo lists prolonged sitting as an aggravator."
+    "Fact-check: StatPearls (NCBI Bookshelf) could not be fetched (reCAPTCHA). StatPearls-only claims (2 to 4 mm motion, exercise as first-line, three or more provocation tests, belts, leg-length difference and lumbar fusion as causes) were removed or re-sourced to Mayo Clinic and ChoosePT. Note ChoosePT says pain improves with sitting or lying while Mayo lists prolonged sitting as an aggravator.",
+    "CLINIC DECISION: this page mentions pelvic belt guidance as a treatment option. CLAUDE.md says not to claim it as a clinic service until Nick confirms the clinic offers it. Confirm, or delete the method."
   ]
 }

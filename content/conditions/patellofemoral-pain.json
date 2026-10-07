@@ -166,6 +166,7 @@
     "Patellar taping is listed as a method; confirm clinicians are comfortable offering it, since the brief restricts modalities.",
     "AAOS also calls PFPS 'jumper's knee', which conflicts with the patellar tendinitis page; that alias was deliberately left out.",
     "Mayo's 'females twice as likely' is the only prevalence-type figure in the body.",
-    "Cleveland Clinic page on runner's knee could not be fetched (rate limited), so it is not cited."
+    "Cleveland Clinic page on runner's knee could not be fetched (rate limited), so it is not cited.",
+    "CLINIC DECISION: this page mentions patellar taping as a treatment option. CLAUDE.md says not to claim it as a clinic service until Nick confirms the clinic offers it. Confirm, or delete the method."
   ]
 }

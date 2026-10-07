@@ -57,7 +57,7 @@
         "Regular stretching of the quadriceps and hamstrings, since Mayo Clinic lists tightness in these muscles as a risk factor."
       ],
       [
-        "Strapping or taping",
+        "Strapping or taping (guideline option)",
         "A patellar strap or tape may take pressure off the tendon and ease pain during activity, according to Mayo Clinic."
       ],
       [
@@ -161,6 +161,7 @@
     "Mayo also lists iontophoresis; omitted because it is a modality not on the clinic list.",
     "Return-to-sport figure in recovery ('fewer than half') is from Breda: 43% in the PTLE group vs 27% eccentric at 24 weeks, in a chronic population (median 2 years of symptoms).",
     "Mayo risk factor list says running and jumping volume over a threshold; the page avoids quoting the number because the extract was not verbatim.",
-    "Fact-check: the current Mayo Clinic page lists kidney failure, autoimmune disease (lupus, RA) and metabolic disease (diabetes) as risk factors but no longer describes them as illnesses that 'affect blood flow'; wording updated. Mayo also cites training more than 20 hours a week of jumping/running as a risk factor if you want to add the number."
+    "Fact-check: the current Mayo Clinic page lists kidney failure, autoimmune disease (lupus, RA) and metabolic disease (diabetes) as risk factors but no longer describes them as illnesses that 'affect blood flow'; wording updated. Mayo also cites training more than 20 hours a week of jumping/running as a risk factor if you want to add the number.",
+    "CLINIC DECISION: this page mentions a patellar strap or taping as a treatment option. CLAUDE.md says not to claim it as a clinic service until Nick confirms the clinic offers it. Confirm, or delete the method."
   ]
 }

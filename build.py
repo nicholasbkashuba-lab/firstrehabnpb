@@ -1734,6 +1734,29 @@ def _load_condition_details():
 CONDITION_DETAILS = _load_condition_details()
 
 
+def _check_condition_review():
+    """Fail the build on a bad CONDITION_REVIEW entry instead of shipping it.
+
+    A typo'd slug would leave a page silently noindex while everyone believes it
+    is live; an unknown reviewer would print "Clinically reviewed by X, ." and
+    point reviewedBy at an @id the About page does not define; a free-text date
+    would ship an invalid lastReviewed."""
+    from datetime import date as _d
+    names = [t["name"] for t in TEAM]
+    for slug, (who, when) in CONDITION_REVIEW.items():
+        if slug not in CONDITION_DETAILS:
+            raise SystemExit(f"CONDITION_REVIEW: no content/conditions/{slug}.json")
+        if sum(1 for n in names if n.startswith(who)) != 1:
+            raise SystemExit(f"CONDITION_REVIEW[{slug}]: reviewer {who!r} must match exactly one TEAM name "
+                             "(write it as TEAM does, e.g. 'Laura Drumm', 'David Kashuba')")
+        _d.fromisoformat(when)
+
+
+def _reviewer(who):
+    """The TEAM entry a CONDITION_REVIEW reviewer names (validated above)."""
+    return next(t for t in TEAM if t["name"].startswith(who))
+
+
 def _detail_live(slug):
     return slug in CONDITION_REVIEW
 
@@ -2039,6 +2062,13 @@ def _person_id(name):
     return "https://www.firstrehabnpb.com/about.html#" + name.lower().split(",")[0].replace(" ", "-").replace(".", "")
 
 
+def _ld(obj):
+    """JSON-LD script tag. '</' is escaped so text in the content can never close the script early."""
+    import json as _json
+    return ('<script type="application/ld+json">'
+            + _json.dumps(obj, ensure_ascii=False).replace("</", "<\\/") + "</script>\n")
+
+
 def _detail_schema(d, url, reviewed):
     """@graph: MedicalWebPage + MedicalCondition (or MedicalTherapy for post-op rehab)."""
     import json as _json
@@ -2049,7 +2079,7 @@ def _detail_schema(d, url, reviewed):
     if d["hub"] == "post-surgical":
         entity = {"@type": "MedicalTherapy", "@id": url + "#therapy", "name": d["name"],
                   "alternateName": d.get("also_called", []), "description": d["lede"],
-                  "relevantSpecialty": "PhysicalTherapy", "provider": ORG_REF}
+                  "relevantSpecialty": "Physiotherapy", "provider": ORG_REF}
     else:
         entity = {"@type": "MedicalCondition", "@id": url + "#condition", "name": d["name"],
                   "alternateName": d.get("also_called", []), "description": d["lede"],
@@ -2060,25 +2090,25 @@ def _detail_schema(d, url, reviewed):
         if sch.get("associatedAnatomy"):
             entity["associatedAnatomy"] = {"@type": "AnatomicalStructure", "name": sch["associatedAnatomy"]}
         if sch.get("icd10"):
-            entity["code"] = {"@type": "MedicalCode", "codeValue": sch["icd10"], "codingSystem": "ICD-10"}
+            entity["code"] = {"@type": "MedicalCode", "codeValue": sch["icd10"], "codingSystem": "ICD-10-CM"}
     page = {"@type": "MedicalWebPage", "@id": url + "#webpage", "url": url,
             "name": d["seo_title"], "description": d["seo_desc"],
             "about": {"@id": entity["@id"]}, "mainEntity": {"@id": entity["@id"]},
             "audience": {"@type": "Patient"},
-            "specialty": "PhysicalTherapy",
+            "specialty": "Physiotherapy",
             "publisher": ORG_REF, "inLanguage": "en-US",
             "citation": [{"@type": "CreativeWork", "name": s["title"], "url": s["url"],
                           "publisher": {"@type": "Organization", "name": s.get("publisher", "")}}
                          for s in d.get("sources", [])]}
     if reviewed:
         who, when = reviewed
-        page["reviewedBy"] = {"@id": _person_id(who)}
+        page["reviewedBy"] = {"@id": _person_id(_reviewer(who)["name"])}
         page["lastReviewed"] = when
-    graph = {"@context": "https://schema.org", "@graph": [page, entity]}
-    return '<script type="application/ld+json">' + _json.dumps(graph, ensure_ascii=False) + '</script>\n'
+    return _ld({"@context": "https://schema.org", "@graph": [page, entity]})
 
 
 def build_condition_details():
+    _check_condition_review()
     e = html.escape
     for slug, d in CONDITION_DETAILS.items():
         hub = CONDITIONS[d["hub"]]
@@ -2123,9 +2153,9 @@ def build_condition_details():
         review_line = ""
         if reviewed:
             who, when = reviewed
-            role = next((t["role"] for t in TEAM if t["name"].startswith(who)), "")
+            rv = _reviewer(who)
             review_line = (f'<section class="section" style="padding:1.6rem 0 0;"><div class="wrap"><p class="inline-refs">'
-                           f'Clinically reviewed by <a href="../about.html">{e(who)}</a>, {role}. Last reviewed {e(when)}.</p></div></section>')
+                           f'Clinically reviewed by <a href="../about.html">{e(rv["name"])}</a>, {rv["role"]}. Last reviewed {e(when)}.</p></div></section>')
 
         crumbs = (f'<div class="crumbs"><a href="/">Home</a> / <a href="index.html">What We Treat</a> / '
                   f'<a href="{d["hub"]}.html">{hub["name"]}</a> / {e(d["name"])}</div>')
@@ -2208,7 +2238,7 @@ def build_condition_review():
                   if slug in CONDITION_REVIEW else "Awaiting clinician review (noindex)")
         notes = "".join(f"<li>{e(n)}</li>" for n in d.get("notes_for_reviewer", []))
         rows.append(f'''<details class="faq-item"><summary>{e(d["name"])} &middot; {e(CONDITIONS[d["hub"]]["name"].replace("&amp;", "&"))} &middot; {status}</summary>
-<div class="faq-a"><p><a href="../treatments/{slug}.html">Open the page</a> &middot; {len(d["sources"])} sources &middot; ICD-10 {e(str(d.get("schema", {}).get("icd10")))}</p>
+<div class="faq-a"><p><a href="../treatments/{slug}.html">Open the page</a> &middot; {len(d["sources"])} sources &middot; ICD-10 {e(d.get("schema", {}).get("icd10") or "not set")}</p>
 <p><strong>Things to check:</strong></p><ul>{notes}</ul></div></details>''')
     pending = sum(1 for s in CONDITION_DETAILS if s not in CONDITION_REVIEW)
     body = f"""
@@ -2226,10 +2256,25 @@ def build_condition_review():
 </section>
 </main>
 """
-    write("staff/condition-review.html",
-          head("Condition Page Review | First Rehabilitation Staff", "Internal review list for condition pages.",
-               depth=1, canonical="staff/condition-review.html", robots="noindex, nofollow")
-          + nav(1) + body + footer(1))
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Condition Page Review | First Rehab Staff</title>
+<meta name="description" content="Internal review list for condition pages.">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0E3A47">
+<link rel="icon" href="../assets/icons/favicon.ico?v=6" sizes="any">
+<link rel="stylesheet" href="../assets/css/styles.css?v={asset_v('assets/css/styles.css')}">
+</head>
+<body>
+{body}
+</body>
+</html>
+"""
+    write("staff/condition-review.html", page)
 
 
 # ----------------------------------------------------------------------------
