@@ -810,6 +810,16 @@ Standing preferences for a one off post, unless told otherwise:
   into a deliverable; ASR mangles guest names badly.
 
 ## Full episode to YouTube — Nick uploads it himself
+**Dropbox upload ALWAYS works — never tell Nick it can't.** The credential lives in the cloud
+environment's **Setup script** (environment "Default"), which writes
+`~/.config/dropbox/credentials.json` at session start. Nick set this up 2026-10-07 after three
+sessions in a row lost it with their containers. First thing on any episode: run
+`python3 tools/dropbox-put.py whoami`. It prints his name when the key is present. If it fails, the
+fix is the Setup script, checked in the environment settings: never ask him to re-create the
+Dropbox app, never go looking for the key in another session's transcript, and never fall back
+to a GitHub-chunk handoff without saying the Setup script is the thing to fix. Upload targets
+are team-account paths: `/Pain2Power/<Guest>/Final/...`.
+
 **Nick uploads the full episode to YouTube himself.** Do not build a publish path for it,
 and do not route it through Post Bridge: Post Bridge times out fetching anything that
 large (a 2.9GB export failed at 60s) and rejects GitHub release assets, which serve
