@@ -123,7 +123,7 @@ format and rules in `content/gbp/README.md`.
 
 Each post: 750 to 1,200 characters, text only, zero dashes anywhere except the phone number,
 `•` for bullets, one keyword and one city used naturally, the phone number, and a LEARN_MORE CTA
-pointing at `https://www.firstrehabnpb.com/blog/{post-b-slug}.html`. Every post in the set takes a
+pointing at `https://www.firstrehabnpb.com/blog/{post-b-slug}.html?utm_source=google&utm_medium=gbp&utm_campaign=post`. Every post in the set takes a
 different angle and a different keyword or city.
 
 Do not schedule anything yet.

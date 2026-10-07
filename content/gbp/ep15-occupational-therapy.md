@@ -2,7 +2,7 @@
 
 source_post: post-stroke-occupational-therapy-north-palm-beach
 pillar: occupational-therapy
-cta_url: https://www.firstrehabnpb.com/blog/post-stroke-occupational-therapy-north-palm-beach.html
+cta_url: https://www.firstrehabnpb.com/blog/post-stroke-occupational-therapy-north-palm-beach.html?utm_source=google&utm_medium=gbp&utm_campaign=post
 cta_type: LEARN_MORE
 
 NOTE: cta_url is not live until the Episode 15 blog PR is merged and deployed.
