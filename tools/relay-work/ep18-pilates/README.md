@@ -26,3 +26,9 @@ the bytes back out with `fallocate -p`. Each Dropbox temp link is single use, on
 Guest punch-ins: the first Elyse crop (1920x1080 native at 450,120) cut her chin off every
 time she leaned in. Shipped crop is 2400x1350 at 300,220. Check a punch-in against a frame
 from EVERY shot that uses it, not three samples.
+
+Re-rendering only some shots: stream-copying the untouched shots out of the finished file
+works (pixel identical), but each copied piece reports ~1/3 frame short, and the concat
+demuxer stacks those into 1.2 s of drift over 110 shots. Join with a list that states every
+file's exact `duration nf/30` (seg/list_exact.txt). Do not try a raw .h264 re-timestamp;
+it breaks DTS at every join.
