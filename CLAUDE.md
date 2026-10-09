@@ -908,6 +908,12 @@ Two more things that episode taught: a RAW radio mp3 can carry outtakes the host
 be cut (grep the transcript for "edit"), and the 30 min default background timeout kills a
 full render, so launch it with an explicit long timeout.
 
+**Punch-in crops on a 4K two-shot: check a frame from EVERY shot that uses them** (Episode 18).
+Cutting a 1080p single of each guest out of a 4K two-shot camera is worth doing, but the first
+Elyse crop was a 2x punch-in set from three sample frames where she sat back. Every time she
+leaned forward her chin left the bottom of the frame, and Nick caught it at 5:54. Leave room to
+lean: 1.6x (2400x1350) with headroom held up. Scripts: `tools/relay-work/ep18-pilates/`.
+
 **Verify without watching**: contact sheet, one frame per minute tiled, audited
 against `transcript-full.md`. Episode 15 scored ~22/28 frames on the right person,
 about 79%, against the skill's stated ~82% ceiling. Say the real number; do not
