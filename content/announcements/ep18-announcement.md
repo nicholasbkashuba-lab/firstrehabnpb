@@ -6,8 +6,7 @@ platforms: instagram, facebook, linkedin-business, x, plus a separate google-bus
 excluded: youtube and tiktok (a still, not a video), linkedin-personal (never posted to)
 image: studio still of both guests off the guest camera (IMG_5434.MOV), cropped 4:5,
        published on branch media/ep18-clips as announce/ep18-studio.jpg
-status: DRAFT, not scheduled. Waiting on Nick's review of the clips (CLAUDE.md: show the
-        clips before anything is scheduled).
+status: SKIPPED. Nick, 2026-10-09: no pre-announcement post for Episode 18. Do not schedule it.
 
 > No spoilers, per the default rule: names, credentials and airing details only. Credentials
 > are what each guest says on air, checked against her own site for spelling:
