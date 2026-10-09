@@ -3,8 +3,8 @@
 air_date: 2026-10-10
 post_at: 2026-10-10 09:00 ET (13:00 UTC)
 platforms: linkedin-business, facebook, plus a separate google-business call
-image: same studio still as the announcement
-status: DRAFT, not scheduled (see the announcement file)
+image: group photo supplied by Nick 2026-10-09 (Mike, Danielle, Elyse, Dave at the Legends sign)
+status: SCHEDULED (post ids at the bottom of this file)
 
 > **The link is the Spotify SHOW page, not the episode.** The episode URL does not exist until
 > it publishes Saturday morning; the show page opens on the newest episode. The daily routine
@@ -54,3 +54,11 @@ This morning on Pain 2 Power, Dr. Dave Kashuba and Mike McGann are joined by reg
 Talk to your own doctor before changing your diet or exercise during treatment. Pain 2 Power airs Saturday mornings at 8:30 on 100.3 Legends Radio and streams after on Spotify and YouTube.
 
 First Rehabilitation of North Palm Beach, 733 US Highway 1, Suite 2A, North Palm Beach. Call 561-624-4263.
+
+---
+
+## Scheduled 2026-10-09
+
+- `92652b85-bc83-451c-801a-5a96f337d119`: LinkedIn business 81322, Facebook 81324
+- `2fe87e11-45fa-4dbe-b7d5-793bda31ce0c`: Google Business 81642, LEARN_MORE on podcast.html
+- Both 2026-10-10 13:00 UTC, media `28d751ae-ec07-402a-bb48-bcb420087512` (1,269,466 bytes)
