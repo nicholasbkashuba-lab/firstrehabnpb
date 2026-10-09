@@ -17,6 +17,10 @@ cameras and the RAW radio mp3, plus lock_rate.py from the podcast-multicam skill
    the 60 fps ones.
 5. `clips18.py`: vertical clips, sentence-aware captions wrapped by measured pixel width,
    per-clip speaker overrides (clip_overrides.json) and an EXCISE list for jump cuts.
+6. `recaption.py`: re-burns captions onto the uncaptioned clip pieces in the house style Nick
+   approved 2026-10-09: one line, at most four words, MarginV=12 (very bottom), each cue
+   starting on its own first word. The first cut's two line cues showed whole sentences
+   before they were said; the ASR timing itself was fine (median -0.19 s).
 
 Disk: three 4K cameras are 41 GB against ~27 GB usable. Mike.mov was never downloaded
 whole: `mike_slice.py` range-fetches only the byte windows needed into a sparse file (moov

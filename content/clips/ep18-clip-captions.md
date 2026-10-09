@@ -2,9 +2,24 @@
 
 clips: branch media/ep18-clips, clips/*.mp4 (1080x1920, 30fps, captions burned in, -14 LUFS)
 platforms per clip: instagram, facebook, youtube (Shorts), tiktok
-status: DRAFT. Nick reviews the clips in chat first; nothing is scheduled until he approves.
-slots: assigned by `tools/clip-queue.py plan --boost "Elyse Marrone and Danielle Armstrong"`
-       after the approved clips exist as Post Bridge posts (CLAUDE.md, "The whole episode").
+status: SCHEDULED 2026-10-09 (Nick: "go ahead and schedule the clips"). Re-captioned first:
+       one line, max four words, MarginV=12, each cue on its first word.
+slots: every other day, 9:00 AM ET, alternating with the Goodwin / Arlosoroff / Mann queue so
+       no guest runs two days in a row. The ten clips they displaced moved to Nov 2 to 11
+       (14:00 UTC = 9:00 AM EST). Audit: `clip-queue.py audit` = 33 scheduled, 0 problems.
+
+| date (ET 9 AM) | clip | Post Bridge post |
+|---|---|---|
+| Mon Oct 12 | 02 healthy healthy dead | 10146d8c-b105-4cbe-93e6-8b3af1d4c581 |
+| Wed Oct 14 | 01 Eve Gentry | 43b5949f-cc00-4bd8-93d5-d85edec1b7f6 |
+| Fri Oct 16 | 04 Lolita, Juno Beach | dc84bf9d-bb1c-47f7-b95b-c524851fa80d |
+| Sun Oct 18 | 06 Pilates through treatment | c232cdca-ad68-4755-8a01-647121337daa |
+| Tue Oct 20 | 05 immune system, gut | 26c9be07-a731-487d-97eb-f214a719dcb1 |
+| Thu Oct 22 | 03 thirty percent | cdc5495a-fbf8-4ea1-90db-be251333840c |
+| Sat Oct 24 | 07 Joseph Pilates was real | 8c3b1295-eaf2-499e-9c84-aec515942602 |
+| Mon Oct 26 | 09 when does cancer occur | 1ff7b215-908f-48ad-9f05-4053447a585d |
+| Wed Oct 28 | 08 Brussels sprouts | 629cfd3e-44a4-49d2-ba85-5765667202ae |
+| Fri Oct 30 | 10 blue light glasses | 5216d5c0-135c-437c-b80d-3f943c391a47 |
 instagram collaborators: NOT SET. A wrong or private handle fails the whole post, so the
        guests' handles need confirming with Nick before they go on (candidates to confirm, not
        verified: Pilates Life posts as "pilateslifeflorida" on Facebook).

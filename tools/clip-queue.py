@@ -35,11 +35,19 @@ from collections import defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 QUEUE = os.path.join(ROOT, "content", "clip-queue.json")
 
-# The one daily slot, in UTC. 13:00 UTC is 9:00 AM ET during daylight time.
-# NOTE: this is a fixed UTC hour, so it drifts to 8:00 AM ET when the US leaves
-# DST in November. Re-check it then rather than assuming it tracks ET.
-SLOT_HOUR_UTC = 13
+# The one daily slot is 9:00 AM Eastern, converted per day: 13:00 UTC under
+# daylight time, 14:00 UTC after the clocks go back. It used to be a fixed 13:00
+# UTC, which would have quietly moved every November clip to 8:00 AM ET.
+SLOT_TZ = "America/New_York"
+SLOT_HOUR_LOCAL = 9
 SLOT_MINUTE = 0
+
+
+def slot_utc(day):
+    from zoneinfo import ZoneInfo
+    local = dt.datetime.combine(day, dt.time(SLOT_HOUR_LOCAL, SLOT_MINUTE),
+                                tzinfo=ZoneInfo(SLOT_TZ))
+    return local.astimezone(dt.timezone.utc)
 
 # First Rehabilitation's accounts. Everything else in a Post Bridge dump belongs
 # to another client and must never be pulled into this queue.
@@ -60,6 +68,8 @@ GUEST_PATTERNS = [
     ("Susan Mann", r"Susan Mann|Bright Minds|processing disorder|Coach Carter"),
     ("Captain Kerry", r"Captain Kerry|Below Deck"),
     ("Dr. Chaim Arlosoroff", r"Arlosoroff|e bike|e-bike|electric bike"),
+    ("Elyse Marrone and Danielle Armstrong",
+     r"Elyse Marrone|Danielle Armstrong|Pilates|dietitian|cruciferous"),
     ("Paul Joyce", r"Paul Joyce|New Life HRT|peptide|Wolverine stack|BPC-157"),
     ("Dave and Mike", r"Dave Kashuba|Mike McGann|Pain 2 Power"),
 ]
@@ -223,9 +233,7 @@ def cmd_plan(args):
 
     plan = []
     for clip in order[: args.days]:
-        when = dt.datetime.combine(
-            day, dt.time(SLOT_HOUR_UTC, SLOT_MINUTE), tzinfo=dt.timezone.utc
-        )
+        when = slot_utc(day)
         plan.append({**clip, "scheduled_at": when.strftime("%Y-%m-%dT%H:%M:%SZ")})
         day += dt.timedelta(days=1)
 
@@ -233,7 +241,7 @@ def cmd_plan(args):
         print(json.dumps(plan, indent=2))
         return
 
-    print(f"{len(plan)} slots, one a day at {SLOT_HOUR_UTC:02d}:{SLOT_MINUTE:02d} UTC\n")
+    print(f"{len(plan)} slots, one a day at {SLOT_HOUR_LOCAL}:{SLOT_MINUTE:02d} AM ET\n")
     prev = None
     for row in plan:
         clash = "  <-- SAME GUEST AS YESTERDAY" if row["guest"] == prev else ""
