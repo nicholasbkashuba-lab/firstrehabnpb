@@ -779,18 +779,25 @@ Standing preferences for a one off post, unless told otherwise:
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
-  two lines max.
+  ONE line, at most four words per cue (Nick, 2026-10-09; see "Timing" below).
 - **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
   White text on a SOLID BLACK box, sitting LOW in the frame. The reference he pointed at is
   the Episode 11 Paul Joyce clip `05-top-of-the-range.mp4` on `media/joyce-recut` (the
   testosterone one) — pull a frame off it if there is ever any doubt. Exact style:
 
       FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H00000000,
-      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=35
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=12
 
-  Two things he corrected, twice each, so do not let them drift back:
-  - **Low.** MarginV=35 puts the text ~88% down. It first shipped near the vertical middle,
-    then at 60 (~80% down), and he asked for lower both times. 35 is the approved value.
+  Three things he corrected, so do not let them drift back:
+  - **At the very bottom.** MarginV=12 (PlayResY 288) sits the box at the bottom edge of the
+    frame. It first shipped near the vertical middle, then at 60, then 35 (~88% down), and
+    on 2026-10-09 he asked for "the very bottom of the video". 12 is the approved value.
+  - **Timing: never ahead of the speaker.** Episode 18's first cut used two line cues of up
+    to ~12 words, so each cue appeared the instant its FIRST word was spoken and the reader
+    saw the rest of the sentence seconds early. ASR timing was not the problem (median
+    offset measured at -0.19 s). The fix: one line cues of at most four words, broken at
+    sentence ends, each starting at its first word's own start time and ending at the next
+    cue's start. `tools/relay-work/ep18-pilates/recaption.py` is the reference.
   - **Solid black box.** `BorderStyle=4` with `BackColour=&H00000000` — alpha `00` is OPAQUE
     in ASS. A semi transparent box (`&H90000000`) is what it looked like before and is wrong.
   `MarginV` is in ASS script units — libass defaults SRT to PlayResY=288, NOT the 1920 pixel
@@ -829,6 +836,16 @@ Standing preferences for a one off post, unless told otherwise:
   into a deliverable; ASR mangles guest names badly.
 
 ## Full episode to YouTube — Nick uploads it himself
+**Dropbox upload ALWAYS works — never tell Nick it can't.** The credential lives in the cloud
+environment's **Setup script** (environment "Default"), which writes
+`~/.config/dropbox/credentials.json` at session start. Nick set this up 2026-10-07 after three
+sessions in a row lost it with their containers. First thing on any episode: run
+`python3 tools/dropbox-put.py whoami`. It prints his name when the key is present. If it fails, the
+fix is the Setup script, checked in the environment settings: never ask him to re-create the
+Dropbox app, never go looking for the key in another session's transcript, and never fall back
+to a GitHub-chunk handoff without saying the Setup script is the thing to fix. Upload targets
+are team-account paths: `/Pain2Power/<Guest>/Final/...`.
+
 **Nick uploads the full episode to YouTube himself.** Do not build a publish path for it,
 and do not route it through Post Bridge: Post Bridge times out fetching anything that
 large (a 2.9GB export failed at 60s) and rejects GitHub release assets, which serve
@@ -916,6 +933,12 @@ cut matched the speaker on 91%. Scripts and run order: `tools/relay-work/ep16-go
 Two more things that episode taught: a RAW radio mp3 can carry outtakes the hosts expect to
 be cut (grep the transcript for "edit"), and the 30 min default background timeout kills a
 full render, so launch it with an explicit long timeout.
+
+**Punch-in crops on a 4K two-shot: check a frame from EVERY shot that uses them** (Episode 18).
+Cutting a 1080p single of each guest out of a 4K two-shot camera is worth doing, but the first
+Elyse crop was a 2x punch-in set from three sample frames where she sat back. Every time she
+leaned forward her chin left the bottom of the frame, and Nick caught it at 5:54. Leave room to
+lean: 1.6x (2400x1350) with headroom held up. Scripts: `tools/relay-work/ep18-pilates/`.
 
 **Verify without watching**: contact sheet, one frame per minute tiled, audited
 against `transcript-full.md`. Episode 15 scored ~22/28 frames on the right person,

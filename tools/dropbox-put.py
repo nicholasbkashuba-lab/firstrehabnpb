@@ -154,6 +154,9 @@ def _call(url, token, *, api_args=None, data=None, json_body=None, retries=RETRI
     if api_args is not None:
         headers["Dropbox-API-Arg"] = json.dumps(api_args)
         headers["Content-Type"] = "application/octet-stream"
+    if data is not None and "Content-Type" not in headers:
+        # urllib would default to form encoding, which Dropbox rejects with a 400.
+        headers["Content-Type"] = "application/json"
 
     last = None
     for attempt in range(retries):
@@ -268,7 +271,7 @@ def upload(token, local, remote, *, overwrite=False):
 def cmd_whoami(args):
     token = access_token(load_credentials(args.key))
     who = _call(f"{API}/2/users/get_current_account", token, json_body=None,
-                data=b"")
+                data=b"null")
     name = who.get("name", {}).get("display_name", "?")
     print(f"{name}  <{who.get('email','?')}>  account {who.get('account_id','?')}")
 
