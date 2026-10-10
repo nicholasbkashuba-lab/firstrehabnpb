@@ -1,0 +1,446 @@
+{
+  "clips": [
+    {
+      "post_id": "acddb4df-7f4a-4c39-93d0-806443a8742f",
+      "guest": "Dave and Mike",
+      "media": "770a4cba-59a0-4291-9104-7d09dbea447c",
+      "hook": "Only 20% of American kids get an hour of exercise a day.",
+      "state": "killed",
+      "was_scheduled_at": "2026-10-25T13:00:00+00:00"
+    },
+    {
+      "post_id": "985701a3-f667-4704-908b-6c317a63877b",
+      "guest": "Captain Kerry",
+      "media": "140b1b09-020f-4408-87a1-df4bae3675cd",
+      "hook": "People can tell that it's real. You're not pretending anything.",
+      "state": "posted",
+      "scheduled_at": "2026-09-28T13:00:00Z"
+    },
+    {
+      "post_id": "050f4dae-caa5-4d1b-ae52-e757aa5c3502",
+      "guest": "Captain Kerry",
+      "media": "452d77ab-02ec-4505-ab72-e61e796f384a",
+      "hook": "They need help, they need housing, they need nursing care. The name of our foundation is R",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-03T14:00:00Z"
+    },
+    {
+      "post_id": "cfabb46f-76f3-47ca-8892-9ce26f30011d",
+      "guest": "Captain Kerry",
+      "media": "b0c046c2-3a04-43b8-b07d-34ba4d3a2160",
+      "hook": "Dave, what size is that shirt you're wearing? Looks a little tight on me.",
+      "state": "posted",
+      "scheduled_at": "2026-09-24T13:00:00Z"
+    },
+    {
+      "post_id": "74d29874-ecb2-4e41-99e6-d68458cd2bb6",
+      "guest": "Captain Kerry",
+      "media": "c9015b5b-0cd4-4083-bb97-28d15121a056",
+      "hook": "The searchlight is pointed on me. I want to point it everywhere else.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-05T14:00:00Z"
+    },
+    {
+      "post_id": "4bd6845e-3c25-472b-9867-dd9c33b030d9",
+      "guest": "Captain Kerry",
+      "media": "7447c4ca-026f-4913-bb1c-21dcc2ab735e",
+      "hook": "There is a moment where you are a victim, and it's okay to be in that place. But what is s",
+      "state": "posted",
+      "scheduled_at": "2026-09-22T13:00:00Z"
+    },
+    {
+      "post_id": "e75ed5fb-e6f6-4bf6-a0c6-0bab2295a5fd",
+      "guest": "Dave and Mike",
+      "media": "91f452e3-da73-4b5f-8f44-9f2dbdc416d0",
+      "hook": "You can't control what happens to you, but you can control how you respond.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-11T14:00:00Z"
+    },
+    {
+      "post_id": "2c2aaefd-ac08-429d-a951-a314c58796cd",
+      "guest": "Dave and Mike",
+      "media": "c8bf81a4-3132-4b59-b83f-d9e126718bed",
+      "hook": "Twenty to twenty five minutes, three times a week. And people started noticing.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-01T13:00:00Z"
+    },
+    {
+      "post_id": "71b5eb5f-cc78-46a8-a79a-693f06b65466",
+      "guest": "Captain Kerry",
+      "media": "8e4e928a-ffe7-4d1a-81dc-b64fdc75eaf0",
+      "hook": "I wanted something for the kids that was constant. Kind of an anchor.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-04T13:00:00Z"
+    },
+    {
+      "post_id": "a73146e7-8707-4439-846b-0781a0489010",
+      "guest": "Dave and Mike",
+      "media": "9df3a1ef-4070-409e-a1a3-d2507ecc6674",
+      "hook": "The bartender looks at the rabbit and says, hey, you're in the wrong joke.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-08T14:00:00Z"
+    },
+    {
+      "post_id": "1f06c121-e01b-4666-b207-5b0b0fafe3e8",
+      "guest": "Captain Kerry",
+      "media": "431e0473-2619-4f8b-a7c8-eccd4a326496",
+      "hook": "People think their life is great because look at where they are. We had the exact same str",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-02T13:00:00Z"
+    },
+    {
+      "post_id": "0373a90f-2793-42c3-9337-30392799dd3e",
+      "guest": "Captain Kerry",
+      "media": "61faf1a2-0f37-43f0-a2d4-af6b0b8d6d1d",
+      "hook": "In the end, it is what you give. And that's always what's going to be reflected back at ya",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-08T13:00:00Z"
+    },
+    {
+      "post_id": "862a88ab-4cf2-4ab1-af33-ae4e69bccf1a",
+      "guest": "Dave and Mike",
+      "media": "608dec74-4c10-4734-900d-fa68a7c0b8d9",
+      "hook": "Dave, this isn't your time. Jeopardy's on. Click.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-04T14:00:00Z"
+    },
+    {
+      "post_id": "97ad4877-495d-423d-9e8d-0adec0e9fdb0",
+      "guest": "Captain Kerry",
+      "media": "be443bc1-1e10-4921-80fa-ebbae946defe",
+      "hook": "I'm at the top of my game, pumping diesel fumes everywhere. What am I doing for anybody el",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-06T13:00:00Z"
+    },
+    {
+      "post_id": "a886cc39-8c88-474e-872f-7f562fea8d2e",
+      "guest": "Captain Kerry",
+      "media": "49f67003-390c-4977-b5e8-4a1c7c4b1137",
+      "hook": "There is no destination. This is the journey.",
+      "state": "posted",
+      "scheduled_at": "2026-09-26T13:00:00Z"
+    },
+    {
+      "post_id": "c50ff9e8-2b8a-4548-9e9a-bff1079296b9",
+      "guest": "Dave and Mike",
+      "media": "377541fd-f4bf-4cb7-981d-d865582aee5d",
+      "hook": "Dave told his wife to embrace her mistakes. She ran over and hugged him.",
+      "state": "posted",
+      "scheduled_at": "2026-09-27T13:00:00Z"
+    },
+    {
+      "post_id": "b8a0ab1a-96f9-4280-a1e3-3c3c45923c8b",
+      "guest": "Susan Mann",
+      "media": "9773c853-59c9-479f-8242-a8da6d9f9203",
+      "hook": "You go in once a week. You graduate in 16 weeks.",
+      "state": "posted",
+      "scheduled_at": "2026-09-25T13:00:00Z"
+    },
+    {
+      "post_id": "e30e5106-380b-4dd2-8006-331cd9a09fe1",
+      "guest": "Susan Mann",
+      "media": "7e96d444-501e-4857-bc08-d0ce56243a0c",
+      "hook": "It is like the movie Coach Carter.",
+      "state": "posted",
+      "scheduled_at": "2026-09-21T13:00:00Z"
+    },
+    {
+      "post_id": "fe6948ac-18c0-4009-9a53-36656a2e1276",
+      "guest": "Susan Mann",
+      "media": "628dea16-306f-433d-8c04-95f153a11a5f",
+      "hook": "380%.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-29T13:00:00Z"
+    },
+    {
+      "post_id": "b30e8f41-a5d4-4f01-960d-1f9c632b2d79",
+      "guest": "Susan Mann",
+      "media": "6c022623-5d55-4bb4-a627-9d420b777c5e",
+      "hook": "It is easily fixable. And it takes 16 weeks.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-25T13:00:00Z"
+    },
+    {
+      "post_id": "fdfdf8d8-210e-4958-aa6a-3a06c233c49d",
+      "guest": "Susan Mann",
+      "media": "72cbaf4f-303f-430e-9ed2-e3c97f149846",
+      "hook": "She put everything on the line. They came back off the charts.",
+      "state": "posted",
+      "scheduled_at": "2026-10-01T13:00:00Z"
+    },
+    {
+      "post_id": "ed8ebba1-c736-4614-9360-cef2e9337e0f",
+      "guest": "Susan Mann",
+      "media": "33fc53f6-fa7e-4e6d-8f78-ec7ce7390993",
+      "hook": "It is one in four children.",
+      "state": "posted",
+      "scheduled_at": "2026-09-23T13:00:00Z"
+    },
+    {
+      "post_id": "79eda6c6-1de7-4bfd-bbd1-962ddf00bd42",
+      "guest": "Captain Kerry",
+      "media": "d4f61c01-954c-413c-95e9-4ff6cd0b351c",
+      "hook": "Every successful person I have spoken to had adversities they pushed against.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-07T14:00:00Z"
+    },
+    {
+      "post_id": "8b847a92-36de-43a4-8a54-6be917b0afff",
+      "guest": "Captain Kerry",
+      "media": "fb29aaca-f748-4324-97ad-9f7406a02d9f",
+      "hook": "He was exactly where I was, and he found a way out.",
+      "state": "posted",
+      "scheduled_at": "2026-09-30T13:00:00Z"
+    },
+    {
+      "post_id": "f0ffc130-deb7-4ec2-b38e-f7d76205e655",
+      "guest": "Captain Kerry",
+      "media": "ee6b7b80-34c9-4522-893d-a331282681c2",
+      "hook": "One present is an infinite increase over zero.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-10T13:00:00Z"
+    },
+    {
+      "post_id": "f019d37e-43d8-402d-b266-855adf01efda",
+      "guest": "Captain Kerry",
+      "media": "9b22c4e4-ef57-4e74-95e4-175e4d6a7889",
+      "hook": "He will just stop, look at me and smile. That is a legacy.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-09T14:00:00Z"
+    },
+    {
+      "post_id": "b7b91412-6ef4-48ed-9631-ad1dacc7010a",
+      "guest": "Captain Kerry",
+      "media": "8dcc9e4a-bd61-47c8-8609-bf81541abfaa",
+      "hook": "80% of suicides are men, because men do not like to talk about it.",
+      "state": "posted",
+      "scheduled_at": "2026-09-20T13:00:00Z"
+    },
+    {
+      "post_id": "56130b52-d1ce-4e3b-a56d-81be7bc959ad",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "aafd2b9d-3e51-4cdc-b2e8-8e4c00d8e931",
+      "hook": "He rides e bikes himself, in Sedona, Park City and Italy.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-27T13:00:00Z"
+    },
+    {
+      "post_id": "4b0c12b4-7e14-406a-8a0c-06ca3bae4f25",
+      "guest": "Dave and Mike",
+      "media": "770a4cba-59a0-4291-9104-7d09dbea447c",
+      "hook": "Only 20% of kids in the United States get an hour of exercise a day.",
+      "state": "posted",
+      "scheduled_at": "2026-09-29T13:00:00Z"
+    },
+    {
+      "post_id": "2fb83784-744e-4868-9f65-41ed756ac93e",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "69fa00e1-6e9b-4617-8209-908b40a5d2bf",
+      "hook": "Miami Dade is up over 500%.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-31T13:00:00Z"
+    },
+    {
+      "post_id": "0c4610d4-448e-47b7-b622-bbc5560a158b",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "76e6b6da-c235-4611-8844-ed010d13a1d7",
+      "hook": "The average age of these injuries is 13.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-03T13:00:00Z"
+    },
+    {
+      "post_id": "c0690931-4e6f-45c6-b942-16de7dc37979",
+      "guest": "Dr. Chaim Arlosoroff",
+      "media": "c280c55d-e5c7-4dea-b4df-0aa73574718c",
+      "hook": "Going 15 versus 50 is the difference between a scrape and a cracked skull.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-23T13:00:00Z"
+    },
+    {
+      "post_id": "8dcf9719-c027-4d0f-bc2c-fbb1bfbd1bfd",
+      "guest": "Paul Joyce",
+      "media": "5eb6c507-2c29-42a1-8ff7-cd7aa120f69d",
+      "hook": "About 100 patients have tried it. The results have not been that great.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-02T14:00:00Z"
+    },
+    {
+      "post_id": "8db34351-b495-49e2-b4b1-02a348555b04",
+      "guest": "Paul Joyce",
+      "media": "6ffcd4de-3271-4b50-b358-2b7204140d42",
+      "hook": "She said she'd never take human growth hormone because it could cause cancer. Then she too",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-10T14:00:00Z"
+    },
+    {
+      "post_id": "6b698dc3-44f6-4ab2-ac40-37dae2fd52c6",
+      "guest": "Paul Joyce",
+      "media": "832b1f49-5c0e-464f-aa06-9b4948e26e09",
+      "hook": "They call it the Wolverine stack.",
+      "state": "scheduled",
+      "scheduled_at": "2026-11-06T14:00:00Z"
+    },
+    {
+      "post_id": "8f5d26d4-2626-4576-b9de-7065d1ea6430",
+      "guest": "Dr. Don Goodwin",
+      "media": "f61be6bf-e394-4d1f-bbe5-b42d58fc27da",
+      "hook": "You can miss up to 60% of the cancers under 10 millimeters.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-05T13:00:00Z"
+    },
+    {
+      "post_id": "78032dae-92b4-4f2e-98ff-0cd9c0d26e2a",
+      "guest": "Dr. Don Goodwin",
+      "media": "2355be6a-7182-4f8f-84c4-19cc1336e37e",
+      "hook": "About two months of walking around on earth.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-07T13:00:00Z"
+    },
+    {
+      "post_id": "957039e5-3afa-48eb-baba-346c90c5a505",
+      "guest": "Dr. Don Goodwin",
+      "media": "9edd68c0-8188-4937-8bde-b6b36fb22942",
+      "hook": "Men get breast cancer. Absolutely.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-09T13:00:00Z"
+    },
+    {
+      "post_id": "492cb09b-d7d1-4678-adf1-bc6ca7f658ba",
+      "guest": "Dr. Don Goodwin",
+      "media": "ec41ef1c-a673-454a-955f-a8655e37ba37",
+      "hook": "15 per thousand. Then 22. Then 42.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-11T13:00:00Z"
+    },
+    {
+      "post_id": "faac1473-a1dd-4692-96ab-9713aab074ce",
+      "guest": "Dr. Don Goodwin",
+      "media": "f9300871-c5f7-43ae-a0fb-bb9ddceeac0b",
+      "hook": "In the 80s and 90s, about 95% of breast surgeries were for benign disease.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-13T13:00:00Z"
+    },
+    {
+      "post_id": "d7db4751-53aa-4a03-8fcf-4fadcb1c8c91",
+      "guest": "Dr. Don Goodwin",
+      "media": "05fedf09-6fa6-49b8-afbc-eeab521934c7",
+      "hook": "Our job is to find it as small and early as possible.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-15T13:00:00Z"
+    },
+    {
+      "post_id": "ba5aea49-b989-4c81-a7c3-06ad1bf3c554",
+      "guest": "Dr. Don Goodwin",
+      "media": "fb3c3730-db2e-41db-9f77-1364e0e4cefe",
+      "hook": "Callback rates used to run 10 to 12 percent. Now about 6 to 8.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-17T13:00:00Z"
+    },
+    {
+      "post_id": "7bb08dd1-2bbe-457d-90ee-87b3341c23b7",
+      "guest": "Dr. Don Goodwin",
+      "media": "69fc9f0d-e17d-40a4-9ea3-eb6f9de2edc1",
+      "hook": "Stage one, the five year survival is about 98 to 99 percent.",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-19T13:00:00Z"
+    },
+    {
+      "post_id": "fa6c48ec-24aa-471a-9357-c9c2b7dfb2e8",
+      "guest": "Dr. Don Goodwin",
+      "media": "f2734997-d856-48c0-939c-61c67f7d94cc",
+      "hook": "What did the grape do when it saw the farmer with the press?",
+      "state": "scheduled",
+      "scheduled_at": "2026-10-21T13:00:00Z"
+    },
+    {
+      "post_id": "5216d5c0-135c-437c-b80d-3f943c391a47",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "175c1816-791b-4539-90b3-1dc46fe64354",
+      "hook": "One easy habit for better sleep, starting at 8 o'clock tonight.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-30T13:00:00+00:00",
+      "scheduled_at": "2026-10-30T13:00:00Z"
+    },
+    {
+      "post_id": "629cfd3e-44a4-49d2-ba85-5765667202ae",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "3699808b-0843-4c6e-8e16-6990620d0e48",
+      "hook": "Fry them in bacon grease. With bacon.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-28T13:00:00+00:00",
+      "scheduled_at": "2026-10-28T13:00:00Z"
+    },
+    {
+      "post_id": "1ff7b215-908f-48ad-9f05-4053447a585d",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "8f063121-9f19-42bf-97af-5687741757dd",
+      "hook": "\"When does cancer occur?\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-26T13:00:00+00:00",
+      "scheduled_at": "2026-10-26T13:00:00Z"
+    },
+    {
+      "post_id": "8c3b1295-eaf2-499e-9c84-aec515942602",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "c02955e6-f608-495d-bfb5-1a03ef4c8773",
+      "hook": "A lot of people don't know Joseph Pilates was a real person.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-24T13:00:00+00:00",
+      "scheduled_at": "2026-10-24T13:00:00Z"
+    },
+    {
+      "post_id": "cdc5495a-fbf8-4ea1-90db-be251333840c",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "2547e8e5-63bb-4e75-a7df-fd261ae49963",
+      "hook": "\"30% just by diet and exercise.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-22T13:00:00+00:00",
+      "scheduled_at": "2026-10-22T13:00:00Z"
+    },
+    {
+      "post_id": "26c9be07-a731-487d-97eb-f214a719dcb1",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "14112144-5d79-481a-9719-49fec54a20db",
+      "hook": "\"We all get cancer all the time, and our immune system fights it.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-20T13:00:00+00:00",
+      "scheduled_at": "2026-10-20T13:00:00Z"
+    },
+    {
+      "post_id": "c232cdca-ad68-4755-8a01-647121337daa",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "3cab7c39-99f8-449b-b224-63c69f4af5e3",
+      "hook": "\"Keeping them active and moving.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-18T13:00:00+00:00",
+      "scheduled_at": "2026-10-18T13:00:00Z"
+    },
+    {
+      "post_id": "dc84bf9d-bb1c-47f7-b95b-c524851fa80d",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "899bd9bf-3d16-4b6c-a2a0-37fdefd44ad4",
+      "hook": "The last living elder who trained with Joseph Pilates lives in Juno Beach.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-16T13:00:00+00:00",
+      "scheduled_at": "2026-10-16T13:00:00Z"
+    },
+    {
+      "post_id": "43b5949f-cc00-4bd8-93d5-d85edec1b7f6",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "adda8c02-582e-4912-830d-d5e256bf8cc2",
+      "hook": "They told her she would never dance or do Pilates again.",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-14T13:00:00+00:00",
+      "scheduled_at": "2026-10-14T13:00:00Z"
+    },
+    {
+      "post_id": "10146d8c-b105-4cbe-93e6-8b3af1d4c581",
+      "guest": "Elyse Marrone and Danielle Armstrong",
+      "media": "49cb1fed-252c-4540-8728-845c49a46aff",
+      "hook": "\"I want to be healthy, healthy, healthy, dead.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-12T13:00:00+00:00",
+      "scheduled_at": "2026-10-12T13:00:00Z"
+    }
+  ]
+}

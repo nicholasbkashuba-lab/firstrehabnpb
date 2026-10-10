@@ -1,3 +1,5 @@
+/* Tokens come from styles.css, which is always loaded first. Do not define a
+   palette here and do not use literal colours — consume the tokens. */
 /* ============================================================
    FIRST REHABILITATION — Intake Assistant widget
    Chat-style concierge. Shares tokens with styles.css.
@@ -9,12 +11,12 @@
 .fri-launcher {
   position: relative; width: 62px; height: 62px; border-radius: 50%;
   background: linear-gradient(150deg, var(--ink-soft), var(--ink-deep));
-  border: 1px solid rgba(233, 196, 106, 0.55);
+  border: 1px solid rgb(var(--gold-rgb) / 0.55);
   color: var(--cream); cursor: pointer; display: grid; place-items: center;
-  box-shadow: 0 18px 40px -14px rgba(7, 30, 39, 0.65);
+  box-shadow: 0 18px 40px -14px rgb(var(--ink-deep-rgb) / 0.65);
   transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease;
 }
-.fri-launcher:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 24px 48px -14px rgba(7, 30, 39, 0.7); }
+.fri-launcher:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 24px 48px -14px rgb(var(--ink-deep-rgb) / 0.7); }
 .fri-launcher svg { width: 28px; height: 28px; display: block; }
 .fri-launcher::before {
   content: ""; position: absolute; inset: -4px; border-radius: 50%;
@@ -64,20 +66,20 @@
   position: relative; flex-shrink: 0; display: flex; align-items: center; gap: 0.85rem;
   padding: 1.05rem 1.15rem; color: var(--cream);
   background:
-    radial-gradient(120% 160% at 90% 0%, rgba(233, 196, 106, 0.22), transparent 55%),
+    radial-gradient(120% 160% at 90% 0%, rgb(var(--gold-rgb) / 0.22), transparent 55%),
     linear-gradient(155deg, var(--ink) 0%, var(--ink-deep) 78%);
-  border-bottom: 1px solid rgba(233, 196, 106, 0.3);
+  border-bottom: 1px solid rgb(var(--gold-rgb) / 0.3);
 }
 .fri-head img { height: 40px; width: auto; flex-shrink: 0; }
 .fri-head .fri-who { min-width: 0; }
 .fri-head .fri-title { font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; line-height: 1.2; }
-.fri-head .fri-sub { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.06em; color: rgba(246, 241, 231, 0.75); margin-top: 2px; }
+.fri-head .fri-sub { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.06em; color: rgb(var(--cream-rgb) / 0.75); margin-top: 2px; }
 .fri-head .fri-sub::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); flex-shrink: 0; }
 .fri-head .fri-x {
-  margin-left: auto; background: none; border: none; cursor: pointer; color: rgba(246, 241, 231, 0.8);
+  margin-left: auto; background: none; border: none; cursor: pointer; color: rgb(var(--cream-rgb) / 0.8);
   padding: 6px; border-radius: 8px; display: grid; place-items: center; flex-shrink: 0;
 }
-.fri-head .fri-x:hover { color: var(--cream); background: rgba(246, 241, 231, 0.1); }
+.fri-head .fri-x:hover { color: var(--cream); background: rgb(var(--cream-rgb) / 0.1); }
 .fri-head .fri-x svg { width: 20px; height: 20px; }
 
 /* Message log */
@@ -86,7 +88,7 @@
 @keyframes fri-pop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .fri-msg.bot { background: var(--paper); color: var(--text); border: 1px solid var(--line); border-radius: 16px 16px 16px 5px; }
 .fri-msg.user { background: var(--ink); color: var(--cream); border-radius: 16px 16px 5px 16px; margin-left: auto; }
-.fri-msg a { color: #B65717; font-weight: 600; }
+.fri-msg a { color: var(--coral-text); font-weight: 600; }
 .fri-msg.user a { color: var(--gold); }
 .fri-msg.bot .fri-note { display: block; margin-top: 0.3rem; font-size: 0.8rem; color: var(--muted); }
 
@@ -127,7 +129,7 @@
 .fri-send {
   flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
   background: var(--coral); color: var(--ink-deep); display: grid; place-items: center;
-  box-shadow: 0 10px 22px -10px rgba(224, 138, 68, 0.8);
+  box-shadow: 0 10px 22px -10px rgb(var(--coral-deep-rgb) / 0.8);
   transition: background 0.25s ease, transform 0.25s ease;
 }
 .fri-send:hover { background: var(--coral-deep); transform: translateY(-2px); }
@@ -147,4 +149,4 @@
 }
 
 .fri-teaser-open { all: unset; cursor: pointer; display: block; font: inherit; color: inherit; }
-.fri-teaser-open:focus-visible { outline: 3px solid #A04E14; outline-offset: 3px; border-radius: 6px; }
+.fri-teaser-open:focus-visible { outline: 3px solid var(--coral-text); outline-offset: 3px; border-radius: 6px; }
