@@ -3,7 +3,9 @@
 **Current: rack card / "skinny flyer", 4 x 9 in** (`rackcard.html`). The owner preferred this size
 and a real clinic photo over the lighthouse. The letter-size `flyer.html` below is the earlier version.
 
-Rack card render (300 DPI per side, then Pillow to `First-Rehab-Rack-Card-print.pdf`, resolution=300):
+Rack card render: 4.25 x 9.25 in WITH 0.125in bleed at 400 DPI (Canva Print stretched the old
+no-bleed 300 DPI image over the bleed, flagging it low-res and cropping the bottom line).
+Then Pillow to `First-Rehab-Rack-Card-*-bleed-400dpi.jpg` + `First-Rehab-Rack-Card-print.pdf`:
 
     NODE_PATH=$(npm root -g) node flyer/render-rack.js $PWD/flyer/rackcard.html /tmp
 
