@@ -10,3 +10,10 @@
 - `img/qr.png` points to /contact.html?utm_source=flyer&utm_medium=print&utm_campaign=clinic-flyer,
   so flyer scans show up as their own source in GA4 and Vercel Analytics.
 - Printed through Canva: the PDF was imported as an editable Canva design.
+- Canva's PDF import mangles this layout (drops CSS-background photos, runs words together),
+  so Canva gets the FLATTENED 300 DPI version instead:
+
+      NODE_PATH=$(npm root -g) node flyer/render-print.js $PWD/flyer/flyer.html /tmp/print
+      # then Pillow: save print-1.png + print-2.png as First-Rehab-Flyer-print.pdf at resolution=300
+
+  Text edits happen here in flyer.html, not in Canva.
