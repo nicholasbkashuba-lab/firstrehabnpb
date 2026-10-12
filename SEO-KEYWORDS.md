@@ -288,8 +288,16 @@ roughly the same position, not on clicks alone.
 | window | impressions | clicks | CTR | avg position |
 |---|---|---|---|---|
 | baseline, 2026-06-03 to 2026-08-31 (90d) | 13,011 | 207 | 1.59% | 15.1 |
-| read 1: 28d ending ~2026-10-05 | | | | |
+| read 1: 2026-09-08 to 2026-10-05 (28d), bare `/` row | 2,871 | 52 | 1.81% | 13.2 |
+| read 1, same window, `/` + GBP-tagged `/?utm_…` row combined | 4,999 | 120 | 2.40% | 9.7 |
 | read 2: 28d ending ~2026-11-02 | | | | |
+
+How to read the rows: the baseline window had no GBP-tagged homepage row (the profile link
+gained `utm_campaign=profile` around the start of the test), so that traffic used to be counted
+inside the bare `/` row. The **combined** row is therefore the like-for-like comparison, but its
+position (9.7) is pulled up by branded GBP clicks. The **bare** row is the cleaner CTR read: up
+1.59% → 1.81%, though its position also improved (15.1 → 13.2), so part of the gain is position,
+not the snippet. Read 1 (2026-10-12 sweep) is a cautious positive; keep the new title through read 2.
 
 Before: `Physical Therapy North Palm Beach | First Rehabilitation` /
 `Family-owned physical therapy, occupational therapy, certified hand therapy, and wellness in
