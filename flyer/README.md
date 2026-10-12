@@ -1,4 +1,13 @@
-# Clinic flyer (front + back, US Letter 8.5 x 11)
+# Clinic flyers
+
+**Current: rack card / "skinny flyer", 4 x 9 in** (`rackcard.html`). The owner preferred this size
+and a real clinic photo over the lighthouse. The letter-size `flyer.html` below is the earlier version.
+
+Rack card render (300 DPI per side, then Pillow to `First-Rehab-Rack-Card-print.pdf`, resolution=300):
+
+    NODE_PATH=$(npm root -g) node flyer/render-rack.js $PWD/flyer/rackcard.html /tmp
+
+## Letter flyer (front + back, US Letter 8.5 x 11)
 
 - `flyer.html` is the source. Facts are copied from build.py (PLANS, TEAM, hours, services).
   If any of those change, update this file too, then re-render.

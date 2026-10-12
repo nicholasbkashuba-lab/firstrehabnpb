@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<!-- Rack card ("skinny flyer"), 4 x 9 in, front + back. Render: see flyer/README.md -->
+<title>First Rehabilitation Rack Card</title>
+<style>
+@font-face{font-family:"Playfair Display";font-weight:600;src:url(../assets/fonts/playfair-display-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Playfair Display";font-weight:600;font-style:italic;src:url(../assets/fonts/playfair-display-latin-600-italic.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:400;src:url(../assets/fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;src:url(../assets/fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:600;src:url(../assets/fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:700;src:url(../assets/fonts/inter-latin-700-normal.woff2) format("woff2")}
+
+:root{--teal:#0E3A47;--cream:#F6F1E7;--coral:#F4A261;--gold:#E9C46A;--coral-text:#A04E14;--ink:#0B2B35;--muted:#51646C}
+@page{size:4in 9in;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Inter",sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:4in;height:9in;position:relative;overflow:hidden;display:flex;flex-direction:column;break-after:page}
+.page:last-child{break-after:auto}
+h1,h2,h3{font-family:"Playfair Display",serif;font-weight:600}
+.eyebrow{font:600 6.6pt/1 "Inter";letter-spacing:.2em;text-transform:uppercase}
+
+/* ---------- FRONT ---------- */
+.front{background:var(--teal);color:var(--cream)}
+.front .head{flex:none;background:var(--cream);padding:.2in .3in .14in;display:flex;flex-direction:column;align-items:center;gap:.08in}
+.front .head img{width:1.75in;display:block}
+.front .head .eyebrow{color:var(--coral-text)}
+.front .photo{flex:none;height:3in;background:url(../assets/media/clinic.jpg) 0 11%/100% auto no-repeat;position:relative}
+.front .photo::after{content:"";position:absolute;inset:auto 0 0 0;height:.42in;background:linear-gradient(180deg,rgba(14,58,71,0),var(--teal))}
+.front .body{padding:.1in .3in 0;flex:1}
+.front h1{font-size:25pt;line-height:1.02;color:var(--cream)}
+.front h1 em{color:var(--coral)}
+.front .lede{font-size:8.2pt;line-height:1.42;color:#DCE4E2;margin-top:.08in}
+.front .svcs{list-style:none;margin-top:.1in;border-top:1px solid rgba(246,241,231,.2)}
+.front .svcs li{display:flex;gap:.12in;align-items:baseline;padding:.055in 0;border-bottom:1px solid rgba(246,241,231,.2)}
+.front .svcs b{font:600 italic 9pt/1 "Playfair Display";color:var(--gold);width:.2in}
+.front .svcs span{font:600 10pt/1.2 "Playfair Display";color:#fff}
+.front .svcs small{display:block;font:400 7.4pt/1.35 "Inter";color:#C4D0CE;margin-top:.02in}
+.front .call{flex:none;background:var(--coral);color:var(--teal);padding:.13in .3in .16in;text-align:center}
+.front .call .ask{font:600 italic 10pt/1.2 "Playfair Display"}
+.front .call .phone{font:700 23pt/1.05 "Inter";letter-spacing:-.01em;margin:.03in 0 .05in}
+.front .call p{font-size:7.6pt;line-height:1.45;font-weight:500}
+
+/* ---------- BACK ---------- */
+.back{background:var(--cream)}
+.back .top{padding:.28in .3in 0}
+.back .top .eyebrow{color:var(--coral-text);margin-bottom:.07in}
+.back h2{font-size:18pt;line-height:1.06;color:var(--teal)}
+.back h2 em{color:var(--coral-text)}
+.why{list-style:none;margin-top:.12in}
+.why li{display:grid;grid-template-columns:.27in 1fr;gap:.02in;margin-bottom:.09in}
+.why .n{width:.2in;height:.2in;border-radius:50%;background:var(--teal);color:var(--gold);font:600 italic 7.5pt/.2in "Playfair Display";text-align:center;margin-top:.01in}
+.why h3{font:700 8pt/1.25 "Inter";color:var(--teal)}
+.why p{font-size:7.2pt;line-height:1.38;color:var(--muted)}
+.sec{padding:0 .3in;margin-top:.17in}
+.sechead{display:flex;align-items:center;gap:.1in;margin-bottom:.07in}
+.sechead h3{font-size:10.5pt;color:var(--teal);white-space:nowrap}
+.sechead::after{content:"";flex:1;height:1px;background:rgba(14,58,71,.25)}
+.chips{display:flex;flex-wrap:wrap;gap:.045in}
+.chips span{background:#fff;border:1px solid rgba(14,58,71,.16);border-radius:1in;padding:.035in .08in;font-size:6.9pt;font-weight:500;color:var(--teal)}
+.faces{display:grid;grid-template-columns:repeat(3,1fr);gap:.08in .06in;text-align:center}
+.faces img{width:.6in;height:.6in;border-radius:50%;object-fit:cover;object-position:50% 20%;display:block;margin:0 auto .04in;border:2px solid #fff;box-shadow:0 0 0 1px var(--gold)}
+.faces b{display:block;font-size:6.6pt;line-height:1.2;color:var(--teal);font-weight:700}
+.faces i{display:block;font-style:normal;font-size:6pt;line-height:1.25;color:var(--muted)}
+.plans{font-size:7pt;line-height:1.6}
+.plans span{white-space:nowrap}
+.plans span:not(:last-child)::after{content:"•";color:var(--coral-text);margin-left:.05in}
+.foot{margin-top:auto;background:var(--teal);color:var(--cream);padding:.17in .3in .2in;display:flex;gap:.14in;align-items:center}
+.foot .qr{background:#fff;padding:.05in;border-radius:.06in;flex:none}
+.foot .qr img{width:.82in;height:.82in;display:block}
+.foot .eyebrow{color:var(--gold);margin-bottom:.05in}
+.foot .big{font:700 13.5pt/1.1 "Inter";color:#fff}
+.foot p{font-size:7pt;line-height:1.45;color:#DCE4E2;margin-top:.04in}
+.foot p b{color:var(--coral);font:600 italic 8.5pt/1.2 "Playfair Display"}
+</style>
+</head>
+<body>
+
+<!-- ================= FRONT ================= -->
+<section class="page front" data-document-role="page" data-label="Front">
+  <div class="head">
+    <img src="../assets/media/logo.png" alt="First Rehabilitation logo">
+    <div class="eyebrow">North Palm Beach · Since 1991</div>
+  </div>
+  <div class="photo" role="img" aria-label="Dr. Dave Kashuba treating a patient at First Rehabilitation"></div>
+  <div class="body">
+    <h1>Heal. Strengthen.<br><em>Thrive.</em></h1>
+    <p class="lede">Family-owned, one-on-one rehabilitation. Four programs, one roof, one team that knows you by name.</p>
+    <ul class="svcs">
+      <li><b>01</b><span>Physical Therapy<small>Pain, sports injuries and post-surgical recovery</small></span></li>
+      <li><b>02</b><span>Occupational Therapy<small>Daily independence, from dressing to returning to work</small></span></li>
+      <li><b>03</b><span>Certified Hand Therapy<small>Wrist, hand and arm care, with splints made in-clinic</small></span></li>
+      <li><b>04</b><span>Wellness &amp; Gym<small>Keep training after discharge with a team that knows you</small></span></li>
+    </ul>
+  </div>
+  <div class="call">
+    <div class="ask">Ready to feel like yourself again?</div>
+    <div class="phone">561-624-4263</div>
+    <p>733 US Highway 1, Suite 2A · North Palm Beach, FL 33408<br>firstrehabnpb.com</p>
+  </div>
+</section>
+
+<!-- ================= BACK ================= -->
+<section class="page back" data-document-role="page" data-label="Back">
+  <div class="top">
+    <div class="eyebrow">Why patients choose us</div>
+    <h2>You're never a <em>chart number</em> here.</h2>
+    <ul class="why">
+      <li><span class="n">1</span><div><h3>One-on-one, every session</h3><p>Hands-on, therapist-led care, never a hand-off to a tech.</p></div></li>
+      <li><span class="n">2</span><div><h3>Founder-led since 1991</h3><p>Dr. Dave Kashuba, Ph.D., OT, still treats patients every day.</p></div></li>
+      <li><span class="n">3</span><div><h3>Certified Hand Therapist on staff</h3><p>Laura Drumm, CHT, leads our hand and upper-extremity program.</p></div></li>
+      <li><span class="n">4</span><div><h3>Rated 4.9★ on Google</h3><p>Trusted by neighbors across the Palm Beaches.</p></div></li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sechead"><h3>What we treat</h3></div>
+    <div class="chips">
+      <span>Back pain &amp; sciatica</span><span>Neck pain</span><span>Shoulder pain</span><span>Knee pain</span>
+      <span>Hip pain</span><span>Foot &amp; ankle</span><span>Hand &amp; wrist</span><span>Carpal tunnel</span>
+      <span>Arthritis</span><span>Headaches</span><span>Post-surgical rehab</span><span>Balance &amp; falls</span>
+      <span>Sports injuries</span><span>Work injuries</span><span>Auto accidents</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sechead"><h3>Meet your team</h3></div>
+    <div class="faces">
+      <div><img src="../assets/team/david.jpg" alt=""><b>David Kashuba, Ph.D.</b><i>Founder &amp; OT</i></div>
+      <div><img src="img/kayla-crop.jpg" alt=""><b>Kayla Dorsey, DPT</b><i>Physical Therapist</i></div>
+      <div><img src="../assets/team/logan.jpg" alt=""><b>Logan Van Sant</b><i>Physical Therapist</i></div>
+      <div><img src="../assets/team/joni.jpg" alt=""><b>Joni Janik</b><i>Occupational Therapist</i></div>
+      <div><img src="../assets/team/laura.jpg" alt=""><b>Laura Drumm, CHT</b><i>Hand Therapist</i></div>
+      <div><img src="../assets/team/nick.jpg" alt=""><b>Nick Kashuba</b><i>Chief Operating Officer</i></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sechead"><h3>Insurance we accept</h3></div>
+    <p class="plans"><span>Medicare</span> <span>Medicare Advantage</span> <span>Blue Cross Blue Shield</span> <span>Aetna</span> <span>Humana</span> <span>Tricare</span> <span>VA Community Care Network</span> <span>Workers' Comp</span> <span>Self Pay</span></p>
+  </div>
+
+  <div class="foot">
+    <div class="qr"><img src="img/qr.png" alt="QR code to request an appointment"></div>
+    <div>
+      <div class="eyebrow">Book your evaluation</div>
+      <div class="big">561-624-4263</div>
+      <p><b>Scan to book online.</b><br>Mon to Fri 8:00 AM to 5:30 PM<br>Sat 8:00 AM to 12:30 PM</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
