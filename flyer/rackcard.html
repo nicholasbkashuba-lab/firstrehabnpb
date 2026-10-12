@@ -48,19 +48,23 @@ h1,h2,h3{font-family:"Playfair Display",serif;font-weight:600}
 .back{background:var(--cream)}
 .back .top{padding:.24in .3in 0}
 .back .top .eyebrow{color:var(--coral-text);margin-bottom:.06in}
-.back h2{font-size:27pt;line-height:1.05;color:var(--teal)}
+.back h2{font-size:25pt;line-height:1.05;color:var(--teal)}
 .back h2 em{color:var(--coral-text)}
-.why{list-style:none;margin-top:.18in}
-.why li{display:grid;grid-template-columns:.38in 1fr;margin-bottom:.14in}
+.why{list-style:none;margin-top:.14in}
+.why li{display:grid;grid-template-columns:.38in 1fr;margin-bottom:.1in}
 .why .n{width:.27in;height:.27in;border-radius:50%;background:var(--teal);color:var(--gold);font:600 italic 10.5pt/.27in "Playfair Display";text-align:center}
 .why h3{font:700 13pt/1.2 "Inter";color:var(--teal)}
 .why p{font-size:11pt;line-height:1.3;color:var(--muted)}
-.sec{padding:0 .3in;margin-top:.24in}
+.sec{padding:0 .3in;margin-top:.18in}
 .sechead{display:flex;align-items:center;gap:.1in;margin-bottom:.06in}
 .sechead h3{font-size:15pt;color:var(--teal);white-space:nowrap}
 .sechead::after{content:"";flex:1;height:1px;background:rgba(14,58,71,.3)}
 .chips{display:flex;flex-wrap:wrap;gap:.07in}
 .chips span{background:#fff;border:1px solid rgba(14,58,71,.2);border-radius:1in;padding:.055in .12in;font-size:11pt;font-weight:600;color:var(--teal)}
+.treat{list-style:none;columns:2;column-gap:.16in}
+.treat li{font-size:9.8pt;line-height:1.25;font-weight:500;color:var(--ink);padding:.025in 0 .025in .15in;position:relative;break-inside:avoid}
+.treat li::before{content:"";position:absolute;left:0;top:.068in;width:.06in;height:.06in;background:var(--coral);transform:rotate(45deg)}
+.treat-more{font:600 italic 11pt/1.2 "Playfair Display";color:var(--coral-text);margin-top:.08in}
 .faces{display:grid;grid-template-columns:repeat(6,1fr);gap:.04in;text-align:center}
 .faces img{width:.52in;height:.52in;border-radius:50%;object-fit:cover;object-position:50% 20%;display:block;margin:0 auto .03in;border:2px solid #fff;box-shadow:0 0 0 1px var(--gold)}
 .faces b{display:block;font-size:9.5pt;line-height:1.15;color:var(--teal);font-weight:700}
@@ -123,10 +127,7 @@ body.bleed .foot{padding:.2in .425in .365in}
 
   <div class="sec">
     <div class="sechead"><h3>What we treat</h3></div>
-    <div class="chips">
-      <span>Back &amp; neck pain</span><span>Shoulder</span><span>Knee &amp; hip</span><span>Hand &amp; wrist</span>
-      <span>After surgery</span><span>Sports injuries</span><span>Work &amp; auto injuries</span>
-    </div>
+    <ul class="treat"><li>Back pain &amp; sciatica</li><li>Neck pain</li><li>Shoulder pain</li><li>Knee &amp; hip pain</li><li>Foot &amp; ankle pain</li><li>Hand &amp; wrist pain</li><li>Carpal tunnel</li><li>Arthritis</li><li>Headaches</li><li>Joint replacements</li><li>Post-surgery rehab</li><li>Fractures &amp; tendons</li><li>Sports injuries</li><li>Work injuries</li><li>Auto accidents</li><li>Balance &amp; falls</li><li>Stroke recovery</li><li>Chronic pain</li></ul><p class="treat-more">Don't see yours? Call and ask.</p>
   </div>
 
   <div class="sec">
