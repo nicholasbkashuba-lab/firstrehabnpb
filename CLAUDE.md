@@ -126,6 +126,12 @@ deploy, so a red run means "you forgot to commit something", not "the site broke
 Commit every file the build touches, `sitemap-dates.json` included; leaving that one out
 is its own failure mode and the check names it.
 
+**Exception: JARVIS publishes.** The agency portal can only commit source (an entry in
+`build.py`), never built output. A push to `main` whose commit message contains
+`Published from the JARVIS content queue` skips the check and runs the `publish` job
+instead, which runs `build.py` and commits the regenerated pages as `github-actions[bot]`
+(write permission is on that job only). Do not put that phrase in a hand-made commit.
+
 ## Conventions
 - Phone 561-624-4263 · 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408
 - Tagline: "Our people make the difference." · Motto headline: Heal. Strengthen. Thrive.
