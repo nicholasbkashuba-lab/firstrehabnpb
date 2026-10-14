@@ -22,6 +22,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 | Saturday post | LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-saturday-episode-post.md` |
 | Friday announcement | only if Nick says yes this week (he skipped Episode 18's) |
 | Website | EPISODES[0] once Spotify has it, VIDEOS once YouTube has it (the watcher routine does this) |
+| Guest profile | `content/guests/<slug>.json` on /guests.html, via the `podcast-guest` skill (the watcher routine does this once the episode is in EPISODES) |
 | Tools | `tools/relay-work/ep{NN}-<slug>/` scripts + README of what was different this time |
 
 ## Order of work
@@ -84,7 +85,8 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
   (ASR gave "Elise Maroney" for Elyse Marrone; the Spotify title is the check).
 - **Instagram collaborators** (Nick, 2026-10-14): `legendsradio100.3` on every clip, the
-  guest's own handle once he confirms it, and `mic_mcgann` on clips where Mike features.
+  guest's own handle once he confirms it (a verified `instagram_handle` in
+  `content/guests/<slug>.json` is the one to put to him), and `mic_mcgann` on clips where Mike features.
   Instagram allows 3. Check the first published clip's `list_post_results`: a handle that
   fails takes the whole post down on every platform.
 - **Never put a punch-in crop on screen unchecked**: look at a frame from every shot that

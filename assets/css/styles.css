@@ -556,6 +556,34 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .pod-recap a:hover, .pod-recap a:focus-visible { border-bottom-color: var(--coral-text); }
 @media (max-width: 720px) { .pod-card { padding: 1.4rem 1.2rem 1.3rem; } }
 
+/* Pain 2 Power guests (/guests.html) — one card per guest, data from content/guests/*.json */
+.guest-index { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-3); }
+.guest-jump { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3) var(--space-4); background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
+.guest-jump:hover, .guest-jump:focus-visible { border-color: var(--line-gold); transform: translateY(-2px); }
+.gj-name { font-family: var(--font-display); font-size: var(--step-0); color: var(--ink-deep); font-weight: 600; }
+.gj-role { font-size: var(--step--1); color: var(--muted); line-height: var(--leading-snug); }
+.guest-list { max-width: 860px; }
+.guest-card { position: relative; overflow: hidden; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-6) var(--space-5); margin-bottom: var(--space-5); scroll-margin-top: 110px; }
+.guest-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold) 0%, var(--coral) 45%, rgb(var(--coral-rgb) / 0) 90%); }
+.guest-eps { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.guest-card h2 { font-size: var(--step-3); margin: var(--space-1) 0 var(--space-2); }
+.guest-role { color: var(--muted); font-size: var(--step--1); margin-bottom: var(--space-4); }
+.guest-role a { color: var(--coral-text); font-weight: 600; }
+.guest-label { font-family: var(--font-body); font-size: var(--step--2); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral-text); margin: var(--space-5) 0 var(--space-2); }
+.guest-card p, .guest-facts { font-size: var(--step--1); max-width: var(--measure); }
+.guest-quote { margin: 0 0 var(--space-3); padding-left: var(--space-4); border-left: 3px solid var(--gold); font-family: var(--font-display); font-style: italic; font-size: var(--step-0); color: var(--ink-deep); line-height: var(--leading-snug); }
+.guest-facts { margin: 0; padding-left: 1.2em; }
+.guest-facts li + li { margin-top: var(--space-2); }
+.guest-links { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-5); }
+.guest-link { font-size: var(--step--1); font-weight: 600; color: var(--ink-deep); text-decoration: none; padding: 0.4em 1em; border: 1px solid var(--line-gold); border-radius: 999px; background: var(--cream-soft); transition: background var(--dur-fast) var(--ease-out); }
+.guest-link:hover, .guest-link:focus-visible { background: var(--gold-soft); }
+.guest-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+.guest-actions .btn { margin: 0; }
+.guest-card .guest-sources { margin-top: var(--space-4); font-size: var(--step--2); color: var(--muted); }
+.guest-sources a { color: var(--muted); margin-right: 0.6em; }
+.guest-note { font-size: var(--step--1); color: var(--muted); max-width: var(--measure); }
+@media (max-width: 720px) { .guest-card { padding: var(--space-5) var(--space-4) var(--space-4); } .guest-actions .btn { width: 100%; justify-content: center; } }
+
 /* ---------- FAQ ---------- */
 .faq-list { max-width: 800px; margin: 0 auto; }
 .faq-item { border-bottom: 1px solid var(--line); }
