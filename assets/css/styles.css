@@ -1048,6 +1048,11 @@ body.nav-locked .p2p-mini { display: none; }
       linear-gradient(90deg, rgba(7,30,39,0.96) 0%, rgba(7,30,39,0.88) 26%, rgba(7,30,39,0.7) 42%, rgba(7,30,39,0.24) 58%, rgba(7,30,39,0) 74%),
       linear-gradient(180deg, rgba(7,30,39,0.5) 0%, rgba(7,30,39,0) 20%, rgba(7,30,39,0) 74%, rgba(7,30,39,0.35) 100%); }
   .page-hero.has-video .wrap > * { text-shadow: 0 1px 14px rgba(7,30,39,0.55); }
+  /* main.js adds .copy-out 5s after load: the copy and most of the scrim fade so the loop
+     plays clear; the trailer button (.mt-2) stays. Hover/focus brings the copy back. */
+  .page-hero.has-video .hero-scrim, .page-hero.has-video .wrap > * { transition: opacity 0.9s ease, transform 0.9s ease; }
+  .page-hero.has-video.copy-out .wrap > :not(.mt-2) { opacity: 0; transform: translateY(-8px); }
+  .page-hero.has-video.copy-out .hero-scrim { opacity: 0.3; }
   .page-hero.has-video .wrap > * { max-width: 600px; }
 }
 .page-hero.has-video .wrap > * { max-width: 640px; }
