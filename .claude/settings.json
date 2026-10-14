@@ -36,7 +36,12 @@
       "Bash(python3 tools/dropbox-put.py ls:*)",
       "Bash(python3 tools/dropbox-put.py mkdir:*)",
       "mcp__claude-code-remote__create_session",
-      "mcp__claude-code-remote__set_session_title"
+      "mcp__claude-code-remote__set_session_title",
+      "Bash(python3 tools/guest-sync.py:*)",
+      "WebSearch",
+      "WebFetch",
+      "Write(content/guests/**)",
+      "Edit(content/guests/**)"
     ],
     "ask": [
       "mcp__post_bridge_-_social_media_scheduler__delete_post",
