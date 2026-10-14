@@ -267,6 +267,19 @@ has a VideoObject (`_trailer_schema()`, uploadDate set). The reels and loops are
 `tools/sizzle/` (see its README: shot lists per reel, synthesized score, word-pop
 captions); social captions are in `content/social/p2p-sizzle-reels.md`.
 
+## Dave's Dad Jokes: every Friday (Nick, 2026-10-14)
+Every Pain 2 Power ends on Dave's dad joke. Each one is cut as its own vertical clip
+(`tools/sizzle/jokes.py`, one `reel_joke_<name>.py` per joke: pauses tightened, captions,
+rimshot on the punchline, "new dad joke every Saturday" end card) and posted **Fridays at
+12:00 PM ET** with the music version to Instagram, Facebook, YouTube Shorts and TikTok.
+Noon keeps it clear of the 9 AM daily episode clip. Uploaded straight to Post Bridge
+(`upload_media` with size_bytes, then curl PUT; no media branch needed). Backlog, scheduled
+2026-10-14: Bossy Lady (Ep 11) Oct 16, Grape (Ep 16) Oct 23, Kilometer (Ep 9) Oct 30,
+Breakthrough (Ep 15) Nov 6, Lawsuit (Ep 14) Nov 13. When a new episode lands, add its joke
+to `JOKES` and schedule it for the next open Friday. Instagram audio: a licensed song
+(Nick wanted "Beat It") can only be added in the Instagram app; the API cannot attach
+platform music, so a Reel that needs it is posted by hand from the `-nomusic` file.
+
 ## Location pages
 LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
 lake-park,palm-beach,west-palm-beach,riviera-beach}.html. Honest served-from-NPB content
