@@ -7,7 +7,7 @@
  ],
  "guest": "Elyse Marrone and Danielle Armstrong",
  "end_title": "NEW EPISODE  \u00b7  SATURDAY 8:30 AM",
- "_note": "Master times (edited multicam). Every line sits before the 20:35.7 outtake cut, so they equal the RAW mp3 times. Rev 2 (Nick, 2026-10-14: the Juno Beach line was not good enough): dropped Lolita/Juno Beach, added Dave's 30%, the Eve Gentry payoff and a title slam. Rev 3 (Nick, 2026-10-14): no zoom or push-in, top text higher. Rev 4: every name card in one fixed spot.",
+ "_note": "Master times (edited multicam). Every line sits before the 20:35.7 outtake cut, so they equal the RAW mp3 times. Rev 2 (Nick, 2026-10-14: the Juno Beach line was not good enough): dropped Lolita/Juno Beach, added Dave's 30%, the Eve Gentry payoff and a title slam. Rev 3 (Nick, 2026-10-14): no zoom or push-in, top text higher. Rev 4: every name card in one fixed spot. Rev 5 (Nick: where is Mike?): Mike McGann's 400,000 line added after the title slam, before Dave's 30%.",
  "moments": [
   {
    "a": 304.48,
@@ -67,6 +67,106 @@
   {
    "card": "BREAST CANCER  \u00b7  WHAT YOU CAN CONTROL",
    "d": 1.3
+  },
+  {
+   "a": 93.4,
+   "b": 96.75,
+   "fx": 0.57,
+   "fy": 0.32,
+   "z": 1.0,
+   "v": {
+    "fx": 0.56,
+    "fy": 0.32
+   },
+   "name": "MIKE MCGANN",
+   "sub": "CO-HOST, PAIN 2 POWER",
+   "words": [
+    [
+     93.46,
+     93.66,
+     "That's"
+    ],
+    [
+     93.66,
+     93.72,
+     "a"
+    ],
+    [
+     93.72,
+     94.0,
+     "horrifying"
+    ],
+    [
+     94.0,
+     94.36,
+     "number."
+    ],
+    [
+     94.54,
+     94.56,
+     "I"
+    ],
+    [
+     94.56,
+     94.82,
+     "mean"
+    ],
+    [
+     94.82,
+     95.68,
+     "400,000"
+    ],
+    [
+     95.68,
+     95.82,
+     "is"
+    ],
+    [
+     95.82,
+     95.9,
+     "a"
+    ],
+    [
+     95.9,
+     96.02,
+     "number."
+    ],
+    [
+     96.12,
+     96.18,
+     "It's"
+    ],
+    [
+     96.18,
+     96.24,
+     "hard"
+    ],
+    [
+     96.24,
+     96.32,
+     "to"
+    ],
+    [
+     96.32,
+     96.38,
+     "get"
+    ],
+    [
+     96.38,
+     96.48,
+     "your"
+    ],
+    [
+     96.48,
+     96.58,
+     "head"
+    ],
+    [
+     96.58,
+     96.74,
+     "around."
+    ]
+   ]
   },
   {
    "a": 671.2,
