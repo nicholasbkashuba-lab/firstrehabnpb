@@ -112,7 +112,83 @@
     "lastmod": "2026-10-14"
   },
   "guests.html": {
-    "hash": "3c46c64a3832e5de",
+    "hash": "b9887a3a58d59de3",
+    "lastmod": "2026-10-14"
+  },
+  "guests/arlosoroff.html": {
+    "hash": "f75e35d62da8031f",
+    "lastmod": "2026-10-14"
+  },
+  "guests/armstrong.html": {
+    "hash": "baaf56de9448abb7",
+    "lastmod": "2026-10-14"
+  },
+  "guests/butler.html": {
+    "hash": "7eed98ad1a1999e2",
+    "lastmod": "2026-10-14"
+  },
+  "guests/dorsey.html": {
+    "hash": "f46b49e8435f851d",
+    "lastmod": "2026-10-14"
+  },
+  "guests/elkhechen.html": {
+    "hash": "966ada48bd06f4be",
+    "lastmod": "2026-10-14"
+  },
+  "guests/goldberg.html": {
+    "hash": "09f636b89fba6ddb",
+    "lastmod": "2026-10-14"
+  },
+  "guests/goodwin.html": {
+    "hash": "aee36e4f50c64438",
+    "lastmod": "2026-10-14"
+  },
+  "guests/joyce.html": {
+    "hash": "31825487baef15e4",
+    "lastmod": "2026-10-14"
+  },
+  "guests/leighton.html": {
+    "hash": "a56a2b9efc713b65",
+    "lastmod": "2026-10-14"
+  },
+  "guests/mann.html": {
+    "hash": "a6ff815ecab4fc59",
+    "lastmod": "2026-10-14"
+  },
+  "guests/marrone.html": {
+    "hash": "28b81c85d8721b79",
+    "lastmod": "2026-10-14"
+  },
+  "guests/mcvicker.html": {
+    "hash": "5206ca8d14f20507",
+    "lastmod": "2026-10-14"
+  },
+  "guests/sabesan.html": {
+    "hash": "2b6de2190a98f1bb",
+    "lastmod": "2026-10-14"
+  },
+  "guests/saylor.html": {
+    "hash": "d1e8db21623747a8",
+    "lastmod": "2026-10-14"
+  },
+  "guests/simovitch.html": {
+    "hash": "b1b9bce60827c813",
+    "lastmod": "2026-10-14"
+  },
+  "guests/titheradge.html": {
+    "hash": "d340c39ac78afdf6",
+    "lastmod": "2026-10-14"
+  },
+  "guests/urakov.html": {
+    "hash": "a146e9db8b5fe1b7",
+    "lastmod": "2026-10-14"
+  },
+  "guests/van-sant.html": {
+    "hash": "d5510c7e8a28ede1",
+    "lastmod": "2026-10-14"
+  },
+  "guests/weiner.html": {
+    "hash": "4fa5f63a2c46599d",
     "lastmod": "2026-10-14"
   },
   "insurance.html": {
@@ -152,7 +228,7 @@
     "lastmod": "2026-10-14"
   },
   "podcast.html": {
-    "hash": "5496e7b7969d0f8f",
+    "hash": "d15977a3d7c2f2d2",
     "lastmod": "2026-10-14"
   },
   "services/hand-therapy.html": {

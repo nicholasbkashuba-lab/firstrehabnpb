@@ -65,5 +65,17 @@
   "instagram_handle": "pilateslifeflorida",
   "phone_on_air": "561-288-8151",
   "research_notes": "Identity confirmed: studio name, Northlake location (4360 Northlake Blvd, Palm Beach Gardens) and the 561-288-8151 number all match what she said on air, and the Team page names her as Owner/Operator. instagram_handle is the STUDIO account (pilateslifeflorida), not a personal one; no personal handle was found on the studio site, so none is given. Her site titles her 'Lolita San Miguel Pilates Second Generation Master Instructor, Lolita's Legacy Educator'; these are titles, not post-nominals, so credentials is empty. Her site spells the teacher 'Romana Kyrzanowska'; the episode blurb and standard spelling is 'Kryzanowska', used here. The bio's family details (spouse, children) are left out per the brief. The site's claim that Lolita San Miguel was 'one of two people' certified by Joseph Pilates is about Lolita, not Danielle, and is not used. On air she said Lolita turns 92 on October 9; not used in background. Health detail she shared on air (frozen shoulder treated by Dave) summarised only as 'first came to Dave as a patient'; drop that too if preferred.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/armstrong",
+    "source": "file:e18b.mp4@11.4s"
+  },
+  "clips": [
+    {
+      "youtube_id": "D7muc2ifZUA",
+      "title": "They told her she would never dance or do Pilates again.",
+      "posted": "2026-10-14"
+    }
+  ],
+  "category": "nutrition-wellness"
 }

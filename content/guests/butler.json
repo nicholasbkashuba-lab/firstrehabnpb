@@ -47,5 +47,11 @@
   "instagram_handle": "",
   "phone_on_air": "561-657-4670",
   "research_notes": "HSS writes 'Matthew A. Butler, MD'; he goes by Matt on the show. Identity confirmed by HSS Florida + hand and upper extremity specialty + the on-air phone number matching the HSS profile; the profile's structured data places the office in West Palm Beach. No Episode 16 transcript exists (the media/ep16-clips branch holds Goodwin's episode), so on_the_show is from the EPISODES blurb only. HSS's own copy calls the Indiana center 'renowned'; that word was dropped. No personal social accounts linked from the HSS profile (only HSS's institutional accounts).",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/butler",
+    "source": "https://www.hss.edu/globalassets/images/profiles/matthew-butler-headshot",
+    "credit": "HSS Florida"
+  },
+  "category": "shoulder-elbow-hand"
 }

@@ -47,5 +47,33 @@
   "instagram_handle": "",
   "phone_on_air": "",
   "research_notes": "Identity confirmed: HSS profile matches shoulder surgery, reverse shoulder replacement, Duke undergraduate (he describes a Duke anatomy elective on air) and a West Palm Beach practice. The episode does not name his practice on air. The Episode 8 transcript is machine transcribed clip text with no speaker labels, so the quote and the constant warrior attribution are from context (the guest answering the host's question); the quote is lightly punctuated from the ASR text. The HSS profile links only HSS institutional social accounts; no personal website or personal Instagram found, so none listed. The on air line about looking up his name and a website with exercises appears to be Dave speaking, so it was not attributed to him.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/simovitch",
+    "source": "https://www.hss.edu/globalassets/images/profiles/ryan-simovitch-headshot",
+    "credit": "HSS Florida"
+  },
+  "clips": [
+    {
+      "youtube_id": "nCVTbM1mYTs",
+      "title": "Dr. Ryan Simovitch on the constant warrior.",
+      "posted": "2026-08-02"
+    },
+    {
+      "youtube_id": "9JY7WTbPcRc",
+      "title": "There&rsquo;s no cookie cutter answer when it comes to shoulder replacement.",
+      "posted": "2026-08-02"
+    },
+    {
+      "youtube_id": "dbKj364_rNE",
+      "title": "When the rotator cuff can&rsquo;t hold a shoulder replacement stable, a standard implant tends to fail early.",
+      "posted": "2026-08-03"
+    },
+    {
+      "youtube_id": "r8uDq1MNENc",
+      "title": "Choosing the right provider matters as much as choosing the right treatment.",
+      "posted": "2026-08-06"
+    }
+  ],
+  "category": "shoulder-elbow-hand"
 }

@@ -46,10 +46,11 @@ d. Tell Nick in a few lines: "Episode NN is on Spotify: <url>" and/or "on YouTub
 JOB 3: A GUEST WITH NO PROFILE ON /guests.html
 Run `python3 tools/guest-sync.py check`. Exit 0 means every episode's guest has a profile; nothing to do. Otherwise, for each MISSING or PARTIAL episode (at most two guests per run, so one run cannot sprawl):
 a. Start from a fresh main: `git fetch origin main && git checkout -B guest-profiles origin/main`, re-run `check` (another run may have just done it).
-b. Follow `.claude/skills/podcast-guest/SKILL.md`: what they said on air from the EPISODES blurb and the episode transcript, who they are from their own public pages, links only when provably theirs. Write `content/guests/<slug>.json`.
+b. Follow `.claude/skills/podcast-guest/SKILL.md`: what they said on air from the EPISODES blurb and the episode transcript, who they are from their own public pages, links only when provably theirs, a headshot via `tools/guest-photo.py` (their practice headshot first, else a still from our footage, else initials). Write `content/guests/<slug>.json`.
 c. `python3 tools/guest-sync.py validate` must print ok for every file, then `python3 build.py`.
-d. Push to main ONLY if validate passes, the build prints no new warnings, and the diff is limited to content/guests/, build output (*.html, sitemap.xml, sitemap-dates.json, llms.txt). Otherwise push the `guest-profiles` branch and tell Nick what failed.
+d. Push to main ONLY if validate passes, the build prints no new warnings, and the diff is limited to content/guests/, assets/guests/, build output (*.html, guests/*.html, sitemap.xml, sitemap-dates.json, llms.txt). Otherwise push the `guest-profiles` branch and tell Nick what failed.
 e. Tell Nick in a few lines: who you added, the link https://www.firstrehabnpb.com/guests.html#<slug>, and any verified Instagram handle (he confirms it before a clip post tags it).
+Every run, also `python3 tools/guest-sync.py clips --write`: new Shorts on the channel that name a guest go onto that guest's profile. If it added any, validate, build and push the same way (no message to Nick needed for clips alone).
 Also run `python3 tools/guest-sync.py stale --days 180`; if it lists anyone, refresh the OLDEST one only, the same way, bumping `researched`.
 
 RULES: never invent a link, a video id or an uploadDate; an absent link is correct until the platform has it. Zero dashes in anything written for a post. Never post to LinkedIn personal 81320. Never touch clip scheduling; the daily poster owns it.

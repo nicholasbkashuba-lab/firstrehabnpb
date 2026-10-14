@@ -53,5 +53,38 @@
   "instagram_handle": "",
   "phone_on_air": "",
   "research_notes": "NAME: her own site and CBS12 write 'Sue Mann'; the show and EPISODES call her 'Susan Mann'. Per the brief, name is set to the site's 'Sue Mann'; switch to 'Susan Mann' if the page should match the episode list. Not a clinician; no credentials recorded and none appear on her site. The retired San Francisco police officer detail is from the transcript only (her site does not mention it), so it sits in on_the_show, not background. Her site gives no city; Palm Beach Gardens comes from the CBS12 dateline and her own on-air description of the program she is setting up there. CBS12 calls her CEO, her site calls her Founder and President; the site's title is used. A third-party podcast page (rss.com 501cTV) says the nonprofit began in 2020 but was not opened, so the founding year is left out. No Instagram found linked from her site. The site lists a phone (561-707-3357) but it was not given on air, so phone_on_air is blank. Her own site and CBS12 write \"Sue Mann\"; the show, Spotify and YouTube bill her as Susan Mann, which is used here.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/mann",
+    "source": "https://brightmindsprocessing.org/img/sue-mann-team.jpg",
+    "credit": "Bright Minds Processing"
+  },
+  "clips": [
+    {
+      "youtube_id": "InuZ-wKSbcY",
+      "title": "They were super smart, and everyone said they were gifted.",
+      "posted": "2026-09-13"
+    },
+    {
+      "youtube_id": "9H6IK9HKpEE",
+      "title": "It is like the movie Coach Carter.",
+      "posted": "2026-09-21"
+    },
+    {
+      "youtube_id": "exypbgVp-X4",
+      "title": "It is one in four children.",
+      "posted": "2026-09-23"
+    },
+    {
+      "youtube_id": "B1lB7orfOjk",
+      "title": "You go in once a week.",
+      "posted": "2026-09-25"
+    },
+    {
+      "youtube_id": "40tEm8Dlf6M",
+      "title": "She put everything on the line.",
+      "posted": "2026-10-01"
+    }
+  ],
+  "category": "community"
 }

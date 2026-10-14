@@ -47,5 +47,11 @@
   "instagram_handle": "",
   "phone_on_air": "",
   "research_notes": "No transcript file was found for Episode 6 (no media branch for it). on_the_show draws on the EPISODES blurb plus the two existing site blog posts written from the Episode 6 transcript (knee-arthritis-before-surgery and the partial vs total knee post in build.py), which quote him directly; the quote is taken from those posts, not checked against a transcript in this session. 'Worked alongside Dave since 1990' also comes from the knee-arthritis post. The 40% / 10% partial knee figures also appear on his practice page. The EPISODES blurb calls him 'world-renowned' and says 35+ years in practice; his practice page says over 30 years. Identity confirmed: hip and knee replacement surgeon, engineering and medicine at Penn (exact match to the blurb), Orthopaedic Care Specialists, 733 US Highway 1, North Palm Beach, the same building as First Rehabilitation. No personal site or social accounts found; the practice site links none.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "category": "orthopedic-surgery",
+  "photo": {
+    "src": "assets/guests/weiner",
+    "source": "https://orthocarefl.com/wp-content/uploads/2024/01/RICHARD-L.-WEINER-M.D.jpg",
+    "credit": "Orthopaedic Care Specialists"
+  }
 }

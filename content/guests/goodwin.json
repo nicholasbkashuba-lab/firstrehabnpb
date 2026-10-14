@@ -43,5 +43,37 @@
   "instagram_handle": "",
   "phone_on_air": "561-841-8588",
   "research_notes": "Identity confirmed: Tampa General's Oct 2022 press release quotes 'Dr. Donald Goodwin, radiologist and co-founder of Palm Beach Radiology' and gives the center's phone as 561-841-8588, the same number he gave on air. '2007' matches Dave's on-air account. 'MD' is from the show's label and third-party directories (Sharecare/Vitals); neither TGH page writes his post-nominals, so treat it as unconfirmed by an official source. The '50 years' figure is Dave's on air, attributed as such. Education (Sharecare lists University of Miami) and board certification come only from directories, so they are left out. No individual TGH Imaging physician profile found (tghimaging.com location pages are script-rendered). The Wellington the Magazine piece is a reprint of the TGH announcement in a local magazine; it is the only page I opened that names the three physicians (Goodwin, Walter Forman, Robert Stickle); the TGH release itself does not list them.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/goodwin",
+    "source": "file:e17.mp4@17.2s"
+  },
+  "clips": [
+    {
+      "youtube_id": "MKTVy0PTEEw",
+      "title": "You can miss up to 60% of the cancers under 10 millimeters.",
+      "posted": "2026-10-05"
+    },
+    {
+      "youtube_id": "CxlqpZO4rqk",
+      "title": "About two months of walking around on earth.",
+      "posted": "2026-10-07"
+    },
+    {
+      "youtube_id": "p_RNIdQeL9s",
+      "title": "Men get breast cancer.",
+      "posted": "2026-10-09"
+    },
+    {
+      "youtube_id": "T1Kcy0Zu5dI",
+      "title": "15 per thousand.",
+      "posted": "2026-10-11"
+    },
+    {
+      "youtube_id": "qUYv1a3Efqk",
+      "title": "In the 80s and 90s, about 95% of breast surgeries were for benign disease.",
+      "posted": "2026-10-13"
+    }
+  ],
+  "category": "other-specialists"
 }

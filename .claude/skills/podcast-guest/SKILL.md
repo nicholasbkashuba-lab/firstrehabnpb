@@ -1,6 +1,6 @@
 ---
 name: podcast-guest
-description: Research a Pain 2 Power guest and add or refresh their profile on firstrehabnpb.com/guests.html — background from the episode and from their own public pages, credentials, practice, and verified website and social links. Use when tools/guest-sync.py check reports a missing guest, when the episode watcher routine hands off a new guest, or when Nick says "add the guest", "guest page", "update <guest>'s profile", "link their socials", or "research the guest".
+description: Research a Pain 2 Power guest and add or refresh their profile page (firstrehabnpb.com/guests/<slug>.html, listed on /guests.html) — background from the episode and from their own public pages, credentials, practice, verified website and social links, a headshot (their practice photo, else a still from our footage), and their clips. Use when tools/guest-sync.py check reports a missing guest, when the episode watcher routine hands off a new guest, or when Nick says "add the guest", "guest page", "update <guest>'s profile", "link their socials", or "research the guest".
 ---
 
 # Pain 2 Power guest profile
@@ -27,8 +27,22 @@ is fine. A wrong fact is not.** When in doubt, leave it out and say so in `resea
    WebFetch. Open each page you cite; a fact goes in only if you saw it on that page.
 4. Write `content/guests/<slug>.json` (shape below). Slug = lowercase last name.
 5. `python3 tools/guest-sync.py validate content/guests/<slug>.json` until it prints `ok`.
-6. `python3 build.py`, then look at the guest's card in guests.html.
-7. If you verified an Instagram handle, note it for the clip collaborator step in
+6. **Photo.** First `python3 tools/guest-photo.py site <slug>`: it reads the profile and
+   website links already in the file, pulls the og:image and any image naming the guest, and
+   writes `/tmp/guest-photo/<slug>/sheet.jpg`. LOOK at the sheet: reject stock art, logos
+   and group shots, then `python3 tools/guest-photo.py set <slug> <n>` (the credit, their
+   practice name, is recorded and shown on the profile). No usable headshot: fall back to
+   `frames <slug>` (our episode's YouTube frames; add `--video <clip.mp4>` for a clip off the
+   media branch) and pick the face that is the guest, never a host or a co-guest. Never a
+   generated image or a TV network/agency photo. Nothing usable: leave `photo` out and the
+   page shows initials. Staff use `{"registry": "team-<name>"}`. Face detection wants
+   `pip install "opencv-python-headless<5"` (5.x dropped the detector); without it, pass
+   `--image <file> --box x,y,w,h`.
+7. **Clips.** `python3 tools/guest-sync.py clips --write` adds every Short in the channel feed
+   whose description names the guest. The feed holds the newest 15 uploads only, so run it
+   every day; older clips came from Post Bridge `list_post_results` (YouTube result id).
+8. `python3 build.py`, then look at `guests/<slug>.html` and the guest's card on guests.html.
+9. If you verified an Instagram handle, note it for the clip collaborator step in
    `pain2power-episode`. It still goes to Nick to confirm before a post uses it: a wrong
    handle fails the whole post on every platform.
 
@@ -85,6 +99,12 @@ rest of the site. `on_the_show` is 50 to 110 words; `headline` at most 70 charac
   "researched": "YYYY-MM-DD"
 }
 ```
+
+Also: `"category"` (one of orthopedic-surgery, shoulder-elbow-hand, other-specialists,
+nutrition-wellness, community, our-team; GUEST_CATEGORIES in build.py), `"photo"` (written
+by guest-photo.py), `"clips"` (`[{"youtube_id", "title", "posted"}]`, written by
+`guest-sync.py clips`), and optional `"also_known_as"` (names the clip descriptions use,
+e.g. `["Captain Kerry"]`).
 
 `honorific` is `""`, `"Dr."` or `"Captain"`. `credentials` exactly as the guest's own site
 writes them. Link `type` is one of website, profile, instagram, facebook, linkedin, x,
