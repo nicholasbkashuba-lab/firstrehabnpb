@@ -243,6 +243,10 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `/services/occupational-therapy.html` (page) | Occupational Therapy | adds return to work and ergonomics depth for working-age patients (1,168 -> 1,372 words), pointing claim questions at the workers' comp page so the two do not compete |
 | `/services/wellness.html` (page) | Wellness | balance and fall prevention / senior functional fitness. New section 2026-10-14 (565 -> 1,051 words). Still no prices, memberships or schedules |
 | `strength-training-after-60-fall-prevention` (update) | Wellness | gained "What a fall prevention evaluation looks for" and the Medicare maintenance point, 2026-10-14 (1,018 -> 1,158 words) |
+| `/treatments/headache-relief.html` (page) | Physical Therapy | chronic headache treatment North Palm Beach / cervicogenic headache / whiplash headache. Deepened 2026-10-14 (313 -> 1,488 words): answer-first opener, question h3s, a when-to-get-care table, links the headache post rather than repeating it |
+| `/treatments/knee-pain.html` (page) | Physical Therapy | knee pain treatment North Palm Beach / knee arthritis / meniscus / knee replacement rehab. Deepened 2026-10-14 (334 -> 1,504 words) with Pain 2 Power surgeon quotes; links the knee arthritis, knee replacement and cartilage transplant posts |
+| `/treatments/hip-pain.html` (page) | Physical Therapy | hip pain treatment North Palm Beach and West Palm Beach / labral tear / hip replacement rehab. Deepened 2026-10-14 (328 -> 1,455 words) with McVicker and Leighton quotes; links the hip impingement post and the Episode 10 recap |
+| `/services/hand-therapy.html` (page, practitioner fix) | Hand Therapy | certified hand therapist near me / hand therapist near me. 2026-10-14: answer-first intro naming Laura Drumm, CHT, three practitioner h3s and a who-does-what table (1,308 -> 1,655 words). Six internal anchors that said "hand therapy" now say "certified hand therapist" and point here, so `/locations/west-palm-beach.html` (ranking 50 to 80 for these) stops competing |
 
 ## Title changes, 2026-10-14 (GSC deep dive)
 
@@ -257,8 +261,12 @@ change them again before that read.
 | `/treatments/back-pain.html` | Low Back Pain Treatment in North Palm Beach \| First Rehab | Low Back Pain & Sciatica Treatment \| North Palm Beach | 6 North Palm Beach back queries, 191 impr, pos 6.5, 0 clicks |
 | `/treatments/auto-accident.html` | Auto & Car Accident Physical Therapy \| North Palm Beach | Car Accident Rehab & PIP Physical Therapy \| North Palm Beach | 229 impr, pos 21.0, 0 clicks |
 | `/treatments/workers-comp.html` | Workers' Comp Rehab in North Palm Beach \| First Rehabilitation (generated, 67 chars) | Work Injury Rehab & Workers' Comp Therapy \| North Palm Beach | 181 impr, pos 39.8, 0 clicks |
+| `/treatments/headache-relief.html` (second pass, same day) | Headache Treatment in North Palm Beach \| First Rehab | Chronic Headache Treatment in North Palm Beach \| First Rehab | homepage answering North Palm Beach headache queries at 4.1 to 8.6 instead of this page |
+| `/treatments/hip-pain.html` (second pass, same day) | Hip Pain Relief in North Palm Beach \| First Rehabilitation (generated) | Hip Pain & Labral Tear Treatment \| North Palm Beach | "hip pain treatment west palm beach" 134 impr split between old `/blank-2` (75) and this page (58) |
 
-Descriptions changed on the same four pages (all 150 to 160 characters, phone number kept).
+Descriptions changed on the same four pages (all 150 to 160 characters, phone number kept),
+and on headache, knee and hip in the second pass (152 to 163 characters). Knee kept its title;
+the H1s, and the hip page's name "Hip Pain Relief", did not change.
 `/exercises.html` changed its description only, for accuracy: it called Dr. Kashuba a
 physical therapist. **Not changed on purpose:** `/insurance.html`, so the Medicare guide in
 PR #104 can be measured on the two Medicare queries (baseline in the deep dive, section 3).

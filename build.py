@@ -1225,7 +1225,10 @@ SERVICES = {
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
-        "intro": "Led by Laura Drumm, MS, OTR/L, CHT, CLT, a certified hand therapist who is also a certified lymphedema therapist, our hand therapy program brings surgical-grade precision to rehabilitation of the hand, wrist, and upper extremity. From custom-fabricated splints to post-operative tendon protocols, every detail of care is tailored to the fine mechanics of how you grip, pinch, lift, and live.",
+        # Answer-first, 2026-10-14: "hand therapist" (263 impr, pos 30.8) and "hand
+        # therapist near me" are practitioner searches, so the opener names the
+        # practitioner and what she treats before anything else.
+        "intro": "Our certified hand therapist, Laura Drumm, MS, OTR/L, CHT, CLT, treats the hand, wrist, elbow and forearm at our North Palm Beach clinic: carpal tunnel, arthritis, tendon repairs, fractures and the weeks after hand surgery, with custom splints made right here in the clinic. She is also a certified lymphedema therapist, and the program brings surgical-grade precision to every stage, from post-operative tendon protocols to the grip, pinch and dexterity you need back.",
         "items": [
             ("Carpal Tunnel &amp; Nerve Conditions", "Conservative and post-surgical care for nerve compression, with activity modification that lasts."),
             ("Arthritis Management", "Joint protection strategies, adaptive techniques, and pain-relieving modalities for arthritic hands."),
@@ -1447,7 +1450,47 @@ def build_services():
                  "protected motion within days, others need a period of immobilization first. We work from that "
                  "protocol and coordinate with their office directly, so send us your surgery details before or "
                  "just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule."),
+                # Added 2026-10-14 (GSC deep dive, item 3): the practitioner searches
+                # ("hand therapist", "certified hand therapist near me", "hand
+                # therapists near me") were splitting between this page and the West
+                # Palm Beach location page, which ranked 50 to 80 for the near-me
+                # forms. These blocks make this page say plainly who the hand
+                # therapist is, where, and how to start. Facts restate the
+                # hand-therapy FAQ category and TEAM; nothing new is claimed.
+                ("Who your hand therapist is",
+                 "Laura Drumm, MS, OTR/L, CHT, CLT leads our hand therapy program. The OTR/L means she is a "
+                 "licensed occupational therapist. The CHT is the Certified Hand Therapist credential, which takes "
+                 "thousands of hours of specialized upper-extremity practice and a rigorous national exam, and it is "
+                 "the credential area hand surgeons look for when they refer a patient after surgery. The CLT means "
+                 "she is also a certified lymphedema therapist."),
+                ("Finding a hand therapist near North Palm Beach",
+                 "We have one location, at 733 US Highway 1, Suite 2A in North Palm Beach, and patients come to it "
+                 "for hand therapy from across Palm Beach County, including "
+                 "<a href=\"../locations/palm-beach-gardens.html\">Palm Beach Gardens</a>, "
+                 "<a href=\"../locations/jupiter.html\">Jupiter</a> and "
+                 "<a href=\"../locations/west-palm-beach.html\">West Palm Beach</a>. Ours is one of the area's "
+                 "few certified hand therapy programs. Hours are Monday to Friday, 8:00 AM to 5:30 PM, and Saturday, 8:00 AM to 12:30 PM."),
+                ("Do I need a referral to see a hand therapist?",
+                 "It depends on your plan. After hand surgery you will usually arrive with a referral and a protocol "
+                 "from your surgeon already. If you are coming on your own for something like carpal tunnel or thumb "
+                 "arthritis, call 561-624-4263 and our front desk will check whether your plan needs a referral and "
+                 "help arrange one. Before your first visit they verify your Medicare or commercial benefits, "
+                 "including how your plan handles a custom splint."),
                 ],
+                "extra": '''
+      <div class="data-table" tabindex="0" role="region" aria-label="Who does what in hand care">
+        <table>
+          <caption>How hand care splits between a surgeon and the therapists at our clinic, as described on our hand therapy and occupational therapy pages.</caption>
+          <thead><tr><th scope="col">Who</th><th scope="col">What they do for your hand</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hand surgeon</th><td>Operates when surgery is needed and sets the post-operative protocol</td></tr>
+            <tr><th scope="row">Certified hand therapist</th><td>Rehabilitates the hand, wrist, forearm and elbow, makes custom splints in the clinic, and stages motion to the surgeon's protocol</td></tr>
+            <tr><th scope="row">Occupational therapist</th><td>Turns restored motion into daily use: dressing, cooking, work tasks and the tools you use</td></tr>
+            <tr><th scope="row">Physical therapist</th><td>Works on movement, strength and pain elsewhere in the body when the injury reaches past the arm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      ''',
             },
             # Added 2026-09-18. The Search Console pull for the 90 days to
             # 2026-09-15 found 751 impressions and ZERO clicks across 35
@@ -1511,7 +1554,7 @@ def build_services():
                 ("Hand and upper-extremity function",
                  "Fine-motor and functional-use training runs alongside our certified hand therapy program, "
                  "so a patient whose hand is the limiting factor gets both: the protocol-driven hand work "
-                 "from Laura Drumm, CHT, and the daily-function retraining that turns restored motion into "
+                 "from Laura Drumm, CHT, our <a href=\"hand-therapy.html\">certified hand therapist</a>, and the daily-function retraining that turns restored motion into "
                  "a usable hand. Few clinics in the county can put both in the same building."),
                 ("Cognitive rehabilitation",
                  "Memory, attention, sequencing and problem-solving are as much a part of safe independent "
@@ -1587,7 +1630,7 @@ def build_services():
     <div class="prose reveal">
       <h2>{_d["h2"]}</h2>
       <p>{_d["intro"]}</p>
-      {_blocks}</div>
+      {_blocks}{_d.get("extra", "")}</div>
   </div>
 </section>'''
 
@@ -1799,8 +1842,11 @@ CONDITIONS = {
         "approach": "We progress you deliberately: restoring pain-free range first, then rebuilding rotator cuff and scapular strength, then returning you to overhead reaching, lifting, sport, and sleep without guarding. Post-surgical patients follow protocols coordinated with their surgeon.",
     },
     "knee-pain": {
+        # seo_title / seo_desc / answer added 2026-10-14 (depth pass on striking-distance
+        # condition pages; see docs/GSC-DEEP-DIVE-2026-10.md and SEO-KEYWORDS.md).
         "seo_title": "Knee Pain Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Knee arthritis, meniscus and ACL injuries, and knee replacement rehab in North Palm Beach. One-on-one physical therapy, Medicare accepted. Call 561-624-4263.",
+        "seo_desc": "Knee arthritis, meniscus and ACL injuries, runner's knee and knee replacement rehab. One-on-one assessment and therapy in North Palm Beach. Call 561-624-4263.",
+        "answer": "Most knee pain, from arthritis, meniscus and ligament injuries and runner's knee to the months after a knee replacement, is treated with one-on-one physical therapy: hands-on work for a stiff joint, strength for the quadriceps, hips and glutes that carry the knee, and practice on stairs and walks. At our North Palm Beach clinic that treatment usually starts at your first visit.",
         "name": "Knee Pain Relief",
         "area": "Knee",
         "lede": "From arthritis to ACL recovery — rebuild strong, confident knees.",
@@ -1809,11 +1855,16 @@ CONDITIONS = {
         "approach": "Expect progressive strengthening of the quadriceps, hips, and glutes, manual therapy for joint mobility, and functional retraining for stairs, walking distance, and return to activity. Joint replacement patients follow a structured pathway from first bend to full stride.",
     },
     "hip-pain": {
+        # seo_title / seo_desc / answer added 2026-10-14 (depth pass on striking-distance
+        # condition pages; see docs/GSC-DEEP-DIVE-2026-10.md and SEO-KEYWORDS.md).
+        "seo_title": "Hip Pain & Labral Tear Treatment | North Palm Beach",
+        "seo_desc": "Physical therapy for hip pain, bursitis, labral tears, arthritis and hip replacement rehab in North Palm Beach, near West Palm Beach. Call 561-624-4263.",
+        "answer": "Most hip pain, from bursitis on the outside of the hip to a labral tear, arthritis or the weeks after a hip replacement, is treated with one-on-one physical therapy: restore hip motion, strengthen the glutes and deep stabilizers, and retrain the way you walk. Hip pain often passes for back pain, so the evaluation at our North Palm Beach clinic checks both.",
         "name": "Hip Pain Relief",
         "area": "Hip &amp; Pelvis",
         "lede": "Restore pain-free walking, standing, and living with targeted hip rehabilitation.",
         "intro": "Hip pain can masquerade as back pain, groin pain, or thigh pain — and vice versa. Our evaluation sorts out the true source, then treats it with the strength and mobility work the hip responds to best.",
-        "treats": ["Hip osteoarthritis", "Total hip replacement rehabilitation", "Bursitis and tendinopathy", "Labral irritation", "Groin and hip flexor strains", "Gait and balance dysfunction"],
+        "treats": ["Hip osteoarthritis", "Total hip replacement rehabilitation", "Bursitis and tendinopathy", "Labral irritation and tears", "Groin and hip flexor strains", "Gait and balance dysfunction"],
         "approach": "Care centers on restoring hip mobility, strengthening the glutes and deep stabilizers, and retraining walking mechanics. For hip replacement patients, we manage precautions early and build steadily toward confident, unassisted movement.",
     },
     "foot-pain": {
@@ -1840,11 +1891,14 @@ CONDITIONS = {
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
         "intro": "Few areas of the body demand more specialized rehabilitation than the hand. Our certified hand therapy program — led by Laura Drumm, CHT — provides precise, protocol-driven care for conditions and surgeries of the hand, wrist, and forearm, including custom splinting fabricated in-clinic. Patients travel to us from across the county for this specialty, including <a href=\"../locations/west-palm-beach.html\">West Palm Beach</a> and <a href=\"../locations/palm-beach.html\">Palm Beach</a>.",
         "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation"],
-        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. See our <a href=\"../services/hand-therapy.html\">certified hand therapy program</a> for the full condition-by-condition detail.",
+        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. Our <a href=\"../services/hand-therapy.html\">certified hand therapist</a> page has the full condition-by-condition detail.",
     },
     "headache-relief": {
-        "seo_title": "Headache Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "Most stubborn headaches start in the neck. We treat cervicogenic and tension headaches at the source with manual therapy and posture work. 561-624-4263.",
+        # seo_title / seo_desc / answer added 2026-10-14 (depth pass on striking-distance
+        # condition pages; see docs/GSC-DEEP-DIVE-2026-10.md and SEO-KEYWORDS.md).
+        "seo_title": "Chronic Headache Treatment in North Palm Beach | First Rehab",
+        "seo_desc": "Physical therapy for headaches that start in the neck: tension-type, cervicogenic and whiplash headaches, treated one-on-one in North Palm Beach. 561-624-4263.",
+        "answer": "Headaches that start in the neck, including tension-type and cervicogenic headaches and headaches after whiplash or a concussion, are treated well with one-on-one physical therapy. Treatment frees the stiff joints and tight muscles at the top of the neck, then works on the posture and strength that let the tension rebuild. At our North Palm Beach clinic that care usually starts at your first visit.",
         "name": "Headache Relief",
         "area": "Head &amp; Neck",
         "lede": "Physical therapy for cervicogenic headaches and tension-type headaches that start in the neck.",
@@ -2118,6 +2172,87 @@ def build_conditions():
       </div>
       ''',
             },
+            # headache-relief: deepened 2026-10-14 (GSC depth pass). Same content rules as
+            # neck-pain: restates site facts and Pain 2 Power transcripts only.
+            "headache-relief": {
+                "h2": "Headache treatment questions, answered",
+                "intro": "These are the practical questions people in North Palm Beach ask us about headaches, from what we treat to what helps between visits. For the longer explanation of how a stiff neck turns into head pain, read <a href=\"../blog/headaches-that-start-in-the-neck.html\">The Headache That Starts in Your Neck</a>.",
+                "blocks": [
+                ("Which headaches do you treat?",
+                 "Headaches that come from the neck. That means cervicogenic headaches, which are driven by the joints and tissues at the top of the spine, and tension-type headaches, which tend to feel like a tight band around the head. It also means headaches after whiplash or a concussion, once a physician has seen you, and the jaw and posture habits that feed head pain. Plenty of people have a mix of these. The evaluation sorts out how much of yours is coming from the neck before anything is treated."),
+                ("Do you treat migraines?",
+                 "Migraine itself, along with its diagnosis and any medication for it, stays with your physician. Our part is the neck, when it is one of the things that sets a migraine off: stiff joints at the top of the spine, tight muscles running from the shoulders into the base of the skull, and long hours held in one position. Tell us what your doctor has diagnosed and what you take. We treat the part that belongs to us and leave your medication plan exactly as your physician set it."),
+                ("How can I tell if my headache is coming from my neck?",
+                 "On your own, you can only collect clues. A headache that starts at the base of the skull or on one side, builds through the afternoon, gets worse after a desk day or a long drive on I-95, and eases when you stand up and move makes the neck a suspect, especially with a stiff neck or sore shoulders alongside. <a href=\"../blog/headaches-that-start-in-the-neck.html\">Our headache article</a> sets those patterns out in a table. The evaluation is where we check them. If neck pain is the bigger complaint, start with our <a href=\"neck-pain.html\">neck pain treatment</a> page."),
+                ("What happens at my first visit?",
+                 "Plan on about an hour, one-on-one with your therapist. We start with your story: when the headaches come, which side, what you were doing beforehand and what helps. Then we watch how your neck moves and measure motion, strength and the positions that bring the pain on. Treatment usually begins the same day. On Episode 10 of Pain 2 Power, Dr. Dave Kashuba, Ph.D., OTR, described the clinic this way: &ldquo;we try to take each person individually and figure out a game plan for them.&rdquo; The <a href=\"../first-visit.html\">first visit page</a> covers what to bring."),
+                ("What does treatment involve?",
+                 "Usually two parts. First, skilled <a href=\"../glossary.html#manual-therapy\">manual therapy</a>: your therapist finds the stiff or irritable joints at the top of the neck and uses gentle techniques to restore how they move, while easing the muscles guarding around them. Second, the reasons the tension keeps rebuilding. That means strengthening for the deep neck flexors and upper back, plus coaching on your desk setup and the way you sleep. If your jaw is part of the picture, we look at that too. The plan changes as you respond."),
+                ("What can I do between visits?",
+                 "Your home program, done the way you were shown. Two staples of our neck programs are on the <a href=\"../exercises.html#shoulder\">home exercises page</a>: scapular retractions and shoulder shrugs, three sets of ten, because both work against the forward head posture that keeps the upper neck loaded. The <a href=\"../exercises.html#everyday\">everyday movement</a> list matters just as much. Put the phone down, get up and walk, and stretch before the day starts. Dave is plain about the goal. On Episode 8 he said, &ldquo;I do everything I can to let people not ever come to see me.&rdquo;"),
+                ("How many visits will I need?",
+                 "It depends on what is driving the headaches and how long you have had them. After your evaluation your therapist proposes a visit frequency and honest milestones, then reassesses as you go, so you are never attending sessions you don't need. When the neck is the driver, treating it can reduce how often the headaches come and how hard they hit. Jot down when each headache starts and what you were doing beforehand. A few weeks of those notes lets you and your therapist compare instead of guess."),
+                ("When does a headache need a doctor first?",
+                 "Some headaches are emergencies. A sudden, severe headache that feels like the worst of your life needs urgent medical care, and so does one with fever, confusion, vision loss, weakness, numbness or trouble speaking, or one that follows a significant blow to the head. A headache that is new, or different from your usual pattern, should be checked by a physician before therapy. The same goes after a car accident or a concussion: a physician first, and in Florida within 14 days of a crash if personal injury protection is going to pay. Our <a href=\"auto-accident.html\">car accident rehab</a> page explains that rule."),
+                ("Do I need a referral, and will insurance cover it?",
+                 "In most cases Florida's direct access law lets you begin a physical therapy evaluation without a physician referral. Some plans still require one for coverage, and Medicare requires a physician to certify your plan of care. Before your first visit our front desk verifies your Medicare or commercial benefits and tells you what your plan needs. After a car accident, physical therapy is follow-up care on your physician's referral. Our <a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> explains deductibles and coinsurance."),
+                ],
+                "extra": "\n      <div class=\"data-table\" tabindex=\"0\" role=\"region\" aria-label=\"Where to start with a headache\">\n        <table>\n          <caption>Where to start with a headache, and what therapy does about it. Drawn from the conditions we treat and the red flags in our headache article. Use it to decide who to call first; your physician or your evaluation decides the rest.</caption>\n          <thead><tr><th scope=\"col\">Your headache</th><th scope=\"col\">Where to start</th><th scope=\"col\">Our part</th></tr></thead>\n          <tbody>\n            <tr><th scope=\"row\">Cervicogenic: starts in the neck, often on one side</th><td>An evaluation with us</td><td>Manual therapy for the upper neck, then strength and posture work</td></tr>\n            <tr><th scope=\"row\">Tension-type: a tight band around the head</th><td>An evaluation with us</td><td>The same plan, plus coaching on your desk setup and sleep position</td></tr>\n            <tr><th scope=\"row\">Jaw or posture feeding the head pain</th><td>An evaluation with us</td><td>Part of the evaluation and the plan</td></tr>\n            <tr><th scope=\"row\">After whiplash or a concussion</th><td>A physician first; after a crash, within 14 days for PIP</td><td>Gentle care on referral, building as you recover</td></tr>\n            <tr><th scope=\"row\">Migraine</th><td>Your physician, who manages the diagnosis and medication</td><td>Neck-related triggers, alongside your physician's care</td></tr>\n            <tr><th scope=\"row\">New, or different from your usual pattern</th><td>Your physician first</td><td>Treatment once the serious causes are ruled out</td></tr>\n            <tr><th scope=\"row\">Sudden and severe, or with fever, confusion, vision loss, weakness, numbness or trouble speaking</th><td>Emergency care now</td><td>None until a physician has seen you</td></tr>\n          </tbody>\n        </table>\n      </div>\n      ",
+            },
+            # knee-pain: deepened 2026-10-14 (GSC depth pass). Same content rules as
+            # neck-pain: restates site facts and Pain 2 Power transcripts only.
+            "knee-pain": {
+                "h2": "Knee pain questions, answered",
+                "intro": "These are the knee questions we hear most at our North Palm Beach clinic, some of them answered on air by surgeons on our Pain 2 Power show. Your own answers come from your evaluation.",
+                "blocks": [
+                ("Can physical therapy help knee arthritis?",
+                 "Usually, and it is where care starts. Osteoarthritis is the most common cause of the knee pain we see, and Dave has found it in patients as young as their mid-thirties. Orthopedic surgeon Dr. Richard Weiner, M.D., was plain about the order on Episode 6: &ldquo;Surgery is the last resort,&rdquo; he said. &ldquo;The first thing is conservative treatment.&rdquo; Therapy sits high on his list because &ldquo;you need to have strong muscles to stabilize the knee to have fewer symptoms.&rdquo; His whole ladder is in <a href=\"../blog/knee-arthritis-before-surgery.html\">Knee Pain: What to Try Before You Think About Surgery</a>."),
+                ("What about a torn meniscus or a ligament injury?",
+                 "ACL, MCL and meniscus injuries are among the knee problems we treat, before surgery and after it. For a fresh twist, sports medicine surgeon Dr. Rami Elkhechen, M.D., told listeners on Episode 7 to give it a few days of rest and ice. If the pain settles, you likely don't need an office visit. If it lingers, come in. Before an ACL operation he has patients strengthen the quadriceps and hip abductors. If imaging shows one small damaged patch of cartilage, read <a href=\"../blog/cartilage-transplant-knee-explained.html\">Cartilage Transplants: Rebuilding a Knee Instead of Replacing It</a>."),
+                ("What is runner's knee?",
+                 "It's the everyday name for patellofemoral pain, kneecap pain that is common in runners and non-runners alike. The vastus medialis, on the inside of the knee, helps track the kneecap, so Dave strengthens the whole quadriceps and works the muscles above and below the joint, glutes and calves included. Dave described many of his patients as &ldquo;building up their knee, building up their ankle to go back running, playing sports.&rdquo; If your mornings on A1A end with an aching knee, that is the goal we build toward."),
+                ("What does a knee assessment look at?",
+                 "Plan on about an hour, one-on-one. We start with your history: what hurts, when, and what it stops you doing. Then we watch you walk and climb a step, measure how far the knee bends and straightens and how strong the muscles around it are, and check the hips and ankles that share the load. Bring any imaging, though Dr. Weiner's rule applies: &ldquo;you don't treat an X-ray, you treat the patient.&rdquo; Treatment usually begins the same day. People come to our one clinic on US-1 from across the county, <a href=\"../locations/west-palm-beach.html\">West Palm Beach</a> included. See the <a href=\"../first-visit.html\">first visit page</a>."),
+                ("What does knee pain treatment involve?",
+                 "Every session is one-on-one. Expect hands-on <a href=\"../glossary.html#manual-therapy\">manual therapy</a> for joint mobility, progressive strengthening of the quadriceps, hips and glutes, and practice at what knees get asked to do: stairs, longer walks, getting out of a car. The goal comes from you. Some of Dave's patients are &ldquo;just wanting to get off the chair and be able to make themselves a pot of coffee,&rdquo; as he said on Episode 8. After your evaluation your therapist proposes a visit frequency and honest milestones, then adjusts to how you respond."),
+                ("What does rehab look like after a knee replacement?",
+                 "Your surgeon sets the protocol and we follow it exactly. Joint replacement patients here follow a structured pathway from first bend to full stride: range first, then quadriceps strength, then stairs and walking distance. One patient, Sandy S., wrote that they &ldquo;had a great experience rehabbing from double knee replacements.&rdquo; A partial usually needs less rehab than a total, which is one reason to read <a href=\"../blog/partial-vs-total-knee-replacement.html\">Partial vs Total Knee Replacement</a> before you book. On prehab, Dr. Michael Leighton, MD, said it is &ldquo;not a one-size-fits-all situation.&rdquo; More on our <a href=\"post-surgical.html\">post-surgical rehab</a> page."),
+                ("Which knee exercises can I start at home?",
+                 "Most knee programs here borrow from the set Dr. Dave Kashuba, Ph.D., OTR, walks through on Pain 2 Power, below. Do the heel to buttock one leg at a time; both at once, Dave warns, is how you end up on the floor. On the sit to stands, the pillow reaching forward makes your hips start the movement and take the load. Full instructions are on our <a href=\"../exercises.html#knee\">home exercises page</a>. If an exercise causes pain, swelling or warmth in the joint, stop and call us."),
+                ("When should a doctor see my knee first?",
+                 "A pop followed by sudden pain and a leg you can't stand on is a day for an orthopedic specialist or the hospital. So is a knee that turns hot, red and swollen with a fever, or knee pain after a significant fall. Get evaluated soon if the pain isn't settling, if swelling or warmth develops, or if the knee gives way or locks. Dr. Weiner's test has nothing to do with a pain score: get help &ldquo;when your symptoms interfere with ADLs, which means activities of daily living.&rdquo;"),
+                ("Do I need a referral, and will insurance cover it?",
+                 "In most cases Florida's direct access law lets you begin a physical therapy evaluation without a physician referral. Some plans still require one for coverage, and Medicare requires a physician to certify your plan of care. After a knee replacement or ligament repair you will usually arrive with a referral and protocol from your surgeon already. Before your first visit our front desk verifies your Medicare or commercial benefits and tells you what your plan needs. Our <a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> explains deductibles and coinsurance."),
+                ],
+                "extra": "\n      <div class=\"data-table\" tabindex=\"0\" role=\"region\" aria-label=\"Dave's at-home knee set\">\n        <table>\n          <caption>Dr. Dave Kashuba's at-home knee set, as he described it on Pain 2 Power Episodes 6 and 7. Start it after your evaluation, not instead of one.</caption>\n          <thead><tr><th scope=\"col\">Exercise</th><th scope=\"col\">How</th><th scope=\"col\">Dose</th></tr></thead>\n          <tbody>\n            <tr><th scope=\"row\">Seated leg extensions</th><td>Sit at the front edge of a chair, straighten one leg out in front of you, then lower it</td><td>3 sets of 10, building to 3 sets of 20</td></tr>\n            <tr><th scope=\"row\">Standing heel to buttock</th><td>Hold the back of a chair, stand tall and bring one heel toward your backside as far as is comfortable, one leg at a time</td><td>3 sets of 10, building to 3 sets of 20</td></tr>\n            <tr><th scope=\"row\">Pillow sit to stands</th><td>Hold a light pillow out in front of you, push it forward as you stand and keep it forward as you sit back down</td><td>3 sets of 10</td></tr>\n            <tr><th scope=\"row\">Step stool leans</th><td>One foot on a low step stool, a hand on something stable, lean your weight forward over the raised foot and back. No stepping up</td><td>Slow and controlled</td></tr>\n            <tr><th scope=\"row\">Glute bridge</th><td>Lie on your back, knees bent and feet flat, lift your hips, pause and squeeze at the top, then lower</td><td>3 sets of 10</td></tr>\n          </tbody>\n        </table>\n      </div>\n      ",
+            },
+            # hip-pain: deepened 2026-10-14 (GSC depth pass). Same content rules as
+            # neck-pain: restates site facts and Pain 2 Power transcripts only.
+            "hip-pain": {
+                "h2": "Hip pain questions, answered",
+                "intro": "These are the hip questions we hear most at our North Palm Beach clinic. Two orthopedic surgeons from our Pain 2 Power show answered several of them on air. Your own answers come from your evaluation.",
+                "blocks": [
+                ("Is it my hip or my back?",
+                 "Dr. Dave Kashuba, Ph.D., OTR, listens for pain that travels toward the groin rather than down the leg. Orthopedic surgeon Dr. Zach McVicker, MD, said on Episode 10 that with hips, &ldquo;a lot of times it&rsquo;s causing the back pain, it&rsquo;s causing the groin pain and other symptoms that you&rsquo;re having.&rdquo; Groin pain tops his list, ahead of low back pain and pain toward the buttock. Hip impingement is one common reason, explained in <a href=\"../blog/hip-impingement-back-pain-north-palm-beach.html\">Hip Impingement: When Your Back Pain Is Coming From Your Hip</a>. If it is your spine, see <a href=\"back-pain.html\">back pain treatment</a>."),
+                ("What is a labral tear, and will I need surgery?",
+                 "The labrum is a ring of cartilage around the ball of the hip. Dr. McVicker compares it to a gasket between two pipes, sealing the joint so your weight spreads across the whole socket with every step. Labral irritation is one of the hip problems we treat. Whether a tear needs repair is your surgeon&rsquo;s call. When it does, he described arthroscopy as &ldquo;little cameras, little poke holes,&rdquo; and his advice was short: &ldquo;Look into it early.&rdquo; After surgery we follow your surgeon&rsquo;s protocol. <a href=\"../blog/pain-2-power-ep10-mcvicker.html\">Our Episode 10 recap</a> has the whole conversation."),
+                ("What about pain on the outside of the hip?",
+                 "Pain on the outside of the hip was on Dr. McVicker&rsquo;s list too, and bursitis and tendinopathy around the hip are among the conditions we treat. When hip pain starts, Dave said, &ldquo;a lot of times it is a muscle called the gluteus medius,&rdquo; the muscle that keeps your pelvis level while you stand on one leg. Standing leg abductions, in the table below, work it directly. Dave&rsquo;s everyday advice: stop sitting with your legs crossed, break up repetitive bending, and modify the task that sets it off."),
+                ("Can physical therapy help hip arthritis?",
+                 "Hip osteoarthritis heads the list of conditions our hip program treats, with work on mobility, glute and deep stabilizer strength, and walking mechanics. If a replacement is coming, ask your surgeon about prehab. Orthopedic surgeon Dr. Michael Leighton, MD, called it on Episode 12 &ldquo;tuning this patient up for surgery prior to surgery,&rdquo; and said &ldquo;it&rsquo;s not a one-size-fits-all situation.&rdquo; He prescribes it mostly for people who have been away from activity. If the joint needs more than therapy, we will say so plainly."),
+                ("What does rehab after a hip replacement look like?",
+                 "Your surgeon sets the protocol and we follow it exactly. Dr. Leighton keeps most patients in the hospital overnight, where &ldquo;they get physical therapy the day of surgery and they get physical therapy the day after surgery.&rdquo; After that, &ldquo;it&rsquo;s time for you to gradually and slowly over the next few weeks get your motion back.&rdquo; Most of the old dislocation precautions are gone, though early on he still limits bringing the knee to the chest. In a Google review, Christine H. wrote that after her hip replacement our therapists &ldquo;built my strength, stamina, and walking confidence back quickly.&rdquo; More on <a href=\"post-surgical.html\">post-surgical rehabilitation</a>."),
+                ("What does the evaluation look at?",
+                 "Plan on about an hour, one-on-one with your therapist, and wear shorts. We ask where it hurts and when, watch you walk and stand on one leg, and measure how far the hip bends and rotates and which positions bring the pain on. Dave said on Episode 10, &ldquo;It takes me all of 10 minutes for me to sit down with you and go over a little bit about your symptoms,&rdquo; and from there he knows which specialist you need. Treatment usually begins the same day. The <a href=\"../first-visit.html\">first visit page</a> has the details."),
+                ("Which exercises can I start at home?",
+                 "The ones your therapist gives you after your evaluation, usually from Dave&rsquo;s Episode 10 set in the table below. The first is a sit to stand with a band just above the knees. A sore hip shifts your weight onto the good leg without your noticing, and the band makes both sides share the work. For floor exercises, his rule: &ldquo;When you get on the floor, first make sure you&rsquo;re able to get back up.&rdquo; Full instructions are on our <a href=\"../exercises.html#hip\">home exercises page</a>. If a movement causes sharp pain, stop and call us."),
+                ("When should a doctor see my hip first?",
+                 "Hip pain after a fall, especially if you cannot put weight on the leg, needs a physician before therapy. Co-host Mike McGann explained why on Episode 10: &ldquo;once that hip break happens, there tends to be a really strong domino effect from there.&rdquo; A hot, swollen hip, or hip pain with a fever, also needs a physician first. After a replacement, call your surgeon about redness, drainage or fever at the incision. Once a physician has ruled those out, therapy can start with confidence."),
+                ("Do I need a referral, and will insurance cover it?",
+                 "In most cases Florida's direct access law lets you begin a physical therapy evaluation without a physician referral. Hip replacement patients usually arrive with a referral and protocol from their surgeon already, and Medicare requires a physician to certify your plan of care. Before your first visit our front desk verifies your Medicare or commercial benefits and tells you what your plan needs. Our <a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> explains deductibles and coinsurance."),
+                ],
+                "extra": "\n      <div class=\"data-table\" tabindex=\"0\" role=\"region\" aria-label=\"Dave's at-home hip set\"><table><caption>Dr. Dave Kashuba's at-home hip set, as he described it on Pain 2 Power Episode 10. Start it after your evaluation.</caption><thead><tr><th scope=\"col\">Exercise</th><th scope=\"col\">How</th><th scope=\"col\">Dose</th></tr></thead><tbody><tr><th scope=\"row\">Banded sit to stands</th><td>Band around both legs just above the knees; stand up and sit down as the band pushes your knees outward</td><td>3 sets of 10</td></tr><tr><th scope=\"row\">Standing leg abductions</th><td>Hold a chair and kick one straight leg out to the side, then lower with control</td><td>3 sets of 10 each side</td></tr><tr><th scope=\"row\">Clams</th><td>On your side, knees bent and stacked, feet together; open the top knee like a clam shell</td><td>3 sets of 10 each side</td></tr><tr><th scope=\"row\">Side lying leg raise</th><td>On your side, raise the top leg straight up and lower it slowly</td><td>3 sets of 10 each side</td></tr><tr><th scope=\"row\">Prone press up</th><td>Face down, push up onto your forearms or hands with your pelvis on the floor</td><td>Hold, then rest</td></tr></tbody></table></div>\n      ",
+            },
             # Neck pain. The 2026-10-14 GSC deep dive (90 days to 2026-10-11) found
             # 13 North Palm Beach neck queries with 593 impressions at average
             # position 8.2 across our pages (337 on this page) and ZERO clicks,
@@ -2296,7 +2431,8 @@ def build_conditions():
                 ("How does occupational therapy help a work injury?",
                  "Many work injuries land in the hands, wrists, elbows and shoulders, which is occupational "
                  "therapy territory. Our occupational therapists retrain the tasks a job depends on, and hand "
-                 "injuries can be treated by Laura Drumm, MS, OTR/L, CHT, CLT, our certified hand therapist, "
+                 "injuries can be treated by Laura Drumm, MS, OTR/L, CHT, CLT, our "
+                 "<a href=\"../services/hand-therapy.html\">certified hand therapist</a>, "
                  "with custom splints made in the clinic. Physical and occupational therapy run in the same "
                  "building under one plan, so an injury that needs both does not mean two clinics. More on "
                  "our <a href=\"../services/occupational-therapy.html\">occupational therapy</a> page."),
@@ -2674,7 +2810,7 @@ LOCATIONS = {
             ]),
             ("Certified hand therapy, worth the drive north", [
                 "Certified hand therapy is the other reason West Palm Beach patients make the trip. A Certified Hand Therapist has completed thousands of hours of upper-extremity practice plus a rigorous national examination, and it is the credential area hand surgeons look for when they refer a post-operative patient. Laura Drumm, CHT leads our program, and custom splints and orthoses are fabricated here in the clinic rather than ordered from a catalogue.",
-                "It is a genuinely scarce specialty in Palm Beach County, which is why patients travel for it from across the county rather than choosing whichever clinic is closest. If you have hand or wrist pain, are recovering from hand surgery, or have been told you need a custom splint, call 561-624-4263 and our front desk will tell you plainly whether we are the right fit. Read more about <a href=\"../services/hand-therapy.html\">certified hand therapy</a> or <a href=\"../treatments/hand-wrist.html\">hand and wrist treatment</a>.",
+                "It is a genuinely scarce specialty in Palm Beach County, which is why patients travel for it from across the county rather than choosing whichever clinic is closest. If you have hand or wrist pain, are recovering from hand surgery, or have been told you need a custom splint, call 561-624-4263 and our front desk will tell you plainly whether we are the right fit. Read more about our <a href=\"../services/hand-therapy.html\">certified hand therapist</a> or <a href=\"../treatments/hand-wrist.html\">hand and wrist treatment</a>.",
             ]),
         ],
         "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Most downtown and 33401 addresses reach us in one straight drive up US-1. Call 561-624-4263 and our front desk will point you right to the door.",
@@ -4151,7 +4287,7 @@ BLOG_POSTS = {
 </ul>
 <p>Wear something loose that lets the therapist get to the arm and shoulder easily. There&rsquo;s a free lot right at the building at 733 US Highway 1, Suite 2A, which matters when someone is still unsteady getting in and out of the car.</p>
 <h3>Who you&rsquo;ll work with</h3>
-<p>Our occupational therapy is led by Dave alongside Joan &ldquo;Joni&rdquo; Janik, OTD, whose focus includes activities of daily living and stroke recovery. Laura Drumm, MS, OTR/L, CHT, CLT, our certified hand therapist, joins in when the hand is the sticking point, and our physical therapists, Kayla Dorsey, PT, DPT and Logan Van Sant, PT, DPT, handle walking and balance when those need work too.</p>
+<p>Our occupational therapy is led by Dave alongside Joan &ldquo;Joni&rdquo; Janik, OTD, whose focus includes activities of daily living and stroke recovery. Laura Drumm, MS, OTR/L, CHT, CLT, our <a href="../services/hand-therapy.html">certified hand therapist</a>, joins in when the hand is the sticking point, and our physical therapists, Kayla Dorsey, PT, DPT and Logan Van Sant, PT, DPT, handle walking and balance when those need work too.</p>
 <div class="data-table" tabindex="0" role="region" aria-label="Which discipline handles which part of stroke recovery at our clinic">
 <table>
 <caption>How the three disciplines split stroke recovery at our clinic, as described on our insurance page under our Medicare CORF certification.</caption>
@@ -4900,7 +5036,7 @@ BLOG_POSTS = {
 <h2>How to get started</h2>
 <p>Whether you need a referral depends on your insurance plan. Post-surgical patients typically arrive with a referral and protocol from their surgeon already. If you're coming on your own for something like carpal tunnel or arthritis, call and our front desk will check whether your plan requires a referral and help arrange one if it does. Hand therapy is covered like other medically necessary therapy under Medicare and most major plans we accept, and we verify your specific benefits, including any rules about custom splints, before your first visit.</p>
 <p>That first visit runs about an hour, one-on-one, and treatment usually begins the same day. The <a href="../faq.html#hand-therapy">hand therapy section of our FAQ</a> covers recovery times and coverage in more detail, and our <a href="../treatments/hand-wrist.html">hand and wrist pain page</a> walks through the most common symptoms.</p>
-<p>If you're facing hand surgery or dealing with carpal tunnel or arthritis in your thumbs, ask about our <a href="../services/hand-therapy.html">certified hand therapy program</a>. Call First Rehabilitation of North Palm Beach at <strong>561-624-4263</strong> to book an evaluation, or <a href="../contact.html">request an appointment online</a>.</p>
+<p>If you're facing hand surgery or dealing with carpal tunnel or arthritis in your thumbs, ask to see our <a href="../services/hand-therapy.html">certified hand therapist</a>. Call First Rehabilitation of North Palm Beach at <strong>561-624-4263</strong> to book an evaluation, or <a href="../contact.html">request an appointment online</a>.</p>
 <p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
 """,
     },
