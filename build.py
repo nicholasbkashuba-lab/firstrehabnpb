@@ -2364,6 +2364,10 @@ def build_about():
       <h2>One Vision, <em class="accent">Generations of Care</em></h2>
       <p style="margin-top:1.2rem;">Since 1991, First Rehabilitation of North Palm Beach has been a cornerstone of recovery for the Palm Beaches. Founded by David Kashuba, Ph.D., our mission has always been to provide a comprehensive, high-end approach to rehabilitation — one that heals the body and restores the spirit.</p>
       <p style="margin-top:1rem;">What makes us different is what happens after therapy ends. Our exclusive on-site wellness program means graduation from PT or OT isn't goodbye — it's a transition into lifelong strength, guided by the same team that got you well.</p>
+      <!-- Disambiguation (Nick, 2026-10-14): a formerly connected clinic on Burns Rd kept the
+           "First Rehab" name, and Google reviews meant for it have landed on our listing. One
+           factual sentence, no names, nothing disparaging. Keep it that way. -->
+      <p style="margin-top:1rem;font-size:0.95rem;color:var(--muted);">First Rehabilitation of North Palm Beach is an independent, family-owned clinic founded in 1991 by David Kashuba, Ph.D., OTR. We have one location, at 733 US Highway 1, Suite 2A, and are not affiliated with other clinics that use a similar name.</p>
       <div class="stat-row">
         <div><strong data-count="39" data-suffix="+">39+</strong><span>Years of Expertise</span></div>
         <div><strong data-count="180000" data-suffix="+">180,000+</strong><span>Patients Treated</span></div>
@@ -3106,6 +3110,7 @@ def build_contact():
         <div class="c-row"><span class="c-label">Consults</span><span>Free consultations available — call to schedule</span></div>
         <div class="c-row"><span class="c-label">Portal</span><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
         <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
+        <p style="margin-top:1rem;font-size:0.88rem;color:var(--muted);">First Rehabilitation of North Palm Beach is an independent, family-owned clinic founded in 1991 by David Kashuba, Ph.D., OTR. We have one location, at 733 US Highway 1, Suite 2A, and are not affiliated with other clinics that use a similar name.</p>
       </div>
       <iframe class="map-frame" src="{MAPS_EMBED}" title="Map to First Rehabilitation of North Palm Beach" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="min-height:300px;"></iframe>
     </div>

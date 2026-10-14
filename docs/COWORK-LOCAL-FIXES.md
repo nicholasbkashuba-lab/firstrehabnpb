@@ -120,6 +120,5 @@ whom (me, David, Laura, or the site's verification). Then list every draft you l
 ## What Cowork cannot do (owner)
 
 - Certify NPPES changes (David) and Laura's own NPI update (Laura).
-- The trademark review and any letter to the other clinic (attorney).
 - Turning on the weekly review requests (front desk, `content/reviews/`).
 - Creating the front-desk login for the lead inbox (`docs/LEAD-INBOX.md`).

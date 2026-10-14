@@ -51,8 +51,7 @@ What to do now:
 - Ask Google (in the review management screen) to remove or reassign reviews clearly about the
   other clinic. They are 5 stars, so this costs us review count; accuracy and a clean entity
   matter more, and a review that names their staff confuses our listing.
-- Add a short, factual line to the About and Contact pages once the attorney in section 8 has
-  seen it (ready text is there).
+- The factual "not affiliated" line now ships on the About and Contact pages (section 8).
 
 ## 3. Wrong records that feed Google, insurers and AI answers
 
@@ -127,20 +126,13 @@ The goal is that anyone who searches "First Rehab" in northern Palm Beach County
 and that Google, insurers and AI tools never mix the two businesses again. Every tactic below
 is lawful and none can be turned against us. Tactics that would backfire are listed at the end.
 
-**Legal footing (attorney, this month).**
-1. Have a Florida trademark attorney review who has rights to "First Rehab" and "First
-   Rehabilitation" in this market. First Rehabilitation has used its name since 1991; the other
-   clinic claims "over twenty years". A 1986 federal filing by an unrelated "FIRST REHAB, INC."
-   for physical therapy services also exists (USPTO serials 73584664 and 73587603), so status
-   and priority need a real search, not a guess. Bring any separation agreement from the split;
-   it may already settle naming.
-2. Depending on that advice: register the mark (federal or Florida), and if the attorney agrees
-   it is supported, a cease-and-desist about the confusing name. The two misdirected reviews on
-   our listing and the "first rehab pbg" searches are documented evidence of actual confusion.
-3. Approve the disambiguation line before it ships. Ready text: "First Rehabilitation of North
-   Palm Beach is an independent, family-owned clinic founded in 1991 by David Kashuba, Ph.D.,
-   OTR. We operate one location, at 733 US Highway 1, Suite 2A, and are not affiliated with
-   other clinics that use a similar name."
+**No legal action (Nick, 2026-10-14).** Too many years have passed; Nick does not want an
+attorney involved. The brand is won in search and on the listings instead. One factual
+disambiguation sentence now ships on the About and Contact pages: "First Rehabilitation of
+North Palm Beach is an independent, family-owned clinic founded in 1991 by David Kashuba,
+Ph.D., OTR. We have one location, at 733 US Highway 1, Suite 2A, and are not affiliated with
+other clinics that use a similar name." It names no one and says nothing about them; keep it
+that way.
 
 **Own every branded search.**
 4. Make the entity unmistakable: the same full name, address and phone on NPPES, Healthgrades,
@@ -160,7 +152,8 @@ gym and a podcast. Keep shipping depth; it already shows in search.
 **Do not do any of these.** They break the law, Google's rules, or both, and would hand the
 other side a counterclaim: fake or incentivized reviews (for us or against them), reporting
 their listing as fake when it is a real clinic, disparaging statements about them anywhere,
-bidding with their trademark in ad copy, or "negative SEO". The win comes from being the
+bidding with their name in ad copy, or "negative SEO". With no legal route in play, these
+matter more, not less: the other side could still make a claim against us. The win comes from being the
 obvious, better-documented First Rehabilitation, not from attacking the other one.
 
 ## 9. Cowork runbook
