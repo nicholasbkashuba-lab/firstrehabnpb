@@ -71,6 +71,9 @@ STAT = re.compile(r"\b\d{1,3}(?:\.\d+)?\s?(?:%|percent)\b", re.I)
 
 PHONE = "561-624-4263"
 
+# Every post, Nick 2026-10-14. See BLOG-PLAYBOOK.md "Length and structure".
+MIN_WORDS = 1700
+
 
 def plain(body: str) -> str:
     """Strip tags and decode entities, leaving prose the rules can be matched against."""
@@ -101,8 +104,22 @@ def check(slug: str, post: dict):
         errs.append(f"bold used {bold} times, limit is 1 per post")
     if re.search(r"<h1[ >]", body):
         errs.append("body contains an <h1>; the page hero renders the only h1")
-    if re.search(r"<h[3-6][ >]", body):
-        warns.append("body uses h3 or deeper; the house structure is h2 only")
+    # Structure standard, Nick 2026-10-14: h2 sections with h3 subsections, never a
+    # skipped level, and at least one captioned table.
+    heads = [int(h) for h in re.findall(r"<h([1-6])[ >]", body)]
+    if heads and heads[0] != 2:
+        errs.append("first heading in the body must be an h2")
+    if any(b > a + 1 for a, b in zip(heads, heads[1:])):
+        errs.append("heading levels skip (e.g. h2 straight to h4)")
+    if heads.count(2) < 5:
+        errs.append(f"{heads.count(2)} h2 sections, need at least 5")
+    if heads.count(3) < 2:
+        errs.append(f"{heads.count(3)} h3 subsections, need at least 2")
+    tables = len(re.findall(r"<table[ >]", body))
+    if tables < 1:
+        errs.append("no table; every post needs at least one")
+    if tables > len(re.findall(r"<caption[ >]", body)):
+        errs.append("every table needs a <caption> saying where its contents come from")
     lists = len(re.findall(r"<ul[ >]|<ol[ >]", body))
     if lists > 1:
         errs.append(f"{lists} bulleted lists, limit is 1 per post")
@@ -126,8 +143,8 @@ def check(slug: str, post: dict):
     for m in STAT.finditer(prose):
         warns.append(f"statistic '{m.group(0)}' needs a transcript or site source on the flag list")
 
-    if words < 400:
-        warns.append(f"{words} words; posts run 600 to 1,200")
+    if words < MIN_WORDS:
+        errs.append(f"{words} words; the minimum is {MIN_WORDS:,} (Nick, 2026-10-14)")
 
     return errs, warns
 

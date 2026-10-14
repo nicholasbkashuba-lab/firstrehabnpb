@@ -1561,9 +1561,9 @@ def build_services():
                  "<a href=\"../exercises.html\">home exercises page</a> has his knee, hip and shoulder sets with "
                  "sets and reps, and <a href=\"../blog/strength-training-after-60-fall-prevention.html\">Strength "
                  "Training After 60</a> explains the thinking."),
-                ("Is the gym covered like therapy?",
-                 "The gym is a separate program from Medicare-covered therapy, so the front desk explains how it "
-                 "works and what it costs before you sign up. Therapy itself is covered by Medicare when it is "
+                ("Does insurance cover the gym?",
+                 "No. The wellness program does not take insurance, so the front desk explains how it works and "
+                 "what it costs before you sign up. Therapy is different: it is covered by Medicare when it is "
                  "medically necessary, including skilled care that helps you maintain your function. Our "
                  "<a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> has the details."),
                 ("Do I have to be a patient?",
@@ -1639,8 +1639,27 @@ def build_services():
         # insurance benefits before I start? Yes, always") and on /insurance.html.
         # Medigap is deliberately NOT named as verified before the visit: the
         # site only says "bring every card and we will sort out which pays
-        # first", so that wording waits for Nick. Wellness is excluded because
-        # the gym is a separate, non-insurance program (insurance page).
+        # first"; Nick confirmed 2026-10-14 the front desk does not verify
+        # Medigap, so it stays out. Wellness is excluded because it does not
+        # take insurance (Nick, 2026-10-14).
+        # The wellness program does NOT take insurance (Nick, 2026-10-14), so the
+        # wellness page gets its own first-visit copy, side note and form line
+        # instead of the shared "we accept most major insurance" wording.
+        if slug == "wellness":
+            first_visit_p = ('<p>Your first session starts with a conversation about your goals and, if you have '
+                             'done therapy with us, a look at your rehab history so the program picks up where '
+                             'treatment left off. The wellness program does not take insurance; the front desk '
+                             'explains the options and pricing before you sign up.</p>')
+            side_note = "The wellness program does not take insurance."
+            form_sub = "Tell us what you are looking for and our front desk will call you back within one business day to walk you through the options."
+        else:
+            first_visit_p = ('<p>Your first appointment includes a comprehensive movement-based evaluation, an honest '
+                             'conversation about your goals, and a proposed plan of care — with hands-on treatment '
+                             'starting that very first day whenever appropriate. We accept most major insurance '
+                             'plans, including Medicare, and our front desk will gladly verify your coverage before '
+                             'you arrive.</p>')
+            side_note = "Most major insurance accepted, including Medicare."
+            form_sub = "Tell us what you need and our front desk will call you back within one business day. We will check your insurance before your first visit."
         verify_line = ""
         if slug != "wellness":
             verify_line = ('<p class="fv-highlight"><strong>Before your first visit, our front desk verifies your '
@@ -1698,7 +1717,7 @@ def build_services():
   <div class="wrap two-col">
     <div class="prose reveal">
       <h2>What to expect at your first visit</h2>
-      <p>Your first appointment includes a comprehensive movement-based evaluation, an honest conversation about your goals, and a proposed plan of care — with hands-on treatment starting that very first day whenever appropriate. We accept most major insurance plans, including Medicare, and our front desk will gladly verify your coverage before you arrive.</p>
+      {first_visit_p}
       {verify_line}
       <p>You're never a chart number here. Since 1991, our family-owned clinic has treated every patient with the individual attention that earns a 4.9&#9733; reputation across the Palm Beaches.</p>
     </div>
@@ -1708,13 +1727,13 @@ def build_services():
       <a class="btn btn-coral" href="../contact.html">Book Appointment</a>
       <div class="side-meta">
         <p>Prefer to call?<br><a href="tel:+15616244263">{PHONE}</a></p>
-        <p style="margin-top:0.8rem;">Most major insurance accepted, including Medicare.</p>
+        <p style="margin-top:0.8rem;">{side_note}</p>
       </div>
     </aside>
   </div>
 </section>
 {svc_faq_html}
-{appt_form(heading='Start ' + s['title'], sub='Tell us what you need and our front desk will call you back within one business day. We will check your insurance before your first visit.')}
+{appt_form(heading='Start ' + s['title'], sub=form_sub)}
 {cta_band(1)}
 </main>
 """
@@ -1772,6 +1791,7 @@ CONDITIONS = {
         "name": "Shoulder Pain Relief",
         "area": "Shoulder",
         "lede": "Specialized rehabilitation for rotator cuff injuries, frozen shoulder, and everything in between.",
+        "answer": "Most shoulder pain, from a rotator cuff strain to frozen shoulder or the weeks after surgery, is treated with one-on-one physical therapy: restore pain-free range first, rebuild rotator cuff and shoulder blade strength next, then get back to reaching, lifting, sport and sleep. At our North Palm Beach clinic that treatment usually starts at your first visit.",
         "intro": "The shoulder trades stability for mobility — which is why it's so useful and so vulnerable. Our therapists restore the balance of strength and motion your shoulder depends on, whether you're recovering from surgery or trying to avoid it.",
         "treats": ["Rotator cuff strains and repairs", "Frozen shoulder (adhesive capsulitis)", "Shoulder impingement", "Bursitis and tendinitis", "Labral injuries", "Post-surgical shoulder rehabilitation", "Shoulder instability"],
         "approach": "We progress you deliberately: restoring pain-free range first, then rebuilding rotator cuff and scapular strength, then returning you to overhead reaching, lifting, sport, and sleep without guarding. Post-surgical patients follow protocols coordinated with their surgeon.",
@@ -1913,6 +1933,7 @@ def build_conditions():
             "hand-wrist": ["why-hand-therapy-is-different"],
             "hip-pain": ["hip-impingement-back-pain-north-palm-beach", "pain-2-power-ep10-mcvicker"],
             "neck-pain": ["headaches-that-start-in-the-neck"],
+            "shoulder-pain": ["reverse-shoulder-replacement-explained"],
             "headache-relief": ["headaches-that-start-in-the-neck"],
             "post-surgical": ["partial-vs-total-knee-replacement", "reverse-shoulder-replacement-explained"],
         }
@@ -2000,6 +2021,101 @@ def build_conditions():
                  "handles a custom splint, before you come in."),
                 ],
             },
+            # Shoulder pain. Added 2026-10-14 (Nick: "deepen the shoulder page
+            # next"). The GSC deep dive found the homepage (pos 3.3) and the
+            # treatments index (7.4) outranking this page (8.1) for "shoulder pain
+            # treatment north palm beach", on a page of about 330 words. Quotes are
+            # from Pain 2 Power: Episode 9 (Dr. Vani Sabesan, transcript_v4.json on
+            # tmp/sabesan-out), Episode 8 (Dr. Ryan Simovitch, transcripts.md on
+            # media/ep8-clips) and Episode 13 (Captain Kerry, transcript-full.md on
+            # media/ep13-clips). Guest figures are attributed to the guest, never
+            # stated as ours. The home exercise table restates EXERCISES.
+            "shoulder-pain": {
+                "h2": "Shoulder pain questions, answered",
+                "intro": "We hear the same handful of shoulder questions every week at our North Palm Beach "
+                         "clinic, and three of the shoulder specialists who have been on our Pain 2 Power show "
+                         "have answered a few of them on air. Here they are in one place. Your own answers "
+                         "still come from your evaluation.",
+                "blocks": [
+                ("Why does my shoulder ache at night?",
+                 "Night pain is one of the most common things people mention, and it is worth mentioning. "
+                 "Dr. Dave Kashuba, Ph.D., OTR, put it this way on Episode 9: patients start talking about "
+                 "their shoulder &ldquo;and they&rsquo;re like, really aches at night. And so now you know, "
+                 "you&rsquo;re looking more at a bursitis and a tendonitis.&rdquo; The details you give your "
+                 "therapist steer the whole evaluation, so tell us when it hurts, what you were doing, and how "
+                 "you sleep."),
+                ("Is it my rotator cuff?",
+                 "It might be, and you would have plenty of company. Orthopaedic shoulder surgeon Dr. Vani "
+                 "Sabesan, MD, told our listeners that among people over 60, &ldquo;one out of three people are "
+                 "going to have a rotator cuff pathology.&rdquo; Rotator cuff strains, tears and repairs are "
+                 "among the conditions we treat most. The evaluation tests how the cuff and the shoulder blade "
+                 "are working before anything gets a label."),
+                ("Who wears out a shoulder fastest?",
+                 "Not always the people you would guess. Orthopedic shoulder surgeon Dr. Ryan Simovitch "
+                 "described the patient he sees most as the constant warrior: someone playing pickleball four "
+                 "to six days a week with no moderation and no preparation, until something gives. Dr. Sabesan "
+                 "made the same point about Florida, where the weather lets people play all year round. If that "
+                 "sounds like your schedule, strength work for the cuff and shoulder blade is the cheapest "
+                 "insurance you can buy."),
+                ("Can therapy help me avoid surgery?",
+                 "For a lot of shoulder problems, therapy is where care starts, and our approach is the same "
+                 "whether you are trying to avoid surgery or recovering from it: restore pain-free range first, "
+                 "then rebuild rotator cuff and shoulder blade strength, then get back to reaching overhead, "
+                 "lifting, sport and sleep without guarding. If your evaluation points toward a surgical "
+                 "opinion, we will tell you plainly and coordinate with your physician."),
+                ("What about after rotator cuff repair or a shoulder replacement?",
+                 "Your surgeon sets the protocol and we follow it exactly. Protocols are changing, too. Dr. "
+                 "Sabesan described comparing six weeks in a sling with moving the shoulder within days after "
+                 "surgery, and said of the result, &ldquo;we found that the outcomes were similar.&rdquo; She was "
+                 "also candid about the hard part of cuff repairs: &ldquo;We&rsquo;re really good at fixing "
+                 "them. We&rsquo;re not great at getting them to heal.&rdquo; That healing window is exactly "
+                 "what post-operative therapy is paced around. If you are facing a reverse shoulder replacement, "
+                 "read <a href=\"../blog/reverse-shoulder-replacement-explained.html\">Total vs. Reverse "
+                 "Shoulder Replacement: How Surgeons Decide</a>."),
+                ("Does the therapist really make a difference?",
+                 "We are biased, so take it from a surgeon. Dr. Sabesan said her team surveyed their shoulder "
+                 "replacement patients and &ldquo;98 percent of patients said the therapist was a huge impact on "
+                 "their outcome.&rdquo; Her comparison was a good hairdresser: someone who talks to you, listens, "
+                 "and adjusts. Every session here is one-on-one with a therapist, which is the whole point."),
+                ("How often will I come in, and what do I do in between?",
+                 "Usually a few visits a week, and the work between visits counts as much as the visits. "
+                 "Captain Kerry, of Bravo&rsquo;s Below Deck, came to us about twenty years ago with a "
+                 "rotator cuff injury and has had two surgeries on that shoulder since. On Episode 13 he said, "
+                 "&ldquo;I&rsquo;ve got full motion. I&rsquo;ve had two surgeries in there now and both times "
+                 "Dave and his team have got me back together.&rdquo; When he traveled, he took a band program "
+                 "with him. Dave&rsquo;s rule on the same episode: he sees people two to three times a week, "
+                 "&ldquo;and those other hours they&rsquo;ve got to be doing their exercises and they got to do "
+                 "them correctly.&rdquo;"),
+                ("Which exercises are safe to start at home?",
+                 "The ones your therapist gives you after your evaluation. Most shoulder programs here borrow from "
+                 "Dave&rsquo;s at-home set below, because almost everything we do all day pulls the shoulders "
+                 "forward and inward and this set works the other way. Full instructions are on our "
+                 "<a href=\"../exercises.html\">home exercises page</a>. If a movement causes sharp pain, stop "
+                 "and ask us."),
+                ("Do I need a referral, and will insurance cover it?",
+                 "In most cases Florida's direct access law lets you begin a physical therapy evaluation "
+                 "without a physician referral. Post-surgical patients usually arrive with a referral and "
+                 "protocol from their surgeon already. Before your first visit our front desk verifies your "
+                 "Medicare or commercial benefits and tells you what your plan needs. Our "
+                 "<a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> explains deductibles "
+                 "and coinsurance."),
+                ],
+                "extra": '''
+      <div class="data-table" tabindex="0" role="region" aria-label="Dave's at-home shoulder set">
+        <table>
+          <caption>Dr. Dave Kashuba's at-home shoulder set, as he described it on Pain 2 Power Episode 8. Start it after your evaluation, not instead of one.</caption>
+          <thead><tr><th scope="col">Exercise</th><th scope="col">How</th><th scope="col">Dose</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Wall slides</th><td>Face a wall with a towel under your forearms, arms bent at 90 degrees, and slide both arms up the wall and back down</td><td>3 sets of 10</td></tr>
+            <tr><th scope="row">Cross-body stretch</th><td>Take one elbow in the other hand and draw that arm across your body, then switch</td><td>Hold, both sides</td></tr>
+            <tr><th scope="row">Shoulder shrugs</th><td>Bring both shoulders straight up toward your ears, then let them down</td><td>3 sets of 10</td></tr>
+            <tr><th scope="row">Scapular retractions</th><td>Draw both shoulders back as if to touch your shoulder blades together</td><td>3 sets of 10</td></tr>
+            <tr><th scope="row">Band rows and extensions</th><td>Anchor a therapy band and pull back, elbows past your ribs, then draw the arm behind you</td><td>Build gradually</td></tr>
+          </tbody>
+        </table>
+      </div>
+      ''',
+            },
             # Neck pain. The 2026-10-14 GSC deep dive (90 days to 2026-10-11) found
             # 13 North Palm Beach neck queries with 593 impressions at average
             # position 8.2 across our pages (337 on this page) and ZERO clicks,
@@ -2008,8 +2124,7 @@ def build_conditions():
             # page-content lever. Same content rules as hand-wrist: every statement
             # restates something the site already says (CONDITIONS, the FAQ, the
             # headache post, EXERCISES), no new mechanism, statistic or outcome.
-            # The "doctor first" block mirrors the red flags in the headache post
-            # and is on the list for Dave to read.
+            # The "doctor first" block mirrors the red flags in the headache post.
             "neck-pain": {
                 "h2": "Neck pain questions, answered",
                 "intro": "These are the questions people in North Palm Beach ask us most about neck pain, "
@@ -2081,8 +2196,7 @@ def build_conditions():
             # impressions at average position 6.5 across our pages (141 on this
             # page), zero clicks, on a 362-word page. "spinal stenosis treatment
             # north palm beach" sits at 17.0. Same content rules as
-            # neck-pain; the morning advice is the five-morning-habits post and the
-            # "doctor first" block is on the list for Dave to read.
+            # neck-pain; the morning advice is the five-morning-habits post.
             "back-pain": {
                 "h2": "Back pain questions, answered",
                 "intro": "These are the questions people in North Palm Beach ask us most about back pain and "
@@ -2237,7 +2351,8 @@ def build_conditions():
             # docs/PATIENT-INSIGHTS-2026-10.md: auto patients average 24.6 visits
             # against 13.3). Every PIP statement was read from the 2026 Florida
             # Statutes, s. 627.736(1)(a), on flsenate.gov on 2026-10-14, and the
-            # page cites it. PIP repeal bills have been filed in past sessions:
+            # page cites it. Nick confirmed 2026-10-14 that the front desk checks
+            # PIP coverage before the first visit. PIP repeal bills have been filed in past sessions:
             # re-check the statute after every legislative session. No legal
             # advice; fault, claims and settlements go to an attorney.
             "auto-accident": {
@@ -3573,7 +3688,7 @@ BLOG_POSTS = {
 <p>Patients from <a href="../locations/juno-beach.html">Juno Beach</a> and the surrounding area often ask us the same question at discharge: what now? The exercises do not stop being useful once the pain does. They become the maintenance plan.</p>
 <h2>What a fall prevention evaluation looks for</h2>
 <p>If you have already had a fall, or a near miss on the stairs, start with your doctor and then an evaluation rather than the gym. Balance and fall prevention are part of our <a href="../services/physical-therapy.html">physical therapy</a> program, alongside vestibular work for dizziness. At the first visit your therapist watches you walk, stand and turn, and measures strength, range of motion and balance. The plan then targets the specific weakness behind the wobble instead of guessing at it.</p>
-<p>Coverage is simpler than most people expect. Medicare covers medically necessary physical therapy, including skilled care that helps you maintain your function or slow a decline. Our <a href="../insurance.html#medicare-guide">2026 Medicare guide</a> explains how that works and what you pay. The gym program that follows therapy is separate, and the front desk explains it before you sign up.</p>
+<p>Coverage is simpler than most people expect. Medicare covers medically necessary physical therapy, including skilled care that helps you maintain your function or slow a decline. Our <a href="../insurance.html#medicare-guide">2026 Medicare guide</a> explains how that works and what you pay. The gym program that follows therapy does not take insurance, and the front desk explains it before you sign up.</p>
 <h2>Book an evaluation</h2>
 <p>If you have noticed yourself avoiding stairs, standing up more slowly than you used to, or simply sitting more than you would like to admit, an evaluation is the place to start, not a gym membership you are not sure you are ready for. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and read more in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
 <p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
@@ -4724,7 +4839,7 @@ def build_insurance():
       <p>The flip side is also true. Once a home program you can do safely on your own will keep your progress, skilled therapy is no longer the right tool, and we will tell you so plainly.</p>
 
       <h3>When formal therapy ends</h3>
-      <p>Discharge is not the finish line. The most common way people lose what they gained is stopping cold: no exercise, back to the chair. Every patient leaves with a written <a href="glossary.html#home-exercise-program">home exercise program</a>, and patients who want more structure can move into our <a href="services/wellness.html">on-site wellness gym</a>, training with a team that already knows their history. The gym is a separate program from Medicare-covered therapy, so the front desk will explain how it works and what it costs before you sign up.</p>
+      <p>Discharge is not the finish line. The most common way people lose what they gained is stopping cold: no exercise, back to the chair. Every patient leaves with a written <a href="glossary.html#home-exercise-program">home exercise program</a>, and patients who want more structure can move into our <a href="services/wellness.html">on-site wellness gym</a>, training with a team that already knows their history. The gym is a separate program from Medicare-covered therapy and does not take insurance, so the front desk will explain how it works and what it costs before you sign up.</p>
 
       <h3>Why your doctor signs your plan of care</h3>
       <p>Medicare requires your doctor, or another qualified provider such as a nurse practitioner or physician assistant, to certify that you need therapy. In practice that means signing the <a href="glossary.html#plan-of-care">plan of care</a> your therapist writes after your evaluation: your goals, the treatment, how often you will come and for how long. We send it to your doctor and follow up until it comes back signed, so it does not become one more errand on your list.</p>

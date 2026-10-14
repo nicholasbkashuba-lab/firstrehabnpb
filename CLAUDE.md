@@ -146,6 +146,10 @@ is its own failure mode and the check names it.
   the page does not show. Medicare figures in it, and in the Medicare guide on
   /insurance.html#medicare-guide, are 2026 values from CMS: **update both every January**
   (Part B deductible, KX threshold, targeted review threshold).
+- **Owner answers, 2026-10-14:** the wellness gym program does NOT take insurance (the
+  wellness page says so; never imply otherwise). The front desk checks PIP coverage before an
+  auto patient's first visit. It does NOT verify Medigap ahead of time, so benefit lines say
+  "Medicare or commercial" and leave Medigap out.
 - **Florida law is quoted on two condition pages** (added 2026-10-14): the PIP 14-day rule
   and the $10,000 / $2,500 limits on /treatments/auto-accident.html (Fla. Stat. 627.736), and
   the 30-day notice, carrier authorization and ombudsman office on /treatments/workers-comp.html
@@ -1094,12 +1098,16 @@ The freeze covers NEW posts only. Still allowed, and still wanted:
 Note that a frozen backlog is not a lost one: the Wellness and OT pillar holes recorded below
 are real and still worth filling once ranking work has caught up.
 
-**Length standard, 2026-10-14 (Nick):** pillar content runs 1,700 to 2,000+ words, per the
-friend whose site this partly models. Applied depth-first, consistent with the freeze
-reasoning above: the first use was deepening /insurance.html with a 2026 Medicare guide
-(it already ranks for Medicare queries) rather than shipping a new post that competes with
-it. Whether to lift the freeze for new long-form pillar guides is still Nick's call; the
-rules for when he does are in BLOG-PLAYBOOK.md under "Length standard".
+**Every post is at least 1,700 words (Nick, 2026-10-14):** "each blog should have a minimum of
+1700 words with structured H1, 2, 3 etc with tables and everything too with colloquialism as
+if a real human wrote it." The 18 existing posts are being deepened to it (2026-10-14), mining the
+Pain 2 Power transcripts. `tools/slop-check.py` enforces it: 1,700+ words, 5+ h2s, 2+ h3s, no
+skipped levels, at least one captioned table, on top of the anti-slop rules. Rules and table
+markup: BLOG-PLAYBOOK.md "Length and structure". The freeze on NEW posts above still stands
+until Nick lifts it. Transcripts for mining: `transcript-full.md` / `transcripts.md` on the
+`media/ep{NN}-clips` branches, `transcript_v4.json` on `tmp/sabesan-out`, and raw word-level
+ASR (`*_words.json`, unreviewed) on the `tmp/sizzle-out-*` branches; fetch them with
+`git fetch --filter=blob:none` so the video blobs stay on the server.
 
 Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
 `/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into
