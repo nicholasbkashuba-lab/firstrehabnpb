@@ -262,8 +262,9 @@ change them again before that read.
 | `/treatments/headache-relief.html` (second pass, same day) | Headache Treatment in North Palm Beach \| First Rehab | Chronic Headache Treatment in North Palm Beach \| First Rehab | homepage answering North Palm Beach headache queries at 4.1 to 8.6 instead of this page |
 | `/treatments/hip-pain.html` (second pass, same day) | Hip Pain Relief in North Palm Beach \| First Rehabilitation (generated) | Hip Pain & Labral Tear Treatment \| North Palm Beach | "hip pain treatment west palm beach" 134 impr split between old `/blank-2` (75) and this page (58) |
 
-Descriptions changed on the same four pages, and on headache, knee and hip in the second pass
-(knee kept its title; the H1s and the hip page's name "Hip Pain Relief" did not change) (all 150 to 160 characters, phone number kept).
+Descriptions changed on the same four pages (all 150 to 160 characters, phone number kept),
+and on headache, knee and hip in the second pass (152 to 163 characters). Knee kept its title;
+the H1s, and the hip page's name "Hip Pain Relief", did not change.
 `/exercises.html` changed its description only, for accuracy: it called Dr. Kashuba a
 physical therapist. **Not changed on purpose:** `/insurance.html`, so the Medicare guide in
 PR #104 can be measured on the two Medicare queries (baseline in the deep dive, section 3).
