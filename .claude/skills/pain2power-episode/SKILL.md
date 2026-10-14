@@ -73,6 +73,13 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    `SIZZLE_EP=ep{NN} python3 run.py reel_week 9x16 16x9` from `tools/sizzle` with the master
    linked at `$SIZZLE_WORK/src/ep{NN}/master.mp4`. About 20 to 30 seconds. Look at a contact
    sheet before sending it anywhere.
+   What Nick rejected on the first Episode 18 reel, so pick against it: a line that is only
+   information (Lolita "lives in Juno Beach" had no punch), a line played over a wide shot
+   with a mic in front of the speaker, and a line whose speaker is not the one on screen.
+   What worked: a hook, a two-line title slam (`{"card": "TOPIC · ANGLE"}`) naming what the
+   episode is about, one number or claim said on air, a story with its payoff line, and a
+   laugh to close. Name cards go where the face is not (`name_at` when a camera frames a face
+   at the top).
 9. **Show Nick every clip and the sizzle reel in the chat** with SendUserFile, each with its
    caption and proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,

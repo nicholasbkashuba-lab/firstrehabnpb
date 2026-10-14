@@ -26,8 +26,10 @@ The episode JSON (times are MASTER times, i.e. the edited multicam, not the RAW 
      "fx": 0.46, "fy": 0.42, "z": 1.1, # 16:9 framing (focus as a fraction of the frame)
      "v": {"fx": 0.46, "fy": 0.42},    # 9:16 framing; set fx on the speaker's face
      "name": "ELYSE MARRONE", "sub": "REGISTERED DIETITIAN",   # optional, first line only
+     "name_at": 0.55,                  # optional: card height as a fraction, when the face is high
      "cams": [[305.9, {"fx": 0.3, "v": {"fx": 0.3}}]],          # optional camera switches
-     "words": [[304.54, 304.64, "I"], ...]}                      # reviewed caption words
+     "words": [[304.54, 304.64, "I"], ...]},                     # reviewed caption words
+    {"card": "BREAST CANCER  ·  WHAT YOU CAN CONTROL", "d": 1.3}    # optional title slam on black
   ]
 }
 
@@ -69,8 +71,10 @@ def _framing(src, m):
     return f
 
 
-def _name_card(fmt, t0, t1, name, sub):
-    """Guest name high in the frame, clear of faces and of the captions at the bottom."""
+def _name_card(fmt, t0, t1, name, sub, at=None):
+    """Name card high in the frame, clear of faces and of the captions at the bottom.
+    `at` (fraction of frame height) moves it when a camera frames the face at the very
+    top: Dave's Ep 18 camera does, and a high card sat right on his face."""
     g = fmt_geom(fmt)
     img = text_img([(name, INTER_BLACK, g["name"] * 0.8, CREAM), (sub, INTER_XB, g["sub"], GOLD)], g["W"],
                    track=0.015, stroke=max(3, int(g["name"] * 0.8) // 20))
@@ -78,6 +82,8 @@ def _name_card(fmt, t0, t1, name, sub):
         from PIL import Image
         img = img.resize((int(g["W"] * 0.92), int(img.height * g["W"] * 0.92 / img.width)), Image.LANCZOS)
     y = 420 if fmt == "9x16" else 230
+    if at is not None:
+        y = int(at * (1920 if fmt == "9x16" else 1080))
     return Txt(t0, t1, img, (g["cx"], y), "rise")
 
 
@@ -87,9 +93,17 @@ def build(key):
     src = cfg["src"]
     ep_no = cfg["episode"]
 
-    shots, dlg, caps, cuts, names = [], [], [], [], []
+    shots, dlg, caps, cuts, names, cards = [], [], [], [], [], []
     T = 0.0
     for m in cfg["moments"]:
+        if "card" in m:
+            # A title slam on black between lines: the trailer beat that frames the topic.
+            d = m.get("d", 1.3)
+            shots.append(black(d))
+            cards.append((T, T + d, m["card"]))
+            T += d
+            cuts.append(T)
+            continue
         a, b = m["a"], m["b"]
         base = _framing(src, m)
         switches = [(t, _framing(src, dict(m, **c))) for t, c in m.get("cams", []) if a < t < b]
@@ -102,7 +116,7 @@ def build(key):
             if a - 0.05 <= s < b:
                 caps.append((s - a + T, min(e, b) - a + T, w))
         if m.get("name"):
-            names.append((T + 0.25, T + min(2.6, b - a - 0.1), m["name"], m.get("sub", "")))
+            names.append((T + 0.25, T + min(2.6, b - a - 0.1), m["name"], m.get("sub", ""), m.get("name_at")))
         T += b - a
         cuts.append(T)
     cuts = cuts[:-1]
@@ -117,8 +131,15 @@ def build(key):
         # Captions at the very bottom, Nick's standard for every clip (2026-10-09); the
         # October reels place them higher, so this overrides lib's default y.
         out += captions(fmt, caps, max_words=3, max_chars=18, y=1745 if fmt == "9x16" else 985)
-        for t0, t1, n, s in names:
-            out.append(_name_card(fmt, t0, t1, n, s))
+        for t0, t1, n, s, at in names:
+            out.append(_name_card(fmt, t0, t1, n, s, at))
+        for t0, t1, txt in cards:
+            # "TOPIC  ·  ANGLE" stacks as two big lines; one long line shrinks to nothing on 9:16.
+            parts = [p.strip() for p in txt.split("·")]
+            ys = [g["card"]] if len(parts) == 1 else [g["card"] - g["slam"] * 0.45, g["card"] + g["slam"] * 0.45]
+            for i, (part, y) in enumerate(zip(parts, ys)):
+                out.append(slam(fmt, t0 + 0.05 + 0.12 * i, t1, part, where=y, size=g["slam"] * (0.8 if i == 0 else 0.6),
+                                color=CREAM if i == 0 else GOLD))
         out.append(image_card(fmt, end_t, dur, f"{REPO}/assets/media/podcast-cover.jpg", 0.3,
                               y=(g["card"] - 120) if fmt != "9x16" else 820, on="glow"))
         out.append(slam(fmt, end_t + 0.15, dur, end_title,
@@ -134,6 +155,9 @@ def build(key):
         for c in cuts:
             sc.s(S.whoosh(0.45), c - 0.3, 0.35)
             sc.s(S.kick(), c, 0.5)
+        for t0, _, _ in cards:
+            sc.s(S.boom(0.8, tail=1.6), t0, 0.8)
+            sc.m(S.braam(1.4, 55.0), t0, 0.45)
         sc.m(S.riser(1.4), end_t - 1.4, 0.45)
         sc.s(S.boom(1.0, tail=3.0), end_t, 0.9)
         sc.m(S.braam(END, 55.0), end_t, 0.55)
@@ -142,5 +166,6 @@ def build(key):
             sc.d(load_audio(src, a, b), t)
         return sc
 
-    reel = dict(shots=shots, texts=texts, hits=[end_t], flashes=[end_t], blacks=[])
+    card_hits = [t0 for t0, _, _ in cards]
+    reel = dict(shots=shots, texts=texts, hits=card_hits + [end_t], flashes=card_hits + [end_t], blacks=[])
     return reel, dur, score
