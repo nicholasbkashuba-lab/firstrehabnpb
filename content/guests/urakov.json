@@ -1,0 +1,61 @@
+{
+  "slug": "urakov",
+  "name": "Timur Urakov",
+  "honorific": "Dr.",
+  "credentials": "M.D.",
+  "headline": "Spine neurosurgeon, University of Miami",
+  "affiliation": {
+    "name": "University of Miami Health System",
+    "url": "https://doctors.umiamihealth.org/provider/Timur+Urakov/1080053"
+  },
+  "location": "Miami, FL",
+  "episodes": [
+    "Episode 3"
+  ],
+  "on_the_show": "Dr. Urakov came on the show to explain how spine care has changed, from minimally invasive techniques to the advanced surgical technology now used to treat conditions along the entire spine. He and Dave worked through the questions patients are most afraid to ask about back and neck surgery, and talked about when an operation is the right call and when it is not.",
+  "on_the_show_quote": "",
+  "background": [
+    {
+      "text": "He is a board certified neurosurgeon, certified by the American Board of Neurological Surgery.",
+      "source": "https://doctors.umiamihealth.org/provider/Timur+Urakov/1080053"
+    },
+    {
+      "text": "He treats traumatic, degenerative and neoplastic conditions along the entire spine, with an emphasis on minimally invasive approaches using robotics and advanced 3D imaging.",
+      "source": "https://med.miami.edu/faculty/timur-urakov-md"
+    },
+    {
+      "text": "He completed his neurological surgery residency at the University of Miami and Jackson Memorial Hospital, along with a spine surgery fellowship at the University of Miami.",
+      "source": "https://doctors.umiamihealth.org/provider/Timur+Urakov/1080053"
+    },
+    {
+      "text": "He earned his medical degree at St. George&rsquo;s University School of Medicine, after studying physiology at the University of Toronto.",
+      "source": "https://med.miami.edu/faculty/timur-urakov-md"
+    },
+    {
+      "text": "His faculty profile describes his work bringing augmented reality and heads up displays into the spine operating room.",
+      "source": "https://med.miami.edu/faculty/timur-urakov-md"
+    },
+    {
+      "text": "He sees patients in English and Russian.",
+      "source": "https://doctors.umiamihealth.org/provider/Timur+Urakov/1080053"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Dr. Urakov at UHealth, University of Miami",
+      "url": "https://doctors.umiamihealth.org/provider/Timur+Urakov/1080053",
+      "verified_by": "official University of Miami Health System find-a-doctor directory"
+    },
+    {
+      "type": "profile",
+      "label": "Dr. Urakov&rsquo;s Miller School of Medicine faculty page",
+      "url": "https://med.miami.edu/faculty/timur-urakov-md",
+      "verified_by": "official University of Miami Miller School of Medicine faculty directory"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "No transcript exists for Episode 3; on_the_show is from the EPISODES blurb only. His academic rank conflicts across sources: the EPISODES blurb says Associate Professor of Clinical Medicine, the Miller School faculty page header says Associate Professor of Clinical Neurosurgery (and Associate Program Director) while its own bio text says Associate Professor of Clinical Medicine, and the UHealth clinical directory says Assistant Professor of Clinical Medicine. I left the rank out of background and the headline; the site's EPISODES blurb carries 'Associate Professor of Clinical Medicine' and may want checking. Both UM pages list the spine fellowship (2016) as earlier than residency completion (2019), so I gave no years. Identity confirmed by specialty plus University of Miami, matching the blurb. He practices in Miami (UHealth, 1295 NW 14th Street), not Palm Beach County. No personal site or social accounts found; neither UM page links any.",
+  "researched": "2026-10-14"
+}

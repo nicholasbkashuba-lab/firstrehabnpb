@@ -1,0 +1,61 @@
+{
+  "slug": "leighton",
+  "name": "Michael Leighton",
+  "honorific": "Dr.",
+  "credentials": "MD",
+  "headline": "Orthopedic surgeon, sports medicine and joint replacement",
+  "affiliation": {
+    "name": "Palm Beach Orthopaedic Institute",
+    "url": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+  },
+  "location": "Palm Beach Gardens, FL",
+  "episodes": [
+    "Episode 12"
+  ],
+  "on_the_show": "Dr. Leighton, whom Dave has referred patients to since 1994, broke down total hip replacement, including the anterior and posterior approaches and why he steers heavier or older patients toward the posterior approach. He puts lifetime infection risk at under 1 to 2 percent, higher in smokers, nicotine vapers and diabetics with an A1C above 7.5, and explained why dental hygiene matters before joint surgery and why bone needs about six weeks to grow into a modern non cemented implant. He also noted that most of the old dislocation precautions are gone.",
+  "on_the_show_quote": "This is the best operation that&rsquo;s done in orthopedics&hellip; the single best operation that Medicare pays for.",
+  "background": [
+    {
+      "text": "He specializes in sports medicine and arthroscopic surgery of the knee and shoulder, as well as total joint replacement of the knee, hip and shoulder, and has practiced in Palm Beach County since 1994.",
+      "source": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+    },
+    {
+      "text": "He is board certified by the American Board of Orthopaedic Surgery and holds its subspecialty certification in Orthopaedic Sports Medicine.",
+      "source": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+    },
+    {
+      "text": "He earned a Bachelor of Arts in philosophy at Duke University and his medical degree at Robert Wood Johnson Medical School (Rutgers), where he also completed his residency.",
+      "source": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+    },
+    {
+      "text": "He completed a sports medicine fellowship at Rush St. Luke&rsquo;s Medical Center in Chicago in 1994.",
+      "source": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+    },
+    {
+      "text": "He performs both posterior and direct anterior total hip replacement using minimally invasive techniques, and robotic assisted (Mako) total and partial knee replacement.",
+      "source": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+    },
+    {
+      "text": "He serves as team physician for local high schools and sits on the Board of Governors of Jupiter Medical Center.",
+      "source": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Dr. Leighton at Palm Beach Orthopaedic Institute",
+      "url": "https://www.pboi.com/michael-leighton-md-orthopaedic-surgeon-palm-beach-gardens-jupiter.html",
+      "verified_by": "official Palm Beach Orthopaedic Institute physician page (pboi.com), opened 2026-10-14"
+    },
+    {
+      "type": "instagram",
+      "label": "Palm Beach Orthopaedic Institute on Instagram (practice account)",
+      "url": "https://www.instagram.com/palmbeachorthopaedicinstitute",
+      "verified_by": "practice account linked from his official PBOI profile page"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "Identity confirmed: PBOI orthopedic surgeon in Palm Beach Gardens and Jupiter, practicing in Palm Beach County since 1994, Duke undergraduate, hip and knee replacement, all matching the episode. No transcript exists for Episode 12; on_the_show is from the build.py blurb only, so the attribution of the infection figures to him is from blurb context. The blurb's claim that he played Division I baseball at Duke is not on the PBOI page and was not verified; left out. The $1,162 Medicare figure is in the blurb but it is unclear who said it, so it was left out of on_the_show. The practice writes its name both 'Orthopaedic' (page titles) and 'Orthopedic' (his profile header); used 'Orthopaedic'. No personal social accounts found; instagram_handle left empty because the only verified Instagram is the practice account (palmbeachorthopaedicinstitute), which could be used as a collaborator if Nick wants the practice tagged. Phone numbers vary across directories; none was given in the blurb, so phone_on_air is empty.",
+  "researched": "2026-10-14"
+}

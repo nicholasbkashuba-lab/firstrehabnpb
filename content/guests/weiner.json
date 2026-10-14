@@ -1,0 +1,51 @@
+{
+  "slug": "weiner",
+  "name": "Richard L. Weiner",
+  "honorific": "Dr.",
+  "credentials": "M.D.",
+  "headline": "Orthopaedic surgeon, hip and knee replacement",
+  "affiliation": {
+    "name": "Orthopaedic Care Specialists",
+    "url": "https://orthocarefl.com/doctor/dr-richard-weiner/"
+  },
+  "location": "North Palm Beach, FL",
+  "episodes": [
+    "Episode 6"
+  ],
+  "on_the_show": "Dr. Weiner, who has worked alongside Dave since 1990, spent much of the hour on how to keep people out of the operating room. He described a ladder of care that starts with conservative treatment and physical therapy and treats surgery as the last resort. On knee replacement, he puts it at over 40% of total knee patients who could have had a partial instead, against about 10% in the United States who actually get one, and he explained why a partial can feel more like a normal knee.",
+  "on_the_show_quote": "You don&rsquo;t treat an X-ray, you treat the patient.",
+  "background": [
+    {
+      "text": "He earned a Bachelor of Science in chemical engineering from the University of Pennsylvania School of Engineering and Applied Science, then his medical degree from the University of Pennsylvania School of Medicine.",
+      "source": "https://orthocarefl.com/doctor/dr-richard-weiner/"
+    },
+    {
+      "text": "He completed his orthopaedic surgery residency at New Jersey Medical School, University of Medicine and Dentistry of New Jersey, in 1991.",
+      "source": "https://orthocarefl.com/doctor/dr-richard-weiner/"
+    },
+    {
+      "text": "He is a Diplomate of the American Board of Orthopaedic Surgery and a Fellow of the American Academy of Orthopaedic Surgeons.",
+      "source": "https://orthocarefl.com/doctor/dr-richard-weiner/"
+    },
+    {
+      "text": "At St. Mary&rsquo;s Medical Center in West Palm Beach he served as Chief of Orthopedic Trauma Surgery from 1993 to 2019.",
+      "source": "https://orthocarefl.com/doctor/dr-richard-weiner/"
+    },
+    {
+      "text": "His practice profile notes that he uses the Oxford partial knee replacement and dual mobility total hip replacements.",
+      "source": "https://orthocarefl.com/doctor/dr-richard-weiner/"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Dr. Weiner at Orthopaedic Care Specialists",
+      "url": "https://orthocarefl.com/doctor/dr-richard-weiner/",
+      "verified_by": "official Orthopaedic Care Specialists physician page, linked from the practice's own team list at orthocarefl.com"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "No transcript file was found for Episode 6 (no media branch for it). on_the_show draws on the EPISODES blurb plus the two existing site blog posts written from the Episode 6 transcript (knee-arthritis-before-surgery and the partial vs total knee post in build.py), which quote him directly; the quote is taken from those posts, not checked against a transcript in this session. 'Worked alongside Dave since 1990' also comes from the knee-arthritis post. The 40% / 10% partial knee figures also appear on his practice page. The EPISODES blurb calls him 'world-renowned' and says 35+ years in practice; his practice page says over 30 years. Identity confirmed: hip and knee replacement surgeon, engineering and medicine at Penn (exact match to the blurb), Orthopaedic Care Specialists, 733 US Highway 1, North Palm Beach, the same building as First Rehabilitation. No personal site or social accounts found; the practice site links none.",
+  "researched": "2026-10-14"
+}

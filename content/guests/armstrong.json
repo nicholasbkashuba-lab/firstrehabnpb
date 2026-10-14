@@ -1,0 +1,69 @@
+{
+  "slug": "armstrong",
+  "name": "Danielle Armstrong",
+  "honorific": "",
+  "credentials": "",
+  "headline": "Owner of Pilates Life and Pilates master instructor",
+  "affiliation": {
+    "name": "Pilates Life",
+    "url": "https://pilateslifestudio.com/team"
+  },
+  "location": "Palm Beach Gardens, FL",
+  "episodes": [
+    "Episode 18"
+  ],
+  "on_the_show": "Danielle owns Pilates Life on Northlake and is a former dancer. She said that this year in particular she has worked with many women in their mid 60s to mid 70s through a breast cancer diagnosis and treatment, keeping them active and moving. She traced her training back to Joseph Pilates through Romana Kryzanowska and Lolita San Miguel, and told the story of Eve Gentry, the dancer Pilates helped regain her full range of motion after a radical mastectomy.",
+  "on_the_show_quote": "Prevention is better than a cure.",
+  "background": [
+    {
+      "text": "She grew up in Western New York and is an honors graduate of SUNY Purchase College, where she earned a BFA from the Conservatory of Dance and was first introduced to the Pilates method.",
+      "source": "https://pilateslifestudio.com/team"
+    },
+    {
+      "text": "In 2002 she completed more than 600 hours of teacher training and was certified through Pilates Inc. under the direction of Romana Kryzanowska, along with Ton Voogt and Michael Fritzke.",
+      "source": "https://pilateslifestudio.com/team"
+    },
+    {
+      "text": "She opened her first studio in Norwalk, Connecticut, in 2005 and moved to Florida in 2009, where she has taught dance and Pilates, including at the Harid Conservatory.",
+      "source": "https://pilateslifestudio.com/team"
+    },
+    {
+      "text": "She met Lolita San Miguel in 2012, completed Lolita&rsquo;s Pilates Master Mentor Program in 2014, and was selected to teach Lolita&rsquo;s Legacy, Lolita&rsquo;s teacher training program.",
+      "source": "https://pilateslifestudio.com/team"
+    },
+    {
+      "text": "Her studio opened in 2011 as Classical Pilates at The Florida School for Dance Education and, renamed Pilates Life, is now home to Lolita&rsquo;s Pilates Center.",
+      "source": "https://pilateslifestudio.com/team"
+    }
+  ],
+  "links": [
+    {
+      "type": "website",
+      "label": "Pilates Life",
+      "url": "https://pilateslifestudio.com/",
+      "verified_by": "studio site; same 561-288-8151 number given on air, Northlake Blvd address in Palm Beach Gardens; on-air address pilateslifeflorida.com reported to redirect here (per content/youtube/ep18-youtube.md)"
+    },
+    {
+      "type": "profile",
+      "label": "Danielle Armstrong at Pilates Life",
+      "url": "https://pilateslifestudio.com/team",
+      "verified_by": "studio Team page lists her as Owner/Operator with full bio"
+    },
+    {
+      "type": "instagram",
+      "label": "Pilates Life on Instagram",
+      "url": "https://www.instagram.com/pilateslifeflorida",
+      "verified_by": "linked from the header and footer of pilateslifestudio.com (studio account)"
+    },
+    {
+      "type": "facebook",
+      "label": "Pilates Life on Facebook",
+      "url": "https://www.facebook.com/1877146555834067",
+      "verified_by": "linked from the header and footer of pilateslifestudio.com (studio account)"
+    }
+  ],
+  "instagram_handle": "pilateslifeflorida",
+  "phone_on_air": "561-288-8151",
+  "research_notes": "Identity confirmed: studio name, Northlake location (4360 Northlake Blvd, Palm Beach Gardens) and the 561-288-8151 number all match what she said on air, and the Team page names her as Owner/Operator. instagram_handle is the STUDIO account (pilateslifeflorida), not a personal one; no personal handle was found on the studio site, so none is given. Her site titles her 'Lolita San Miguel Pilates Second Generation Master Instructor, Lolita's Legacy Educator'; these are titles, not post-nominals, so credentials is empty. Her site spells the teacher 'Romana Kyrzanowska'; the episode blurb and standard spelling is 'Kryzanowska', used here. The bio's family details (spouse, children) are left out per the brief. The site's claim that Lolita San Miguel was 'one of two people' certified by Joseph Pilates is about Lolita, not Danielle, and is not used. On air she said Lolita turns 92 on October 9; not used in background. Health detail she shared on air (frozen shoulder treated by Dave) summarised only as 'first came to Dave as a patient'; drop that too if preferred.",
+  "researched": "2026-10-14"
+}
