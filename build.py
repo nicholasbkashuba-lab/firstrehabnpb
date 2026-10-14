@@ -99,12 +99,12 @@ PHOTOS = {
 # any other photo is. Five of the six were shot in one session against the same
 # hedge, so a shared 4:5 crop with per-face focal points reads as a real set.
 _TEAM_FOCAL = {
-    "david.jpg": ("45% 24%", "Dr. David Kashuba, Ph.D., founder and CEO of First Rehabilitation"),
+    "david.jpg": ("45% 24%", "David Kashuba, Ph.D., OTR, founder and CEO of First Rehabilitation"),
     "nick.jpg": ("50% 26%", "Nick Kashuba, Chief Operating Officer of First Rehabilitation"),
-    "logan.jpg": ("44% 26%", "Logan Van Sant, Physical Therapist at First Rehabilitation"),
-    "kayla.jpg": ("56% 20%", "Kayla Dorsey, DPT, Physical Therapist at First Rehabilitation"),
-    "joni.jpg": ("50% 27%", "Joni Janik, Occupational Therapist at First Rehabilitation"),
-    "laura.jpg": ("47% 25%", "Laura Drumm, Certified Hand Therapist at First Rehabilitation"),
+    "logan.jpg": ("44% 26%", "Logan Van Sant, PT, DPT, Physical Therapist at First Rehabilitation"),
+    "kayla.jpg": ("56% 20%", "Kayla Dorsey, PT, DPT, Physical Therapist at First Rehabilitation"),
+    "joni.jpg": ("50% 27%", "Joan (Joni) Janik, OTD, Occupational Therapist at First Rehabilitation"),
+    "laura.jpg": ("47% 25%", "Laura Drumm, MS, OTR/L, CHT, Certified Hand Therapist at First Rehabilitation"),
 }
 for _f, (_focal, _alt) in _TEAM_FOCAL.items():
     PHOTOS[f"team-{_f[:-4]}"] = {"src": f"assets/team/{_f}", "focal": _focal, "alt": _alt}
@@ -139,8 +139,8 @@ SERVICE_MEDIA = {
     # Logan rather than Kayla: the lead frame is landscape, and Kayla's source is
     # a portrait-orientation full-body shot that crops to a small face and dead
     # sky. Logan's is chest-up and landscape, matching Laura's on hand therapy.
-    "physical-therapy":     ("portrait", "team-logan", "Logan Van Sant", "Physical Therapist"),
-    "hand-therapy":         ("portrait", "team-laura", "Laura Drumm", "Certified Hand Therapist"),
+    "physical-therapy":     ("portrait", "team-logan", "Logan Van Sant, PT, DPT", "Physical Therapist"),
+    "hand-therapy":         ("portrait", "team-laura", "Laura Drumm, MS, OTR/L, CHT", "Certified Hand Therapist"),
 }
 
 # ----------------------------------------------------------------------------
@@ -357,7 +357,7 @@ GA_TAG = """<!-- Google tag (gtag.js) -->
   gtag('config', '%s');
 </script>""" % (GA_MEASUREMENT_ID, GA_MEASUREMENT_ID)
 
-def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema=""):
+def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema="", robots="index, follow, max-image-preview:large"):
     p = "../" * depth
     base = "https://www.firstrehabnpb.com"
     canon = f"{base}/{canonical}" if canonical else base + "/"
@@ -379,7 +379,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{canon}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="{robots}">
 <meta name="author" content="First Rehabilitation of North Palm Beach">
 <meta name="geo.region" content="US-FL">
 <meta name="geo.placename" content="North Palm Beach">
@@ -420,7 +420,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
   "foundingDate": "1991",
-  "founder": {{ "@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba", "name": "David Kashuba, Ph.D.", "jobTitle": "CEO & Occupational Therapist" }},
+  "founder": {{ "@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba", "name": "David Kashuba", "honorificSuffix": "Ph.D., OTR", "jobTitle": "CEO & Occupational Therapist" }},
   "priceRange": "$$",
   "slogan": "Our People Make the Difference",
   "medicalSpecialty": ["PhysicalTherapy", "OccupationalTherapy"],
@@ -600,6 +600,7 @@ def footer(depth=0):
           <li><a href="{p}about.html">About Us</a></li>
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}insurance.html">Insurance &amp; Medicare</a></li>
+          <li><a href="{p}glossary.html">Patient Glossary</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}videos.html">Video Episodes</a></li>
@@ -1199,7 +1200,7 @@ SERVICES = {
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
-        "intro": "Led by certified hand therapist Laura Drumm, CHT, our hand therapy program brings surgical-grade precision to rehabilitation of the hand, wrist, and upper extremity. From custom-fabricated splints to post-operative tendon protocols, every detail of care is tailored to the fine mechanics of how you grip, pinch, lift, and live.",
+        "intro": "Led by Laura Drumm, MS, OTR/L, CHT, CLT, a certified hand therapist who is also a certified lymphedema therapist, our hand therapy program brings surgical-grade precision to rehabilitation of the hand, wrist, and upper extremity. From custom-fabricated splints to post-operative tendon protocols, every detail of care is tailored to the fine mechanics of how you grip, pinch, lift, and live.",
         "items": [
             ("Carpal Tunnel &amp; Nerve Conditions", "Conservative and post-surgical care for nerve compression, with activity modification that lasts."),
             ("Arthritis Management", "Joint protection strategies, adaptive techniques, and pain-relieving modalities for arthritic hands."),
@@ -2076,7 +2077,7 @@ LOCATIONS = {
         "local": [
             ("Occupational therapy for West Palm Beach", [
                 "Most clinics within West Palm Beach are staffed for physical therapy: physical therapists and physical therapist assistants, treating movement, strength and pain. That is genuinely what many people need. But if your problem is that you cannot dress yourself, manage a kitchen, or perform the specific tasks your job requires, the discipline you are looking for is occupational therapy, and it is a different credential with different training.",
-                "Our occupational therapy program is led by our founder, David Kashuba, Ph.D., who is himself an occupational therapist and has been treating patients since 1991, alongside Joni Janik, OT. That matters on a practical level: the person setting your plan has been doing this work for over three decades, not reading it off a protocol sheet. Read more about our <a href=\"../services/occupational-therapy.html\">occupational therapy program</a>.",
+                "Our occupational therapy program is led by our founder, David Kashuba, Ph.D., who is himself an occupational therapist and has been treating patients since 1991, alongside Joan &ldquo;Joni&rdquo; Janik, OTD. That matters on a practical level: the person setting your plan has been doing this work for over three decades, not reading it off a protocol sheet. Read more about our <a href=\"../services/occupational-therapy.html\">occupational therapy program</a>.",
                 "West Palm Beach also sends us a different mix than our smaller neighbouring towns — more work injuries, more auto accident referrals, and more people who need to get back to one specific job rather than to general daily activity. For workers' compensation and auto accident cases we work directly with your adjuster or attorney's office on documentation, and treatment is built around what your case actually has to demonstrate. You can read more about our <a href=\"../treatments/workers-comp.html\">workers' comp program</a> or <a href=\"../treatments/auto-accident.html\">auto accident physical therapy</a>.",
             ]),
             ("Certified hand therapy, worth the drive north", [
@@ -2171,7 +2172,7 @@ def build_locations():
       <h2>Getting here from {L["city"]}</h2>
       <p>{L["drive"]}</p>
 {local_block}      <h2>Our team, by name</h2>
-      <p>Unlike clinics that list no practitioners at all, we're proud to tell you exactly who will guide your recovery: David Kashuba, Ph.D. (CEO &amp; Occupational Therapist, treating patients since 1991), Kayla Dorsey, DPT and Logan Van Sant (Physical Therapists), Joni Janik (Occupational Therapist), and Laura Drumm (Certified Hand Therapist). Meet everyone on our <a href="../about.html">About page</a>.</p>
+      <p>Unlike clinics that list no practitioners at all, we're proud to tell you exactly who will guide your recovery: David Kashuba, Ph.D., OTR (CEO &amp; Occupational Therapist, treating patients since 1991), Kayla Dorsey, PT, DPT and Logan Van Sant, PT, DPT (Physical Therapists), Joan &ldquo;Joni&rdquo; Janik, OTD (Occupational Therapist), and Laura Drumm, MS, OTR/L, CHT (Certified Hand Therapist). Meet everyone on our <a href="../about.html">About page</a>.</p>
       <p class="related-links"><strong>Common conditions we treat for {L["city"]} patients:</strong> {cond_links}</p>
     </div>
     <aside class="side-card reveal d2">
@@ -2221,22 +2222,22 @@ def build_locations():
 # with an empty bio it renders exactly like the original static card. NEVER
 # invent bios, specialties, or fun facts here.
 TEAM = [
-    {"name": "David Kashuba, Ph.D.", "role": "CEO &amp; Occupational Therapist",
+    {"name": "David Kashuba, Ph.D., OTR", "slug": "david-kashuba", "role": "CEO &amp; Occupational Therapist",
      "blurb": "Founded First Rehabilitation in 1991 and still treats patients hands-on every day — leading the clinic's comprehensive, high-end approach to rehabilitation across three decades and tens of thousands of recoveries.",
      "img": "david.jpg", "bio": "", "specialties": [], "fun_fact": ""},
-    {"name": "Nick Kashuba", "role": "Chief Operating Officer",
+    {"name": "Nick Kashuba", "slug": "nick-kashuba", "role": "Chief Operating Officer",
      "blurb": "Second-generation leadership keeping the clinic's family-owned values — and its promise that our people make the difference — at the center of everything we do.",
      "img": "nick.jpg", "bio": "", "specialties": [], "fun_fact": ""},
-    {"name": "Logan Van Sant", "role": "Physical Therapist",
-     "blurb": "A wealth of knowledge in the physical therapy world, dedicated to helping patients move and feel their best.",
+    {"name": "Logan Van Sant, PT, DPT", "slug": "logan-van-sant", "role": "Physical Therapist",
+     "blurb": "A Doctor of Physical Therapy dedicated to helping patients move and feel their best, with hands-on, one-on-one care.",
      "img": "logan.jpg", "bio": "", "specialties": [], "fun_fact": ""},
-    {"name": "Kayla Dorsey, DPT", "role": "Physical Therapist",
+    {"name": "Kayla Dorsey, PT, DPT", "slug": "kayla-dorsey", "role": "Physical Therapist",
      "blurb": "A Doctor of Physical Therapy with over a decade of extensive clinical experience in personalized, hands-on care.",
      "img": "kayla.jpg", "bio": "", "specialties": [], "fun_fact": ""},
-    {"name": "Joni Janik", "role": "Occupational Therapist",
-     "blurb": "Helps patients reclaim the daily activities that matter most — restoring independence, confidence, and quality of life.",
+    {"name": "Joan &ldquo;Joni&rdquo; Janik, OTD", "slug": "joni-janik", "legal_name": "Joan Janik", "alt_name": "Joni Janik", "role": "Occupational Therapist",
+     "blurb": "A Doctor of Occupational Therapy who helps patients reclaim the daily activities that matter most, restoring independence, confidence, and quality of life.",
      "img": "joni.jpg", "bio": "", "specialties": [], "fun_fact": ""},
-    {"name": "Laura Drumm", "role": "Certified Hand Therapist",
+    {"name": "Laura Drumm, MS, OTR/L, CHT, CLT", "slug": "laura-drumm", "role": "Certified Hand Therapist",
      "blurb": "Leads our certified hand therapy program with surgical-grade precision — from custom splinting to post-operative tendon protocols.",
      "img": "laura.jpg", "bio": "", "specialties": [], "fun_fact": ""},
 ]
@@ -2246,7 +2247,7 @@ def build_about():
     # Empty bio -> the exact static card the page has always shown, with no
     # expand affordance. Filling in TEAM[n]["bio"] flips the card on rebuild.
     def _team_card(i, t):
-        slug = t["name"].lower().split(",")[0].replace(" ", "-").replace(".", "")
+        slug = t["slug"]
         base = f'''<div class="team-photo">
           {photo("team-" + t["img"][:-4], sizes="(max-width:768px) 46vw, 300px", ratio="4/5")}
         </div>
@@ -2256,7 +2257,7 @@ def build_about():
         # highest-intent visitor we get — the page had no way to act on that.
         # A quiet named text link, in the slot the expandable card already
         # reserves for "Read full profile", so it never fights the grid.
-        first = t["name"].split(",")[0].split()[0]
+        first = (t.get("alt_name") or t["name"]).split(",")[0].split()[0]
         book = (f'<a class="tc-book" href="contact.html">Book with {first} '
                 f'<span class="arr">&rarr;</span></a>')
         if not t["bio"]:
@@ -2884,36 +2885,52 @@ ORG_ID = "https://www.firstrehabnpb.com/#organization"
 ORG_REF = {"@id": ORG_ID}
 
 def person_schema():
-    """Person JSON-LD for every named clinician/leader (E-E-A-T)."""
+    """Person JSON-LD for every named clinician/leader (E-E-A-T).
+
+    Credentials were verified 2026-10-14 against the NPPES NPI Registry (licence type
+    and, where listed, the credential field) plus each clinician's public profile:
+    David Kashuba OTR (NPI 1679603468; Ph.D. per his own profile), Kayla Dorsey PT, DPT
+    (NPI 1689128993), Logan Van Sant PT (NPI 1962367136; DPT per Nick), Joan Janik
+    licensed OT (NPI 1578393849; OTD per Nick), Laura Drumm OTR (NPI 1861459695;
+    MS, OTR/L, CHT, CLT per her public profile). Licence NUMBERS are deliberately
+    not published. Keys are TEAM slugs, so a display-name change cannot orphan them.
+    """
     import json as _json
     knows = {
-        "David Kashuba, Ph.D.": ["Occupational Therapy", "Outpatient Rehabilitation", "Clinic Leadership"],
-        "Nick Kashuba": ["Healthcare Operations", "Patient Experience"],
-        "Logan Van Sant": ["Physical Therapy", "Orthopedic Rehabilitation"],
-        "Kayla Dorsey, DPT": ["Physical Therapy", "Orthopedic Rehabilitation", "Post-Surgical Rehabilitation"],
-        "Joni Janik": ["Occupational Therapy", "Activities of Daily Living", "Stroke Recovery"],
-        "Laura Drumm": ["Certified Hand Therapy", "Custom Splinting", "Upper Extremity Rehabilitation"],
+        "david-kashuba": ["Occupational Therapy", "Outpatient Rehabilitation", "Clinic Leadership"],
+        "nick-kashuba": ["Healthcare Operations", "Patient Experience"],
+        "logan-van-sant": ["Physical Therapy", "Orthopedic Rehabilitation"],
+        "kayla-dorsey": ["Physical Therapy", "Orthopedic Rehabilitation", "Post-Surgical Rehabilitation"],
+        "joni-janik": ["Occupational Therapy", "Activities of Daily Living", "Stroke Recovery"],
+        "laura-drumm": ["Certified Hand Therapy", "Custom Splinting", "Upper Extremity Rehabilitation"],
     }
     creds = {
-        "David Kashuba, Ph.D.": "Ph.D.",
-        "Kayla Dorsey, DPT": "DPT (Doctor of Physical Therapy)",
-        "Laura Drumm": "CHT (Certified Hand Therapist)",
+        "david-kashuba": ["Doctor of Philosophy (Ph.D.)", "Occupational Therapist, Registered (OTR)"],
+        "kayla-dorsey": ["Doctor of Physical Therapy (DPT)", "Licensed Physical Therapist (PT)"],
+        "logan-van-sant": ["Doctor of Physical Therapy (DPT)", "Licensed Physical Therapist (PT)"],
+        "joni-janik": ["Doctor of Occupational Therapy (OTD)", "Licensed Occupational Therapist"],
+        "laura-drumm": ["Master of Science (MS)", "Occupational Therapist, Registered and Licensed (OTR/L)",
+                        "Certified Hand Therapist (CHT)", "Certified Lymphedema Therapist (CLT)"],
     }
     people = []
     for t in TEAM:
-        name, role = t["name"], t["role"]
+        slug, role = t["slug"], t["role"]
         # Prefer the real long-form bio once the owner supplies it.
         desc = t["bio"] or t["blurb"]
-        slug = name.lower().split(",")[0].replace(" ", "-").replace(".", "")
         p = {"@type": "Person",
              "@id": f"https://www.firstrehabnpb.com/about.html#{slug}",
-             "name": _faq_plain(name),
+             "name": _faq_plain(t.get("legal_name") or t["name"].split(",")[0]),
              "jobTitle": _faq_plain(role),
              "description": _faq_plain(desc),
              "worksFor": ORG_REF,
-             "knowsAbout": knows.get(name, ["Rehabilitation"])}
-        if name in creds:
-            p["hasCredential"] = {"@type": "EducationalOccupationalCredential", "name": creds[name]}
+             "knowsAbout": knows.get(slug, ["Rehabilitation"])}
+        if t.get("alt_name"):
+            p["alternateName"] = t["alt_name"]
+        if "," in t["name"]:
+            p["honorificSuffix"] = _faq_plain(t["name"].split(",", 1)[1].strip())
+        if slug in creds:
+            p["hasCredential"] = [{"@type": "EducationalOccupationalCredential", "name": c}
+                                  for c in creds[slug]]
         people.append(p)
     data = {"@context": "https://schema.org", "@graph": people}
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
@@ -3053,7 +3070,7 @@ BLOG_POSTS = {
         "iso": "2026-10-12",
         "tag": "Physical Therapy",
         "teaser": "You tweaked your back lifting a kayak onto the roof rack. Your shoulder has ached since you started playing pickleball four mornings a week. Your knee\u2026",
-        "body": "<p>You tweaked your back lifting a kayak onto the roof rack. Your shoulder has ached since you started playing pickleball four mornings a week. Your knee replacement was six weeks ago and the surgeon said to start therapy, but didn't say where. Or maybe nothing dramatic happened at all \u2014 you just noticed that getting up from the couch takes a little more effort than it used to, and you'd like to do something about it before it gets worse.</p>\n\n<p>Whatever brought you here, the question is usually the same: is there somewhere close by that can actually help with <em>this</em>, and how soon can they see me?</p>\n\n<p>Here's what physical therapy in North Palm Beach looks like at our clinic \u2014 the conditions we see most, the treatments we use, and what happens when you walk in the door.</p>\n\n<h2>The conditions we treat most often</h2>\n\n<p>Physical therapy covers a lot of ground, so it helps to be specific. These are the problems that fill our schedule week to week.</p>\n\n<p><strong>Back and neck pain.</strong> Lower back pain is the single most common reason people call us. Sometimes it's a disc issue, sometimes it's a strained muscle, and very often it's years of sitting at a desk with a monitor set two inches too low. Neck pain and the headaches that come with it usually trace back to the same place. We figure out which it is before we treat it.</p>\n\n<p><strong>Shoulder injuries.</strong> Rotator cuff tears and tendinitis, frozen shoulder, impingement, post-surgical recovery. Shoulders are complicated joints and they don't tend to resolve on their own \u2014 they get stiffer and more guarded the longer you wait.</p>\n\n<p><strong>Knee and hip pain.</strong> Osteoarthritis, meniscus tears, IT band problems, and the general wear that shows up after decades of walking around on them. We also handle a steady volume of pre-surgical conditioning, which makes a measurable difference in how fast people recover afterward.</p>\n\n<p><strong>Joint replacement recovery.</strong> Hips and knees, mostly. There's a protocol to follow, but there's also a person attached to the joint, and the two don't always move at the same pace. We adjust.</p>\n\n<p><strong>Sports injuries.</strong> Ankle sprains, hamstring strains, tennis and golfer's elbow, and the overuse injuries that come with doing the same motion several thousand times. North Palm Beach has a lot of people playing tennis, golf, and pickleball year-round, and we see the results.</p>\n\n<p><strong>Balance problems and fall prevention.</strong> If you've had a fall, or you've started holding the railing on stairs you used to take without thinking, that's worth addressing. Balance is trainable. Most people are surprised how much it improves with focused work.</p>\n\n<p><strong>Neurological rehab.</strong> Recovery after a stroke, and management of conditions like Parkinson's and multiple sclerosis \u2014 working on gait, strength, coordination, and the practical business of moving through a day safely.</p>\n\n<p><strong>Work and auto injuries.</strong> Repetitive strain, lifting injuries, whiplash and soft tissue damage after a car accident. These often involve paperwork and reporting requirements, and we handle that side of it too.</p>\n\n<h2>What treatment actually involves</h2>\n\n<p>A lot of people picture physical therapy as a room full of exercise bikes. Some of it is exercise \u2014 but the exercise is chosen deliberately, and it's rarely the whole picture.</p>\n\n<p><strong>Manual therapy.</strong> Hands-on work: joint mobilization, soft tissue release, stretching done with resistance we control. This is often what gets a stiff joint moving enough that the exercise portion becomes possible.</p>\n\n<p><strong>Therapeutic exercise.</strong> Progressive strengthening and mobility work targeted at the specific weakness causing your problem. Not general fitness \u2014 if your hip pain comes from weak glute medius, that's what we train.</p>\n\n<p><strong>Gait and balance training.</strong> Retraining how you walk and how you recover when your weight shifts unexpectedly.</p>\n\n<p><strong>Modalities.</strong> Ultrasound, electrical stimulation, heat and ice, used where they help with pain and inflammation. They support the work rather than replace it.</p>\n\n<p><strong>Home exercise programs.</strong> The hour you spend with us matters less than what happens the other 167. We send you home with specific, manageable work, and we check that you can do it correctly before you leave.</p>\n\n<h2>Your first visit</h2>\n\n<p>The first appointment is an evaluation, and it takes the longest. We'll ask about what's happening, when it started, what makes it worse, and what you're hoping to get back to \u2014 whether that's a golf swing, a flight of stairs, or a full night's sleep without rolling onto the bad shoulder.</p>\n\n<p>Then we assess. Range of motion, strength, how you move, where it hurts and where it doesn't. From there we build a plan with a realistic timeline and tell you honestly what we expect.</p>\n\n<p>If we think your problem needs a different kind of care \u2014 imaging, a surgical consult, a specialist \u2014 we'll say so. That's part of the evaluation too.</p>\n\n<p>Wear something you can move in. Bring any imaging reports or referral paperwork if you have them. If you don't have a referral, that's often fine in Florida; call and we'll explain how it works with your specific insurance.</p>\n\n<h2>Why local matters more than you'd think</h2>\n\n<p>Physical therapy isn't a one-visit fix. A typical course runs six to twelve weeks, often two or three visits a week at the start. That's a lot of trips.</p>\n\n<p>A clinic twenty-five minutes away looks reasonable on paper. By week three, when it's raining and traffic on US-1 is backed up, it's the reason people start skipping appointments \u2014 and skipped appointments are the most common cause of an incomplete recovery. Choosing somewhere genuinely close to home or work is one of the more practical decisions you'll make about your care.</p>\n\n<p>We've been treating patients in this community for years, and many of our referrals come from people who finished their course of care and told a neighbor. You can <a href=\"https://www.firstrehabnpb.com/about.html\">read more about our team and background here</a>, and see the <a href=\"https://www.firstrehabnpb.com/services/physical-therapy.html\">full breakdown of our physical therapy services</a> if you want detail on a specific treatment approach.</p>\n\n<h2>Ready to get started?</h2>\n\n<p>If something's been hurting for more than a couple of weeks, or you've been told to start therapy after a surgery or injury, don't wait for it to sort itself out. Most things we treat respond faster when they're addressed early.</p>\n\n<p>Call First Rehabilitation of North Palm Beach to schedule an evaluation, or <a href=\"https://www.firstrehabnpb.com/\">request an appointment through our website</a>. Tell us what's going on and we'll get you in \u2014 most new patients are seen within a few days.</p>",
+        "body": "<p>You tweaked your back lifting a kayak onto the roof rack. Your shoulder has ached since you started playing pickleball four mornings a week. Your knee replacement was six weeks ago and the surgeon said to start therapy, but didn't say where. Or maybe nothing dramatic happened at all. You just noticed that getting up from the couch takes a little more effort than it used to, and you'd like to do something about it before it gets worse.</p>\n\n<p>Whatever brought you here, the question is usually the same: is there somewhere close by that can actually help with <em>this</em>, and how soon can they see me?</p>\n\n<p>Here's what physical therapy in North Palm Beach looks like at our clinic: the conditions we see most, the treatments we use, and what happens when you walk in the door.</p>\n\n<h2>The conditions we treat most often</h2>\n\n<p>Physical therapy covers a lot of ground, so it helps to be specific. These are the problems that fill our schedule week to week.</p>\n\n<h3>Back and neck pain</h3>\n\n<p>Lower back pain is the single most common reason people call us. Sometimes it's a disc issue, sometimes it's a strained muscle, and very often it's years of sitting at a desk with a monitor set two inches too low. Neck pain and <a href=\"../treatments/headache-relief.html\">the headaches that come with it</a> usually trace back to the same place. We figure out which it is before we treat it.</p>\n\n<h3>Shoulder injuries</h3>\n\n<p>Rotator cuff tears and tendinitis, frozen shoulder, impingement, post-surgical recovery. Shoulders are complicated joints and they don't tend to resolve on their own. They get stiffer and more guarded the longer you wait.</p>\n\n<h3>Knee and hip pain</h3>\n\n<p>Osteoarthritis, meniscus tears, IT band problems, and the general wear that shows up after decades of walking around on them. We also handle a steady volume of pre-surgical conditioning, which makes a measurable difference in how fast people recover afterward.</p>\n\n<h3>Joint replacement recovery</h3>\n\n<p>Hips and knees, mostly. There's a protocol to follow, but there's also a person attached to the joint, and the two don't always move at the same pace. We adjust.</p>\n\n<h3>Sports injuries</h3>\n\n<p>Ankle sprains, hamstring strains, tennis and golfer's elbow, and the overuse injuries that come with doing the same motion several thousand times. North Palm Beach has a lot of people playing tennis, golf, and pickleball year-round, and we see the results.</p>\n\n<h3>Balance problems and fall prevention</h3>\n\n<p>If you've had a fall, or you've started holding the railing on stairs you used to take without thinking, that's worth addressing. Balance is trainable. Most people are surprised how much it improves with focused work.</p>\n\n<h3>Neurological rehab</h3>\n\n<p>Recovery after a stroke (see <a href=\"post-stroke-occupational-therapy-north-palm-beach.html\">how occupational therapy helps after a stroke</a>), and management of conditions like Parkinson's and multiple sclerosis, working on gait, strength, coordination, and the practical business of moving through a day safely.</p>\n\n<h3>Work and auto injuries</h3>\n\n<p>Repetitive strain, lifting injuries, whiplash and soft tissue damage after a car accident. These often involve paperwork and reporting requirements, and we handle that side of it too. More on <a href=\"../treatments/auto-accident.html\">therapy after a car accident</a>.</p>\n\n<h2>What treatment actually involves</h2>\n\n<p>A lot of people picture physical therapy as a room full of exercise bikes. Some of it is exercise, but the exercise is chosen deliberately, and it's rarely the whole picture.</p>\n\n<h3>Manual therapy</h3>\n\n<p>Hands-on work: joint mobilization, soft tissue release, stretching done with resistance we control. This is often what gets a stiff joint moving enough that the exercise portion becomes possible.</p>\n\n<h3>Therapeutic exercise</h3>\n\n<p>Progressive strengthening and mobility work targeted at the specific weakness causing your problem. Not general fitness. If your hip pain comes from weak glute medius, that's what we train.</p>\n\n<h3>Gait and balance training</h3>\n\n<p>Retraining how you walk and how you recover when your weight shifts unexpectedly.</p>\n\n<h3>Modalities</h3>\n\n<p>Ultrasound, electrical stimulation, heat and ice, used where they help with pain and inflammation. They support the work rather than replace it.</p>\n\n<h3>Home exercise programs</h3>\n\n<p>The hour you spend with us matters less than what happens the other 167. We send you home with specific, manageable work, and we check that you can do it correctly before you leave.</p>\n\n<h2>Your first visit</h2>\n\n<p>The first appointment is an evaluation, and it takes the longest. We'll ask about what's happening, when it started, what makes it worse, and what you're hoping to get back to, whether that's a golf swing, a flight of stairs, or a full night's sleep without rolling onto the bad shoulder.</p>\n\n<p>Then we assess. Range of motion, strength, how you move, where it hurts and where it doesn't. From there we build a plan with a realistic timeline and tell you honestly what we expect.</p>\n\n<p>If we think your problem needs a different kind of care, such as imaging, a surgical consult or a specialist, we'll say so. That's part of the evaluation too.</p>\n\n<p>Wear something you can move in. Bring any imaging reports or referral paperwork if you have them. If you don't have a referral, that's often fine in Florida; call and we'll explain how it works with your specific insurance.</p>\n\n<h2>Why local matters more than you'd think</h2>\n\n<p>Physical therapy isn't a one-visit fix. A typical course runs six to twelve weeks, often two or three visits a week at the start. That's a lot of trips.</p>\n\n<p>A clinic twenty-five minutes away looks reasonable on paper. By week three, when it's raining and traffic on US-1 is backed up, it's the reason people start skipping appointments, and skipped appointments are the most common cause of an incomplete recovery. Choosing somewhere genuinely close to home or work is one of the more practical decisions you'll make about your care.</p>\n\n<p>We've been treating patients in this community since 1991, and many of our referrals come from people who finished their course of care and told a neighbor. You can <a href=\"../about.html\">read more about our team and background here</a>, and see the <a href=\"../services/physical-therapy.html\">full breakdown of our physical therapy services</a> if you want detail on a specific treatment approach.</p>\n\n<h2>Ready to get started?</h2>\n\n<p>If something's been hurting for more than a couple of weeks, or you've been told to start therapy after a surgery or injury, don't wait for it to sort itself out. Most things we treat respond faster when they're addressed early.</p>\n\n<p>Call First Rehabilitation of North Palm Beach to schedule an evaluation, or <a href=\"../contact.html\">request an appointment online</a>. Tell us what's going on and we'll find you a time. You can also call us directly at 561-624-4263, Monday to Friday 8:00 AM to 5:30 PM and Saturday 8:00 AM to 12:30 PM.</p>\n\n<p><em>This article is general information, not medical advice. Talk with a qualified professional about your own situation.</em></p>",
     },
     "strength-training-after-60-fall-prevention": {
         "title": "Strength Training After 60: Where to Start",
@@ -3654,6 +3671,9 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            # Long-tail title tag so this post stops competing with the homepage for
+            # "physical therapy North Palm Beach" (SEO-KEYWORDS.md rule 2). H1 unchanged.
+            "physical-therapy-and-rehab-services-in-north-palm-beach-what-we-treat": "What Physical Therapy Treats, and Your First Visit",
             "strength-training-after-60-fall-prevention": "Strength Training After 60 in North Palm Beach",
             "gym-program-after-physical-therapy-north-palm-beach": "Gym Program After Physical Therapy | North Palm Beach",
             "pain-2-power-ep15-mann": "Susan Mann: Processing Disorders in Kids",
@@ -4166,14 +4186,14 @@ def build_insurance():
         <h2>Medicare, Explained Plainly</h2>
       </div>
       <p>Medicare covers medically necessary outpatient physical and occupational therapy, and we have cared for Medicare patients in North Palm Beach since 1991. We accept both Original Medicare and Medicare Advantage plans.</p>
-      <p>Medicare does require a physician to certify your plan of care. Our team handles that paperwork with your doctor so it does not become your errand, and the front desk explains your benefits before treatment begins.</p>
+      <p>Medicare does require a physician to certify your plan of care. Our team handles that paperwork with your doctor so it does not become your errand, and the front desk explains your benefits before treatment begins. Our <a href="#medicare-guide">2026 Medicare guide</a> below covers deductibles, the KX threshold and Medicare Advantage in detail.</p>
       <div class="fv-highlight" style="margin:1.4rem 0;"><strong>Florida direct access:</strong> in most cases you can begin a physical therapy evaluation without a physician referral. Some plans still require one for coverage, which is exactly what we check when we verify your benefits.</div>
       <div class="section-head" style="margin:2.2rem 0 1.2rem;">
         <h2 style="font-size:1.5rem;">No Surprises on the Bill</h2>
       </div>
       <p>Before your first appointment we verify your coverage and tell you what your plan pays for, whether you have a copay or a deductible to meet, and whether your plan needs a referral. You know where you stand before treatment starts, not after.</p>
       <p>Not insured, or out of network? We offer self pay, and free consultations are available. Call and we will talk it through honestly.</p>
-      <p class="related-links reveal" style="margin-top:1.6rem;"><strong>More detail:</strong> <a href="faq.html#insurance-cost">Insurance &amp; cost FAQs</a> &middot; <a href="first-visit.html">What to expect at your first visit</a></p>
+      <p class="related-links reveal" style="margin-top:1.6rem;"><strong>More detail:</strong> <a href="faq.html#insurance-cost">Insurance &amp; cost FAQs</a> &middot; <a href="glossary.html">Patient glossary</a> &middot; <a href="first-visit.html">What to expect at your first visit</a></p>
     </div>
     <aside class="side-card reveal d2">
       <h3>Check your coverage</h3>
@@ -4187,6 +4207,78 @@ def build_insurance():
     </aside>
   </div>
 </section>
+<section class="section" id="medicare-guide" style="scroll-margin-top:100px;">
+  <div class="wrap">
+    <article class="prose reveal" style="margin:0 auto;">
+      <span class="eyebrow">Medicare Guide &middot; Updated for 2026</span>
+      <h2>Medicare and Outpatient Therapy in 2026, in Plain English</h2>
+      <p>Short version: Original Medicare Part B helps pay for medically necessary outpatient physical therapy and occupational therapy, and there is no yearly limit on how much it will pay when the care is medically necessary. After you meet the 2026 Part B deductible of $283, you pay 20% of the Medicare-approved amount for each visit. Medicare Advantage plans cover the same benefit but set their own copays, networks and approval rules.</p>
+      <p>Two thirds of the people we treat are 65 or older, so these are the questions our front desk answers every single day. This guide puts the answers in one place. It is general information, and your own costs depend on your plan, so we still check your benefits before your first visit.</p>
+
+      <h3>What you pay under Original Medicare</h3>
+      <p>Part B is the piece of Original Medicare that covers outpatient care. For therapy it works in two steps. First comes the yearly deductible, $283 in 2026. Until you have paid that much toward Part B services of any kind, Medicare does not start paying its share. Plenty of patients have already met it by the time they reach us, because a doctor visit or an imaging study earlier in the year counts toward it.</p>
+      <p>After that, Medicare pays 80% of the Medicare-approved amount and you are responsible for the other 20%, called <a href="glossary.html#coinsurance">coinsurance</a>. If you carry a <a href="glossary.html#medigap">Medicare Supplement (Medigap)</a> plan, it may pay some or all of that 20%, depending on which plan you have. Secondary coverage through a former employer can work the same way. Bring every card you have to the first visit and we will sort out which pays first.</p>
+
+      <h3>Is there a cap on therapy visits?</h3>
+      <p>No. Medicare used to impose a hard dollar cap on outpatient therapy each year, and many people still remember it. Congress removed that cap in 2018. What remains is a checkpoint, not a ceiling.</p>
+      <p>Once your physical therapy charges for the year pass $2,480, the clinic adds a code called the <a href="glossary.html#kx-modifier">KX modifier</a> to your claims. It tells Medicare your therapist has documented why continued care is medically necessary. Occupational therapy has its own separate $2,480 threshold for 2026. A second, higher figure of $3,000 can trigger a targeted medical review, where Medicare looks more closely at the documentation. Neither number means your therapy has to stop. What matters is that the care is medically necessary and the notes show it, which is our job, not yours.</p>
+
+      <div class="data-table" tabindex="0" role="region" aria-label="Original Medicare compared with Medicare Advantage">
+        <table>
+          <caption>Original Medicare figures from CMS for calendar year 2026. Medicare Advantage terms vary by plan.</caption>
+          <thead><tr><th scope="col">Question</th><th scope="col">Original Medicare (Part B)</th><th scope="col">Medicare Advantage (Part C)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">What you pay per visit</th><td>20% of the Medicare-approved amount, after the $283 deductible</td><td>A copay or coinsurance set by your plan</td></tr>
+            <tr><th scope="row">Yearly limit on therapy</th><td>None, when care is medically necessary</td><td>None on the benefit itself, though plans may limit visits per approval</td></tr>
+            <tr><th scope="row">Approval before you start</th><td>Generally no prior authorization</td><td>Often required; we request it for you</td></tr>
+            <tr><th scope="row">Choice of clinic</th><td>Any provider that accepts Medicare</td><td>Usually the plan's network</td></tr>
+            <tr><th scope="row">Yearly out-of-pocket maximum</th><td>None, unless you add a Medigap plan</td><td>Yes, set by the plan</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Do I have to keep improving for Medicare to keep paying?</h3>
+      <p>No, and this one surprises people. For years, some Medicare claims were denied because a patient had stopped getting better, a rule of thumb known as the improvement standard. A 2013 court settlement, <em>Jimmo v. Sebelius</em>, made CMS restate that no improvement standard applies. What Medicare looks at is whether you need the skills of a therapist, not whether you are still gaining ground.</p>
+      <p>Medicare's own description of covered physical therapy says it can help you improve, maintain your current function, or slow your rate of decline. That matters for someone living with Parkinson's disease, multiple sclerosis, arthritis or the after-effects of a stroke, where holding steady is a real achievement. If a skilled program is what keeps you walking safely or dressing yourself, that can qualify. Your therapist documents why the skilled care is needed, and that documentation is what Medicare reviews.</p>
+      <p>The flip side is also true. Once a home program you can do safely on your own will keep your progress, skilled therapy is no longer the right tool, and we will tell you so plainly.</p>
+
+      <h3>When formal therapy ends</h3>
+      <p>Discharge is not the finish line. The most common way people lose what they gained is stopping cold: no exercise, back to the chair. Every patient leaves with a written <a href="glossary.html#home-exercise-program">home exercise program</a>, and patients who want more structure can move into our <a href="services/wellness.html">on-site wellness gym</a>, training with a team that already knows their history. The gym is a separate program from Medicare-covered therapy, so the front desk will explain how it works and what it costs before you sign up.</p>
+
+      <h3>Why your doctor signs your plan of care</h3>
+      <p>Medicare requires your doctor, or another qualified provider such as a nurse practitioner or physician assistant, to certify that you need therapy. In practice that means signing the <a href="glossary.html#plan-of-care">plan of care</a> your therapist writes after your evaluation: your goals, the treatment, how often you will come and for how long. We send it to your doctor and follow up until it comes back signed, so it does not become one more errand on your list.</p>
+      <p>That is also why the first visit matters so much. The <a href="first-visit.html">initial evaluation</a> takes about an hour, measures where you are today, and sets goals specific enough to show progress. Those measurements are what keep the documentation strong if your care runs past the KX threshold.</p>
+
+      <h3>What a CORF is, and what it means for you</h3>
+      <p>First Rehabilitation of North Palm Beach is a Comprehensive Outpatient Rehabilitation Facility, or CORF. That is a Medicare certification, not a marketing phrase. CMS defines a CORF as a facility that provides coordinated outpatient diagnostic, therapeutic and restorative services at a single fixed location, with physician consultation and review of the plan of treatment among its required core services.</p>
+      <p>For a patient, the practical meaning is coordination. Physical therapy, occupational therapy and <a href="services/hand-therapy.html">certified hand therapy</a> happen in the same building, under one plan, with the same team reading the same notes. A patient recovering from a stroke might need a physical therapist for walking and balance, an occupational therapist for dressing and cooking, and a certified hand therapist for a weak, closed hand. Here, those three people work down the hall from each other.</p>
+
+      <h3>If you have a Medicare Advantage plan</h3>
+      <p>We accept Medicare Advantage plans, including HMO and PPO plans from carriers such as Humana and Aetna. The benefit is the same medically necessary therapy, but the rules come from the plan. Many require prior authorization, approve a set number of visits at a time, and ask for progress notes before approving more. Your cost is usually a copay per visit rather than 20%.</p>
+      <p>None of that should land on you. When you call, we verify your plan, request any authorization it needs and tell you your copay before you arrive. If your plan approves visits in blocks, we track the count and request more before you run out, so your therapy does not stall halfway through.</p>
+
+      <h3>Five questions to ask before your first visit</h3>
+      <ol>
+        <li>Have I met my Part B deductible for this year?</li>
+        <li>Do I have a Medigap or secondary plan that covers the 20%?</li>
+        <li>If I have Medicare Advantage, does my plan need prior authorization for therapy?</li>
+        <li>Does my plan require a physician referral, or can I start with an evaluation?</li>
+        <li>Will one clinic be able to handle physical, occupational and hand therapy if I need more than one?</li>
+      </ol>
+      <p>Our front desk can answer the first four for you with one phone call to <a href="tel:+15616244263">{PHONE}</a>. The fifth one we can answer now: yes.</p>
+
+      <h3>Sources</h3>
+      <ol class="src-list">
+        <li><a href="https://www.medicare.gov/coverage/physical-therapy-services" rel="noopener">Medicare.gov, Physical therapy services</a>: Part B coverage, the 20% coinsurance, physician certification, and no yearly limit on medically necessary outpatient therapy.</li>
+        <li><a href="https://www.govinfo.gov/content/pkg/FR-2025-11-19/html/2025-20251.htm" rel="noopener">Federal Register, November 19, 2025</a>: the 2026 Part B deductible of $283.</li>
+        <li><a href="https://www.cms.gov/therapyservices" rel="noopener">CMS, Therapy Services</a>: the 2026 KX modifier thresholds of $2,480 and the $3,000 targeted medical review threshold.</li>
+        <li><a href="https://www.cms.gov/medicare/health-safety-standards/certification-compliance/comprehensive-outpatient-rehabilitation-facilities" rel="noopener">CMS, Comprehensive Outpatient Rehabilitation Facilities</a>: the CORF definition and core services.</li>
+        <li><a href="https://www.cms.gov/medicare/settlements/jimmo" rel="noopener">CMS, Jimmo Settlement</a>: the maintenance coverage standard for skilled therapy, and the end of the improvement standard.</li>
+      </ol>
+      <p class="fv-highlight" style="margin-top:1.4rem;">This guide is general information, not medical, legal or insurance advice. Figures are for 2026 and change each January. Your costs depend on your plan, which we verify before your first visit.</p>
+    </article>
+  </div>
+</section>
 {cta_band(0)}
 </main>
 """
@@ -4195,6 +4287,130 @@ def build_insurance():
                "We accept Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare and VA Community Care in North Palm Beach. We verify your benefits first.",
                canonical="insurance.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Insurance &amp; Medicare", "insurance.html")]))
+          + nav(0) + body + footer(0))
+
+
+# ----------------------------------------------------------------------------
+# PATIENT GLOSSARY (/glossary.html) — added 2026-10-14
+# ----------------------------------------------------------------------------
+# Plain-English definitions of the words patients meet on our forms, bills and
+# plan of care. Modelled on the A-Z glossary pattern that works for the
+# lawofficesuccess.com site Nick's friend runs, with one deliberate difference:
+# the DefinedTermSet JSON-LD is generated from THIS list, so every term in the
+# schema is a term a visitor can see. Nothing is in markup that is not on the page.
+#
+# Rules: definitions describe the general concept, never an individual's care.
+# No service we have not confirmed (no functional capacity evaluations, no
+# in-home therapy, no driving evaluations). No prices. Medicare figures carry the
+# year and the CMS source, and must be updated every January.
+# Shape: (term, definition, example-or-None, anchor slug)
+GLOSSARY = [
+    ("Activities of daily living (ADLs)", "The everyday self-care tasks most people do without thinking: dressing, bathing, grooming, eating and getting on and off the toilet. Occupational therapy often measures progress in ADLs.", "Buttoning a shirt with one hand after shoulder surgery.", "adls"),
+    ("Balance training", "Exercises that challenge your steadiness so you are less likely to fall.", "Standing on one foot while reaching, or walking heel to toe along a line.", "balance-training"),
+    ("Certified Hand Therapist (CHT)", "An occupational or physical therapist who has completed years of hands-on hand and upper extremity practice and passed a national certification exam. Hand surgeons often refer post-operative patients to a CHT.", "The therapist who guides your recovery after a wrist fracture or tendon repair.", "cht"),
+    ("Coinsurance", "Your share of a covered service, shown as a percentage, after you have met your deductible. Under Original Medicare Part B it is 20% of the Medicare-approved amount.", "If the approved amount for a visit is $100, 20% coinsurance means you owe $20.", "coinsurance"),
+    ("Comprehensive Outpatient Rehabilitation Facility (CORF)", "A Medicare-certified outpatient facility that provides coordinated rehabilitation at one location, with physician oversight of the plan of treatment. First Rehabilitation of North Palm Beach is a CORF.", None, "corf"),
+    ("Copay", "A flat amount you pay at each visit, set by your insurance plan.", "A plan with a set copay for each specialist or therapy visit.", "copay"),
+    ("Deductible", "The amount you pay for covered care each year before your plan starts paying its share. The 2026 Medicare Part B deductible is $283.", "Until you have paid $283 toward Part B services in 2026, Medicare does not begin paying its 80%.", "deductible"),
+    ("Direct access", "Starting physical therapy without a physician referral. In Florida this is allowed in most cases, but some insurance plans still require a referral for coverage, so we check before your first visit.", None, "direct-access"),
+    ("Discharge", "The end of formal therapy, usually when you have met your goals or your progress has leveled off.", "Finishing therapy with a written home program to keep your gains.", "discharge"),
+    ("Explanation of benefits (EOB)", "A statement from your insurance company showing what was billed, what it paid and what you may owe. It is not a bill.", None, "eob"),
+    ("Fall-risk screening", "Short tests of strength, balance and walking that show how likely someone is to fall.", "Standing up from a chair and walking a short distance while a therapist times you.", "fall-risk-screening"),
+    ("Gait training", "Practice walking safely and smoothly after an injury, surgery or illness.", "Relearning a steady step pattern after a hip replacement.", "gait-training"),
+    ("Home exercise program", "A short set of exercises your therapist teaches you to do on your own between visits.", "Three exercises, ten minutes a day, with pictures to follow.", "home-exercise-program"),
+    ("In-network and out-of-network", "In-network providers have a contract with your insurance plan and usually cost you less. Out-of-network providers do not.", None, "in-network"),
+    ("Initial evaluation", "Your first visit. The therapist reviews your history, tests movement, strength and daily function, and sets goals with you. At our clinic it takes about an hour, and treatment usually starts the same day.", None, "initial-evaluation"),
+    ("KX modifier", "A billing code a clinic adds once a patient's yearly Medicare therapy charges pass a set amount, confirming that continued therapy is medically necessary and documented. For 2026 the amount is $2,480 for physical therapy and speech therapy combined, and a separate $2,480 for occupational therapy. It is not a cap on your care.", None, "kx-modifier"),
+    ("Letter of protection (LOP)", "A written agreement, used in some injury cases, under which a provider treats you and is paid from a settlement or judgment later. It is not insurance, and it is arranged through your attorney.", None, "lop"),
+    ("Manual therapy", "Hands-on techniques that move joints and soft tissue to reduce stiffness and pain.", "A therapist gently mobilizing a stiff shoulder.", "manual-therapy"),
+    ("Medicare Advantage", "A private plan, sometimes called Part C, that provides Medicare benefits under its own rules for networks, copays and approvals.", "A Humana or Aetna Medicare plan that asks for prior authorization before therapy starts.", "medicare-advantage"),
+    ("Medicare Part B", "The part of Original Medicare that covers outpatient care, including medically necessary physical and occupational therapy. After the yearly deductible you pay 20% of the Medicare-approved amount, and there is no yearly limit on medically necessary therapy.", None, "medicare-part-b"),
+    ("Medicare Supplement (Medigap)", "Private insurance sold alongside Original Medicare that can pay some or all of the costs Medicare leaves to you, such as the 20% coinsurance. What it pays depends on the plan.", None, "medigap"),
+    ("Modalities", "Supporting treatments such as heat, cold or electrical stimulation, usually paired with exercise.", "A warm pack before stretching a stiff back.", "modalities"),
+    ("Neuromuscular re-education", "Exercises that retrain coordination, balance and movement patterns after an injury or a neurological event such as a stroke.", None, "neuromuscular-re-education"),
+    ("Occupational therapy (OT)", "Therapy focused on doing the things your day requires: dressing, cooking, working, and using your hands and arms well.", "Relearning to cook safely after a stroke.", "occupational-therapy"),
+    ("Orthosis (splint)", "A custom or ready-made support that protects or positions a hand, wrist or finger while it heals. Our hand therapy program fabricates custom orthoses in the clinic.", "A thumb splint molded to your hand after a tendon injury.", "orthosis"),
+    ("Out-of-pocket maximum", "The most you pay in a year for covered care before your plan pays the rest in full. Original Medicare has no out-of-pocket maximum; Medicare Advantage plans do.", None, "out-of-pocket-maximum"),
+    ("Outpatient therapy", "Therapy where you come in for a visit and go home the same day.", None, "outpatient-therapy"),
+    ("Personal injury protection (PIP)", "Florida no-fault auto coverage that helps pay medical bills after a crash, regardless of who caused it, up to your policy limit.", None, "pip"),
+    ("Physical therapy (PT)", "Treatment that restores movement, strength, balance and function, and helps reduce pain.", "Exercise and hands-on care after knee surgery.", "physical-therapy"),
+    ("Plan of care", "A written plan listing your goals, treatments, how often you will come and how long therapy is expected to last. For Medicare, your physician or another qualified provider must certify it.", "Two visits a week for six weeks, with the goal of climbing stairs without a rail.", "plan-of-care"),
+    ("Post-surgical rehabilitation", "Therapy after an operation to restore motion and strength safely, following your surgeon's protocol and timeline.", None, "post-surgical-rehabilitation"),
+    ("Prior authorization", "Approval some insurance plans require before they will cover therapy. Medicare Advantage plans often require it; Original Medicare generally does not.", None, "prior-authorization"),
+    ("Progress report", "A written update to your physician, and sometimes your insurer, showing how you are doing against your goals.", None, "progress-report"),
+    ("Range of motion", "How far a joint can move.", "How high you can lift your arm overhead.", "range-of-motion"),
+    ("Re-evaluation", "A formal check partway through therapy that compares your progress with your goals and adjusts the plan.", None, "re-evaluation"),
+    ("Return-to-work program", "Occupational therapy built around what a specific job demands, using graded conditioning and task practice before a work release.", None, "return-to-work"),
+    ("Therapeutic activities", "Real-life tasks used as treatment.", "Lifting a laundry basket, getting out of a low chair or reaching into a high cabinet.", "therapeutic-activities"),
+    ("Therapeutic exercise", "Targeted movements that build strength, flexibility and endurance.", "Leg presses, resistance band work or a stretching routine.", "therapeutic-exercise"),
+    ("Workers' compensation", "Insurance that covers medical care for injuries that happen at work. We coordinate documentation with your adjuster.", None, "workers-comp"),
+]
+
+
+def build_glossary():
+    """A-Z patient glossary with DefinedTermSet JSON-LD generated from GLOSSARY."""
+    import json as _json
+    letters = []
+    groups = {}
+    for term, definition, example, slug in GLOSSARY:
+        first = term[0].upper()
+        if first not in groups:
+            groups[first] = []
+            letters.append(first)
+        groups[first].append((term, definition, example, slug))
+    jump = "".join(f'<a href="#letter-{L.lower()}">{L}</a>' for L in letters)
+    sections = []
+    for L in letters:
+        items = "".join(
+            f'<dt id="{slug}">{term}</dt><dd>{definition}'
+            + (f'<span class="gloss-ex">Example: {example}</span>' if example else "")
+            + "</dd>"
+            for term, definition, example, slug in groups[L])
+        sections.append(f'<h2 class="gloss-letter" id="letter-{L.lower()}">{L}</h2><dl class="gloss-list">{items}</dl>')
+    url = "https://www.firstrehabnpb.com/glossary.html"
+    terms_ld = [{"@type": "DefinedTerm", "@id": f"{url}#{slug}", "name": _faq_plain(term),
+                 "description": _faq_plain(definition), "inDefinedTermSet": {"@id": url + "#termset"}}
+                for term, definition, example, slug in GLOSSARY]
+    schema = '<script type="application/ld+json">' + _json.dumps({
+        "@context": "https://schema.org",
+        "@graph": [
+            {"@type": "DefinedTermSet", "@id": url + "#termset",
+             "name": "Physical and Occupational Therapy Glossary", "url": url,
+             "publisher": ORG_REF, "hasDefinedTerm": terms_ld},
+        ],
+    }, ensure_ascii=False) + '</script>\n'
+    body = f"""
+<main>
+{page_hero("Patient Resources", "Therapy Words, <em class='accent'>Explained Plainly</em>",
+  "Plain-English definitions of the terms you will see on your plan of care, your insurance statements and your intake forms.",
+  '<div class="crumbs"><a href="/">Home</a> / Patient Glossary</div>')}
+<section class="section">
+  <div class="wrap two-col">
+    <div class="prose reveal">
+      <p>Ever sit in a waiting room wondering what half the paperwork means? You are not the only one. This glossary covers the words you will hear at First Rehabilitation of North Palm Beach, from plan of care to prior authorization. If a term still does not make sense for your situation, ask your therapist or call the front desk at {PHONE}.</p>
+      <nav class="gloss-jump" aria-label="Jump to letter">{jump}</nav>
+      {"".join(sections)}
+      <p style="margin-top:2.4rem;">Medicare figures on this page are for 2026, from the Centers for Medicare &amp; Medicaid Services. For what they mean in practice, read our <a href="insurance.html#medicare-guide">plain-English Medicare guide</a>. For everything else, see the <a href="faq.html">FAQ</a> or <a href="first-visit.html">what to expect at your first visit</a>.</p>
+      <p class="fv-highlight" style="margin-top:1.4rem;">This glossary is general information, not medical or insurance advice. Coverage depends on your plan; our front desk verifies your benefits before your first visit.</p>
+    </div>
+    <aside class="side-card reveal d2">
+      <h3>Questions about your coverage?</h3>
+      <p>Our front desk checks your benefits before your first visit, so the terms on this page turn into real numbers for your plan.</p>
+      <a class="btn btn-coral" href="tel:+15616244263">Call {PHONE}</a>
+      <div class="side-meta">
+        <p>Prefer to write?<br><a href="contact.html">Request an appointment</a></p>
+      </div>
+    </aside>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("glossary.html",
+          head("Physical Therapy Glossary: Terms Explained | First Rehab",
+               "Plain-English definitions of physical therapy, occupational therapy and Medicare terms, from plan of care and KX modifier to coinsurance. First Rehab, North Palm Beach.",
+               canonical="glossary.html",
+               extra_schema=schema + breadcrumb_schema([("Home", ""), ("Patient Glossary", "glossary.html")]))
           + nav(0) + body + footer(0))
 
 
@@ -4313,7 +4529,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html", "exercises.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -4354,13 +4570,16 @@ def build_meta():
 - On-site Wellness & Gym program: {base}/services/wellness.html
 
 ## Named clinicians (credentials on the About page)
-David Kashuba, Ph.D. (CEO, Occupational Therapist); Kayla Dorsey, DPT and Logan Van Sant
-(Physical Therapists); Joni Janik (Occupational Therapist); Laura Drumm (Certified Hand
+David Kashuba, Ph.D., OTR (CEO, Occupational Therapist); Kayla Dorsey, PT, DPT and Logan Van Sant, PT, DPT
+(Physical Therapists); Joan "Joni" Janik, OTD (Occupational Therapist); Laura Drumm, MS, OTR/L, CHT, CLT (Certified Hand
 Therapist); Nick Kashuba (COO). About: {base}/about.html
 
 ## Insurance accepted
 Medicare, Medicare Advantage, Blue Cross Blue Shield, Aetna, Humana, Tricare,
 VA Community Care Network (VACCN), workers' compensation, self-pay.
+Medicare-certified Comprehensive Outpatient Rehabilitation Facility (CORF).
+2026 Medicare guide (deductible, 20% coinsurance, KX threshold, Medicare Advantage):
+{base}/insurance.html#medicare-guide
 
 ## Areas served
 North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, Tequesta, Lake Park,
@@ -4379,6 +4598,7 @@ Area pages: {base}/locations/palm-beach-gardens.html, {base}/locations/jupiter.h
 ## Answers to common questions
 73-question FAQ (referrals, insurance, OT vs PT, certified hand therapy, costs):
 {base}/faq.html
+Patient glossary of therapy and insurance terms: {base}/glossary.html
 
 ## Podcast
 Pain 2 Power, hosted by Dr. Dave Kashuba with Mike McGann. Saturdays 8:30 AM on
@@ -4399,7 +4619,7 @@ Pain 2 Power, hosted by Dr. Dave Kashuba with Mike McGann. Saturdays 8:30 AM on
     write("404.html",
           head("Page Not Found | First Rehabilitation of North Palm Beach",
                "That page took a wrong turn. Find physical therapy, occupational therapy, hand therapy, and wellness services at First Rehabilitation of North Palm Beach.",
-               extra_schema='<meta name="robots" content="noindex">\n') + nav(0, solid=True) + body + footer(0))
+               robots="noindex") + nav(0, solid=True) + body + footer(0))
 
 def check_episode_video_sync():
     """Warn when EPISODES and VIDEOS have drifted apart.
@@ -4473,6 +4693,7 @@ if __name__ == "__main__":
     build_careers()
     build_first_visit()
     build_insurance()
+    build_glossary()
     build_videos()
     build_exercises()
     build_meta()

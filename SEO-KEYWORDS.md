@@ -225,6 +225,9 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `post-stroke-occupational-therapy-north-palm-beach` | Occupational Therapy | post stroke occupational therapy North Palm Beach |
 | `strength-training-after-60-fall-prevention` | Wellness | strength training after 60 / balance and fall prevention |
 | `gym-program-after-physical-therapy-north-palm-beach` | Wellness | gym program after physical therapy North Palm Beach |
+| `physical-therapy-and-rehab-services-in-north-palm-beach-what-we-treat` | Physical Therapy | physical therapy conditions treated / what to expect (long tail). **Was a conflict until 2026-10-14:** its title targeted the homepage primary (rule 2). The title tag now reads "What Physical Therapy Treats, and Your First Visit"; the H1 is unchanged. Same day it was brought up to the playbook (dashes, 13 bolds, zero relative links, no phone, no disclaimer, and an unverified "seen within a few days" claim removed). |
+| `/insurance.html#medicare-guide` (page section, not a post) | All four | physical therapy that accepts Medicare / Medicare outpatient therapy coverage 2026 / KX modifier threshold |
+| `/glossary.html` (page, not a post) | All four | physical therapy and Medicare terms defined (plan of care, KX modifier, CORF, coinsurance) |
 
 ## Hand therapy push, 2026-09-09
 

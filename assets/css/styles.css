@@ -575,6 +575,26 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
    the moment a page used them for real structure (hand therapy, 2026-09-09). */
 .prose h3 { font-size: clamp(1.12rem, 1.6vw, 1.28rem); margin: 2rem 0 0.5rem; }
 .prose h3:first-child { margin-top: 0; }
+/* Data tables inside prose (Medicare guide, 2026-10-14). The wrapper scrolls
+   sideways on a phone instead of forcing the page wider than the viewport. */
+.prose .data-table { overflow-x: auto; margin: var(--space-4) 0; overscroll-behavior-x: contain; }
+.prose table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: var(--step--1); line-height: var(--leading-snug); }
+.prose th, .prose td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.prose thead th { background: var(--cream); color: var(--ink); font-weight: 700; }
+.prose caption { caption-side: bottom; text-align: left; padding-top: var(--space-2); color: var(--muted); font-size: var(--step--2); }
+.prose ol { padding-left: var(--space-5); margin: var(--space-3) 0; }
+.prose ol li + li { margin-top: var(--space-1); }
+.prose ol + p { margin-top: var(--space-3); }
+.prose .src-list { font-size: var(--step--1); color: var(--muted); padding-left: var(--space-4); }
+.prose .src-list li + li { margin-top: var(--space-1); }
+/* Patient glossary (/glossary.html). */
+.gloss-jump { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-5); }
+.gloss-jump a { display: inline-block; min-width: 2.4rem; text-align: center; padding: var(--space-1) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink); text-decoration: none; font-weight: 700; }
+.gloss-jump a:hover, .gloss-jump a:focus-visible { border-color: var(--coral-text); color: var(--coral-text); }
+.gloss-letter { font-size: var(--step-2); margin: var(--space-6) 0 var(--space-2); color: var(--coral-text); scroll-margin-top: 120px; }
+.gloss-list dt { font-weight: 700; color: var(--ink); margin-top: var(--space-4); scroll-margin-top: 120px; }
+.gloss-list dd { margin: var(--space-1) 0 0; }
+.gloss-list .gloss-ex { display: block; margin-top: var(--space-1); color: var(--muted); font-size: var(--step--1); }
 .two-col { display: grid; grid-template-columns: 1fr 350px; gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
 @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 .side-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 2rem 1.8rem; position: sticky; top: 100px; box-shadow: var(--shadow-card); }

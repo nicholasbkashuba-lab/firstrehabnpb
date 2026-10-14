@@ -133,6 +133,19 @@ is its own failure mode and the check names it.
   its Spotify episode URL — EPISODES[0] automatically becomes the featured "Latest
   Episode" card on the podcast page and joins the PodcastEpisode schema.
   New team member: add to TEAM + photo in assets/team/ (also feeds Person schema).
+- **Clinician credentials were verified 2026-10-14** against the NPPES NPI Registry and each
+  clinician's public profile (detail in the `person_schema()` docstring): David Kashuba,
+  Ph.D., OTR; Kayla Dorsey, PT, DPT; Logan Van Sant, PT, DPT; Joan "Joni" Janik, OTD (legal
+  name Joan, goes by Joni: `legal_name` / `alt_name` in TEAM feed schema name/alternateName);
+  Laura Drumm, MS, OTR/L, CHT, CLT. Dave is an OCCUPATIONAL therapist, never "DPT". TEAM
+  entries carry an explicit `slug`, which is what the Person `@id` anchors and the
+  about-page dialogs key off, so changing a display name can never break a reference.
+  Never publish licence numbers.
+- **`/glossary.html`** (added 2026-10-14) is generated from `GLOSSARY` in build.py, and its
+  DefinedTermSet JSON-LD is generated from the same list, so markup can never list a term
+  the page does not show. Medicare figures in it, and in the Medicare guide on
+  /insurance.html#medicare-guide, are 2026 values from CMS: **update both every January**
+  (Part B deductible, KX threshold, targeted review threshold).
 - Main FAQ content lives in FAQ_CATEGORIES in build.py (8 filterable categories, 73 Q&As).
   Answers are PLAIN TEXT (they feed both the accordions and the single FAQPage JSON-LD,
   which must stay in sync — it's generated from the same data, so just rebuild). Service
@@ -241,6 +254,12 @@ domain switch (July 2027). Removing them early throws away that equity.
   site. GA4 sat empty until 2026-09-08 because no tag existed anywhere on the site;
   data starts from the deploy that carries it. GA4 and Vercel Web Analytics run side
   by side and count differently — do not expect their numbers to match.
+- **Conversions reach GA4 as of 2026-10-14.** `track()` in main.js and `trackLeadSent()`
+  in intake.js now fire `gtag('event', ...)` beside the Vercel event: `call_tap`,
+  `book_click` and `generate_lead` (GA4's recommended lead event). Before this GA4 saw zero
+  conversions against 79 real leads. Owner action, one time: GA4 Admin -> Events -> mark
+  `call_tap`, `book_click` and `generate_lead` as key events. Payloads carry source, page
+  path and intent only, never contact details, messages or conditions (HIPAA).
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
@@ -1058,6 +1077,13 @@ The freeze covers NEW posts only. Still allowed, and still wanted:
 
 Note that a frozen backlog is not a lost one: the Wellness and OT pillar holes recorded below
 are real and still worth filling once ranking work has caught up.
+
+**Length standard, 2026-10-14 (Nick):** pillar content runs 1,700 to 2,000+ words, per the
+friend whose site this partly models. Applied depth-first, consistent with the freeze
+reasoning above: the first use was deepening /insurance.html with a 2026 Medicare guide
+(it already ranks for Medicare queries) rather than shipping a new post that competes with
+it. Whether to lift the freeze for new long-form pillar guides is still Nick's call; the
+rules for when he does are in BLOG-PLAYBOOK.md under "Length standard".
 
 Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
 `/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into

@@ -55,6 +55,30 @@ medical site can afford. These are hard rules, checkable by `python3 tools/slop-
 Quotes, attributed speech, and the fixed disclaimer are flag-only and never rewritten.
 Anything still flagged goes on the owner's flag list rather than being quietly smoothed.
 
+## Length standard: pillar guides run 1,700 to 2,000+ words (Nick, 2026-10-14)
+Nick's instruction, from the advice of the friend whose site (lawofficesuccess.com) this
+playbook partly models: long-form guides of 1,700 to 2,000+ words, with conversational
+phrasing, varied header structures and tables. How that fits the data in CLAUDE.md:
+
+- **Depth first, breadth second.** The 2026-09-09 Search Console analysis showed new thin
+  pages adding impressions nobody clicks. Long form is applied FIRST to pages that already
+  rank (position 8 to 30) for a query with real demand, by deepening them. The first
+  application is the 2026 Medicare guide on /insurance.html, which owns "physical therapy
+  medicare palm beach" queries, instead of a new post that would compete with it.
+- **A new pillar guide** needs: a keyword from SEO-KEYWORDS.md that no live page owns,
+  evidence of demand in Search Console, and a topic deep enough that 1,700+ words are
+  useful rather than padded. If the topic is answered well in 900 words, stop at 900.
+- **Structure for a pillar guide:** a 40 to 70 word answer first; 6 to 8 h2 sections (h3s
+  allowed inside a pillar guide, unlike a standard post); at least one comparison table
+  with a caption; one list at most; a visible Sources list when official figures are used;
+  the disclaimer; the phone CTA. Everything in "No AI slop" still applies.
+- **Official sources are allowed for pillar guides only** (CMS, Medicare.gov, the Federal
+  Register, Florida Statutes, Florida Department of Health). Every figure carries its year
+  and a visible citation, and gets re-checked each January. Everything else still comes
+  only from build.py, the site and the owner.
+- Conversational does not mean slang. "Get back to your garden" is fine. Jokes about pain,
+  fear tactics and hype are not.
+
 ## Anatomy of a post (700–1,100 words)
 1. A hook naming the reader's real problem
 2. One h1 title (the page hero), 3–5 h2 sections, scannable paragraphs
@@ -127,7 +151,7 @@ posts its own text there.
 - Family-owned since 1991 · "Our people make the difference."
 - 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 · 561-624-4263
 - Hours: Mon–Fri 8:00 AM–5:30 PM, Sat 8:00 AM–12:30 PM
-- 4.9★ from 107 Google reviews
+- 4.9★ from 110 Google reviews (as of 2026-10-14; check before quoting)
 - Services: physical therapy, occupational therapy, certified hand therapy
   (Laura Drumm, CHT), on-site wellness/gym
 - Insurance: Medicare + Medicare Advantage, BCBS, Aetna, Humana, Tricare,
@@ -135,3 +159,6 @@ posts its own text there.
 - Pain 2 Power podcast: Dave Kashuba & Mike McGann, Saturdays 8:30 AM,
   100.3 Legends Radio + Spotify
 - Serves North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, West Palm Beach
+- Medicare-certified Comprehensive Outpatient Rehabilitation Facility (CORF)
+- Team credentials (verified 2026-10-14): David Kashuba, Ph.D., OTR; Kayla Dorsey, PT, DPT;
+  Logan Van Sant, PT, DPT; Joan "Joni" Janik, OTD; Laura Drumm, MS, OTR/L, CHT, CLT
