@@ -7,7 +7,7 @@ from lib import *
 from lib import _M11, _M14
 from engine import load_audio
 
-_D11 = dict(src="ep11", fx=0.47, fy=0.62, z=2.0, **{"9x16": dict(fx=0.47, fy=0.6, z=1.6)})
+_D11 = dict(src="ep11", fx=0.53, fy=0.62, z=2.0, **{"9x16": dict(fx=0.57, fy=0.6, z=1.6)})
 
 A0 = 0.5 - 1459.25
 A = 9.3 - 1483.9
@@ -96,17 +96,17 @@ W_VO = [(1616.54, 1616.98, "It's"), (1616.98, 1616.98, "one"), (1616.98, 1617.06
 
 def exhibit(fmt, t0, letter, title):
     g = fmt_geom(fmt)
-    return [slam(fmt, t0, t0 + 0.8, f"EXHIBIT {letter}", where="mid", color=GOLD, size=g["slam"] * 0.8),
-            kicker(fmt, t0 + 0.1, t0 + 0.8, title, where=g["mid"] + (110 if fmt == "9x16" else 120), color=CREAM)]
+    return [slam(fmt, t0, t0 + 0.8, f"EXHIBIT {letter}", where="card", color=GOLD, size=g["slam"] * 0.8),
+            kicker(fmt, t0 + 0.1, t0 + 0.8, title, where=g["card"] + (110 if fmt == "9x16" else 120), color=CREAM)]
 
 
 def texts(fmt):
     g = fmt_geom(fmt)
-    T = [kicker(fmt, 0.03, 0.5, "PAIN 2 POWER PRESENTS", where="mid")]
+    T = [kicker(fmt, 0.03, 0.5, "PAIN 2 POWER PRESENTS", where="card")]
     T += captions(fmt, words_from(W_INTRO, A0))
     T += captions(fmt, words_from(W_NOW, A0))
-    T.append(slam(fmt, 7.2, 8.5, "THE DAD JOKE", where=g["mid"] - (70 if fmt == "9x16" else 80)))
-    T.append(slam(fmt, 7.3, 8.5, "FILES.", where=g["mid"] + (70 if fmt == "9x16" else 80), color=CORAL))
+    T.append(slam(fmt, 7.2, 8.5, "THE DAD JOKE", where=g["card"] - (70 if fmt == "9x16" else 80)))
+    T.append(slam(fmt, 7.3, 8.5, "FILES.", where=g["card"] + (70 if fmt == "9x16" else 80), color=CORAL))
     T += exhibit(fmt, 8.5, "A", "THE GRAPE  ·  EPISODE 16")
     T += captions(fmt, words_from(W_GRAPE, A), max_words=4, max_chars=22)
     T += captions(fmt, words_from(W_WHINE, A), end_pad=0.7)
@@ -124,11 +124,11 @@ def texts(fmt):
     T += captions(fmt, words_from(W_VO, VO), max_words=3)
     # end card
     T.append(image_card(fmt, 50.35, DUR, f"{REPO}/assets/media/podcast-cover.jpg", 0.3,
-                        y=(g["mid"] - 120) if fmt != "9x16" else 820, on="glow"))
-    T.append(slam(fmt, 50.6, DUR, "NEW JOKE EVERY SATURDAY", where=(g["mid"] + 250) if fmt != "9x16" else 1290,
+                        y=(g["card"] - 120) if fmt != "9x16" else 820, on="glow"))
+    T.append(slam(fmt, 50.6, DUR, "NEW JOKE EVERY SATURDAY", where=(g["card"] + 250) if fmt != "9x16" else 1290,
                   size=g["slam"] * (0.5 if fmt != "9x16" else 0.46), anim="rise", darken=0))
     T.append(kicker(fmt, 50.8, DUR, "8:30 AM  ·  100.3 LEGENDS RADIO  ·  SPOTIFY  ·  YOUTUBE",
-                    where=(g["mid"] + 340) if fmt != "9x16" else 1380, color=GOLD))
+                    where=(g["card"] + 340) if fmt != "9x16" else 1380, color=GOLD))
     return T
 
 

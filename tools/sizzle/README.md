@@ -16,6 +16,23 @@ the /podcast.html and /videos.html heroes. Every reel is a Python file: a shot l
 | `reel_dadjokes` | 0:54 | Ep 16 grape, Ep 14 lawsuit, Ep 11 bossy lady |
 | `reel_saturday` | 0:21 | Ep 14 open as voiceover, montage of all |
 | `reel_hero_audio` / `reel_hero_video` | 0:14 / 0:14 | silent site loops |
+| `reel_joke_{grape,bossy,kilometer,breakthrough,lawsuit}` | 0:18 to 0:46 | Dave's Dad Jokes, one per joke (`jokes.py`), 9:16 |
+
+## Look
+
+Natural camera colour, full bleed in every format, type outlined in black rather than
+sitting on a dark glow or a dimmed picture. The owner tried a teal/orange grade with
+grain, vignette and a bordered 9:16 band on 2026-10-14 and asked for all of it gone, so
+don't bring it back. Type over footage lives in the lower third (`over` in `fmt_geom`),
+clear of faces; title cards centre on black.
+
+## Adding a dad joke
+
+Every episode ends on one. Add an entry to `JOKES` in `jokes.py`: the source segments
+(cut dead air and side chatter), the camera switches (`ffmpeg ... -vf scdet=threshold=12`
+over the window), which segment ends on the punchline, and caption drops/fixes. Run a
+medium.en word pass over the window into `aud/joke_words.json` first; captions come from
+it. Then `printf 'from jokes import build\nREEL, DUR, score = build("name")\n' > reel_joke_name.py`.
 
 ## Rebuilding the work dir
 
@@ -56,9 +73,9 @@ Needs numpy, scipy, Pillow, soundfile, fonttools + brotli, and ffmpeg.
   flashing content behind text is both unreadable and a WCAG 2.3.1 risk.
 - **Captions were checked against a second, larger ASR pass** (faster-whisper medium.en)
   where the small model disagreed with transcript-full.md. Never burn unreviewed ASR.
-- **Film grain is expensive.** crf 18 masters run 70 to 170 MB; delivery encodes use a
-  light `hqdn3d` before x264 (crf 22) and land at 30 to 85 MB, which the platforms
-  re-encode anyway. The site loops use a stronger pass and come in at 1.7 MB (phone)
-  and ~6 MB (desktop).
+- **Vertical crops of 16:9 masters are enlarged** (1.8x for 1080p, 2.7x for Ep 15's 720p).
+  The engine adds a light unsharp mask whenever a crop is upscaled more than 1.3x.
+- **Upload limits.** Files sent through the chat cap at 30 MiB; `webenc.sh` makes the
+  site renditions, and a two-pass x264 at a computed bitrate fits a reel under a cap.
 - **The score is synthesized** (`synth.py`: booms, braams, risers, trap and four-on-floor
   drums, rimshots, tape stop). Nothing licensed, so nothing gets muted on upload.

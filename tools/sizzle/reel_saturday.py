@@ -52,15 +52,15 @@ def texts(fmt):
     if fmt == "9x16":
         T.append(kicker(fmt, 0.1, 17.8, "PAIN 2 POWER  ·  100.3 LEGENDS RADIO"))
     T += captions(fmt, words_from(W, -OFF))
-    T.append(slam(fmt, 8.83, 9.6, "MIKE McGANN", where="mid" if fmt != "9x16" else "top", darken=0.2))
-    T.append(slam(fmt, 13.67, 15.0, "DR. DAVE KASHUBA", where="mid" if fmt != "9x16" else "top", darken=0.2,
+    T.append(slam(fmt, 8.83, 9.6, "MIKE McGANN", where="over", darken=0.2))
+    T.append(slam(fmt, 13.67, 15.0, "DR. DAVE KASHUBA", where="over", darken=0.2,
                   size=g["slam"] * 0.85))
     T.append(image_card(fmt, 17.82, DUR, f"{REPO}/assets/media/podcast-cover.jpg", 0.3,
-                        y=(g["mid"] - 120) if fmt != "9x16" else 820, on="glow"))
-    T.append(slam(fmt, 18.0, DUR, "SATURDAYS 8:30 AM", where=(g["mid"] + 250) if fmt != "9x16" else 1290,
+                        y=(g["card"] - 120) if fmt != "9x16" else 820, on="glow"))
+    T.append(slam(fmt, 18.0, DUR, "SATURDAYS 8:30 AM", where=(g["card"] + 250) if fmt != "9x16" else 1290,
                   size=g["slam"] * 0.5, anim="rise", darken=0))
     T.append(kicker(fmt, 18.2, DUR, "100.3 LEGENDS RADIO  ·  SPOTIFY  ·  YOUTUBE",
-                    where=(g["mid"] + 340) if fmt != "9x16" else 1380, color=GOLD))
+                    where=(g["card"] + 340) if fmt != "9x16" else 1380, color=GOLD))
     T += captions(fmt, words_from(W_HS, HS), y=(g["cap"] if fmt == "9x16" else 960), end_pad=1.5)
     return T
 

@@ -5,8 +5,9 @@ push-in), plus timed text, captions and hit effects, plus a synthesized Score.
 render(reel, fmt) streams source frames out of ffmpeg, composites them in numpy/PIL,
 and pipes the result straight into an x264 encode muxed with the mixed audio.
 
-Formats: '16x9' (1920x1080, thin cinematic bars), '9x16' (1080x1920, picture band with
-type above/below), 'hero' (1920x1080 clean: no bars, no type, no audio).
+Formats: '16x9' (1920x1080), '9x16' (1080x1920), both full bleed; 'hero' (1920x1080,
+no type, no audio). Natural camera colour: no grade, no grain, no vignette, and type
+is outlined rather than sitting on a dark glow (owner feedback 2026-10-14).
 """
 import math
 import os
@@ -45,9 +46,9 @@ TEAL = (14, 58, 71)
 INK = (6, 22, 28)
 
 FORMATS = {
-    "16x9": dict(W=1920, H=1080, band=(0, 60, 1920, 1020), bars=True, text=True),
-    "9x16": dict(W=1080, H=1920, band=(0, 300, 1080, 1650), bars=False, text=True),
-    "hero": dict(W=1920, H=1080, band=(0, 0, 1920, 1080), bars=False, text=False),
+    "16x9": dict(W=1920, H=1080, band=(0, 0, 1920, 1080), text=True),
+    "9x16": dict(W=1080, H=1920, band=(0, 0, 1080, 1920), text=True),
+    "hero": dict(W=1920, H=1080, band=(0, 0, 1920, 1080), text=False),
 }
 
 
@@ -61,7 +62,7 @@ def font(path, size):
     return ImageFont.truetype(path, int(size))
 
 
-def text_img(lines, W, color=CREAM, stroke=0, stroke_color=(0, 0, 0), track=0.0, align="center", shadow=True):
+def text_img(lines, W, color=CREAM, stroke=0, stroke_color=(0, 0, 0), track=0.0, align="center", shadow=False):
     """lines: list of (text, fontpath, size, color|None). Returns RGBA image sized to content."""
     rendered = []
     for txt, fp, sz, col in lines:
@@ -99,36 +100,11 @@ def text_img(lines, W, color=CREAM, stroke=0, stroke_color=(0, 0, 0), track=0.0,
     return out
 
 
-# ------------------------------------------------------------------ grading
-def build_lut():
-    x = np.arange(256) / 255.0
-    s = x * x * (3 - 2 * x)
-    y = x + (s - x) * 0.45  # contrast
-    r = y + 0.045 * y ** 2 - 0.03 * (1 - y) ** 3
-    g = y + 0.008 * (1 - y) ** 3
-    b = y - 0.04 * y ** 2 + 0.05 * (1 - y) ** 3
-    lut = np.stack([r, g, b], -1)
-    return (np.clip(lut, 0, 1) * 255).astype(np.uint8)
-
-
-LUT = build_lut()
-
-
-class Grader:
-    def __init__(self, W, H):
-        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-        d = np.sqrt(((xx - W / 2) / (W / 2)) ** 2 + ((yy - H / 2) / (H / 2)) ** 2)
-        self.vig = (1 - 0.32 * np.clip(d - 0.35, 0, 1) ** 1.6)[..., None].astype(np.float32)
-        r = np.random.default_rng(3)
-        self.grain = [r.normal(0, 5.5, (H, W, 1)).astype(np.float32) for _ in range(6)]
-
-    def __call__(self, img, i, sat=1.12):
-        a = np.asarray(img)
-        a = np.stack([LUT[a[..., 0], 0], LUT[a[..., 1], 1], LUT[a[..., 2], 2]], -1).astype(np.float32)
-        l = a @ np.array([0.299, 0.587, 0.114], np.float32)
-        a = l[..., None] + (a - l[..., None]) * sat
-        a = a * self.vig + self.grain[i % 6]
-        return np.clip(a, 0, 255).astype(np.uint8)
+# ------------------------------------------------------------------ picture
+# Natural colour. The only processing is a light unsharp mask when a crop is being
+# enlarged (720p Ep 15, vertical crops of 16:9 masters), which keeps faces crisp.
+from PIL import ImageFilter
+SHARPEN = ImageFilter.UnsharpMask(radius=1.4, percent=60, threshold=3)
 
 
 # ------------------------------------------------------------------ sources
@@ -211,7 +187,6 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
     bx0, by0, bx1, by1 = F["band"]
     bw, bh = bx1 - bx0, by1 - by0
     aspect = bw / bh
-    grade = Grader(bw, bh)
     total = sum(s["d"] for s in reel["shots"])
     nfr = int(round(total * FPS))
     texts = reel["texts"](fmt) if (F["text"] and reel.get("texts")) else []
@@ -261,22 +236,16 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
                     oy = min(0, fh - box[3]) - min(0, box[1])
                     box = (box[0] + ox, box[1] + oy, box[2] + ox, box[3] + oy)
                     band = Image.fromarray(fr).resize((bw, bh), Image.BICUBIC, box=box)
-                    a = grade(band, gi, sat=shot.get("sat", 1.12))
+                    if bw / (box[2] - box[0]) > 1.3:
+                        band = band.filter(SHARPEN)
                     if rgb >= 1:
+                        a = np.asarray(band).copy()
                         k2 = int(rgb)
-                        a = a.copy()
-                        a[:, k2:, 0] = a[:, :-k2, 0]
-                        a[:, :-k2, 2] = a[:, k2:, 2]
-                    dk = 0.0
-                    for tx in texts:
-                        if tx.t0 <= t < tx.t1 and tx.darken:
-                            dk = max(dk, tx.darken)
-                    if shot.get("darken"):
-                        dk = max(dk, shot["darken"])
-                    if dk:
-                        a = (a.astype(np.float32) * (1 - dk)).astype(np.uint8)
-                    band = Image.fromarray(a)
+                        a[:, k2:, 0] = a[:, :-k2, 0].copy()
+                        a[:, :-k2, 2] = a[:, k2:, 2].copy()
+                        band = Image.fromarray(a)
             canvas = Image.new("RGBA", (W, H), INK + (255,) if fmt == "9x16" else (0, 0, 0, 255))
+
             canvas.paste(band, (bx0, by0))
             for tx in texts:
                 tx.draw(canvas, t)

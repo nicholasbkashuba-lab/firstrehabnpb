@@ -9,12 +9,12 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 # ---------------------------------------------------------------- shots
 # Each entry: source, focus (fx, fy as fraction of the usable region), zoom.
 # Ep15 Dave camera has a privacy blur box top-left of frame; its framings keep clear of it.
-_D15 = dict(src="ep15", fx=0.66, fy=0.42, z=1.5, **{"9x16": dict(fx=0.62, fy=0.45, z=1.2)})
-_M15 = dict(src="ep15", fx=0.64, fy=0.42, z=1.25, **{"9x16": dict(fx=0.64, fy=0.45, z=1.1)})
-_D14 = dict(src="ep14", fx=0.55, fy=0.38, z=1.12, **{"9x16": dict(fx=0.56, fy=0.42, z=1.05)})
-_M14 = dict(src="ep14", fx=0.6, fy=0.42, z=1.25, **{"9x16": dict(fx=0.6, fy=0.45, z=1.1)})
-_M11 = dict(src="ep11", fx=0.55, fy=0.42, z=1.3, **{"9x16": dict(fx=0.55, fy=0.45, z=1.15)})
-_M9 = dict(src="ep9", fx=0.32, fy=0.45, z=1.25, **{"9x16": dict(fx=0.2, fy=0.45, z=1.15)})
+_D15 = dict(src="ep15", fx=0.66, fy=0.42, z=1.5, **{"9x16": dict(fx=0.62, fy=0.45, z=1.0)})
+_M15 = dict(src="ep15", fx=0.64, fy=0.42, z=1.25, **{"9x16": dict(fx=0.55, fy=0.45, z=1.0)})
+_D14 = dict(src="ep14", fx=0.55, fy=0.38, z=1.12, **{"9x16": dict(fx=0.56, fy=0.42, z=1.0)})
+_M14 = dict(src="ep14", fx=0.6, fy=0.42, z=1.25, **{"9x16": dict(fx=0.54, fy=0.45, z=1.0)})
+_M11 = dict(src="ep11", fx=0.55, fy=0.42, z=1.3, **{"9x16": dict(fx=0.55, fy=0.45, z=1.0)})
+_M9 = dict(src="ep9", fx=0.32, fy=0.45, z=1.25, **{"9x16": dict(fx=0.2, fy=0.45, z=1.0)})
 _W9 = dict(src="ep9", fx=0.45, fy=0.45, z=1.0, **{"9x16": dict(fx=0.3, fy=0.45, z=1.0)})
 _D16 = dict(src="ep16", fx=0.45, fy=0.55, z=1.0, **{"9x16": dict(fx=0.47, fy=0.5, z=1.0)})
 # Ep16 Mike: vertical inset on a blurred fill. Wide formats keep the fill, vertical uses the inset.
@@ -32,7 +32,7 @@ SHOTS = {
     "d15_point": dict(_D15, t=1567.4),
     "d15_grin": dict(_D15, t=1572.0),
     "d15_gest": dict(_D15, t=1386.0),
-    "d16_onair": dict(_D16, t=23.0),
+    "d16_onair": dict(_D14, t=1440.0),  # Ep 14 ON AIR: the Ep 16 camera crops Dave's head
     "dk_smile": dict(_DK, src="k_captain_kerry_workout_branding", t=10.5),
     "dk_laugh": dict(_DK, src="k_depression_stats_why_kerry_matters", t=15.0),
     "dk_talk": dict(_DK, src="k_dogs_and_vets_charity", t=4.5),
@@ -85,33 +85,46 @@ def black(d):
 
 # ---------------------------------------------------------------- type
 def fmt_geom(fmt):
+    # over = type laid over footage (lower third, clear of faces); card = centre of a
+    # black title card; cap = word-pop captions; top = small kicker line.
     if fmt == "9x16":
-        return dict(W=1080, cx=540, top=165, mid=975, low=1785, cap=1760, slam=118, name=92, sub=44, cap_sz=82)
-    return dict(W=1920, cx=960, top=200, mid=540, low=850, cap=905, slam=150, name=104, sub=46, cap_sz=78)
+        return dict(W=1080, cx=540, top=250, over=1290, card=960, cap=1420, slam=112, name=88, sub=44, cap_sz=82)
+    return dict(W=1920, cx=960, top=120, over=850, card=540, cap=905, slam=140, name=100, sub=46, cap_sz=78)
 
 
-def slam(fmt, t0, t1, text, where="mid", size=None, color=CREAM, darken=0.35, anim="slam"):
+def _y(g, where):
+    if isinstance(where, (int, float)):
+        return where
+    return g["card"] if where == "card" else g["top"] if where == "kick" else g["over"]
+
+
+def _stroke(sz):
+    return max(3, int(sz) // 20)
+
+
+def slam(fmt, t0, t1, text, where="over", size=None, color=CREAM, darken=0.0, anim="slam"):
     g = fmt_geom(fmt)
     sz = size or g["slam"]
-    img = text_img([(text, INTER_BLACK, sz, color)], g["W"], track=0.02)
+    img = text_img([(text, INTER_BLACK, sz, color)], g["W"], track=0.02, stroke=_stroke(sz))
     if img.width > g["W"] * 0.92:
         img = img.resize((int(g["W"] * 0.92), int(img.height * g["W"] * 0.92 / img.width)), Image.LANCZOS)
-    y = g[where] if isinstance(where, str) else where
-    return Txt(t0, t1, img, (g["cx"], y), anim, darken if where == "mid" or fmt != "9x16" else 0.0)
+    return Txt(t0, t1, img, (g["cx"], _y(g, where)), anim)
 
 
 def name_card(fmt, t0, t1, name, sub):
     g = fmt_geom(fmt)
-    img = text_img([(name, INTER_BLACK, g["name"], CREAM), (sub, PLAYFAIR_I, g["sub"], GOLD)], g["W"], track=0.015)
-    y = g["low"] if fmt == "9x16" else 830
-    return Txt(t0, t1, img, (g["cx"], y), "rise", 0.0)
+    img = text_img([(name, INTER_BLACK, g["name"], CREAM), (sub, INTER_XB, g["sub"], GOLD)], g["W"], track=0.015,
+                   stroke=_stroke(g["name"]))
+    return Txt(t0, t1, img, (g["cx"], g["over"]), "rise")
 
 
-def kicker(fmt, t0, t1, text, where="top", color=CORAL):
+def kicker(fmt, t0, t1, text, where="kick", color=CORAL):
     g = fmt_geom(fmt)
-    img = text_img([(text, INTER_XB, 44 if fmt == "9x16" else 36, color)], g["W"], track=0.28)
-    y = g[where] if isinstance(where, str) else where
-    return Txt(t0, t1, img, (g["cx"], y), "fade", 0.0)
+    sz = 44 if fmt == "9x16" else 36
+    img = text_img([(text, INTER_XB, sz, color)], g["W"], track=0.2, stroke=3)
+    if img.width > g["W"] * 0.94:
+        img = img.resize((int(g["W"] * 0.94), int(img.height * g["W"] * 0.94 / img.width)), Image.LANCZOS)
+    return Txt(t0, t1, img, (g["cx"], _y(g, where)), "fade")
 
 
 def captions(fmt, words, max_words=3, max_chars=18, y=None, end_pad=0.3):
@@ -177,4 +190,4 @@ def image_card(fmt, t0, t1, path, width_frac=0.42, y=None, anim="slam", on=None)
         glow = glow.filter(ImageFilter.GaussianBlur(28))
         glow.alpha_composite(im, (pad, pad))
         im = glow
-    return Txt(t0, t1, im, (g["cx"], y if y is not None else g["mid"]), anim, 0.0)
+    return Txt(t0, t1, im, (g["cx"], y if y is not None else g["card"]), anim)

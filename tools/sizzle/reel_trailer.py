@@ -76,38 +76,38 @@ WHINE_AT = 24.4 - 1488.9
 def texts(fmt):
     g = fmt_geom(fmt)
     T = []
-    T.append(kicker(fmt, 0.05, 0.6, "LEGENDS 100.3 FM", where="mid" if fmt != "9x16" else "top"))
+    T.append(kicker(fmt, 0.05, 0.6, "LEGENDS 100.3 FM", where="card"))
     T += captions(fmt, words_from(W_VO1, -VO1))
     if fmt == "9x16":
         T.append(kicker(fmt, 0.7, 6.85, "SATURDAYS 8:30 AM"))
-    T.append(slam(fmt, 6.9, 7.65, "THE DOCTOR.", where="mid" if fmt != "9x16" else "top"))
+    T.append(slam(fmt, 6.9, 7.65, "THE DOCTOR.", where="over"))
     T.append(name_card(fmt, 7.55, 8.5, "DR. DAVE KASHUBA", "Founder, First Rehabilitation · since 1991"))
-    T.append(slam(fmt, 8.5, 9.25, "THE VOICE.", where="mid" if fmt != "9x16" else "top"))
+    T.append(slam(fmt, 8.5, 9.25, "THE VOICE.", where="over"))
     T.append(name_card(fmt, 9.15, 10.1, "MIKE McGANN", "17 years on Palm Beach County radio"))
     # VO2 words land as kinetic slams
     for t0, t1, w in [(10.73, 11.42, "GREAT INFORMATION."), (11.42, 12.2, "GREAT GUESTS."),
                       (12.27, 13.0, "TREMENDOUS"), (13.03, 14.95, "STUFF TO LEARN.")]:
-        T.append(slam(fmt, t0 - VO2, t1 - VO2, w, where="mid" if fmt != "9x16" else "top",
+        T.append(slam(fmt, t0 - VO2, t1 - VO2, w, where="over",
                       size=g["slam"] * (0.82 if len(w) > 14 else 1.0), darken=0.25))
     T += captions(fmt, words_from(W_DAVE, DAVE_AT))
     T += captions(fmt, words_from(W_MIKE, DAVE_AT))
-    T.append(slam(fmt, 19.1, 19.8, "AND YES…", where="mid", color=CREAM))
-    T.append(slam(fmt, 19.8, 20.4, "THE DAD JOKES.", where="mid", color=GOLD))
+    T.append(slam(fmt, 19.1, 19.8, "AND YES…", where="card", color=CREAM))
+    T.append(slam(fmt, 19.8, 20.4, "THE DAD JOKES.", where="card", color=GOLD))
     T += captions(fmt, words_from(W_JOKE, JOKE_AT), max_words=4, max_chars=22)
     T += captions(fmt, words_from(W_WHINE, WHINE_AT), end_pad=0.6)
     # title
     T.append(image_card(fmt, 30.0, 32.3, f"{REPO}/assets/media/podcast-cover.jpg", 0.36,
-                        y=g["mid"] - (40 if fmt != "9x16" else 0), on="glow"))
+                        y=g["card"] - (40 if fmt != "9x16" else 0), on="glow"))
     T += captions(fmt, words_from(W_OUT, OUT_AT), y=(g["cap"] if fmt == "9x16" else 960), max_words=4)
     # end card
     T.append(image_card(fmt, 32.3, DUR, f"{REPO}/assets/media/logo-dark.png", 0.2,
-                        y=(g["mid"] - 210) if fmt != "9x16" else 640, anim="fade"))
-    T.append(slam(fmt, 32.35, DUR, "SATURDAYS 8:30 AM", where=(g["mid"] + 40) if fmt != "9x16" else 960,
+                        y=(g["card"] - 210) if fmt != "9x16" else 640, anim="fade"))
+    T.append(slam(fmt, 32.35, DUR, "SATURDAYS 8:30 AM", where=(g["card"] + 40) if fmt != "9x16" else 960,
                   size=g["slam"] * 0.62, anim="rise", darken=0))
-    T.append(slam(fmt, 32.5, DUR, "100.3 LEGENDS RADIO", where=(g["mid"] + 140) if fmt != "9x16" else 1065,
+    T.append(slam(fmt, 32.5, DUR, "100.3 LEGENDS RADIO", where=(g["card"] + 140) if fmt != "9x16" else 1065,
                   size=g["slam"] * 0.5, color=GOLD, anim="rise", darken=0))
     T.append(kicker(fmt, 32.7, DUR, "SPOTIFY · YOUTUBE · FIRSTREHABNPB.COM",
-                    where=(g["mid"] + 250) if fmt != "9x16" else 1180, color=CREAM))
+                    where=(g["card"] + 250) if fmt != "9x16" else 1180, color=CREAM))
     return T
 
 
