@@ -144,7 +144,12 @@ author identity through verified credentials.
 
 January is high season, so compare with last January (147 GBP calls), not with October.
 
-## 9. Guardrails
+## 9. Competitor teardown
+
+Why nearby clinics outrank us, the name collision with a similarly named clinic, and the
+verified list of wrong NPI, Healthgrades, LinkedIn and Yelp records: `docs/LOCAL-AUTHORITY-AUDIT-2026-10.md`.
+
+## 10. Guardrails
 
 No PHI in the repo, analytics or schema. No patient stories without signed authorization.
 No ad pixels or health-condition remarketing without a privacy review. Free offers to

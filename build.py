@@ -30,6 +30,15 @@ NEWS = [
     # automated fetch, so the headline, date, and whether it names THIS practice
     # could not be confirmed. Add it once someone reads the live article and can
     # supply the exact headline and publication date.
+    # Verified 2026-10-14 by reading the live article: byline Shannon Cake, posted
+    # Apr 09, 2025, Dave named as owner, "39 years of experience" and "80,000
+    # patients" in WPTV's own words, and a Google review cites it as how the
+    # reviewer found us. Visible press is the single trust signal competitors
+    # (HSS network badge at Synergy, ortho-group affiliation at PBOI) lean on most.
+    {"outlet": "WPTV NewsChannel 5", "date": "April 2025",
+     "url": "https://www.wptv.com/news/health/essential-wellness-tips-for-achieving-optimal-fitness-and-health",
+     "title": "Essential wellness tips for achieving optimal fitness and health",
+     "blurb": "Anchor Shannon Cake, rehabbing a rotator cuff injury of her own, visits First Rehabilitation for Dr. Dave Kashuba's tips on hydration, core strength, balance and staying injury free."},
 ]
 
 # Accepted plans — owner-confirmed. Single source of truth: the homepage ticker,
@@ -1226,6 +1235,59 @@ SERVICES = {
 }
 
 
+# VERBATIM public Google reviews, matched to the service they describe. Pulled
+# 2026-10-14 from the clinic's own Google Business Profile (Windsor.ai,
+# google_my_business reviews). Same rules as the homepage quotes: real words only,
+# trimmed with an ellipsis where marked, reviewer shown as first name + last
+# initial (owner's standing call). NO Review/AggregateRating markup: self-serving
+# review schema breaks Google's guidelines; visible text is the whole point.
+# Why it exists: every competitor that outranks us in the map pack shows its
+# Google rating or review quotes ON the service page (Synergy "5.0 from 734",
+# Gold Coast's quoted reviews, CORA's widget); our service pages showed none.
+# Excluded on purpose: reviews that mention "Burns Rd", "Rob", "Lonn" or "any of
+# their locations". Those were written for a DIFFERENT clinic with a similar name
+# (thefirstrehab.com, 3375 Burns Rd) and landed on our listing by mistake.
+SERVICE_REVIEWS = {
+    "hand-therapy": [
+        ("Great hand therapy from Laura. Recovering well from a wrist injury with her help. I'm well on my way back to kayaking, pickleball, golf and more!", "Thom F."),
+        ("Laura did a lot of treatments to help with my tennis elbow and gave me at home exercise. I'm feeling great!", "Charlie C."),
+        ("My hand therapist Laura is THE Best!!!! And all the staff at front desk have been so welcoming.", "Mary C."),
+    ],
+    "occupational-therapy": [
+        ("I also want to highlight Joan Janik, who guided me through a series of exercises tailored to help my shoulder grow stronger. Her attention to detail and encouragement made a real difference in my rehab journey.", "Romina G."),
+        ("Dave and his staff of PT’s OT’s and assistants are the BEST! They have helped me through shoulder and hand and wrist injuries as well as lumbar and SI joint problems.", "Danielle J."),
+        ("I have OT with Laura and she has been great! Staff is friendly and professional.", "Renee W."),
+    ],
+    "physical-therapy": [
+        ("Their physical therapists were exceptionally knowledgeable, kind, and caring with their assistance after my hip replacement, and built my strength, stamina, and walking confidence back quickly.", "Christine H."),
+        ("It’s more one on one than other PT places I’ve been. I’m a name not a number very personable.", "Patricia T."),
+        ("We were never rushed through the appointments, nor did we feel like we were there for an excessive amount of time. Scheduling was very accommodating.", "Georgia N."),
+    ],
+}
+GOOGLE_RATING, GOOGLE_REVIEW_COUNT = "4.9", 110   # update when the listing moves
+
+
+def service_reviews_html(slug):
+    rv = SERVICE_REVIEWS.get(slug)
+    if not rv:
+        return ""
+    cards = "".join(
+        f'''<figure class="quote-card reveal d{i+1}"><div class="stars" aria-hidden="true">★★★★★</div><blockquote>{q}</blockquote><figcaption><strong>{n}</strong> &middot; Google review</figcaption></figure>'''
+        for i, (q, n) in enumerate(rv))
+    return f'''
+<section class="section on-cream">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">From Our Patients</span>
+      <h2><a href="https://maps.google.com/?cid=3809434844265673488" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">{GOOGLE_RATING} <span style="color:var(--coral-text);">★</span> on Google</a></h2>
+      <p class="lede">From {GOOGLE_REVIEW_COUNT} patient reviews of our North Palm Beach clinic.</p>
+    </div>
+    <div class="quote-grid">{cards}</div>
+    <p class="related-links reveal" style="text-align:center;margin-top:1.4rem;">Verbatim excerpts, shared as posted. Every recovery is different. <a href="https://maps.google.com/?cid=3809434844265673488" target="_blank" rel="noopener">Read all our reviews on Google</a></p>
+  </div>
+</section>'''
+
+
 # Supplemental visual data for service pages
 SERVICE_EXTRAS = {
     "physical-therapy": {
@@ -1525,7 +1587,7 @@ def build_services():
     {svc_blog_links}
   </div>
 </section>
-{cht_callout}{svc_deep_html}
+{cht_callout}{svc_deep_html}{service_reviews_html(slug)}
 <section class="section on-ink">
   <div class="beam-field" aria-hidden="true"><div class="beam" style="opacity:0.5;"></div></div>
   <div class="wrap" style="position:relative;z-index:1;">
