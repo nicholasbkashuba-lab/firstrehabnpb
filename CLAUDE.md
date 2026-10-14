@@ -625,6 +625,9 @@ the guest's own profile and shares its likes and comments, which is the entire p
 Instagram only; no equivalent on Facebook, TikTok or YouTube. Max 3 handles, and **a private
 or misspelled handle fails the WHOLE post**, so confirm it with Nick rather than guessing.
 Known: Captain Kerry is `capt_kerry` (set by an earlier session, not independently verified).
+Verified by a published post: `pilateslifeflorida`, `mic_mcgann`, `legendsradio100.3`. `elysemarrone` FAILS
+(2026-10-14: Instagram refused the tag and rejected the whole Ep 18 sizzle reel), so never tag or
+collaborate it until Nick supplies her real handle. A user_tags entry fails the post just like a collaborator.
 
 **Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
 uploaded COPY, not a reference to the branch, so re-cutting a clip and pushing it does not
