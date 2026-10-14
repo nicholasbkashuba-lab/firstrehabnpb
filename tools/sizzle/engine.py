@@ -158,12 +158,14 @@ def _grab(key, t):
 
 
 def face_point(key, shot, region):
-    """Region-relative (x, y) of the face nearest the shot's hint, or None."""
+    """Absolute (x, y) of the face nearest the shot's hint, or None. With shot["pair"],
+    the midpoint of the two largest faces (a two-shot is centred on the pair)."""
     global _DET
     rx0, ry0, rx1, ry1 = region
     hx = rx0 + shot.get("fx", 0.5) * (rx1 - rx0)
     hy = ry0 + shot.get("fy", 0.45) * (ry1 - ry0)
-    ck = f"{key}@{shot['t']:.2f}+{shot['d']:.2f}|{hx:.0f},{hy:.0f}|{region}"
+    pair = bool(shot.get("pair"))
+    ck = f"{key}@{shot['t']:.2f}+{shot['d']:.2f}|{hx:.0f},{hy:.0f}|{region}" + ("|pair" if pair else "")
     cache = _face_cache()
     if ck in cache:
         return cache[ck]
@@ -182,6 +184,12 @@ def face_point(key, shot, region):
         _, faces = _DET.detect(small)
         if faces is None:
             continue
+        if pair and len(faces) >= 2:
+            fs = sorted(faces, key=lambda f: -f[2] * f[3])[:2]
+            xs = [rx0 + (f[0] + f[2] / 2) / sc for f in fs]
+            ys = [ry0 + (f[1] + f[3] * 0.42) / sc for f in fs]
+            pts.append((sum(xs) / 2, sum(ys) / 2))
+            continue
         best = None
         for fc in faces:
             x, y, w, h = (fc[:4] / sc)
@@ -197,6 +205,32 @@ def face_point(key, shot, region):
     os.makedirs(os.path.join(SCR, "aud"), exist_ok=True)
     json.dump(cache, open(os.path.join(SCR, "aud", "faces.json"), "w"))
     return res
+
+
+MAX_UPSCALE = 2.6   # past this a punch-in looks soft; fall back to fit-with-fill instead
+
+
+def ensure_centred(shot, region, aspect, out_w):
+    """Owner rule (2026-10-14): the subject is centred in every shot, every time.
+    A crop can only centre a face that is at least half a crop-width from the region
+    edge. If it is closer, zoom in just enough to centre it; if that would enlarge the
+    source more than MAX_UPSCALE, show the whole frame face-centred over a colour wash."""
+    rx0, ry0, rx1, ry1 = region
+    rw, rh = rx1 - rx0, ry1 - ry0
+    cw0 = rh * aspect if rw / rh > aspect else rw
+    fx = shot["_face"][0]
+    room = min(fx - rx0, rx1 - fx)
+    z = shot.get("z", 1.0) * shot.get("zmul", 1.0)
+    if room <= 0:
+        shot["fit"] = 1.0
+        return
+    z_need = cw0 / (2 * room) * 1.02
+    if z_need <= z:
+        return
+    if out_w / (cw0 / z_need) <= MAX_UPSCALE:
+        shot["z"] = z_need / shot.get("zmul", 1.0)
+    else:
+        shot["fit"] = 1.12
 
 
 def crop_box(key, shot, aspect, prog, extra_zoom):
@@ -217,6 +251,46 @@ def crop_box(key, shot, aspect, prog, extra_zoom):
     cx = min(max(cx, rx0 + cw / 2), rx1 - cw / 2)
     cy = min(max(cy, ry0 + ch / 2), ry1 - ch / 2)
     return (cx - cw / 2, cy - ch / 2, cx + cw / 2, cy + ch / 2)
+
+
+def fit_frame(fr, key, shot, bw, bh, prog, punch):
+    """Show a source that is already a tight close-up WITHOUT cropping further: the whole
+    usable region is scaled to fit, slid so the face sits at frame centre, and laid over a
+    blurred, darkened copy of itself with feathered edges (no hard border line).
+    Used for Dr. Leighton's clip, which was shot tight with his face at the right edge."""
+    from PIL import ImageFilter
+    rx0, ry0, rx1, ry1 = shot.get("region") or REGION.get(key) or (0, 0, *SIZE[key])
+    rw, rh = rx1 - rx0, ry1 - ry0
+    src = Image.fromarray(fr).crop((rx0, ry0, rx1, ry1))
+    face = shot.get("_face")
+    fx = ((face[0] - rx0) / rw) if face else shot.get("fx", 0.5)
+    fy = ((face[1] - ry0) / rh) if face else shot.get("fy", 0.45)
+    # background: a soft colour wash of the same picture (shrunk to a few pixels and
+    # blown back up), darkened. It keeps the studio's colours with no recognisable
+    # shapes, so the fill never shows a second, blurred face.
+    bg = src.resize((6, 6), Image.BILINEAR).filter(ImageFilter.GaussianBlur(1)).resize((bw, bh), Image.BICUBIC)
+    bg = Image.fromarray((np.asarray(bg).astype(np.float32) * 0.45).astype(np.uint8))
+    # foreground: fit, times the shot's fit zoom, with the push-in and hit punch
+    s = min(bw / rw, bh / rh) * shot["fit"] * (1 + shot.get("push", 0.05) * prog) * punch
+    fw, fh = int(rw * s), int(rh * s)
+    fg = src.resize((fw, fh), Image.BICUBIC)
+    if s > 1.3:
+        fg = fg.filter(SHARPEN)
+    ox = int(bw / 2 - fx * fw)
+    oy = int(bh * 0.42 - fy * fh)
+    # Face dead centre, always (owner rule 2026-10-14); the blur fills whatever is left.
+    oy = min(max(oy, bh - fh), 0) if fh >= bh else (bh - fh) // 2
+    # feathered alpha so the edge melts into the blur
+    feather = max(24, int(min(fw, fh) * 0.06))
+    a = np.ones((fh, fw), np.float32)
+    ramp = np.linspace(0, 1, feather, dtype=np.float32)
+    a[:, :feather] *= ramp[None, :]
+    a[:, -feather:] *= ramp[None, ::-1]
+    a[:feather, :] *= ramp[:, None]
+    a[-feather:, :] *= ramp[::-1, None]
+    mask = Image.fromarray((a * 255).astype(np.uint8))
+    bg.paste(fg, (ox, oy), mask)
+    return bg
 
 
 # ------------------------------------------------------------------ text events
@@ -284,6 +358,8 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
         if shot.get("src") and shot.get("track", True):
             reg = shot.get("region") or REGION.get(shot["src"]) or (0, 0, *SIZE[shot["src"]])
             shot["_face"] = face_point(shot["src"], shot, reg)
+            if shot["_face"] and not shot.get("fit"):
+                ensure_centred(shot, reg, aspect, bw)
         n = int(round((t_shot + shot["d"]) * FPS)) - int(round(t_shot * FPS))
         key = shot.get("src")
         rd = Reader(key, shot["t"], n, shot.get("speed", 1.0)) if key else None
@@ -311,9 +387,12 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
                     ox = min(0, fw - box[2]) - min(0, box[0])
                     oy = min(0, fh - box[3]) - min(0, box[1])
                     box = (box[0] + ox, box[1] + oy, box[2] + ox, box[3] + oy)
-                    band = Image.fromarray(fr).resize((bw, bh), Image.BICUBIC, box=box)
-                    if bw / (box[2] - box[0]) > 1.3:
-                        band = band.filter(SHARPEN)
+                    if shot.get("fit"):
+                        band = fit_frame(fr, key, shot, bw, bh, prog, punch)
+                    else:
+                        band = Image.fromarray(fr).resize((bw, bh), Image.BICUBIC, box=box)
+                        if bw / (box[2] - box[0]) > 1.3:
+                            band = band.filter(SHARPEN)
                     if rgb >= 1:
                         a = np.asarray(band).copy()
                         k2 = int(rgb)

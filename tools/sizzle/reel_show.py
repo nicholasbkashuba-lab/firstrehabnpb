@@ -29,7 +29,7 @@ W16 = json.load(open(os.path.join(E.SCR, "aud", "words16.json")))
 G_SABESAN = dict(src="ep9", fx=0.5, fy=0.4, z=1.15)
 G_GOODWIN = dict(src="ep16", fx=0.62, fy=0.4, z=1.1)
 G_JOYCE = dict(src="ep11", fx=0.5, fy=0.45, z=1.25)
-G_LEIGHTON = dict(src="c_leighton", fx=0.6, fy=0.4, z=1.0)
+G_LEIGHTON = dict(src="c_leighton", fx=0.75, fy=0.35, z=1.0, fit=1.12, **{"9x16": dict(fit=1.35)})
 G_KERRY = dict(src="c_kerry", fx=0.5, fy=0.4, z=1.0)
 
 shots, dlg, caps, T_ = [], [], [], [0.0]

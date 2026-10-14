@@ -15,7 +15,7 @@ _D14 = dict(src="ep14", fx=0.55, fy=0.38, z=1.12, **{"9x16": dict(fx=0.56, fy=0.
 _M14 = dict(src="ep14", fx=0.6, fy=0.42, z=1.25, **{"9x16": dict(fx=0.54, fy=0.45, z=1.0)})
 _M11 = dict(src="ep11", fx=0.55, fy=0.42, z=1.3, **{"9x16": dict(fx=0.55, fy=0.45, z=1.0)})
 _M9 = dict(src="ep9", fx=0.32, fy=0.45, z=1.25, **{"9x16": dict(fx=0.2, fy=0.45, z=1.0)})
-_W9 = dict(src="ep9", fx=0.45, fy=0.45, z=1.0, **{"9x16": dict(fx=0.3, fy=0.45, z=1.0)})
+_W9 = dict(src="ep9", fx=0.45, fy=0.45, z=1.0, pair=True, **{"9x16": dict(fx=0.3, fy=0.45, z=1.0, pair=False)})
 _D16 = dict(src="ep16", fx=0.45, fy=0.55, z=1.0, **{"9x16": dict(fx=0.47, fy=0.5, z=1.0)})
 # Ep16 Mike: vertical inset on a blurred fill. Wide formats keep the fill, vertical uses the inset.
 _M16 = dict(src="ep16", fx=0.5, fy=0.48, z=1.5, **{"9x16": dict(region=INSET16, fx=0.5, fy=0.42, z=1.35)})

@@ -268,6 +268,20 @@ has a VideoObject (`_trailer_schema()`, uploadDate set). The reels and loops are
 `tools/sizzle/` (see its README: shot lists per reel, synthesized score, word-pop
 captions); social captions are in `content/social/p2p-sizzle-reels.md`.
 
+**Every video edited for Nick must keep the subject CENTRED, every shot, every time (Nick,
+2026-10-14: "always make sure this thing is centered every time you edit a video for me,
+period").** It came up twice in one day: Mike sat off-centre in the 9:16 crops, and
+Leighton's guest shot was zoomed in and off to one side. Two guards now exist; use both:
+- `engine.ensure_centred()` re-aims every crop on the tracked face (YuNet; a two-shot
+  centres the pair midpoint). If centring would mean upscaling past `MAX_UPSCALE` it fits
+  the frame instead (`fit_frame`: face dead centre over a soft colour wash of the same
+  shot, never black bars, never a hard border).
+- `tools/sizzle/qa_center.py <mp4> --sheet` samples 2 fps and fails any stretch where the
+  subject sits more than 10% of the width off centre. `run.py` runs it after every render.
+  Do not send, post or ship a render that has not printed PASS; fix the shot and re-render.
+  This applies to clips cut outside tools/sizzle too (episode clips, one-off posts): run
+  qa_center.py on the file before it goes to Nick or Post Bridge.
+
 ## Dave's Dad Jokes: every Friday (Nick, 2026-10-14)
 Every Pain 2 Power ends on Dave's dad joke. Each one is cut as its own vertical clip
 (`tools/sizzle/jokes.py`, one `reel_joke_<name>.py` per joke: pauses tightened, captions,

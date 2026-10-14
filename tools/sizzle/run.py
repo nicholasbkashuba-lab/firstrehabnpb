@@ -32,3 +32,6 @@ for f in fmts:
                         "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", p.replace(".mp4", "-nomusic.mp4")],
                        check=True)
     print(f"{f} {time.time() - t:.1f}s -> {p}", flush=True)
+    # every render is checked for centring before it goes anywhere (owner rule)
+    import subprocess as _sp
+    _sp.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "qa_center.py"), p, "--sheet"])

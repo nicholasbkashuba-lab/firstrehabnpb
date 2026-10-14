@@ -34,8 +34,20 @@ needs `opencv-python-headless`) on three frames, takes the face nearest the shot
 hint and centres on it with the eyes ~40% down. Set `track=False` on a shot to use its
 fx/fy as-is. The hint matters on two-shots (Ep 9) where both hosts are in frame.
 
+**Centring is mandatory (owner rule).** After the crop is chosen, `ensure_centred()`
+re-aims it so the face (or a two-shot's pair midpoint, `pair=True`) lands at frame
+centre. When that needs more than `MAX_UPSCALE` (2.6x) of enlargement the shot is fitted
+instead (`fit_frame`: whole picture scaled to fit, face centred, a soft colour wash of
+the same shot filling the rest). `fit=` on a shot forces that look and sets its scale.
+Then `qa_center.py` checks the rendered file at 2 fps and fails anything more than 10% of
+the width off centre; `run.py` runs it after every render and `--sheet` writes a contact
+sheet of the bad frames. Nothing ships without PASS.
+
+    python3 qa_center.py $SIZZLE_WORK/out/show-9x16.mp4 --sheet
+
 `run.py` writes every reel twice: `<name>-<fmt>.mp4` with the synthesized score and
-`<name>-<fmt>-nomusic.mp4` with dialogue only, for laying a track under it in-app.
+`<name>-<fmt>-nomusic.mp4` with dialogue and sound effects only (no music bed), for
+laying a track under it in-app.
 
 ## Adding a dad joke
 
