@@ -370,7 +370,7 @@ def cta_band(depth=0, heading='Life is too short to <em>live in pain.</em>', sub
 </section>
 """
 
-def page_hero(eyebrow, title, lede, crumbs_html="", cta_href=None, cta_label="Book Appointment"):
+def page_hero(eyebrow, title, lede, crumbs_html="", cta_href=None, cta_label="Book Appointment", loop=None):
     # Condition, location and treatment-hub pages used to carry zero booking
     # CTA until a reader scrolled past the intro to a side-card or the very
     # bottom cta_band — the header link was doing nearly all the work despite
@@ -378,6 +378,8 @@ def page_hero(eyebrow, title, lede, crumbs_html="", cta_href=None, cta_label="Bo
     # pull). An optional button here puts one where the reader already is.
     cta_html = (f'<div class="mt-2"><a class="btn btn-coral" href="{cta_href}">{cta_label} '
                 f'<span class="arr">&rarr;</span></a></div>') if cta_href else ""
+    if loop:
+        return _video_page_hero(eyebrow, title, lede, crumbs_html, loop)
     return f"""
 <section class="page-hero">
   <div class="hero-fallback"></div>
@@ -391,6 +393,81 @@ def page_hero(eyebrow, title, lede, crumbs_html="", cta_href=None, cta_label="Bo
   </div>
 </section>
 """
+
+# Pain 2 Power sizzle reels, cut from the Episode 9-16 masters (Dave + Mike only).
+# Each page hero plays a silent, text-free loop; the button opens the trailer with
+# sound. Loops ship with NO <source> and preload="none" — main.js attaches ONE
+# rendition (720p under 768px, 1080p above), same as the homepage lighthouse.
+# Every file here is linked through asset_v(), so a re-encode busts its own cache.
+P2P_LOOPS = {
+    "audio": "p2p-hero-audio",
+    "video": "p2p-hero-video",
+}
+P2P_TRAILER = {
+    "mp4": "assets/media/p2p-trailer.mp4",
+    "poster": "assets/media/p2p-trailer-poster.jpg",
+    "uploaded": "2026-10-14",
+    "duration": "PT35S",
+}
+
+def _m(path):
+    """Root-relative media URL with its content-hash cache-buster."""
+    return f"{path}?v={asset_v(path)}"
+
+def p2p_poster_preload(kind):
+    return (f'<link rel="preload" as="image" href="{_m(f"assets/media/{P2P_LOOPS[kind]}-poster.jpg")}" '
+            f'fetchpriority="high">\n')
+
+def _video_page_hero(eyebrow, title, lede, crumbs_html, kind):
+    base = f"assets/media/{P2P_LOOPS[kind]}"
+    return f"""
+<section class="page-hero has-video">
+  <div class="hero-media">
+    <div class="hero-fallback"></div>
+    <video autoplay muted loop playsinline preload="none" poster="{_m(base + '-poster.jpg')}"
+      aria-label="Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio"
+      data-mp4-full="{_m(base + '-hd.mp4')}"
+      data-webm-full="{_m(base + '-hd.webm')}"
+      data-mp4-mobile="{_m(base + '-mobile.mp4')}"
+      data-webm-mobile="{_m(base + '-mobile.webm')}"></video>
+    <button class="hero-pause" type="button" aria-label="Pause background video" aria-pressed="false">&#10073;&#10073;</button>
+  </div>
+  <div class="hero-scrim"></div>
+  <div class="wrap">
+    {crumbs_html}
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{title}</h1>
+    <p class="lede">{lede}</p>
+    <div class="mt-2"><button class="btn btn-coral trailer-open" type="button" aria-haspopup="dialog">
+      <span aria-hidden="true">&#9654;</span> Watch the Trailer</button></div>
+  </div>
+</section>
+<dialog class="trailer-modal" aria-label="Pain 2 Power trailer">
+  <button class="trailer-close" type="button" aria-label="Close trailer">&times;</button>
+  <video controls playsinline preload="none" poster="{_m(P2P_TRAILER['poster'])}"
+    data-src="{_m(P2P_TRAILER['mp4'])}"></video>
+</dialog>
+"""
+
+def _trailer_schema():
+    """VideoObject for the self-hosted Pain 2 Power trailer, tied to the org."""
+    import json as _json
+    base = "https://www.firstrehabnpb.com/"
+    node = {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "@id": base + "#p2p-trailer",
+        "name": "Pain 2 Power Trailer: Dr. Dave Kashuba and Mike McGann",
+        "description": "A 35-second trailer for Pain 2 Power, the physical rehab and wellness show hosted by "
+                       "Dr. Dave Kashuba of First Rehabilitation of North Palm Beach with Mike McGann. "
+                       "Saturdays at 8:30 AM on 100.3 Legends Radio.",
+        "thumbnailUrl": base + P2P_TRAILER["poster"],
+        "contentUrl": base + P2P_TRAILER["mp4"],
+        "uploadDate": P2P_TRAILER["uploaded"],
+        "duration": P2P_TRAILER["duration"],
+        "publisher": {"@id": base + "#organization"},
+    }
+    return '<script type="application/ld+json">' + _json.dumps(node, ensure_ascii=False) + '</script>\n'
 
 def linkify_phone(html_out):
     """Every visible mention of the clinic phone number becomes a tap-to-call link.
@@ -1843,7 +1920,7 @@ def build_podcast():
 <main>
 {page_hero("The Pain 2 Power Podcast", "Real Conversations That <em class='accent'>Move You Forward</em>",
   "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness — with some of the sharpest minds in medicine.",
-  '<div class="crumbs"><a href="/">Home</a> / Podcast</div>')}
+  '<div class="crumbs"><a href="/">Home</a> / Podcast</div>', loop="audio")}
 <section class="section" style="padding-bottom:0;">
   <div class="wrap">
     <div class="section-head reveal" style="margin-bottom:1.6rem;">
@@ -1966,7 +2043,8 @@ def build_podcast():
           head("Pain 2 Power Podcast | First Rehabilitation of North Palm Beach",
                "Dr. Dave Kashuba and Mike McGann cover the world of physical rehab and wellness. Saturdays on 100.3 Legends Radio and streaming on Spotify.",
                canonical="podcast.html", og_image="assets/media/podcast-cover.jpg",
-               extra_schema=_podcast_schema() + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html")]))
+               extra_schema=p2p_poster_preload("audio") + _podcast_schema() + _trailer_schema()
+                            + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html")]))
           + nav(0) + body + footer(0))
 
 # ----------------------------------------------------------------------------
@@ -3396,7 +3474,7 @@ def build_videos():
     body = f"""
 <main>
 {page_hero("Pain 2 Power on Video", "Watch the <em class='accent'>Conversations</em>",
-  "Every Pain 2 Power episode, on camera — real talk with the surgeons, therapists, and specialists who keep the Palm Beaches moving.", crumbs)}
+  "Every Pain 2 Power episode, on camera — real talk with the surgeons, therapists, and specialists who keep the Palm Beaches moving.", crumbs, loop="video")}
 {gallery}
 <section class="section on-cream">
   <div class="wrap" style="text-align:center;">
@@ -3416,7 +3494,8 @@ def build_videos():
           head("Pain 2 Power Videos | First Rehabilitation of North Palm Beach",
                "Watch Pain 2 Power video episodes — Dr. Dave Kashuba and Mike McGann talk rehab, orthopedics, and staying active with leading Palm Beach County specialists.",
                canonical="videos.html", og_image="assets/media/podcast-cover.jpg",
-               extra_schema=_video_schema() + breadcrumb_schema([("Home", ""), ("Videos", "videos.html")]))
+               extra_schema=p2p_poster_preload("video") + _video_schema() + _trailer_schema()
+                            + breadcrumb_schema([("Home", ""), ("Videos", "videos.html")]))
           + nav(0) + body + footer(0))
 
 def build_meta():

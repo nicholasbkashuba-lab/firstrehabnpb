@@ -49,6 +49,25 @@
     if (pauseBtn) pauseBtn.hidden = true;
   }
 
+  // Pain 2 Power trailer: the page-hero loop is silent, this plays the cut with
+  // sound in a native <dialog> (Escape closes it, focus returns to the button).
+  // The file only downloads on first open — preload="none" + data-src.
+  const trailer = document.querySelector('.trailer-modal');
+  const trailerOpen = document.querySelector('.trailer-open');
+  if (trailer && trailerOpen && typeof trailer.showModal === 'function') {
+    const tv = trailer.querySelector('video');
+    trailerOpen.addEventListener('click', () => {
+      if (!tv.getAttribute('src')) tv.src = tv.dataset.src;
+      trailer.showModal();
+      tv.play().catch(() => {});
+    });
+    trailer.querySelector('.trailer-close').addEventListener('click', () => trailer.close());
+    trailer.addEventListener('click', (e) => { if (e.target === trailer) trailer.close(); });
+    trailer.addEventListener('close', () => { tv.pause(); trailerOpen.focus(); });
+  } else if (trailerOpen) {
+    trailerOpen.hidden = true;
+  }
+
   const header = document.querySelector('.site-header');
   const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 40);
   onScroll();

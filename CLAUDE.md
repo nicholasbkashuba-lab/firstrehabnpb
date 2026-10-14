@@ -253,6 +253,20 @@ domain switch (July 2027). Removing them early throws away that equity.
   somewhere arbitrary. main.js scrolls to the chosen topic's first question after the
   filter runs, measuring AFTER the DOM changes — a pre-click scrollY is already stale.
 
+## Pain 2 Power sizzle reels + page-hero loops (2026-10-14)
+/podcast.html and /videos.html heroes play silent 14s loops of Dave and Mike
+(`page_hero(..., loop="audio"|"video")` → `_video_page_hero`), with a "Watch the Trailer"
+button that opens the 35s trailer with sound in a native `<dialog>` (main.js; file loads
+on first click only). Media: `assets/media/p2p-hero-{audio,video}-{hd,mobile}.{mp4,webm}`,
+`-poster.jpg`, `p2p-trailer.mp4` + `-poster.jpg`, all linked via asset_v() so a re-encode
+busts its own cache. Same media contract as the homepage hero: no <source> children,
+preload="none", one rendition by matchMedia, .hero-pause, phones stack the loop at 16:9.
+Desktop (≥1100px) shifts the loop to the right 70% so the hosts clear the copy column.
+The loops carry NO type and NO flashes on purpose (they sit behind the h1). The trailer
+has a VideoObject (`_trailer_schema()`, uploadDate set). The reels and loops are built by
+`tools/sizzle/` (see its README: shot lists per reel, synthesized score, word-pop
+captions); social captions are in `content/social/p2p-sizzle-reels.md`.
+
 ## Location pages
 LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
 lake-park,palm-beach,west-palm-beach,riviera-beach}.html. Honest served-from-NPB content
