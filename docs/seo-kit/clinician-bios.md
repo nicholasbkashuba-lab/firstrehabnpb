@@ -19,7 +19,7 @@ Purpose: every clinician gets a dedicated page (/team/first-last/) with real cre
 1. Full name as it should appear, and preferred first name
 2. Job title
 3. Degrees and schools (with years)
-4. Florida license type and number (stored internally; publish only if the clinician agrees)
+4. Florida license type (the number is stored internally and never published)
 5. Certifications (for example CHT, CSCS), with issuing body
 6. Years in practice and years at First Rehab
 7. Clinical focus (3 to 5 areas the clinician is truly strong in)
@@ -80,7 +80,7 @@ Replace `https://REPLACE-WITH-YOUR-DOMAIN.com` with the real domain. Only keep p
 }
 ```
 
-Repeat the same shape for the other four people, changing `@id`, `name`, `jobTitle`, `url`, `image`, `knowsAbout`, and credentials. Credential entries to use (degrees are stated by Nick; licenses and certifications still need confirmation):
+Repeat the same shape for the other four people, changing `@id`, `name`, `jobTitle`, `url`, `image`, `knowsAbout`, and credentials. Credential entries to use (all verified 2026-10-14 against NPPES and public profiles; the live Person schema is `person_schema()` in build.py, which is authoritative):
 
 ```json
 { "@type": "EducationalOccupationalCredential", "credentialCategory": "degree", "name": "Doctor of Physical Therapy (DPT)" }
@@ -90,7 +90,7 @@ Repeat the same shape for the other four people, changing `@id`, `name`, `jobTit
 
 - Kayla Dorsey and Logan Van Sant: `jobTitle` "Physical Therapist", credential DPT.
 - Joni Janik: `jobTitle` "Occupational Therapist", credential OTD.
-- Laura Drumm: CHT credential as shown above; her underlying PT or OT degree and license are not yet confirmed.
+- Laura Drumm: `jobTitle` "Occupational Therapist, Certified Hand Therapist", credentials MS, OTR/L, CHT, CLT (verified).
 - David Kashuba: credentials Ph.D. and OTR; the `"founder"` linkage from the clinic node already exists in build.py.
 - Do not add a license-based claim until the clinician confirms it.
 
