@@ -1223,7 +1223,10 @@ SERVICES = {
         "title": "Hand Therapy",
         "kicker": "Restore function to your hands.",
         "lede": "Certified hand therapy for the wrist, hand, and upper extremity — one of the most precise and specialized areas of rehabilitation.",
-        "intro": "Led by Laura Drumm, MS, OTR/L, CHT, CLT, a certified hand therapist who is also a certified lymphedema therapist, our hand therapy program brings surgical-grade precision to rehabilitation of the hand, wrist, and upper extremity. From custom-fabricated splints to post-operative tendon protocols, every detail of care is tailored to the fine mechanics of how you grip, pinch, lift, and live.",
+        # Answer-first, 2026-10-14: "hand therapist" (263 impr, pos 30.8) and "hand
+        # therapist near me" are practitioner searches, so the opener names the
+        # practitioner and what she treats before anything else.
+        "intro": "Our certified hand therapist, Laura Drumm, MS, OTR/L, CHT, CLT, treats the hand, wrist, elbow and forearm at our North Palm Beach clinic: carpal tunnel, arthritis, tendon repairs, fractures and the weeks after hand surgery, with custom splints made right here in the clinic. She is also a certified lymphedema therapist, and the program brings surgical-grade precision to every stage, from post-operative tendon protocols to the grip, pinch and dexterity you need back.",
         "items": [
             ("Carpal Tunnel &amp; Nerve Conditions", "Conservative and post-surgical care for nerve compression, with activity modification that lasts."),
             ("Arthritis Management", "Joint protection strategies, adaptive techniques, and pain-relieving modalities for arthritic hands."),
@@ -1445,7 +1448,47 @@ def build_services():
                  "protected motion within days, others need a period of immobilization first. We work from that "
                  "protocol and coordinate with their office directly, so send us your surgery details before or "
                  "just after the procedure and your plan \u2014 and any splint you need \u2014 will be ready on schedule."),
+                # Added 2026-10-14 (GSC deep dive, item 3): the practitioner searches
+                # ("hand therapist", "certified hand therapist near me", "hand
+                # therapists near me") were splitting between this page and the West
+                # Palm Beach location page, which ranked 50 to 80 for the near-me
+                # forms. These blocks make this page say plainly who the hand
+                # therapist is, where, and how to start. Facts restate the
+                # hand-therapy FAQ category and TEAM; nothing new is claimed.
+                ("Who your hand therapist is",
+                 "Laura Drumm, MS, OTR/L, CHT, CLT leads our hand therapy program. The OTR/L means she is a "
+                 "licensed occupational therapist. The CHT is the Certified Hand Therapist credential, which takes "
+                 "thousands of hours of specialized upper-extremity practice and a rigorous national exam, and it is "
+                 "the credential area hand surgeons look for when they refer a patient after surgery. The CLT means "
+                 "she is also a certified lymphedema therapist."),
+                ("Finding a hand therapist near North Palm Beach",
+                 "We have one location, at 733 US Highway 1, Suite 2A in North Palm Beach, and patients come to it "
+                 "for hand therapy from across Palm Beach County, including "
+                 "<a href=\"../locations/palm-beach-gardens.html\">Palm Beach Gardens</a>, "
+                 "<a href=\"../locations/jupiter.html\">Jupiter</a> and "
+                 "<a href=\"../locations/west-palm-beach.html\">West Palm Beach</a>. Ours is one of the area's "
+                 "few certified hand therapy programs. Hours are Monday to Friday, 8:00 AM to 5:30 PM, and Saturday, 8:00 AM to 12:30 PM."),
+                ("Do I need a referral to see a hand therapist?",
+                 "It depends on your plan. After hand surgery you will usually arrive with a referral and a protocol "
+                 "from your surgeon already. If you are coming on your own for something like carpal tunnel or thumb "
+                 "arthritis, call 561-624-4263 and our front desk will check whether your plan needs a referral and "
+                 "help arrange one. Before your first visit they verify your Medicare or commercial benefits, "
+                 "including how your plan handles a custom splint."),
                 ],
+                "extra": '''
+      <div class="data-table" tabindex="0" role="region" aria-label="Who does what in hand care">
+        <table>
+          <caption>How hand care splits between a surgeon and the therapists at our clinic, as described on our hand therapy and occupational therapy pages.</caption>
+          <thead><tr><th scope="col">Who</th><th scope="col">What they do for your hand</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hand surgeon</th><td>Operates when surgery is needed and sets the post-operative protocol</td></tr>
+            <tr><th scope="row">Certified hand therapist</th><td>Rehabilitates the hand, wrist, forearm and elbow, makes custom splints in the clinic, and stages motion to the surgeon's protocol</td></tr>
+            <tr><th scope="row">Occupational therapist</th><td>Turns restored motion into daily use: dressing, cooking, work tasks and the tools you use</td></tr>
+            <tr><th scope="row">Physical therapist</th><td>Works on movement, strength and pain elsewhere in the body when the injury reaches past the arm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      ''',
             },
             # Added 2026-09-18. The Search Console pull for the 90 days to
             # 2026-09-15 found 751 impressions and ZERO clicks across 35
@@ -1509,7 +1552,7 @@ def build_services():
                 ("Hand and upper-extremity function",
                  "Fine-motor and functional-use training runs alongside our certified hand therapy program, "
                  "so a patient whose hand is the limiting factor gets both: the protocol-driven hand work "
-                 "from Laura Drumm, CHT, and the daily-function retraining that turns restored motion into "
+                 "from Laura Drumm, CHT, our <a href=\"hand-therapy.html\">certified hand therapist</a>, and the daily-function retraining that turns restored motion into "
                  "a usable hand. Few clinics in the county can put both in the same building."),
                 ("Cognitive rehabilitation",
                  "Memory, attention, sequencing and problem-solving are as much a part of safe independent "
@@ -1585,7 +1628,7 @@ def build_services():
     <div class="prose reveal">
       <h2>{_d["h2"]}</h2>
       <p>{_d["intro"]}</p>
-      {_blocks}</div>
+      {_blocks}{_d.get("extra", "")}</div>
   </div>
 </section>'''
 
@@ -1838,7 +1881,7 @@ CONDITIONS = {
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
         "intro": "Few areas of the body demand more specialized rehabilitation than the hand. Our certified hand therapy program — led by Laura Drumm, CHT — provides precise, protocol-driven care for conditions and surgeries of the hand, wrist, and forearm, including custom splinting fabricated in-clinic. Patients travel to us from across the county for this specialty, including <a href=\"../locations/west-palm-beach.html\">West Palm Beach</a> and <a href=\"../locations/palm-beach.html\">Palm Beach</a>.",
         "treats": ["Carpal tunnel syndrome", "Wrist fractures and sprains", "Tendon injuries and repairs", "Trigger finger", "Arthritis of the hand and thumb", "Post-surgical hand rehabilitation"],
-        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. See our <a href=\"../services/hand-therapy.html\">certified hand therapy program</a> for the full condition-by-condition detail.",
+        "approach": "Care is exacting by design: custom orthoses to protect healing structures, graded motion and strengthening timed to tissue healing, and functional retraining for grip, pinch, and dexterity. We coordinate closely with area hand surgeons throughout recovery. Splints are fabricated here in the clinic rather than ordered in, molded to your hand and adjusted as healing progresses \u2014 and built to your surgeon\u2019s protocol when you are recovering from an operation. For carpal tunnel and thumb arthritis caught early, conservative care is often enough: night splinting, nerve and tendon gliding, joint protection technique, and practical changes to the activities that keep provoking symptoms. After a repair or a fracture, the timeline belongs to the tissue rather than the calendar, so motion is staged deliberately \u2014 too soon risks the repair, too late costs motion. If a case warrants a surgical consult we say so plainly and coordinate with your physician. Our <a href=\"../services/hand-therapy.html\">certified hand therapist</a> page has the full condition-by-condition detail.",
     },
     "headache-relief": {
         "seo_title": "Headache Treatment in North Palm Beach | First Rehab",
@@ -2294,7 +2337,8 @@ def build_conditions():
                 ("How does occupational therapy help a work injury?",
                  "Many work injuries land in the hands, wrists, elbows and shoulders, which is occupational "
                  "therapy territory. Our occupational therapists retrain the tasks a job depends on, and hand "
-                 "injuries can be treated by Laura Drumm, MS, OTR/L, CHT, CLT, our certified hand therapist, "
+                 "injuries can be treated by Laura Drumm, MS, OTR/L, CHT, CLT, our "
+                 "<a href=\"../services/hand-therapy.html\">certified hand therapist</a>, "
                  "with custom splints made in the clinic. Physical and occupational therapy run in the same "
                  "building under one plan, so an injury that needs both does not mean two clinics. More on "
                  "our <a href=\"../services/occupational-therapy.html\">occupational therapy</a> page."),
@@ -2672,7 +2716,7 @@ LOCATIONS = {
             ]),
             ("Certified hand therapy, worth the drive north", [
                 "Certified hand therapy is the other reason West Palm Beach patients make the trip. A Certified Hand Therapist has completed thousands of hours of upper-extremity practice plus a rigorous national examination, and it is the credential area hand surgeons look for when they refer a post-operative patient. Laura Drumm, CHT leads our program, and custom splints and orthoses are fabricated here in the clinic rather than ordered from a catalogue.",
-                "It is a genuinely scarce specialty in Palm Beach County, which is why patients travel for it from across the county rather than choosing whichever clinic is closest. If you have hand or wrist pain, are recovering from hand surgery, or have been told you need a custom splint, call 561-624-4263 and our front desk will tell you plainly whether we are the right fit. Read more about <a href=\"../services/hand-therapy.html\">certified hand therapy</a> or <a href=\"../treatments/hand-wrist.html\">hand and wrist treatment</a>.",
+                "It is a genuinely scarce specialty in Palm Beach County, which is why patients travel for it from across the county rather than choosing whichever clinic is closest. If you have hand or wrist pain, are recovering from hand surgery, or have been told you need a custom splint, call 561-624-4263 and our front desk will tell you plainly whether we are the right fit. Read more about our <a href=\"../services/hand-therapy.html\">certified hand therapist</a> or <a href=\"../treatments/hand-wrist.html\">hand and wrist treatment</a>.",
             ]),
         ],
         "drive": "From West Palm Beach, head north on US-1 or take I-95 to Northlake Boulevard; we're at 733 US Highway 1, Suite 2A in North Palm Beach. Most downtown and 33401 addresses reach us in one straight drive up US-1. Call 561-624-4263 and our front desk will point you right to the door.",
@@ -3964,7 +4008,7 @@ BLOG_POSTS = {
 </ul>
 <p>Wear something loose that lets the therapist get to the arm and shoulder easily. There&rsquo;s a free lot right at the building at 733 US Highway 1, Suite 2A, which matters when someone is still unsteady getting in and out of the car.</p>
 <h3>Who you&rsquo;ll work with</h3>
-<p>Our occupational therapy is led by Dave alongside Joan &ldquo;Joni&rdquo; Janik, OTD, whose focus includes activities of daily living and stroke recovery. Laura Drumm, MS, OTR/L, CHT, CLT, our certified hand therapist, joins in when the hand is the sticking point, and our physical therapists, Kayla Dorsey, PT, DPT and Logan Van Sant, PT, DPT, handle walking and balance when those need work too.</p>
+<p>Our occupational therapy is led by Dave alongside Joan &ldquo;Joni&rdquo; Janik, OTD, whose focus includes activities of daily living and stroke recovery. Laura Drumm, MS, OTR/L, CHT, CLT, our <a href="../services/hand-therapy.html">certified hand therapist</a>, joins in when the hand is the sticking point, and our physical therapists, Kayla Dorsey, PT, DPT and Logan Van Sant, PT, DPT, handle walking and balance when those need work too.</p>
 <div class="data-table" tabindex="0" role="region" aria-label="Which discipline handles which part of stroke recovery at our clinic">
 <table>
 <caption>How the three disciplines split stroke recovery at our clinic, as described on our insurance page under our Medicare CORF certification.</caption>
@@ -4713,7 +4757,7 @@ BLOG_POSTS = {
 <h2>How to get started</h2>
 <p>Whether you need a referral depends on your insurance plan. Post-surgical patients typically arrive with a referral and protocol from their surgeon already. If you're coming on your own for something like carpal tunnel or arthritis, call and our front desk will check whether your plan requires a referral and help arrange one if it does. Hand therapy is covered like other medically necessary therapy under Medicare and most major plans we accept, and we verify your specific benefits, including any rules about custom splints, before your first visit.</p>
 <p>That first visit runs about an hour, one-on-one, and treatment usually begins the same day. The <a href="../faq.html#hand-therapy">hand therapy section of our FAQ</a> covers recovery times and coverage in more detail, and our <a href="../treatments/hand-wrist.html">hand and wrist pain page</a> walks through the most common symptoms.</p>
-<p>If you're facing hand surgery or dealing with carpal tunnel or arthritis in your thumbs, ask about our <a href="../services/hand-therapy.html">certified hand therapy program</a>. Call First Rehabilitation of North Palm Beach at <strong>561-624-4263</strong> to book an evaluation, or <a href="../contact.html">request an appointment online</a>.</p>
+<p>If you're facing hand surgery or dealing with carpal tunnel or arthritis in your thumbs, ask to see our <a href="../services/hand-therapy.html">certified hand therapist</a>. Call First Rehabilitation of North Palm Beach at <strong>561-624-4263</strong> to book an evaluation, or <a href="../contact.html">request an appointment online</a>.</p>
 <p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
 """,
     },
