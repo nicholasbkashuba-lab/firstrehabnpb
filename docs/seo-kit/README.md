@@ -30,6 +30,7 @@ site is a static `build.py` generator on Vercel. Anything in the kit that says "
 | File | Status | Use it for |
 |---|---|---|
 | `HANDOFF.md` | Background, partly superseded | Sections 4 (lawofficesuccess.com findings), 5 (Halo 2.0 framework with healthcare guardrails), 5b (Google landscape 2026) and 7 (compliance guardrails) are still useful. Its phased work list (6) and file list (10) are superseded by the growth plan and PR #104 |
+| `CLAUDE-CODE-PROMPT.md` | Current | Paste-ready prompt for the next Claude Code session: Search Console research, depth on striking-distance pages, one PR |
 | `competitor-teardown-2026-10-14.md` | Current | Evidence, see above |
 | `schema-library.md` | Reference | JSON-LD patterns and the rules every block must follow. Most of it already ships from `build.py`; section 10 ("What not to build") is binding. The Event block (section 6) is ready for the November patient education event once it has a date |
 | `glossary.md` | Implemented | Source draft for `/glossary.html`. The live version is `GLOSSARY` in `build.py`; edit there |
