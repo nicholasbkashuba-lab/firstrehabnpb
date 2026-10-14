@@ -502,6 +502,12 @@ Nick, 2026-10-14: "I ask for the same thing over and over." Two pieces carry it:
      full episode out within about two weeks, so links.json keeps them after that.
 - Dropbox listing and folder creation go through `tools/dropbox-put.py ls` / `mkdir` (REST
   API, same credential as `put`). The Dropbox connector is not needed.
+- **Every episode gets a sizzle reel** (Nick, 2026-10-14: "post a sizzle reel of the current
+  week's episode each time"). `tools/sizzle/weekly.py` turns `tools/sizzle/episodes/ep{NN}.json`
+  (the master plus four to six of its best lines, with reviewed caption words) into a 20 to 30
+  second trailer on the October sizzle engine (`tools/sizzle/`, PR #106). The episode session
+  writes the JSON (skill step 8b), Nick reviews the reel with the clips, and it posts on air day
+  at 12:00 PM ET to the five video platforms. Captions sit at the very bottom, the clip standard.
 
 ## Keeping the site's newest episode current — AUTOMATED
 Nick, 2026-09-20: "watch for the newest episode and post it onto our website every

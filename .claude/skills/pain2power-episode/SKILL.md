@@ -1,6 +1,6 @@
 ---
 name: pain2power-episode
-description: Turn a new Pain 2 Power recording into a finished release. Input is a Dropbox folder /Pain2Power/<Guest>/ holding the 100.3 Legends radio mp3 and the camera files. Output is the multicam master in Dropbox, 8 to 10 captioned vertical clips that Nick reviews before they are scheduled, YouTube and Spotify titles and descriptions, the Saturday episode post, and the Spotify and YouTube links on the website. Use when Nick pastes a Pain2Power Dropbox link or says "do the same thing for this podcast", "new episode", "edit the podcast", "create the full edited podcast, clips, and posts", "make the clips", "schedule the clips", "youtube title and description", "spotify description", "where is the final", "find the spotify link", "find the youtube link", or "put the episode on the website". Also loaded by the Pain 2 Power episode watcher routine when a new folder appears. Not for a one-off social post (CLAUDE.md "Posting on demand") or for blog posts (/episode-blog, and new posts are frozen).
+description: Turn a new Pain 2 Power recording into a finished release. Input is a Dropbox folder /Pain2Power/<Guest>/ holding the 100.3 Legends radio mp3 and the camera files. Output is the multicam master in Dropbox, 8 to 10 captioned vertical clips plus a 20 to 30 second sizzle reel of the episode, all reviewed by Nick before they are scheduled, YouTube and Spotify titles and descriptions, the Saturday episode post, and the Spotify and YouTube links on the website. Use when Nick pastes a Pain2Power Dropbox link or says "do the same thing for this podcast", "new episode", "edit the podcast", "create the full edited podcast, clips, and posts", "make the clips", "schedule the clips", "sizzle reel of this week's episode", "youtube title and description", "spotify description", "where is the final", "find the spotify link", "find the youtube link", or "put the episode on the website". Also loaded by the Pain 2 Power episode watcher routine when a new folder appears. Not for a one-off social post (CLAUDE.md "Posting on demand") or for blog posts (/episode-blog, and new posts are frozen).
 ---
 
 # Pain 2 Power episode
@@ -19,6 +19,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 | Spotify copy | `content/spotify/ep{NN}-spotify.md`: "Episode NN: <Guest>", plain description, no chapters |
 | Clips | branch `media/ep{NN}-clips` (name is load bearing), scheduled in Post Bridge after Nick approves |
 | Clip captions | `content/clips/ep{NN}-clip-captions.md` with the post id and date of every clip |
+| Sizzle reel | `tools/sizzle/episodes/ep{NN}.json` + the rendered 9:16 reel, posted on air day (step 10) |
 | Saturday post | LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-saturday-episode-post.md` |
 | Friday announcement | only if Nick says yes this week (he skipped Episode 18's) |
 | Website | EPISODES[0] once Spotify has it, VIDEOS once YouTube has it (the watcher routine does this) |
@@ -63,12 +64,25 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 8. **Clips.** Hook-first, 15 to 45 s, cut from the RAW cameras, captions in the house style
    (below). Stage with `tools/stage-episode.py` (add the guest to NAME_FIXES first,
    pass `--full-transcript`).
-9. **Show Nick every clip in the chat** with SendUserFile, each with its caption and
-   proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
+8b. **Sizzle reel** (Nick, 2026-10-14: "post a sizzle reel of the current week's episode each
+   time"). Pick four to six lines from the transcript: the strongest one first, each complete
+   on its own, guest and host both present, the guest's name on their first line. Write
+   `tools/sizzle/episodes/ep{NN}.json` (the format is in `tools/sizzle/weekly.py`; Episode 18's
+   is the worked example), check every in-point and every camera switch on a frame
+   (`scdet=threshold=12` finds the switches), then
+   `SIZZLE_EP=ep{NN} python3 run.py reel_week 9x16 16x9` from `tools/sizzle` with the master
+   linked at `$SIZZLE_WORK/src/ep{NN}/master.mp4`. About 20 to 30 seconds. Look at a contact
+   sheet before sending it anywhere.
+9. **Show Nick every clip and the sizzle reel in the chat** with SendUserFile, each with its
+   caption and proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,
     woven into the mixed queue with `tools/clip-queue.py`, never the same guest on
     consecutive days. Upload media first; MEDIA IS MANDATORY. Pass platform_configurations
     back IN FULL on every update_post. Finish with `clip-queue.py audit` showing 0 problems.
+    The **sizzle reel** posts on air day (the Saturday) at 12:00 PM ET, outside the 9 AM clip
+    queue: Instagram, Facebook, TikTok, YouTube Shorts and X, the 9:16 file, a hook-first caption
+    that ends on where to listen, and the same collaborators as the clips. 12:00 PM ET is 16:00
+    UTC under daylight time and 17:00 UTC after the clocks go back.
 11. **Copy.** YouTube and Spotify files above, the Saturday post, and (only if he said yes)
     the Friday announcement. Every fact checked against the transcript with a timestamp.
 12. **Branch, commit, push, draft PR.** Merge when Nick says "merge it"; he usually does
