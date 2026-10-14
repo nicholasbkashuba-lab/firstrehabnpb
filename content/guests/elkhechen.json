@@ -52,5 +52,10 @@
   "phone_on_air": "",
   "research_notes": "AFFILIATION CHANGED: the EPISODES blurb places him at Orthopaedic Care Specialists in North Palm Beach, but he is no longer on that practice's team list (his old orthocarefl.com page now 404s), and NYU Langone lists him at NYU Langone Medical Associates, Palm Beach Gardens (4074 Northlake Blvd). The site's own Episode 7 blog post, written from the transcript, already says he is 'now with NYU Langone Health', so the blurb may want updating. His personal site ramimd.com still describes him at Orthopaedic Care Specialists and lists that practice's phone; I used it only for historical facts (Saints/Pelicans, procedures) and did not list it as a link because its contact details look out of date. No transcript file was found for Episode 7; on_the_show draws on the blurb plus the existing site blog post written from the Episode 7 transcript (cartilage-transplant-knee-explained), and the quotes come from that post. Identity confirmed by NPI 1285875609 appearing on both the NYU Langone and the Palm Beach Health Network / Orthopaedic Care Specialists listings, plus NYU MD and Ochsner fellowship matching the blurb. No verified social accounts.",
   "researched": "2026-10-14",
-  "category": "orthopedic-surgery"
+  "category": "orthopedic-surgery",
+  "photo": {
+    "src": "assets/guests/elkhechen",
+    "source": "https://nyulangone.org/images/doctors/e/elkhechen/1285875609/rami-j-elkhechen-square.jpg",
+    "credit": "NYU Langone Medical Associates, Palm Beach Gardens"
+  }
 }

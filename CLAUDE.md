@@ -557,12 +557,19 @@ build.py renders:
   previous/next guest. ProfilePage + Person schema (image, sameAs, worksFor).
 - A "Meet the guest" link on each /podcast.html card, and `contributor` on each PodcastEpisode.
 
-**Guest photos are stills from OUR OWN footage**, made by `tools/guest-photo.py` into
-`assets/guests/<slug>-{160,480}.{webp,jpg}`. This is the second photo source beside the
-PHOTOS registry, and the reason is ownership: a headshot off a guest's practice site belongs
-to their photographer. Never use one, never generate one. No clean frame means initials, as
-the Execs directory does. Staff guests (Kayla, Logan) use their PHOTOS team portrait. The five
-Episode 2 to 7 guests predate the cameras' footage being kept, so they show initials.
+**Guest photos** (`tools/guest-photo.py`, written to `assets/guests/<slug>-{160,480}.{webp,jpg}`)
+come from two places, in order. Nick, 2026-10-14: "use their site's photos".
+1. The official headshot on the guest's own practice or employer profile page (`site`
+   command), credited on the profile ("Photo courtesy of HSS Florida") with its URL in
+   `photo.source`. These are promotional photos published to be shown beside their name;
+   asking each guest is still good manners, and any who object get the studio still instead.
+2. A still from OUR OWN Pain 2 Power footage (`frames` command) when the site has none, will
+   not serve one (pilateslifestudio.com resets, palmbeachhealthnetwork.com 403s) or only has
+   stock art (Elyse Marrone's og:image is a bowl of fruit).
+Never a generated image, never a TV network or agency photo (Captain Kerry's Bravo cast shot
+belongs to NBCUniversal, so he keeps his studio still). No photo at all means initials. Staff
+guests use their PHOTOS team portrait. This is the second photo source beside the PHOTOS
+registry. Some practice sites 403 a bare "Mozilla/5.0" User-Agent; the tool sends a full one.
 
 **Clips** are the YouTube Shorts we posted from each guest's episode, in the JSON's `clips`.
 70 were backfilled 2026-10-14 from Post Bridge (`list_post_results`, the YouTube result id);

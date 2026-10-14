@@ -48,5 +48,10 @@
   "phone_on_air": "",
   "research_notes": "No transcript exists for Episode 4; on_the_show is from the EPISODES blurb only. Kayla Dorsey (also Episode 4) is First Rehabilitation staff and was not researched. Identity confirmed: board certified urologist, Palm Beach County since 1991 (exact match to the blurb), NPI 1235226598, office at 3399 PGA Boulevard, Palm Beach Gardens. Directory listings (Healthline) also show a West Palm Beach office at 1411 N Flagler Dr; I used the TGH page's Palm Beach Gardens location. The TGH profile also mentions Castle Connolly Top Doctor listings since 2000; left out as a rating-type recognition. No personal site or social accounts found.",
   "researched": "2026-10-14",
-  "category": "other-specialists"
+  "category": "other-specialists",
+  "photo": {
+    "src": "assets/guests/goldberg",
+    "source": "https://www.getcare.tgh.org/images/width=194,height=248,fit=cover/https://kyruus-app-static.kyruus.com/providermatch/usf/photos/200/goldberg-murray-1235226598.jpg",
+    "credit": "TGH Urology Group of Florida"
+  }
 }

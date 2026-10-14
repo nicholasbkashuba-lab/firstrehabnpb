@@ -6268,10 +6268,9 @@ def _guest_initials(g):
     return (parts[0][0] + parts[-1][0]).upper() if len(parts) > 1 else parts[0][:2].upper()
 
 def guest_portrait(g, depth=0, size=160, cls="gp"):
-    """Square headshot from our own footage, a team portrait for staff, or initials.
-
-    Never a photo from the guest's own website: those belong to their
-    photographer. tools/guest-photo.py makes the stills (see its docstring)."""
+    """Square headshot: the guest's official practice headshot (credited on the
+    profile), a still from our own Pain 2 Power footage, a team portrait for
+    staff, or initials. tools/guest-photo.py makes them (see its docstring)."""
     p = "../" * depth
     ph = g.get("photo") or {}
     alt = f"{guest_display(g)} on Pain 2 Power"
@@ -6386,7 +6385,7 @@ def build_guests():
     </div>
     <ul class="gdir-grid" data-ggrid>{cards}</ul>
     <p class="gdir-empty" data-gempty hidden>No guest matches that search. Try a name, a body part or a practice.</p>
-    <p class="guest-note">Photos are stills from our own Pain 2 Power footage. Background details come from each guest&rsquo;s own practice, employer and professional pages, linked on their profile. Pain 2 Power is for general education, not medical advice; talk with your own doctor about your care.</p>
+    <p class="guest-note">Photos are each guest&rsquo;s own practice headshot, credited on their profile, or a still from the Pain 2 Power studio. Background details come from each guest&rsquo;s own practice, employer and professional pages, linked on their profile. Pain 2 Power is for general education, not medical advice; talk with your own doctor about your care.</p>
   </div>
 </section>
 {cta_band(0)}
@@ -6409,6 +6408,14 @@ def build_guests():
           + nav(0) + body + footer(0))
     for i, g in enumerate(GUESTS):
         _build_guest_page(g, GUESTS[i - 1] if i else None, GUESTS[i + 1] if i + 1 < len(GUESTS) else None)
+
+def _photo_credit(g):
+    ph = g.get("photo") or {}
+    if ph.get("credit"):
+        return f'<p class="gp-credit">Photo courtesy of {ph["credit"]}</p>'
+    if ph.get("src"):
+        return '<p class="gp-credit">Photo from the Pain 2 Power studio</p>'
+    return ""
 
 def _build_guest_page(g, prev_g, next_g):
     import json as _json
@@ -6502,6 +6509,7 @@ def _build_guest_page(g, prev_g, next_g):
     <aside class="gp-aside">
       <div class="side-card gp-card">
         {guest_portrait(g, depth=d, size=480, cls="gp gp--lg")}
+        {_photo_credit(g)}
         <dl class="gp-facts">{facts_tbl}</dl>
         {links_html}
       </div>

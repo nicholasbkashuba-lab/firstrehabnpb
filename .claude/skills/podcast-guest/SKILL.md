@@ -1,6 +1,6 @@
 ---
 name: podcast-guest
-description: Research a Pain 2 Power guest and add or refresh their profile page (firstrehabnpb.com/guests/<slug>.html, listed on /guests.html) — background from the episode and from their own public pages, credentials, practice, verified website and social links, a headshot from our own footage, and their clips. Use when tools/guest-sync.py check reports a missing guest, when the episode watcher routine hands off a new guest, or when Nick says "add the guest", "guest page", "update <guest>'s profile", "link their socials", or "research the guest".
+description: Research a Pain 2 Power guest and add or refresh their profile page (firstrehabnpb.com/guests/<slug>.html, listed on /guests.html) — background from the episode and from their own public pages, credentials, practice, verified website and social links, a headshot (their practice photo, else a still from our footage), and their clips. Use when tools/guest-sync.py check reports a missing guest, when the episode watcher routine hands off a new guest, or when Nick says "add the guest", "guest page", "update <guest>'s profile", "link their socials", or "research the guest".
 ---
 
 # Pain 2 Power guest profile
@@ -27,16 +27,17 @@ is fine. A wrong fact is not.** When in doubt, leave it out and say so in `resea
    WebFetch. Open each page you cite; a fact goes in only if you saw it on that page.
 4. Write `content/guests/<slug>.json` (shape below). Slug = lowercase last name.
 5. `python3 tools/guest-sync.py validate content/guests/<slug>.json` until it prints `ok`.
-6. **Photo, from OUR footage only.** `python3 tools/guest-photo.py frames <slug>` pulls the
-   episode's YouTube frames (add `--video <clip.mp4>` for a clip off the media branch: curl it
-   from raw.githubusercontent) and writes `/tmp/guest-photo/<slug>/sheet.jpg`. Look at the
-   sheet: frames hold hosts and second guests too, so pick the face that is the guest (the
-   one speaking their own captioned words in a clip is certain). Then
-   `python3 tools/guest-photo.py set <slug> <n>`. Never use a photo from the guest's own site
-   (their photographer's copyright) and never a generated one. No usable frame: leave
-   `photo` out and the page shows their initials. Staff use `{"registry": "team-<name>"}`.
-   Face detection wants `pip install "opencv-python-headless<5"` (5.x dropped the detector);
-   without it, pass `--image <frame> --box x,y,w,h`.
+6. **Photo.** First `python3 tools/guest-photo.py site <slug>`: it reads the profile and
+   website links already in the file, pulls the og:image and any image naming the guest, and
+   writes `/tmp/guest-photo/<slug>/sheet.jpg`. LOOK at the sheet: reject stock art, logos
+   and group shots, then `python3 tools/guest-photo.py set <slug> <n>` (the credit, their
+   practice name, is recorded and shown on the profile). No usable headshot: fall back to
+   `frames <slug>` (our episode's YouTube frames; add `--video <clip.mp4>` for a clip off the
+   media branch) and pick the face that is the guest, never a host or a co-guest. Never a
+   generated image or a TV network/agency photo. Nothing usable: leave `photo` out and the
+   page shows initials. Staff use `{"registry": "team-<name>"}`. Face detection wants
+   `pip install "opencv-python-headless<5"` (5.x dropped the detector); without it, pass
+   `--image <file> --box x,y,w,h`.
 7. **Clips.** `python3 tools/guest-sync.py clips --write` adds every Short in the channel feed
    whose description names the guest. The feed holds the newest 15 uploads only, so run it
    every day; older clips came from Post Bridge `list_post_results` (YouTube result id).

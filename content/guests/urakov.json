@@ -58,5 +58,10 @@
   "phone_on_air": "",
   "research_notes": "No transcript exists for Episode 3; on_the_show is from the EPISODES blurb only. His academic rank conflicts across sources: the EPISODES blurb says Associate Professor of Clinical Medicine, the Miller School faculty page header says Associate Professor of Clinical Neurosurgery (and Associate Program Director) while its own bio text says Associate Professor of Clinical Medicine, and the UHealth clinical directory says Assistant Professor of Clinical Medicine. I left the rank out of background and the headline; the site's EPISODES blurb carries 'Associate Professor of Clinical Medicine' and may want checking. Both UM pages list the spine fellowship (2016) as earlier than residency completion (2019), so I gave no years. Identity confirmed by specialty plus University of Miami, matching the blurb. He practices in Miami (UHealth, 1295 NW 14th Street), not Palm Beach County. No personal site or social accounts found; neither UM page links any.",
   "researched": "2026-10-14",
-  "category": "other-specialists"
+  "category": "other-specialists",
+  "photo": {
+    "src": "assets/guests/urakov",
+    "source": "https://med.miami.edu/-/media/millerschool/faculty/neurosurgery/54412754-timur-urakov.png?h=550&iar=0&w=440&rev=ca4c3ebde36d48cea22406e474e31ec8",
+    "credit": "University of Miami Health System"
+  }
 }
