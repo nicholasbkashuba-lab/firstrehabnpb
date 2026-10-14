@@ -82,6 +82,9 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    weekly.py); Nick wants them all in the same place, and that spot clears every face in the
    studio. Never move a card per shot. No zoom and no push-in (`z` 1.0, the default): Nick said the zooming was too
    much, and a 9:16 crop of the 16:9 master is already close. The top text sits high.
+   Both hosts appear, every time: Dave AND Mike McGann ("CO-HOST, PAIN 2 POWER"). Nick's
+   note on Episode 18: "where is mike in this?" Pick a Mike line where his own camera is on
+   screen; reactions to a number or a story land well (Ep 18: "400,000 is a number").
 9. **Show Nick every clip and the sizzle reel in the chat** with SendUserFile, each with its
    caption and proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,
