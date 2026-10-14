@@ -1042,11 +1042,12 @@ body.nav-locked .p2p-mini { display: none; }
 /* Wide screens: the loop fills the right ~70% and fades into the ink on the left, so the
    hosts (framed centre) land at ~65% across, clear of the copy column. */
 @media (min-width: 1100px) {
-  .page-hero.has-video .hero-media { left: 30%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 28%); mask-image: linear-gradient(90deg, transparent 0, #000 28%); }
+  .page-hero.has-video .hero-media { left: 24%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18%); mask-image: linear-gradient(90deg, transparent 0, #000 18%); }
   .page-hero.has-video .hero-scrim {
     background:
-      linear-gradient(90deg, rgba(7,30,39,1) 0%, rgba(7,30,39,0.97) 31%, rgba(7,30,39,0.78) 50%, rgba(7,30,39,0.22) 72%, rgba(7,30,39,0.06) 100%),
-      linear-gradient(180deg, rgba(7,30,39,0.7) 0%, rgba(7,30,39,0) 24%, rgba(7,30,39,0) 66%, rgba(7,30,39,0.65) 100%); }
+      linear-gradient(90deg, rgba(7,30,39,0.96) 0%, rgba(7,30,39,0.88) 26%, rgba(7,30,39,0.7) 42%, rgba(7,30,39,0.24) 58%, rgba(7,30,39,0) 74%),
+      linear-gradient(180deg, rgba(7,30,39,0.5) 0%, rgba(7,30,39,0) 20%, rgba(7,30,39,0) 74%, rgba(7,30,39,0.35) 100%); }
+  .page-hero.has-video .wrap > * { text-shadow: 0 1px 14px rgba(7,30,39,0.55); }
   .page-hero.has-video .wrap > * { max-width: 600px; }
 }
 .page-hero.has-video .wrap > * { max-width: 640px; }
