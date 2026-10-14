@@ -20,7 +20,11 @@ E.REGION["c_leighton"] = (0, 0, 1080, 1000)
 E.SRC["c_kerry"] = f"{E.SCR}/src/clips/ep13_searchlight.mp4"
 E.SIZE["c_kerry"] = (1080, 1920)
 E.REGION["c_kerry"] = (0, 0, 1080, 1450)
-AUD = {"c_leighton": "ep12_bestop", "c_kerry": "ep13_searchlight"}
+# Ep 18 guest clip: the sharpest footage in the library (16 Mbps, native vertical).
+E.SRC["c_elyse"] = f"{E.SCR}/src/v/ep18/02-healthy-healthy-dead.mp4"
+E.SIZE["c_elyse"] = (1080, 1920)
+E.REGION["c_elyse"] = (0, 0, 1080, 1760)
+AUD = {"c_leighton": "ep12_bestop", "c_kerry": "ep13_searchlight", "c_elyse": "ep18_hhd"}
 
 GW = json.load(open(os.path.join(E.SCR, "aud", "guest_words.json")))
 JW = json.load(open(os.path.join(E.SCR, "aud", "joke_words.json")))
@@ -28,9 +32,21 @@ W16 = json.load(open(os.path.join(E.SCR, "aud", "words16.json")))
 
 G_SABESAN = dict(src="ep9", fx=0.5, fy=0.4, z=1.15)
 G_GOODWIN = dict(src="ep16", fx=0.62, fy=0.4, z=1.1)
-G_JOYCE = dict(src="ep11", fx=0.5, fy=0.45, z=1.25)
+# vertical guest clips: native 9:16; in 16:9 the whole frame is fitted (face centred over a
+# colour wash) rather than cropped 1.8x into the face
+G_ELYSE = dict(src="c_elyse", fx=0.4, fy=0.35, z=1.0, **{"16x9": dict(fit=1.12)})
 G_LEIGHTON = dict(src="c_leighton", fx=0.75, fy=0.35, z=1.0, fit=1.12, **{"9x16": dict(fit=1.35)})
-G_KERRY = dict(src="c_kerry", fx=0.5, fy=0.4, z=1.0)
+G_KERRY = dict(src="c_kerry", fx=0.5, fy=0.4, z=1.0, **{"16x9": dict(fit=1.12)})
+
+
+def P(name, rel, t, wide=None):
+    """Montage shot: the library shot `name` in 16:9 (or `wide`, a 1080p replacement for the
+    soft 720p Ep 15 camera), and in 9:16 the native vertical clip `rel` from t, full
+    height, no extra zoom (owner 2026-10-14: best picture quality, no over-cropping)."""
+    base = dict(SHOTS[wide or name])
+    base["9x16"] = dict(src=E.vclip(f"v/{rel}.mp4"), t=t, fx=0.5, fy=0.42, z=1.0, zmul=1.0, pair=False,
+                        region=None, fit=None, push=0.03)
+    return base
 
 shots, dlg, caps, T_ = [], [], [], [0.0]
 marks = {}
@@ -111,15 +127,26 @@ def w14(a, b):
 
 # ------------------------------------------------------------------ timeline
 black_(0.7)                                                   # 100.3 LEGENDS RADIO PRESENTS
-vo("ep14", 0.80, 8.95, [(dict(_M14, t=0.80), 1.7), ("d14_laugh", 1.2), ("m11_gest", 1.1), ("w9_duo", 1.4),
-                        ("d16_onair", 1.0), ("m15_mic", 9)], label="open",
+vo("ep14", 0.80, 8.95, [(dict(_M14, t=0.80, **{"9x16": P("m14_laugh", "ep14/01-15-versus-50", 3.0)["9x16"]}), 1.7),
+                        (P("d14_laugh", "ep19/01-23-emmys", 10.0), 1.2),
+                        (P("m11_gest", "ep13/05-sons-smile", 4.5), 1.1),
+                        (P("w9_duo", "ep13/23-seventeen-dollar-first-class", 27.5), 1.4),
+                        (P("d16_onair", "ep19/09-daves-workout", 14.0), 1.0),
+                        (P("m15_mic", "ep13/10-control-your-response", 12.0, wide="m11_gest2"), 9)], label="open",
    words=[(s, e, {"Pain": "Pain", "to": "2"}.get(w, w) if 4.4 < s < 5.0 else w)
           for s, e, w in w14(0.8, 8.95)])
 marks["hit1"] = now()
-vo("ep14", 9.05, 15.45, [(dict(_M14, t=9.05), 1.3), ("m15_laugh", 1.4), ("w9_duo2", 1.6), ("d14_laugh2", 9)],
+vo("ep14", 9.05, 15.45, [(dict(_M14, t=9.05, **{"9x16": P("m14_laugh", "ep19/07-not-time-priorities", 0.0)["9x16"]}), 1.3),
+                         (P("m15_laugh", "ep19/07-not-time-priorities", 20.4, wide="m14_laugh"), 1.4),
+                         (P("w9_duo2", "ep14/01-15-versus-50", 7.0), 1.6),
+                         (P("d14_laugh2", "ep19/09-daves-workout", 27.5), 9)],
    label="intro")
-vo("ep16", 10.35, 15.15, [("d15_point", 0.8), ("m9_point", 0.8), ("d14_wave", 0.8), ("m14_laugh", 0.8),
-                          ("dk_smile", 0.8), ("m15_wave", 9)], label="great")
+vo("ep16", 10.35, 15.15, [(P("d15_point", "ep19/05-antenna-joke", 12.0, wide="d14_talk"), 0.8),
+                          (P("m9_point", "ep13/22-in-the-end-its-what-you-give", 11.0), 0.8),
+                          (P("d14_wave", "ep13/21-wrong-joke", 7.0), 0.8),
+                          (P("m14_laugh", "ep18/07-joseph-pilates-was-real", 41.0), 0.8),
+                          ("dk_smile", 0.8),
+                          (P("m15_wave", "ep13/12-people-can-tell-its-real", 18.0, wide="m11_gest3"), 9)], label="great")
 marks["surgeons"] = now()
 black_(0.75)                                                  # THE SURGEONS.
 sync("c_leighton", 0.95, 4.2, G_LEIGHTON, GW["ep12_bestop@0.0"], label="leighton")
@@ -128,7 +155,8 @@ sync("ep9", 800.05, 803.5, G_SABESAN, GW["ep9@793.0"], label="sabesan2")
 marks["specialists"] = now()
 black_(0.75)                                                  # THE SPECIALISTS.
 sync("ep16", 349.25, 352.95, G_GOODWIN, GW["ep16@335.0"], rename={349.36: "Our"}, label="goodwin")
-sync("ep11", 443.25, 445.95, G_JOYCE, GW["ep11@437.5"], label="joyce")
+sync("c_elyse", 0.0, 2.5, G_ELYSE, GW["ep18_hhd@0.0"], label="elyse1")
+sync("c_elyse", 5.68, 7.5, G_ELYSE, GW["ep18_hhd@0.0"], label="elyse2")
 marks["captain"] = now()
 black_(1.0)                                                   # ...AND A CAPTAIN FROM BELOW DECK.
 sync("c_kerry", 3.2, 6.9, G_KERRY, GW["ep13_searchlight@0.0"], rename={3.24: "The"}, label="kerry")
@@ -141,15 +169,20 @@ sync("ep16", 1489.55, 1492.4, _M16, JW["ep16"], tight=False, rename={1489.76: "H
      label="whined")
 marks["rim"] = marks["whined"][0] + (1490.75 - 1489.55)
 # Mike's comeback
-vo("ep16", 614.30, 616.55, [("m9_laugh2", 9)], words=[(s, e, w) for s, e, w in W16["610-630"] if 614.3 <= s < 616.5],
+vo("ep16", 614.30, 616.55, [(P("m9_laugh2", "ep13/12-people-can-tell-its-real", 22.5), 9)], words=[(s, e, w) for s, e, w in W16["610-630"] if 614.3 <= s < 616.5],
    label="never")
 sync("ep16", 616.55, 618.65, _M16, [(616.58, 616.74, "Very"), (616.74, 617.36, "challenging"),
                                     (617.58, 617.7, "for"), (617.7, 617.8, "me"), (617.8, 617.88, "to"),
                                     (617.88, 618.04, "stay"), (618.04, 618.18, "still"), (618.18, 618.3, "that"),
                                     (618.3, 618.6, "long.")], tight=False, label="still")
 marks["finale"] = now()
-vo("ep16", 1606.75, 1609.75, [("d14_laugh2", 0.35), ("m9_laugh", 0.35), ("dk_laugh", 0.35), ("m11_gest3", 0.35),
-                              ("d15_laugh", 0.35), ("m14_laugh", 0.35), ("w9_duo2", 9)], label="thishasbeen",
+vo("ep16", 1606.75, 1609.75, [(P("d14_laugh2", "ep19/10-go-vote", 6.0), 0.35),
+                              (P("m9_laugh", "ep13/10-control-your-response", 15.0), 0.35),
+                              ("dk_laugh", 0.35),
+                              (P("m11_gest3", "ep13/05-sons-smile", 6.0), 0.35),
+                              (P("d15_laugh", "ep13/21-wrong-joke", 4.5, wide="d14_laugh"), 0.35),
+                              (P("m14_laugh", "ep14/01-15-versus-50", 9.0), 0.35),
+                              (P("w9_duo2", "ep13/23-seventeen-dollar-first-class", 22.0), 9)], label="thishasbeen",
    words=[(s, e, {"to": "2"}.get(w, w)) for s, e, w in W16["1605-1630"] if 1606.7 <= s < 1609.7])
 marks["title"] = now()
 black_(2.6)
@@ -206,7 +239,8 @@ def texts(fmt):
     marks["sabesan"] = s1
     T.append(guest(fmt, "sabesan", "DR. VANI SABESAN, MD", "Orthopaedic shoulder surgeon"))
     T.append(guest(fmt, "goodwin", "DR. DON GOODWIN", "Radiologist, TGH Imaging"))
-    T.append(guest(fmt, "joyce", "PAUL JOYCE", "New Life HRT"))
+    marks["elyse"] = (marks["elyse1"][0], marks["elyse2"][1])
+    T.append(guest(fmt, "elyse", "ELYSE MARRONE, RD/LDN", "Registered dietitian, The Lifestyle Nutrition Institute"))
     T.append(guest(fmt, "kerry", "CAPTAIN KERRY TITHERADGE", "Below Deck, Bravo"))
     T.append(guest(fmt, "ninety", "DR. VANI SABESAN, MD", "Orthopaedic shoulder surgeon"))
     T.append(kicker(fmt, marks["grape"][0], marks["whined"][1], "DAVE'S DAD JOKE"))
