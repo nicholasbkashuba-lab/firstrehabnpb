@@ -4,8 +4,8 @@ air_date: 2026-10-17
 post_at: 2026-10-16 17:00 ET (21:00 UTC)
 platforms: instagram, facebook, linkedin-business, x, plus a separate google-business call
 excluded: youtube and tiktok (a still, not a video), linkedin-personal (never posted to)
-image: the Pain 2 Power cover art with a cartoon Shannon Cake added in the middle (Nick's
-       request 2026-10-14), generated from content/announcements/pain2power-cover.jpg plus a
+image: the ORIGINAL logo (assets/media/podcast-cover.jpg) with a cartoon Shannon Cake added in the middle (Nick's
+       request 2026-10-14), generated from assets/media/podcast-cover.jpg plus a
        frame of her Zoom feed. Version Nick picks is uploaded to Post Bridge at scheduling.
 tags: instagram collaborators legendsradio100.3 + shannon.cake; X @ShannonCake. Handles from
       her own site, shannoncaketv.com. Facebook page shannoncaketv cannot be tagged via Post Bridge.
