@@ -295,15 +295,18 @@ def _grab(key, t):
     return np.frombuffer(p.stdout, np.uint8).reshape(h, w, 3)
 
 
-def face_point(key, shot, region):
+def face_point(key, shot, region, fracs=(0.15, 0.5, 0.85), track=False):
     """Absolute (x, y) of the face nearest the shot's hint, or None. With shot["pair"],
-    the midpoint of the two largest faces (a two-shot is centred on the pair)."""
+    the midpoint of the two largest faces (a two-shot is centred on the pair).
+    track=True returns [(frac, x, y), ...] for every sampled frame with a face instead."""
     global _DET
     rx0, ry0, rx1, ry1 = region
     hx = rx0 + shot.get("fx", 0.5) * (rx1 - rx0)
     hy = ry0 + shot.get("fy", 0.45) * (ry1 - ry0)
     pair = bool(shot.get("pair"))
     ck = f"{key}@{shot['t']:.2f}+{shot['d']:.2f}|{hx:.0f},{hy:.0f}|{region}" + ("|pair" if pair else "")
+    if track:
+        ck += f"|track{len(fracs)}"
     cache = _face_cache()
     if ck in cache:
         return cache[ck]
@@ -311,7 +314,7 @@ def face_point(key, shot, region):
     if _DET is None:
         _DET = cv2.FaceDetectorYN.create(os.path.join(SCR, "models", "yunet.onnx"), "", (320, 320), 0.6)
     pts = []
-    for f in (0.15, 0.5, 0.85):
+    for f in fracs:
         fr = _grab(key, shot["t"] + shot["d"] * f)
         if fr is None:
             continue
@@ -326,19 +329,24 @@ def face_point(key, shot, region):
             fs = sorted(faces, key=lambda f: -f[2] * f[3])[:2]
             xs = [rx0 + (f[0] + f[2] / 2) / sc for f in fs]
             ys = [ry0 + (f[1] + f[3] * 0.42) / sc for f in fs]
-            pts.append((sum(xs) / 2, sum(ys) / 2))
+            pts.append((f, sum(xs) / 2, sum(ys) / 2))
             continue
         best = None
         for fc in faces:
             x, y, w, h = (fc[:4] / sc)
             cx, cy = rx0 + x + w / 2, ry0 + y + h * 0.42
-            # nearest to the hint, larger faces preferred (the background has posters)
-            cost = abs(cx - hx) + 0.3 * abs(cy - hy) - 0.8 * w
+            # nearest to the hint (or to the last tracked point), larger faces preferred
+            # (the background has posters)
+            ax, ay = (pts[-1][1], pts[-1][2]) if (track and pts) else (hx, hy)
+            cost = abs(cx - ax) + 0.3 * abs(cy - ay) - 0.8 * w
             if best is None or cost < best[0]:
                 best = (cost, cx, cy, w)
         if best and best[3] > 0.04 * (rx1 - rx0):
-            pts.append(best[1:3])
-    res = [float(np.median([p[0] for p in pts])), float(np.median([p[1] for p in pts]))] if pts else None
+            pts.append((f, best[1], best[2]))
+    if track:
+        res = [[float(a), float(b), float(c)] for a, b, c in pts]
+    else:
+        res = [float(np.median([p[1] for p in pts])), float(np.median([p[2] for p in pts]))] if pts else None
     cache[ck] = res
     os.makedirs(os.path.join(SCR, "aud"), exist_ok=True)
     json.dump(cache, open(os.path.join(SCR, "aud", "faces.json"), "w"))
@@ -356,8 +364,8 @@ def ensure_centred(shot, region, aspect, out_w):
     rx0, ry0, rx1, ry1 = region
     rw, rh = rx1 - rx0, ry1 - ry0
     cw0 = rh * aspect if rw / rh > aspect else rw
-    fx = shot["_face"][0]
-    room = min(fx - rx0, rx1 - fx)
+    xs = [p[1] for p in shot.get("_track") or []] or [shot["_face"][0]]
+    room = min(min(x - rx0, rx1 - x) for x in xs)
     z = shot.get("z", 1.0) * shot.get("zmul", 1.0)
     if room <= 0:
         shot["fit"] = 1.0
@@ -371,6 +379,30 @@ def ensure_centred(shot, region, aspect, out_w):
         shot["fit"] = 1.12
 
 
+def face_track(key, shot, region):
+    """The subject's position through the whole shot (owner rule: centred every frame, not
+    just on average): sampled ~4x a second, smoothed, so the crop pans with a head turn."""
+    n = max(3, int(shot["d"] * 4) + 1)
+    fr = [round(0.02 + 0.96 * i / (n - 1), 3) for i in range(n)]
+    pts = face_point(key, shot, region, fracs=tuple(fr), track=True)
+    if not pts or len(pts) < 2:
+        return None
+    a = np.array(pts)
+    k = 3 if len(a) >= 5 else 1                    # light smoothing: no jitter, no lag
+    if k > 1:
+        pad = np.pad(a[:, 1:], ((1, 1), (0, 0)), mode="edge")
+        a[:, 1:] = (pad[:-2] + pad[1:-1] + pad[2:]) / 3
+    return a.tolist()
+
+
+def _track_at(shot, prog):
+    tr = shot.get("_track")
+    if not tr:
+        return None
+    f = [p[0] for p in tr]
+    return (float(np.interp(prog, f, [p[1] for p in tr])), float(np.interp(prog, f, [p[2] for p in tr])))
+
+
 def crop_box(key, shot, aspect, prog, extra_zoom):
     rx0, ry0, rx1, ry1 = shot.get("region") or REGION.get(key) or (0, 0, *SIZE[key])
     rw, rh = rx1 - rx0, ry1 - ry0
@@ -382,7 +414,7 @@ def crop_box(key, shot, aspect, prog, extra_zoom):
     cw, ch = cw / z, ch / z
     cx = rx0 + shot.get("fx", 0.5) * rw + shot.get("dx", 0) * prog * rw
     cy = ry0 + shot.get("fy", 0.5) * rh
-    fp = shot.get("_face")
+    fp = _track_at(shot, prog) or shot.get("_face")
     if fp:
         cx = fp[0]
         cy = fp[1] + 0.1 * ch      # eyes ~40% down the frame
@@ -400,7 +432,7 @@ def fit_frame(fr, key, shot, bw, bh, prog, punch):
     rx0, ry0, rx1, ry1 = shot.get("region") or REGION.get(key) or (0, 0, *SIZE[key])
     rw, rh = rx1 - rx0, ry1 - ry0
     src = Image.fromarray(fr).crop((rx0, ry0, rx1, ry1))
-    face = shot.get("_face")
+    face = _track_at(shot, prog) or shot.get("_face")
     fx = ((face[0] - rx0) / rw) if face else shot.get("fx", 0.5)
     fy = ((face[1] - ry0) / rh) if face else shot.get("fy", 0.45)
     # background: a soft colour wash of the same picture (shrunk to a few pixels and
@@ -498,6 +530,8 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
         if shot.get("src") and shot.get("track", True):
             reg = shot.get("region") or REGION.get(shot["src"]) or (0, 0, *SIZE[shot["src"]])
             shot["_face"] = face_point(shot["src"], shot, reg)
+            if shot["_face"]:
+                shot["_track"] = face_track(shot["src"], shot, reg)
             if shot["_face"] and not shot.get("fit"):
                 ensure_centred(shot, reg, aspect, bw)
         n = int(round((t_shot + shot["d"]) * FPS)) - int(round(t_shot * FPS))

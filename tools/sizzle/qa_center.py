@@ -8,8 +8,8 @@ width. Frames with no face (title cards, end cards) are skipped. Any run of flag
 frames is listed with its timestamp so the shot can be fixed; --sheet writes a contact
 sheet of the flagged frames next to the video. Exit code 1 when anything is off.
 
-Two-shots are measured on the pair: when the two largest faces are within 60% of each
-other's size, the target is their midpoint, not either face.
+Two-shots are measured on the pair: when the second face is at least 30% of the largest
+one's area, the target is their midpoint, not either face.
 """
 import json
 import os
@@ -55,7 +55,7 @@ def check(path, tol=0.10, sheet=False):
             continue
         measured += 1
         cx = big[0] + big[2] / 2
-        if len(fs) > 1 and fs[1][2] * fs[1][3] > 0.6 * big[2] * big[3] and fs[1][2] > 0.06 * w:
+        if len(fs) > 1 and fs[1][2] * fs[1][3] > 0.3 * big[2] * big[3] and fs[1][2] > 0.06 * w:
             cx = (cx + fs[1][0] + fs[1][2] / 2) / 2      # two-shot: centre the pair
         off = (cx - w / 2) / w
         if abs(off) > tol:
