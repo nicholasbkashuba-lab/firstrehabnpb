@@ -8,9 +8,11 @@ Raw competitor HTML from the teardown is not committed (it is third-party conten
 ## 1. The short answer: it is not their schema
 
 None of the clinics that beat us in the map pack has better structured data than we do. Most
-have a plugin's generic Organization and WebPage nodes and nothing else: no address, no hours,
-no clinician markup. Only Gold Coast and Select carry a MedicalClinic node. Nobody has FAQPage,
-Person, MedicalTherapy or BlogPosting markup. We already ship all of those. Schema is a tie we
+have a plugin's generic Organization and WebPage nodes; Synergy adds an address and hours, and
+PBOI adds an AggregateRating (self-serving review markup, which Google ignores or penalizes).
+Only Gold Coast and Select carry a MedicalClinic node. Nobody has clinician (Person),
+MedicalTherapy, FAQPage or BlogPosting markup. Per-site detail:
+`docs/seo-kit/competitor-teardown-2026-10-14.md`. We already ship all of those. Schema is a tie we
 already win, so more of it will not move rankings.
 
 Organically we are already strong: #1 for "physical therapy north palm beach fl" and #1 for

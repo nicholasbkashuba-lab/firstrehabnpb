@@ -163,6 +163,10 @@ is its own failure mode and the check names it.
   to every visitor — never put secret keys in it (the Supabase publishable key is safe by design).
 
 ## SEO — keep this maximized on every change
+**Research kit: read `docs/seo-kit/README.md` before any SEO, schema, blog, competitor or
+local-listing work.** It indexes the October 2026 deep research (growth plan, competitor
+teardown, local authority audit, patient insights, lawofficesuccess.com audit, schema library,
+Reddit playbook) and says which files are current and which are superseded.
 The build already emits, for every page: a unique `<title>` and meta description, a
 `rel=canonical` URL, Open Graph + Twitter Card tags, MedicalBusiness JSON-LD schema
 (stable @id https://www.firstrehabnpb.com/#organization with legalName/alternateName/
