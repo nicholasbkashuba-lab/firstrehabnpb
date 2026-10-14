@@ -256,7 +256,8 @@ domain switch (July 2027). Removing them early throws away that equity.
 ## Pain 2 Power sizzle reels + page-hero loops (2026-10-14)
 /podcast.html and /videos.html heroes play silent 14s loops of Dave and Mike
 (`page_hero(..., loop="audio"|"video")` → `_video_page_hero`), with a "Watch the Trailer"
-button that opens the 35s trailer with sound in a native `<dialog>` (main.js; file loads
+button that opens the 64s show trailer (Mike's VO, five guests, the dad joke) with sound in a
+native `<dialog>` (main.js; file loads
 on first click only). Media: `assets/media/p2p-hero-{audio,video}-{hd,mobile}.{mp4,webm}`,
 `-poster.jpg`, `p2p-trailer.mp4` + `-poster.jpg`, all linked via asset_v() so a re-encode
 busts its own cache. Same media contract as the homepage hero: no <source> children,

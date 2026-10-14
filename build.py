@@ -407,7 +407,7 @@ P2P_TRAILER = {
     "mp4": "assets/media/p2p-trailer.mp4",
     "poster": "assets/media/p2p-trailer-poster.jpg",
     "uploaded": "2026-10-14",
-    "duration": "PT35S",
+    "duration": "PT64S",
 }
 
 def _m(path):
@@ -457,9 +457,10 @@ def _trailer_schema():
         "@context": "https://schema.org",
         "@type": "VideoObject",
         "@id": base + "#p2p-trailer",
-        "name": "Pain 2 Power Trailer: Dr. Dave Kashuba and Mike McGann",
-        "description": "A 35-second trailer for Pain 2 Power, the physical rehab and wellness show hosted by "
-                       "Dr. Dave Kashuba of First Rehabilitation of North Palm Beach with Mike McGann. "
+        "name": "Pain 2 Power Trailer: Dr. Dave Kashuba, Mike McGann and Guests",
+        "description": "A one-minute trailer for Pain 2 Power, the physical rehab and wellness show hosted by "
+                       "Dr. Dave Kashuba of First Rehabilitation of North Palm Beach with Mike McGann, with "
+                       "guests including orthopedic surgeons Dr. Michael Leighton and Dr. Vani Sabesan. "
                        "Saturdays at 8:30 AM on 100.3 Legends Radio.",
         "thumbnailUrl": base + P2P_TRAILER["poster"],
         "contentUrl": base + P2P_TRAILER["mp4"],

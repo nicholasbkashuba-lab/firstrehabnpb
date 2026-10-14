@@ -287,10 +287,9 @@ class Score:
 
     # mixdown -------------------------------------------------------------
     def mix(self, music=True):
-        """music=False returns dialogue only (for laying a licensed track under it in-app)."""
-        if not music:
-            return self.dlg.copy()
-        mus = self.music.copy()
+        """music=False drops the music bed but keeps the sound effects (booms, whooshes,
+        rimshots, stings) under the dialogue, for laying a licensed track under it in-app."""
+        mus = self.music.copy() if music else np.zeros_like(self.music)
         for t, d, until in self.stops:
             i = int(t * SR)
             L = int(d * SR)
