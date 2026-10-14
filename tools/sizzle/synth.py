@@ -285,7 +285,10 @@ class Score:
         self.mutes.append((t0, t1))
 
     # mixdown -------------------------------------------------------------
-    def mix(self):
+    def mix(self, music=True):
+        """music=False returns dialogue only (for laying a licensed track under it in-app)."""
+        if not music:
+            return self.dlg.copy()
         mus = self.music.copy()
         for t, d, until in self.stops:
             i = int(t * SR)

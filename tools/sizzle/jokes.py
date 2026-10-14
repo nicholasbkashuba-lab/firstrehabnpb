@@ -21,7 +21,7 @@ from lib import _M11, _M14, _M15, _D14, _D15, _D16, _M16
 _V = lambda **k: {"9x16": dict(k, z=k.get("z", 1.0))}
 D11 = dict(src="ep11", fx=0.53, fy=0.6, z=2.0, **_V(fx=0.57, fy=0.6, z=1.6))
 G15 = dict(src="ep15", fx=0.4, fy=0.45, z=1.2, **_V(fx=0.4, fy=0.45))
-D9 = dict(src="ep9", fx=0.68, fy=0.45, z=1.3, **_V(fx=0.68, fy=0.45))
+D9 = dict(src="ep9", fx=0.68, fy=0.45, z=1.3, **_V(fx=0.68, fy=0.45, z=1.45))
 M9 = dict(src="ep9", fx=0.22, fy=0.45, z=1.3, **_V(fx=0.22, fy=0.45))
 W9 = dict(src="ep9", fx=0.5, fy=0.45, z=1.0, **_V(fx=0.5, fy=0.45))
 

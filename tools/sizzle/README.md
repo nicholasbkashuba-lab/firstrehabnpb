@@ -26,6 +26,17 @@ grain, vignette and a bordered 9:16 band on 2026-10-14 and asked for all of it g
 don't bring it back. Type over footage lives in the lower third (`over` in `fmt_geom`),
 clear of faces; title cards centre on black.
 
+## Framing and audio versions
+
+Every shot is face-tracked: `engine.face_point` runs YuNet (OpenCV zoo,
+`face_detection_yunet_2023mar.onnx`, 230 KB, put it in `$SIZZLE_WORK/models/yunet.onnx`;
+needs `opencv-python-headless`) on three frames, takes the face nearest the shot's fx/fy
+hint and centres on it with the eyes ~40% down. Set `track=False` on a shot to use its
+fx/fy as-is. The hint matters on two-shots (Ep 9) where both hosts are in frame.
+
+`run.py` writes every reel twice: `<name>-<fmt>.mp4` with the synthesized score and
+`<name>-<fmt>-nomusic.mp4` with dialogue only, for laying a track under it in-app.
+
 ## Adding a dad joke
 
 Every episode ends on one. Add an entry to `JOKES` in `jokes.py`: the source segments

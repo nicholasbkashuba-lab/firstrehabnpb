@@ -9,6 +9,7 @@ Formats: '16x9' (1920x1080), '9x16' (1080x1920), both full bleed; 'hero' (1920x1
 no type, no audio). Natural camera colour: no grade, no grain, no vignette, and type
 is outlined rather than sitting on a dark glow (owner feedback 2026-10-14).
 """
+import json
 import math
 import os
 import subprocess
@@ -130,6 +131,74 @@ class Reader:
         self.p.wait()
 
 
+# ------------------------------------------------------------------ face tracking
+# Hand-set focus points drifted off Mike on the vertical crops, so every shot now finds
+# the face nearest its intended subject (the shot's fx/fy is the hint) in three frames
+# and centres on it, with the eyes about 40% down the crop. YuNet (OpenCV zoo, 230 KB)
+# lives in $SIZZLE_WORK/models; results are cached in $SIZZLE_WORK/aud/faces.json.
+_FACES = None
+_DET = None
+
+
+def _face_cache():
+    global _FACES
+    if _FACES is None:
+        p = os.path.join(SCR, "aud", "faces.json")
+        _FACES = json.load(open(p)) if os.path.exists(p) else {}
+    return _FACES
+
+
+def _grab(key, t):
+    w, h = SIZE[key]
+    p = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.3f}", "-i", SRC[key], "-frames:v", "1",
+                        "-f", "rawvideo", "-pix_fmt", "bgr24", "-"], capture_output=True)
+    if len(p.stdout) != w * h * 3:
+        return None
+    return np.frombuffer(p.stdout, np.uint8).reshape(h, w, 3)
+
+
+def face_point(key, shot, region):
+    """Region-relative (x, y) of the face nearest the shot's hint, or None."""
+    global _DET
+    rx0, ry0, rx1, ry1 = region
+    hx = rx0 + shot.get("fx", 0.5) * (rx1 - rx0)
+    hy = ry0 + shot.get("fy", 0.45) * (ry1 - ry0)
+    ck = f"{key}@{shot['t']:.2f}+{shot['d']:.2f}|{hx:.0f},{hy:.0f}|{region}"
+    cache = _face_cache()
+    if ck in cache:
+        return cache[ck]
+    import cv2
+    if _DET is None:
+        _DET = cv2.FaceDetectorYN.create(os.path.join(SCR, "models", "yunet.onnx"), "", (320, 320), 0.6)
+    pts = []
+    for f in (0.15, 0.5, 0.85):
+        fr = _grab(key, shot["t"] + shot["d"] * f)
+        if fr is None:
+            continue
+        crop = fr[ry0:ry1, rx0:rx1]
+        sc = 640 / crop.shape[1]
+        small = cv2.resize(crop, (640, int(crop.shape[0] * sc)))
+        _DET.setInputSize((small.shape[1], small.shape[0]))
+        _, faces = _DET.detect(small)
+        if faces is None:
+            continue
+        best = None
+        for fc in faces:
+            x, y, w, h = (fc[:4] / sc)
+            cx, cy = rx0 + x + w / 2, ry0 + y + h * 0.42
+            # nearest to the hint, larger faces preferred (the background has posters)
+            cost = abs(cx - hx) + 0.3 * abs(cy - hy) - 0.8 * w
+            if best is None or cost < best[0]:
+                best = (cost, cx, cy, w)
+        if best and best[3] > 0.04 * (rx1 - rx0):
+            pts.append(best[1:3])
+    res = [float(np.median([p[0] for p in pts])), float(np.median([p[1] for p in pts]))] if pts else None
+    cache[ck] = res
+    os.makedirs(os.path.join(SCR, "aud"), exist_ok=True)
+    json.dump(cache, open(os.path.join(SCR, "aud", "faces.json"), "w"))
+    return res
+
+
 def crop_box(key, shot, aspect, prog, extra_zoom):
     rx0, ry0, rx1, ry1 = shot.get("region") or REGION.get(key) or (0, 0, *SIZE[key])
     rw, rh = rx1 - rx0, ry1 - ry0
@@ -141,6 +210,10 @@ def crop_box(key, shot, aspect, prog, extra_zoom):
     cw, ch = cw / z, ch / z
     cx = rx0 + shot.get("fx", 0.5) * rw + shot.get("dx", 0) * prog * rw
     cy = ry0 + shot.get("fy", 0.5) * rh
+    fp = shot.get("_face")
+    if fp:
+        cx = fp[0]
+        cy = fp[1] + 0.1 * ch      # eyes ~40% down the frame
     cx = min(max(cx, rx0 + cw / 2), rx1 - cw / 2)
     cy = min(max(cy, ry0 + ch / 2), ry1 - ch / 2)
     return (cx - cw / 2, cy - ch / 2, cx + cw / 2, cy + ch / 2)
@@ -208,6 +281,9 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
     gi = 0
     for si, shot in enumerate(reel["shots"]):
         shot = {**shot, **shot.get(fmt, {})}
+        if shot.get("src") and shot.get("track", True):
+            reg = shot.get("region") or REGION.get(shot["src"]) or (0, 0, *SIZE[shot["src"]])
+            shot["_face"] = face_point(shot["src"], shot, reg)
         n = int(round((t_shot + shot["d"]) * FPS)) - int(round(t_shot * FPS))
         key = shot.get("src")
         rd = Reader(key, shot["t"], n, shot.get("speed", 1.0)) if key else None
