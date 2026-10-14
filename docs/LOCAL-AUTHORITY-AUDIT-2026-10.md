@@ -41,14 +41,18 @@ At least two reviews on **our** listing were written for them: one names "FIRST 
 Rd" and their staff (Rob, Lonn, Ashley); another says "or at any of their locations". Searches
 on our profile include "first rehab pbg". Google and patients are mixing the two brands.
 
-What to do:
+**History (Nick, 2026-10-14):** the Burns Rd clinic used to be connected to First
+Rehabilitation and kept using the name after the split. Nick's goal is to win that brand
+outright. The plan for that, kept to tactics that are legal and cannot backfire, is section 8.
+
+What to do now:
 - Always use the full name **First Rehabilitation of North Palm Beach** on listings, posts and
   signage, and never "First Rehab" on its own.
-- Ask Google (in the review management screen) to move or remove reviews clearly about the
-  other clinic. They are 5 stars, so this is optional; accuracy is the point.
-- **Owner decision:** whether the site should say it is not affiliated with other clinics
-  using a similar name. It is not added yet, because the history between the two businesses
-  is unknown here.
+- Ask Google (in the review management screen) to remove or reassign reviews clearly about the
+  other clinic. They are 5 stars, so this costs us review count; accuracy and a clean entity
+  matter more, and a review that names their staff confuses our listing.
+- Add a short, factual line to the About and Contact pages once the attorney in section 8 has
+  seen it (ready text is there).
 
 ## 3. Wrong records that feed Google, insurers and AI answers
 
@@ -65,7 +69,7 @@ Doximity and insurer directories copy, so fixing it fixes many listings downstre
 | **Yelp** (24 reviews, 4.7) | Address "Bldg 2, Ste A" | Change to "733 US Highway 1, Suite 2A" |
 | **Medical News Today** provider page | "David Kashuba, PT, Physical Therapist" | Corrects itself from NPPES; request a fix if it does not |
 | **Facebook / Instagram / site** | "79,000", "80,000", "87,000" and "180,000" patients, and "37" or "39" years, depending on where you look | Pick one current set of numbers and use it everywhere |
-| **Mobile Therapy Group** team page | Lists "Laura Drumm, MS, OTR/L, CHT" with no address; it ranks #3 for "certified hand therapist palm beach gardens" | **Owner question:** does Laura still work with them? If yes, fine. If not, ask them to remove it |
+| **Mobile Therapy Group** team page | Lists "Laura Drumm, MS, OTR/L, CHT" with no address; it ranks #3 for "certified hand therapist palm beach gardens" | Correct as is: Laura also works for a second company (Nick, 2026-10-14). The fix is to make First Rehab visible in HER own records too: NPPES practice locations can list more than one address, and her LinkedIn, ASHT and HTCC entries should name First Rehabilitation of North Palm Beach as a practice location |
 
 ## 4. Directories that rank on page one for our money terms
 
@@ -116,3 +120,50 @@ Doximity and insurer directories copy, so fixing it fixes many listings downstre
   last initial, linked to the listing. No review schema.
 - The WPTV feature (April 2025) is now the homepage's first press mention.
 - Reviews written for the other clinic are explicitly excluded in `build.py`.
+
+## 8. Winning the brand back (legal, and it compounds)
+
+The goal is that anyone who searches "First Rehab" in northern Palm Beach County finds us first,
+and that Google, insurers and AI tools never mix the two businesses again. Every tactic below
+is lawful and none can be turned against us. Tactics that would backfire are listed at the end.
+
+**Legal footing (attorney, this month).**
+1. Have a Florida trademark attorney review who has rights to "First Rehab" and "First
+   Rehabilitation" in this market. First Rehabilitation has used its name since 1991; the other
+   clinic claims "over twenty years". A 1986 federal filing by an unrelated "FIRST REHAB, INC."
+   for physical therapy services also exists (USPTO serials 73584664 and 73587603), so status
+   and priority need a real search, not a guess. Bring any separation agreement from the split;
+   it may already settle naming.
+2. Depending on that advice: register the mark (federal or Florida), and if the attorney agrees
+   it is supported, a cease-and-desist about the confusing name. The two misdirected reviews on
+   our listing and the "first rehab pbg" searches are documented evidence of actual confusion.
+3. Approve the disambiguation line before it ships. Ready text: "First Rehabilitation of North
+   Palm Beach is an independent, family-owned clinic founded in 1991 by David Kashuba, Ph.D.,
+   OTR. We operate one location, at 733 US Highway 1, Suite 2A, and are not affiliated with
+   other clinics that use a similar name."
+
+**Own every branded search.**
+4. Make the entity unmistakable: the same full name, address and phone on NPPES, Healthgrades,
+   Yelp, Apple Business Connect, Bing Places, Facebook, Instagram, LinkedIn and the website.
+   Section 3 is the fix list.
+5. Out-review them where it counts. Their West Palm Beach listing had about 155 reviews on
+   2026-09-20 and their Palm Beach Gardens office has 92; we have 110 at our one office. A steady
+   6 to 8 a month passes their biggest listing within about six months.
+6. Optional: a small branded Google Ads campaign on our own name ("first rehabilitation north
+   palm beach", "first rehab north palm beach") so the top of the page is ours even on a mixed
+   query. Do not put their name or mark in ad text.
+
+**Out-compete them on substance.** Their site has no schema, no meta descriptions and a lorem
+ipsum location page. Ours has all of it plus a certified hand therapist, OT, a CORF, a wellness
+gym and a podcast. Keep shipping depth; it already shows in search.
+
+**Do not do any of these.** They break the law, Google's rules, or both, and would hand the
+other side a counterclaim: fake or incentivized reviews (for us or against them), reporting
+their listing as fake when it is a real clinic, disparaging statements about them anywhere,
+bidding with their trademark in ad copy, or "negative SEO". The win comes from being the
+obvious, better-documented First Rehabilitation, not from attacking the other one.
+
+## 9. Cowork runbook
+
+The browser work in sections 3, 4 and 6 is written up as one paste-ready prompt for a Cowork
+session with Nick's browser: `docs/COWORK-LOCAL-FIXES.md`.
