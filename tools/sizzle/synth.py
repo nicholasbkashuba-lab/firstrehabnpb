@@ -216,6 +216,7 @@ class Score:
         self.dlg = np.zeros((2, self.n))
         self.stops = []
         self.mutes = []
+        self.dlg_gain = 1.7
 
     def _add(self, bus, x, t, g=1.0, pan=0.0):
         if x.ndim == 1:
@@ -310,6 +311,9 @@ class Score:
         env = (env > 0.01).astype(float)
         sm = int(0.12 * SR)
         env = np.convolve(env, np.ones(sm) / sm, mode="same")
-        duck = 1 - 0.62 * np.clip(env, 0, 1)
-        out = mus * duck + self.sfx + self.dlg * 1.0
+        # Owner (2026-10-14): Mike's voiceover was too quiet. Music now ducks to ~20% under
+        # any voice and dialogue gets +4.5 dB before the -14 LUFS normalisation.
+        duck = 1 - 0.8 * np.clip(env, 0, 1)
+        sfx_duck = 1 - 0.45 * np.clip(env, 0, 1)
+        out = mus * duck + self.sfx * sfx_duck + self.dlg * self.dlg_gain
         return out
