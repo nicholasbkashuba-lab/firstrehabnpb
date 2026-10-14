@@ -64,6 +64,9 @@ VIDEO_ACCOUNTS = {81358, 81356}
 # pattern that hits wins, so the named guest beats the generic host patterns.
 # A clip nobody matches is reported, not silently filed under a host.
 GUEST_PATTERNS = [
+    # First, so "Captain Kerry does Dave's workout. Shannon Cake told her TV audience..." files
+    # under Shannon rather than Kerry. Episode 19.
+    ("Shannon Cake", r"Shannon Cake|ShannonCake|Newsmax"),
     ("Dr. Don Goodwin", r"Don Goodwin|TGH Imaging|mammogra"),
     ("Susan Mann", r"Susan Mann|Bright Minds|processing disorder|Coach Carter"),
     ("Captain Kerry", r"Captain Kerry|Below Deck"),
@@ -103,6 +106,18 @@ def save_queue(q):
     print(f"wrote {os.path.relpath(QUEUE, ROOT)}  ({len(q['clips'])} clips)")
 
 
+def in_clip_lane(p):
+    """True when a post sits in the daily 9:00 AM ET clip slot. Reels (the weekly sizzle
+    reel at 12:00 PM ET on air day, Nick 2026-10-14, and the dad joke reels) run in their
+    own noon lane and are not part of the one-clip-a-day rotation, so import and audit
+    skip them. A post with no time yet (draft) is not in the lane either."""
+    when = p.get("scheduled_at")
+    if not when:
+        return False
+    t = dt.datetime.fromisoformat(when.replace("Z", "+00:00"))
+    return t == slot_utc(t.date())
+
+
 def classify(caption):
     for guest, pattern in GUEST_PATTERNS:
         if re.search(pattern, caption, re.I):
@@ -135,6 +150,8 @@ def cmd_import(args):
         if not set(p.get("social_accounts") or []) & FIRST_REHAB_ACCOUNTS:
             continue
         media = p.get("media") or []
+        if p.get("status") != "posted" and not in_clip_lane(p):
+            continue  # a reel in the noon lane, or an unscheduled draft
         if not media or not set(p["social_accounts"]) & VIDEO_ACCOUNTS:
             # Not a clip: no media at all, or a photo/link post aimed at the
             # feed and Google Business rather than TikTok and YouTube.
@@ -291,6 +308,8 @@ def cmd_audit(args):
             continue
         if not p.get("scheduled_at") or not p.get("media"):
             continue
+        if not in_clip_lane(p):
+            continue  # noon reel lane, not a daily clip
         if not set(p["social_accounts"]) & VIDEO_ACCOUNTS:
             continue
         rows.append((p["scheduled_at"], p["id"][:8], p["media"][0],

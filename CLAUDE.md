@@ -573,7 +573,10 @@ or the diff touches anything beyond build.py and regenerated HTML.
 
 ## Episode release cycle — STANDING AUTHORIZATION
 Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each time.
-- **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. A studio photo, the
+- **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. IMAGE (Nick, 2026-10-14, every
+  week): the ORIGINAL logo `assets/media/podcast-cover.jpg` with the guest added as a matching cartoon
+  in the middle; never `content/announcements/pain2power-cover.jpg` (that is the Arlosoroff variant).
+  Recipe in content/announcements/README.md. A studio photo, the
   guest's background, and "tomorrow 8:30 AM on 100.3 Legends Radio". Instagram, Facebook,
   LinkedIn business, X, plus its own text-and-one-image Google Business call.
   The slot has moved twice: PR #78 set it at 4:00 PM ET, Episode 14's actually ran at
