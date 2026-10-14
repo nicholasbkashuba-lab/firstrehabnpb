@@ -578,6 +578,10 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 /* Data tables inside prose (Medicare guide, 2026-10-14). The wrapper scrolls
    sideways on a phone instead of forcing the page wider than the viewport. */
 .prose .data-table { overflow-x: auto; margin: var(--space-4) 0; overscroll-behavior-x: contain; }
+/* A grid column will not shrink below its widest child, so a 480px table inside a
+   .two-col article pushed blog posts 110px wider than a phone (2026-10-14). Letting the
+   column shrink keeps the scrolling inside .data-table where it belongs. */
+.two-col > .prose { min-width: 0; }
 .prose table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: var(--step--1); line-height: var(--leading-snug); }
 .prose th, .prose td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
 .prose thead th { background: var(--cream); color: var(--ink); font-weight: 700; }

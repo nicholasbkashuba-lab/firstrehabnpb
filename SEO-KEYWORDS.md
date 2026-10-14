@@ -204,6 +204,11 @@ service-page authority.
 
 ## Coverage: what each live post already owns
 
+**All 17 posts were rewritten to the 1,700-word standard on 2026-10-14** (Nick: minimum 1,700
+words, h2 and h3 structure, tables, conversational voice). Each kept the keyword in its row
+below; the three knee posts were kept apart on purpose and now cross-link with each other's
+keyword as anchor text. `dateModified` in each post's schema reads 2026-10-14.
+
 Fill a hole rather than cannibalising. Update this table whenever a post ships.
 
 | Post slug | Pillar | Keyword it owns |

@@ -1100,7 +1100,7 @@ are real and still worth filling once ranking work has caught up.
 
 **Every post is at least 1,700 words (Nick, 2026-10-14):** "each blog should have a minimum of
 1700 words with structured H1, 2, 3 etc with tables and everything too with colloquialism as
-if a real human wrote it." The 18 existing posts are being deepened to it (2026-10-14), mining the
+if a real human wrote it." All 17 existing posts were deepened to it on 2026-10-14, mining the
 Pain 2 Power transcripts. `tools/slop-check.py` enforces it: 1,700+ words, 5+ h2s, 2+ h3s, no
 skipped levels, at least one captioned table, on top of the anti-slop rules. Rules and table
 markup: BLOG-PLAYBOOK.md "Length and structure". The freeze on NEW posts above still stands

@@ -20,16 +20,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# Posts written before the anti-slop rules existed. Warnings only.
-BASELINE = {
-    "reverse-shoulder-replacement-explained",
-    "what-to-expect-first-pt-visit",
-    "five-morning-habits-back-pain",
-    "why-hand-therapy-is-different",
-    "knee-arthritis-before-surgery",
-    "headaches-that-start-in-the-neck",
-    "cartilage-transplant-knee-explained",
-}
+# Posts written before the anti-slop rules existed. Warnings only. Emptied 2026-10-14: every
+# post was rewritten to the 1,700-word standard that day and passes the full rule set.
+BASELINE = set()
 
 # (label, compiled pattern). Matched against plain text, entities already decoded.
 BANNED = [
