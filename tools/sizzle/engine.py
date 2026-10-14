@@ -206,7 +206,7 @@ def crop_box(key, shot, aspect, prog, extra_zoom):
         ch, cw = rh, rh * aspect
     else:
         cw, ch = rw, rw / aspect
-    z = shot.get("z", 1.0) * (1 + shot.get("push", 0.06) * prog) * extra_zoom
+    z = shot.get("z", 1.0) * shot.get("zmul", 1.0) * (1 + shot.get("push", 0.06) * prog) * extra_zoom
     cw, ch = cw / z, ch / z
     cx = rx0 + shot.get("fx", 0.5) * rw + shot.get("dx", 0) * prog * rw
     cy = ry0 + shot.get("fy", 0.5) * rh

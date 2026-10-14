@@ -26,6 +26,74 @@ M9 = dict(src="ep9", fx=0.22, fy=0.45, z=1.3, **_V(fx=0.22, fy=0.45))
 W9 = dict(src="ep9", fx=0.5, fy=0.45, z=1.0, **_V(fx=0.5, fy=0.45))
 
 END = 2.6  # end card
+MAX_GAP = 0.3   # pauses longer than this inside a line are cut (owner: the grape clip dragged)
+MIN_PIECE = 0.9  # never leave a jump-cut piece shorter than this; it reads as a glitch
+PAD = 0.09      # breath kept either side of a cut
+
+
+def tighten(ep, a, b, max_gap=MAX_GAP, lead=0.12, tail=0.15):
+    """Split [a, b] into speech pieces, cutting pauses longer than max_gap.
+
+    Pauses come from the audio, not the ASR: whisper stretches word end-times across
+    silences. 20 ms RMS frames on the 16 kHz mono mix; silence is below 20% of the
+    segment's 95th-percentile level after 60 ms smoothing; louder blips shorter than
+    80 ms (breaths, a cough, a chair) still count as silence."""
+    import numpy as np
+    import soundfile as sf
+    sr = 16000
+    x, _ = sf.read(os.path.join(E.SCR, "aud", f"{ep}_16k.wav"), dtype="float32",
+                   start=int(a * sr), stop=int(b * sr))
+    hop = sr // 50
+    n = len(x) // hop
+    if n < 3:
+        return [(a, b)]
+    rms = np.sqrt((x[: n * hop].reshape(n, hop) ** 2).mean(1))
+    rms = np.convolve(rms, np.ones(3) / 3, mode="same")
+    loud = rms > 0.2 * np.percentile(rms, 95)
+    i = 0
+    while i < n:                      # drop speech runs shorter than 4 frames
+        if loud[i]:
+            j = i
+            while j < n and loud[j]:
+                j += 1
+            if j - i < 4:
+                loud[i:j] = False
+            i = j
+        else:
+            i += 1
+    idx = np.flatnonzero(loud)
+    if not len(idx):
+        return [(a, b)]
+    t = lambda i: a + i * hop / sr
+    start = max(a, t(idx[0]) - lead)
+    end = min(b, t(idx[-1] + 1) + tail)
+    pieces, p0 = [], start
+    gap_min = int(max_gap * 50)
+    run = 0
+    for i in range(idx[0], idx[-1] + 1):
+        if not loud[i]:
+            run += 1
+            continue
+        if run > gap_min:
+            g0, g1 = t(i - run), t(i)
+            pieces.append((p0, g0 + PAD))
+            p0 = g1 - PAD
+        run = 0
+    pieces.append((p0, end))
+    # A piece shorter than MIN_PIECE merges into the neighbour across the SMALLER pause,
+    # so the long pauses (the ones that drag) are still the ones that get cut.
+    ps = [list(p) for p in pieces]
+    while len(ps) > 1:
+        lens = [p[1] - p[0] for p in ps]
+        i = min(range(len(ps)), key=lambda k: lens[k])
+        if lens[i] >= MIN_PIECE:
+            break
+        gl = ps[i][0] - ps[i - 1][1] if i > 0 else 1e9
+        gr = ps[i + 1][0] - ps[i][1] if i + 1 < len(ps) else 1e9
+        j = i - 1 if gl <= gr else i + 1
+        lo, hi = min(i, j), max(i, j)
+        ps[lo:hi + 1] = [[ps[lo][0], ps[hi][1]]]
+    return [(float(x0), float(x1)) for x0, x1 in ps]
 
 # cams: [(from_t, framing)] in source time; the last entry at or before t wins.
 JOKES = {
@@ -85,20 +153,42 @@ def build(key):
 
     shots, dlg, caps, punches, stings = [], [], [], [], []
     T = 0.0
+    after_punch = False
     for seg in J["segs"]:
         a, b = seg[0], seg[1]
         tag = seg[2] if len(seg) > 2 else None
-        cuts = [a] + [t for t, _ in J["cams"] if a < t < b] + [b]
-        for x0, x1 in zip(cuts, cuts[1:]):
-            shots.append(dict(cam_at(x0), t=x0, d=x1 - x0, push=0.05))
-        dlg.append((a, b, T))
-        for s, e, w in words:
-            k1, k2 = round(s, 2), (round(s, 2), w)
-            if a - 0.05 <= s < b and k1 not in drop and k2 not in drop:
-                caps.append((s - a + T, min(e, b) - a + T, fix.get(k2, fix.get(k1, w))))
-        T += b - a
+        pieces = tighten(ep, a, b, max_gap=1.2 if after_punch else MAX_GAP,
+                         lead=0.45 if tag == "punch" else 0.12)
+        for k, (p0, p1) in enumerate(pieces):
+            # a camera switch within 0.3 s of a piece edge would leave a sliver: skip it
+            cuts = [p0] + [t for t, _ in J["cams"] if p0 + 0.3 < t < p1 - 0.3] + [p1]
+            for x0, x1 in zip(cuts, cuts[1:]):
+                # alternate a slight punch-in on each jump cut so it reads as intentional
+                shots.append(dict(cam_at(x0), t=x0, d=x1 - x0, push=0.04, zmul=1.12 if k % 2 else 1.0))
+            dlg.append((p0, p1, T))
+            T += p1 - p0
+        # Captions: a word whose ASR start lands inside a trimmed pause (whisper drifts on
+        # slow speech) snaps to the nearest kept piece instead of vanishing.
+        base = T - sum(q1 - q0 for q0, q1 in pieces)
+        for s_, e_, w in words:
+            k1, k2 = round(s_, 2), (round(s_, 2), w)
+            if not (a - 0.05 <= s_ < b) or k1 in drop or k2 in drop:
+                continue
+            off = base
+            best = None
+            for q0, q1 in pieces:
+                d = 0 if q0 - 0.05 <= s_ < q1 else min(abs(s_ - q0), abs(s_ - q1))
+                if best is None or d < best[0]:
+                    best = (d, q0, q1, off)
+                off += q1 - q0
+            d, q0, q1, off = best
+            if d > 0.8:
+                continue
+            st = min(max(s_, q0), q1 - 0.15)
+            caps.append((st - q0 + off, min(max(e_, st + 0.15), q1) - q0 + off, fix.get(k2, fix.get(k1, w))))
         if tag == "punch":
             punches.append(T)
+            after_punch = True
         elif tag == "sting":
             stings.append(T)
     shots.append(black(END))
@@ -108,7 +198,9 @@ def build(key):
     def texts(fmt):
         g = fmt_geom(fmt)
         out = [kicker(fmt, 0.0, end_t, f"DAVE'S DAD JOKES  ·  {J['label']}")]
-        out += captions(fmt, caps, max_words=3, max_chars=18)
+        out += [c for c in captions(fmt, caps, max_words=3, max_chars=18) if c.t0 < end_t]
+        for c in out:
+            c.t1 = min(c.t1, end_t) if c.t0 < end_t else c.t1
         out.append(image_card(fmt, end_t, dur, f"{REPO}/assets/media/podcast-cover.jpg", 0.3,
                               y=(g["card"] - 120) if fmt != "9x16" else 820, on="glow"))
         out.append(slam(fmt, end_t + 0.15, dur, "NEW DAD JOKE EVERY SATURDAY",
