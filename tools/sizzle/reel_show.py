@@ -222,8 +222,13 @@ def texts(fmt):
     g = fmt_geom(fmt)
     T = [kicker(fmt, 0.05, 0.7, "100.3 LEGENDS RADIO PRESENTS", where="card")]
     o0, o1 = marks["open"]
-    T += captions(fmt, [(s - 0.80 + o0, e - 0.80 + o0, w) for s, e, w in
-                        [(s, e, {"to": "2"}.get(w, w) if 4.8 < s < 5.3 else w) for s, e, w in w14(0.8, 8.95)]])
+    ow = [(s, e, {"to": "2"}.get(w, w) if 4.8 < s < 5.3 else w) for s, e, w in w14(0.8, 8.95)]
+    # ASR splits the station as "100" + ".3."; show it as one word
+    ow = [(s, ow[k + 1][1], "100.3.") if w == "100" and k + 1 < len(ow) and ow[k + 1][2] == ".3." else (s, e, w)
+          for k, (s, e, w) in enumerate(ow) if w != ".3."]
+    for c_ in captions(fmt, [(s - 0.80 + o0, e - 0.80 + o0, w) for s, e, w in ow]):
+        c_.t1 = min(c_.t1, o1)        # never under "THE VOICE." slam
+        T.append(c_)
     T.append(kicker(fmt, 0.75, o1, "SATURDAYS  ·  8:30 AM"))
     i0, i1 = marks["intro"]
     off = i0 - 9.05
