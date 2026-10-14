@@ -1,0 +1,90 @@
+{
+  "slug": "mann",
+  "name": "Susan Mann",
+  "honorific": "",
+  "credentials": "",
+  "headline": "Founder and president, Bright Minds Processing",
+  "affiliation": {
+    "name": "Bright Minds Processing",
+    "url": "https://brightmindsprocessing.org/executive-board.html"
+  },
+  "location": "Palm Beach Gardens, FL",
+  "episodes": [
+    "Episode 15"
+  ],
+  "on_the_show": "Susan Mann told Dave and Mike how teachers called her two children gifted while every test put them near the bottom, until an audiologist identified auditory and visual processing disorders. A retired San Francisco police officer, not a clinician, she now runs Bright Minds Processing so other families get answers sooner. She described the therapy as 16 weeks, one session a week with exercises five evenings a week at home, starting with a $30 screening, and the basketball program she is building in Palm Beach Gardens with former NBA player Dwayne McClain.",
+  "on_the_show_quote": "They can&rsquo;t be gifted if they can&rsquo;t do their schoolwork.",
+  "background": [
+    {
+      "text": "She is the founder and president of Bright Minds Processing, where she oversees the strategic direction and operations of the nonprofit.",
+      "source": "https://brightmindsprocessing.org/executive-board.html"
+    },
+    {
+      "text": "Bright Minds Processing Inc. is a Florida 501(c)(3) nonprofit that works to raise awareness of auditory and visual processing disorders and to bring solutions into schools.",
+      "source": "https://brightmindsprocessing.org/"
+    },
+    {
+      "text": "She started the organization after both of her children were diagnosed with auditory and visual processing disorders, a journey she tells in her own words on its site.",
+      "source": "https://brightmindsprocessing.org/about.html"
+    },
+    {
+      "text": "The organization runs the McClain Basketball Academy, led by former professional player Dwayne &ldquo;D-Train&rdquo; McClain, where students must keep their grades up to take part.",
+      "source": "https://brightmindsprocessing.org/mcclain-academy.html"
+    },
+    {
+      "text": "In April 2026 she appeared on CBS12&rsquo;s ARC Florida with Dwayne McClain ahead of the group&rsquo;s first fundraising event at the SoFi Center in Palm Beach Gardens.",
+      "source": "https://www.cbs12.com/news/arc-florida/bright-minds-processing-joins-arc-florida"
+    }
+  ],
+  "links": [
+    {
+      "type": "website",
+      "label": "Bright Minds Processing",
+      "url": "https://brightmindsprocessing.org/",
+      "verified_by": "website given on air (brightmindsprocessing.org); its Executive Board page names Sue Mann as Founder and President"
+    },
+    {
+      "type": "facebook",
+      "label": "Bright Minds Processing on Facebook",
+      "url": "https://www.facebook.com/Brightmindsprocessingorg-105193105229010/",
+      "verified_by": "linked from the footer of brightmindsprocessing.org"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "NAME: her own site and CBS12 write 'Sue Mann'; the show and EPISODES call her 'Susan Mann'. Per the brief, name is set to the site's 'Sue Mann'; switch to 'Susan Mann' if the page should match the episode list. Not a clinician; no credentials recorded and none appear on her site. The retired San Francisco police officer detail is from the transcript only (her site does not mention it), so it sits in on_the_show, not background. Her site gives no city; Palm Beach Gardens comes from the CBS12 dateline and her own on-air description of the program she is setting up there. CBS12 calls her CEO, her site calls her Founder and President; the site's title is used. A third-party podcast page (rss.com 501cTV) says the nonprofit began in 2020 but was not opened, so the founding year is left out. No Instagram found linked from her site. The site lists a phone (561-707-3357) but it was not given on air, so phone_on_air is blank. Her own site and CBS12 write \"Sue Mann\"; the show, Spotify and YouTube bill her as Susan Mann, which is used here.",
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/mann",
+    "source": "https://brightmindsprocessing.org/img/sue-mann-team.jpg",
+    "credit": "Bright Minds Processing"
+  },
+  "clips": [
+    {
+      "youtube_id": "InuZ-wKSbcY",
+      "title": "They were super smart, and everyone said they were gifted.",
+      "posted": "2026-09-13"
+    },
+    {
+      "youtube_id": "9H6IK9HKpEE",
+      "title": "It is like the movie Coach Carter.",
+      "posted": "2026-09-21"
+    },
+    {
+      "youtube_id": "exypbgVp-X4",
+      "title": "It is one in four children.",
+      "posted": "2026-09-23"
+    },
+    {
+      "youtube_id": "B1lB7orfOjk",
+      "title": "You go in once a week.",
+      "posted": "2026-09-25"
+    },
+    {
+      "youtube_id": "40tEm8Dlf6M",
+      "title": "She put everything on the line.",
+      "posted": "2026-10-01"
+    }
+  ],
+  "category": "community"
+}

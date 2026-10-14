@@ -1,0 +1,61 @@
+{
+  "slug": "saylor",
+  "name": "Thomas F. Saylor",
+  "honorific": "Dr.",
+  "credentials": "M.D.",
+  "headline": "Orthopaedic surgeon, shoulder, elbow, wrist and hand",
+  "affiliation": {
+    "name": "Orthopaedic Care Specialists",
+    "url": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+  },
+  "location": "North Palm Beach, FL",
+  "episodes": [
+    "Episode 2"
+  ],
+  "on_the_show": "Dr. Saylor joined Dave and Mike to talk about the surgical side of restoring hand function, from carpal tunnel release and tendon repairs to complex reconstruction. The conversation was a natural fit for First Rehabilitation and its certified hand therapy program, and it looked at how the surgeon and the hand therapist work together after an operation to bring a patient back to full use of the hand.",
+  "on_the_show_quote": "",
+  "background": [
+    {
+      "text": "He earned his medical degree at the University of Nevada School of Medicine in 1996, after a bachelor&rsquo;s degree in microbiology from Oregon State University.",
+      "source": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+    },
+    {
+      "text": "He completed his orthopaedic surgery residency at Southern Illinois University School of Medicine and a shoulder, elbow, hand and microsurgery fellowship at the University of Florida.",
+      "source": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+    },
+    {
+      "text": "He is certified by the American Board of Orthopaedic Surgery and holds a Certificate of Added Qualification in Surgery of the Hand.",
+      "source": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+    },
+    {
+      "text": "He has practiced surgery of the shoulder, elbow, wrist and hand in North Palm Beach since 2002.",
+      "source": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+    },
+    {
+      "text": "His practice profile lists him as a consulting physician for the Florida Marlins and St. Louis Cardinals baseball organizations and for University of Florida Athletics.",
+      "source": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+    },
+    {
+      "text": "He is an active member of the American Society for Surgery of the Hand and a Fellow of the American Academy of Orthopaedic Surgeons.",
+      "source": "https://orthocarefl.com/doctor/thomas-sayler-md/"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Dr. Saylor at Orthopaedic Care Specialists",
+      "url": "https://orthocarefl.com/doctor/thomas-sayler-md/",
+      "verified_by": "official Orthopaedic Care Specialists physician page, linked from the practice's own team list at orthocarefl.com"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "No transcript exists for Episode 2; on_the_show is from the EPISODES blurb only, so there is no quote. The show calls him Tom; his practice page writes Thomas F. Saylor, M.D. (the page URL slug misspells it 'sayler', but the page text reads Saylor). Identity confirmed: hand and upper extremity surgeon at Orthopaedic Care Specialists, 733 US Highway 1, North Palm Beach, the same building as First Rehabilitation. The practice profile appears to be an older CV with many '-present' dates (e.g. Chief of Staff, St. Mary's Medical and Trauma Center 2014-present; Clinical Assistant Professor, University of Vermont 2010-present; the baseball consulting roles 2006-present); I left the current-status academic and hospital titles out and phrased the team consulting roles as what the profile lists, not as current. No personal website or social accounts found; the practice site links none.",
+  "researched": "2026-10-14",
+  "category": "shoulder-elbow-hand",
+  "photo": {
+    "src": "assets/guests/saylor",
+    "source": "https://orthocarefl.com/wp-content/uploads/2024/01/THOMAS-F.-SAYLOR-M.D.jpg",
+    "credit": "Orthopaedic Care Specialists"
+  }
+}

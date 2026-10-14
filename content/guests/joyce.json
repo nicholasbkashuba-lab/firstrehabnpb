@@ -1,0 +1,65 @@
+{
+  "slug": "joyce",
+  "name": "Paul Joyce",
+  "honorific": "",
+  "credentials": "",
+  "headline": "Runs New Life HRT, peptide and hormone replacement training",
+  "affiliation": {
+    "name": "New Life HRT",
+    "url": null
+  },
+  "location": "",
+  "episodes": [
+    "Episode 11"
+  ],
+  "on_the_show": "Paul Joyce, a friend of Dave&rsquo;s for 22 years, explained what a peptide is, a short chain of amino acids, usually under 50, and where the GLP-1 medicines came from, a gut hormone the body already makes. He was candid about the muscle that weight loss can take with it and used himself as the example: he says he went from 209 pounds to 153 and took it too far. He also described having six research only peptide websites tested, with all six coming back with major flaws.",
+  "on_the_show_quote": "You definitely have to make sure you&rsquo;re getting enough protein.",
+  "background": [],
+  "links": [],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "No transcript exists for Episode 11 (media/ep11-clips and media/joyce-recut have no transcript files); on_the_show is from the build.py blurb only. Web research could not confirm anything about him personally, so background and links are empty on purpose. newlifehrt.com exists (NewLife Rejuvenation, 8409 N Military Trl, Palm Beach Gardens, Instagram @newliferejuvenation, Facebook Newlifehrt) and its domain matches the business named on air, but neither its home nor About page names Paul Joyce (the only person on its medical team page is Dr. Rolando Alvarez, MD), so I could not prove it is his business and did not link it. No credentials given, as instructed, and the site lists none for him. Note for the editor: the episode blurb says he began 'prescribing' Ozempic off label in 2017; I left that out of on_the_show because nothing I found shows him as a licensed prescriber and there is no transcript to check the wording against. His rotator cuff and personal treatment details were also left out. Searches run: 'Paul Joyce New Life HRT', 'New Life HRT peptides', 'Paul Joyce peptides NewLife Rejuvenation Palm Beach Gardens'. Firecrawl was unavailable (402).",
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/joyce",
+    "source": "file:e11.mp4@2.8s"
+  },
+  "clips": [
+    {
+      "youtube_id": "DIQIC7NtRR8",
+      "title": "Completely torn rotator cuff.",
+      "posted": "2026-09-01"
+    },
+    {
+      "youtube_id": "tAVkq56ILt4",
+      "title": "He had six different peptide sources tested.",
+      "posted": "2026-09-06"
+    },
+    {
+      "youtube_id": "ngTa-CpXfIM",
+      "title": "209 pounds when he started.",
+      "posted": "2026-09-07"
+    },
+    {
+      "youtube_id": "td7SqynqDig",
+      "title": "There&rsquo;s no reason to be obese anymore.",
+      "posted": "2026-09-08"
+    },
+    {
+      "youtube_id": "0IEZgT3u6Y4",
+      "title": "Technically in range, at the very bottom of it.",
+      "posted": "2026-09-09"
+    },
+    {
+      "youtube_id": "8quLnX0qrVE",
+      "title": "14% of the United States is now on a GLP-1 medication.",
+      "posted": "2026-09-10"
+    },
+    {
+      "youtube_id": "JqNEn60FhzY",
+      "title": "He asked his own shoulder surgeon if he should take BPC-157.",
+      "posted": "2026-09-11"
+    }
+  ],
+  "category": "nutrition-wellness"
+}

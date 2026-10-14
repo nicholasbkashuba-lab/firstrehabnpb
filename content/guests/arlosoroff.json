@@ -1,0 +1,60 @@
+{
+  "slug": "arlosoroff",
+  "name": "Chaim Arlosoroff",
+  "honorific": "Dr.",
+  "credentials": "MD",
+  "headline": "Orthopedic trauma surgeon, St. Mary&rsquo;s Medical Center",
+  "affiliation": {
+    "name": "Orthopedic Care Specialists",
+    "url": "https://www.palmbeachhealthnetwork.com/provider/1801835418"
+  },
+  "location": "North Palm Beach, FL",
+  "episodes": [
+    "Episode 14"
+  ],
+  "on_the_show": "Dr. Arlosoroff, on staff at St. Mary&rsquo;s Medical Center for 30 years, described the rise in e-bike injuries he sees in its Level 1 trauma center and ER. He puts Palm Beach County&rsquo;s increase at 130% from 2023 to 2024, says about 83% of injured riders were not wearing helmets and the average age is 13, and explains how modified governors let bikes built for 15 to 20 mph reach 50 or 60. He also told how his path to medicine began at 16, volunteering in an operating room during the 1973 Yom Kippur War.",
+  "on_the_show_quote": "Going 15 versus 50 is the difference between a scrape and a cracked skull.",
+  "background": [
+    {
+      "text": "He is an orthopedic surgeon with Orthopedic Care Specialists in North Palm Beach.",
+      "source": "https://www.palmbeachhealthnetwork.com/provider/1801835418"
+    },
+    {
+      "text": "His hospital affiliations are St. Mary&rsquo;s Medical Center and Palm Beach Gardens Medical Center.",
+      "source": "https://www.palmbeachhealthnetwork.com/provider/1801835418"
+    },
+    {
+      "text": "His medical training is listed at Hahnemann University Hospital.",
+      "source": "https://www.palmbeachhealthnetwork.com/provider/1801835418"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Dr. Arlosoroff at Palm Beach Health Network",
+      "url": "https://www.palmbeachhealthnetwork.com/provider/1801835418",
+      "verified_by": "Palm Beach Health Network (the Tenet network that includes St. Mary's Medical Center) provider directory; specialty, practice and St. Mary's affiliation match the episode"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "Identity confirmed by orthopedic surgery + St. Mary's Medical Center affiliation + North Palm Beach practice (the Episode 14 transcript header also names Orthopaedic Care Specialists). The network profile spells it 'Orthopedic Care Specialists'. The profile lists the practice at 733 US Highway 1, North Palm Beach, the same street address as First Rehabilitation, while the blurb says First Rehab is 'right across the street'; worth a glance before publishing anything about proximity. Phone numbers conflict between directories (561-840-1090 vs 561-840-0791 shown as fax), and none was given on air, so none recorded. Tennis and Duke facts are on-air only: a search snippet from the Duke Chronicle (Jan 2025) describes him as Duke's first tennis All-American, 1982 ACC Tournament MVP, and honored with a plaque on the Duke tennis 'wall of fame', but the article returned 403 and could not be opened, so none of it is in background. NOTE that snippet says 'wall of fame' while the EPISODES blurb says 'inducted into the Duke Tennis Hall of Fame'; unverified either way. Board certification and fellowship not verified from an acceptable source. Hahnemann is listed without saying whether it was medical school or residency, so the fact is worded neutrally.",
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/arlosoroff",
+    "source": "file:media/ep14-clips/clips/03-county-numbers.mp4@15.4s"
+  },
+  "clips": [
+    {
+      "youtube_id": "Kg1Y5JxyfJQ",
+      "title": "A full four year scholarship to Duke, sight unseen.",
+      "posted": "2026-09-16"
+    },
+    {
+      "youtube_id": "e0RwpgDNvBc",
+      "title": "The average age of these injuries is 13.",
+      "posted": "2026-10-03"
+    }
+  ],
+  "category": "orthopedic-surgery"
+}

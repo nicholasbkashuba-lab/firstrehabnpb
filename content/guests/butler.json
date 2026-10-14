@@ -1,0 +1,57 @@
+{
+  "slug": "butler",
+  "name": "Matthew Butler",
+  "honorific": "Dr.",
+  "credentials": "MD",
+  "headline": "Hand and upper extremity orthopedic surgeon",
+  "affiliation": {
+    "name": "HSS Florida",
+    "url": "https://www.hss.edu/profiles/doctors/matthew-butler"
+  },
+  "location": "West Palm Beach, FL",
+  "episodes": [
+    "Episode 16"
+  ],
+  "on_the_show": "Dr. Butler, who in his words takes care of people&rsquo;s arms, mostly the elbow, wrist and hand, explained why tennis elbow is so common in middle age even among people who never play tennis, and how he adds a collagen patch for the stubborn cases. He described the elbow injuries now showing up in young pitchers who play one sport year round, and a newly FDA cleared thumb joint replacement for basal thumb arthritis, built like a dual mobility hip, as an alternative to removing the trapezium bone.",
+  "on_the_show_quote": "That&rsquo;s how we all interact with our environment&hellip; something that people take for granted until it starts bothering them.",
+  "background": [
+    {
+      "text": "He is a board certified hand and upper extremity surgeon at HSS Florida, treating conditions of the hand, wrist, elbow and shoulder.",
+      "source": "https://www.hss.edu/profiles/doctors/matthew-butler"
+    },
+    {
+      "text": "He graduated magna cum laude in biochemistry from the University of Notre Dame and earned his medical degree at the University of Florida, where he was inducted into the Alpha Omega Alpha honor society.",
+      "source": "https://www.hss.edu/profiles/doctors/matthew-butler"
+    },
+    {
+      "text": "He completed his orthopedic surgery residency at Vanderbilt University and a fellowship in hand and microvascular surgery at the Indiana Hand to Shoulder Center.",
+      "source": "https://www.hss.edu/profiles/doctors/matthew-butler"
+    },
+    {
+      "text": "Before returning to Florida, he spent more than a decade in practice at a large upper extremity center in the Midwest.",
+      "source": "https://www.hss.edu/profiles/doctors/matthew-butler"
+    },
+    {
+      "text": "He is board certified by the American Board of Orthopedic Surgery with a certificate of added qualification in hand surgery.",
+      "source": "https://www.hss.edu/profiles/doctors/matthew-butler"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Dr. Butler at HSS",
+      "url": "https://www.hss.edu/profiles/doctors/matthew-butler",
+      "verified_by": "official HSS physician profile; its office phone 561.657.4670 matches the number he gave on air"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "561-657-4670",
+  "research_notes": "HSS writes 'Matthew A. Butler, MD'; he goes by Matt on the show. Identity confirmed by HSS Florida + hand and upper extremity specialty + the on-air phone number matching the HSS profile; the profile's structured data places the office in West Palm Beach. No Episode 16 transcript exists (the media/ep16-clips branch holds Goodwin's episode), so on_the_show is from the EPISODES blurb only. HSS's own copy calls the Indiana center 'renowned'; that word was dropped. No personal social accounts linked from the HSS profile (only HSS's institutional accounts).",
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/butler",
+    "source": "https://www.hss.edu/globalassets/images/profiles/matthew-butler-headshot",
+    "credit": "HSS Florida"
+  },
+  "category": "shoulder-elbow-hand"
+}

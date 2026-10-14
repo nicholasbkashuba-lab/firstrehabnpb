@@ -557,11 +557,19 @@
   // delivered. Fire the same window.va queue main.js uses so this shows up
   // next to call_tap/book_click instead of being invisible.
   function trackLeadSent(payload) {
-    if (typeof window.va !== 'function') return;
-    window.va('event', {
-      name: 'lead_submit',
-      data: { source: payload.topic === 'Contact form' ? 'contact-form' : 'intake', page: payload.page, intent: payload.intent }
-    });
+    var src = payload.topic === 'Contact form' ? 'contact-form' : 'intake';
+    if (typeof window.va === 'function') {
+      window.va('event', {
+        name: 'lead_submit',
+        data: { source: src, page: payload.page, intent: payload.intent }
+      });
+    }
+    // GA4 too (see main.js track()). generate_lead is GA4's recommended lead event,
+    // so it can be marked a key event in Admin without a custom definition.
+    // Source, page and intent only: no contact details, no message, no condition.
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', { lead_source: src, page_path: payload.page, lead_intent: payload.intent });
+    }
   }
 
   // Deliver a lead two ways at once — Supabase (permanent record) and email
@@ -660,6 +668,42 @@
     teaser.classList.remove('show');
   }
 
+  // ---------- keep the auto-invite off the appointment form ----------
+  // The five-field form now sits on 37 pages (see CLAUDE.md > Conversion), and on
+  // a phone the teaser card is pinned to the bottom of the viewport — exactly
+  // where that form's Send Request button sits. The assistant was covering the
+  // thing it exists to help with. So: while the form is on screen the auto-invite
+  // holds; the moment the reader scrolls it out of view they get offered the
+  // assistant as before. Nothing here touches the launcher bubble, which stays
+  // tappable throughout, or an invite the reader has already been shown.
+  var formOnScreen = false;
+  var autoDeferred = false;
+
+  function showAutoInvite() {
+    if (root.classList.contains('open')) return;
+    if (formOnScreen) { autoDeferred = true; return; }
+    autoDeferred = false;
+    // Only claim the once-per-session slot when the invite actually appears —
+    // setting it on a deferred run would silently burn it.
+    set(KEYS.auto, 1, 's');
+    if (window.matchMedia('(max-width: 640px)').matches) {
+      teaser.classList.add('show');
+      setTimeout(hideTeaser, 14000);
+    } else {
+      openPanel(true);
+    }
+  }
+
+  function watchApptForm() {
+    var form = document.getElementById('appt-form');
+    if (!form || typeof IntersectionObserver !== 'function') return;
+    new IntersectionObserver(function (entries) {
+      formOnScreen = entries[entries.length - 1].isIntersecting;
+      if (formOnScreen) hideTeaser();
+      else if (autoDeferred) showAutoInvite();
+    }, { threshold: 0 }).observe(form);
+  }
+
   // ---------- contact-page appointment form ----------
   function initApptForm() {
     var form = document.getElementById('appt-form');
@@ -693,7 +737,7 @@
         phone: phone.slice(0, 40),
         email: email.slice(0, 200) || null,
         preferred_time: time,
-        insurance: null,
+        insurance: (form.insurance && form.insurance.value) ? form.insurance.value.slice(0, 120) : null,
         page: location.pathname,
         user_agent: (navigator.userAgent || '').slice(0, 300)
       };
@@ -762,16 +806,8 @@
     if (!done && !alreadyAuto) {
       var isContact = /contact\.html$/.test(location.pathname);
       var delay = isContact ? CFG.contactPageDelay : CFG.autoOpenDelay;
-      setTimeout(function () {
-        if (root.classList.contains('open')) return;
-        set(KEYS.auto, 1, 's');
-        if (window.matchMedia('(max-width: 640px)').matches) {
-          teaser.classList.add('show');
-          setTimeout(hideTeaser, 14000);
-        } else {
-          openPanel(true);
-        }
-      }, delay);
+      watchApptForm();
+      setTimeout(showAutoInvite, delay);
     }
   }
 

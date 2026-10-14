@@ -27,8 +27,10 @@ double-posts.
 - **Every post in a set is a different angle.** Six restatements of one idea reads as spam to a
   human and adds nothing for Google. Different keyword, different city, different opening.
 - **The phone number appears in every post.**
-- **LEARN_MORE CTA** on `https://www.firstrehabnpb.com/blog/{post-slug}.html`. Until the post is
-  merged and live, point at the pillar service page instead and note it in the file.
+- **LEARN_MORE CTA** on `https://www.firstrehabnpb.com/blog/{post-slug}.html?utm_source=google&utm_medium=gbp&utm_campaign=post`.
+  Until the post is merged and live, point at the pillar service page instead (same UTM tail)
+  and note it in the file. The tail is what lets GA4 tell a post click from an organic visit;
+  the profile's own website link already carries `utm_campaign=profile`.
 - No medical advice, no promised outcomes, no invented statistics. Same rules as the blog.
 - Wellness pricing, memberships, class schedules, and non-patient gym access are unconfirmed.
   Route them to the front desk rather than answering them.
@@ -40,7 +42,7 @@ double-posts.
 
 source_post: carpal-tunnel-early-signs-palm-beach-gardens
 pillar: hand-therapy
-cta_url: https://www.firstrehabnpb.com/blog/carpal-tunnel-early-signs-palm-beach-gardens.html
+cta_url: https://www.firstrehabnpb.com/blog/carpal-tunnel-early-signs-palm-beach-gardens.html?utm_source=google&utm_medium=gbp&utm_campaign=post
 cta_type: LEARN_MORE
 
 ---

@@ -54,7 +54,7 @@ Produce a working note first. Do not start prose until this exists:
 
 ## Step 3 — Post A, the episode recap
 
-600 to 900 words. Slug `pain-2-power-ep{NN}-{guest-surname-or-topic}`. Tag `Pain 2 Power`.
+1,700+ words (Nick, 2026-10-14; see BLOG-PLAYBOOK.md "Length and structure"). Slug `pain-2-power-ep{NN}-{guest-surname-or-topic}`. Tag `Pain 2 Power`.
 
 Belongs to the show. Targets the guest's name, their specialty plus geography, and the episode's
 clinical question (see "Podcast and show terms" in SEO-KEYWORDS.md). The h1 names the one useful
@@ -65,7 +65,7 @@ Required: three to five quoted moments attributed by name. Links to `../podcast.
 
 ## Step 4 — Post B, the pillar post
 
-900 to 1,200 words. Slug is the target keyword in hyphen form. Tag is the pillar's display name
+1,700+ words, h2 sections with h3s, at least one captioned table. Slug is the target keyword in hyphen form. Tag is the pillar's display name
 (Physical Therapy, Occupational Therapy, Hand Therapy, Wellness).
 
 Belongs to the practice. Built from what Dave, Mike, and the guest said, but written as our
@@ -123,7 +123,7 @@ format and rules in `content/gbp/README.md`.
 
 Each post: 750 to 1,200 characters, text only, zero dashes anywhere except the phone number,
 `•` for bullets, one keyword and one city used naturally, the phone number, and a LEARN_MORE CTA
-pointing at `https://www.firstrehabnpb.com/blog/{post-b-slug}.html`. Every post in the set takes a
+pointing at `https://www.firstrehabnpb.com/blog/{post-b-slug}.html?utm_source=google&utm_medium=gbp&utm_campaign=post`. Every post in the set takes a
 different angle and a different keyword or city.
 
 Do not schedule anything yet.

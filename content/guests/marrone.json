@@ -1,0 +1,85 @@
+{
+  "slug": "marrone",
+  "name": "Elyse Marrone",
+  "honorific": "",
+  "credentials": "RD/LDN CGP",
+  "headline": "Registered dietitian, functional and integrative nutrition",
+  "affiliation": {
+    "name": "The Lifestyle Nutrition Institute",
+    "url": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp"
+  },
+  "location": "Jupiter, FL",
+  "episodes": [
+    "Episode 18"
+  ],
+  "on_the_show": "Elyse described herself as a functionally and integratively trained dietitian who looks at all seven pillars of a patient&rsquo;s lifestyle: food first, exercise, sleep, stress management, supplementation, hydration and community. She calls the goal the triple HD plan. After a breast cancer diagnosis, she said, the first place she looks is the gut, where she puts 80 to 90% of the immune system. She closed on sleep, recommending blue light blocker glasses from 8 o&rsquo;clock in the evening to help the body start producing melatonin.",
+  "on_the_show_quote": "I want to be healthy, healthy, healthy, dead.",
+  "background": [
+    {
+      "text": "She is a licensed and registered dietitian/nutritionist and a certified gluten-free practitioner (CGP).",
+      "source": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp"
+    },
+    {
+      "text": "She completed her undergraduate degree at the University of Massachusetts Amherst, and her clinical internship and graduate training at UMass Medical Center in Worcester through Framingham State University.",
+      "source": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp"
+    },
+    {
+      "text": "She has trained in functional medicine and nutritional biochemistry through the Institute for Functional Medicine (IFM) and the American Academy for Anti-Aging Medicine (A4M).",
+      "source": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp"
+    },
+    {
+      "text": "She is a member of the Dietitians in Functional Medicine practice group.",
+      "source": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp"
+    },
+    {
+      "text": "She lectures on nutrition topics at universities, medical offices and other venues for practitioners, students, patients and the public.",
+      "source": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp"
+    },
+    {
+      "text": "Her practice&rsquo;s site says she has more than twenty years of experience in the field of nutrition.",
+      "source": "https://thenutritioninstitute.org/"
+    }
+  ],
+  "links": [
+    {
+      "type": "website",
+      "label": "The Lifestyle Nutrition Institute",
+      "url": "https://thenutritioninstitute.org/",
+      "verified_by": "named on air by Elyse (thenutritioninstitute.org); site lists her as the dietitian and the same 561-252-7857 number she gave on air"
+    },
+    {
+      "type": "profile",
+      "label": "Meet Elyse Marrone, RD/LDN CGP",
+      "url": "https://thenutritioninstitute.org/meet-the-dietitian-nutritionist/elyse-marrone-rd-ldn-cgp",
+      "verified_by": "bio page on her own practice site"
+    },
+    {
+      "type": "instagram",
+      "label": "Elyse Marrone on Instagram",
+      "url": "https://www.instagram.com/elysemarrone",
+      "verified_by": "linked from the Social media block on thenutritioninstitute.org (home and bio pages)"
+    },
+    {
+      "type": "facebook",
+      "label": "The Lifestyle Nutrition Institute on Facebook",
+      "url": "https://www.facebook.com/LifestyleNutritionInstitute",
+      "verified_by": "linked from the Social media block on thenutritioninstitute.org (practice account)"
+    }
+  ],
+  "instagram_handle": "elysemarrone",
+  "phone_on_air": "561-252-7857",
+  "research_notes": "Identity confirmed: own site thenutritioninstitute.org was named on air, carries the same phone number given on air, and lists a Jupiter address (2055 Military Trail #304). Credentials as written on her own bio page: 'RD/LDN CGP' (no comma); the transcript header writes 'RD/LDN, CGP'. Same meaning, pick one style for display. Location conflict on her own site: the address and on-air statement say Jupiter, but the site's body copy and page titles still say 'private practice in Palm Beach Gardens'. Used Jupiter (address + what she said on air). On air she also said she works with chiropractor Dr. Paula Newmark at Back to Health in Jupiter; not verified on the web, left out of background. Instagram link on her site is written 'Elysemarrone' (Instagram handles are case-insensitive); the Instagram profile itself was not opened. The bio page is also served at the-lifestyle-nutrition-institute.ueniweb.com (same content); the canonical thenutritioninstitute.org URL returns 200 and carries the UMass text. Her site mentions peptide and exosome 'regenerative therapies'; deliberately left out as a clinical claim.",
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/marrone",
+    "source": "file:e18a.mp4@4.1s"
+  },
+  "clips": [
+    {
+      "youtube_id": "Pu3m46WoJJQ",
+      "title": "&ldquo;I want to be healthy, healthy, healthy, dead.&rdquo;",
+      "posted": "2026-10-12"
+    }
+  ],
+  "category": "nutrition-wellness"
+}
