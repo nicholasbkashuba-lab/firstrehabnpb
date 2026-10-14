@@ -3,16 +3,15 @@
 # gone out. A clip absent from this file is never posted.
 # Edit freely: reorder lines to change priority, delete a line to pull a clip.
 #
-# SEEDED IN NUMERIC ORDER. Reorder before the week starts: six weekday slots
-# and 10 clips means only the top six air, so order decides what runs.
+# Ordered by hand 2026-10-14. 10-go-vote should air before Election Day (Nov 3).
 
 01-23-emmys.mp4
-02-check-your-numbers.mp4
 03-centcom-at-first-rehab.mp4
-04-workout-first-thing.mp4
+02-check-your-numbers.mp4
 05-antenna-joke.mp4
-06-one-story.mp4
-07-not-time-priorities.mp4
 08-never-won-alone.mp4
-09-daves-workout.mp4
+06-one-story.mp4
 10-go-vote.mp4
+04-workout-first-thing.mp4
+07-not-time-priorities.mp4
+09-daves-workout.mp4
