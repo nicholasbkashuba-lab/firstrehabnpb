@@ -69,5 +69,17 @@
   "instagram_handle": "elysemarrone",
   "phone_on_air": "561-252-7857",
   "research_notes": "Identity confirmed: own site thenutritioninstitute.org was named on air, carries the same phone number given on air, and lists a Jupiter address (2055 Military Trail #304). Credentials as written on her own bio page: 'RD/LDN CGP' (no comma); the transcript header writes 'RD/LDN, CGP'. Same meaning, pick one style for display. Location conflict on her own site: the address and on-air statement say Jupiter, but the site's body copy and page titles still say 'private practice in Palm Beach Gardens'. Used Jupiter (address + what she said on air). On air she also said she works with chiropractor Dr. Paula Newmark at Back to Health in Jupiter; not verified on the web, left out of background. Instagram link on her site is written 'Elysemarrone' (Instagram handles are case-insensitive); the Instagram profile itself was not opened. The bio page is also served at the-lifestyle-nutrition-institute.ueniweb.com (same content); the canonical thenutritioninstitute.org URL returns 200 and carries the UMass text. Her site mentions peptide and exosome 'regenerative therapies'; deliberately left out as a clinical claim.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/marrone",
+    "source": "file:e18a.mp4@4.1s"
+  },
+  "clips": [
+    {
+      "youtube_id": "Pu3m46WoJJQ",
+      "title": "&ldquo;I want to be healthy, healthy, healthy, dead.&rdquo;",
+      "posted": "2026-10-12"
+    }
+  ],
+  "category": "nutrition-wellness"
 }

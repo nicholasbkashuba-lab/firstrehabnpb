@@ -542,24 +542,43 @@ Nick, 2026-10-14: "I ask for the same thing over and over." Two pieces carry it:
 - Dropbox listing and folder creation go through `tools/dropbox-put.py ls` / `mkdir` (REST
   API, same credential as `put`). The Dropbox connector is not needed.
 
-## Guest profiles — /guests.html (added 2026-10-14)
+## Guest profiles — /guests.html + /guests/<slug>.html (added 2026-10-14)
 Nick asked for a page on every guest: who they are, credentials, their story, what they said
-on air, and their sites and socials linked, and for it to be automated. Data is one JSON file
-per guest in `content/guests/<slug>.json`, the one deliberate exception to "build.py holds all
-content", so a routine can add a guest without editing Python. build.py renders them into
-/guests.html (one card per guest, anchor `#<slug>`), a "Meet the guest" link on each
-/podcast.html card, Person schema with sameAs on /guests.html, and `contributor` on each
-PodcastEpisode.
-- `.claude/skills/podcast-guest/SKILL.md` is how a guest is researched. Every background
-  fact carries the URL it was read on; links only when provably the guest's.
+on air, their sites and socials, their PICTURE and their CLIPS, laid out like the Executives
+Association members directory (Design-of-Man/PBExecs, /members/), and for it to be automated.
+Data is one JSON file per guest in `content/guests/<slug>.json`, the one deliberate exception
+to "build.py holds all content", so a routine can add a guest without editing Python.
+build.py renders:
+- `/guests.html`: directory. Search box, specialty filter chips with counts (GUEST_CATEGORIES),
+  portrait cards with a Profile / Listen / Watch / Website action bar (assets/js/guests.js).
+- `/guests/<slug>.html`: profile. On the show (quote + summary), Background (every fact
+  sourced), the full episode video, the clips (vertical Shorts, click to load, six then
+  "Show all"), Spotify players, recap link, an aside card with photo, quick facts and links,
+  previous/next guest. ProfilePage + Person schema (image, sameAs, worksFor).
+- A "Meet the guest" link on each /podcast.html card, and `contributor` on each PodcastEpisode.
+
+**Guest photos are stills from OUR OWN footage**, made by `tools/guest-photo.py` into
+`assets/guests/<slug>-{160,480}.{webp,jpg}`. This is the second photo source beside the
+PHOTOS registry, and the reason is ownership: a headshot off a guest's practice site belongs
+to their photographer. Never use one, never generate one. No clean frame means initials, as
+the Execs directory does. Staff guests (Kayla, Logan) use their PHOTOS team portrait. The five
+Episode 2 to 7 guests predate the cameras' footage being kept, so they show initials.
+
+**Clips** are the YouTube Shorts we posted from each guest's episode, in the JSON's `clips`.
+70 were backfilled 2026-10-14 from Post Bridge (`list_post_results`, the YouTube result id);
+from now on `guest-sync.py clips --write` adds new ones from the channel feed by matching the
+guest's name (or `also_known_as`) in the Short's description. The feed holds 15 uploads, so
+the watcher runs it every fire. Clips naming no guest or several (Dave and Mike, the PT Month
+compilation) are skipped on purpose.
+
+- `.claude/skills/podcast-guest/SKILL.md` is how a guest is researched, photographed and clipped.
 - `python3 tools/guest-sync.py check` lists episodes with no guest file, `validate` refuses
-  an unsourced fact, an unverified link, a directory-only source or a dash, `stale --days 180`
-  lists profiles due a re-check.
-- The episode watcher routine's JOB 3 runs both and adds missing guests on its own
-  (`docs/routines/episode-watcher.md`).
+  an unsourced fact, an unverified link, a directory-only source, a dash, a missing photo
+  file or a bad clip id, `stale --days 180` lists profiles due a re-check, `clips` syncs Shorts.
+- The episode watcher routine's JOB 3 runs all of it on its own (`docs/routines/episode-watcher.md`).
 - Why it exists despite the 2026-09-09 data (guest names drew ~10 impressions in 90 days):
   the value is guests linking BACK to their profile and the named surgeon associations, not
-  ranking for their names. Ask guests to link to `guests.html#<slug>`.
+  ranking for their names. Ask guests to link to `guests/<slug>.html`.
 
 ## Keeping the site's newest episode current — AUTOMATED
 Nick, 2026-09-20: "watch for the newest episode and post it onto our website every

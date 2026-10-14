@@ -13,6 +13,8 @@ guest is missing and whether a file is fit to publish.
   python3 tools/guest-sync.py validate    # every file well formed and sourced; exit 1 if not
   python3 tools/guest-sync.py validate content/guests/butler.json
   python3 tools/guest-sync.py stale --days 180   # files whose research is older than that
+  python3 tools/guest-sync.py clips           # new Shorts on the channel, matched to guests
+  python3 tools/guest-sync.py clips --write   # ...and add them to each guest's "clips"
 
 WHAT THIS DELIBERATELY DOES NOT DO: research a guest. That is web work and
 judgment (is this Instagram account really theirs?), done by a session
@@ -42,10 +44,13 @@ LINK_TYPES = {"website", "profile", "instagram", "facebook", "linkedin", "x",
 # Directories and aggregators are never a fact's only source (skill, "Sources").
 WEAK_SOURCES = ("healthgrades.", "vitals.com", "webmd.", "zoominfo.", "doximity.",
                 "sharecare.", "npiprofile.", "npino.", "spokeo.", "whitepages.")
+CATEGORIES = {"orthopedic-surgery", "shoulder-elbow-hand", "other-specialists",
+              "nutrition-wellness", "community", "our-team"}   # GUEST_CATEGORIES in build.py
 DASHES = ("—", "–", "&mdash;", "&ndash;")
 REQUIRED = ["slug", "name", "honorific", "credentials", "headline", "affiliation",
             "location", "episodes", "on_the_show", "on_the_show_quote", "background",
-            "links", "instagram_handle", "phone_on_air", "research_notes", "researched"]
+            "links", "instagram_handle", "phone_on_air", "research_notes", "researched",
+            "category"]
 
 
 def episodes():
@@ -153,6 +158,24 @@ def validate_one(path, g, labels):
         if any(d in t for d in DASHES):
             errs.append(f"dash in prose: {t[:60]!r}")
             break
+    if g["category"] not in CATEGORIES:
+        errs.append(f"category {g['category']!r} not one of {sorted(CATEGORIES)}")
+    ph = g.get("photo")
+    if ph:
+        if ph.get("src"):
+            for size in (160, 480):
+                for ext in ("webp", "jpg"):
+                    if not os.path.exists(os.path.join(ROOT, f"{ph['src']}-{size}.{ext}")):
+                        errs.append(f"photo file {ph['src']}-{size}.{ext} missing (tools/guest-photo.py set)")
+        elif not ph.get("registry"):
+            errs.append("photo needs src (tools/guest-photo.py) or registry (a PHOTOS key)")
+        if not ph.get("source"):
+            errs.append("photo has no source: which of our videos is it from?")
+    for i, c in enumerate(g.get("clips", [])):
+        if not re.fullmatch(r"[A-Za-z0-9_-]{11}", c.get("youtube_id", "")):
+            errs.append(f"clips[{i}] youtube_id is not an 11 character id")
+        if not c.get("title"):
+            errs.append(f"clips[{i}] has no title")
     try:
         dt.date.fromisoformat(g["researched"])
     except ValueError:
@@ -188,6 +211,70 @@ def cmd_stale(args):
     return 1 if old else 0
 
 
+FEED = "https://www.youtube.com/feeds/videos.xml?channel_id=UCFzCl3RvdVahfIjKZ1SfRvQ"
+
+
+def _site_text(t):
+    """Feed text -> the entity style the site uses; dashes become commas."""
+    import html
+    t = html.escape(t, quote=False)
+    t = re.sub(r"\s*[\u2014\u2013]\s*|\s+-\s+", ", ", t)
+    t = re.sub(r"(\w)'(\w)", "\\1&rsquo;\\2", t)
+    t = re.sub(r'"([^"]*)"', "&ldquo;\\1&rdquo;", t)
+    return t.replace("'", "&rsquo;")
+
+
+def cmd_clips(args):
+    """Shorts in the channel feed (newest 15 uploads) -> the guest each one names.
+
+    Clip descriptions name the guest ("Dr. Don Goodwin on..."), so a Short is
+    matched on the guest's full name, their surname, or an also_known_as entry
+    ("Captain Kerry"). A Short naming no guest (Dave and Mike only) or more
+    than one is left alone and listed, never guessed."""
+    import urllib.request
+    import xml.etree.ElementTree as ET
+    ns = {"a": "http://www.w3.org/2005/Atom", "m": "http://search.yahoo.com/mrss/",
+          "yt": "http://www.youtube.com/xml/schemas/2015"}
+    with urllib.request.urlopen(FEED, timeout=30) as r:
+        root = ET.fromstring(r.read())
+    files = load()
+    have = {c["youtube_id"] for g in files.values() for c in g.get("clips", [])}
+    added, skipped = [], []
+    for e in root.findall("a:entry", ns):
+        if "/shorts/" not in e.find("a:link", ns).get("href", ""):
+            continue
+        vid = e.find("yt:videoId", ns).text
+        if vid in have:
+            continue
+        title = e.find("a:title", ns).text or ""
+        desc = e.find("m:group/m:description", ns).text or ""
+        text = f"{title}\n{desc}"
+        hits = []
+        for path, g in files.items():
+            names = [g["name"], g["name"].split()[-1]] + g.get("also_known_as", [])
+            if any(re.search(rf"\b{re.escape(n)}\b", text) for n in names):
+                hits.append(path)
+        when = e.find("a:published", ns).text[:10]
+        if len(hits) != 1:
+            skipped.append((vid, title, len(hits)))
+            continue
+        g = files[hits[0]]
+        g.setdefault("clips", []).append({"youtube_id": vid, "title": _site_text(title.strip()), "posted": when})
+        g["clips"].sort(key=lambda c: c.get("posted", ""))
+        added.append((g["slug"], vid, title))
+        if args.write:
+            with open(hits[0], "w", encoding="utf-8") as f:
+                json.dump(g, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+    for s, v, t in added:
+        print(f"{'ADDED' if args.write else 'NEW'}  {s:12} {v}  {t}")
+    for v, t, n in skipped:
+        print(f"SKIP  {v}  ({'no guest named' if n == 0 else f'{n} guests named'})  {t}")
+    if not added:
+        print("No new guest clips in the feed.")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -195,10 +282,13 @@ def main():
     c.add_argument("--json", action="store_true")
     v = sub.add_parser("validate", help="every guest file well formed and sourced")
     v.add_argument("paths", nargs="*")
+    k = sub.add_parser("clips", help="new Shorts in the channel feed, matched to guests")
+    k.add_argument("--write", action="store_true")
     s = sub.add_parser("stale", help="guest files researched more than --days ago")
     s.add_argument("--days", type=int, default=180)
     args = ap.parse_args()
-    return {"check": cmd_check, "validate": cmd_validate, "stale": cmd_stale}[args.cmd](args)
+    return {"check": cmd_check, "validate": cmd_validate, "stale": cmd_stale,
+            "clips": cmd_clips}[args.cmd](args)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
   "slug": "dorsey",
   "name": "Kayla Dorsey",
   "honorific": "",
-  "credentials": "DPT",
+  "credentials": "PT, DPT",
   "headline": "Physical therapist at First Rehabilitation of North Palm Beach",
   "affiliation": {
     "name": "First Rehabilitation of North Palm Beach",
@@ -35,5 +35,10 @@
   "instagram_handle": "",
   "phone_on_air": "",
   "research_notes": "First Rehabilitation staff; no web research by instruction. Built only from the Episode 4 blurb in EPISODES and the TEAM entry in build.py ('Kayla Dorsey, DPT', Physical Therapist). No transcript exists for Episode 4, so no quote. 'Opened Episode 4' is inferred from the blurb's order ('Then Dr. Murray Goldberg joins'); soften to 'shared Episode 4' if unsure. Location is the clinic's city.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "category": "our-team",
+  "photo": {
+    "registry": "team-kayla",
+    "source": "First Rehabilitation team portrait"
+  }
 }

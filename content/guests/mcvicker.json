@@ -65,5 +65,42 @@
   "instagram_handle": "zmcvickermd",
   "phone_on_air": "561-844-5255",
   "research_notes": "Identity confirmed: Paley Institute sports medicine surgeon in West Palm Beach and Jupiter with a hip focus, Kerlan-Jobe fellowship, matching the episode. His own practice page writes his name Zachary; he goes by Zach on air. On air he said he joined Paley from Dr. Frank Cook's former practice in 2022 ('I believe'); the Paley page says he has served the Jupiter community since 2020, which is consistent but I left the join date out of background. The Episode 10 blurb says he is board certified by the American Board of Orthopaedic Surgery, but the Paley page does not state board certification, so I did not include it as a web fact. Paley's page bio also carries a stray 'Oxbridge Academy team' phrase that reads as a page error; ignored. The Paley profile's social block also includes a YouTube playlist that is not clearly his alone; omitted. Phone 561-844-5255 is the Paley West Palm Beach number, given on air several times.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/mcvicker",
+    "source": "youtube:wdcHPvySKHk/maxres3"
+  },
+  "clips": [
+    {
+      "youtube_id": "KmOoOuHGdTE",
+      "title": "&ldquo;Instead of being round, it&rsquo;s more like an oval peg in a round hole.&rdquo;",
+      "posted": "2026-08-24"
+    },
+    {
+      "youtube_id": "XascVBuTDVc",
+      "title": "&ldquo;The labrum, think of it like a gasket.&rdquo;",
+      "posted": "2026-08-25"
+    },
+    {
+      "youtube_id": "ho8pk6o3qpg",
+      "title": "Hip dysplasia &ldquo;ends up in arthritis 100 percent of the time.&rdquo;",
+      "posted": "2026-08-26"
+    },
+    {
+      "youtube_id": "Bn1OOzXYLuM",
+      "title": "&ldquo;Nobody can treat this, your career&rsquo;s over.&rdquo; Then they went on to play college sports.",
+      "posted": "2026-08-27"
+    },
+    {
+      "youtube_id": "2EjMREmCMDA",
+      "title": "Check your belt buckle.",
+      "posted": "2026-08-28"
+    },
+    {
+      "youtube_id": "iYQ6iJSCzmw",
+      "title": "Why surgeons wait as long as they can before a hip replacement.",
+      "posted": "2026-08-29"
+    }
+  ],
+  "category": "orthopedic-surgery"
 }

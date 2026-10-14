@@ -41,7 +41,8 @@
       "WebSearch",
       "WebFetch",
       "Write(content/guests/**)",
-      "Edit(content/guests/**)"
+      "Edit(content/guests/**)",
+      "Bash(python3 tools/guest-photo.py:*)"
     ],
     "ask": [
       "mcp__post_bridge_-_social_media_scheduler__delete_post",

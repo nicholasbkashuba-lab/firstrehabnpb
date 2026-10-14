@@ -57,5 +57,42 @@
   "instagram_handle": "",
   "phone_on_air": "",
   "research_notes": "Identity confirmed: PBOI orthopedic surgeon in Palm Beach Gardens and Jupiter, practicing in Palm Beach County since 1994, Duke undergraduate, hip and knee replacement, all matching the episode. No transcript exists for Episode 12; on_the_show is from the build.py blurb only, so the attribution of the infection figures to him is from blurb context. The blurb's claim that he played Division I baseball at Duke is not on the PBOI page and was not verified; left out. The $1,162 Medicare figure is in the blurb but it is unclear who said it, so it was left out of on_the_show. The practice writes its name both 'Orthopaedic' (page titles) and 'Orthopedic' (his profile header); used 'Orthopaedic'. No personal social accounts found; instagram_handle left empty because the only verified Instagram is the practice account (palmbeachorthopaedicinstitute), which could be used as a collaborator if Nick wants the practice tagged. Phone numbers vary across directories; none was given in the blurb, so phone_on_air is empty.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/leighton",
+    "source": "file:media/ep12-leighton-clips/best_operation_in_orthopedics.mp4@1s"
+  },
+  "clips": [
+    {
+      "youtube_id": "fTnLBvVTuNk",
+      "title": "He&rsquo;d never had a surgical infection.",
+      "posted": "2026-09-02"
+    },
+    {
+      "youtube_id": "Wyp4ojFZH7U",
+      "title": "Mike guessed $136,014.",
+      "posted": "2026-09-03"
+    },
+    {
+      "youtube_id": "qllAOYYgTG0",
+      "title": "A bigger belly changes which hip surgery you&rsquo;re a candidate for.",
+      "posted": "2026-09-04"
+    },
+    {
+      "youtube_id": "iiNE7jdhEb0",
+      "title": "A week in the hospital.",
+      "posted": "2026-09-06"
+    },
+    {
+      "youtube_id": "alOosacoOSo",
+      "title": "Vaping before surgery?",
+      "posted": "2026-09-07"
+    },
+    {
+      "youtube_id": "QtFBlnDyo7U",
+      "title": "Losing 20 pounds can open up a surgery option you didn&rsquo;t have before.",
+      "posted": "2026-09-08"
+    }
+  ],
+  "category": "orthopedic-surgery"
 }

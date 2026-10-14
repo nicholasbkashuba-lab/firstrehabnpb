@@ -3127,8 +3127,22 @@ def guest_display(g):
     name = f'{g["honorific"]} {g["name"]}'.strip()
     return f'{name}, {g["credentials"]}' if g.get("credentials") else name
 
+GUEST_CATEGORIES = [   # (key, chip label) — the order the directory's filter chips show
+    ("orthopedic-surgery", "Orthopedic Surgery"),
+    ("shoulder-elbow-hand", "Shoulder, Elbow &amp; Hand"),
+    ("other-specialists", "Other Specialists"),
+    ("nutrition-wellness", "Nutrition &amp; Wellness"),
+    ("community", "Community Voices"),
+    ("our-team", "Our Therapists"),
+]
+GUEST_CAT_LABEL = dict(GUEST_CATEGORIES)
+
+def guest_url(g):
+    """Site-relative path of a guest's profile page."""
+    return f"guests/{g['slug']}.html"
+
 def guest_id(g):
-    return f"https://www.firstrehabnpb.com/guests.html#{g['slug']}"
+    return f"https://www.firstrehabnpb.com/{guest_url(g)}#person"
 
 def _podcast_schema():
     """PodcastSeries + PodcastEpisode JSON-LD from the EPISODES list."""
@@ -3191,7 +3205,7 @@ def build_podcast():
             recap = (f'<p class="pod-recap"><a href="blog/{slug}.html">'
                      f'Read the recap: {BLOG_POSTS[slug]["title"]}</a></p>')
         for g in EPISODE_GUESTS.get(num, []):
-            recap += (f'<p class="pod-recap"><a href="guests.html#{g["slug"]}">'
+            recap += (f'<p class="pod-recap"><a href="{guest_url(g)}">'
                       f'Meet the guest: {guest_display(g)}</a></p>')
         return f'''<div class="pod-card reveal">
           <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3>{_paras(desc)}{recap}</div>
@@ -5959,126 +5973,288 @@ GUEST_LINK_LABELS = {
     "facebook": "Facebook", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube",
     "tiktok": "TikTok", "podcast": "Podcast", "book": "Book", "other": "Link",
 }
+_GICON = {   # 16px line icons for the directory card action bar
+    "user": '<path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/>',
+    "headphones": '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="5" height="7" rx="1.5"/><rect x="16" y="14" width="5" height="7" rx="1.5"/>',
+    "play": '<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z"/>',
+    "globe": '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    "search": '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+}
 
-def _guest_card(g):
-    from urllib.parse import urlparse
-    slug, display = g["slug"], guest_display(g)
-    eps = sorted(g["episodes"], key=lambda e: -int(e.split()[-1]))
-    pills = "".join(f'<span class="pod-num">{e}</span>' for e in eps)
-    aff = g.get("affiliation") or {}
-    role = [g["headline"]]
-    if aff.get("name"):
-        role.append(f'<a href="{aff["url"]}" target="_blank" rel="noopener">{aff["name"]}</a>'
-                    if aff.get("url") else aff["name"])
-    if g.get("location"):
-        role.append(g["location"])
-    quote = (f'<blockquote class="guest-quote">&ldquo;{g["on_the_show_quote"]}&rdquo;</blockquote>'
-             if g.get("on_the_show_quote") else "")
-    facts = "".join(f'<li>{b["text"]}</li>' for b in g.get("background", []))
-    facts_html = (f'<h3 class="guest-label">Background</h3><ul class="guest-facts">{facts}</ul>'
-                  if facts else "")
-    links = "".join(
-        f'<a class="guest-link" href="{l["url"]}" target="_blank" rel="noopener">'
-        f'{l.get("label") or GUEST_LINK_LABELS.get(l["type"], "Link")}</a>'
-        for l in g.get("links", []))
-    links_html = f'<div class="guest-links" aria-label="{display} online">{links}</div>' if links else ""
-    # Every episode they were on: Spotify, YouTube, and the recap post when one exists.
-    actions = []
+def _gicon(name, size=16):
+    return (f'<svg class="gi" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+            f'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{_GICON[name]}</svg>')
+
+def _guest_initials(g):
+    parts = [w for w in g["name"].replace(".", "").split() if w[:1].isalpha()]
+    return (parts[0][0] + parts[-1][0]).upper() if len(parts) > 1 else parts[0][:2].upper()
+
+def guest_portrait(g, depth=0, size=160, cls="gp"):
+    """Square headshot from our own footage, a team portrait for staff, or initials.
+
+    Never a photo from the guest's own website: those belong to their
+    photographer. tools/guest-photo.py makes the stills (see its docstring)."""
+    p = "../" * depth
+    ph = g.get("photo") or {}
+    alt = f"{guest_display(g)} on Pain 2 Power"
+    if ph.get("registry"):
+        return f'<span class="{cls}">{photo(ph["registry"], depth=depth, sizes=f"{size}px", ratio="1/1", alt=alt)}</span>'
+    if ph.get("src"):
+        src = ph["src"]
+        big = size > 160
+        w = 480 if big else 160
+        return (f'<picture class="{cls}"><source type="image/webp" srcset="{p}{src}-160.webp 160w, {p}{src}-480.webp 480w" sizes="{size}px">'
+                f'<img src="{p}{src}-{w}.jpg" srcset="{p}{src}-160.jpg 160w, {p}{src}-480.jpg 480w" sizes="{size}px" '
+                f'width="{w}" height="{w}" alt="{alt}" loading="lazy" decoding="async"></picture>')
+    return f'<span class="{cls} gp-mono" role="img" aria-label="{guest_display(g)}">{_guest_initials(g)}</span>'
+
+def _guest_episode_links(g, depth=0):
+    """[(label, spotify_url, video_id, recap_slug)] for every episode they were on, newest first."""
     by_label = {e[0]: e for e in EPISODES}
-    for e in eps:
+    out = []
+    for e in sorted(g["episodes"], key=lambda e: -int(e.split()[-1])):
         ep = by_label.get(e)
-        if ep and "open.spotify.com/episode/" in ep[3]:
-            actions.append(f'<a class="btn btn-coral" href="{ep[3]}" target="_blank" rel="noopener">Listen to {e} <span class="arr">&rarr;</span></a>')
+        spot = ep[3] if ep and "open.spotify.com/episode/" in ep[3] else ""
         vid = next((v for v in VIDEOS if v["ep"] == e), None)
-        if vid:
-            actions.append(f'<a class="btn btn-ink" href="https://www.youtube.com/watch?v={vid["id"]}" target="_blank" rel="noopener">Watch on YouTube</a>')
         post = EPISODE_POSTS.get(e)
-        if post and post in BLOG_POSTS:
-            actions.append(f'<a class="btn btn-ink" href="blog/{post}.html">Read the recap</a>')
-    # Where the background came from, by site, so a reader can check it.
-    hosts = []
-    for b in g.get("background", []):
-        h = urlparse(b["source"]).netloc.replace("www.", "")
-        if h and (h, b["source"]) not in hosts and h not in [x for x, _ in hosts]:
-            hosts.append((h, b["source"]))
-    sources = (' '.join(f'<a href="{u}" target="_blank" rel="noopener">{h}</a>' for h, u in hosts))
-    sources_html = f'<p class="guest-sources">Background sources: {sources}</p>' if sources else ""
-    return f'''<article class="guest-card reveal" id="{slug}">
-  <div class="guest-eps">{pills}</div>
-  <h2>{display}</h2>
-  <p class="guest-role">{" &middot; ".join(role)}</p>
-  <h3 class="guest-label">On the show</h3>
-  {quote}<p>{g["on_the_show"]}</p>
-  {facts_html}
-  {links_html}
-  <div class="guest-actions">{"".join(actions)}</div>
-  {sources_html}
-</article>'''
+        out.append((e, spot, vid, post if post in BLOG_POSTS else ""))
+    return out
 
-def _guests_schema():
+def _guest_meta_line(g):
+    bits = [", ".join(g["episodes"])]
+    n = len(g.get("clips", []))
+    if n:
+        bits.append(f"{n} clip{'s' if n != 1 else ''}")
+    if g.get("location"):
+        bits.append(g["location"])
+    return " &middot; ".join(bits)
+
+def _guest_haystack(g):
+    aff = (g.get("affiliation") or {}).get("name", "")
+    words = [g["name"], g["credentials"], g["headline"], aff, g.get("location", ""),
+             _faq_plain(GUEST_CAT_LABEL[g["category"]])] + g["episodes"]
+    return _faq_plain(" ".join(words)).lower().replace('"', "")
+
+def _guest_dir_card(g):
+    url = guest_url(g)
+    eps = _guest_episode_links(g)
+    acts = [f'<a class="gact" href="{url}">{_gicon("user")}<span>Profile</span></a>']
+    spot = next((s for _, s, _, _ in eps if s), "")
+    if spot:
+        acts.append(f'<a class="gact" href="{spot}" target="_blank" rel="noopener" aria-label="Listen to {guest_display(g)} on Spotify">{_gicon("headphones")}<span>Listen</span></a>')
+    vid = next((v for _, _, v, _ in eps if v), None)
+    if vid:
+        acts.append(f'<a class="gact" href="https://www.youtube.com/watch?v={vid["id"]}" target="_blank" rel="noopener" aria-label="Watch {guest_display(g)} on YouTube">{_gicon("play")}<span>Watch</span></a>')
+    site = next((l for l in g.get("links", []) if l["type"] in ("website", "profile") and "firstrehabnpb.com" not in l["url"]), None)
+    if site:
+        acts.append(f'<a class="gact" href="{site["url"]}" target="_blank" rel="noopener" aria-label="Website: {site.get("label") or guest_display(g)}">{_gicon("globe")}<span>Website</span></a>')
+    aff = (g.get("affiliation") or {}).get("name", "")
+    return (f'<li class="gcard" data-guest data-cat="{g["category"]}" data-hay="{_guest_haystack(g)}">'
+            f'<div class="gcard-top">{guest_portrait(g)}<div class="gcard-tx">'
+            f'<p class="gcard-cat">{GUEST_CAT_LABEL[g["category"]]}</p>'
+            f'<h3 class="gcard-name"><a href="{url}">{guest_display(g)}</a></h3>'
+            f'<p class="gcard-role">{g["headline"]}</p>'
+            + (f'<p class="gcard-aff">{aff}</p>' if aff and aff not in g["headline"] else "")
+            + f'<p class="gcard-meta">{_guest_meta_line(g)}</p></div></div>'
+            f'<div class="gcard-act">{"".join(acts)}</div></li>')
+
+def _person_node(g, depth=0):
+    p = {"@type": "Person", "@id": guest_id(g), "name": _faq_plain(g["name"]),
+         "jobTitle": _faq_plain(g["headline"]), "description": _faq_plain(g["on_the_show"]),
+         "url": f"https://www.firstrehabnpb.com/{guest_url(g)}"}
+    if g["honorific"] == "Dr.":
+        p["honorificPrefix"] = "Dr."
+    if g.get("credentials"):
+        p["honorificSuffix"] = g["credentials"]
+    ph = g.get("photo") or {}
+    if ph.get("src"):
+        p["image"] = f"https://www.firstrehabnpb.com/{ph['src']}-480.jpg"
+    aff = g.get("affiliation") or {}
+    if aff.get("name"):
+        org = {"@type": "Organization", "name": _faq_plain(aff["name"])}
+        if aff.get("url"):
+            org["url"] = aff["url"]
+        p["worksFor"] = org
+    same = [l["url"] for l in g.get("links", []) if "firstrehabnpb.com" not in l["url"]]
+    if same:
+        p["sameAs"] = same
+    return p
+
+def build_guests():
+    """/guests.html directory + /guests/<slug>.html profile per guest.
+
+    Modelled on the Executives Association members directory Nick pointed at:
+    search box, filter chips with counts, portrait cards with an action bar,
+    and a full profile page behind each card."""
     import json as _json
-    graph = []
-    for g in GUESTS:
-        p = {"@type": "Person", "@id": guest_id(g), "name": g["name"],
-             "jobTitle": _faq_plain(g["headline"]), "description": _faq_plain(g["on_the_show"]),
-             "url": guest_id(g)}
-        if g["honorific"] == "Dr.":
-            p["honorificPrefix"] = "Dr."
-        if g.get("credentials"):
-            p["honorificSuffix"] = g["credentials"]
-        aff = g.get("affiliation") or {}
-        if aff.get("name"):
-            org = {"@type": "Organization", "name": _faq_plain(aff["name"])}
-            if aff.get("url"):
-                org["url"] = aff["url"]
-            p["worksFor"] = org
-        same = [l["url"] for l in g.get("links", []) if "firstrehabnpb.com" not in l["url"]]
-        if same:
-            p["sameAs"] = same
-        graph.append(p)
+    counts = {k: sum(1 for g in GUESTS if g["category"] == k) for k, _ in GUEST_CATEGORIES}
+    chips = [f'<button type="button" class="gchip" data-cat="all" aria-pressed="true">All <span>{len(GUESTS)}</span></button>']
+    chips += [f'<button type="button" class="gchip" data-cat="{k}" aria-pressed="false">{lbl} <span>{counts[k]}</span></button>'
+              for k, lbl in GUEST_CATEGORIES if counts[k]]
+    cards = "".join(_guest_dir_card(g) for g in GUESTS)
+    crumbs = '<div class="crumbs"><a href="/">Home</a> / <a href="podcast.html">Podcast</a> / Guests</div>'
+    body = f"""
+<main>
+{page_hero("Pain 2 Power Guests", "Meet the <em class='accent'>Guests</em>",
+  f"{len(GUESTS)} surgeons, specialists and people with a story worth hearing. Every guest who has joined Dr. Dave Kashuba and Mike McGann on Pain 2 Power, with their background, what they said on air and their clips from the show.", crumbs)}
+<section class="section">
+  <div class="wrap">
+    <h2 class="sr-only">Find a guest</h2>
+    <div class="gdir-tools">
+      <label class="gdir-search">{_gicon("search", 18)}<span class="sr-only">Search guests</span>
+        <input type="search" placeholder="Search by name, specialty or practice" autocomplete="off" data-gsearch></label>
+      <div class="gchips" role="group" aria-label="Filter by specialty">{"".join(chips)}</div>
+      <p class="gdir-count" aria-live="polite" data-gcount>Showing all {len(GUESTS)} guests</p>
+    </div>
+    <ul class="gdir-grid" data-ggrid>{cards}</ul>
+    <p class="gdir-empty" data-gempty hidden>No guest matches that search. Try a name, a body part or a practice.</p>
+    <p class="guest-note">Photos are stills from our own Pain 2 Power footage. Background details come from each guest&rsquo;s own practice, employer and professional pages, linked on their profile. Pain 2 Power is for general education, not medical advice; talk with your own doctor about your care.</p>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+<script src="assets/js/guests.js?v={asset_v('assets/js/guests.js')}" defer></script>
+"""
     page = {"@type": "CollectionPage", "@id": "https://www.firstrehabnpb.com/guests.html",
             "name": "Pain 2 Power Podcast Guests", "url": "https://www.firstrehabnpb.com/guests.html",
             "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
             "about": {"@type": "PodcastSeries", "name": "Pain 2 Power", "url": "https://www.firstrehabnpb.com/podcast.html"},
             "mainEntity": {"@type": "ItemList", "itemListElement": [
-                {"@type": "ListItem", "position": i + 1, "item": {"@id": guest_id(g)}} for i, g in enumerate(GUESTS)]}}
-    data = {"@context": "https://schema.org", "@graph": [page] + graph}
-    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
-
-def build_guests():
-    crumbs = '<div class="crumbs"><a href="/">Home</a> / <a href="podcast.html">Podcast</a> / Guests</div>'
-    index = "".join(
-        f'<a class="guest-jump" href="#{g["slug"]}"><span class="gj-name">{guest_display(g)}</span>'
-        f'<span class="gj-role">{g["headline"]}</span></a>' for g in GUESTS)
-    cards = "".join(_guest_card(g) for g in GUESTS)
-    body = f"""
-<main>
-{page_hero("Pain 2 Power Guests", "The People Behind <em class='accent'>the Conversations</em>",
-  "Surgeons, specialists and people with a story worth hearing. Every guest who has joined Dr. Dave Kashuba and Mike McGann on Pain 2 Power, with what they shared on the show and where to find them.", crumbs)}
-<section class="section">
-  <div class="wrap">
-    <div class="section-head reveal" style="margin-bottom:1.6rem;">
-      <span class="eyebrow">{len(GUESTS)} Guests</span>
-      <h2>Find a Guest</h2>
-    </div>
-    <nav class="guest-index reveal" aria-label="Guests">{index}</nav>
-  </div>
-</section>
-<section class="section on-cream">
-  <div class="wrap guest-list">
-    {cards}
-    <p class="guest-note">Background details come from each guest&rsquo;s own practice, employer and professional pages, linked under each profile. Pain 2 Power is for general education, not medical advice; talk with your own doctor about your care.</p>
-  </div>
-</section>
-{cta_band(0)}
-</main>
-"""
+                {"@type": "ListItem", "position": i + 1, "url": f"https://www.firstrehabnpb.com/{guest_url(g)}",
+                 "name": _faq_plain(guest_display(g))} for i, g in enumerate(GUESTS)]}}
+    ld = '<script type="application/ld+json">' + _json.dumps({"@context": "https://schema.org", "@graph": [page]}, ensure_ascii=False) + '</script>\n'
     write("guests.html",
           head("Pain 2 Power Podcast Guests | First Rehab North Palm Beach",
-               "Meet the surgeons and specialists who have joined Dr. Dave Kashuba on the Pain 2 Power podcast: their background, what they said on air, and links to their practices.",
+               "Meet the surgeons and specialists who have joined Dr. Dave Kashuba on the Pain 2 Power podcast: background, what they said on air, and their clips.",
                canonical="guests.html", og_image="assets/media/podcast-cover.jpg",
-               extra_schema=_guests_schema() + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html"), ("Guests", "guests.html")]))
+               extra_schema=ld + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html"), ("Guests", "guests.html")]))
           + nav(0) + body + footer(0))
+    for i, g in enumerate(GUESTS):
+        _build_guest_page(g, GUESTS[i - 1] if i else None, GUESTS[i + 1] if i + 1 < len(GUESTS) else None)
+
+def _build_guest_page(g, prev_g, next_g):
+    import json as _json
+    from urllib.parse import urlparse
+    d, display = 1, guest_display(g)
+    aff = g.get("affiliation") or {}
+    cat = GUEST_CAT_LABEL[g["category"]]
+    eps = _guest_episode_links(g)
+    # Hero line: role, practice (linked), city.
+    role = [g["headline"]]
+    if aff.get("name") and aff["name"] not in g["headline"]:
+        role.append(f'<a href="{aff["url"]}" target="_blank" rel="noopener">{aff["name"]}</a>' if aff.get("url") else aff["name"])
+    if g.get("location"):
+        role.append(g["location"])
+    quote = (f'<blockquote class="guest-quote">&ldquo;{g["on_the_show_quote"]}&rdquo;</blockquote>'
+             if g.get("on_the_show_quote") else "")
+    facts = "".join(f'<li>{b["text"]}</li>' for b in g.get("background", []))
+    bg = (f'<section class="gp-sec"><h2>Background</h2><ul class="guest-facts">{facts}</ul></section>' if facts else "")
+    # Full episode video(s): click-to-load facade, same as /videos.html.
+    vids = "".join(_video_card(v) for _, _, v, _ in eps if v)
+    vid_sec = (f'<section class="gp-sec"><h2>Watch the episode</h2><div class="gp-vids">{vids}</div></section>' if vids else "")
+    # Clips: the Shorts we posted from their episode, vertical, click-to-load.
+    clips = g.get("clips", [])
+    CLIPS_SHOWN = 6
+    clip_html = "".join(
+        f'<li class="gclip"{" data-gmore hidden" if i >= CLIPS_SHOWN else ""}><button class="vid-facade gclip-facade" type="button" '
+        f'data-embed="https://www.youtube-nocookie.com/embed/{c["youtube_id"]}?autoplay=1&amp;rel=0" '
+        f'data-title="{_faq_plain(c["title"])} — Pain 2 Power clip">'
+        f'<img src="https://i.ytimg.com/vi/{c["youtube_id"]}/oar2.jpg" alt="" loading="lazy" width="360" height="640" '
+        f'onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/{c["youtube_id"]}/hqdefault.jpg\'">'
+        f'<span class="gclip-play" aria-hidden="true">&#9654;</span><span class="sr-only">Play clip: {c["title"]}</span></button>'
+        f'<p class="gclip-title">{c["title"]}</p></li>' for i, c in enumerate(clips))
+    more_btn = (f'<button type="button" class="btn btn-ink gclips-more" data-gmore-btn>Show all {len(clips)} clips</button>'
+                if len(clips) > CLIPS_SHOWN else "")
+    clip_sec = (f'<section class="gp-sec"><div class="gp-sec-head"><h2>Clips from the show</h2>'
+                f'<a class="text-link" href="{YOUTUBE}/shorts" target="_blank" rel="noopener">All clips on YouTube</a></div>'
+                f'<ul class="gclips">{clip_html}</ul>{more_btn}</section>' if clips else "")
+    # Spotify players for each episode.
+    listen = ""
+    for e, spot, _, recap in eps:
+        import re as _re
+        m = _re.search(r"episode/([A-Za-z0-9]+)", spot or "")
+        if m:
+            listen += (f'<iframe class="pod-embed" src="https://open.spotify.com/embed/episode/{m.group(1)}?utm_source=generator&amp;theme=0" '
+                       f'width="100%" height="152" frameborder="0" loading="lazy" style="border-radius:14px;" '
+                       f'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="{e} with {display} on Spotify"></iframe>')
+        if recap:
+            listen += f'<p class="pod-recap"><a href="../blog/{recap}.html">Read the recap: {BLOG_POSTS[recap]["title"]}</a></p>'
+    listen_sec = f'<section class="gp-sec"><h2>Listen</h2>{listen}</section>' if listen else ""
+    # Aside: portrait, quick facts, links.
+    rows = [("Specialty", cat)]
+    if g.get("credentials"):
+        rows.append(("Credentials", g["credentials"]))
+    if aff.get("name"):
+        rows.append(("Practice", aff["name"]))
+    if g.get("location"):
+        rows.append(("Location", g["location"]))
+    rows.append(("On Pain 2 Power", ", ".join(g["episodes"])))
+    facts_tbl = "".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in rows)
+    links = "".join(
+        f'<a class="guest-link" href="{l["url"]}" target="_blank" rel="noopener">{l.get("label") or GUEST_LINK_LABELS.get(l["type"], "Link")}</a>'
+        for l in g.get("links", []))
+    links_html = f'<h3 class="gp-aside-h">Find {g["name"].split()[0]} online</h3><div class="guest-links">{links}</div>' if links else ""
+    hosts = []
+    for b in g.get("background", []):
+        h = urlparse(b["source"]).netloc.replace("www.", "")
+        if h and h not in [x for x, _ in hosts]:
+            hosts.append((h, b["source"]))
+    sources = ('<p class="guest-sources">Background sources: ' + " ".join(
+        f'<a href="{u}" target="_blank" rel="noopener">{h}</a>' for h, u in hosts) + "</p>") if hosts else ""
+    def _nav(o, rel):
+        if not o:
+            return "<span></span>"
+        return (f'<a class="gp-nav-{rel}" href="{o["slug"]}.html"><span class="gp-nav-k">{"Previous" if rel == "prev" else "Next"} guest</span>'
+                f'<span class="gp-nav-n">{guest_display(o)}</span></a>')
+    crumbs = (f'<div class="crumbs"><a href="/">Home</a> / <a href="../podcast.html">Podcast</a> / '
+              f'<a href="../guests.html">Guests</a> / {g["name"]}</div>')
+    body = f"""
+<main>
+{page_hero(cat, display, " &middot; ".join(role), crumbs)}
+<section class="section">
+  <div class="wrap gp-layout">
+    <div class="gp-main">
+      <section class="gp-sec"><h2>On the show</h2>{quote}<p>{g["on_the_show"]}</p></section>
+      {bg}
+      {vid_sec}
+      {clip_sec}
+      {listen_sec}
+      {sources}
+    </div>
+    <aside class="gp-aside">
+      <div class="side-card gp-card">
+        {guest_portrait(g, depth=d, size=480, cls="gp gp--lg")}
+        <dl class="gp-facts">{facts_tbl}</dl>
+        {links_html}
+      </div>
+    </aside>
+  </div>
+  <div class="wrap gp-nav">{_nav(prev_g, "prev")}<a class="btn btn-ink" href="../guests.html">All guests</a>{_nav(next_g, "next")}</div>
+</section>
+{cta_band(d)}
+</main>
+<script src="../assets/js/videos.js?v={asset_v('assets/js/videos.js')}" defer></script>
+<script src="../assets/js/guests.js?v={asset_v('assets/js/guests.js')}" defer></script>
+"""
+    first = (g["name"] if g["honorific"] != "Dr." else f'Dr. {g["name"]}')
+    title = f"{first} | Pain 2 Power Podcast Guest"
+    if len(title) > 62:
+        title = f"{first} | Pain 2 Power Guest"
+    desc = _faq_plain(g["on_the_show"])
+    desc = (desc[:152].rsplit(" ", 1)[0] + "...") if len(desc) > 155 else desc
+    og = (g.get("photo") or {}).get("src")
+    profile = {"@type": "ProfilePage", "@id": f"https://www.firstrehabnpb.com/{guest_url(g)}",
+               "url": f"https://www.firstrehabnpb.com/{guest_url(g)}", "name": _faq_plain(display),
+               "mainEntity": {"@id": guest_id(g)},
+               "isPartOf": {"@id": "https://www.firstrehabnpb.com/guests.html"}}
+    ld = ('<script type="application/ld+json">'
+          + _json.dumps({"@context": "https://schema.org", "@graph": [profile, _person_node(g)]}, ensure_ascii=False)
+          + '</script>\n')
+    write(guest_url(g),
+          head(title, desc, depth=d, canonical=guest_url(g),
+               og_image=(f"{og}-480.jpg" if og else "assets/media/podcast-cover.jpg"), page_type="profile",
+               extra_schema=ld + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html"), ("Guests", "guests.html"), (_faq_plain(g["name"]), guest_url(g))]))
+          + nav(d) + body + footer(d))
 
 def build_meta():
     base = "https://www.firstrehabnpb.com"
@@ -6097,6 +6273,7 @@ def build_meta():
 }
 ''')
     pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "guests.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html"]
+    pages += [guest_url(g) for g in GUESTS]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]

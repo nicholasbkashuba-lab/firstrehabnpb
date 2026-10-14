@@ -54,5 +54,70 @@
   "instagram_handle": "capt_kerry",
   "phone_on_air": "",
   "research_notes": "Instagram handle capt_kerry is now independently verified: Bravo's network article links it as his account. The profile page itself could not be opened from here (Instagram returns a login wall / 429), so the account's current bio was not seen. Bravo gives two experience figures: 'more than 20 years of experience in the yachting industry' and 'more than 30 years of experience in the industry' (the 11 Things article); I used the Who Is article's own breakdown (about 30 years on boats, about two decades on yachts). His podcast is named on air only in garbled ASR ('charted in the course and weathering the storms within'); no web source found, so no podcast link and no title. Bravo also links a Yachting Concepts Instagram (instagram.com/yachtingconceptskeza) from the 2023 article; left out because it could not be checked as active. Location left blank: Bravo says he lives in Palm Beach Gardens, but that is his residence, not a practice. Bravo's personal-life details (divorce, partner, children) deliberately excluded. Affiliation left null so the role line does not repeat Below Deck; Bravo profile stays in links.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/titheradge",
+    "source": "youtube:HHTgwYIzsyk/maxresdefault"
+  },
+  "clips": [
+    {
+      "youtube_id": "s6X-hAkSGeY",
+      "title": "I genuinely see you as a very close friend of mine.",
+      "posted": "2026-09-12"
+    },
+    {
+      "youtube_id": "swzIeAylpKc",
+      "title": "Two surgeries, and both times Dave and his team got me back together.",
+      "posted": "2026-09-14"
+    },
+    {
+      "youtube_id": "J_uZFPXydWA",
+      "title": "Why would anyone give a damn about me?",
+      "posted": "2026-09-17"
+    },
+    {
+      "youtube_id": "ce9BHNaRptU",
+      "title": "There is a moment where you are a victim, and it&rsquo;s okay to be in that place.",
+      "posted": "2026-09-22"
+    },
+    {
+      "youtube_id": "Oy69eaphETA",
+      "title": "There is no destination.",
+      "posted": "2026-09-26"
+    },
+    {
+      "youtube_id": "_vBUN03mjpA",
+      "title": "He was exactly where I was, and he found a way out.",
+      "posted": "2026-09-30"
+    },
+    {
+      "youtube_id": "aKzcfqbYH6M",
+      "title": "People think their life is great because look at where they are.",
+      "posted": "2026-10-02"
+    },
+    {
+      "youtube_id": "rBPCISRPP50",
+      "title": "I wanted something for the kids that was constant.",
+      "posted": "2026-10-04"
+    },
+    {
+      "youtube_id": "1PjJHPPpmwo",
+      "title": "I&rsquo;m at the top of my game, pumping diesel fumes everywhere.",
+      "posted": "2026-10-06"
+    },
+    {
+      "youtube_id": "e09bdTe2eaE",
+      "title": "In the end, it is what you give.",
+      "posted": "2026-10-08"
+    },
+    {
+      "youtube_id": "qf4Ey3NXAFA",
+      "title": "One present is an infinite increase over zero.",
+      "posted": "2026-10-10"
+    }
+  ],
+  "category": "community",
+  "also_known_as": [
+    "Captain Kerry"
+  ]
 }

@@ -81,5 +81,112 @@
   "instagram_handle": "vanisabesanmd",
   "phone_on_air": "",
   "research_notes": "Identity confirmed: shoulder and elbow orthopaedic surgeon in Palm Beach County, Duke trained, marathon runner (28 on air, 25+ on her practice page, consistent). FOS presidency: the floridaorthopaedicsociety.org leadership and past-presidents pages returned 403 to every fetch, so I could not open them; a search snippet indicated the FOS leadership page lists her as 2026-2027 President. Kept the presidency only in on_the_show (attributed to what was said on air), not in background. Her practice page says board certified but does not name the board. She has several offices (Atlantis, Boynton Beach, Wellington, Boca Raton, Jupiter); location set to Atlantis, the first listed. An older HCA Florida bio gives Beaumont/Wayne State as her earlier residency directorship while the OCPBC page names HCA Florida JFK/University of Miami; both may be true at different times, I used only the current OCPBC wording. Social links were not opened individually (Instagram/Facebook/X block the sandbox); they rest on being linked from her official pages.",
-  "researched": "2026-10-14"
+  "researched": "2026-10-14",
+  "photo": {
+    "src": "assets/guests/sabesan",
+    "source": "youtube:h_sNZv2q65E/maxres2"
+  },
+  "clips": [
+    {
+      "youtube_id": "p8wE-teybH0",
+      "title": "Would you rather spend six weeks in a sling, or start moving tomorrow?",
+      "posted": "2026-08-09"
+    },
+    {
+      "youtube_id": "yXhhBF9ssaM",
+      "title": "Tech for tech&rsquo;s sake, versus tech that actually solves your problem.",
+      "posted": "2026-08-09"
+    },
+    {
+      "youtube_id": "RjJ3dirISdg",
+      "title": "A 90 year old walked in two days ago.",
+      "posted": "2026-08-09"
+    },
+    {
+      "youtube_id": "bwtjlKO3iaU",
+      "title": "98 percent of shoulder replacement patients said their therapist had a huge impact on their outcome.",
+      "posted": "2026-08-09"
+    },
+    {
+      "youtube_id": "fQv4864WHf8",
+      "title": "The robot knows exactly what to do.",
+      "posted": "2026-08-10"
+    },
+    {
+      "youtube_id": "7ZBgH5-0mKQ",
+      "title": "The technology is only as good as the user.",
+      "posted": "2026-08-10"
+    },
+    {
+      "youtube_id": "52xj6SM1WjQ",
+      "title": "At the time, it was heresy.",
+      "posted": "2026-08-10"
+    },
+    {
+      "youtube_id": "rcaINpwNmGA",
+      "title": "In Palm Beach, 90 is the new 70.",
+      "posted": "2026-08-10"
+    },
+    {
+      "youtube_id": "n8LBz6dP7JA",
+      "title": "A shoulder replacement without ever cutting the muscle.",
+      "posted": "2026-08-11"
+    },
+    {
+      "youtube_id": "CMWZDWtBXnM",
+      "title": "A surgeon taking advice from the youngest people in the room.",
+      "posted": "2026-08-11"
+    },
+    {
+      "youtube_id": "PHLVHzW3gHE",
+      "title": "He was hit by a drunk driver in Nashville and his elbow was destroyed.",
+      "posted": "2026-08-11"
+    },
+    {
+      "youtube_id": "EhGzRobrnuA",
+      "title": "An implant 3D printed for your anatomy, and nobody else&rsquo;s.",
+      "posted": "2026-08-12"
+    },
+    {
+      "youtube_id": "jzdrsRyV598",
+      "title": "Just shoot me up.",
+      "posted": "2026-08-12"
+    },
+    {
+      "youtube_id": "eNssJVUrsaA",
+      "title": "No one is at the end of the line to me.",
+      "posted": "2026-08-12"
+    },
+    {
+      "youtube_id": "PERuRVHwVkQ",
+      "title": "I always send Dave the difficult athletes.",
+      "posted": "2026-08-13"
+    },
+    {
+      "youtube_id": "0tUBsdxnD-k",
+      "title": "No two people are alike.",
+      "posted": "2026-08-13"
+    },
+    {
+      "youtube_id": "1AtQRb1V5JU",
+      "title": "Being female, we sometimes listen a little bit more.",
+      "posted": "2026-08-13"
+    },
+    {
+      "youtube_id": "EhOA78QX75s",
+      "title": "In 75 years the Florida Orthopaedic Society had never chosen a woman as president.",
+      "posted": "2026-08-14"
+    },
+    {
+      "youtube_id": "PZysK5mhXQM",
+      "title": "The body is a self healing mechanism.",
+      "posted": "2026-08-14"
+    },
+    {
+      "youtube_id": "7Du-fWACc2I",
+      "title": "She has run 28 marathons.",
+      "posted": "2026-08-14"
+    }
+  ],
+  "category": "shoulder-elbow-hand"
 }
