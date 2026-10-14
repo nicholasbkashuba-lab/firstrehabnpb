@@ -24,18 +24,23 @@ Do NOT search the web for statistics, studies, or claims. If a factual claim nee
 source you don't have, cut it or state it qualitatively ("many people", not "73% of
 people"). You are a writer, not a researcher.
 
-## Step 1 — Draft the post (700–1,100 words)
-Voice: warm, plain-spoken, expert but never condescending. Short paragraphs. Second
-person ("you"). No hype. No exclamation marks. Structure:
+## Step 1 — Draft the post (1,700+ words)
+Nick's standard, 2026-10-14: every post is at least 1,700 words, structured with h2 sections
+and h3 subsections, with at least one captioned table, written in a conversational voice "as
+if a real human wrote it". Full rules: BLOG-PLAYBOOK.md "Length and structure".
+Voice: warm, plain-spoken, conversational, expert but never condescending. Contractions,
+second person ("you"), short sentences mixed with long ones. No hype. No exclamation marks.
+Structure:
 - A hook that names the reader's real problem in the first two sentences
-- One h1 (the page hero renders it — the post body itself contains only h2s)
-- 3–5 `<h2>` sections, scannable paragraphs
+- One h1 (the page hero renders it; the post body itself never contains an h1)
+- 5–8 `<h2>` sections, with `<h3>` subsections inside at least two of them
+- At least one table in the house `data-table` markup, with a caption naming its source
 - Byline line right after the opening paragraph:
   `<p><em>By The First Rehabilitation Team · Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>`
   (use a named author only if the owner specifies one)
 - A close inviting the reader to book an evaluation, with the phone number 561-624-4263
 - Final paragraph, always:
-  `<p><em>This article is general information, not medical advice. Every situation is different — please consult a qualified professional about yours.</em></p>`
+  `<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>`
 
 Every rule in the "No AI slop" section of BLOG-PLAYBOOK.md applies. Zero em dashes. No
 "it's not X it's Y". At most one bolded phrase and one bulleted list. Every h2 carries a

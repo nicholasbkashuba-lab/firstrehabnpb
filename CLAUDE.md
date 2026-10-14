@@ -133,6 +133,29 @@ is its own failure mode and the check names it.
   its Spotify episode URL — EPISODES[0] automatically becomes the featured "Latest
   Episode" card on the podcast page and joins the PodcastEpisode schema.
   New team member: add to TEAM + photo in assets/team/ (also feeds Person schema).
+- **Clinician credentials were verified 2026-10-14** against the NPPES NPI Registry and each
+  clinician's public profile (detail in the `person_schema()` docstring): David Kashuba,
+  Ph.D., OTR; Kayla Dorsey, PT, DPT; Logan Van Sant, PT, DPT; Joan "Joni" Janik, OTD (legal
+  name Joan, goes by Joni: `legal_name` / `alt_name` in TEAM feed schema name/alternateName);
+  Laura Drumm, MS, OTR/L, CHT, CLT. Dave is an OCCUPATIONAL therapist, never "DPT". TEAM
+  entries carry an explicit `slug`, which is what the Person `@id` anchors and the
+  about-page dialogs key off, so changing a display name can never break a reference.
+  Never publish licence numbers.
+- **`/glossary.html`** (added 2026-10-14) is generated from `GLOSSARY` in build.py, and its
+  DefinedTermSet JSON-LD is generated from the same list, so markup can never list a term
+  the page does not show. Medicare figures in it, and in the Medicare guide on
+  /insurance.html#medicare-guide, are 2026 values from CMS: **update both every January**
+  (Part B deductible, KX threshold, targeted review threshold).
+- **Owner answers, 2026-10-14:** the wellness gym program does NOT take insurance (the
+  wellness page says so; never imply otherwise). The front desk checks PIP coverage before an
+  auto patient's first visit, and workers' comp authorization before a work-injury patient's. It does NOT verify Medigap ahead of time, so benefit lines say
+  "Medicare or commercial" and leave Medigap out.
+- **Florida law is quoted on two condition pages** (added 2026-10-14): the PIP 14-day rule
+  and the $10,000 / $2,500 limits on /treatments/auto-accident.html (Fla. Stat. 627.736), and
+  the 30-day notice, carrier authorization and ombudsman office on /treatments/workers-comp.html
+  (440.185, 440.13, 440.191). Both cite the 2026 statutes on flsenate.gov. **Re-read both
+  sections after every legislative session** (PIP repeal bills have been filed before) and
+  bump the year in the links. General information only; legal questions go to an attorney.
 - Main FAQ content lives in FAQ_CATEGORIES in build.py (8 filterable categories, 73 Q&As).
   Answers are PLAIN TEXT (they feed both the accordions and the single FAQPage JSON-LD,
   which must stay in sync — it's generated from the same data, so just rebuild). Service
@@ -150,6 +173,10 @@ is its own failure mode and the check names it.
   to every visitor — never put secret keys in it (the Supabase publishable key is safe by design).
 
 ## SEO — keep this maximized on every change
+**Research kit: read `docs/seo-kit/README.md` before any SEO, schema, blog, competitor or
+local-listing work.** It indexes the October 2026 deep research (growth plan, competitor
+teardown, local authority audit, patient insights, lawofficesuccess.com audit, schema library,
+Reddit playbook) and says which files are current and which are superseded.
 The build already emits, for every page: a unique `<title>` and meta description, a
 `rel=canonical` URL, Open Graph + Twitter Card tags, MedicalBusiness JSON-LD schema
 (stable @id https://www.firstrehabnpb.com/#organization with legalName/alternateName/
@@ -241,6 +268,12 @@ domain switch (July 2027). Removing them early throws away that equity.
   site. GA4 sat empty until 2026-09-08 because no tag existed anywhere on the site;
   data starts from the deploy that carries it. GA4 and Vercel Web Analytics run side
   by side and count differently — do not expect their numbers to match.
+- **Conversions reach GA4 as of 2026-10-14.** `track()` in main.js and `trackLeadSent()`
+  in intake.js now fire `gtag('event', ...)` beside the Vercel event: `call_tap`,
+  `book_click` and `generate_lead` (GA4's recommended lead event). Before this GA4 saw zero
+  conversions against 79 real leads. Owner action, one time: GA4 Admin -> Events -> mark
+  `call_tap`, `book_click` and `generate_lead` as key events. Payloads carry source, page
+  path and intent only, never contact details, messages or conditions (HIPAA).
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.
@@ -315,6 +348,12 @@ domain switch (July 2027). Removing them early throws away that equity.
   position drifted 17.1 -> 18.6. That is the expected shape when many new pages start
   ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
   two windows overlap by roughly 80% of their days, so this is not a clean before/after.
+
+  **Deep dive 2026-10-14** (`docs/GSC-DEEP-DIVE-2026-10.md`): 28 days to 10-11 ran 156 clicks /
+  10,601 impr / CTR 1.47% / pos 16.6 against 133 / 11,356 / 1.17% / 20.2 before it. 142
+  striking-distance queries over 90 days, 69 of them not city-qualified. Neck and back pain
+  for North Palm Beach were the clearest page-content targets; both pages were deepened and
+  retitled. Re-read around 2026-11-15.
 
   **API pull 2026-09-09, first clean non-overlapping compare** (28d to 09-06 vs the 28d
   before it): 105 clicks / 11,672 impr / CTR 0.90% / pos 20.2, against 122 clicks / 9,654
@@ -1080,6 +1119,17 @@ The freeze covers NEW posts only. Still allowed, and still wanted:
 
 Note that a frozen backlog is not a lost one: the Wellness and OT pillar holes recorded below
 are real and still worth filling once ranking work has caught up.
+
+**Every post is at least 1,700 words (Nick, 2026-10-14):** "each blog should have a minimum of
+1700 words with structured H1, 2, 3 etc with tables and everything too with colloquialism as
+if a real human wrote it." All 17 existing posts were deepened to it on 2026-10-14, mining the
+Pain 2 Power transcripts. `tools/slop-check.py` enforces it: 1,700+ words, 5+ h2s, 2+ h3s, no
+skipped levels, at least one captioned table, on top of the anti-slop rules. Rules and table
+markup: BLOG-PLAYBOOK.md "Length and structure". The freeze on NEW posts above still stands
+until Nick lifts it. Transcripts for mining: `transcript-full.md` / `transcripts.md` on the
+`media/ep{NN}-clips` branches, `transcript_v4.json` on `tmp/sabesan-out`, and raw word-level
+ASR (`*_words.json`, unreviewed) on the `tmp/sizzle-out-*` branches; fetch them with
+`git fetch --filter=blob:none` so the video blobs stay on the server.
 
 Two commands. `/blog <topic>` writes one post from a topic or a BLOG-TOPICS.md slug.
 `/episode-blog <NN>` (.claude/commands/episode-blog.md) turns ONE Pain 2 Power episode into

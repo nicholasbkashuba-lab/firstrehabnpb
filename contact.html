@@ -39,7 +39,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/playfair-display-latin-700-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin-400-normal.woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/styles.css?v=37544cbb">
+<link rel="stylesheet" href="assets/css/styles.css?v=66ad99fa">
 <link rel="stylesheet" href="assets/css/intake.css?v=081ac036">
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -57,7 +57,7 @@
   "faxNumber": "+1-561-840-4234",
   "email": "firstrehabnpb@gmail.com",
   "foundingDate": "1991",
-  "founder": { "@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba", "name": "David Kashuba, Ph.D.", "jobTitle": "CEO & Occupational Therapist" },
+  "founder": { "@type": "Person", "@id": "https://www.firstrehabnpb.com/about.html#david-kashuba", "name": "David Kashuba", "honorificSuffix": "Ph.D., OTR", "jobTitle": "CEO & Occupational Therapist" },
   "priceRange": "$$",
   "slogan": "Our People Make the Difference",
   "medicalSpecialty": ["PhysicalTherapy", "OccupationalTherapy"],
@@ -173,13 +173,23 @@
           <label for="af-reason">Reason for visit *</label>
           <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
         </div>
-        <div class="af-field">
-          <label for="af-time">Preferred call time</label>
-          <select id="af-time" name="time">
-            <option>Anytime</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-          </select>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-ins">Insurance</label>
+            <select id="af-ins" name="insurance">
+              <option value="">Choose (optional)</option>
+              <option>Medicare</option><option>Medicare Advantage</option><option>Blue Cross Blue Shield</option><option>Aetna</option><option>Humana</option><option>Tricare</option><option>VA Community Care Network</option><option>Workers' Comp</option><option>Self Pay</option>
+              <option>Other / not sure</option>
+            </select>
+          </div>
+          <div class="af-field">
+            <label for="af-time">Preferred call time</label>
+            <select id="af-time" name="time">
+              <option>Anytime</option>
+              <option>Morning</option>
+              <option>Afternoon</option>
+            </select>
+          </div>
         </div>
         <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
         <p class="af-error" id="af-error" role="alert"></p>
@@ -202,6 +212,7 @@
         <div class="c-row"><span class="c-label">Consults</span><span>Free consultations available — call to schedule</span></div>
         <div class="c-row"><span class="c-label">Portal</span><a href="https://firstrehabilitationinc.patient.sprypt.com/clinics" target="_blank" rel="noopener">Patient Portal &rarr;</a></div>
         <a class="btn btn-coral mt-2" href="tel:+15616244263">Call to Book <span class="arr">&rarr;</span></a>
+        <p style="margin-top:1rem;font-size:0.88rem;color:var(--muted);">First Rehabilitation of North Palm Beach is an independent, family-owned clinic founded in 1991 by David Kashuba, Ph.D., OTR. We have one location, at 733 US Highway 1, Suite 2A, and are not affiliated with other clinics that use a similar name.</p>
       </div>
       <iframe class="map-frame" src="https://www.google.com/maps?q=733+US+Highway+1+Suite+2A+North+Palm+Beach+FL+33408&output=embed" title="Map to First Rehabilitation of North Palm Beach" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="min-height:300px;"></iframe>
     </div>
@@ -247,6 +258,7 @@
           <li><a href="about.html">About Us</a></li>
           <li><a href="first-visit.html">Your First Visit</a></li>
           <li><a href="insurance.html">Insurance &amp; Medicare</a></li>
+          <li><a href="glossary.html">Patient Glossary</a></li>
           <li><a href="blog/index.html">Blog</a></li>
           <li><a href="podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="videos.html">Video Episodes</a></li>
@@ -305,8 +317,8 @@
     <span class="sr-only">Play the latest Pain 2 Power episode</span>
   </button>
 </div>
-<script src="assets/js/main.js?v=2e4303f0"></script>
-<script src="assets/js/intake.js?v=8408831c" defer></script>
+<script src="assets/js/main.js?v=f32da192"></script>
+<script src="assets/js/intake.js?v=f6a578de" defer></script>
 <script src="assets/js/p2p-mini.js?v=712731d8" defer></script>
 <!-- Vercel Web Analytics (static-site tag; privacy-friendly, cookieless — no banner needed) -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>

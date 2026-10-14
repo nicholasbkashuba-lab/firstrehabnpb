@@ -55,15 +55,56 @@ medical site can afford. These are hard rules, checkable by `python3 tools/slop-
 Quotes, attributed speech, and the fixed disclaimer are flag-only and never rewritten.
 Anything still flagged goes on the owner's flag list rather than being quietly smoothed.
 
-## Anatomy of a post (700–1,100 words)
-1. A hook naming the reader's real problem
-2. One h1 title (the page hero), 3–5 h2 sections, scannable paragraphs
-3. Byline: "By The First Rehabilitation Team · Reviewed by Dr. Dave Kashuba, Ph.D."
-   (a named person only when the owner says so)
-4. At least two internal links (service, condition, FAQ, or podcast page)
-5. A close inviting the reader to book an evaluation — phone 561-624-4263
-6. Disclaimer, every post: general information, not medical advice; consult a
-   qualified professional about your situation.
+## Length and structure: every post is at least 1,700 words (Nick, 2026-10-14)
+Nick's instruction, 2026-10-14: "each blog should have a minimum of 1700 words with structured
+H1, 2, 3 etc with tables and everything too with colloquialism as if a real human wrote it."
+This replaces the old 700 to 1,100 word anatomy and applies to EVERY post, existing ones
+included. `tools/slop-check.py` enforces the numbers.
+
+- **Minimum 1,700 words** of body text (the checker counts plain text, byline and disclaimer
+  included). Most land between 1,750 and 2,200. Length comes from depth, never padding: more
+  of what the guests actually said, more of what the site already knows, worked examples,
+  "what this looks like at the clinic", honest caveats. A paragraph that only restates the
+  one before it gets cut, and the post finds its words somewhere real.
+- **Heading structure:** one h1 (the page hero, rendered by the template, never in the
+  body), 5 to 8 h2 sections, and h3 subsections inside at least two of them. Never skip a
+  level. Question-style headings are good; they match how people search.
+- **At least one table** in the house markup, with a caption that says where its contents
+  come from. Tables hold sourced facts only: what a guest said, what the site already
+  states, `EXERCISES`, or an official figure with its year. A table of invented timelines
+  or outcomes is worse than no table.
+- **Voice: a real person talking.** Contractions, second person, the occasional aside, a
+  short sentence after a long one. Local texture where it is true (pickleball, golf, the
+  drive down US-1, snowbirds). Write the way Dave or a front desk regular would explain it.
+  Colloquial never means slang about pain, jokes at a patient's expense, hype or fear.
+- **Sources:** facts still come only from build.py and the site, the owner, and Pain 2 Power
+  transcripts (`media/ep{NN}-clips`, `tmp/sabesan-out`, and the word-level ASR on
+  `tmp/sizzle-out-*`; the raw ASR is unreviewed, so quote only clear passages and take
+  names from `EPISODES`). Official figures may come from CMS, Medicare.gov, the Federal
+  Register, the Florida Statutes or the Florida Department of Health, each with its year
+  and a visible citation. No other web research.
+- Table markup, so it inherits the site's styles and passes axe:
+
+      <div class="data-table" tabindex="0" role="region" aria-label="What the table shows">
+        <table>
+          <caption>What it is, and where it comes from.</caption>
+          <thead><tr><th scope="col">...</th><th scope="col">...</th></tr></thead>
+          <tbody><tr><th scope="row">...</th><td>...</td></tr></tbody>
+        </table>
+      </div>
+
+The freeze on NEW posts (CLAUDE.md, Blog agent) still stands; this standard is how the
+existing posts get deepened, and what any post written after the freeze lifts must meet.
+
+## Anatomy of a post (1,700+ words)
+1. A hook naming the reader's real problem, in plain words
+2. The byline: "By The First Rehabilitation Team · Reviewed by Dr. Dave Kashuba, Ph.D."
+3. 5 to 8 h2 sections with h3s inside at least two, one table, one list at most
+4. At least two attributed quotes, and internal links to the service, condition, FAQ,
+   exercises, Medicare guide or podcast pages that genuinely relate
+5. A close inviting the reader to book an evaluation, with 561-624-4263
+6. Disclaimer, every post: general information, not medical advice; consult a qualified
+   professional about your situation.
 
 ## Metadata
 - Pick the target keyword from SEO-KEYWORDS.md before writing, and check the coverage
@@ -88,13 +129,13 @@ Anything still flagged goes on the owner's flag list rather than being quietly s
 Run with `/episode-blog <NN>`. One transcript, two posts, because they do different jobs
 and chase different searches.
 
-**Post A, the recap.** 600–900 words, tag "Pain 2 Power", slug
+**Post A, the recap.** 1,700+ words, tag "Pain 2 Power", slug
 `pain-2-power-ep{NN}-{guest-or-topic}`. Belongs to the show. Targets the guest's name,
 their specialty plus geography, and the episode's clinical question. Three to five quoted
 moments attributed by name. Links `../podcast.html`, `../videos.html`, the pillar service
 page, and any condition discussed. The h1 names the one useful idea, never "Episode 9 recap".
 
-**Post B, the pillar post.** 900–1,200 words, tag is the pillar (Physical Therapy,
+**Post B, the pillar post.** 1,700+ words, tag is the pillar (Physical Therapy,
 Occupational Therapy, Hand Therapy, or Wellness). Belongs to the practice. Built from what
 Dave, Mike, and the guest said, but written as our expertise with their words as support,
 not as a recap. Takes its keyword from SEO-KEYWORDS.md: primary keyword first in the SEO
@@ -127,7 +168,7 @@ posts its own text there.
 - Family-owned since 1991 · "Our people make the difference."
 - 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408 · 561-624-4263
 - Hours: Mon–Fri 8:00 AM–5:30 PM, Sat 8:00 AM–12:30 PM
-- 4.9★ from 107 Google reviews
+- 4.9★ from 110 Google reviews (as of 2026-10-14; check before quoting)
 - Services: physical therapy, occupational therapy, certified hand therapy
   (Laura Drumm, CHT), on-site wellness/gym
 - Insurance: Medicare + Medicare Advantage, BCBS, Aetna, Humana, Tricare,
@@ -135,3 +176,6 @@ posts its own text there.
 - Pain 2 Power podcast: Dave Kashuba & Mike McGann, Saturdays 8:30 AM,
   100.3 Legends Radio + Spotify
 - Serves North Palm Beach, Palm Beach Gardens, Jupiter, Juno Beach, West Palm Beach
+- Medicare-certified Comprehensive Outpatient Rehabilitation Facility (CORF)
+- Team credentials (verified 2026-10-14): David Kashuba, Ph.D., OTR; Kayla Dorsey, PT, DPT;
+  Logan Van Sant, PT, DPT; Joan "Joni" Janik, OTD; Laura Drumm, MS, OTR/L, CHT, CLT
