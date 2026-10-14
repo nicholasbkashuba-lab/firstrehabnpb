@@ -677,6 +677,10 @@ def appt_form(heading="Request an Appointment", sub=None, wrapped=True, depth=0)
     # intake.js binds by getElementById('appt-form'), so exactly one of these may
     # appear per page — hence no id suffixing here. It records location.pathname
     # as the lead's `page`, so per-page attribution keeps working for free.
+    # Insurance select added 2026-10-14: 74 of 79 real leads arrived with no insurance,
+    # so every callback started with a question the front desk could have answered
+    # before dialing (verify benefits first). Optional, so it costs no conversions;
+    # options come from PLANS so the list can never drift from the insurance page.
     sub = sub or ("Tell us a little about what you need and our front desk will call "
                   "you back within one business day.")
     card = f"""<div class="appt-form-card reveal">
@@ -701,13 +705,23 @@ def appt_form(heading="Request an Appointment", sub=None, wrapped=True, depth=0)
           <label for="af-reason">Reason for visit *</label>
           <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
         </div>
-        <div class="af-field">
-          <label for="af-time">Preferred call time</label>
-          <select id="af-time" name="time">
-            <option>Anytime</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-          </select>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-ins">Insurance</label>
+            <select id="af-ins" name="insurance">
+              <option value="">Choose (optional)</option>
+              {"".join(f'<option>{p}</option>' for p in PLANS)}
+              <option>Other / not sure</option>
+            </select>
+          </div>
+          <div class="af-field">
+            <label for="af-time">Preferred call time</label>
+            <select id="af-time" name="time">
+              <option>Anytime</option>
+              <option>Morning</option>
+              <option>Afternoon</option>
+            </select>
+          </div>
         </div>
         <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
         <p class="af-error" id="af-error" role="alert"></p>

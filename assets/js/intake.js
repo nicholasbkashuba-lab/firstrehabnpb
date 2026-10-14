@@ -737,7 +737,7 @@
         phone: phone.slice(0, 40),
         email: email.slice(0, 200) || null,
         preferred_time: time,
-        insurance: null,
+        insurance: (form.insurance && form.insurance.value) ? form.insurance.value.slice(0, 120) : null,
         page: location.pathname,
         user_agent: (navigator.userAgent || '').slice(0, 300)
       };

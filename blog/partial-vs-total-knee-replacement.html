@@ -238,13 +238,23 @@
           <label for="af-reason">Reason for visit *</label>
           <textarea id="af-reason" name="reason" required maxlength="2000" placeholder="e.g. knee pain after surgery, hand therapy follow-up&hellip;"></textarea>
         </div>
-        <div class="af-field">
-          <label for="af-time">Preferred call time</label>
-          <select id="af-time" name="time">
-            <option>Anytime</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-          </select>
+        <div class="af-two">
+          <div class="af-field">
+            <label for="af-ins">Insurance</label>
+            <select id="af-ins" name="insurance">
+              <option value="">Choose (optional)</option>
+              <option>Medicare</option><option>Medicare Advantage</option><option>Blue Cross Blue Shield</option><option>Aetna</option><option>Humana</option><option>Tricare</option><option>VA Community Care Network</option><option>Workers' Comp</option><option>Self Pay</option>
+              <option>Other / not sure</option>
+            </select>
+          </div>
+          <div class="af-field">
+            <label for="af-time">Preferred call time</label>
+            <select id="af-time" name="time">
+              <option>Anytime</option>
+              <option>Morning</option>
+              <option>Afternoon</option>
+            </select>
+          </div>
         </div>
         <p class="af-note">This is a contact request, not a medical intake — please don't include detailed medical history or sensitive health information here. We only need the basics to call you back.</p>
         <p class="af-error" id="af-error" role="alert"></p>
@@ -359,7 +369,7 @@
   </button>
 </div>
 <script src="../assets/js/main.js?v=f32da192"></script>
-<script src="../assets/js/intake.js?v=dcf0795f" defer></script>
+<script src="../assets/js/intake.js?v=f6a578de" defer></script>
 <script src="../assets/js/p2p-mini.js?v=712731d8" defer></script>
 <!-- Vercel Web Analytics (static-site tag; privacy-friendly, cookieless — no banner needed) -->
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
