@@ -34,6 +34,144 @@ REGION = {k: (0, 0, 1080, 1300) for k in SIZE if k.startswith("k_")}
 # Ep16 Mike camera is a vertical inset on a blurred fill; this is the inset.
 INSET16 = (656, 0, 1264, 1080)
 
+# ------------------------------------------------------------------ native vertical clips
+# Owner, 2026-10-14: "use the clips with the best picture quality", "some of these were shot
+# vertical so you don't need to crop those". Every episode's social clips (media/ep{NN}-clips
+# branches, copied to $SIZZLE_WORK/src/v/<ep>/) are 1080x1920 cut from the raw cameras, so a
+# 9:16 shot from them is near 1:1, where a 9:16 crop of a 16:9 master is 1.8x (2.7x for the
+# 720p Ep 15 master). The only crop is above the clip's own burned-in captions (`cap`, found
+# by vindex). aud/vindex.json: {"v/ep19/05-antenna-joke.mp4": {"cap": 1610, ...}}.
+VCLIP_DIRS = {"ep9": ["v/ep9", "v/ep9b"], "ep11": ["v/ep11"], "ep14": ["v/ep14"], "ep15": ["v/ep15"],
+              "ep16": ["v/ep16"]}
+_VINDEX = None
+_VMATCH = None
+
+
+def vclip(rel):
+    """Register a vertical clip (path relative to $SIZZLE_WORK/src) and return its key."""
+    global _VINDEX
+    key = "v:" + rel
+    if key not in SRC:
+        if _VINDEX is None:
+            p = os.path.join(SCR, "aud", "vindex.json")
+            _VINDEX = json.load(open(p)) if os.path.exists(p) else {}
+        SRC[key] = f"{SCR}/src/{rel}"
+        pr = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                             "-of", "csv=p=0", SRC[key]], capture_output=True, text=True)
+        w, h = map(int, pr.stdout.strip().split(",")[:2])
+        SIZE[key] = (w, h)
+        cap = _VINDEX.get(rel, {}).get("cap", h)
+        REGION[key] = (0, 0, w, min(h, cap - 24))
+    return key
+
+
+def _aud4k(path, t0=None, d=None):
+    cmd = ["ffmpeg", "-v", "error"] + (["-ss", f"{t0:.3f}"] if t0 is not None else []) + ["-i", path]
+    cmd += (["-t", f"{d:.3f}"] if d else []) + ["-ac", "1", "-ar", "4000", "-f", "f32le", "-"]
+    a = np.frombuffer(subprocess.run(cmd, capture_output=True).stdout, np.float32).astype(np.float64)
+    return a - a.mean() if len(a) else a
+
+
+_CLIPAUD = {}
+
+
+def vertical_for(ep, t, d, min_r=0.9):
+    """The vertical clip carrying master `ep` from t to t+d, as (key, clip_time), or None.
+    Found by audio cross-correlation (the clips use the master's mixed track); a clip that
+    cuts inside the span scores low and is rejected. Cached in aud/vmatch.json."""
+    global _VMATCH
+    import glob
+    from scipy.signal import fftconvolve
+    if _VMATCH is None:
+        p = os.path.join(SCR, "aud", "vmatch_auto.json")
+        _VMATCH = json.load(open(p)) if os.path.exists(p) else {}
+    ck = f"{ep}@{t:.2f}+{d:.2f}"
+    if ck not in _VMATCH:
+        seg = _aud4k(SRC[ep], t, d)
+        n, best = len(seg), None
+        for dr in VCLIP_DIRS.get(ep, []):
+            for f in sorted(glob.glob(f"{SCR}/src/{dr}/*.mp4")):
+                if f not in _CLIPAUD:
+                    _CLIPAUD[f] = _aud4k(f)
+                c = _CLIPAUD[f]
+                if n < 400 or len(c) < n:
+                    continue
+                num = fftconvolve(c, seg[::-1], "valid")
+                en = np.sqrt(fftconvolve(c * c, np.ones(n), "valid").clip(1e-9) * (seg @ seg))
+                r = num / en
+                k = int(r.argmax())
+                if best is None or r[k] > best[0]:
+                    best = (float(r[k]), os.path.relpath(f, f"{SCR}/src"), k / 4000)
+        _VMATCH[ck] = best
+        json.dump(_VMATCH, open(os.path.join(SCR, "aud", "vmatch_auto.json"), "w"))
+    m = _VMATCH[ck]
+    return (vclip(m[1]), m[2]) if m and m[0] >= min_r else None
+
+
+_REC = None
+
+
+def _embed(key, t, region, hint=None):
+    """SFace embedding of the face nearest `hint` (absolute x, y) in a frame, or the largest."""
+    global _REC
+    import cv2
+    if _REC is None:
+        _REC = cv2.FaceRecognizerSF.create(os.path.join(SCR, "models", "sface.onnx"), "")
+    fr = _grab(key, t)
+    if fr is None:
+        return None
+    rx0, ry0, rx1, ry1 = region
+    crop = np.ascontiguousarray(fr[ry0:ry1, rx0:rx1])
+    sc = 640 / max(crop.shape[:2])          # YuNet misses big faces at full resolution
+    small = cv2.resize(crop, (int(crop.shape[1] * sc), int(crop.shape[0] * sc)))
+    det = cv2.FaceDetectorYN.create(os.path.join(SCR, "models", "yunet.onnx"), "", (small.shape[1], small.shape[0]), 0.6)
+    _, faces = det.detect(small)
+    if faces is None:
+        return None
+    faces = faces.copy()
+    faces[:, :14] /= sc
+    if hint:
+        hx, hy = hint[0] - rx0, hint[1] - ry0
+        fc = min(faces, key=lambda f: abs(f[0] + f[2] / 2 - hx) + abs(f[1] + f[3] / 2 - hy))
+    else:
+        fc = max(faces, key=lambda f: f[2] * f[3])
+    return _REC.feature(_REC.alignCrop(crop, fc))[0]
+
+
+def same_person(shot, key, ct):
+    """True when the vertical clip at `ct` shows the person the master shot is framed on.
+    The social clips cut between cameras on their own, so the same moment can be on the
+    guest in the clip and on Mike in the reel."""
+    ck = f"same|{shot['src']}@{shot['t']:.2f}+{shot['d']:.2f}|{shot.get('fx', 0.5):.2f}|{key}"
+    if ck not in _VMATCH:
+        src = shot["src"]
+        reg = shot.get("region") or REGION.get(src) or (0, 0, *SIZE[src])
+        ok = True
+        for f in (0.2, 0.8):
+            fp = face_point(src, dict(shot), reg)
+            a = _embed(src, shot["t"] + shot["d"] * f, reg, fp)
+            b = _embed(key, ct + shot["d"] * f, REGION[key])
+            if a is None or b is None or float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))) < 0.42:
+                ok = False
+                break
+        _VMATCH[ck] = ok
+        json.dump(_VMATCH, open(os.path.join(SCR, "aud", "vmatch_auto.json"), "w"))
+    return _VMATCH[ck]
+
+
+def vertical_shot(shot):
+    """9:16 only: swap a master shot for the same moment in its native vertical clip, framed
+    full height with no extra zoom. Shots can opt out with vertical=False."""
+    src = shot.get("src")
+    if not src or src not in VCLIP_DIRS or shot.get("vertical") is False:
+        return shot
+    m = vertical_for(src, shot["t"], shot["d"])
+    if not m or not same_person(shot, m[0], m[1]):
+        return shot
+    out = {k: v for k, v in shot.items() if k not in ("region", "pair", "fit", "z", "zmul", "fx", "fy", "dx")}
+    out.update(src=m[0], t=m[1], fx=0.5, fy=0.42, z=1.0, push=min(shot.get("push", 0.05), 0.04), _from=src)
+    return out
+
 INTER_BLACK = "/usr/share/fonts/opentype/inter/InterDisplay-Black.otf"
 INTER_XB = "/usr/share/fonts/opentype/inter/InterDisplay-ExtraBold.otf"
 INTER_SB = "/usr/share/fonts/opentype/inter/Inter-SemiBold.otf"
@@ -355,6 +493,8 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
     gi = 0
     for si, shot in enumerate(reel["shots"]):
         shot = {**shot, **shot.get(fmt, {})}
+        if fmt == "9x16":
+            shot = vertical_shot(shot)
         if shot.get("src") and shot.get("track", True):
             reg = shot.get("region") or REGION.get(shot["src"]) or (0, 0, *SIZE[shot["src"]])
             shot["_face"] = face_point(shot["src"], shot, reg)
