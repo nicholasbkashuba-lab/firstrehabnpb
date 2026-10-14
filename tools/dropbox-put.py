@@ -31,6 +31,8 @@ Usage:
   python3 tools/dropbox-put.py put   <local> <remote> --dry-run
   python3 tools/dropbox-put.py put   <local> <remote> --overwrite
   python3 tools/dropbox-put.py verify <local> <remote>
+  python3 tools/dropbox-put.py ls     "/Pain2Power/Shannon Cake" [--json]
+  python3 tools/dropbox-put.py mkdir  "/Pain2Power/Shannon Cake/Final"
 
 INTEGRITY IS CHECKED WITH DROPBOX'S content_hash, NOT A PLAIN sha256. Dropbox
 defines content_hash as sha256 over the concatenated sha256 digests of each 4 MB
@@ -294,6 +296,44 @@ def cmd_verify(args):
     sys.exit(0 if ok else 1)
 
 
+def list_folder(token, remote):
+    """Immediate children of a Dropbox folder, every page."""
+    res = _call(f"{API}/2/files/list_folder", token,
+                json_body={"path": remote, "recursive": False})
+    entries = list(res.get("entries", []))
+    while res.get("has_more"):
+        res = _call(f"{API}/2/files/list_folder/continue", token,
+                    json_body={"cursor": res["cursor"]})
+        entries += res.get("entries", [])
+    return entries
+
+
+def cmd_ls(args):
+    token = access_token(load_credentials(args.key))
+    entries = list_folder(token, args.remote)
+    if args.json:
+        print(json.dumps(entries, indent=2))
+        return
+    for e in sorted(entries, key=lambda e: e["name"].lower()):
+        kind = e[".tag"]
+        size = _human(e["size"]) if kind == "file" else ""
+        print(f"{kind:6} {size:>10}  {e.get('server_modified', ''):20}  {e['name']}")
+
+
+def cmd_mkdir(args):
+    """Create a folder; succeed quietly if it is already there."""
+    token = access_token(load_credentials(args.key))
+    try:
+        _call(f"{API}/2/files/create_folder_v2", token,
+              json_body={"path": args.remote, "autorename": False})
+        print(f"created {args.remote}")
+    except RuntimeError as exc:
+        if "conflict" in str(exc):
+            print(f"exists  {args.remote}")
+        else:
+            raise
+
+
 def cmd_put(args):
     if not os.path.exists(args.local):
         sys.exit(f"no such file: {args.local}")
@@ -431,6 +471,15 @@ def main():
     p.add_argument("local")
     p.add_argument("remote")
     p.set_defaults(func=cmd_verify)
+
+    p = sub.add_parser("ls", help="list a folder's immediate children")
+    p.add_argument("remote")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_ls)
+
+    p = sub.add_parser("mkdir", help="create a folder (no error if it exists)")
+    p.add_argument("remote")
+    p.set_defaults(func=cmd_mkdir)
 
     args = ap.parse_args()
     args.func(args)

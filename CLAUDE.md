@@ -481,6 +481,28 @@ tmp branches via `curl -X DELETE .../git/refs/heads/...` with GITHUB_TOKEN, then
 run logs via the GitHub MCP (delete_workflow_run_logs). Repo is public: never commit
 secrets to tmp branches; view-only Dropbox share links are acceptable, temporary.
 
+## Pain 2 Power runs itself now — skill + episode watcher (added 2026-10-14)
+Nick, 2026-10-14: "I ask for the same thing over and over." Two pieces carry it:
+
+- **`.claude/skills/pain2power-episode/`**: the whole episode as one runbook, from the
+  Dropbox folder to the scheduled clips, with the questions Nick must answer asked once and
+  early. Any session on this repo loads it when he pastes a Pain2Power folder link. Edit
+  it when the process changes; it points at this file for the detailed rules.
+- **The episode watcher routine** `trig_017tS9xDYF3HDaBdXFwnHhDt` (`docs/routines/episode-watcher.md`
+  is its prompt and the backup of it; it needs no connectors) fires at 10:17 AM, 1:17, 4:17 and 7:17 PM ET. It does two things:
+  1. `tools/episode-watch.py --ready` finds a guest folder in `/Pain2Power` whose upload has
+     settled, claims it by creating `Final/`, and starts a dedicated session on the skill.
+     **`Final/` is the lock**: the skill creates it as step 1, so a folder Nick started by
+     hand is never picked up twice. Folders from before this existed are in `LEGACY`.
+  2. `tools/episode-sync.py links --write` records every episode's Spotify and YouTube URL
+     in `content/episodes/links.json`, then puts anything new on the website and tells Nick
+     the links. **Never ask Nick for a Spotify or YouTube link**: run
+     `episode-sync.py links --episode NN`. A missing link means the platform does not have
+     it yet. The YouTube feed only holds the newest 15 uploads and the daily Shorts push a
+     full episode out within about two weeks, so links.json keeps them after that.
+- Dropbox listing and folder creation go through `tools/dropbox-put.py ls` / `mkdir` (REST
+  API, same credential as `put`). The Dropbox connector is not needed.
+
 ## Keeping the site's newest episode current — AUTOMATED
 Nick, 2026-09-20: "watch for the newest episode and post it onto our website every
 Saturday." The daily routine now does this. `tools/episode-sync.py` is the mechanism.
