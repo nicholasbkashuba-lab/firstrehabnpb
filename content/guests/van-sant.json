@@ -1,0 +1,35 @@
+{
+  "slug": "van-sant",
+  "name": "Logan Van Sant",
+  "honorific": "",
+  "credentials": "",
+  "headline": "Physical therapist at First Rehabilitation of North Palm Beach",
+  "affiliation": {
+    "name": "First Rehabilitation of North Palm Beach",
+    "url": "https://www.firstrehabnpb.com/about.html"
+  },
+  "location": "North Palm Beach, FL",
+  "episodes": [
+    "Episode 5"
+  ],
+  "on_the_show": "Logan sat down with Dave and Mike to talk about what modern physical therapy looks like beyond the stretches and exercises most people expect. He covered how the right movement, at the right time, restores strength and confidence after an injury, and why the relationship between therapist and patient sits at the heart of every successful recovery.",
+  "on_the_show_quote": "",
+  "background": [
+    {
+      "text": "He is a physical therapist at First Rehabilitation of North Palm Beach, dedicated to helping patients move and feel their best.",
+      "source": "https://www.firstrehabnpb.com/about.html"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Meet the team at First Rehabilitation",
+      "url": "https://www.firstrehabnpb.com/about.html",
+      "verified_by": "First Rehabilitation's own About page, generated from the TEAM list in build.py"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "First Rehabilitation staff; no web research by instruction. CREDENTIAL MISMATCH: the Episode 5 label in EPISODES reads 'Logan Van Sant, DPT' and its blurb calls him a 'Doctor of Physical Therapy', but TEAM lists him as plain 'Logan Van Sant', role 'Physical Therapist', and person_schema() gives him no credential. Per instruction, credentials follows TEAM and is left empty; the clinic should confirm whether he holds a DPT and then align TEAM and EPISODES. Only one background fact because TEAM states only one (brief asks for 2 to 6). No transcript for Episode 5, so no quote. 'Sat down with Dave and Mike' assumes the usual hosts; the blurb does not name them.",
+  "researched": "2026-10-14"
+}

@@ -503,6 +503,25 @@ Nick, 2026-10-14: "I ask for the same thing over and over." Two pieces carry it:
 - Dropbox listing and folder creation go through `tools/dropbox-put.py ls` / `mkdir` (REST
   API, same credential as `put`). The Dropbox connector is not needed.
 
+## Guest profiles — /guests.html (added 2026-10-14)
+Nick asked for a page on every guest: who they are, credentials, their story, what they said
+on air, and their sites and socials linked, and for it to be automated. Data is one JSON file
+per guest in `content/guests/<slug>.json`, the one deliberate exception to "build.py holds all
+content", so a routine can add a guest without editing Python. build.py renders them into
+/guests.html (one card per guest, anchor `#<slug>`), a "Meet the guest" link on each
+/podcast.html card, Person schema with sameAs on /guests.html, and `contributor` on each
+PodcastEpisode.
+- `.claude/skills/podcast-guest/SKILL.md` is how a guest is researched. Every background
+  fact carries the URL it was read on; links only when provably the guest's.
+- `python3 tools/guest-sync.py check` lists episodes with no guest file, `validate` refuses
+  an unsourced fact, an unverified link, a directory-only source or a dash, `stale --days 180`
+  lists profiles due a re-check.
+- The episode watcher routine's JOB 3 runs both and adds missing guests on its own
+  (`docs/routines/episode-watcher.md`).
+- Why it exists despite the 2026-09-09 data (guest names drew ~10 impressions in 90 days):
+  the value is guests linking BACK to their profile and the named surgeon associations, not
+  ranking for their names. Ask guests to link to `guests.html#<slug>`.
+
 ## Keeping the site's newest episode current — AUTOMATED
 Nick, 2026-09-20: "watch for the newest episode and post it onto our website every
 Saturday." The daily routine now does this. `tools/episode-sync.py` is the mechanism.

@@ -1,0 +1,39 @@
+{
+  "slug": "dorsey",
+  "name": "Kayla Dorsey",
+  "honorific": "",
+  "credentials": "DPT",
+  "headline": "Physical therapist at First Rehabilitation of North Palm Beach",
+  "affiliation": {
+    "name": "First Rehabilitation of North Palm Beach",
+    "url": "https://www.firstrehabnpb.com/about.html"
+  },
+  "location": "North Palm Beach, FL",
+  "episodes": [
+    "Episode 4"
+  ],
+  "on_the_show": "Kayla opened Episode 4 of Pain 2 Power, a double header with urologist Dr. Murray Goldberg. A Doctor of Physical Therapy on First Rehabilitation&rsquo;s own staff, she talked about how personalized, one on one care changes recovery outcomes. Together the two conversations came back to one theme: taking ownership of your health.",
+  "on_the_show_quote": "",
+  "background": [
+    {
+      "text": "She is a Doctor of Physical Therapy and a physical therapist at First Rehabilitation of North Palm Beach.",
+      "source": "https://www.firstrehabnpb.com/about.html"
+    },
+    {
+      "text": "She brings over a decade of clinical experience in personalized, hands-on care.",
+      "source": "https://www.firstrehabnpb.com/about.html"
+    }
+  ],
+  "links": [
+    {
+      "type": "profile",
+      "label": "Meet the team at First Rehabilitation",
+      "url": "https://www.firstrehabnpb.com/about.html",
+      "verified_by": "First Rehabilitation's own About page, generated from the TEAM list in build.py"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "First Rehabilitation staff; no web research by instruction. Built only from the Episode 4 blurb in EPISODES and the TEAM entry in build.py ('Kayla Dorsey, DPT', Physical Therapist). No transcript exists for Episode 4, so no quote. 'Opened Episode 4' is inferred from the blurb's order ('Then Dr. Murray Goldberg joins'); soften to 'shared Episode 4' if unsure. Location is the clinic's city.",
+  "researched": "2026-10-14"
+}
