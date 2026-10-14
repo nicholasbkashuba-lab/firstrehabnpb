@@ -36,14 +36,19 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    against the mp3. Phones upload a camera hours after the mp3, and rendering from a
    partial file wastes a whole render.
 3. **Episode number and links.** `python3 tools/episode-sync.py links` lists every episode
-   with its Spotify and YouTube URL; this one is the newest number plus one.
+   with its Spotify and YouTube URL; this one is the newest number plus one. Spotify's
+   numbering is the one that counts. Branch names have drifted from it before
+   (`media/ep16-clips` holds Goodwin, who is Episode 17), so check before naming anything.
    **Never ask Nick for a Spotify or YouTube link.** Run
    `episode-sync.py links --episode NN`. If a link is missing, the episode is not out yet,
    and the watcher routine adds it to the site within three hours of it appearing.
 4. **Ask everything at once, early** (one short message, he is on his phone):
-   the guest's Instagram handle for the collaborator field, whether he wants a Friday
-   announcement this week, and the studio or group photo for the Saturday post if the
-   folder has none. Asking at the moment each one blocks costs him three interruptions.
+   the guest's Instagram handle, whether he wants a Friday announcement this week, and
+   the studio or group photo for the Saturday post if the folder has none. Asking at the
+   moment each one blocks costs him three interruptions. Then work to the end without
+   further approvals: "I don't want it to ask for any approvals, I just want it to finish
+   fully." Give one ETA when the render starts; do not send progress pings ("stop
+   checking in").
 5. **Transcribe** the RAW mp3 (faster-whisper, word timestamps). Look for gaps Whisper
    skipped (Episode 18 lost 43 s at 3:11). Grep for "edit that"/"cut that": the hosts
    expect those outtakes removed.
@@ -51,8 +56,10 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    guest, ECAPA embeddings when the room is all men or two guests share a voice range),
    plan shots, render from the RAW cameras with the HLG tonemap. Read
    `references/traps.md` before rendering.
-7. **Deliver the master** with `tools/dropbox-put.py put` and tell Nick the path. That is
-   the handoff; he uploads to YouTube himself.
+7. **Deliver the master** with `tools/dropbox-put.py put`, then send Nick the Dropbox path
+   the moment it lands, unprompted. "Where is the final cut?" is the question he has asked
+   most, across five episodes; Arlosoroff's sat undelivered for a week. He uploads to YouTube
+   himself, so this is the handoff. Never hand him chunks to reassemble or a PowerShell paste.
 8. **Clips.** Hook-first, 15 to 45 s, cut from the RAW cameras, captions in the house style
    (below). Stage with `tools/stage-episode.py` (add the guest to NAME_FIXES first,
    pass `--full-transcript`).
@@ -64,7 +71,8 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
     back IN FULL on every update_post. Finish with `clip-queue.py audit` showing 0 problems.
 11. **Copy.** YouTube and Spotify files above, the Saturday post, and (only if he said yes)
     the Friday announcement. Every fact checked against the transcript with a timestamp.
-12. **Branch, commit, push, draft PR.** Merge only when Nick says to.
+12. **Branch, commit, push, draft PR.** Merge when Nick says "merge it"; he usually does
+    right after reviewing, so expect it rather than asking.
 
 ## House style that Nick has had to correct more than once
 
@@ -75,11 +83,17 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   keep theirs. Bullets are •.
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
   (ASR gave "Elise Maroney" for Elyse Marrone; the Spotify title is the check).
+- **Instagram collaborators** (Nick, 2026-10-14): `legendsradio100.3` on every clip, the
+  guest's own handle once he confirms it, and `mic_mcgann` on clips where Mike features.
+  Instagram allows 3. Check the first published clip's `list_post_results`: a handle that
+  fails takes the whole post down on every platform.
 - **Never put a punch-in crop on screen unchecked**: look at a frame from every shot that
   uses it (Elyse's chin left the frame at 5:54).
 - **Never invent** a credential, statistic or clinical claim. Attribute numbers to whoever
   said them on air. Clinical topics carry the "talk to your own doctor" line.
 - **Updates are short.** One screen on a phone: what is done, what is waiting on him.
+- **Spotify description:** write it from what the guest says on air about their own
+  background. If the episode does not cover it, say so rather than researching it online.
 
 ## When something is missing
 
