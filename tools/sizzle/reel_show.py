@@ -148,8 +148,14 @@ vo("ep14", 0.80, 8.95, on_mike(0.80, 8.95, [2.8, 5.68]), label="open",
    words=[(s, e, {"Pain": "Pain", "to": "2"}.get(w, w) if 4.4 < s < 5.0 else w)
           for s, e, w in w14(0.8, 8.95)])
 marks["hit1"] = now()
-vo("ep14", 9.05, 15.45, on_mike(9.05, 14.17, [11.3]) + [(P("d14_laugh2", "ep19/09-daves-workout", 27.5), 9)],
+vo("ep14", 9.05, 15.62, on_mike(9.05, 14.17, [11.3]) + [(P("d14_laugh2", "ep19/09-daves-workout", 27.5), 9)],
    label="intro")
+# hold on Dave a beat after "Kashuba" so his name card reads (owner: "cut off Dave Kashuba too fast")
+_hold = P("d14_laugh2", "ep19/09-daves-workout", 27.5 + (15.62 - 14.17))
+_hold["t"] += 15.62 - 14.17
+shots.append(dict(_hold, d=1.0))
+T_[0] += 1.0
+marks["intro"] = (marks["intro"][0], now())
 vo("ep16", 10.35, 15.15, [(P("d15_point", "ep19/05-antenna-joke", 12.0, wide="d14_talk"), 0.8),
                           (P("m9_point", "ep13/22-in-the-end-its-what-you-give", 11.0), 0.8),
                           (P("d14_wave", "ep13/21-wrong-joke", 7.0), 0.8),
@@ -176,9 +182,11 @@ marks["dave"] = now()
 black_(1.1)                                                   # AND THEN THERE'S DAVE.
 sync("ep16", 1483.6, 1487.95, _D16, JW["ep16"], label="grape",
      rename={1483.66: "What", 1487.64: "press?"})
-sync("ep16", 1489.55, 1492.4, _M16, JW["ep16"], tight=False, rename={1489.76: "He", 1490.22: "whined."},
+# keep Dave's real 1.2s pause after "press?" (owner: the payoff came "way too fast"); the
+# question ends ~1488.0, "He" lands at 1489.3, "whined" at 1490.0
+sync("ep16", 1488.2, 1492.4, _M16, [(1489.3, 1489.6, "He"), (1490.0, 1490.55, "whined.")], tight=False,
      label="whined")
-marks["rim"] = marks["whined"][0] + (1490.75 - 1489.55)
+marks["rim"] = marks["whined"][0] + (1490.75 - 1488.2)
 # Mike's comeback
 vo("ep16", 614.30, 616.55, [(P("m9_laugh2", "ep13/12-people-can-tell-its-real", 22.5), 9)], words=[(s, e, w) for s, e, w in W16["610-630"] if 614.3 <= s < 616.5],
    label="never")
