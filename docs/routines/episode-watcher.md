@@ -9,9 +9,11 @@ change the routine, change this file in the same PR, and vice versa.
 - Schedule: `CRON_TZ=America/New_York 17 10,13,16,19 * * *` (10:17 AM, 1:17, 4:17, 7:17 PM ET)
 - Fresh session per fire, push notification on, environment "Default" (its Setup script
   writes the Dropbox credential this needs).
-- Connectors: Post Bridge, for JOB 2 step d only. The API refuses `connectors` on this org
-  (it did again on 2026-10-14), so attach Post Bridge by hand in the claude.ai Routines UI.
-  Everything else works without it.
+- Connectors: NONE, on purpose. Dropbox and GitHub go through tools with the environment's
+  existing credentials. Swapping the Saturday post to the episode link stays with the daily
+  poster (`trig_01R5iPGmt45aWsNkwNoX5zDc`), which already has Post Bridge attached. Do not add
+  a Post Bridge step here: the API refuses `connectors` on this org, and Nick should not have
+  to wire a second routine by hand.
 
 ---
 
@@ -37,7 +39,6 @@ Otherwise:
 a. Start from a fresh main: `git fetch origin main && git checkout -B episode-links origin/main`, then re-run both commands (the daily poster may have just done this work).
 b. Website, exactly as the daily poster's "EVERY DAY: put the newest episode on the website" rules in CLAUDE.md "Keeping the site's newest episode current": EPISODES[0] gets a five paragraph blurb written from transcript-full.md on media/ep{NN}-clips with every fact checked against it; VIDEOS comes from `episode-sync.py add-video` with the placeholder teaser replaced by one or two real sentences. Run `python3 build.py`. Push to main ONLY if the build prints no warnings (one exception: "in EPISODES (Spotify) but missing from VIDEOS (YouTube)" for the episode whose video is not out yet is expected on air day, not a fault) and the diff is limited to build.py, regenerated HTML, sitemap.xml, sitemap-dates.json and content/episodes/links.json. Otherwise push a branch and tell Nick.
 c. If only content/episodes/links.json changed, commit just that file to main.
-d. Saturday post: if a Spotify EPISODE url is new and a LinkedIn + Facebook post for that episode is still scheduled (not yet published) and carries the Spotify SHOW link, update_post it to the episode url and pass every other field back. Never create a post. If the Post Bridge tools are missing, skip this and say so.
-e. Tell Nick in a few lines: "Episode NN is on Spotify: <url>" and/or "on YouTube: <url>", plus what you updated (commit sha, post swapped).
+d. Tell Nick in a few lines: "Episode NN is on Spotify: <url>" and/or "on YouTube: <url>", plus what you updated (commit sha).
 
 RULES: never invent a link, a video id or an uploadDate; an absent link is correct until the platform has it. Zero dashes in anything written for a post. Never post to LinkedIn personal 81320. Never touch clip scheduling; the daily poster owns it.
