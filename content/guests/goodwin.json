@@ -1,0 +1,47 @@
+{
+  "slug": "goodwin",
+  "name": "Donald Goodwin",
+  "honorific": "Dr.",
+  "credentials": "MD",
+  "headline": "Radiologist and co-founder of Palm Beach Radiology, now TGH Imaging",
+  "affiliation": {
+    "name": "TGH Imaging",
+    "url": "https://www.tghimaging.com/"
+  },
+  "location": "North Palm Beach, FL",
+  "episodes": [
+    "Episode 17"
+  ],
+  "on_the_show": "Dr. Don Goodwin, a radiologist Dave says has been reading images for more than 50 years, opened Breast Cancer Awareness Month by walking through when screening should start and how often. He sides with annual mammograms from age 40, explains why dense breast tissue can hide small cancers and how ultrasound and MRI add detection, and puts the radiation from a 3D mammogram at about 0.4 millisieverts, roughly one flight across the country. He also reminded listeners that men get breast cancer too.",
+  "on_the_show_quote": "Our job is to find it as small and early as possible, because the smaller the lesion, the earlier the stage, the better the prognosis.",
+  "background": [
+    {
+      "text": "He is a radiologist and co-founder of Palm Beach Radiology in North Palm Beach, which opened in 2007.",
+      "source": "https://www.tgh.org/news/tgh-press-releases/2022/tampa-general-hospital-adds-palm-beach-radiology-to-launch-tgh-imaging-on-the-florida-east-coast"
+    },
+    {
+      "text": "Tampa General Hospital acquired Palm Beach Radiology in October 2022, and the center became TGH Imaging at the same North Palm Beach location.",
+      "source": "https://www.tgh.org/news/tgh-press-releases/2022/tampa-general-hospital-adds-palm-beach-radiology-to-launch-tgh-imaging-on-the-florida-east-coast"
+    },
+    {
+      "text": "When the practice joined Tampa General, he was one of the three physicians named to continue leading it.",
+      "source": "https://www.blog.wellingtonthemagazine.com/health/expanded-access-to-diagnostics/"
+    },
+    {
+      "text": "The North Palm Beach center is accredited by the American College of Radiology and offers 3D mammography, breast MRI, ultrasound and image-guided biopsies.",
+      "source": "https://www.tgh.org/news/tgh-press-releases/2022/tampa-general-hospital-adds-palm-beach-radiology-to-launch-tgh-imaging-on-the-florida-east-coast"
+    }
+  ],
+  "links": [
+    {
+      "type": "website",
+      "label": "TGH Imaging",
+      "url": "https://www.tghimaging.com/",
+      "verified_by": "Tampa General's own press release names www.TGHimaging.com as the site for the center Dr. Goodwin co-founded; no individual physician profile found"
+    }
+  ],
+  "instagram_handle": "",
+  "phone_on_air": "561-841-8588",
+  "research_notes": "Identity confirmed: Tampa General's Oct 2022 press release quotes 'Dr. Donald Goodwin, radiologist and co-founder of Palm Beach Radiology' and gives the center's phone as 561-841-8588, the same number he gave on air. '2007' matches Dave's on-air account. 'MD' is from the show's label and third-party directories (Sharecare/Vitals); neither TGH page writes his post-nominals, so treat it as unconfirmed by an official source. The '50 years' figure is Dave's on air, attributed as such. Education (Sharecare lists University of Miami) and board certification come only from directories, so they are left out. No individual TGH Imaging physician profile found (tghimaging.com location pages are script-rendered). The Wellington the Magazine piece is a reprint of the TGH announcement in a local magazine; it is the only page I opened that names the three physicians (Goodwin, Walter Forman, Robert Stickle); the TGH release itself does not list them.",
+  "researched": "2026-10-14"
+}

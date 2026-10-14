@@ -516,6 +516,7 @@ def nav(depth=0, solid=False):
         <div class="dropdown">
           <a href="{p}podcast.html">Audio Episodes</a>
           <a href="{p}videos.html">Video Episodes</a>
+          <a href="{p}guests.html">Our Guests</a>
         </div>
       </li>
       <li><a class="nav-item" href="{p}faq.html">FAQ</a></li>
@@ -613,6 +614,7 @@ def footer(depth=0):
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}videos.html">Video Episodes</a></li>
+          <li><a href="{p}guests.html">Podcast Guests</a></li>
           <li><a href="{p}faq.html">FAQ</a></li>
           <li><a href="{p}careers.html">Careers</a></li>
           <li><a href="{PORTAL}" target="_blank" rel="noopener">Patient Portal</a></li>
@@ -1652,7 +1654,7 @@ def build_services():
             "physical-therapy": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit"],
             "occupational-therapy": ["physical-therapy-vs-occupational-therapy", "why-hand-therapy-is-different"],
             "hand-therapy": ["why-hand-therapy-is-different"],
-            "wellness": ["pain-2-power-ep11-joyce", "strength-training-after-60-fall-prevention", "gym-program-after-physical-therapy-north-palm-beach"],
+            "wellness": ["personal-training-with-a-therapist-who-knows-your-injury-history", "strength-training-after-60-fall-prevention", "gym-program-after-physical-therapy-north-palm-beach"],
         }
         _sposts = [b for b in SVC_BLOG.get(slug, []) if b in BLOG_POSTS]
         svc_blog_links = ""
@@ -3217,6 +3219,7 @@ def build_exercises():
           + nav(0) + body + footer(0))
 
 EPISODE_POSTS = {
+    "Episode 19": "pain-2-power-ep19-cake",                # Shannon Cake
     "Episode 15": "pain-2-power-ep15-mann",                # Susan Mann
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
     "Episode 10": "pain-2-power-ep10-mcvicker",              # Dr. Zach McVicker
@@ -3224,6 +3227,45 @@ EPISODE_POSTS = {
     "Episode 7": "cartilage-transplant-knee-explained",      # Dr. Rami Elkhechen
     "Episode 6": "knee-arthritis-before-surgery",            # Dr. Richard Weiner
 }
+
+# ----------------------------------------------------------------------------
+# PAIN 2 POWER — GUESTS (/guests.html)
+# ----------------------------------------------------------------------------
+# One JSON file per guest in content/guests/<slug>.json, NOT a dict here, so the
+# episode watcher routine can add a researched guest without editing Python.
+# Shape and rules: .claude/skills/podcast-guest/SKILL.md. Every background fact
+# carries the URL it came from, and tools/guest-sync.py validate refuses a file
+# that does not. GUESTS is sorted newest episode first; EPISODE_GUESTS maps an
+# EPISODES label to the guests on it, for the "Meet the guest" links and the
+# PodcastEpisode contributor schema.
+def _load_guests():
+    import glob, json as _json
+    out = []
+    for path in sorted(glob.glob(os.path.join(ROOT, "content", "guests", "*.json"))):
+        with open(path, encoding="utf-8") as f:
+            out.append(_json.load(f))
+    def latest(g):
+        return max(int(e.split()[-1]) for e in g["episodes"])
+    titles = {e[0]: e[1] for e in EPISODES}
+    def billing(g):   # "Elyse Marrone and Danielle Armstrong" -> Marrone first
+        pos = titles.get(f"Episode {latest(g)}", "").find(g["name"].split()[-1])
+        return pos if pos >= 0 else 10**6
+    out.sort(key=lambda g: (-latest(g), billing(g), g["slug"]))
+    return out
+
+GUESTS = _load_guests()
+EPISODE_GUESTS = {}
+for _g in GUESTS:
+    for _e in _g["episodes"]:
+        EPISODE_GUESTS.setdefault(_e, []).append(_g)
+
+def guest_display(g):
+    """'Dr. Matt Butler, MD' — honorific, name, then credentials as the guest writes them."""
+    name = f'{g["honorific"]} {g["name"]}'.strip()
+    return f'{name}, {g["credentials"]}' if g.get("credentials") else name
+
+def guest_id(g):
+    return f"https://www.firstrehabnpb.com/guests.html#{g['slug']}"
 
 def _podcast_schema():
     """PodcastSeries + PodcastEpisode JSON-LD from the EPISODES list."""
@@ -3238,9 +3280,14 @@ def _podcast_schema():
     graph = [series]
     for num, title, desc, url, label in EPISODES:
         if "open.spotify.com/episode/" in url:
-            graph.append({"@type": "PodcastEpisode", "name": _faq_plain(title),
-                          "description": _faq_plain(desc.replace("<br><br>", " ")), "url": url,
-                          "partOfSeries": {"@type": "PodcastSeries", "name": "Pain 2 Power"}})
+            ep = {"@type": "PodcastEpisode", "name": _faq_plain(title),
+                  "description": _faq_plain(desc.replace("<br><br>", " ")), "url": url,
+                  "partOfSeries": {"@type": "PodcastSeries", "name": "Pain 2 Power"}}
+            # The guest, by @id, pointing at their Person node on /guests.html.
+            if EPISODE_GUESTS.get(num):
+                ep["contributor"] = [{"@type": "Person", "@id": guest_id(g), "name": _faq_plain(guest_display(g))}
+                                     for g in EPISODE_GUESTS[num]]
+            graph.append(ep)
     data = {"@context": "https://schema.org", "@graph": graph}
     return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
 
@@ -3280,6 +3327,9 @@ def build_podcast():
         if slug and slug in BLOG_POSTS:
             recap = (f'<p class="pod-recap"><a href="blog/{slug}.html">'
                      f'Read the recap: {BLOG_POSTS[slug]["title"]}</a></p>')
+        for g in EPISODE_GUESTS.get(num, []):
+            recap += (f'<p class="pod-recap"><a href="guests.html#{g["slug"]}">'
+                      f'Meet the guest: {guest_display(g)}</a></p>')
         return f'''<div class="pod-card reveal">
           <div class="pod-head"><span class="pod-num">{num}</span><h3>{title}</h3>{_paras(desc)}{recap}</div>
           {action}
@@ -3795,6 +3845,143 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "personal-training-with-a-therapist-who-knows-your-injury-history": {
+        "title": "Personal Training With a Therapist Who Knows Your Injury History",
+        "date": "October 2026",
+        "iso": "2026-10-17",
+        "tag": "Wellness",
+        "teaser": "Why training with a team that treated your injury beats a clipboard at a big box gym, told through Newsmax anchor Shannon Cake's rotator cuff rehab.",
+        "body": """
+<p>You finished physical therapy for a shoulder, a knee or a back. You feel good. Now you want to train properly, and the trainer at the big box gym hands you a clipboard with a box marked &ldquo;injuries&rdquo; and a pen. That box is where most of what your therapist learned about you goes to disappear.</p>
+<p>Personal training with a therapist who knows your injury history works differently. The person writing your program has already seen how your joint moves, where it complains, and how far it came. This post explains what that looks like in practice, using the story Newsmax anchor Shannon Cake told on our Pain 2 Power radio show about rehabbing a torn rotator cuff with us and training on Dave&rsquo;s program along the way.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>What personal training with a therapist who knows your injury history means</h2>
+<p>Our <a href="../services/wellness.html">wellness program</a> sits inside the clinic at 733 US Highway 1 in North Palm Beach. It runs one-on-one personal training, post-rehab exercise, small group classes, senior functional fitness and sports performance work. The service page describes the personal training simply: one-on-one sessions designed around your goals, your history, and any conditions we have treated together.</p>
+<p>That last clause is the whole point. If you did your physical, occupational or hand therapy with us, the team already has the chart. They know which side was injured, whether there was a surgery, what your range of motion looked like on day one and on your last visit, and which exercises flared it up. Nobody has to reconstruct that from a form you filled in at a front counter.</p>
+<p>It also changes who you are talking to. A general fitness trainer may be excellent at programming, but a rotator cuff that was torn eight months ago is a medical history, and reading it well is a clinical skill. Dr. Dave Kashuba, Ph.D., OTR, who founded the clinic in 1991, has spent his career on exactly that overlap.</p>
+<h3>Why this is different from a referral to a gym</h3>
+<p>Plenty of clinics finish your plan of care, hand you a printout and wish you well. That printout matters, and every patient here leaves with a written home exercise program. The difference with training in the same building is continuity. If your shoulder starts talking back on a Thursday, the people who treated it are down the hall, not across town at another practice that has never seen you.</p>
+<h2>From rotator cuff rehab to a 25 minute workout: one patient&rsquo;s path</h2>
+<p>Shannon Cake hosts News Now on Newsmax 2 and spent decades as an investigative reporter in West Palm Beach. On Episode 19 of Pain 2 Power she described how she ended up in our clinic. &ldquo;I had torn my rotator cuff and was there as a patient,&rdquo; she said. &ldquo;Dave was great and pushed me in all the right ways. He and his team both.&rdquo;</p>
+<p>While she was rehabbing, the team also put her through a full workout, the program she knew as the Captain Kerry workout after another longtime patient, Captain Kerry Titheradge of Bravo&rsquo;s Below Deck. She liked it enough to report on it for television. She was no stranger to exercise either. She taught aerobics in college to help pay the bills and had done one set intensity training back when she had more time for gyms.</p>
+<p>Her summary of what made it work was practical. &ldquo;You can do this in about 25 minutes with consistency if you do it the way you&rsquo;ve laid out,&rdquo; she said. &ldquo;Just go in and be really focused and concerted and move quickly, even between your sets.&rdquo;</p>
+<h3>Whose workout is it, anyway</h3>
+<p>Dave wanted one thing clear on air. The program carries Captain Kerry&rsquo;s name in some circles, but it is Dave&rsquo;s. &ldquo;I studied this for 35 years, putting together a program,&rdquo; he said, built on neuromuscular work and on what exercise does for pain. Captain Kerry does Dave&rsquo;s workout. Mike McGann, his co-host, compared the mix-up to Hydrox and Oreo.</p>
+<p>The joke has a serious point under it. A program built by someone who has spent decades treating injuries is designed with the injured joint in mind from the start, rather than having safety bolted on afterwards.</p>
+<h2>Why your injury history changes the program</h2>
+<p>Two people can walk into the same gym wanting the same thing, a stronger upper body, and need completely different programs. One had a rotator cuff tear. The other had nothing wrong at all. If they both start with heavy overhead pressing, only one of them is going to have a good month.</p>
+<p>Knowing the history lets a therapist trained in rehab make specific calls. Which lifts to delay. Which to swap for a cable or band version. How fast to add load. Which soreness is normal training soreness and which looks like the old problem coming back. That last judgment is the one a clipboard can&rsquo;t make.</p>
+<p>Age adds to it. Shannon made the point herself on the show: strength work is probably more important for someone her age, and it is the part she has to squeeze into the nooks and crannies of the day. Our <a href="strength-training-after-60-fall-prevention.html">guide to strength training after 60</a> goes into why that matters for balance and falls.</p>
+<h3>Questions to ask before you start training after an injury</h3>
+<p>Whoever you train with, these are fair questions to put to them in the first session:</p>
+<ul>
+<li>Have you read my therapy notes, or are you working from what I tell you today?</li>
+<li>Which movements are off the table for now, and what will I do instead?</li>
+<li>How will we decide when to add weight to the injured side?</li>
+<li>What kind of pain means stop, and who do I call if it happens?</li>
+<li>If something flares up, can I be re-evaluated without starting over somewhere new?</li>
+</ul>
+<p>If the answers are vague, that tells you something. Inside our clinic, the last question answers itself, because the therapists who can re-evaluate you work in the same building.</p>
+<h2>Fitting strength into a schedule that starts at 4:30 AM</h2>
+<p>Most people who stop training after rehab don&rsquo;t stop because of the shoulder. They stop because life fills the space. Shannon&rsquo;s day starts at about 4:30, her first editorial meeting is at 5:30, and she is on the air by 9. So she does the work first. &ldquo;If you&rsquo;re gonna get your workout in, do it first thing in the morning,&rdquo; she said, because &ldquo;it&rsquo;s the hour of the day that gets least interrupted.&rdquo;</p>
+<p>Her version is 30 minutes on a bike, a couple of glasses of water, and strength fitted in wherever it goes. Some days she grabs one of her two teenage boys and they lift together. Some days it is 20 or 30 push-ups and some sit-ups. She was frank that it is not always tidy: sometimes it gets interrupted and sometimes it doesn&rsquo;t happen at all.</p>
+<h3>Short sessions, done consistently</h3>
+<p>That frankness is useful. A 25 minute session you actually do beats an hour-long plan you abandon in March. Mike put it bluntly on the same episode: &ldquo;It&rsquo;s not a matter of not having enough time. It&rsquo;s a matter of what&rsquo;s a priority.&rdquo; His examples were doom scrolling and unboxing videos. Most of us could find 25 minutes in that pile.</p>
+<p>A good trainer who knows your history builds the program around the time you really have, not the time you wish you had. Short, focused sessions with little rest between sets are what Shannon liked about Dave&rsquo;s format. They are easy to fit in, and that is what keeps people coming back.</p>
+<h2>Post rehab exercise that picks up where therapy left off</h2>
+<p>Here is how the wellness program describes its pieces. None of it replaces a plan of care while you still need skilled therapy.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Wellness program services and who they suit">
+<table>
+<caption>The six parts of the First Rehabilitation wellness program, as listed on our wellness service page. Pricing and schedules are handled by the front desk.</caption>
+<thead><tr><th scope="col">Part of the program</th><th scope="col">How the service page describes it</th></tr></thead>
+<tbody>
+<tr><th scope="row">Personal training</th><td>One-on-one sessions designed around your goals, history, and conditions we have treated together</td></tr>
+<tr><th scope="row">Post-rehab exercise</th><td>Structured programs that bridge therapy and independence</td></tr>
+<tr><th scope="row">Sports performance</th><td>Strength, mobility and conditioning for active adults and athletes</td></tr>
+<tr><th scope="row">Group fitness classes</th><td>Small, supportive classes that make consistency enjoyable</td></tr>
+<tr><th scope="row">Senior functional fitness</th><td>Balance, strength and mobility focused on independence and fall prevention</td></tr>
+<tr><th scope="row">Lifestyle and injury prevention</th><td>Long-term management and movement coaching</td></tr>
+</tbody>
+</table>
+</div>
+<p>Your own plan comes out of a conversation with the team, and if you are still mid-treatment, your therapist decides when you are ready to cross over.</p>
+<p>We wrote separately about <a href="gym-program-after-physical-therapy-north-palm-beach.html">your gym program after physical therapy ends</a>, including the band program Dave sends home with patients. This post is about the step after that, when you want a person in the room.</p>
+<h2>Training in North Palm Beach, a short drive from Juno Beach and Palm Beach Gardens</h2>
+<p>The clinic is on US-1 in North Palm Beach, close to <a href="../locations/juno-beach.html">Juno Beach</a>, Palm Beach Gardens, Lake Park and Jupiter. A lot of the people who train with us did their therapy here first, and the convenience of staying put is a big part of why they keep going. The same parking lot, the same front desk, and a team that remembers you. Dave, as Shannon put it, knows your kids&rsquo; names.</p>
+<p>It also helps with what we see most often after discharge. Patients coming off <a href="../treatments/post-surgical.html">post-surgical rehabilitation</a> are the ones most at risk of losing range of motion in the months that follow. Patients with a history of <a href="../treatments/shoulder-pain.html">shoulder pain</a>, like Shannon, need overhead work brought back in carefully rather than all at once.</p>
+<h2>What this doesn&rsquo;t replace</h2>
+<p>A training session isn&rsquo;t an evaluation. If something new starts hurting, swells, wakes you up at night, or simply won&rsquo;t settle, stop training it and get it looked at. In Florida you can usually start a physical therapy evaluation without a referral.</p>
+<p>The money side is separate too. The wellness gym does not take insurance and is a different program from Medicare-covered therapy. Our <a href="../insurance.html#medicare-guide">Medicare guide</a> explains where therapy coverage stops. Memberships, prices and schedules are a front desk conversation, and the <a href="../faq.html#wellness-gym">wellness and gym FAQ</a> covers the common questions. We are not going to guess at numbers here.</p>
+<p>If you want to hear Shannon tell the story in her own words, the full episode is on <a href="../podcast.html">the Pain 2 Power podcast page</a>, and we wrote it up in <a href="pain-2-power-ep19-cake.html">our recap of her episode</a>.</p>
+<h2>Start with a conversation</h2>
+<p>If you finished therapy with us, ask the front desk about personal training the next time you are in. If you did your rehab somewhere else, or you never had any and something is holding you back, an evaluation is the right first step. Either way, call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and we will help you work out what makes sense.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep19-cake": {
+        "title": "Shannon Cake on 23 Emmys, a Torn Rotator Cuff and Working Out First Thing",
+        "date": "October 2026",
+        "iso": "2026-10-17",
+        "tag": "Pain 2 Power",
+        "teaser": "Newsmax anchor Shannon Cake joins Dave and Mike on her start in consumer reporting, her father's interpreter story, and how she trains before a 4:30 AM news day.",
+        "body": """
+<p>Before Shannon Cake said a word on this week&rsquo;s Pain 2 Power, Dave had already done the math on her. Take Peter Jennings, Walter Cronkite and Barbara Walters, he told Mike, add up every Emmy the three of them won, and by his count you get 22. &ldquo;Shannon has 23 herself,&rdquo; he said.</p>
+<p>She spent the next half hour handing the credit to other people, telling a story about her father and a Chinese interpreter, and explaining how a woman who is on the air by 9 every morning still gets her workout in. That last part is the one most of us can use.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Twenty three Emmys, and she gives the credit away</h2>
+<p>Shannon Cake is a name most people in Palm Beach County know from local television. Today she hosts News Now on Newsmax 2, weekdays from 9 to 10 in the morning, and she has been in broadcasting for 35 years. Dave&rsquo;s introduction ran long on purpose. Beyond the Emmys, he pointed out that she won the Edward R. Murrow Award, which Mike, a broadcaster himself, called one of the holy grails of the business.</p>
+<p>Her first move was to correct him, politely. &ldquo;I didn&rsquo;t win anything alone. We never do,&rdquo; she said. She started in radio, then worked inside newsroom teams with, as she put it, a lot of folks pushing the buttons. One colleague got singled out: &ldquo;an incredible photographer partner for a bulk of my career. And he really helped me, helped me see things and become, you know, the journalist I am today.&rdquo;</p>
+<p>Anyone who has worked in a clinic, a kitchen or a newsroom will recognize that. The face on camera is the last step of a lot of work by people you never see.</p>
+<h3>How Newsmax actually found her</h3>
+<p>Dave&rsquo;s version was that Newsmax begged her to come over. She corrected that one too. &ldquo;Newsmax didn&rsquo;t beg me,&rdquo; she said. The owner, who built the company from very humble beginnings into what she called a global news operation, happened to be a viewer of her local work. They were introduced, they connected, and he offered her a position. Dave&rsquo;s reply was the best line of the opening segment: &ldquo;It&rsquo;s nice that you&rsquo;re humble that way, but I still like my story.&rdquo;</p>
+<h2>From a campus radio station in Tuscaloosa to consumer investigations in West Palm Beach</h2>
+<p>Mike asked what made her want to be a reporter in the first place, and the answer started with her father. He served in the military with an armored cavalry division, so the family was stationed in Germany, and later he moved into the diplomatic and intelligence side of government. The family lived in Singapore and Hong Kong, and China was his specialty. Her brother became an auditor. She became an investigative reporter. In her telling, the way their parents raised them was the common thread: you were representing the nation, and you were supposed to do the right thing.</p>
+<p>&ldquo;And the injustice of consumer work really struck me at a very young age,&rdquo; she said. Her first job in radio was at the NPR affiliate at the University of Alabama in Tuscaloosa, with some sports work in that market on the side. Then a position opened in the consumer investigative division of a West Palm Beach station, and that was the job that stuck.</p>
+<h3>One story, one evening</h3>
+<p>The quote that kept her in that arena came from a friend. Dave Aronberg, whom she described as a former state attorney here in South Florida, met her when they were both starting out, she as a young consumer reporter and he as a young assistant attorney general. Years later she told him over lunch that maybe she had missed her calling and should have gone to law school. His answer, as she remembers it: &ldquo;with one story, one story in an evening, you can do more sometimes than a lawmaker can do their entire career.&rdquo;</p>
+<p>Dave added some of what that looked like in practice. Her investigative work helped expose Medicare fraud and pushed on highway safety, and she has given her time to grassroots nonprofits including Believe With Me, which supports Gold Star families, and the Wounded Veterans Relief Fund. She also helped Remember Me, the early onset dementia foundation Dave has talked about on earlier episodes.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Shannon Cake's career as described on the episode">
+<table>
+<caption>Shannon Cake&rsquo;s career as she and Dave Kashuba described it on Pain 2 Power Episode 19. Awards and titles are as stated on air.</caption>
+<thead><tr><th scope="col">Stage</th><th scope="col">What was said on the show</th></tr></thead>
+<tbody>
+<tr><th scope="row">Growing up</th><td>Military family stationed in Germany, then Singapore and Hong Kong; her father&rsquo;s specialty was China</td></tr>
+<tr><th scope="row">First job</th><td>Radio at the NPR affiliate at the University of Alabama in Tuscaloosa, plus local sports work</td></tr>
+<tr><th scope="row">Palm Beach County</th><td>Consumer investigative reporting at a West Palm Beach station, including Medicare fraud and highway safety stories</td></tr>
+<tr><th scope="row">Recognition</th><td>23 Emmys and the Edward R. Murrow Award, per Dave&rsquo;s introduction, over 35 years in broadcasting</td></tr>
+<tr><th scope="row">Today</th><td>Host of News Now on Newsmax 2, 9 to 10 AM weekdays</td></tr>
+</tbody>
+</table>
+</div>
+<h2>The interpreter who wasn&rsquo;t interpreting</h2>
+<p>Dave knows her parents a little, and he asked her to tell a story he had heard secondhand. After her father retired from government (he finished at the China desk at the Pentagon, she said), he went into the import and export business, silk and steel, with two partners. Going into a negotiation in China, the other side would often offer the visiting businessman one of their own interpreters.</p>
+<p>Her advice, passed down from him, was to bring your own. If you accept the kind offer, she said, &ldquo;You can rest assured that you better check your numbers at the end of the meeting. No disrespect. But it is part of business.&rdquo; Her father had an advantage most visitors did not. He spoke the language, so he knew exactly what was being said across the table. She would not say much more about how he went in, only that he was armed and ready, and that he came out with a couple of good deals.</p>
+<p>Mike, who thinks about words for a living, put it neatly. Change a couple of words here and there, pick one with the same denotation but a different connotation, and watch what happens.</p>
+<h2>Headaches, and what Dave says therapy can and can&rsquo;t do</h2>
+<p>Dave and Shannon have a friend in common, a Palm Beach County neurologist she called one of the most brilliant on the planet, whom she saw a few years back for dizzy spells and headaches. She said they have not bothered her much in recent years. Her main takeaway from those visits was blunt: she used to blame the headaches on allergy season, and he told her a headache is a headache.</p>
+<p>That gave Dave an opening to talk about the headache patients physical therapy sees all the time. He was careful about the limits. &ldquo;We can&rsquo;t stop the migraine because migraine is actually a systemic problem, but we can stop the triggering to migraines,&rdquo; he said. He added that &ldquo;exercise and staying physically fit is key to actually reducing headaches.&rdquo;</p>
+<p>That matches how we describe it on our <a href="../treatments/headache-relief.html">headache treatment page</a>: we treat headaches that start in the neck, tension headaches, and neck related migraine triggers, and we do not claim to cure migraine. If yours seem to start at the base of your skull, our longer piece on <a href="headaches-that-start-in-the-neck.html">headaches that start in the neck</a> walks through what an evaluation looks for.</p>
+<h2>Up at 4:30, and 30 minutes on the bike</h2>
+<p>Then Dave asked the question he had invited her on to answer. How does someone with her schedule stay in shape?</p>
+<p>Her answer was refreshingly unglamorous. She learned early that &ldquo;if you&rsquo;re gonna get your workout in, do it first thing in the morning.&rdquo; Nothing about the hour itself is magic for strength or weight loss, she said. &ldquo;It&rsquo;s the hour of the day that gets least interrupted.&rdquo;</p>
+<p>Her day now starts at about 4:30, catching up on whatever happened overnight, because the network covers the globe. The first editorial meeting is at 5:30 and she is on the air by 9. So the bike comes first. &ldquo;If I don&rsquo;t wake up and get on that bike, even with my eyelids half closed, by the time that 30 minutes is over, I&rsquo;m definitely awake,&rdquo; she said. A couple of glasses of water, some cardio done, and then strength gets squeezed into the nooks and crannies of the day.</p>
+<h3>Teenage boys, push-ups, and honesty</h3>
+<p>She has two teenage boys, and some days she grabs one and says, let&rsquo;s go lift a little bit. Other days it is 20 or 30 push-ups and some sit-ups. And she was honest about the rest: &ldquo;it&rsquo;s not pretty and sometimes it gets interrupted and sometimes it doesn&rsquo;t happen at all.&rdquo; She also said strength work is probably more important for someone her age, and that it is the part she has to squeeze in.</p>
+<h3>Mike&rsquo;s rule: priorities, not time</h3>
+<p>Mike took it from there. &ldquo;It&rsquo;s not a matter of not having enough time. It&rsquo;s a matter of what&rsquo;s a priority,&rdquo; he said, repeating something he had heard recently. The time is usually there if you stop doom scrolling, he argued, and find something a bit more personally productive than unboxing videos.</p>
+<h2>A torn rotator cuff, and the workout with Dave&rsquo;s name on it</h2>
+<p>Shannon and Dave first met because she got hurt. &ldquo;I had torn my rotator cuff and was there as a patient,&rdquo; she said, describing her time at the clinic here on US-1. &ldquo;Dave was great and pushed me in all the right ways. He and his team both.&rdquo; What stuck with her was how personal it felt. He knows your kids&rsquo; names, she said, and asks after your mother if she has been sick.</p>
+<p>While she was rehabbing, the team put her through the workout people know as the Captain Kerry workout, after Captain Kerry Titheradge of Bravo&rsquo;s Below Deck, a longtime patient and an earlier guest on the show. She liked it enough to do a television story on it. She used to teach aerobics in college to help pay the bills and had done one set intensity training when she had more time for gyms, so the format felt familiar. Her verdict was that &ldquo;you can do this in about 25 minutes with consistency if you do it the way you&rsquo;ve laid out,&rdquo; and the trick is to &ldquo;move quickly, even between your sets.&rdquo;</p>
+<p>Dave, who had been waiting for this, wanted one correction on the record. Captain Kerry does Dave&rsquo;s workout, not the other way around. &ldquo;I studied this for 35 years, putting together a program,&rdquo; he said, built on neuromuscular work and on what exercise does for pain. As he tells it, that was his reaction when Shannon told her TV audience to try the Captain Kerry workout. The studio enjoyed it. Mike compared it to Hydrox, the cookie that came before Oreo and somehow became known as the knockoff.</p>
+<p>If you are dealing with a shoulder of your own, our <a href="../treatments/shoulder-pain.html">shoulder pain page</a> covers what rotator cuff rehab involves, and our <a href="../services/wellness.html">wellness program</a> is where patients keep training once therapy ends. We wrote about that second step in more detail in <a href="personal-training-with-a-therapist-who-knows-your-injury-history.html">personal training with a therapist who knows your injury history</a>.</p>
+<h2>Two antennas and a reminder to vote</h2>
+<p>Dave closed with the joke of the week, which he admitted he borrowed from Mike. Two antennas on neighboring roofs start liking each other, get engaged and get married. &ldquo;I was invited to the wedding, which wasn&rsquo;t that great, but you know what? The reception was so good.&rdquo; Shannon&rsquo;s response was a heartfelt &ldquo;God bless you, Dave.&rdquo;</p>
+<p>His last word was about the election. If you know someone who always votes the other way, he said, and you go vote, you cancel her vote out. Get two people to vote and you are ahead. &ldquo;I don&rsquo;t care who you vote for. People have died to give us the right to vote.&rdquo; Mike noted that Dave was literally pounding.</p>
+<p>Dave promised to have her back. He said he had been asking her since April or May.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch past episodes in our <a href="../videos.html">video library</a>, and catch the show live Saturdays at 8:30 AM on 100.3 Legends Radio. If a shoulder, a headache or a stalled workout routine is what brought you here, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "physical-therapy-and-rehab-services-in-north-palm-beach-what-we-treat": {
         "title": "Physical Therapy and Rehab Services in North Palm Beach: What We Treat",
         "updated": "2026-10-14",   # deepened to the 1,700-word standard
@@ -5084,8 +5271,10 @@ BLOG_POSTS = {
 # target at least once, so adding a post means adding it to somebody's list too.
 # Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
 RELATED_POSTS = {
+    "personal-training-with-a-therapist-who-knows-your-injury-history": ["gym-program-after-physical-therapy-north-palm-beach", "strength-training-after-60-fall-prevention", "pain-2-power-ep19-cake"],
+    "pain-2-power-ep19-cake": ["personal-training-with-a-therapist-who-knows-your-injury-history", "headaches-that-start-in-the-neck", "pain-2-power-ep15-mann"],
     "strength-training-after-60-fall-prevention": ["gym-program-after-physical-therapy-north-palm-beach", "pain-2-power-ep11-joyce", "reverse-shoulder-replacement-explained"],
-    "gym-program-after-physical-therapy-north-palm-beach": ["strength-training-after-60-fall-prevention", "reverse-shoulder-replacement-explained", "why-hand-therapy-is-different"],
+    "gym-program-after-physical-therapy-north-palm-beach": ["strength-training-after-60-fall-prevention", "personal-training-with-a-therapist-who-knows-your-injury-history", "reverse-shoulder-replacement-explained"],
     "pain-2-power-ep15-mann": ["post-stroke-occupational-therapy-north-palm-beach", "physical-therapy-vs-occupational-therapy", "pain-2-power-ep11-joyce"],
     "post-stroke-occupational-therapy-north-palm-beach": ["physical-therapy-vs-occupational-therapy", "pain-2-power-ep15-mann", "why-hand-therapy-is-different"],
     "pain-2-power-ep11-joyce": ["strength-training-after-60-fall-prevention", "pain-2-power-ep10-mcvicker", "pain-2-power-ep15-mann"],
@@ -5098,7 +5287,7 @@ RELATED_POSTS = {
     "five-morning-habits-back-pain": ["hip-impingement-back-pain-north-palm-beach", "headaches-that-start-in-the-neck", "what-to-expect-first-pt-visit"],
     "why-hand-therapy-is-different": ["physical-therapy-vs-occupational-therapy", "what-to-expect-first-pt-visit", "reverse-shoulder-replacement-explained"],
     "knee-arthritis-before-surgery": ["partial-vs-total-knee-replacement", "cartilage-transplant-knee-explained", "pain-2-power-ep10-mcvicker"],
-    "headaches-that-start-in-the-neck": ["five-morning-habits-back-pain", "what-to-expect-first-pt-visit", "physical-therapy-vs-occupational-therapy"],
+    "headaches-that-start-in-the-neck": ["five-morning-habits-back-pain", "pain-2-power-ep19-cake", "what-to-expect-first-pt-visit"],
     "cartilage-transplant-knee-explained": ["knee-arthritis-before-surgery", "partial-vs-total-knee-replacement", "reverse-shoulder-replacement-explained"],
 }
 
@@ -5188,6 +5377,8 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "personal-training-with-a-therapist-who-knows-your-injury-history": "Personal Training With a Therapist Who Knows Your Injury",
+            "pain-2-power-ep19-cake": "Shannon Cake on Pain 2 Power: Newsmax Anchor Interview",
             # Long-tail title tag so this post stops competing with the homepage for
             # "physical therapy North Palm Beach" (SEO-KEYWORDS.md rule 2). H1 unchanged.
             "physical-therapy-and-rehab-services-in-north-palm-beach-what-we-treat": "What Physical Therapy Treats, and Your First Visit",
@@ -6041,6 +6232,132 @@ def build_videos():
                extra_schema=_video_schema() + breadcrumb_schema([("Home", ""), ("Videos", "videos.html")]))
           + nav(0) + body + footer(0))
 
+GUEST_LINK_LABELS = {
+    "website": "Website", "profile": "Profile", "instagram": "Instagram",
+    "facebook": "Facebook", "linkedin": "LinkedIn", "x": "X", "youtube": "YouTube",
+    "tiktok": "TikTok", "podcast": "Podcast", "book": "Book", "other": "Link",
+}
+
+def _guest_card(g):
+    from urllib.parse import urlparse
+    slug, display = g["slug"], guest_display(g)
+    eps = sorted(g["episodes"], key=lambda e: -int(e.split()[-1]))
+    pills = "".join(f'<span class="pod-num">{e}</span>' for e in eps)
+    aff = g.get("affiliation") or {}
+    role = [g["headline"]]
+    if aff.get("name"):
+        role.append(f'<a href="{aff["url"]}" target="_blank" rel="noopener">{aff["name"]}</a>'
+                    if aff.get("url") else aff["name"])
+    if g.get("location"):
+        role.append(g["location"])
+    quote = (f'<blockquote class="guest-quote">&ldquo;{g["on_the_show_quote"]}&rdquo;</blockquote>'
+             if g.get("on_the_show_quote") else "")
+    facts = "".join(f'<li>{b["text"]}</li>' for b in g.get("background", []))
+    facts_html = (f'<h3 class="guest-label">Background</h3><ul class="guest-facts">{facts}</ul>'
+                  if facts else "")
+    links = "".join(
+        f'<a class="guest-link" href="{l["url"]}" target="_blank" rel="noopener">'
+        f'{l.get("label") or GUEST_LINK_LABELS.get(l["type"], "Link")}</a>'
+        for l in g.get("links", []))
+    links_html = f'<div class="guest-links" aria-label="{display} online">{links}</div>' if links else ""
+    # Every episode they were on: Spotify, YouTube, and the recap post when one exists.
+    actions = []
+    by_label = {e[0]: e for e in EPISODES}
+    for e in eps:
+        ep = by_label.get(e)
+        if ep and "open.spotify.com/episode/" in ep[3]:
+            actions.append(f'<a class="btn btn-coral" href="{ep[3]}" target="_blank" rel="noopener">Listen to {e} <span class="arr">&rarr;</span></a>')
+        vid = next((v for v in VIDEOS if v["ep"] == e), None)
+        if vid:
+            actions.append(f'<a class="btn btn-ink" href="https://www.youtube.com/watch?v={vid["id"]}" target="_blank" rel="noopener">Watch on YouTube</a>')
+        post = EPISODE_POSTS.get(e)
+        if post and post in BLOG_POSTS:
+            actions.append(f'<a class="btn btn-ink" href="blog/{post}.html">Read the recap</a>')
+    # Where the background came from, by site, so a reader can check it.
+    hosts = []
+    for b in g.get("background", []):
+        h = urlparse(b["source"]).netloc.replace("www.", "")
+        if h and (h, b["source"]) not in hosts and h not in [x for x, _ in hosts]:
+            hosts.append((h, b["source"]))
+    sources = (' '.join(f'<a href="{u}" target="_blank" rel="noopener">{h}</a>' for h, u in hosts))
+    sources_html = f'<p class="guest-sources">Background sources: {sources}</p>' if sources else ""
+    return f'''<article class="guest-card reveal" id="{slug}">
+  <div class="guest-eps">{pills}</div>
+  <h2>{display}</h2>
+  <p class="guest-role">{" &middot; ".join(role)}</p>
+  <h3 class="guest-label">On the show</h3>
+  {quote}<p>{g["on_the_show"]}</p>
+  {facts_html}
+  {links_html}
+  <div class="guest-actions">{"".join(actions)}</div>
+  {sources_html}
+</article>'''
+
+def _guests_schema():
+    import json as _json
+    graph = []
+    for g in GUESTS:
+        p = {"@type": "Person", "@id": guest_id(g), "name": g["name"],
+             "jobTitle": _faq_plain(g["headline"]), "description": _faq_plain(g["on_the_show"]),
+             "url": guest_id(g)}
+        if g["honorific"] == "Dr.":
+            p["honorificPrefix"] = "Dr."
+        if g.get("credentials"):
+            p["honorificSuffix"] = g["credentials"]
+        aff = g.get("affiliation") or {}
+        if aff.get("name"):
+            org = {"@type": "Organization", "name": _faq_plain(aff["name"])}
+            if aff.get("url"):
+                org["url"] = aff["url"]
+            p["worksFor"] = org
+        same = [l["url"] for l in g.get("links", []) if "firstrehabnpb.com" not in l["url"]]
+        if same:
+            p["sameAs"] = same
+        graph.append(p)
+    page = {"@type": "CollectionPage", "@id": "https://www.firstrehabnpb.com/guests.html",
+            "name": "Pain 2 Power Podcast Guests", "url": "https://www.firstrehabnpb.com/guests.html",
+            "publisher": {"@id": "https://www.firstrehabnpb.com/#organization"},
+            "about": {"@type": "PodcastSeries", "name": "Pain 2 Power", "url": "https://www.firstrehabnpb.com/podcast.html"},
+            "mainEntity": {"@type": "ItemList", "itemListElement": [
+                {"@type": "ListItem", "position": i + 1, "item": {"@id": guest_id(g)}} for i, g in enumerate(GUESTS)]}}
+    data = {"@context": "https://schema.org", "@graph": [page] + graph}
+    return '<script type="application/ld+json">' + _json.dumps(data, ensure_ascii=False) + '</script>\n'
+
+def build_guests():
+    crumbs = '<div class="crumbs"><a href="/">Home</a> / <a href="podcast.html">Podcast</a> / Guests</div>'
+    index = "".join(
+        f'<a class="guest-jump" href="#{g["slug"]}"><span class="gj-name">{guest_display(g)}</span>'
+        f'<span class="gj-role">{g["headline"]}</span></a>' for g in GUESTS)
+    cards = "".join(_guest_card(g) for g in GUESTS)
+    body = f"""
+<main>
+{page_hero("Pain 2 Power Guests", "The People Behind <em class='accent'>the Conversations</em>",
+  "Surgeons, specialists and people with a story worth hearing. Every guest who has joined Dr. Dave Kashuba and Mike McGann on Pain 2 Power, with what they shared on the show and where to find them.", crumbs)}
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal" style="margin-bottom:1.6rem;">
+      <span class="eyebrow">{len(GUESTS)} Guests</span>
+      <h2>Find a Guest</h2>
+    </div>
+    <nav class="guest-index reveal" aria-label="Guests">{index}</nav>
+  </div>
+</section>
+<section class="section on-cream">
+  <div class="wrap guest-list">
+    {cards}
+    <p class="guest-note">Background details come from each guest&rsquo;s own practice, employer and professional pages, linked under each profile. Pain 2 Power is for general education, not medical advice; talk with your own doctor about your care.</p>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("guests.html",
+          head("Pain 2 Power Podcast Guests | First Rehab North Palm Beach",
+               "Meet the surgeons and specialists who have joined Dr. Dave Kashuba on the Pain 2 Power podcast: their background, what they said on air, and links to their practices.",
+               canonical="guests.html", og_image="assets/media/podcast-cover.jpg",
+               extra_schema=_guests_schema() + breadcrumb_schema([("Home", ""), ("Podcast", "podcast.html"), ("Guests", "guests.html")]))
+          + nav(0) + body + footer(0))
+
 def build_meta():
     base = "https://www.firstrehabnpb.com"
     write("site.webmanifest", '''{
@@ -6057,7 +6374,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "guests.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html"]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
     pages += [f"treatments/{s}.html" for s in CONDITIONS]
@@ -6130,7 +6447,7 @@ Patient glossary of therapy and insurance terms: {base}/glossary.html
 
 ## Podcast
 Pain 2 Power, hosted by Dr. Dave Kashuba with Mike McGann. Saturdays 8:30 AM on
-100.3 Legends Radio; all episodes: {base}/podcast.html
+100.3 Legends Radio; all episodes: {base}/podcast.html; every guest, with their background and practice: {base}/guests.html
 ''')
 
     body = f"""
@@ -6223,6 +6540,7 @@ if __name__ == "__main__":
     build_insurance()
     build_glossary()
     build_videos()
+    build_guests()
     build_exercises()
     build_meta()
     check_episode_video_sync()

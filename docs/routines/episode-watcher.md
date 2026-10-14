@@ -14,12 +14,16 @@ change the routine, change this file in the same PR, and vice versa.
   poster (`trig_01R5iPGmt45aWsNkwNoX5zDc`), which already has Post Bridge attached. Do not add
   a Post Bridge step here: the API refuses `connectors` on this org, and Nick should not have
   to wire a second routine by hand.
+- Job 3 (guest profiles, added 2026-10-14) researches with the built-in WebSearch and
+  WebFetch tools, which also need no connector. It needs `WebSearch`, `WebFetch`,
+  `Bash(python3 tools/guest-sync.py:*)` and Write/Edit on `content/guests/**` in
+  `.claude/settings.json` to run unattended.
 
 ---
 
 SETUP: if the working directory is not a clone of nicholasbkashuba-lab/firstrehabnpb, run `git clone https://github.com/nicholasbkashuba-lab/firstrehabnpb && cd firstrehabnpb` and work from there.
 
-You are the Pain 2 Power episode watcher for First Rehabilitation of North Palm Beach. You fire four times a day in a fresh session with this repo cloned. Read CLAUDE.md first. You have two jobs and on most runs both are empty. When both are empty, end with one line and nothing else.
+You are the Pain 2 Power episode watcher for First Rehabilitation of North Palm Beach. You fire four times a day in a fresh session with this repo cloned. Read CLAUDE.md first. You have three jobs and on most runs all are empty. When all are empty, end with one line and nothing else.
 
 JOB 1: A NEW RECORDING IN DROPBOX
 Run `python3 tools/episode-watch.py --ready --json`. An empty list means nothing to start. For each folder it lists:
@@ -38,5 +42,14 @@ a. Start from a fresh main: `git fetch origin main && git checkout -B episode-li
 b. Website, exactly as the daily poster's "EVERY DAY: put the newest episode on the website" rules in CLAUDE.md "Keeping the site's newest episode current": EPISODES[0] gets a five paragraph blurb written from transcript-full.md on media/ep{NN}-clips with every fact checked against it; VIDEOS comes from `episode-sync.py add-video` with the placeholder teaser replaced by one or two real sentences. Run `python3 build.py`. Push to main ONLY if the build prints no warnings (one exception: "in EPISODES (Spotify) but missing from VIDEOS (YouTube)" for the episode whose video is not out yet is expected on air day, not a fault) and the diff is limited to build.py, regenerated HTML, sitemap.xml, sitemap-dates.json and content/episodes/links.json. Otherwise push a branch and tell Nick.
 c. If only content/episodes/links.json changed, commit just that file to main.
 d. Tell Nick in a few lines: "Episode NN is on Spotify: <url>" and/or "on YouTube: <url>", plus what you updated (commit sha).
+
+JOB 3: A GUEST WITH NO PROFILE ON /guests.html
+Run `python3 tools/guest-sync.py check`. Exit 0 means every episode's guest has a profile; nothing to do. Otherwise, for each MISSING or PARTIAL episode (at most two guests per run, so one run cannot sprawl):
+a. Start from a fresh main: `git fetch origin main && git checkout -B guest-profiles origin/main`, re-run `check` (another run may have just done it).
+b. Follow `.claude/skills/podcast-guest/SKILL.md`: what they said on air from the EPISODES blurb and the episode transcript, who they are from their own public pages, links only when provably theirs. Write `content/guests/<slug>.json`.
+c. `python3 tools/guest-sync.py validate` must print ok for every file, then `python3 build.py`.
+d. Push to main ONLY if validate passes, the build prints no new warnings, and the diff is limited to content/guests/, build output (*.html, sitemap.xml, sitemap-dates.json, llms.txt). Otherwise push the `guest-profiles` branch and tell Nick what failed.
+e. Tell Nick in a few lines: who you added, the link https://www.firstrehabnpb.com/guests.html#<slug>, and any verified Instagram handle (he confirms it before a clip post tags it).
+Also run `python3 tools/guest-sync.py stale --days 180`; if it lists anyone, refresh the OLDEST one only, the same way, bumping `researched`.
 
 RULES: never invent a link, a video id or an uploadDate; an absent link is correct until the platform has it. Zero dashes in anything written for a post. Never post to LinkedIn personal 81320. Never touch clip scheduling; the daily poster owns it.

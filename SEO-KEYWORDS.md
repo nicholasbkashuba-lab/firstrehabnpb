@@ -213,6 +213,8 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 
 | Post slug | Pillar | Keyword it owns |
 |---|---|---|
+| `personal-training-with-a-therapist-who-knows-your-injury-history` | Wellness | personal training with a therapist who knows your injury history (Ep 19 pillar post) |
+| `pain-2-power-ep19-cake` | Pain 2 Power (Ep 19) | Shannon Cake / Newsmax anchor / working out first thing in the morning |
 | `partial-vs-total-knee-replacement` | Physical Therapy | partial vs total knee replacement |
 | `physical-therapy-vs-occupational-therapy` | Occupational Therapy | difference between physical and occupational therapy |
 | `/exercises.html` (page, not a post) | All four | home exercises for knee / hip / shoulder pain |
