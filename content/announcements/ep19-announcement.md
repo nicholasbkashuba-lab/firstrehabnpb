@@ -9,8 +9,7 @@ image: the ORIGINAL logo (assets/media/podcast-cover.jpg) with a cartoon Shannon
        frame of her Zoom feed. Version Nick picks is uploaded to Post Bridge at scheduling.
 tags: instagram collaborators legendsradio100.3 + shannon.cake; X @ShannonCake. Handles from
       her own site, shannoncaketv.com. Facebook page shannoncaketv cannot be tagged via Post Bridge.
-status: DRAFT. Nick asked for this announcement on 2026-10-14; schedules with the clips once he
-        approves the copy and picks the image.
+status: SCHEDULED 2026-10-14 (Nick approved v2 and the copy). Post ids: 2b86c859 (IG, FB, LinkedIn business, X) and 9ac76ac7 (Google Business), both 2026-10-16 21:00 UTC.
 
 > No spoilers, per the default rule: name, credential and airing details only. Credential is
 > what Dave says on air (RAW 02:42 to 03:45): Shannon Cake, host of News Now on Newsmax 2,
