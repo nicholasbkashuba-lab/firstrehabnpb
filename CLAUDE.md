@@ -486,6 +486,59 @@ by UTM on our plan (that needs the paid Web Analytics Plus add-on and returns 40
   somewhere arbitrary. main.js scrolls to the chosen topic's first question after the
   filter runs, measuring AFTER the DOM changes — a pre-click scrollY is already stale.
 
+## Pain 2 Power sizzle reels + page-hero loops (2026-10-14)
+/podcast.html and /videos.html heroes play silent 14s loops of Dave and Mike
+(`page_hero(..., loop="audio"|"video")` → `_video_page_hero`), with a "Watch the Trailer"
+button that opens the 64s show trailer (Mike on camera for his own open, four guests: Sabesan,
+Goodwin, Elyse Marrone, Captain Kerry; then the grape joke with Dave's real pause) with sound in a
+native `<dialog>` (main.js; file loads
+on first click only). Media: `assets/media/p2p-hero-{audio,video}-{hd,mobile}.{mp4,webm}`,
+`-poster.jpg`, `p2p-trailer.mp4` + `-poster.jpg`, all linked via asset_v() so a re-encode
+busts its own cache. Same media contract as the homepage hero: no <source> children,
+preload="none", one rendition by matchMedia, .hero-pause, phones stack the loop at 16:9.
+Desktop (≥1100px) shifts the loop to the right 70% so the hosts clear the copy column.
+The loops carry NO type and NO flashes on purpose (they sit behind the h1). The trailer
+has a VideoObject (`_trailer_schema()`, uploadDate set). The reels and loops are built by
+`tools/sizzle/` (see its README: shot lists per reel, synthesized score, word-pop
+captions); social captions are in `content/social/p2p-sizzle-reels.md`.
+
+**Every video edited for Nick must keep the subject CENTRED, every shot, every time (Nick,
+2026-10-14: "always make sure this thing is centered every time you edit a video for me,
+period").** It came up twice in one day: Mike sat off-centre in the 9:16 crops, and
+Leighton's guest shot was zoomed in and off to one side. Two guards now exist; use both:
+- `engine.ensure_centred()` re-aims every crop on the tracked face (YuNet; a two-shot
+  centres the pair midpoint). If centring would mean upscaling past `MAX_UPSCALE` it fits
+  the frame instead (`fit_frame`: face dead centre over a soft colour wash of the same
+  shot, never black bars, never a hard border).
+- `tools/sizzle/qa_center.py <mp4> --sheet` samples 2 fps and fails any stretch where the
+  subject sits more than 10% of the width off centre. `run.py` runs it after every render.
+  Do not send, post or ship a render that has not printed PASS; fix the shot and re-render.
+  This applies to clips cut outside tools/sizzle too (episode clips, one-off posts): run
+  qa_center.py on the file before it goes to Nick or Post Bridge.
+- **Best picture first** (Nick, same day: "use the clips with the best picture quality").
+  9:16 shots come from the native 1080x1920 episode clips (media/ep{NN}-clips branches,
+  indexed by SFace into $SIZZLE_WORK/aud/vindex.json) wherever one covers the moment;
+  `engine.vertical_shot()` swaps them in automatically after an audio + face-ID match.
+  Never crop a 16:9 master into 9:16 when a vertical clip exists, never use the 720p
+  Ep 15 master, and never crop a vertical clip into 16:9 (that made a 3x close-up of
+  Dave): in 16:9 a vertical-only guest is a full-height panel, face centred, over a
+  blurred copy of the same shot. Dr. Leighton (Ep 12) is out of the trailer: his only
+  footage is a tight selfie angle with his face on the frame edge, so it cannot be
+  centred full screen, and Nick rejected the fitted version.
+
+## Dave's Dad Jokes: every Friday (Nick, 2026-10-14)
+Every Pain 2 Power ends on Dave's dad joke. Each one is cut as its own vertical clip
+(`tools/sizzle/jokes.py`, one `reel_joke_<name>.py` per joke: pauses tightened, captions,
+rimshot on the punchline, "new dad joke every Saturday" end card) and posted **Fridays at
+12:00 PM ET** with the music version to Instagram, Facebook, YouTube Shorts and TikTok.
+Noon keeps it clear of the 9 AM daily episode clip. Uploaded straight to Post Bridge
+(`upload_media` with size_bytes, then curl PUT; no media branch needed). Backlog, scheduled
+2026-10-14: Bossy Lady (Ep 11) Oct 16, Grape (Ep 16) Oct 23, Kilometer (Ep 9) Oct 30,
+Breakthrough (Ep 15) Nov 6, Lawsuit (Ep 14) Nov 13. When a new episode lands, add its joke
+to `JOKES` and schedule it for the next open Friday. Instagram audio: a licensed song
+(Nick wanted "Beat It") can only be added in the Instagram app; the API cannot attach
+platform music, so a Reel that needs it is posted by hand from the `-nomusic` file.
+
 ## Location pages
 LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
 lake-park,palm-beach,west-palm-beach,riviera-beach}.html. Honest served-from-NPB content

@@ -1256,6 +1256,56 @@ body.nav-locked .p2p-mini { display: none; }
 .news-card:hover .arr { transform: translateX(4px); }
 @media (prefers-reduced-motion: reduce) { .news-card, .news-card .arr { transition: none; } }
 
+/* ---------- Pain 2 Power page heroes: silent sizzle loop + trailer dialog ----------
+   /podcast.html and /videos.html. Same media contract as the homepage hero (main.js
+   attaches one rendition, .hero-pause satisfies WCAG 2.2.2). The loops carry no text
+   and no flashes because they play behind the h1. The scrim is weighted to the left
+   where the copy sits, and the copy column is capped so it never reaches the lighter
+   right side of the scrim: cream on a white-shirt frame has to stay AA. */
+.page-hero.has-video { min-height: min(86vh, 860px); display: flex; align-items: flex-end; padding: 10.5rem 0 5rem; }
+.page-hero.has-video .hero-scrim { z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(7,30,39,0.93) 0%, rgba(7,30,39,0.84) 42%, rgba(7,30,39,0.42) 72%, rgba(7,30,39,0.12) 100%),
+    linear-gradient(180deg, rgba(7,30,39,0.7) 0%, rgba(7,30,39,0) 26%, rgba(7,30,39,0) 62%, rgba(7,30,39,0.7) 100%); }
+.page-hero.has-video .wrap { position: relative; z-index: 2; width: 100%; }
+/* Wide screens: the loop fills the right ~70% and fades into the ink on the left, so the
+   hosts (framed centre) land at ~65% across, clear of the copy column. */
+@media (min-width: 1100px) {
+  .page-hero.has-video .hero-media { left: 24%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18%); mask-image: linear-gradient(90deg, transparent 0, #000 18%); }
+  .page-hero.has-video .hero-scrim {
+    background:
+      linear-gradient(90deg, rgba(7,30,39,0.96) 0%, rgba(7,30,39,0.88) 26%, rgba(7,30,39,0.7) 42%, rgba(7,30,39,0.24) 58%, rgba(7,30,39,0) 74%),
+      linear-gradient(180deg, rgba(7,30,39,0.5) 0%, rgba(7,30,39,0) 20%, rgba(7,30,39,0) 74%, rgba(7,30,39,0.35) 100%); }
+  .page-hero.has-video .wrap > * { text-shadow: 0 1px 14px rgba(7,30,39,0.55); }
+  /* main.js adds .copy-out 5s after load: the copy and most of the scrim fade so the loop
+     plays clear; the trailer button (.mt-2) stays. Hover/focus brings the copy back. */
+  .page-hero.has-video .hero-scrim, .page-hero.has-video .wrap > * { transition: opacity 0.9s ease, transform 0.9s ease; }
+  .page-hero.has-video.copy-out .wrap > :not(.mt-2) { opacity: 0; transform: translateY(-8px); }
+  .page-hero.has-video.copy-out .hero-scrim { opacity: 0.3; }
+  .page-hero.has-video .wrap > * { max-width: 600px; }
+}
+.page-hero.has-video .wrap > * { max-width: 640px; }
+/* On phones the crumbs sit on solid ink, where colour alone can't mark the link (axe link-in-text-block). */
+.page-hero.has-video .crumbs a { text-decoration: underline; text-decoration-color: rgba(246,241,231,0.45); text-underline-offset: 3px; }
+.trailer-open span[aria-hidden] { font-size: 0.8em; }
+@media (max-width: 767px) {
+  /* Phones stack the loop at native 16:9 above the copy (zero crop), like the homepage. */
+  .page-hero.has-video { display: block; min-height: auto; padding: 86px 0 3.2rem; }
+  .page-hero.has-video .hero-media { position: relative; inset: auto; width: 100%; aspect-ratio: 16 / 9; }
+  .page-hero.has-video .hero-media video { width: 100%; height: 100%; }
+  .page-hero.has-video .hero-scrim { display: none; }
+  .page-hero.has-video .wrap { padding-top: 1.6rem; }
+}
+
+/* margin:auto is what centres a modal <dialog>; the global reset zeroes it, which pinned
+   the player to the top-left corner (owner screenshot 2026-10-14). Size to the viewport:
+   as wide as fits while the 16:9 video still fits the height. */
+.trailer-modal { margin: auto; inset: 0; width: min(94vw, calc((90vh - 20px) * 16 / 9)); max-width: none; max-height: none; padding: 0; border: 0; border-radius: 18px; background: #000; overflow: visible; box-shadow: 0 40px 120px -30px rgba(0,0,0,0.9); }
+.trailer-modal::backdrop { background: rgba(4,14,18,0.88); }
+.trailer-modal video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 18px; background: #000; }
+.trailer-close { position: absolute; top: -54px; right: 0; z-index: 1; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(246,241,231,0.5); background: rgba(7,30,39,0.85); color: var(--cream); font-size: 1.6rem; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+.trailer-close:hover { background: var(--ink); }
+.trailer-modal :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
 /* ---------- Credited clinician portrait (service lead image) ----------
    A service with no scene photograph leads with the person who runs it,

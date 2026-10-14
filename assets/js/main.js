@@ -49,6 +49,55 @@
     if (pauseBtn) pauseBtn.hidden = true;
   }
 
+  // Pain 2 Power trailer: the page-hero loop is silent, this plays the cut with
+  // sound in a native <dialog> (Escape closes it, focus returns to the button).
+  // The file only downloads on first open — preload="none" + data-src.
+  const trailer = document.querySelector('.trailer-modal');
+  const trailerOpen = document.querySelector('.trailer-open');
+  if (trailer && trailerOpen && typeof trailer.showModal === 'function') {
+    const tv = trailer.querySelector('video');
+    trailerOpen.addEventListener('click', () => {
+      if (!tv.getAttribute('src')) tv.src = tv.dataset.src;
+      trailer.showModal();
+      tv.play().catch(() => {});
+    });
+    trailer.querySelector('.trailer-close').addEventListener('click', () => trailer.close());
+    trailer.addEventListener('click', (e) => { if (e.target === trailer) trailer.close(); });
+    trailer.addEventListener('close', () => { tv.pause(); trailerOpen.focus(); });
+  } else if (trailerOpen) {
+    trailerOpen.hidden = true;
+  }
+
+  // Video page heroes, wide screens only (where the copy sits over the loop): 5s after
+  // load the headline copy and most of the navy scrim fade away so the loop plays clear
+  // (owner, 2026-10-14). The trailer button stays. Pointing at the copy, tabbing into
+  // the hero or pausing the loop brings it back; it fades again 3s after you leave.
+  const vHero = document.querySelector('.page-hero.has-video');
+  if (vHero && !reducedMotion && window.matchMedia) {
+    const wide = window.matchMedia('(min-width: 1100px)');
+    const copy = [...vHero.querySelectorAll('.wrap > *')];
+    const pauseBtn = vHero.querySelector('.hero-pause');
+    let timer;
+    const paused = () => pauseBtn && pauseBtn.getAttribute('aria-pressed') === 'true';
+    const show = () => { clearTimeout(timer); vHero.classList.remove('copy-out'); };
+    const hideIn = (ms) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (wide.matches && !paused() && !vHero.contains(document.activeElement) &&
+            !copy.some((el) => el.matches(':hover'))) vHero.classList.add('copy-out');
+      }, ms);
+    };
+    copy.forEach((el) => {
+      el.addEventListener('pointerenter', show);
+      el.addEventListener('pointerleave', () => hideIn(3000));
+    });
+    vHero.addEventListener('focusin', show);
+    vHero.addEventListener('focusout', () => hideIn(3000));
+    if (pauseBtn) pauseBtn.addEventListener('click', () => (paused() ? show() : hideIn(3000)));
+    wide.addEventListener('change', () => (wide.matches ? hideIn(5000) : show()));
+    hideIn(5000);
+  }
+
   const header = document.querySelector('.site-header');
   const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 40);
   onScroll();
