@@ -26,7 +26,6 @@ The episode JSON (times are MASTER times, i.e. the edited multicam, not the RAW 
      "fx": 0.46, "fy": 0.42,            # 16:9 framing (focus as a fraction of the frame); z only if needed
      "v": {"fx": 0.46, "fy": 0.42},    # 9:16 framing; set fx on the speaker's face
      "name": "ELYSE MARRONE", "sub": "REGISTERED DIETITIAN",   # optional, first line only
-     "name_at": 0.55,                  # optional: card height as a fraction, when the face is high
      "cams": [[305.9, {"fx": 0.3, "v": {"fx": 0.3}}]],          # optional camera switches
      "words": [[304.54, 304.64, "I"], ...]},                     # reviewed caption words
     {"card": "BREAST CANCER  ·  WHAT YOU CAN CONTROL", "d": 1.3}    # optional title slam on black
@@ -72,21 +71,21 @@ def _framing(src, m):
     return f
 
 
-def _name_card(fmt, t0, t1, name, sub, at=None):
-    """Name card high in the frame, clear of faces and of the captions at the bottom.
-    `at` (fraction of frame height) moves it when a camera frames the face at the very
-    top: Dave's Ep 18 camera does, and a high card sat right on his face."""
+# Every name card sits in ONE place on every shot (Nick, 2026-10-14: "I want the guests'
+# names to be all in the same spot"). Just below the middle clears every face in the
+# studio: Dave's camera frames his face at the very top, the guests' faces sit around
+# the middle, and the captions own the bottom. Do not move a card per shot.
+NAME_Y = {"9x16": 1305, "16x9": 735}
+
+
+def _name_card(fmt, t0, t1, name, sub):
     g = fmt_geom(fmt)
     img = text_img([(name, INTER_BLACK, g["name"] * 0.8, CREAM), (sub, INTER_XB, g["sub"], GOLD)], g["W"],
                    track=0.015, stroke=max(3, int(g["name"] * 0.8) // 20))
     if img.width > g["W"] * 0.92:
         from PIL import Image
         img = img.resize((int(g["W"] * 0.92), int(img.height * g["W"] * 0.92 / img.width)), Image.LANCZOS)
-    # High in the frame (Nick, 2026-10-14: the top title "needs to be a little higher").
-    y = 290 if fmt == "9x16" else 200
-    if at is not None:
-        y = int(at * (1920 if fmt == "9x16" else 1080))
-    return Txt(t0, t1, img, (g["cx"], y), "rise")
+    return Txt(t0, t1, img, (g["cx"], NAME_Y.get(fmt, NAME_Y["16x9"])), "rise")
 
 
 def build(key):
@@ -120,7 +119,7 @@ def build(key):
             if a - 0.05 <= s < b:
                 caps.append((s - a + T, min(e, b) - a + T, w))
         if m.get("name"):
-            names.append((T + 0.25, T + min(2.6, b - a - 0.1), m["name"], m.get("sub", ""), m.get("name_at")))
+            names.append((T + 0.25, T + min(2.6, b - a - 0.1), m["name"], m.get("sub", "")))
         T += b - a
         cuts.append(T)
     cuts = cuts[:-1]
@@ -135,8 +134,8 @@ def build(key):
         # Captions at the very bottom, Nick's standard for every clip (2026-10-09); the
         # October reels place them higher, so this overrides lib's default y.
         out += captions(fmt, caps, max_words=3, max_chars=18, y=1745 if fmt == "9x16" else 985)
-        for t0, t1, n, s, at in names:
-            out.append(_name_card(fmt, t0, t1, n, s, at))
+        for t0, t1, n, s in names:
+            out.append(_name_card(fmt, t0, t1, n, s))
         for t0, t1, txt in cards:
             # "TOPIC  ·  ANGLE" stacks as two big lines; one long line shrinks to nothing on 9:16.
             parts = [p.strip() for p in txt.split("·")]

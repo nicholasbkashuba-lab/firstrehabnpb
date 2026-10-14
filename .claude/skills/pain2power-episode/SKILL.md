@@ -78,8 +78,9 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    with a mic in front of the speaker, and a line whose speaker is not the one on screen.
    What worked: a hook, a two-line title slam (`{"card": "TOPIC · ANGLE"}`) naming what the
    episode is about, one number or claim said on air, a story with its payoff line, and a
-   laugh to close. Name cards go where the face is not (`name_at` when a camera frames a face
-   at the top). No zoom and no push-in (`z` 1.0, the default): Nick said the zooming was too
+   laugh to close. Every name card sits in ONE fixed spot, just below the middle (`NAME_Y` in
+   weekly.py); Nick wants them all in the same place, and that spot clears every face in the
+   studio. Never move a card per shot. No zoom and no push-in (`z` 1.0, the default): Nick said the zooming was too
    much, and a 9:16 crop of the 16:9 master is already close. The top text sits high.
 9. **Show Nick every clip and the sizzle reel in the chat** with SendUserFile, each with its
    caption and proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
