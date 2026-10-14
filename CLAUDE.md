@@ -489,7 +489,8 @@ by UTM on our plan (that needs the paid Web Analytics Plus add-on and returns 40
 ## Pain 2 Power sizzle reels + page-hero loops (2026-10-14)
 /podcast.html and /videos.html heroes play silent 14s loops of Dave and Mike
 (`page_hero(..., loop="audio"|"video")` → `_video_page_hero`), with a "Watch the Trailer"
-button that opens the 64s show trailer (Mike's VO, five guests, the dad joke) with sound in a
+button that opens the 64s show trailer (Mike on camera for his own open, four guests: Sabesan,
+Goodwin, Elyse Marrone, Captain Kerry; then the grape joke with Dave's real pause) with sound in a
 native `<dialog>` (main.js; file loads
 on first click only). Media: `assets/media/p2p-hero-{audio,video}-{hd,mobile}.{mp4,webm}`,
 `-poster.jpg`, `p2p-trailer.mp4` + `-poster.jpg`, all linked via asset_v() so a re-encode
@@ -514,6 +515,16 @@ Leighton's guest shot was zoomed in and off to one side. Two guards now exist; u
   Do not send, post or ship a render that has not printed PASS; fix the shot and re-render.
   This applies to clips cut outside tools/sizzle too (episode clips, one-off posts): run
   qa_center.py on the file before it goes to Nick or Post Bridge.
+- **Best picture first** (Nick, same day: "use the clips with the best picture quality").
+  9:16 shots come from the native 1080x1920 episode clips (media/ep{NN}-clips branches,
+  indexed by SFace into $SIZZLE_WORK/aud/vindex.json) wherever one covers the moment;
+  `engine.vertical_shot()` swaps them in automatically after an audio + face-ID match.
+  Never crop a 16:9 master into 9:16 when a vertical clip exists, never use the 720p
+  Ep 15 master, and never crop a vertical clip into 16:9 (that made a 3x close-up of
+  Dave): in 16:9 a vertical-only guest is a full-height panel, face centred, over a
+  blurred copy of the same shot. Dr. Leighton (Ep 12) is out of the trailer: his only
+  footage is a tight selfie angle with his face on the frame edge, so it cannot be
+  centred full screen, and Nick rejected the fitted version.
 
 ## Dave's Dad Jokes: every Friday (Nick, 2026-10-14)
 Every Pain 2 Power ends on Dave's dad joke. Each one is cut as its own vertical clip
