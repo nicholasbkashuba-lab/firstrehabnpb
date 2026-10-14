@@ -49,6 +49,15 @@ def P(name, rel, t, wide=None):
     return base
 
 
+def on_mike(a, b, cuts):
+    """Mike's own voiceover shown as Mike saying it, lip-synced off the Ep 14 master (owner
+    2026-10-14: "I liked the actual video of Mike's actual voice over"). Jump cuts at
+    `cuts` alternate the framing slightly so a long take still moves."""
+    edges = [a] + list(cuts) + [b]
+    return [(dict(_M14, t=t0, zmul=(1.0, 1.1)[k % 2], push=0.04), t1 - t0)
+            for k, (t0, t1) in enumerate(zip(edges, edges[1:]))]
+
+
 def W(wide, tall):
     """`wide` (a 1080p master shot) in 16:9, the native vertical library shot `tall` in 9:16.
     The Ep 13 Kerry clips are vertical: cropped to 16:9 they were a 3x close-up of Dave's face."""
@@ -135,19 +144,11 @@ def w14(a, b):
 
 # ------------------------------------------------------------------ timeline
 black_(0.7)                                                   # 100.3 LEGENDS RADIO PRESENTS
-vo("ep14", 0.80, 8.95, [(dict(_M14, t=0.80, **{"9x16": P("m14_laugh", "ep14/01-15-versus-50", 3.0)["9x16"]}), 1.7),
-                        (P("d14_laugh", "ep19/01-23-emmys", 10.0), 1.2),
-                        (P("m11_gest", "ep13/05-sons-smile", 4.5), 1.1),
-                        (P("w9_duo", "ep13/23-seventeen-dollar-first-class", 27.5), 1.4),
-                        (P("d16_onair", "ep19/09-daves-workout", 14.0), 1.0),
-                        (P("m15_mic", "ep13/10-control-your-response", 12.0, wide="m11_gest2"), 9)], label="open",
+vo("ep14", 0.80, 8.95, on_mike(0.80, 8.95, [2.8, 5.68]), label="open",
    words=[(s, e, {"Pain": "Pain", "to": "2"}.get(w, w) if 4.4 < s < 5.0 else w)
           for s, e, w in w14(0.8, 8.95)])
 marks["hit1"] = now()
-vo("ep14", 9.05, 15.45, [(dict(_M14, t=9.05, **{"9x16": P("m14_laugh", "ep19/07-not-time-priorities", 0.0)["9x16"]}), 1.3),
-                         (P("m15_laugh", "ep19/07-not-time-priorities", 20.4, wide="m14_laugh"), 1.4),
-                         (P("w9_duo2", "ep14/01-15-versus-50", 7.0), 1.6),
-                         (P("d14_laugh2", "ep19/09-daves-workout", 27.5), 9)],
+vo("ep14", 9.05, 15.45, on_mike(9.05, 14.17, [11.3]) + [(P("d14_laugh2", "ep19/09-daves-workout", 27.5), 9)],
    label="intro")
 vo("ep16", 10.35, 15.15, [(P("d15_point", "ep19/05-antenna-joke", 12.0, wide="d14_talk"), 0.8),
                           (P("m9_point", "ep13/22-in-the-end-its-what-you-give", 11.0), 0.8),
