@@ -79,7 +79,8 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    What worked: a hook, a two-line title slam (`{"card": "TOPIC · ANGLE"}`) naming what the
    episode is about, one number or claim said on air, a story with its payoff line, and a
    laugh to close. Name cards go where the face is not (`name_at` when a camera frames a face
-   at the top).
+   at the top). No zoom and no push-in (`z` 1.0, the default): Nick said the zooming was too
+   much, and a 9:16 crop of the 16:9 master is already close. The top text sits high.
 9. **Show Nick every clip and the sizzle reel in the chat** with SendUserFile, each with its
    caption and proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,

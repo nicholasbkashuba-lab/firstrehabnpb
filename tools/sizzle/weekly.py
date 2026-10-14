@@ -23,7 +23,7 @@ The episode JSON (times are MASTER times, i.e. the edited multicam, not the RAW 
   "end_title": "NEW EPISODE  ·  SATURDAY 8:30 AM",     # optional
   "moments": [
     {"a": 304.20, "b": 306.70,         # in and out
-     "fx": 0.46, "fy": 0.42, "z": 1.1, # 16:9 framing (focus as a fraction of the frame)
+     "fx": 0.46, "fy": 0.42,            # 16:9 framing (focus as a fraction of the frame); z only if needed
      "v": {"fx": 0.46, "fy": 0.42},    # 9:16 framing; set fx on the speaker's face
      "name": "ELYSE MARRONE", "sub": "REGISTERED DIETITIAN",   # optional, first line only
      "name_at": 0.55,                  # optional: card height as a fraction, when the face is high
@@ -65,6 +65,7 @@ def _register(cfg):
 
 
 def _framing(src, m):
+    # Zoom defaults to 1.0 (the full frame height); only set z when a shot truly needs it.
     f = dict(src=src, fx=m.get("fx", 0.5), fy=m.get("fy", 0.45), z=m.get("z", 1.0))
     v = m.get("v") or {}
     f["9x16"] = dict(fx=v.get("fx", f["fx"]), fy=v.get("fy", f["fy"]), z=v.get("z", 1.0))
@@ -81,7 +82,8 @@ def _name_card(fmt, t0, t1, name, sub, at=None):
     if img.width > g["W"] * 0.92:
         from PIL import Image
         img = img.resize((int(g["W"] * 0.92), int(img.height * g["W"] * 0.92 / img.width)), Image.LANCZOS)
-    y = 420 if fmt == "9x16" else 230
+    # High in the frame (Nick, 2026-10-14: the top title "needs to be a little higher").
+    y = 290 if fmt == "9x16" else 200
     if at is not None:
         y = int(at * (1920 if fmt == "9x16" else 1080))
     return Txt(t0, t1, img, (g["cx"], y), "rise")
@@ -110,7 +112,9 @@ def build(key):
         edges = [a] + [t for t, _ in switches] + [b]
         frames = [base] + [f for _, f in switches]
         for (x0, x1), fr in zip(zip(edges, edges[1:]), frames):
-            shots.append(dict(fr, t=x0, d=x1 - x0, push=0.06))
+            # No push-in and no extra zoom: Nick, 2026-10-14, "I don't like how you're zooming
+            # in so much". A 9:16 crop of a 16:9 master is already a close shot.
+            shots.append(dict(fr, t=x0, d=x1 - x0, push=cfg.get("push", 0.0)))
         dlg.append((a, b, T))
         for s, e, w in m.get("words", []):
             if a - 0.05 <= s < b:
@@ -127,7 +131,7 @@ def build(key):
 
     def texts(fmt):
         g = fmt_geom(fmt)
-        out = [kicker(fmt, 0.0, end_t, f"PAIN 2 POWER  ·  EPISODE {ep_no}")]
+        out = [kicker(fmt, 0.0, end_t, f"PAIN 2 POWER  ·  EPISODE {ep_no}", where=150 if fmt == "9x16" else 90)]
         # Captions at the very bottom, Nick's standard for every clip (2026-10-09); the
         # October reels place them higher, so this overrides lib's default y.
         out += captions(fmt, caps, max_words=3, max_chars=18, y=1745 if fmt == "9x16" else 985)

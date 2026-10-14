@@ -7,14 +7,14 @@
  ],
  "guest": "Elyse Marrone and Danielle Armstrong",
  "end_title": "NEW EPISODE  \u00b7  SATURDAY 8:30 AM",
- "_note": "Master times (edited multicam). Every line sits before the 20:35.7 outtake cut, so they equal the RAW mp3 times. Rev 2 (Nick, 2026-10-14: the Juno Beach line was not good enough): dropped Lolita/Juno Beach, added Dave's 30%, the Eve Gentry payoff and a title slam.",
+ "_note": "Master times (edited multicam). Every line sits before the 20:35.7 outtake cut, so they equal the RAW mp3 times. Rev 2 (Nick, 2026-10-14: the Juno Beach line was not good enough): dropped Lolita/Juno Beach, added Dave's 30%, the Eve Gentry payoff and a title slam. Rev 3 (Nick, 2026-10-14): no zoom or push-in, top text higher.",
  "moments": [
   {
    "a": 304.48,
    "b": 306.6,
    "fx": 0.47,
    "fy": 0.42,
-   "z": 1.15,
+   "z": 1.0,
    "v": {
     "fx": 0.46,
     "fy": 0.42
@@ -119,7 +119,7 @@
    "b": 793.75,
    "fx": 0.5,
    "fy": 0.5,
-   "z": 1.1,
+   "z": 1.0,
    "v": {
     "fx": 0.51,
     "fy": 0.5
@@ -202,7 +202,7 @@
    "b": 1126.6,
    "fx": 0.36,
    "fy": 0.4,
-   "z": 1.1,
+   "z": 1.0,
    "v": {
     "fx": 0.36,
     "fy": 0.4
@@ -215,7 +215,7 @@
      {
       "fx": 0.56,
       "fy": 0.42,
-      "z": 1.25,
+      "z": 1.0,
       "v": {
        "fx": 0.59,
        "fy": 0.45
@@ -296,7 +296,7 @@
    "b": 1170.95,
    "fx": 0.36,
    "fy": 0.4,
-   "z": 1.1,
+   "z": 1.0,
    "v": {
     "fx": 0.34,
     "fy": 0.4
@@ -307,7 +307,7 @@
      {
       "fx": 0.56,
       "fy": 0.42,
-      "z": 1.25,
+      "z": 1.0,
       "v": {
        "fx": 0.59,
        "fy": 0.45
