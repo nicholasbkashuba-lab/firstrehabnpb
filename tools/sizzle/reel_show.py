@@ -34,9 +34,9 @@ G_SABESAN = dict(src="ep9", fx=0.5, fy=0.4, z=1.15)
 G_GOODWIN = dict(src="ep16", fx=0.62, fy=0.4, z=1.1)
 # vertical guest clips: native 9:16; in 16:9 the whole frame is fitted (face centred over a
 # colour wash) rather than cropped 1.8x into the face
-G_ELYSE = dict(src="c_elyse", fx=0.4, fy=0.35, z=1.0, **{"16x9": dict(fit=1.12)})
+G_ELYSE = dict(src="c_elyse", fx=0.4, fy=0.35, z=1.0, **{"16x9": dict(fit=1.0, blurfill=True)})
 G_LEIGHTON = dict(src="c_leighton", fx=0.75, fy=0.35, z=1.0, fit=1.12, **{"9x16": dict(fit=1.35)})
-G_KERRY = dict(src="c_kerry", fx=0.5, fy=0.4, z=1.0, **{"16x9": dict(fit=1.12)})
+G_KERRY = dict(src="c_kerry", fx=0.5, fy=0.4, z=1.0, **{"16x9": dict(fit=1.0, blurfill=True)})
 
 
 def P(name, rel, t, wide=None):
@@ -46,6 +46,14 @@ def P(name, rel, t, wide=None):
     base = dict(SHOTS[wide or name])
     base["9x16"] = dict(src=E.vclip(f"v/{rel}.mp4"), t=t, fx=0.5, fy=0.42, z=1.0, zmul=1.0, pair=False,
                         region=None, fit=None, push=0.03)
+    return base
+
+
+def W(wide, tall):
+    """`wide` (a 1080p master shot) in 16:9, the native vertical library shot `tall` in 9:16.
+    The Ep 13 Kerry clips are vertical: cropped to 16:9 they were a 3x close-up of Dave's face."""
+    base = dict(SHOTS[wide])
+    base["9x16"] = dict(SHOTS[tall], region=None, fit=None, pair=False, zmul=1.0)
     return base
 
 shots, dlg, caps, T_ = [], [], [], [0.0]
@@ -145,7 +153,7 @@ vo("ep16", 10.35, 15.15, [(P("d15_point", "ep19/05-antenna-joke", 12.0, wide="d1
                           (P("m9_point", "ep13/22-in-the-end-its-what-you-give", 11.0), 0.8),
                           (P("d14_wave", "ep13/21-wrong-joke", 7.0), 0.8),
                           (P("m14_laugh", "ep18/07-joseph-pilates-was-real", 41.0), 0.8),
-                          ("dk_smile", 0.8),
+                          (W("d14_talk2", "dk_smile"), 0.8),
                           (P("m15_wave", "ep13/12-people-can-tell-its-real", 18.0, wide="m11_gest3"), 9)], label="great")
 marks["surgeons"] = now()
 black_(0.75)                                                  # THE SURGEONS.
@@ -180,7 +188,7 @@ sync("ep16", 616.55, 618.65, _M16, [(616.58, 616.74, "Very"), (616.74, 617.36, "
 marks["finale"] = now()
 vo("ep16", 1606.75, 1609.75, [(P("d14_laugh2", "ep19/10-go-vote", 6.0), 0.35),
                               (P("m9_laugh", "ep13/10-control-your-response", 15.0), 0.35),
-                              ("dk_laugh", 0.35),
+                              (W("d14_laugh", "dk_laugh"), 0.35),
                               (P("m11_gest3", "ep13/05-sons-smile", 6.0), 0.35),
                               (P("d15_laugh", "ep13/21-wrong-joke", 4.5, wide="d14_laugh"), 0.35),
                               (P("m14_laugh", "ep14/01-15-versus-50", 9.0), 0.35),

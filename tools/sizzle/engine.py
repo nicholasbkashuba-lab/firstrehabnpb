@@ -438,8 +438,17 @@ def fit_frame(fr, key, shot, bw, bh, prog, punch):
     # background: a soft colour wash of the same picture (shrunk to a few pixels and
     # blown back up), darkened. It keeps the studio's colours with no recognisable
     # shapes, so the fill never shows a second, blurred face.
-    bg = src.resize((6, 6), Image.BILINEAR).filter(ImageFilter.GaussianBlur(1)).resize((bw, bh), Image.BICUBIC)
-    bg = Image.fromarray((np.asarray(bg).astype(np.float32) * 0.45).astype(np.uint8))
+    if shot.get("blurfill"):
+        # vertical source in a wide frame: the familiar treatment, a heavily blurred, dimmed
+        # copy of the same picture scaled to cover (the 6x6 colour wash read as a dark box)
+        cs = max(bw / rw, bh / rh)
+        bg = src.resize((max(1, int(rw * cs / 8)), max(1, int(rh * cs / 8))), Image.BILINEAR)
+        bg = bg.filter(ImageFilter.GaussianBlur(6)).resize((int(rw * cs), int(rh * cs)), Image.BICUBIC)
+        bg = bg.crop(((bg.width - bw) // 2, (bg.height - bh) // 2, (bg.width - bw) // 2 + bw, (bg.height - bh) // 2 + bh))
+        bg = Image.fromarray((np.asarray(bg).astype(np.float32) * 0.6).astype(np.uint8))
+    else:
+        bg = src.resize((6, 6), Image.BILINEAR).filter(ImageFilter.GaussianBlur(1)).resize((bw, bh), Image.BICUBIC)
+        bg = Image.fromarray((np.asarray(bg).astype(np.float32) * 0.45).astype(np.uint8))
     # foreground: fit, times the shot's fit zoom, with the push-in and hit punch
     s = min(bw / rw, bh / rh) * shot["fit"] * (1 + shot.get("push", 0.05) * prog) * punch
     fw, fh = int(rw * s), int(rh * s)
