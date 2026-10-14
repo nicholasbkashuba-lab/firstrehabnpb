@@ -55,9 +55,12 @@ def check(path, tol=0.10, sheet=False):
             continue
         measured += 1
         cx = big[0] + big[2] / 2
-        if len(fs) > 1 and fs[1][2] * fs[1][3] > 0.3 * big[2] * big[3] and fs[1][2] > 0.06 * w:
-            cx = (cx + fs[1][0] + fs[1][2] / 2) / 2      # two-shot: centre the pair
         off = (cx - w / 2) / w
+        if len(fs) > 1 and fs[1][2] * fs[1][3] > 0.3 * big[2] * big[3] and fs[1][2] > 0.06 * w:
+            # two-shot: the pair may be the subject. Studio walls carry poster faces, so a
+            # frame passes if either the main face or the pair is centred.
+            po = ((cx + fs[1][0] + fs[1][2] / 2) / 2 - w / 2) / w
+            off = min(off, po, key=abs)
         if abs(off) > tol:
             flagged.append((t, off, fr))
     runs = []

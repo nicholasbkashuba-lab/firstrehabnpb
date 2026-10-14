@@ -149,7 +149,9 @@ vo("ep16", 10.35, 15.15, [(P("d15_point", "ep19/05-antenna-joke", 12.0, wide="d1
                           (P("m15_wave", "ep13/12-people-can-tell-its-real", 18.0, wide="m11_gest3"), 9)], label="great")
 marks["surgeons"] = now()
 black_(0.75)                                                  # THE SURGEONS.
-sync("c_leighton", 0.95, 4.2, G_LEIGHTON, GW["ep12_bestop@0.0"], label="leighton")
+# Dr. Leighton (Ep 12) was cut 2026-10-14: his only footage is a tight selfie angle with his
+# face on the right edge, so no full-screen vertical frame can centre him (owner rejected the
+# fitted-over-a-wash version in 9:16).
 sync("ep9", 794.95, 797.3, G_SABESAN, GW["ep9@793.0"], label="sabesan1")
 sync("ep9", 800.05, 803.5, G_SABESAN, GW["ep9@793.0"], label="sabesan2")
 marks["specialists"] = now()
@@ -234,7 +236,6 @@ def texts(fmt):
     d = marks["dave"]
     T.append(slam(fmt, d, d + 0.5, "AND THEN", where="card", color=CREAM))
     T.append(slam(fmt, d + 0.5, d + 1.1, "THERE'S DAVE.", where="card", color=GOLD))
-    T.append(guest(fmt, "leighton", "DR. MICHAEL LEIGHTON, MD", "Orthopedic surgeon, Palm Beach Orthopedic Institute"))
     s1 = (marks["sabesan1"][0], marks["sabesan2"][1])
     marks["sabesan"] = s1
     T.append(guest(fmt, "sabesan", "DR. VANI SABESAN, MD", "Orthopaedic shoulder surgeon"))
