@@ -1,0 +1,18 @@
+# Posting order for Episode 19 clips, strongest first.
+# The daily routine posts the first clip in this list that has not already
+# gone out. A clip absent from this file is never posted.
+# Edit freely: reorder lines to change priority, delete a line to pull a clip.
+#
+# SEEDED IN NUMERIC ORDER. Reorder before the week starts: six weekday slots
+# and 10 clips means only the top six air, so order decides what runs.
+
+01-23-emmys.mp4
+02-check-your-numbers.mp4
+03-centcom-at-first-rehab.mp4
+04-workout-first-thing.mp4
+05-antenna-joke.mp4
+06-one-story.mp4
+07-not-time-priorities.mp4
+08-never-won-alone.mp4
+09-daves-workout.mp4
+10-go-vote.mp4
