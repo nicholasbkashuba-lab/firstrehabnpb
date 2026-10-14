@@ -403,8 +403,15 @@
 (function () {
   // main.js runs BEFORE the analytics queue shim further down the page, so
   // resolve window.va at click time rather than at load time.
+  // Every conversion goes to BOTH analytics tools. Until 2026-10-14 these only
+  // reached Vercel, so GA4 recorded zero calls, zero booking clicks and zero leads
+  // against 79 real leads. Payload is source + page path only: never a name,
+  // phone, message or condition (HIPAA), and nothing here identifies a person.
   function track(name, data) {
     if (typeof window.va === 'function') window.va('event', { name: name, data: data });
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', name, { link_source: data && data.source, page_path: data && data.page });
+    }
   }
   function source(el) {
     if (el.closest('.mobile-call')) return 'sticky-call';

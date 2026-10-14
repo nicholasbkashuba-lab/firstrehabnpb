@@ -7,6 +7,23 @@ One file per episode: `content/announcements/ep{NN}-announcement.md`.
 **Friday 4:00 PM ET (20:00 UTC)**, the day before the show airs. Instagram, Facebook,
 LinkedIn business, X. The podcast cover art is the image.
 
+## The image: our logo with the guest drawn in (Nick, 2026-10-14, EVERY Friday)
+
+Every Friday announcement uses the ORIGINAL Pain 2 Power logo, `assets/media/podcast-cover.jpg`
+(Mike left, Dave right, "WITH MIKE AND DAVE" banner), with that week's guest added as a matching
+cartoon caricature standing in the MIDDLE between them. Nothing else on the logo changes.
+
+- Source only `assets/media/podcast-cover.jpg`. `content/announcements/pain2power-cover.jpg` is
+  NOT the logo: it is the variant made for Dr. Arlosoroff's episode, with him in the white coat, and using it
+  is the mistake Nick caught on Episode 19.
+- Reference for the guest: a clear, front-facing frame from the guest's own camera (or Zoom tile).
+- How it was made for Episode 19: Higgsfield `gpt_image_2_5` (variant sunburst, quality high,
+  2k, 1:1), two references (logo, guest frame), two variants for Nick to pick from. About 3 credits.
+  The prompt that worked: keep the logo exactly, add "a cartoon caricature of the woman in the
+  second reference photo, drawn in exactly the same bold black outlined, warm, hand drawn
+  caricature style" centered between the two men, "nudge the two men slightly outward".
+- Show Nick both variants before scheduling; the post uses the one he picks.
+
 Not Google Business: Friday 9:00 AM already carries that day's pillar GBP post and Saturday
 carries the episode post. A third post the same week spams the profile.
 

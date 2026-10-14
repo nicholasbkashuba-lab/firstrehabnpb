@@ -314,6 +314,26 @@
       "source": "/:a([Pp][Rr][Oo][Ff][Ii][Ll][Ee])/:slug*",
       "destination": "/",
       "statusCode": 301
+    },
+    {
+      "source": "/sports-training",
+      "destination": "/services/wellness.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/adult-wellness-programs",
+      "destination": "/services/wellness.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/specialist-first-rehab-npb-services-offered",
+      "destination": "/services/physical-therapy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/quality_auto/:path*",
+      "destination": "/",
+      "statusCode": 301
     }
   ]
 }

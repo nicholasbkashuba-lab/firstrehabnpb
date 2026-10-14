@@ -557,11 +557,19 @@
   // delivered. Fire the same window.va queue main.js uses so this shows up
   // next to call_tap/book_click instead of being invisible.
   function trackLeadSent(payload) {
-    if (typeof window.va !== 'function') return;
-    window.va('event', {
-      name: 'lead_submit',
-      data: { source: payload.topic === 'Contact form' ? 'contact-form' : 'intake', page: payload.page, intent: payload.intent }
-    });
+    var src = payload.topic === 'Contact form' ? 'contact-form' : 'intake';
+    if (typeof window.va === 'function') {
+      window.va('event', {
+        name: 'lead_submit',
+        data: { source: src, page: payload.page, intent: payload.intent }
+      });
+    }
+    // GA4 too (see main.js track()). generate_lead is GA4's recommended lead event,
+    // so it can be marked a key event in Admin without a custom definition.
+    // Source, page and intent only: no contact details, no message, no condition.
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', { lead_source: src, page_path: payload.page, lead_intent: payload.intent });
+    }
   }
 
   // Deliver a lead two ways at once — Supabase (permanent record) and email
@@ -729,7 +737,7 @@
         phone: phone.slice(0, 40),
         email: email.slice(0, 200) || null,
         preferred_time: time,
-        insurance: null,
+        insurance: (form.insurance && form.insurance.value) ? form.insurance.value.slice(0, 120) : null,
         page: location.pathname,
         user_agent: (navigator.userAgent || '').slice(0, 300)
       };

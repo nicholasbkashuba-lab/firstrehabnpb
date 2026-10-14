@@ -58,6 +58,13 @@ NAME_FIXES = [
     (r"\bRamona Curesanowska\b", "Romana Kryzanowska"), (r"\bCuresanowska\b", "Kryzanowska"),
     (r"\bchoriferous\b", "cruciferous"), (r"\bMunch and Gladbach\b", "Mönchengladbach"),
     (r"\bWoop band\b", "Whoop band"),
+    # Episode 19. Shannon Cake joined on Zoom as "Shannon Giaimo"; ASR heard "Shannon Kay".
+    # Her neurologist is Dr. Paul Winner (Palm Beach Neurology), not "Winter".
+    (r"\bShannon Kay\b", "Shannon Cake"), (r"\b(?:Kishuba|Kashubon)\b", "Kashuba"),
+    (r"\bCaptain Carr?(?:ey|ie)\b", "Captain Kerry"), (r"\bCarey\b", "Kerry"), (r"\bDr\. Winter\b", "Dr. Winner"),
+    (r"\bPaul Winter\b", "Paul Winner"), (r"\bDave Ehrenberg\b", "Dave Aronberg"),
+    (r"\bspinal thalamic track\b", "spinothalamic tract"), (r"\bTick tock\b", "TikTok"),
+    (r"\bthe enemies that they have won\b", "the Emmys that they have won"),
 ]
 
 
