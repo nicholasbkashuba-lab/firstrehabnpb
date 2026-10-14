@@ -2265,7 +2265,9 @@ def build_conditions():
             # 2026-10-14 and are cited visibly: s. 440.185(1) 30-day notice,
             # s. 440.13(2)(a) employer furnishes care and (3)(i) carrier authorizes
             # therapy over $1,000, s. 440.191 Employee Assistance and Ombudsman
-            # Office. Re-check after each legislative session. No legal advice.
+            # Office. Nick confirmed 2026-10-14 the front desk checks the carrier's
+            # authorization before the first visit. Re-check after each legislative
+            # session. No legal advice.
             "workers-comp": {
                 "h2": "Hurt at work? How workers' comp therapy works here",
                 "intro": "A work injury comes with paperwork, deadlines and more people involved than most "

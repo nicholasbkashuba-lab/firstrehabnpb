@@ -148,7 +148,7 @@ is its own failure mode and the check names it.
   (Part B deductible, KX threshold, targeted review threshold).
 - **Owner answers, 2026-10-14:** the wellness gym program does NOT take insurance (the
   wellness page says so; never imply otherwise). The front desk checks PIP coverage before an
-  auto patient's first visit. It does NOT verify Medigap ahead of time, so benefit lines say
+  auto patient's first visit, and workers' comp authorization before a work-injury patient's. It does NOT verify Medigap ahead of time, so benefit lines say
   "Medicare or commercial" and leave Medigap out.
 - **Florida law is quoted on two condition pages** (added 2026-10-14): the PIP 14-day rule
   and the $10,000 / $2,500 limits on /treatments/auto-accident.html (Fla. Stat. 627.736), and
