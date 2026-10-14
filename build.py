@@ -5410,6 +5410,17 @@ def build_first_visit():
 # (youtube-nocookie) so no third-party script runs until a visitor presses play.
 VIDEOS = [
     {
+        # Verified 2026-10-14 against the channel feed: long-form entry
+        # (link rel=alternate is /watch?v=, not /shorts/), titled
+        # "Pilates and Nutrition After Breast Cancer | Pain 2 Power Episode 18".
+        "id": "Na5EMSn44rg",
+        "uploaded": "2026-10-14T14:50:54+00:00",
+        "ep": "Episode 18",
+        "title": "Pilates and Nutrition After Breast Cancer",
+        "guest": "Elyse Marrone and Danielle Armstrong",
+        "teaser": "Registered dietitian Elyse Marrone and Danielle Armstrong, owner of Pilates Life in Palm Beach Gardens, join Dave and Mike on food, movement and recovery before, during and after a breast cancer diagnosis, from Elyse&rsquo;s seven pillars of health to how Joseph Pilates helped a dancer back after a radical mastectomy.",
+    },
+    {
         # Verified 2026-10-04 against the channel feed: long-form entry
         # (link rel=alternate is /watch?v=, not /shorts/), titled
         # "What Your Mammogram Can Miss | Pain 2 Power Ep 17: Dr. Don Goodwin".

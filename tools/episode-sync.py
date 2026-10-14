@@ -10,6 +10,16 @@ routine can run `check` any day to backfill whichever half is still missing.
   python3 tools/episode-sync.py check              # read-only, says what is missing
   python3 tools/episode-sync.py add-video          # adds the VIDEOS entry, rebuilds
   python3 tools/episode-sync.py check --json       # same as check, machine readable
+  python3 tools/episode-sync.py links              # every episode's Spotify + YouTube URL
+  python3 tools/episode-sync.py links --episode 19 # one episode; exit 0 only if both exist
+  python3 tools/episode-sync.py links --write      # also save content/episodes/links.json
+
+`links` exists because Nick kept having to paste the Spotify and YouTube links
+into chat by hand (Episode 18 on 2026-10-10 was the latest). Every session and
+routine that writes a post should run it instead of asking him. It records what
+it finds in content/episodes/links.json, so a link survives after it scrolls out
+of the feeds: the YouTube channel feed holds only the newest 15 uploads, and the
+daily Shorts push a full episode out of it within about two weeks.
 
 WHAT THIS DELIBERATELY DOES NOT DO: write the EPISODES blurb. That is five
 paragraphs of prose drawn from the episode transcript, and a generated one reads
@@ -31,7 +41,10 @@ import re
 import subprocess
 import sys
 import urllib.request
+import html as htmllib
+import os
 import xml.etree.ElementTree as ET
+from datetime import datetime, timezone
 
 ROOT = subprocess.run(["git", "rev-parse", "--show-toplevel"],
                       capture_output=True, text=True).stdout.strip()
@@ -39,6 +52,9 @@ ROOT = subprocess.run(["git", "rev-parse", "--show-toplevel"],
 SHOW_ID = "033A1BQq9qqsygFFCq9SIu"
 CHANNEL_ID = "UCFzCl3RvdVahfIjKZ1SfRvQ"
 SPOTIFY_EMBED = f"https://open.spotify.com/embed/show/{SHOW_ID}"
+# The public show page lists every recent episode as <a href="/episode/ID">
+# with its title as the link text. The embed above carries only the newest.
+SPOTIFY_SHOW = f"https://open.spotify.com/show/{SHOW_ID}"
 SPOTIFY_OEMBED = ("https://open.spotify.com/oembed?url="
                   f"https%3A%2F%2Fopen.spotify.com%2Fshow%2F{SHOW_ID}")
 YT_FEED = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
@@ -47,6 +63,8 @@ NS = {"a": "http://www.w3.org/2005/Atom",
       "yt": "http://www.youtube.com/xml/schemas/2015"}
 
 UA = {"User-Agent": "Mozilla/5.0 (compatible; firstrehabnpb-episode-sync)"}
+
+LINKS_JSON = os.path.join(ROOT, "content", "episodes", "links.json")
 
 
 def fetch(url):
@@ -89,6 +107,55 @@ def newest_youtube_longform():
                 entry.find("a:published", NS).text,
                 entry.find("a:title", NS).text)
     return None, None, None
+
+
+def all_spotify():
+    """Every episode the public show page lists: {number: (id, title)}.
+    The page carries roughly the last dozen episodes, newest first."""
+    page = fetch(SPOTIFY_SHOW)
+    out = {}
+    for m in re.finditer(r'href="/episode/([A-Za-z0-9]{22})"[^>]*>(.{0,600}?)</a>',
+                         page, re.S):
+        text = htmllib.unescape(" ".join(re.sub(r"<[^>]+>", " ", m.group(2)).split()))
+        num = re.search(r"Episode\s+(\d+)", text)
+        if num and int(num.group(1)) not in out:
+            out[int(num.group(1))] = (m.group(1), text)
+    return out
+
+
+def all_youtube_longform():
+    """Long-form videos in the channel feed: {number: (id, published, title)}.
+    The episode number is read from the title ("... | Pain 2 Power Ep 17: ...")."""
+    root = ET.fromstring(fetch(YT_FEED))
+    out = {}
+    for entry in root.findall("a:entry", NS):
+        href = entry.find("a:link[@rel='alternate']", NS).get("href", "")
+        if "/shorts/" in href:
+            continue
+        title = entry.find("a:title", NS).text or ""
+        num = re.search(r"Episode\s+(\d+)", title) or re.search(r"\bEp\.?\s*(\d+)", title)
+        if num and int(num.group(1)) not in out:
+            out[int(num.group(1))] = (entry.find("yt:videoId", NS).text,
+                                      entry.find("a:published", NS).text, title)
+    return out
+
+
+def videos_in_build():
+    """YouTube ids already recorded in build.py VIDEOS: {number: (id, uploaded)}.
+    This is how links older than the feed's 15 newest uploads stay known."""
+    src = build_py()
+    start = src.find("VIDEOS = [")
+    block = src[start:src.find("\n]\n", start)]
+    out = {}
+    # One dict per video; fields can be separated by comment lines, so read
+    # each {...} on its own rather than assuming the keys sit side by side.
+    for entry in re.findall(r"\{(.*?)\n    \}", block, re.S):
+        vid = re.search(r'"id":\s*"([\w-]{11})"', entry)
+        ep = re.search(r'"ep":\s*"Episode (\d+)"', entry)
+        up = re.search(r'"uploaded":\s*"([^"]+)"', entry)
+        if vid and ep:
+            out.setdefault(int(ep.group(1)), (vid.group(1), up.group(1) if up else ""))
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -197,6 +264,75 @@ def cmd_add_video(args):
     return 0
 
 
+def load_links():
+    try:
+        with open(LINKS_JSON) as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return {}
+
+
+def cmd_links(args):
+    """Collect every episode's Spotify and YouTube link into one record."""
+    reg = load_links()
+    before = json.dumps(reg, sort_keys=True)
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    new = []
+
+    def put(num, field, value, extra=None):
+        rec = reg.setdefault(str(num), {})
+        if not rec.get(field):
+            rec[field] = value
+            rec.setdefault("first_seen", {})[field] = now
+            new.append((num, field, value))
+        for k, v in (extra or {}).items():
+            rec.setdefault(k, v)
+
+    try:
+        for num, (sid, title) in all_spotify().items():
+            put(num, "spotify_url", f"https://open.spotify.com/episode/{sid}",
+                {"spotify_title": title})
+    except Exception as exc:
+        print(f"  (Spotify show page unavailable: {exc})", file=sys.stderr)
+    for num, (vid, uploaded) in videos_in_build().items():
+        put(num, "youtube_url", f"https://www.youtube.com/watch?v={vid}",
+            {"youtube_uploaded": uploaded})
+    try:
+        for num, (vid, pub, title) in all_youtube_longform().items():
+            put(num, "youtube_url", f"https://www.youtube.com/watch?v={vid}",
+                {"youtube_uploaded": pub, "youtube_title": title})
+    except Exception as exc:
+        print(f"  (YouTube feed unavailable: {exc})", file=sys.stderr)
+
+    reg = dict(sorted(reg.items(), key=lambda kv: -int(kv[0])))
+    if args.write and json.dumps(reg, sort_keys=True) != before:
+        os.makedirs(os.path.dirname(LINKS_JSON), exist_ok=True)
+        with open(LINKS_JSON, "w") as fh:
+            json.dump(reg, fh, indent=2)
+            fh.write("\n")
+
+    rows = reg
+    if args.episode:
+        rows = {str(args.episode): reg.get(str(args.episode), {})}
+
+    if args.json:
+        print(json.dumps({"episodes": rows,
+                          "new": [{"episode": n, "field": f, "value": v} for n, f, v in new]},
+                         indent=2))
+    else:
+        for num, rec in rows.items():
+            print(f"Episode {num}  {rec.get('spotify_title', '')}")
+            print(f"   Spotify  {rec.get('spotify_url') or 'NOT FOUND YET'}")
+            print(f"   YouTube  {rec.get('youtube_url') or 'NOT FOUND YET'}")
+        for n, f, v in new:
+            print(f"NEW  Episode {n}  {f}  {v}")
+
+    if args.episode:
+        rec = rows[str(args.episode)]
+        return 0 if rec.get("spotify_url") and rec.get("youtube_url") else 2
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -207,6 +343,13 @@ def main():
 
     p = sub.add_parser("add-video", help="add the newest long-form video to VIDEOS")
     p.set_defaults(func=cmd_add_video)
+
+    p = sub.add_parser("links", help="every episode's Spotify and YouTube URL")
+    p.add_argument("--episode", type=int, help="just this episode number")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--write", action="store_true",
+                   help="save what was found to content/episodes/links.json")
+    p.set_defaults(func=cmd_links)
 
     args = ap.parse_args()
     sys.exit(args.func(args))
