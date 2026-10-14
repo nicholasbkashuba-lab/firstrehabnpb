@@ -4878,7 +4878,7 @@ BLOG_POSTS = {
         "tag": "Knees &amp; Joints",
         "teaser": "A sports medicine surgeon explains cartilage transplants on our Pain 2 Power podcast: who they help, what recovery looks like, and why rehab decides it.",
         "body": """
-<p>Most people hear two options for a worn-out knee: live with it, or replace the whole joint. On Episode 7 of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba and Mike McGann sat down with Dr. Rami Elkhechen, M.D., a fellowship-trained sports medicine orthopedic surgeon now with NYU Langone Health, to talk about a third path. The goal there is to rebuild the cartilage you were born with rather than swap the joint for metal and plastic.</p>
+<p>Most people hear two options for a worn-out knee: live with it, or replace the whole joint. On Episode 7 of our <a href="../podcast.html">Pain 2 Power radio show</a>, Dr. Dave Kashuba and Mike McGann sat down with Dr. Rami Elkhechen, M.D., a fellowship-trained sports medicine orthopedic surgeon with Orthopaedic Care Specialists in North Palm Beach, to talk about a third path. The goal there is to rebuild the cartilage you were born with rather than swap the joint for metal and plastic.</p>
 <p>It's a narrower path than the other two, and it only suits certain knees. But if yours is one of them, it's worth knowing about before anyone hands you a surgery date, and worth knowing how much of the result depends on the months of rehab that follow.</p>
 <p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
 <h2>Why cartilage is the part worth protecting</h2>
