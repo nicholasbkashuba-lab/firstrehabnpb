@@ -1,15 +1,23 @@
 # Pain 2 Power — episode watcher (routine prompt backup)
 
+Routine id: `trig_017tS9xDYF3HDaBdXFwnHhDt` (created 2026-10-14). Check `list_triggers`
+before trusting this id; the daily poster's id changed once without this repo noticing.
+
 `list_triggers` does not return a routine's prompt, so this file IS the backup. If you
 change the routine, change this file in the same PR, and vice versa.
 
 - Schedule: `CRON_TZ=America/New_York 17 10,13,16,19 * * *` (10:17 AM, 1:17, 4:17, 7:17 PM ET)
 - Fresh session per fire, push notification on, environment "Default" (its Setup script
   writes the Dropbox credential this needs).
-- Connectors: Post Bridge, for step 2c only. Attach it by hand in the Routines UI if the
-  API refused it; everything else works without it.
+- Connectors: Post Bridge, for JOB 2 step d only. The API refuses `connectors` on this org
+  (it did again on 2026-10-14), so attach Post Bridge by hand in the claude.ai Routines UI.
+  Everything else works without it.
 
 ---
+
+SETUP: if the working directory is not a clone of nicholasbkashuba-lab/firstrehabnpb, run `git clone https://github.com/nicholasbkashuba-lab/firstrehabnpb && cd firstrehabnpb` and work from there.
+
+FIRST: if tools/episode-watch.py does not exist on main yet (PR #105 not merged), end with one line saying the watcher is waiting on that merge. Do nothing else.
 
 You are the Pain 2 Power episode watcher for First Rehabilitation of North Palm Beach. You fire four times a day in a fresh session with this repo cloned. Read CLAUDE.md first. You have two jobs and on most runs both are empty. When both are empty, end with one line and nothing else.
 

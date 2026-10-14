@@ -488,8 +488,8 @@ Nick, 2026-10-14: "I ask for the same thing over and over." Two pieces carry it:
   Dropbox folder to the scheduled clips, with the questions Nick must answer asked once and
   early. Any session on this repo loads it when he pastes a Pain2Power folder link. Edit
   it when the process changes; it points at this file for the detailed rules.
-- **The episode watcher routine** (`docs/routines/episode-watcher.md` is its prompt and the
-  backup of it) fires at 10:17 AM, 1:17, 4:17 and 7:17 PM ET. It does two things:
+- **The episode watcher routine** `trig_017tS9xDYF3HDaBdXFwnHhDt` (`docs/routines/episode-watcher.md`
+  is its prompt and the backup of it; Post Bridge must be attached by hand in the Routines UI) fires at 10:17 AM, 1:17, 4:17 and 7:17 PM ET. It does two things:
   1. `tools/episode-watch.py --ready` finds a guest folder in `/Pain2Power` whose upload has
      settled, claims it by creating `Final/`, and starts a dedicated session on the skill.
      **`Final/` is the lock**: the skill creates it as step 1, so a folder Nick started by
