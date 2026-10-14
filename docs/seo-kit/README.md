@@ -20,6 +20,7 @@ site is a static `build.py` generator on Vercel. Anything in the kit that says "
 | `docs/GROWTH-PLAN-2026-10.md` | The full October audit: five levers ranked, what the data says, how Google ranks a clinic in 2026, the lawofficesuccess.com re-audit (section 4), what shipped in PR #104, owner actions, 90-day targets |
 | `docs/LOCAL-AUTHORITY-AUDIT-2026-10.md` | Why nearby clinics outrank us (not schema), the name collision with the other "First Rehab", every wrong citation record (NPPES, Healthgrades, LinkedIn, Yelp), directories, links, GBP changes, the brand plan and its do-not-do list |
 | `docs/seo-kit/competitor-teardown-2026-10-14.md` | Per-site evidence for the above: each competitor page's title, H1, schema types and word count |
+| `docs/GSC-DEEP-DIVE-2026-10.md` | Search Console deep dive, 2026-10-14: the five numbers, striking-distance queries by page, cannibalization, the Medicare baseline for the guide, hand / auto / workers' comp / brand clusters, and the title changes made from it, with a re-read date |
 | `docs/PATIENT-INSIGHTS-2026-10.md` | Aggregate patient data (age, payer, zip, visits, referrals, drop-off) and the nine actions it points to. Aggregates only; patient-level data never enters the repo |
 | `docs/COWORK-LOCAL-FIXES.md` | Paste-ready Cowork prompt that fixes the listings in a browser. Owner-run, not Code |
 | `BLOG-PLAYBOOK.md` | How posts are written, including the 1,700 to 2,000+ word length standard and the anti-slop rules |

@@ -1486,11 +1486,26 @@ def build_services():
                  "general strength target. We use graded conditioning and task simulation so the work you "
                  "rehearse in the clinic resembles the work waiting for you, which is also what an employer, "
                  "an adjuster or a case manager needs to see documented before a release."),
+                # Added 2026-10-14 from docs/PATIENT-INSIGHTS-2026-10.md: OT patients
+                # stay longest and many are working age, so return-to-work is the
+                # commercial angle. Restates SERVICES, CONDITIONS["workers-comp"]
+                # and the FAQ; the Florida claim rules live on the workers-comp page.
+                ("Hurt at work, or worried you will be",
+                 "Many of the people our occupational therapists treat are working age, and the goal is "
+                 "usually specific: back to the job, safely, without the injury coming back. That means the "
+                 "hands, wrists, elbows and shoulders, repetitive strain, and the individual tasks a job is "
+                 "built from. Treatment rehearses those tasks at the weights, heights and pace the job "
+                 "actually uses, and progress is reported in the same terms. If the injury is covered by "
+                 "workers' comp, our <a href=\"../treatments/workers-comp.html\">work injury rehab</a> page "
+                 "explains how authorization and reporting work in Florida."),
                 ("Ergonomics and adaptive equipment",
                  "Sometimes the fastest route back to a task is changing the task. Workstation assessment, "
                  "tool and equipment recommendations, and technique changes can make daily activities safer "
-                 "and less painful without waiting on strength to return. Call 561-624-4263 and our front "
-                 "desk can tell you whether an assessment is covered under your plan."),
+                 "and less painful without waiting on strength to return. At a desk that can mean the height "
+                 "of the screen and the position of the chair, keyboard and mouse. On a job site it can mean "
+                 "tool grips, how a load is lifted and carried, and how the work is staged through the day. "
+                 "The same thinking applies at home, from the kitchen to the garden. Call 561-624-4263 and "
+                 "our front desk can tell you whether an assessment is covered under your plan."),
                 ("Hand and upper-extremity function",
                  "Fine-motor and functional-use training runs alongside our certified hand therapy program, "
                  "so a patient whose hand is the limiting factor gets both: the protocol-driven hand work "
@@ -1506,6 +1521,55 @@ def build_services():
                  "movement, strength and pain, while occupational therapy targets the activities that "
                  "movement is for. If you are not sure which you need, our front desk can talk it through, "
                  "and your evaluation will settle it."),
+                ],
+            },
+            # Wellness: balance and fall prevention. Added 2026-10-14 from
+            # docs/PATIENT-INSIGHTS-2026-10.md (median patient age about 71, two
+            # thirds 65+). Restates SERVICES["wellness"], the wellness FAQ, the
+            # strength-after-60 post (Dave's quote is verbatim from it) and the
+            # insurance page. Do NOT add prices, memberships, schedules or
+            # non-patient access: all four are on the owner-confirmation list.
+            "wellness": {
+                "h2": "Balance and fall prevention, and where the gym fits",
+                "intro": "Falls rarely start with a slip. They start months earlier, with weaker hips, a less "
+                         "steady base and reaction time that has quietly slowed. Senior functional fitness in "
+                         "our on-site gym works on both halves at once: the strength that holds you up and the "
+                         "balance that catches you when something shifts. Here is how it fits with therapy.",
+                "blocks": [
+                ("Who is the balance work for?",
+                 "Mostly people who have noticed the early signs: standing up from a chair more slowly, "
+                 "holding the rail on the stairs, avoiding a walk they used to enjoy. Many have just finished "
+                 "physical or occupational therapy with us and want to keep what they gained. The program "
+                 "covers every age, from athletes to seniors, but balance and fall prevention are the heart "
+                 "of senior functional fitness."),
+                ("Therapy or the gym: which comes first?",
+                 "If pain, a recent fall, dizziness or a new diagnosis is part of the picture, start with an "
+                 "evaluation. Balance and fall prevention, vestibular work and neurological rehab are part of "
+                 "our <a href=\"physical-therapy.html\">physical therapy</a> program, and medically necessary "
+                 "therapy is covered by Medicare. When skilled therapy is no longer what you need, the gym is "
+                 "how you keep the progress, with a team that already knows your chart."),
+                ("What does a session look like?",
+                 "Supervised strength and balance work, built around your history rather than a generic class "
+                 "plan. Sit to stands are a good example: rising from a chair without using your hands is one "
+                 "of the simplest tests of leg strength there is, and it is the same movement that keeps you "
+                 "able to get off a low couch, a car seat or the toilet without help. You can train "
+                 "one-on-one with a personal trainer or in a small group class, whichever keeps you coming back."),
+                ("Can I keep doing it at home?",
+                 "Yes, and you should. Dr. Dave Kashuba, Ph.D., OTR, asks patients for &ldquo;just a little bit "
+                 "of exercises, ten, fifteen minutes a day, three minutes a day, and work your way up,&rdquo; "
+                 "spread through the day rather than saved for one long session. Our "
+                 "<a href=\"../exercises.html\">home exercises page</a> has his knee, hip and shoulder sets with "
+                 "sets and reps, and <a href=\"../blog/strength-training-after-60-fall-prevention.html\">Strength "
+                 "Training After 60</a> explains the thinking."),
+                ("Is the gym covered like therapy?",
+                 "The gym is a separate program from Medicare-covered therapy, so the front desk explains how it "
+                 "works and what it costs before you sign up. Therapy itself is covered by Medicare when it is "
+                 "medically necessary, including skilled care that helps you maintain your function. Our "
+                 "<a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> has the details."),
+                ("Do I have to be a patient?",
+                 "The program is designed first as a continuation for our therapy patients, so the person "
+                 "guiding your training already knows your history. If you have not been a patient with us, "
+                 "call 561-624-4263 and the front desk will walk you through the options."),
                 ],
             },
         }
@@ -1568,6 +1632,22 @@ def build_services():
     <a class="btn btn-ink" href="../faq.html#{faq_cat}">See all {s["title"]} FAQs <span class="arr">&rarr;</span></a>
   </div>
 </section>'''
+        # One visible line on each THERAPY service page (2026-10-14, from
+        # docs/PATIENT-INSIGHTS-2026-10.md: two thirds of patients are 65+ and
+        # about half are Medicare, so benefit clarity is the conversion lever).
+        # Every claim in it is already made in the FAQ ("Will you verify my
+        # insurance benefits before I start? Yes, always") and on /insurance.html.
+        # Medigap is deliberately NOT named as verified before the visit: the
+        # site only says "bring every card and we will sort out which pays
+        # first", so that wording waits for Nick. Wellness is excluded because
+        # the gym is a separate, non-insurance program (insurance page).
+        verify_line = ""
+        if slug != "wellness":
+            verify_line = ('<p class="fv-highlight"><strong>Before your first visit, our front desk verifies your '
+                           'Medicare or commercial insurance benefits</strong> and tells you what your plan covers, '
+                           'any copay or deductible, and whether a referral is needed. On Medicare? Our '
+                           '<a href="../insurance.html#medicare-guide">2026 Medicare guide</a> explains the '
+                           'deductible, the 20% coinsurance and how a Medigap plan fits in.</p>')
         body = f"""
 <main>
 {page_hero("Our Services", f'{s["title"]} in <em class="accent">North Palm Beach</em>', s["lede"], crumbs)}
@@ -1619,6 +1699,7 @@ def build_services():
     <div class="prose reveal">
       <h2>What to expect at your first visit</h2>
       <p>Your first appointment includes a comprehensive movement-based evaluation, an honest conversation about your goals, and a proposed plan of care — with hands-on treatment starting that very first day whenever appropriate. We accept most major insurance plans, including Medicare, and our front desk will gladly verify your coverage before you arrive.</p>
+      {verify_line}
       <p>You're never a chart number here. Since 1991, our family-owned clinic has treated every patient with the individual attention that earns a 4.9&#9733; reputation across the Palm Beaches.</p>
     </div>
     <aside class="side-card reveal d2">
@@ -1654,21 +1735,33 @@ def build_services():
 
 CONDITIONS = {
     "back-pain": {
-        "seo_title": "Low Back Pain Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "One-on-one physical therapy for low back pain, sciatica and disc problems in North Palm Beach. Family-owned since 1991, Medicare accepted. Call 561-624-4263.",
+        # Title/desc changed 2026-10-14 (GSC deep dive): six North Palm Beach back
+        # pain queries, 191 impressions at average position 6.5, zero clicks in 90
+        # days. Sciatica
+        # and stenosis are named because people search them. Recorded in
+        # SEO-KEYWORDS.md; judge on CTR at the same position.
+        "seo_title": "Low Back Pain & Sciatica Treatment | North Palm Beach",
+        "seo_desc": "One-on-one physical therapy for low back pain, sciatica, disc problems and spinal stenosis in North Palm Beach. Family-owned since 1991. Call 561-624-4263.",
         "name": "Back Pain Relief",
         "area": "Lower Back &amp; Spine",
         "lede": "Evidence-based physical therapy for low back pain, sciatica, and spinal conditions — treating the cause, not just the symptoms.",
+        "answer": "Low back pain, sciatica and spinal stenosis are among the most treatable problems we see. One-on-one physical therapy at our North Palm Beach clinic combines hands-on work to restore mobility, core and hip strengthening to support the spine, and changes to the daily movements that keep provoking pain. In most cases Florida law lets you start with an evaluation, no referral needed.",
         "intro": "Back pain is the single most common reason people seek physical therapy, and one of the most treatable. Our approach starts with understanding <em>why</em> your back hurts — the movement patterns, postural habits, and strength deficits behind the pain — then resolving them with skilled manual therapy and progressive exercise.",
         "treats": ["Low back pain and stiffness", "Sciatica and radiating leg pain", "Herniated and bulging discs", "Degenerative disc disease", "Spinal stenosis", "Post-surgical spine recovery", "Muscle strains and spasms"],
         "approach": "Treatment typically blends hands-on manual therapy to restore mobility, targeted core and hip strengthening to support the spine, and movement retraining so daily activities stop provoking pain. You'll leave every visit with a clear home program and an honest picture of your progress.",
     },
     "neck-pain": {
-        "seo_title": "Neck Pain Treatment in North Palm Beach | First Rehab",
-        "seo_desc": "One-on-one physical therapy for neck pain, stiffness, whiplash and pinched nerves in North Palm Beach. Family-owned since 1991, Medicare accepted. 561-624-4263.",
+        # Title/desc changed 2026-10-14 (GSC deep dive): 13 North Palm Beach neck
+        # queries ("stiff neck", "pinched nerve in neck", "neck and shoulder pain")
+        # drew 593 impressions across our pages at average position 8.2 (337 of
+        # them on this page, at 10.1) and zero clicks in 90 days. The title now names the two symptoms people type. Recorded in
+        # SEO-KEYWORDS.md; judge on CTR at the same position.
+        "seo_title": "Neck Pain & Pinched Nerve Treatment in North Palm Beach",
+        "seo_desc": "Physical therapy for a stiff neck, a pinched nerve, and neck and shoulder pain in North Palm Beach. One-on-one care, Medicare accepted. Call 561-624-4263.",
         "name": "Neck Pain Relief",
         "area": "Head &amp; Neck",
         "lede": "Manual therapy, posture correction, and strengthening for neck pain, stiffness, and whiplash.",
+        "answer": "Most neck pain, including a stiff neck, a pinched nerve and pain that spreads into the shoulder, is treated well with one-on-one physical therapy: hands-on work to free the stiff joints, strengthening for the deep neck muscles, and changes to how you sit, sleep and work. At our North Palm Beach clinic that treatment usually starts at your first visit.",
         "intro": "Whether it crept in from years at a desk or arrived overnight after an accident, neck pain responds remarkably well to skilled physical therapy. We identify the joints, muscles, and postural patterns driving your symptoms and treat them directly.",
         "treats": ["Chronic neck pain and stiffness", "Whiplash-associated disorders", "Cervical radiculopathy (pinched nerve)", "Tension and postural neck pain", "Degenerative changes of the cervical spine", "Pain radiating to the shoulder or arm"],
         "approach": "Care usually combines gentle manual therapy and joint mobilization, deep neck flexor and postural strengthening, and workstation or sleep-position coaching. Most patients notice meaningful change within the first few weeks of consistent care.",
@@ -1746,19 +1839,31 @@ CONDITIONS = {
         "approach": "We follow your surgeon's protocol precisely, communicate progress clearly, and adjust based on how your tissue is actually healing. From first post-op visit through final clearance, you'll always know what phase you're in and what milestone comes next.",
     },
     "workers-comp": {
+        # Title/desc added 2026-10-14 (GSC deep dive). The generated title ran to
+        # 67 characters and the description carried an em dash. "work injury
+        # rehab" (pos 15.2) and "work injury rehabilitation" (pos 30.4) are the
+        # phrases people use, so they lead. Recorded in SEO-KEYWORDS.md.
+        "seo_title": "Work Injury Rehab & Workers' Comp Therapy | North Palm Beach",
+        "seo_desc": "Workers' comp physical and occupational therapy in North Palm Beach: return-to-work training, ergonomics and objective reports for your adjuster. 561-624-4263.",
         "name": "Workers' Compensation Rehab",
         "area": "Work Injury",
         "lede": "Get better and get back to work — with the documentation and communication your case requires.",
+        "answer": "If you were hurt at work, therapy here is built around getting you back to your actual job. Physical and occupational therapy run under one roof, treatment rehearses the tasks your job demands, and your adjuster, case manager and physician get objective progress reports. Call 561-624-4263 with your claim number and our front desk will check the authorization before your first visit.",
         "intro": "A work injury involves more than healing: it involves adjusters, case managers, physicians, and return-to-work timelines. We've handled workers' compensation cases for decades, providing excellent clinical care alongside the clear, timely documentation every party needs.",
         "treats": ["Lifting and overexertion injuries", "Repetitive strain injuries", "Back and shoulder work injuries", "Hand and upper extremity injuries", "Slip, trip, and fall injuries", "Post-surgical work injury recovery"],
         "approach": "Treatment is functional from day one — built around the physical demands of your actual job. We provide objective progress reporting, coordinate with your physician and case manager, and prepare you for a safe, sustainable return to work.",
     },
     "auto-accident": {
-        "seo_title": "Auto & Car Accident Physical Therapy | North Palm Beach",
-        "seo_desc": "Physical therapy after a car accident for whiplash, neck and back injuries. We document your recovery and work with your adjuster or attorney. 561-624-4263.",
+        # Title/desc changed 2026-10-14 (GSC deep dive): "car accident rehab" sits
+        # at 18.2 and "auto injury rehabilitation" at 24.7 on this page. "PIP" is
+        # what Florida patients and adjusters call the coverage. Recorded in
+        # SEO-KEYWORDS.md.
+        "seo_title": "Car Accident Rehab & PIP Physical Therapy | North Palm Beach",
+        "seo_desc": "Physical therapy after a car accident in North Palm Beach: Florida's 14-day PIP rule, whiplash and back care, and records for your adjuster. 561-624-4263.",
         "name": "Auto Accident Recovery",
         "area": "Full Body",
         "lede": "Comprehensive rehabilitation after a car accident — from whiplash to complex multi-area injuries.",
+        "answer": "After a car accident in Florida, see a physician within 14 days: your personal injury protection (PIP) pays for medical care only if initial care starts within 14 days of the crash, and physical therapy is follow-up care your physician refers you to. Once you have that referral, we treat whiplash, back pain and the rest, and document your recovery for your adjuster.",
         "intro": "Even a minor collision can leave lasting pain, and symptoms often surface days after the accident. Early, skilled rehabilitation is the best predictor of full recovery — and we make the process straightforward, including the documentation your claim requires.",
         "treats": ["Whiplash and neck injuries", "Back and spine injuries", "Shoulder and knee trauma", "Headaches after collision", "Soft tissue strains and sprains", "Anxiety about returning to movement"],
         "approach": "Care begins gently — calming irritated tissue and restoring basic motion — then progresses to strengthening and full return to daily activity. We document objectively throughout, and communicate with your physician and representatives as needed.",
@@ -1895,21 +2000,283 @@ def build_conditions():
                  "handles a custom splint, before you come in."),
                 ],
             },
+            # Neck pain. The 2026-10-14 GSC deep dive (90 days to 2026-10-11) found
+            # 13 North Palm Beach neck queries with 593 impressions at average
+            # position 8.2 across our pages (337 on this page) and ZERO clicks,
+            # on a 324-word page. North Palm Beach is
+            # where the clinic is, so unlike the city-qualified queries this is a
+            # page-content lever. Same content rules as hand-wrist: every statement
+            # restates something the site already says (CONDITIONS, the FAQ, the
+            # headache post, EXERCISES), no new mechanism, statistic or outcome.
+            # The "doctor first" block mirrors the red flags in the headache post
+            # and is on the list for Dave to read.
+            "neck-pain": {
+                "h2": "Neck pain questions, answered",
+                "intro": "These are the questions people in North Palm Beach ask us most about neck pain, "
+                         "answered the way we would answer them at the front desk. Your own answers come "
+                         "from your evaluation.",
+                "blocks": [
+                ("Why does my neck get so stiff?",
+                 "Usually it is sustained position. Hours on a phone, a workday hunched toward a screen or "
+                 "a long drive with your head pushed forward ask the small joints at the top of the spine "
+                 "to hold a load all day. They stiffen, the muscles around them guard, and the neck feels "
+                 "locked, often worst first thing in the morning or at the end of a workday. Treatment "
+                 "frees the stiff joints with gentle manual therapy, then works on the posture and "
+                 "strength that let the stiffness come back."),
+                ("What is a pinched nerve in the neck, and can therapy help?",
+                 "Clinicians call it cervical radiculopathy: an irritated nerve root in the neck that can "
+                 "send pain, tingling or numbness into the shoulder, arm or hand. It is one of the "
+                 "conditions our neck program treats. Care follows the same pattern as the rest of the "
+                 "program: gentle manual therapy and joint mobilization, strengthening for the deep neck "
+                 "and upper back muscles, and changes to the positions you spend your day in. If arm "
+                 "weakness is getting worse rather than better, a physician should see it first, and we "
+                 "will tell you so."),
+                ("Why do my neck and shoulder hurt at the same time?",
+                 "The muscles that run from your shoulders up into the back of your head are shared "
+                 "territory, so neck pain often spreads into the shoulder or arm. Sometimes the shoulder is "
+                 "the real problem and the neck is compensating. The evaluation tests the neck and the "
+                 "shoulder separately to sort out which is driving the pain, and the plan treats that one. "
+                 "If it turns out to be the shoulder, see our "
+                 "<a href=\"shoulder-pain.html\">shoulder pain treatment</a> page."),
+                ("Can my headaches come from my neck?",
+                 "Often, yes. Many stubborn, recurring headaches start in the stiff joints and tight muscles "
+                 "of the upper neck rather than in the head itself. When the neck is the driver, treating it "
+                 "can reduce how often the headaches come and how hard they hit. Read "
+                 "<a href=\"../blog/headaches-that-start-in-the-neck.html\">The Headache That Starts in Your "
+                 "Neck</a>, or see <a href=\"headache-relief.html\">headache treatment</a>."),
+                ("What happens at my first visit?",
+                 "Plan on about an hour, one-on-one with your therapist. We take your history, watch how your "
+                 "neck moves, and measure motion, strength and the positions that bring the pain on. "
+                 "Treatment usually begins the same day, often with gentle hands-on work and the first one "
+                 "or two exercises of your home program. You leave knowing what is going on and what to do "
+                 "between visits. The <a href=\"../first-visit.html\">first visit page</a> has the details."),
+                ("Which exercises will I do at home?",
+                 "That depends on your evaluation, but most neck programs work the deep neck flexors and the "
+                 "upper back. Scapular retractions and shoulder shrugs, three sets of ten, are two that "
+                 "Dr. Dave Kashuba, Ph.D., OTR, gives patients often, because they work against the rounded, "
+                 "forward posture daily life builds in. Both are on our "
+                 "<a href=\"../exercises.html\">home exercises page</a> with instructions. Start them after "
+                 "your evaluation, not instead of it."),
+                ("How long until my neck feels better?",
+                 "Most patients notice meaningful change within the first few weeks of consistent care. How "
+                 "many visits you need depends on what is driving the pain, how long you have had it and "
+                 "what you want to get back to. After your evaluation your therapist proposes a visit "
+                 "frequency and honest milestones, then adjusts the plan to how you actually respond."),
+                ("When should a doctor check my neck first?",
+                 "Neck pain after a significant fall, blow to the head or car accident should be checked by a "
+                 "physician before therapy. So should neck pain that comes with fever, or with weakness or "
+                 "numbness in an arm or leg that is getting worse. Ruling out the serious causes is what makes "
+                 "it safe to treat the mechanical side with confidence. After a car accident, also read our "
+                 "<a href=\"auto-accident.html\">car accident rehab</a> page for Florida's 14-day rule."),
+                ("Do I need a referral, and will insurance cover it?",
+                 "In most cases Florida's direct access law lets you begin a physical therapy evaluation "
+                 "without a physician referral. Some plans still require one for coverage, and Medicare "
+                 "requires a physician to certify your plan of care. Before your first visit our front desk "
+                 "verifies your Medicare or commercial benefits and tells you what your plan needs. Our "
+                 "<a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> explains deductibles "
+                 "and coinsurance."),
+                ],
+            },
+            # Back pain. Same deep dive: six North Palm Beach back queries, 191
+            # impressions at average position 6.5 across our pages (141 on this
+            # page), zero clicks, on a 362-word page. "spinal stenosis treatment
+            # north palm beach" sits at 17.0. Same content rules as
+            # neck-pain; the morning advice is the five-morning-habits post and the
+            # "doctor first" block is on the list for Dave to read.
+            "back-pain": {
+                "h2": "Back pain questions, answered",
+                "intro": "These are the questions people in North Palm Beach ask us most about back pain and "
+                         "sciatica. Your own answers come from your evaluation, but this is where most "
+                         "conversations start.",
+                "blocks": [
+                ("What is sciatica, and can physical therapy help?",
+                 "Sciatica is pain that travels from the low back or buttock down the leg, often with "
+                 "tingling or numbness along the way. It is one of the most common reasons people come to "
+                 "our back pain program. Treatment blends hands-on work to restore mobility, core and hip "
+                 "strengthening, and changes to the sitting, bending and lifting habits that keep provoking "
+                 "it. Pain that runs into your leg is worth a professional look sooner rather than later."),
+                ("Why is my back worst first thing in the morning?",
+                 "Backs are often stiffest when you first get up: discs rehydrate overnight, muscles cool "
+                 "down, and the first movements of the day feel the hardest. Rolling to your side and pushing "
+                 "up with your arms, instead of sitting straight up, spares your spine a loaded crunch while "
+                 "it is still waking up. "
+                 "<a href=\"../blog/five-morning-habits-back-pain.html\">Five Morning Habits That Ease Back "
+                 "Pain</a> has the rest of the routine."),
+                ("Can physical therapy help spinal stenosis?",
+                 "Spinal stenosis is one of the spinal conditions our back program treats. Care works on "
+                 "mobility, on the core and hip strength that supports the spine, and on the standing and "
+                 "walking daily life asks for, at a pace that respects how your back responds. If your "
+                 "evaluation points toward a surgical opinion, we will say so plainly and coordinate with "
+                 "your physician."),
+                ("Do I need surgery for a herniated or bulging disc?",
+                 "Your physician or surgeon makes that call. What we can do is treat it: herniated and "
+                 "bulging discs and degenerative disc disease are all part of our back program, and so is "
+                 "recovery after spine surgery, where we follow your surgeon's protocol. Our job is to tell "
+                 "you honestly how you are responding and to coordinate with your doctor if the plan needs "
+                 "to change."),
+                ("Could the pain be coming from my hip?",
+                 "Sometimes. Hip pain can masquerade as back pain, and a stiff or weak hip can push extra work "
+                 "onto the low back. That is why the evaluation looks at your hips and the way you walk, not "
+                 "just your spine. Read <a href=\"../blog/hip-impingement-back-pain-north-palm-beach.html\">"
+                 "Hip Impingement: When Your Back Pain Is Coming From Your Hip</a>."),
+                ("What happens at my first visit?",
+                 "Plan on about an hour, one-on-one with your therapist. We take your history, watch you walk, "
+                 "bend and sit, and measure strength, range of motion and the movements that bring the pain "
+                 "on. Treatment usually begins the same day. You leave with a clear picture of what is going "
+                 "on and the first exercises of your home program."),
+                ("What will I do at home?",
+                 "Every visit ends with a clear home program. Core, hip and glute strength is the long-term "
+                 "fix for most recurring back pain, and simple moves like a bridge or a bird dog, attached to "
+                 "a habit you already have such as brushing your teeth, are where many programs start. Your "
+                 "therapist picks yours from the evaluation."),
+                ("When should a doctor see my back first?",
+                 "Back pain with loss of bladder or bowel control, numbness in the groin or inner thighs, or "
+                 "leg weakness that is getting worse needs urgent medical care, not a therapy appointment. "
+                 "So does back pain after a significant fall or accident, or with fever. Once a physician "
+                 "has ruled those out, physical therapy can treat the mechanical side with confidence."),
+                ("Do I need a referral, and will insurance cover it?",
+                 "In most cases Florida's direct access law lets you begin a physical therapy evaluation "
+                 "without a physician referral. Some plans still require one for coverage, and Medicare "
+                 "requires a physician to certify your plan of care. Before your first visit our front desk "
+                 "verifies your Medicare or commercial benefits and tells you what your plan needs. Our "
+                 "<a href=\"../insurance.html#medicare-guide\">2026 Medicare guide</a> explains deductibles "
+                 "and coinsurance."),
+                ],
+            },
+            # Workers' comp. Added 2026-10-14 from docs/PATIENT-INSIGHTS-2026-10.md
+            # (occupational therapy patients stay longest and many are working age)
+            # and the deep dive ("work injury rehab" 15.2, "work injury
+            # rehabilitation" 30.4, "comp rehab" 39.0). The three Florida rules on
+            # this page were read from the 2026 Florida Statutes on flsenate.gov on
+            # 2026-10-14 and are cited visibly: s. 440.185(1) 30-day notice,
+            # s. 440.13(2)(a) employer furnishes care and (3)(i) carrier authorizes
+            # therapy over $1,000, s. 440.191 Employee Assistance and Ombudsman
+            # Office. Re-check after each legislative session. No legal advice.
+            "workers-comp": {
+                "h2": "Hurt at work? How workers' comp therapy works here",
+                "intro": "A work injury comes with paperwork, deadlines and more people involved than most "
+                         "kinds of care. Here is how the pieces fit together in Florida, so you know what to "
+                         "expect before your first visit.",
+                "blocks": [
+                ("What should I do first after a work injury?",
+                 "Tell your employer. Under section 440.185 of the Florida Statutes, an injured employee must "
+                 "advise the employer within 30 days after the injury, or after symptoms first appear. "
+                 "Florida law then requires your employer to furnish the medically necessary treatment the "
+                 "injury needs. Therapy is part of that care, and therapy costing more than $1,000 has to be "
+                 "authorized by the insurance carrier, so authorization usually comes before the first visit."),
+                ("Who decides what therapy I get?",
+                 "Your treating physician prescribes therapy and the carrier authorizes it. We evaluate you, "
+                 "write a plan built around your job, treat you, and send objective progress reports to your "
+                 "physician, adjuster and case manager, so each decision about the next step rests on "
+                 "measurements rather than guesses."),
+                ("What does return-to-work therapy involve?",
+                 "Treatment is functional from the first day and built around the physical demands of your "
+                 "actual job. Someone who lifts and carries for a living rehearses lifting and carrying at "
+                 "the heights the job requires. Someone who works at a keyboard works on sitting tolerance, "
+                 "the shoulders and the hands. Graded conditioning and task simulation mean the work you "
+                 "practice here resembles the work waiting for you."),
+                ("How does occupational therapy help a work injury?",
+                 "Many work injuries land in the hands, wrists, elbows and shoulders, which is occupational "
+                 "therapy territory. Our occupational therapists retrain the tasks a job depends on, and hand "
+                 "injuries can be treated by Laura Drumm, MS, OTR/L, CHT, CLT, our certified hand therapist, "
+                 "with custom splints made in the clinic. Physical and occupational therapy run in the same "
+                 "building under one plan, so an injury that needs both does not mean two clinics. More on "
+                 "our <a href=\"../services/occupational-therapy.html\">occupational therapy</a> page."),
+                ("Can you help with repetitive strain and ergonomics?",
+                 "Yes. Repetitive strain injuries are among the work injuries we treat, and they rarely settle "
+                 "if the task that caused them stays the same. Workstation assessment, tool and equipment "
+                 "recommendations, and changes to technique are part of occupational therapy here, so the "
+                 "fix covers the job as well as the body."),
+                ("What does my adjuster or case manager receive?",
+                 "Objective progress reporting: what was measured at your evaluation, what has changed since, "
+                 "and how you are tracking against the demands of your job. We coordinate with your physician "
+                 "and case manager throughout, because a safe, sustainable return to work depends on everyone "
+                 "working from the same information."),
+                ("What should I bring to the first visit?",
+                 "Photo ID, your claim number, your adjuster's name and phone number, your employer's details, "
+                 "and the prescription or referral from your treating physician. Call 561-624-4263 first: our "
+                 "front desk checks the authorization so the visit is covered before you arrive."),
+                ("What if my claim is disputed?",
+                 "That is a legal and benefits question rather than a therapy one. Florida's Department of "
+                 "Financial Services runs an Employee Assistance and Ombudsman Office, set up under section "
+                 "440.191, to help injured workers and employers resolve disagreements, and a Florida workers' "
+                 "compensation attorney can advise on your own case. We keep treating and documenting while "
+                 "your care is authorized."),
+                ],
+                "extra": '''
+      <div class="data-table" tabindex="0" role="region" aria-label="Who does what in a Florida workers' compensation claim">
+        <table>
+          <caption>Who does what in a Florida workers' comp claim. Rules from the 2026 Florida Statutes, chapter 440.</caption>
+          <thead><tr><th scope="col">Who</th><th scope="col">Their part</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">You</th><td>Tell your employer about the injury within 30 days (s. 440.185)</td></tr>
+            <tr><th scope="row">Your employer</th><td>Furnishes the medically necessary treatment the injury needs (s. 440.13)</td></tr>
+            <tr><th scope="row">The insurance carrier</th><td>Authorizes therapy; required when it costs more than $1,000 (s. 440.13)</td></tr>
+            <tr><th scope="row">Your treating physician</th><td>Prescribes therapy and reviews our progress reports</td></tr>
+            <tr><th scope="row">First Rehabilitation</th><td>Evaluates, treats, and reports progress to your physician, adjuster and case manager</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Sources</h3>
+      <ol class="src-list">
+        <li><a href="https://www.flsenate.gov/Laws/Statutes/2026/440.185" rel="noopener">2026 Florida Statutes, section 440.185</a>: notice of injury to the employer within 30 days.</li>
+        <li><a href="https://www.flsenate.gov/Laws/Statutes/2026/440.13" rel="noopener">2026 Florida Statutes, section 440.13</a>: the employer's duty to furnish medically necessary treatment, and carrier authorization for therapy over $1,000.</li>
+        <li><a href="https://www.flsenate.gov/Laws/Statutes/2026/440.191" rel="noopener">2026 Florida Statutes, section 440.191</a>: the Employee Assistance and Ombudsman Office.</li>
+      </ol>
+      <p class="fv-highlight" style="margin-top:1.4rem;">This page is general information, not legal or medical advice. It reflects the 2026 Florida Statutes, and the law can change. For questions about your claim, talk to your adjuster or a Florida workers' compensation attorney.</p>
+      ''',
+            },
             # Auto accident. The 2026-10-05 Search Console pull showed "auto
             # accident physical therapy near me" ranking 7.1 on the West Palm
             # Beach LOCATION page while this page sat at 23.8, so the city page
             # was winning intent it does not own. Same rules as hand-wrist:
             # symptom-first, every sentence restates something the site already
-            # asserts. Deliberately NO Florida PIP / 14-day rule here: that is a
-            # legal claim the site has never made and it needs Nick to confirm
-            # it before it ships.
+            # asserts.
+            # Florida PIP and the 14-day rule were added 2026-10-14 at Nick's
+            # request (docs/seo-kit/CLAUDE-CODE-PROMPT.md, driven by
+            # docs/PATIENT-INSIGHTS-2026-10.md: auto patients average 24.6 visits
+            # against 13.3). Every PIP statement was read from the 2026 Florida
+            # Statutes, s. 627.736(1)(a), on flsenate.gov on 2026-10-14, and the
+            # page cites it. PIP repeal bills have been filed in past sessions:
+            # re-check the statute after every legislative session. No legal
+            # advice; fault, claims and settlements go to an attorney.
             "auto-accident": {
-                "h2": "After a car accident, and what usually helps",
+                "h2": "After a car accident: your questions, answered",
                 "intro": "After a crash it is not always obvious what was hurt, and symptoms do not always "
-                         "show up right away. The evaluation is where that gets sorted out. This is how the most "
-                         "common post-accident complaints tend to present, so you have some idea what you "
-                         "are looking at before you call.",
+                         "show up right away. The evaluation is where that gets sorted out. Here is what Florida's "
+                         "PIP rules mean for therapy, what the first visits look like, and how the most common "
+                         "post-accident complaints tend to present.",
                 "blocks": [
+                ("What is Florida's 14-day PIP rule?",
+                 "Florida auto policies include personal injury protection, or PIP. Under section 627.736 of "
+                 "the Florida Statutes, PIP medical benefits pay 80% of reasonable expenses for medically "
+                 "necessary care, up to a $10,000 limit, but only if you receive initial services and care "
+                 "within 14 days after the accident. That is why the first two weeks matter even when you "
+                 "feel fine: symptoms that surface later still need that first visit to have happened in time."),
+                ("Who do I need to see first?",
+                 "The statute names who can provide that initial care: a medical or osteopathic physician, a "
+                 "dentist, a chiropractic physician, an advanced practice registered nurse, a hospital, or the "
+                 "emergency crew that transported you. Physical therapy is follow-up care, provided on referral "
+                 "from one of those providers. So the order is a physician first, within 14 days, then a "
+                 "referral to us. If you went to an emergency room, bring that paperwork and our front desk "
+                 "will tell you what else is needed."),
+                ("Is it $10,000 or $2,500?",
+                 "It depends on a medical finding. PIP pays up to $10,000 when a physician, dentist, physician "
+                 "assistant or advanced practice registered nurse has determined that you had an emergency "
+                 "medical condition. If a provider determines you did not, reimbursement is limited to $2,500. "
+                 "That determination belongs to your treating provider, not to us, and it shapes how much "
+                 "therapy PIP can pay for."),
+                ("What should I bring to the first visit?",
+                 "Your photo ID, your auto insurance card and claim number, your adjuster's name and phone "
+                 "number, the referral from your physician, and any imaging or emergency room paperwork. If an "
+                 "attorney represents you, bring their contact details too. Call 561-624-4263 with the claim "
+                 "number and our front desk will check the coverage before you come in."),
+                ("What do the first visits look like?",
+                 "The first visit is a one-on-one evaluation of about an hour. Your therapist measures motion and "
+                 "strength and maps what hurts and when, and treatment usually begins the same day. Care starts "
+                 "gently, calming irritated tissue and restoring basic motion, then moves to strengthening and "
+                 "back to driving, lifting and work. Every visit is documented, so the record shows where you "
+                 "started and how you progressed."),
                 ("Pain that showed up days after the accident",
                  "Even a minor collision can leave lasting pain, and symptoms often surface days later "
                  "rather than at the scene. That delay is normal, and it is the reason early evaluation "
@@ -1941,11 +2308,37 @@ def build_conditions():
                  "physician and your representatives as your claim requires. For auto accident cases we "
                  "work directly with your adjuster or attorney’s office, and treatment is built "
                  "around what your case actually has to demonstrate."),
-                ("Will insurance cover it",
-                 "It depends on your coverage. The quickest way to find out is to call the front desk at "
-                 "561-624-4263. They will check what your plan requires before you come in. More in our "
+                ("Will insurance cover it?",
+                 "PIP is the coverage the Florida rules above describe, and your plan may add other coverage "
+                 "on top. The quickest way to find out what applies is to call the front desk at "
+                 "561-624-4263. They will check before you come in. More in our "
                  "<a href=\"../faq.html#insurance-cost\">insurance and cost FAQ</a>."),
+                ("Do you give legal advice?",
+                 "No. We are a therapy clinic, not a law office. We can explain the PIP rules as the statute "
+                 "states them and, with your written permission, share your records with your adjuster or "
+                 "attorney. Questions about fault, a claim, a settlement or a denied bill belong with a Florida "
+                 "attorney."),
                 ],
+                "extra": '''
+      <div class="data-table" tabindex="0" role="region" aria-label="Florida PIP rules for therapy after a car accident">
+        <table>
+          <caption>Florida personal injury protection (PIP) medical benefits, from section 627.736(1)(a) of the 2026 Florida Statutes.</caption>
+          <thead><tr><th scope="col">Rule</th><th scope="col">What it means for you</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">14-day window</th><td>Initial care has to start within 14 days after the accident for PIP medical benefits to apply</td></tr>
+            <tr><th scope="row">Who provides initial care</th><td>A physician, osteopathic physician, dentist, chiropractic physician, advanced practice registered nurse, hospital, or emergency transport crew</td></tr>
+            <tr><th scope="row">Where therapy fits</th><td>Physical therapy is follow-up care, on referral from one of those providers</td></tr>
+            <tr><th scope="row">What PIP pays</th><td>80% of reasonable expenses for medically necessary care</td></tr>
+            <tr><th scope="row">The limit</th><td>Up to $10,000 when an emergency medical condition has been determined; $2,500 when a provider determines there was none</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Source</h3>
+      <ol class="src-list">
+        <li><a href="https://www.flsenate.gov/Laws/Statutes/2026/627.736" rel="noopener">2026 Florida Statutes, section 627.736</a>: PIP medical benefits, the 14-day requirement, who may provide initial and follow-up care, and the $10,000 and $2,500 limits.</li>
+      </ol>
+      <p class="fv-highlight" style="margin-top:1.4rem;">This page is general information, not legal, medical or insurance advice. It reflects the 2026 Florida Statutes, and the law can change. For questions about your claim, talk to your insurer or a Florida attorney.</p>
+      ''',
             },
         }
         cond_deep_html = ""
@@ -1960,10 +2353,14 @@ def build_conditions():
     <div class="prose reveal">
       <h2>{_cd["h2"]}</h2>
       <p>{_cd["intro"]}</p>
-      {_cb}</div>
+      {_cb}{_cd.get("extra", "")}</div>
   </div>
 </section>'''
 
+        # Answer-first opener (2026-10-14): a short direct answer above the
+        # original intro, on the pages deepened in the GSC deep dive. Pages
+        # without one render byte-identical to before.
+        answer_html = f'<p>{c["answer"]}</p>\n      ' if c.get("answer") else ""
         treats = "".join(f"<li>{t}</li>" for t in c["treats"])
         # Related-care internal links: primary service + neighboring conditions
         i = cond_slugs.index(slug)
@@ -1980,7 +2377,7 @@ def build_conditions():
 <section class="section">
   <div class="wrap two-col">
     <div class="prose reveal">
-      <p>{c["intro"]}</p>
+      {answer_html}<p>{c["intro"]}</p>
       <h2>Conditions we treat</h2>
       <ul class="check-list">{treats}</ul>
       <h2>Our approach</h2>
@@ -2561,7 +2958,7 @@ def build_exercises():
 """
     write("exercises.html",
           head("Home Exercises for Knee, Hip & Shoulder Pain | North Palm Beach",
-               "Free home exercises from physical therapist Dr. Dave Kashuba: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach, FL.",
+               "Free home exercises from occupational therapist Dr. Dave Kashuba, Ph.D., OTR: knee, hip, shoulder and everyday movement, with sets and reps. North Palm Beach.",
                canonical="exercises.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
           + nav(0) + body + footer(0))
@@ -3174,6 +3571,9 @@ BLOG_POSTS = {
 <h2>If pain is why you have been sitting more</h2>
 <p>Sometimes the sitting is protection rather than habit. A bad hip, knee, or back makes standing and walking hurt, so the chair starts to feel like the safe choice, and the muscles that would have supported those joints get weaker from disuse. We see this constantly in patients recovering from <a href="../treatments/hip-pain.html">hip pain</a>, <a href="../treatments/knee-pain.html">knee pain</a>, and <a href="../treatments/back-pain.html">back pain</a>, and it is exactly the cycle a good evaluation is built to interrupt: treat the pain that is driving the inactivity, then rebuild the strength that inactivity cost.</p>
 <p>Patients from <a href="../locations/juno-beach.html">Juno Beach</a> and the surrounding area often ask us the same question at discharge: what now? The exercises do not stop being useful once the pain does. They become the maintenance plan.</p>
+<h2>What a fall prevention evaluation looks for</h2>
+<p>If you have already had a fall, or a near miss on the stairs, start with your doctor and then an evaluation rather than the gym. Balance and fall prevention are part of our <a href="../services/physical-therapy.html">physical therapy</a> program, alongside vestibular work for dizziness. At the first visit your therapist watches you walk, stand and turn, and measures strength, range of motion and balance. The plan then targets the specific weakness behind the wobble instead of guessing at it.</p>
+<p>Coverage is simpler than most people expect. Medicare covers medically necessary physical therapy, including skilled care that helps you maintain your function or slow a decline. Our <a href="../insurance.html#medicare-guide">2026 Medicare guide</a> explains how that works and what you pay. The gym program that follows therapy is separate, and the front desk explains it before you sign up.</p>
 <h2>Book an evaluation</h2>
 <p>If you have noticed yourself avoiding stairs, standing up more slowly than you used to, or simply sitting more than you would like to admit, an evaluation is the place to start, not a gym membership you are not sure you are ready for. Call <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and read more in our <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
 <p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>

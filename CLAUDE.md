@@ -146,6 +146,12 @@ is its own failure mode and the check names it.
   the page does not show. Medicare figures in it, and in the Medicare guide on
   /insurance.html#medicare-guide, are 2026 values from CMS: **update both every January**
   (Part B deductible, KX threshold, targeted review threshold).
+- **Florida law is quoted on two condition pages** (added 2026-10-14): the PIP 14-day rule
+  and the $10,000 / $2,500 limits on /treatments/auto-accident.html (Fla. Stat. 627.736), and
+  the 30-day notice, carrier authorization and ombudsman office on /treatments/workers-comp.html
+  (440.185, 440.13, 440.191). Both cite the 2026 statutes on flsenate.gov. **Re-read both
+  sections after every legislative session** (PIP repeal bills have been filed before) and
+  bump the year in the links. General information only; legal questions go to an attorney.
 - Main FAQ content lives in FAQ_CATEGORIES in build.py (8 filterable categories, 73 Q&As).
   Answers are PLAIN TEXT (they feed both the accordions and the single FAQPage JSON-LD,
   which must stay in sync — it's generated from the same data, so just rebuild). Service
@@ -338,6 +344,12 @@ domain switch (July 2027). Removing them early throws away that equity.
   position drifted 17.1 -> 18.6. That is the expected shape when many new pages start
   ranking at page 2-3 at once; the location pages are landing around pos 24-28. NOTE the
   two windows overlap by roughly 80% of their days, so this is not a clean before/after.
+
+  **Deep dive 2026-10-14** (`docs/GSC-DEEP-DIVE-2026-10.md`): 28 days to 10-11 ran 156 clicks /
+  10,601 impr / CTR 1.47% / pos 16.6 against 133 / 11,356 / 1.17% / 20.2 before it. 142
+  striking-distance queries over 90 days, 69 of them not city-qualified. Neck and back pain
+  for North Palm Beach were the clearest page-content targets; both pages were deepened and
+  retitled. Re-read around 2026-11-15.
 
   **API pull 2026-09-09, first clean non-overlapping compare** (28d to 09-06 vs the 28d
   before it): 105 clicks / 11,672 impr / CTR 0.90% / pos 20.2, against 122 clicks / 9,654

@@ -228,6 +228,32 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `physical-therapy-and-rehab-services-in-north-palm-beach-what-we-treat` | Physical Therapy | physical therapy conditions treated / what to expect (long tail). **Was a conflict until 2026-10-14:** its title targeted the homepage primary (rule 2). The title tag now reads "What Physical Therapy Treats, and Your First Visit"; the H1 is unchanged. Same day it was brought up to the playbook (dashes, 13 bolds, zero relative links, no phone, no disclaimer, and an unverified "seen within a few days" claim removed). |
 | `/insurance.html#medicare-guide` (page section, not a post) | All four | physical therapy that accepts Medicare / Medicare outpatient therapy coverage 2026 / KX modifier threshold |
 | `/glossary.html` (page, not a post) | All four | physical therapy and Medicare terms defined (plan of care, KX modifier, CORF, coinsurance) |
+| `/treatments/neck-pain.html` (page) | Physical Therapy | neck pain treatment North Palm Beach / stiff neck / pinched nerve in neck / neck and shoulder pain. Deepened 2026-10-14 (324 -> 1,149 words): answer-first opener, nine question h3s, links to the headache post, exercises and the Medicare guide |
+| `/treatments/back-pain.html` (page) | Physical Therapy | low back pain treatment North Palm Beach / sciatica / spinal stenosis. Deepened 2026-10-14 (362 -> 1,091 words); links the morning-habits and hip-impingement posts rather than repeating them |
+| `/treatments/auto-accident.html` (page) | Physical Therapy | car accident rehab / auto injury rehabilitation / Florida PIP 14-day rule. Deepened 2026-10-14 (730 -> 1,402 words) with a PIP table sourced to Fla. Stat. 627.736 (2026). Re-check the statute after every legislative session |
+| `/treatments/workers-comp.html` (page) | Occupational Therapy | work injury rehab / workers' comp therapy / return to work. Deepened 2026-10-14 (314 -> 1,107 words) with a who-does-what table sourced to Fla. Stat. 440.185, 440.13, 440.191 (2026) |
+| `/services/occupational-therapy.html` (page) | Occupational Therapy | adds return to work and ergonomics depth for working-age patients (1,168 -> 1,372 words), pointing claim questions at the workers' comp page so the two do not compete |
+| `/services/wellness.html` (page) | Wellness | balance and fall prevention / senior functional fitness. New section 2026-10-14 (565 -> 1,051 words). Still no prices, memberships or schedules |
+| `strength-training-after-60-fall-prevention` (update) | Wellness | gained "What a fall prevention evaluation looks for" and the Medicare maintenance point, 2026-10-14 (1,018 -> 1,158 words) |
+
+## Title changes, 2026-10-14 (GSC deep dive)
+
+From `docs/GSC-DEEP-DIVE-2026-10.md`, section 8. Each of these pages had impressions at a
+position that should earn clicks, and earned none. Judge each on CTR at roughly the same
+position, 28 days after deploy (around 2026-11-15), with `gsc.py compare --days 28`. Do not
+change them again before that read.
+
+| Page | Before | After | 90-day baseline (to 2026-10-11) |
+|---|---|---|---|
+| `/treatments/neck-pain.html` | Neck Pain Treatment in North Palm Beach \| First Rehab | Neck Pain & Pinched Nerve Treatment in North Palm Beach | 13 North Palm Beach neck queries, 593 impr, pos 8.2, 0 clicks |
+| `/treatments/back-pain.html` | Low Back Pain Treatment in North Palm Beach \| First Rehab | Low Back Pain & Sciatica Treatment \| North Palm Beach | 6 North Palm Beach back queries, 191 impr, pos 6.5, 0 clicks |
+| `/treatments/auto-accident.html` | Auto & Car Accident Physical Therapy \| North Palm Beach | Car Accident Rehab & PIP Physical Therapy \| North Palm Beach | 229 impr, pos 21.0, 0 clicks |
+| `/treatments/workers-comp.html` | Workers' Comp Rehab in North Palm Beach \| First Rehabilitation (generated, 67 chars) | Work Injury Rehab & Workers' Comp Therapy \| North Palm Beach | 181 impr, pos 39.8, 0 clicks |
+
+Descriptions changed on the same four pages (all 150 to 160 characters, phone number kept).
+`/exercises.html` changed its description only, for accuracy: it called Dr. Kashuba a
+physical therapist. **Not changed on purpose:** `/insurance.html`, so the Medicare guide in
+PR #104 can be measured on the two Medicare queries (baseline in the deep dive, section 3).
 
 ## Hand therapy push, 2026-09-09
 
