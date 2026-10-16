@@ -246,6 +246,12 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 | `/treatments/headache-relief.html` (page) | Physical Therapy | chronic headache treatment North Palm Beach / cervicogenic headache / whiplash headache. Deepened 2026-10-14 (313 -> 1,488 words): answer-first opener, question h3s, a when-to-get-care table, links the headache post rather than repeating it |
 | `/treatments/knee-pain.html` (page) | Physical Therapy | knee pain treatment North Palm Beach / knee arthritis / meniscus / knee replacement rehab. Deepened 2026-10-14 (334 -> 1,504 words) with Pain 2 Power surgeon quotes; links the knee arthritis, knee replacement and cartilage transplant posts |
 | `/treatments/hip-pain.html` (page) | Physical Therapy | hip pain treatment North Palm Beach and West Palm Beach / labral tear / hip replacement rehab. Deepened 2026-10-14 (328 -> 1,455 words) with McVicker and Leighton quotes; links the hip impingement post and the Episode 10 recap |
+| `/treatments/hand-wrist.html` (page, 2026-10-16) | Hand Therapy | SYMPTOM and condition intent: hand pain / wrist pain treatment, carpal tunnel, trigger finger. The service page keeps practitioner intent; anchors pointing here now say "Hand, wrist and carpal tunnel treatment" |
+| `/treatments/post-surgical.html` (page, 2026-10-16) | Physical Therapy | post surgical physical therapy / post-surgical rehab (the knee page keeps "knee replacement rehab") |
+| `/treatments/foot-pain.html`, `/treatments/ankle-pain.html` (pages, 2026-10-16) | Physical Therapy | foot pain and plantar fasciitis treatment / ankle sprain and ankle pain treatment |
+| `/services/wellness.html` (title, 2026-10-16) | Wellness | wellness gym North Palm Beach / post-rehab training (also targets "rehab gym near me") |
+| `/locations/palm-beach-gardens.html` (title, 2026-10-16) | Physical Therapy | physical therapy Palm Beach Gardens FL / orthopedic rehabilitation Palm Beach Gardens. The homepage also ranks 4.0 for the head term; leave it |
+| `/` (homepage, no change) | Physical Therapy | **physical therapy palm beach** (140 impr at 5.9, 28 days to 2026-10-09). The Semrush list assigned it to `/locations/palm-beach.html`, which ranks 31 to 35; do not retarget that page at it, the homepage already wins |
 | `/services/hand-therapy.html` (page, practitioner fix) | Hand Therapy | certified hand therapist near me / hand therapist near me. 2026-10-14: answer-first intro naming Laura Drumm, CHT, three practitioner h3s and a who-does-what table (1,308 -> 1,655 words). Six internal anchors that said "hand therapy" now say "certified hand therapist" and point here, so `/locations/west-palm-beach.html` (ranking 50 to 80 for these) stops competing |
 
 ## Title changes, 2026-10-14 (GSC deep dive)
@@ -270,6 +276,43 @@ the H1s, and the hip page's name "Hip Pain Relief", did not change.
 `/exercises.html` changed its description only, for accuracy: it called Dr. Kashuba a
 physical therapist. **Not changed on purpose:** `/insurance.html`, so the Medicare guide in
 PR #104 can be measured on the two Medicare queries (baseline in the deep dive, section 3).
+
+## Title changes, 2026-10-16 (Semrush + GSC)
+
+Search Console from the portal's weekly snapshots (Supabase `gsc_query_page_rows`, four weekly
+snapshots, 2026-09-12 to 2026-10-09, 28 days); Semrush `phrase_organic` top 10 (US database,
+national SERP, read for page type and title pattern only) for four terms. Every page changed
+here was outside the 2026-10-14 measurement windows above. Re-read around **2026-11-16** with
+`gsc.py compare --days 28`; judge on CTR and position for the listed queries, not clicks alone.
+
+| Page | Before | After | Evidence |
+|---|---|---|---|
+| `/treatments/post-surgical.html` | Post-Surgical Rehab in North Palm Beach \| First Rehabilitation (generated) | Post-Surgical Physical Therapy & Rehab \| North Palm Beach | Semrush top 10 for "post surgical physical therapy" is PT-clinic condition pages titled that way. GSC: 20 impr at 17.4 |
+| `/treatments/foot-pain.html` | Foot Pain Relief in North Palm Beach \| First Rehabilitation (generated) | Foot Pain & Plantar Fasciitis Treatment \| North Palm Beach | Rule 1 ("treatment", not "relief"); the generated description carried an em dash. "foot palm pain treatment west palm beach fl" 18 impr at 8.3 |
+| `/treatments/ankle-pain.html` | Ankle Pain Relief in North Palm Beach \| First Rehabilitation (generated) | Ankle Sprain & Ankle Pain Treatment \| North Palm Beach | Rule 1 |
+| `/treatments/hand-wrist.html` | Hand & Wrist Pain Treatment \| North Palm Beach FL | Hand, Wrist & Carpal Tunnel Treatment \| North Palm Beach | "wrist pain treatment west palm beach" 51 at 17.2; "hand pain treatment west palm beach" split hand-wrist 42 at 23.5 / hand-therapy 30 at 23.0 / WPB page 24 at 9.0; 0 clicks. Semrush: bare "wrist pain treatment" is Cleveland Clinic, Mayo, NYU, NHS, not winnable |
+| `/services/wellness.html` | Wellness & Gym \| First Rehabilitation of North Palm Beach (generated) | Wellness Gym & Post-Rehab Training \| North Palm Beach | The only service page with no override; ~59 impr at 8.2 to 8.5, 0 clicks |
+| `/locations/palm-beach-gardens.html` | Physical Therapy for Palm Beach Gardens, FL \| First Rehab | Physical Therapy Palm Beach Gardens FL \| First Rehab | 781 impr, 1 click, pos ~19; "physical therapy palm beach gardens" 67 at 24.0, "orthopedic rehabilitation palm beach gardens fl" 51 at 11.0 (now in the description). Semrush top 10: dedicated city pages with exact-match titles (Gold Coast, PBOI, Select, CORA) plus Zocdoc. Title and meta only; no body words (CLAUDE.md) |
+
+Descriptions rewritten on all six (153 to 160 characters), each restating what the page already
+says. The wellness description claims no price, membership, insurance or non-patient access.
+
+**Internal links, same day.** The "Conditions we treat with ..." line on the service pages now
+uses descriptive anchors (`COND_ANCHOR` in build.py) instead of brochure names ("Foot Pain Relief",
+"Hand & Wrist Therapy"), and the physical therapy page adds foot pain and headache to its list.
+Foot and ankle had no in-body inbound link before this. Condition names, H1s and nav labels
+are unchanged.
+
+**Semrush, the other finding.** "hand therapist near me" is the ASHT directory plus hospital and
+clinic hand therapy service pages, so `/services/hand-therapy.html` is the right page type. It
+was not touched: it is inside its 2026-10-14 window.
+
+**Left alone on purpose:** neck, back, auto accident, workers' comp, headache and hip (2026-10-14
+window), the homepage (CTR test, read 2 around 2026-11-02), `/insurance.html` (Medicare guide
+measurement), hand therapy service page (window), shoulder, knee and occupational therapy (deepened
+2026-10-14), and every other location page (city intent is a Business Profile lever). The
+physical therapy service page title already matches the rehabilitation-services cluster
+("physical rehabilitation services" 52 at 10.4, but on the homepage); its title was not changed.
 
 ## Hand therapy push, 2026-09-09
 
