@@ -1317,6 +1317,11 @@ SERVICES = {
         ],
     },
     "wellness": {
+        # seo_title / seo_desc added 2026-10-16: the only service page without
+        # them (GSC 28d: ~59 impr at 8.2-8.5, 0 clicks). No prices, memberships,
+        # insurance or non-patient access claimed (SEO-KEYWORDS do-not-claim).
+        "seo_title": "Wellness Gym & Post-Rehab Training | North Palm Beach",
+        "seo_desc": "An on-site wellness gym in our North Palm Beach clinic: personal training, post-rehab exercise and senior balance work with a team that knows your history.",
         "title": "Wellness &amp; Gym",
         "kicker": "Recovery doesn't stop at discharge.",
         "lede": "The Palm Beaches' clinic where PT &amp; OT patients can transition into an exclusive on-site wellness program.",
@@ -1715,14 +1720,32 @@ def build_services():
 
         # Conditions treated with this service — internal links for SEO + discovery
         svc_conds = {
-            "physical-therapy": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hip-pain", "ankle-pain", "post-surgical", "auto-accident"],
+            "physical-therapy": ["back-pain", "neck-pain", "shoulder-pain", "knee-pain", "hip-pain", "foot-pain", "ankle-pain", "headache-relief", "post-surgical", "auto-accident"],
             "occupational-therapy": ["hand-wrist", "post-surgical", "workers-comp"],
             "hand-therapy": ["hand-wrist", "post-surgical"],
+        }
+        # Descriptive anchors (2026-10-16): the brochure names ("Foot Pain Relief",
+        # "Hand & Wrist Therapy") told search engines nothing about what each page
+        # treats, and foot/ankle had no contextual inbound link at all. Anchors
+        # match each page's title-tag keyword; names and H1s are unchanged.
+        COND_ANCHOR = {
+            "back-pain": "Low back pain and sciatica treatment",
+            "neck-pain": "Neck pain treatment",
+            "shoulder-pain": "Shoulder pain treatment",
+            "knee-pain": "Knee pain treatment",
+            "hip-pain": "Hip pain treatment",
+            "foot-pain": "Foot pain and plantar fasciitis treatment",
+            "ankle-pain": "Ankle sprain and ankle pain treatment",
+            "headache-relief": "Chronic headache treatment",
+            "post-surgical": "Post-surgical physical therapy",
+            "auto-accident": "Car accident rehab",
+            "workers-comp": "Work injury rehab",
+            "hand-wrist": "Hand, wrist and carpal tunnel treatment",
         }
         svc_cond_links = ""
         if slug in svc_conds:
             links = " &middot; ".join(
-                f'<a href="../treatments/{c}.html">{CONDITIONS[c]["name"]}</a>' for c in svc_conds[slug]
+                f'<a href="../treatments/{c}.html">{COND_ANCHOR.get(c, CONDITIONS[c]["name"])}</a>' for c in svc_conds[slug]
             )
             svc_cond_links = f'<p class="related-links reveal"><strong>Conditions we treat with {s["title"].lower()}:</strong> {links}</p>'
 
@@ -1947,6 +1970,12 @@ CONDITIONS = {
         "approach": "Care centers on restoring hip mobility, strengthening the glutes and deep stabilizers, and retraining walking mechanics. For hip replacement patients, we manage precautions early and build steadily toward confident, unassisted movement.",
     },
     "foot-pain": {
+        # seo_title / seo_desc added 2026-10-16: the generated title said "Relief"
+        # (SEO-KEYWORDS rule 1) and the generated desc carried an em dash. Both
+        # strings restate the "treats" list below; no new claim. Recorded in
+        # SEO-KEYWORDS.md under "Title changes, 2026-10-16".
+        "seo_title": "Foot Pain & Plantar Fasciitis Treatment | North Palm Beach",
+        "seo_desc": "Physical therapy for plantar fasciitis, heel and arch pain, foot tendinitis and recovery after a fracture or foot surgery in North Palm Beach. 561-624-4263.",
         "name": "Foot Pain Relief",
         "area": "Foot",
         "lede": "Get back on your feet — literally — with expert care for plantar fasciitis and foot pain.",
@@ -1955,6 +1984,10 @@ CONDITIONS = {
         "approach": "Treatment blends manual therapy and targeted stretching, intrinsic foot and calf strengthening, footwear guidance, and graded return to walking and activity — so relief holds up under real life, not just in the clinic.",
     },
     "ankle-pain": {
+        # seo_title / seo_desc added 2026-10-16 (rule 1: "treatment", not "relief").
+        # Restates the "treats" list below. See SEO-KEYWORDS.md.
+        "seo_title": "Ankle Sprain & Ankle Pain Treatment | North Palm Beach",
+        "seo_desc": "Rehab for ankle sprains, chronic instability, Achilles tendinitis and repairs, and stiffness after a fracture, one-on-one in North Palm Beach. 561-624-4263.",
         "name": "Ankle Pain Relief",
         "area": "Ankle",
         "lede": "Rebuild stability and strength after sprains, fractures, and chronic ankle problems.",
@@ -1963,8 +1996,13 @@ CONDITIONS = {
         "approach": "Expect early swelling and mobility management, progressive strengthening and balance training, and sport- or activity-specific work before you return to full speed. Our goal is an ankle you never have to think about.",
     },
     "hand-wrist": {
-        "seo_title": "Hand & Wrist Pain Treatment | North Palm Beach FL",
-        "seo_desc": "Treatment for hand and wrist pain, numbness, stiffness and lost grip. Carpal tunnel, thumb arthritis and post-surgical hands, with splints made on-site.",
+        # Retitled 2026-10-16 (GSC 28d: "wrist pain treatment west palm beach" 51
+        # impr at 17.2, "hand pain treatment west palm beach" split three ways
+        # across our pages, 0 clicks). This page owns SYMPTOM and condition
+        # intent (hand/wrist pain, carpal tunnel, trigger finger); the service
+        # page keeps practitioner intent ("certified hand therapist").
+        "seo_title": "Hand, Wrist & Carpal Tunnel Treatment | North Palm Beach",
+        "seo_desc": "Hand and wrist pain, numbness and lost grip treated by a certified hand therapist: carpal tunnel, trigger finger, thumb arthritis, fractures. Splints made here.",
         "name": "Hand &amp; Wrist Therapy",
         "area": "Wrist &amp; Hand",
         "lede": "Certified hand therapy for the intricate mechanics of your hands and wrists.",
@@ -1986,6 +2024,11 @@ CONDITIONS = {
         "approach": "We treat the upper cervical joints and surrounding muscles with skilled manual therapy, then address the postural and strength deficits that let tension rebuild. Most patients also receive simple daily strategies that make a measurable difference between visits.",
     },
     "post-surgical": {
+        # seo_title / seo_desc added 2026-10-16. Semrush top 10 for "post surgical
+        # physical therapy" is PT-clinic condition pages titled that way; the
+        # generated title said only "Post-Surgical Rehab". Desc restates "treats".
+        "seo_title": "Post-Surgical Physical Therapy & Rehab | North Palm Beach",
+        "seo_desc": "Physical therapy after knee or hip replacement, rotator cuff repair, or spine, hand and foot surgery, following your surgeon's protocol in North Palm Beach.",
         "name": "Post-Surgical Rehabilitation",
         "area": "Full Body",
         "lede": "Structured, surgeon-coordinated recovery from joint replacement, spine surgery, and beyond.",
@@ -2762,8 +2805,12 @@ LOCATIONS = {
     "palm-beach-gardens": {
         "city": "Palm Beach Gardens",
         "deep_eyebrow": "Why Gardens Residents Choose Us",
-        "title": "Physical Therapy for Palm Beach Gardens, FL | First Rehab",
-        "desc": "Physical, occupational and certified hand therapy for Palm Beach Gardens, minutes south on US-1. Named therapists, Medicare accepted. Call 561-624-4263.",
+        # Title/desc retargeted 2026-10-16 (title and meta only; no body words, per
+        # CLAUDE.md). Semrush top 10 for "physical therapy palm beach gardens" is
+        # exact-match city titles; GSC 28d has it at 67 impr / pos 24.0 here and
+        # "orthopedic rehabilitation palm beach gardens fl" at 51 / 11.0.
+        "title": "Physical Therapy Palm Beach Gardens FL | First Rehab",
+        "desc": "Physical therapy and orthopedic rehab for Palm Beach Gardens, minutes south on US-1, plus OT and certified hand therapy. Medicare accepted. 561-624-4263.",
         "h1": "Serving <em class='accent'>Palm Beach Gardens</em>",
         "kicker": "Palm Beach Gardens",
         "lede": "Complete outpatient rehabilitation for Gardens residents — physical therapy, occupational therapy, certified hand therapy, and an on-site wellness gym, minutes away in North Palm Beach.",
