@@ -1,0 +1,87 @@
+{
+  "slug": "cake",
+  "name": "Shannon Cake",
+  "honorific": "",
+  "credentials": "",
+  "headline": "Newsmax anchor and longtime South Florida investigative reporter",
+  "affiliation": {
+    "name": "shannoncaketv.com",
+    "url": "https://shannoncaketv.com/"
+  },
+  "location": "South Florida",
+  "category": "community",
+  "episodes": [
+    "Episode 19"
+  ],
+  "on_the_show": "Dave introduced Shannon Cake as the host of News Now on Newsmax 2, weekdays from 9 to 10, and by his count the winner of 23 Emmys plus an Edward R. Murrow Award. She credited the teams behind her, told how a childhood following her father&rsquo;s service through Germany, Singapore and Hong Kong led her to consumer investigations, and shared how she fits a workout into a day that starts at 4:30. She first met Dave as a patient rehabbing a torn rotator cuff.",
+  "on_the_show_quote": "I didn&rsquo;t win anything alone. We never do.",
+  "background": [
+    {
+      "text": "She was born at Fort Knox, Kentucky, and grew up in eight states and three foreign countries where her father was stationed with the Army.",
+      "source": "https://shannoncaketv.com/"
+    },
+    {
+      "text": "She earned degrees in journalism and political science from the University of Alabama.",
+      "source": "https://shannoncaketv.com/"
+    },
+    {
+      "text": "She began in radio at WUAL-FM in Tuscaloosa and the Alabama Radio Network in Mobile, then moved into television as a morning and midday anchor at WMBB in Panama City.",
+      "source": "https://shannoncaketv.com/"
+    },
+    {
+      "text": "In 1996 she joined WPTV in West Palm Beach as a consumer and investigative reporter, and later anchored the 5:30 p.m. news, the 10 p.m. news on WFLX and The NOW South Florida.",
+      "source": "https://shannoncaketv.com/"
+    },
+    {
+      "text": "She anchored her final WPTV broadcast in May 2025 after 29 years at the station.",
+      "source": "https://www.yahoo.com/news/shannon-cake-sign-off-wptv-215208862.html"
+    }
+  ],
+  "links": [
+    {
+      "type": "website",
+      "label": "shannoncaketv.com",
+      "url": "https://shannoncaketv.com/",
+      "verified_by": "her personal site; its bio matches her WPTV staff page and the career she described on air"
+    },
+    {
+      "type": "instagram",
+      "label": "Shannon Cake on Instagram",
+      "url": "https://www.instagram.com/shannon.cake",
+      "verified_by": "linked from shannoncaketv.com"
+    },
+    {
+      "type": "facebook",
+      "label": "Shannon Cake on Facebook",
+      "url": "https://www.facebook.com/shannoncaketv/",
+      "verified_by": "linked from shannoncaketv.com"
+    },
+    {
+      "type": "x",
+      "label": "Shannon Cake on X",
+      "url": "https://twitter.com/ShannonCake",
+      "verified_by": "linked from shannoncaketv.com and her WPTV staff page"
+    }
+  ],
+  "instagram_handle": "shannon.cake",
+  "phone_on_air": "",
+  "research_notes": "Newsmax: her role there (News Now on Newsmax 2, 9 to 10 AM weekdays) is from Dave's on-air introduction only; newsmax.com returned 503 and none of her own pages mention it yet, so Newsmax sits in on_the_show and the headline, not background, and is not the affiliation. Emmy counts disagree across sources (15 regional on the WPTV staff bio, 18 regional on shannoncaketv.com, 26 in WPTV's farewell article, 23 per Dave on air), so no count appears in background; Dave's 23 is attributed to him in on_the_show. Final WPTV broadcast month inferred from the Yahoo/TVSpy story dated May 13, 2025 saying 'on Friday'. Her husband and children are named on WPTV pages but excluded (family not shared on air beyond 'two teenage boys'). Instagram handle shannon.cake is linked from her own site and is the collaborator handle Instagram accepted on the Episode 19 posts.",
+  "researched": "2026-10-19",
+  "photo": {
+    "src": "assets/guests/cake",
+    "source": "https://images.squarespace-cdn.com/content/v1/57d44ca5d482e9b1b35ab2bb/1517166468207-68IUZS8PF3GR6LCSQGRK/shannon-3919.JPG",
+    "credit": "shannoncaketv.com"
+  },
+  "clips": [
+    {
+      "youtube_id": "UZ_DpMcf_TM",
+      "title": "Shannon Cake on Pain 2 Power: 23 Emmys and a torn rotator cuff",
+      "posted": "2026-10-17"
+    },
+    {
+      "youtube_id": "UencapSrylY",
+      "title": "Jennings, Cronkite and Walters: 22 Emmys. Shannon Cake: 23",
+      "posted": "2026-10-18"
+    }
+  ]
+}
