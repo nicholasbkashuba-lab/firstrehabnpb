@@ -1,10 +1,25 @@
 {
+  "19": {
+    "spotify_url": "https://open.spotify.com/episode/3i8rIgaoTZ1MlhZtLU4Lz6",
+    "first_seen": {
+      "spotify_url": "2026-10-19T17:25:44Z",
+      "youtube_url": "2026-10-19T17:25:44Z"
+    },
+    "spotify_title": "Episode 19: Shannon Cake",
+    "youtube_url": "https://www.youtube.com/watch?v=PRxs5dmAxFs",
+    "youtube_uploaded": "2026-10-17T14:00:04+00:00",
+    "youtube_title": "23 Emmys and a Torn Rotator Cuff: Shannon Cake | Pain 2 Power Ep 19"
+  },
   "18": {
     "spotify_url": "https://open.spotify.com/episode/0ko5IbgL0d2LSR3zLLApAt",
     "first_seen": {
-      "spotify_url": "2026-10-14T13:13:58Z"
+      "spotify_url": "2026-10-14T13:13:58Z",
+      "youtube_url": "2026-10-19T17:25:44Z"
     },
-    "spotify_title": "Episode 18: Elyse Marrone and Danielle Armstrong"
+    "spotify_title": "Episode 18: Elyse Marrone and Danielle Armstrong",
+    "youtube_url": "https://www.youtube.com/watch?v=Na5EMSn44rg",
+    "youtube_uploaded": "2026-10-14T14:50:54+00:00",
+    "youtube_title": "Pilates and Nutrition After Breast Cancer | Pain 2 Power Episode 18"
   },
   "17": {
     "spotify_url": "https://open.spotify.com/episode/35csD2IOACfJhxqCHsCYjN",
