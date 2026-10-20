@@ -1,5 +1,5 @@
 # Ep19 vertical clips, cut from the three source files, captioned in the 2026-10-09 house
-# style: one line, max four words, MarginV=12, solid black box, each cue on its first word.
+# style: one line, max four words, MarginV=75, solid black box, each cue on its first word.
 import json, os, re, subprocess, sys, numpy as np
 from PIL import ImageFont
 SPEC=[("01-23-emmys","if you take peter",237,"goosebumps too.",255),
@@ -63,7 +63,7 @@ ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,12,1
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,75,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

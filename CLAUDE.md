@@ -948,12 +948,16 @@ Standing preferences for a one off post, unless told otherwise:
   testosterone one) — pull a frame off it if there is ever any doubt. Exact style:
 
       FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H00000000,
-      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=12
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=75
 
   Three things he corrected, so do not let them drift back:
-  - **At the very bottom.** MarginV=12 (PlayResY 288) sits the box at the bottom edge of the
-    frame. It first shipped near the vertical middle, then at 60, then 35 (~88% down), and
-    on 2026-10-09 he asked for "the very bottom of the video". 12 is the approved value.
+  - **Low, but inside the platform safe zone: MarginV=75.** That puts the box's bottom edge
+    at y~1420 of 1920. The old value, 12 ("the very bottom", 2026-10-09), was CUT OFF on
+    Instagram: the feed shows a Reel cropped to 4:5, which keeps only y 285 to 1635, so a
+    caption at the bottom edge loses its lower half (Nick, 2026-10-20, screenshot of the
+    Ep 19 CENTCOM clip: "you can't even see the captions"). Reels, TikTok and Shorts also
+    lay their caption text and buttons over roughly the bottom 420 px (y > 1500). 75 clears
+    both. Never go below about 60. Check a frame with both zones drawn on before shipping.
   - **Timing: never ahead of the speaker.** Episode 18's first cut used two line cues of up
     to ~12 words, so each cue appeared the instant its FIRST word was spoken and the reader
     saw the rest of the sentence seconds early. ASR timing was not the problem (median
