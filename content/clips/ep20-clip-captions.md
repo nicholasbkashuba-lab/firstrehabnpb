@@ -29,19 +29,6 @@ Rules applied: zero dashes outside 561-624-4263, • bullets, hook first, her ex
 own words, no medical advice, quotes verbatim from the RAW mp3 (timestamps given), the phone
 number in every caption, and "talk to your own doctor" on every screening clip.
 
-| proposed (ET) | clip | RAW mp3 | length |
-|---|---|---|---|
-| Sun Oct 25 9 AM | 03 under 40 | 15:32 to 16:10 | 38 s |
-| Fri Oct 30 9 AM | 01 how long do you not want cancer | 7:25 to 7:38 | 13 s |
-| Mon Nov 2 9 AM | 02 one word | 7:49 to 8:13 | 24 s |
-| Wed Nov 4 9 AM | 05 ringing the bell | 22:12 to 22:59 | 47 s |
-| Sat Nov 7 9 AM | 04 shooting star | 17:06 to 17:26 | 20 s |
-| Mon Nov 9 9 AM | 06 too soon | 23:25 to 23:43 | 18 s |
-| Wed Nov 11 9 AM | 09 secretary and treasurer | 8:39 to 9:01 | 21 s |
-| Fri Nov 13 9 AM | 07 not the Ritz | 11:24 to 12:00 | 36 s |
-| Sun Nov 15 9 AM | 08 Dr. Google | 20:04 to 20:32 | 28 s |
-| Fri Nov 20 12 PM | 10 romantic joke | 25:40 to 26:36 | 55 s |
-
 ---
 ## 03 under 40
 
