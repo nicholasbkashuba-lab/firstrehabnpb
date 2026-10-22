@@ -65,6 +65,15 @@ NAME_FIXES = [
     (r"\bPaul Winter\b", "Paul Winner"), (r"\bDave Ehrenberg\b", "Dave Aronberg"),
     (r"\bspinal thalamic track\b", "spinothalamic tract"), (r"\bTick tock\b", "TikTok"),
     (r"\bthe enemies that they have won\b", "the Emmys that they have won"),
+    # Episode 20. Dave's cousin Maria, on Zoom from Buffalo. Checked against the Descript transcript.
+    (r"\bI'm gonna go to the bathroom\b", "and won't go to the bathroom"),
+    (r"\bputting it up there\b", "putting it out there"),
+    (r"\bI'm gonna hear that bell ring\b", "when I hear that bell ring"),
+    (r"\bwell your little glow\b", "well, you're a little glow"),
+    (r"\bit was one of that right up front\b", "I was warned of that right up front"),
+    (r"\byou know me mama this is she\b", "you know me and my missus, she"),
+    (r"\bsend me bad bad jokes\b", "send me bad dad jokes"),
+    (r"\bdr\. Google\b", "Dr. Google"),
 ]
 
 
