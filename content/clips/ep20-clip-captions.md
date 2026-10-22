@@ -2,11 +2,28 @@
 
 clips: branch media/ep20-clips, clips/*.mp4 (1080x1920, 30fps, captions burned in, -14 LUFS)
 platforms per clip: instagram, facebook, youtube (Shorts), tiktok, x
-status: WAITING ON NICK'S OK. Nothing is scheduled yet.
+status: SCHEDULED 2026-10-22 (Nick: "Clips look good, schedule them").
 instagram collaborators: legendsradio100.3 on every clip, mic_mcgann where Mike is on screen
-       (02, 03, 05, 08, 09, 10). Maria's own handle only if Nick gives one.
-proposed slots: 9:00 AM ET on the open days in the mixed queue, never two Maria clips on
-       consecutive days. The joke goes in the Friday noon dad joke lane.
+       (02, 03, 05, 08, 09, 10). No guest handle: Maria's was not given.
+slots: 9:00 AM ET in the mixed queue. Every 9 AM slot through Nov 21 was already taken, so the
+       nine clips that held Oct 26, 28, 30 and Nov 2, 4, 7, 9, 11, 13 moved, in order, to
+       Nov 22 to 30 (grape joke, e bike 15 vs 50, Mann 16 weeks, e bikes Sedona, Cake one story,
+       Miami Dade, Mann 380%, Joyce peptides, Jeopardy), platform_configurations passed back in
+       full. `clip-queue.py audit`: 39 scheduled clips, 0 problems. The joke runs in the Friday
+       noon dad joke lane (no X, matching that lane).
+
+| when (ET) | clip | RAW mp3 | length | Post Bridge post |
+|---|---|---|---|---|
+| Mon Oct 26 9 AM | 03 under 40 | 15:31 to 16:09 | 38 s | 1a99f037-71ca-40c9-9561-7b825b13ac30 |
+| Wed Oct 28 9 AM | 01 how long do you not want cancer | 7:25 to 7:38 | 13 s | 92da7b9b-8df5-4725-9eff-e53203d3a760 |
+| Fri Oct 30 9 AM | 02 one word | 7:49 to 8:13 | 24 s | 4e706632-a271-4bfa-bd9f-885c58bb4ac8 |
+| Mon Nov 2 9 AM | 05 ringing the bell | 22:12 to 22:59 | 47 s | 2123809b-2c68-48bd-b854-b488e10cb600 |
+| Wed Nov 4 9 AM | 04 shooting star | 17:06 to 17:26 | 20 s | fe4cd55e-d8c1-4993-9daa-6fc3093b96fb |
+| Sat Nov 7 9 AM | 06 too soon | 23:25 to 23:43 | 18 s | 3f911e3a-dfd6-4645-b0b3-c8efa2c753d2 |
+| Mon Nov 9 9 AM | 09 secretary and treasurer | 8:39 to 9:01 | 22 s | dd17d9b1-c084-49bf-aa02-46bb10447529 |
+| Wed Nov 11 9 AM | 07 not the Ritz | 11:24 to 12:00 | 36 s | f3d6624a-f169-4822-920b-42c37a09c704 |
+| Fri Nov 13 9 AM | 08 Dr. Google | 20:05 to 20:32 | 27 s | 6be9c16e-40d3-4f41-88eb-3b8107ca906a |
+| Fri Nov 20 12 PM | 10 romantic joke | 25:40 to 26:36 | 55 s | 38327097-a6fe-4ee8-94a7-41749c67e383 |
 
 Rules applied: zero dashes outside 561-624-4263, • bullets, hook first, her experience in her
 own words, no medical advice, quotes verbatim from the RAW mp3 (timestamps given), the phone

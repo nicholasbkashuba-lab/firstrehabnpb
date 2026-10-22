@@ -67,6 +67,8 @@ GUEST_PATTERNS = [
     # First, so "Captain Kerry does Dave's workout. Shannon Cake told her TV audience..." files
     # under Shannon rather than Kerry. Episode 19.
     ("Shannon Cake", r"Shannon Cake|ShannonCake|Newsmax"),
+    # Episode 20: Dave's cousin Maria. Before Goodwin, whose pattern catches "mammogra".
+    ("Maria", r"\bMaria\b"),
     ("Dr. Don Goodwin", r"Don Goodwin|TGH Imaging|mammogra"),
     ("Susan Mann", r"Susan Mann|Bright Minds|processing disorder|Coach Carter"),
     ("Captain Kerry", r"Captain Kerry|Below Deck"),
