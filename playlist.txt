@@ -3,16 +3,17 @@
 # gone out. A clip absent from this file is never posted.
 # Edit freely: reorder lines to change priority, delete a line to pull a clip.
 #
-# SEEDED IN NUMERIC ORDER. Reorder before the week starts: six weekday slots
-# and 10 clips means only the top six air, so order decides what runs.
+# Ordered by hand 2026-10-22. 03-under-40 leads so the screening message airs
+# inside Breast Cancer Awareness Month. 10-romantic-joke belongs in the Friday
+# noon dad joke lane, not the 9 AM clip slot.
 
+03-under-40.mp4
 01-how-long-not-want-cancer.mp4
 02-one-word.mp4
-03-under-40.mp4
-04-shooting-star.mp4
 05-ringing-the-bell.mp4
+04-shooting-star.mp4
 06-too-soon.mp4
+09-secretary-and-treasurer.mp4
 07-not-the-ritz.mp4
 08-dr-google.mp4
-09-secretary-and-treasurer.mp4
 10-romantic-joke.mp4
