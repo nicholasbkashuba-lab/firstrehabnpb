@@ -594,6 +594,12 @@ Nick, 2026-10-14: "I ask for the same thing over and over." Two pieces carry it:
      full episode out within about two weeks, so links.json keeps them after that.
 - Dropbox listing and folder creation go through `tools/dropbox-put.py ls` / `mkdir` (REST
   API, same credential as `put`). The Dropbox connector is not needed.
+- **Every episode gets a sizzle reel** (Nick, 2026-10-14: "post a sizzle reel of the current
+  week's episode each time"). `tools/sizzle/weekly.py` turns `tools/sizzle/episodes/ep{NN}.json`
+  (the master plus four to six of its best lines, with reviewed caption words) into a 20 to 30
+  second trailer on the October sizzle engine (`tools/sizzle/`, PR #106). The episode session
+  writes the JSON (skill step 8b), Nick reviews the reel with the clips, and it posts on air day
+  at 12:00 PM ET to the five video platforms. Captions sit at the very bottom, the clip standard.
 
 ## Guest profiles — /guests.html + /guests/<slug>.html (added 2026-10-14)
 Nick asked for a page on every guest: who they are, credentials, their story, what they said
@@ -759,6 +765,9 @@ the guest's own profile and shares its likes and comments, which is the entire p
 Instagram only; no equivalent on Facebook, TikTok or YouTube. Max 3 handles, and **a private
 or misspelled handle fails the WHOLE post**, so confirm it with Nick rather than guessing.
 Known: Captain Kerry is `capt_kerry` (set by an earlier session, not independently verified).
+Verified by a published post: `pilateslifeflorida`, `mic_mcgann`, `legendsradio100.3`. `elysemarrone` FAILS
+(2026-10-14: Instagram refused the tag and rejected the whole Ep 18 sizzle reel), so never tag or
+collaborate it until Nick supplies her real handle. A user_tags entry fails the post just like a collaborator.
 
 **Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
 uploaded COPY, not a reference to the branch, so re-cutting a clip and pushing it does not
