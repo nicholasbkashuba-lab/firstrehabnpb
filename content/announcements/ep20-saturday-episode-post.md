@@ -3,10 +3,10 @@
 air_date: 2026-10-24
 post_at: 2026-10-24 09:00 ET (13:00 UTC)
 platforms: linkedin-business, facebook, plus a separate google-business call
-image: WAITING ON NICK. The Dropbox folder has no studio or group photo, and Maria was on Zoom.
-       Per the episode skill this post waits for a photo rather than getting a made-up graphic.
-       Fallback if Nick says so: content/announcements/pain2power-cover.jpg (the show cover).
-status: DRAFT, not scheduled
+image: content/announcements/ep20-cover-maria.jpg (Nick asked for the show cover, 2026-10-23): the
+       original logo with Maria added as a matching cartoon, per content/announcements/README.md.
+       Higgsfield gpt_image_2_5, references: assets/media/podcast-cover.jpg and a Zoom frame of Maria.
+status: SCHEDULED 2026-10-23 (Nick: "yes schedule it with the cover"). Post ids at the bottom.
 
 > **The link is the Spotify SHOW page, not the episode.** The episode URL does not exist until
 > it publishes Saturday morning; the show page opens on the newest episode.
@@ -52,3 +52,14 @@ This morning on Pain 2 Power, Dr. Dave Kashuba's cousin Maria joins Dave and Mik
 Make sure you get your mammograms, and talk to your own doctor about when to start. Pain 2 Power airs Saturday mornings at 8:30 on 100.3 Legends Radio and streams after on Spotify and YouTube.
 
 First Rehabilitation of North Palm Beach, 733 US Highway 1, Suite 2A, North Palm Beach. Call 561-624-4263.
+
+---
+
+## Scheduled 2026-10-23
+
+| post | when (UTC) | accounts | id |
+|---|---|---|---|
+| Saturday episode post | 2026-10-24 13:00 | LinkedIn business 81322, Facebook 81324 | 01034e0a-16fb-4700-a8bb-9319ea7ac852 |
+| Saturday Google Business | 2026-10-24 13:00 | Google Business 81642 | 5c7f344a-b25b-4b3a-9909-d3352e44b9cb |
+
+Both carry the cover (Post Bridge media 78866d03-9d05-4acd-aa0e-04d1103f2ba5).
