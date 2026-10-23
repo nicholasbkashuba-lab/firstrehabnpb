@@ -22,7 +22,7 @@ platform: linkedin-business, facebook
 
 "How long do you not wanna have cancer?"
 
-That was her doctor's answer when Maria asked how long she had to keep getting MRIs. This morning on Pain 2 Power, Dr. Dave Kashuba's cousin Maria joins Dave and Mike McGann from Buffalo. She has been diagnosed with breast cancer twice.
+That was her doctor's answer when Maria asked how long she had to keep getting MRIs. This morning on Pain 2 Power, Dr. Dave Kashuba's cousin Maria Kendzierski joins Dave and Mike McGann from Buffalo. She has been diagnosed with breast cancer twice.
 
 • Stage zero in 2015, found at her yearly mammogram
 • Screening every six months, and the MRI that caught a stage one cancer early in 2024
@@ -43,7 +43,7 @@ First Rehabilitation of North Palm Beach
 platform: google-business
 cta: LEARN_MORE → https://www.firstrehabnpb.com/podcast.html?utm_source=google&utm_medium=gbp&utm_campaign=post
 
-This morning on Pain 2 Power, Dr. Dave Kashuba's cousin Maria joins Dave and Mike McGann from Buffalo to talk about being diagnosed with breast cancer twice.
+This morning on Pain 2 Power, Dr. Dave Kashuba's cousin Maria Kendzierski joins Dave and Mike McGann from Buffalo to talk about being diagnosed with breast cancer twice.
 
 • A stage zero diagnosis in 2015, found at a yearly mammogram
 • Screening every six months, and the 2024 MRI that caught a stage one cancer early

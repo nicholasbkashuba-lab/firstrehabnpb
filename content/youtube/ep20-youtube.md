@@ -8,9 +8,8 @@ upload: Nick uploads by hand in YouTube Studio (CLAUDE.md, "Full episode to YouT
 > Episode number is 20 on the assumption Spotify continues from "Episode 19: Shannon Cake".
 > If Spotify titles it differently, change the number in the title only.
 >
-> The guest is Dave's cousin Maria, who joined over Zoom from Buffalo. On air she is only ever
-> "Maria". Her Zoom display name reads "Maria Kendzierskki", which looks like a typo, so no
-> surname appears anywhere below until Nick confirms the spelling.
+> The guest is Dave's cousin Maria Kendzierski, who joined over Zoom from Buffalo. Surname
+> spelling confirmed by Nick 2026-10-23 (her Zoom display name reads "Kendzierskki", a typo).
 >
 > Zero dashes, same rule as every caption. Chapter times are for the EDITED master. One cut:
 > RAW 0:00 to 0:22.2 (setting up the Zoom and the countdown). Every time below is the RAW
@@ -18,8 +17,8 @@ upload: Nick uploads by hand in YouTube Studio (CLAUDE.md, "Full episode to YouT
 
 ## Title (pick one, all under 70 characters)
 
-1. **Two Time Breast Cancer Survivor Maria | Pain 2 Power Ep 20**
-2. This Is What a Survivor Looks Like: Maria's Breast Cancer Story
+1. **Two Time Breast Cancer Survivor Maria Kendzierski | Pain 2 Power**
+2. This Is What a Survivor Looks Like: Maria Kendzierski
 3. How Long Do You Not Want Cancer? Maria on Pain 2 Power
 
 Recommended: 1. "Breast cancer survivor" is the search phrase during Breast Cancer Awareness
@@ -28,7 +27,7 @@ Month, and "two time" is the part of her story people stop for.
 ## Description
 
 ```
-"How long do you not wanna have cancer?" That was her doctor's answer when Maria asked how long she had to keep getting MRIs. Dr. Dave Kashuba's cousin Maria joins Dave and Mike McGann from Buffalo for Breast Cancer Awareness Month, and she has been diagnosed with breast cancer twice.
+"How long do you not wanna have cancer?" That was her doctor's answer when Maria asked how long she had to keep getting MRIs. Dr. Dave Kashuba's cousin Maria Kendzierski joins Dave and Mike McGann from Buffalo for Breast Cancer Awareness Month, and she has been diagnosed with breast cancer twice.
 
 The first time, in 2015, a yearly mammogram found stage zero lobular carcinoma in situ, followed by five years of tamoxifen. Because of that diagnosis she was screened every six months at Roswell Park, and in 2024 an MRI caught a stage one cancer early. Maria walks through the lumpectomy, eight rounds of chemotherapy that started on her birthday, five weeks of radiation, and ringing the bell after both.
 
@@ -58,7 +57,7 @@ CHAPTERS
 26:28 Get your mammograms
 
 OUR GUEST
-Maria, two time breast cancer survivor, Buffalo, New York
+Maria Kendzierski, two time breast cancer survivor, Buffalo, New York
 
 ABOUT PAIN 2 POWER
 Pain 2 Power airs Saturdays at 8:30 AM on 100.3 Legends Radio and streams on Spotify and YouTube. Hosted by Dr. Dave Kashuba, owner of First Rehabilitation of North Palm Beach, and Mike McGann.
@@ -72,12 +71,12 @@ Spotify: https://open.spotify.com/show/033A1BQq9qqsygFFCq9SIu
 
 This episode is one person's experience and is not medical advice. Talk to your own doctor about breast cancer screening, including when to start and how often.
 
-#BreastCancerAwareness #BreastCancerSurvivor #Mammogram #Pain2Power #NorthPalmBeach #PalmBeachGardens #Jupiter
+#MariaKendzierski #BreastCancerAwareness #BreastCancerSurvivor #Mammogram #Pain2Power #NorthPalmBeach #PalmBeachGardens #Jupiter
 ```
 
 ## Tags (YouTube Studio "Tags" field)
 
-breast cancer survivor, breast cancer awareness month, two time breast cancer survivor,
+Maria Kendzierski, breast cancer survivor, breast cancer awareness month, two time breast cancer survivor,
 lobular carcinoma in situ, LCIS, stage zero breast cancer, mammogram, breast MRI,
 chemotherapy, radiation therapy, ringing the bell, Roswell Park, breast cancer under 40,
 Pain 2 Power, Legends Radio, First Rehabilitation of North Palm Beach

@@ -74,6 +74,7 @@ NAME_FIXES = [
     (r"\byou know me mama this is she\b", "you know me and my missus, she"),
     (r"\bsend me bad bad jokes\b", "send me bad dad jokes"),
     (r"\bdr\. Google\b", "Dr. Google"),
+    (r"\bKendzierskki\b", "Kendzierski"),
 ]
 
 

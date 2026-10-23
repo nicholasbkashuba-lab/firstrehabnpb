@@ -68,6 +68,6 @@ are listening cuts inside long stretches, all deliberate.
 
 ## Names
 
-On air she is only "Maria". Her Zoom display name reads "Maria Kendzierskki", which looks like
-a typo; no surname is used anywhere until Nick confirms it. Her mother was Phyllis, twin of
+Maria Kendzierski (Nick confirmed the spelling 2026-10-23). On air she is only "Maria", and her
+Zoom display name misspells it "Kendzierskki". Her mother was Phyllis, twin of
 Dave's mother Dolly. Treatment centre: Roswell Park, Buffalo.
