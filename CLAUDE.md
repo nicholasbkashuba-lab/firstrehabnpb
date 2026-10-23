@@ -759,6 +759,10 @@ the guest's own profile and shares its likes and comments, which is the entire p
 Instagram only; no equivalent on Facebook, TikTok or YouTube. Max 3 handles, and **a private
 or misspelled handle fails the WHOLE post**, so confirm it with Nick rather than guessing.
 Known: Captain Kerry is `capt_kerry` (set by an earlier session, not independently verified).
+**Mike McGann is `mic_mcgann` and 100.3 Legends Radio is `legendsradio100.3`. Invite BOTH on every Pain 2
+Power Instagram post** (Nick, 2026-10-14: "make sure mike and legends are invited to collab"), which
+leaves one of the three collaborator slots for the guest. Both handles verified: the Episode 18 reel
+carrying them published (Post Bridge d3e3c517, instagram.com/reel/DefAT6-Cdoa).
 
 **Re-check the media on scheduled posts after ANY re-cut of a clip.** Post Bridge stores an
 uploaded COPY, not a reference to the branch, so re-cutting a clip and pushing it does not
