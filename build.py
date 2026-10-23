@@ -2166,6 +2166,22 @@ def build_conditions():
                  "cases often respond to conservative care, and a custom night splint is frequently part "
                  "of it. If your case turns out to warrant a surgical opinion we will tell you plainly "
                  "and coordinate with your physician rather than keep you in therapy."),
+                # Carpal tunnel and trigger finger blocks added 2026-10-23 (Semrush
+                # 10-23: "carpal tunnel treatment" and "trigger finger treatment"
+                # outside the top 100; this page owns that condition intent since
+                # 2026-10-16 but no heading named either condition). Every sentence
+                # restates the site's own carpal tunnel / trigger finger copy (the
+                # hand therapy service page and the /faq.html hand answers) in new
+                # words: no mechanism, statistic, outcome or new technique.
+                ("Carpal tunnel syndrome treatment",
+                 "Carpal tunnel is treated here by our certified hand therapist, Laura Drumm, MS, OTR/L, "
+                 "CHT, CLT, both for people trying to avoid surgery and for people recovering from it. "
+                 "Without surgery, a plan can include a custom night splint, made in our clinic, that "
+                 "keeps the wrist in a neutral position while you sleep, nerve and tendon gliding "
+                 "exercises, and changes to the workstation setup and daily activities that keep setting "
+                 "symptoms off. It tends to help most when symptoms are caught early. If your case needs "
+                 "a surgical consult, you will hear that honestly and we will coordinate with your "
+                 "physician. After surgery, care follows your surgeon’s protocol."),
                 ("Wrist pain that has not settled",
                  "A wrist can stay painful and stiff long after the injury that caused it, and it is one "
                  "of the areas people most often assume they simply have to live with. Wrists fall "
@@ -2182,11 +2198,16 @@ def build_conditions():
                  "the conditions conservative hand therapy addresses most effectively. Treatment leans on "
                  "joint protection technique, targeted strengthening, a supportive splint made here, and "
                  "changing the specific movements that keep aggravating it."),
-                ("A finger that catches, or a hand that is still swollen after surgery",
-                 "Both are routine referrals to a hand therapy program rather than to general "
-                 "rehabilitation. Post-operative hands in particular are managed to the surgeon\u2019s "
-                 "protocol, and the swelling, stiffness and scar that follow an operation are treated as "
-                 "part of the plan rather than as something to wait out."),
+                ("Trigger finger treatment for a finger that catches",
+                 "Trigger finger is treated in our hand therapy program both conservatively, where that "
+                 "is appropriate, and after surgery, where it has already happened. The usual tools are a "
+                 "splint fabricated here for your hand, graded motion, and changes to the grips and "
+                 "activities that keep aggravating it. After an operation, the plan follows your "
+                 "surgeon\u2019s protocol."),
+                ("A hand that is still swollen after surgery",
+                 "Post-operative hands are managed to the surgeon\u2019s protocol, and the swelling, "
+                 "stiffness and scar that follow an operation are treated as part of the plan rather "
+                 "than as something to wait out."),
                 ("After a cast comes off",
                  "The fracture healing and the hand working again are two different problems, and the "
                  "second one is the reason people come here. Expect the early work to be about motion and "

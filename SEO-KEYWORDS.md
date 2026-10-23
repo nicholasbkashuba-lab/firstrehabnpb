@@ -314,6 +314,36 @@ measurement), hand therapy service page (window), shoulder, knee and occupationa
 physical therapy service page title already matches the rehabilitation-services cluster
 ("physical rehabilitation services" 52 at 10.4, but on the homepage); its title was not changed.
 
+## Analytics report 2026-10-23: what changed and what did not
+
+Acted on the "Fix first" list in the 2026-10-23 analytics report (Semrush local mobile
+Position Tracking, GSC 10-10..10-16, GA4, GBP).
+
+**Homepage drops are not a site regression.** Semrush showed "physical therapist near me"
+4 -> 40 and "physical therapy palm beach fl" 4 -> 26 on `/`. Nothing on the homepage that
+search reads changed between 2026-10-12 and main: title, description, canonical, robots
+meta, H1, robots.txt and the `/` sitemap entry are byte-identical (the only edits are the
+WPTV "In the News" band, two footer links, a nav link and the Episode 19 player). The live
+GBP-tagged URL serves `<link rel="canonical" href="https://www.firstrehabnpb.com/">`. GSC
+disagrees with the Semrush reading: `/` held 11.7 to 14.4 daily through 2026-10-20, and
+"physical therapy palm beach fl" on `/` was 9.4 (7d to 10-13) then 8.4 (7d to 10-20). A
+single-day local mobile snapshot of near-me terms is map-pack and proximity sensitive.
+No homepage edit; the CTR test keeps running to read 2 (~2026-11-02).
+
+**Changed:** `/treatments/hand-wrist.html` gained two condition-named h3s, "Carpal tunnel
+syndrome treatment" and "Trigger finger treatment for a finger that catches" (the old
+combined finger/post-op block split in two), 1,061 -> 1,230 words, every sentence restating
+existing site copy. Note for the 2026-11-16 re-read: this page's title (10-16) and depth
+(10-23) now move together, so read its position change as both.
+
+**Not changed, on purpose:** `/services/hand-therapy.html` (2026-10-14 window, and it owns
+practitioner intent, so carpal tunnel depth went to the page that owns condition intent);
+`/locations/palm-beach-gardens.html` (retitled 10-16, after the report's GSC window ended,
+so it has not been measured yet); `/locations/west-palm-beach.html` (retitled 2026-09-18 to
+OT and hand therapy on purpose; 0.25% CTR at position 22 is a page-three position, and
+chasing "physical therapy west palm beach" again is the fight this file says not to take);
+neck and back pages (2026-10-14 title window).
+
 ## Hand therapy push, 2026-09-09
 
 Acted on the 2026-09-09 Search Console pull. `/services/hand-therapy.html` sat at position 25.3
