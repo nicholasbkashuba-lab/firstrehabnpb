@@ -3,9 +3,9 @@
 air_date: 2026-10-24
 post_at: 2026-10-24 09:00 ET (13:00 UTC)
 platforms: linkedin-business, facebook, plus a separate google-business call
-image: WAITING ON NICK. The Dropbox folder has no studio or group photo, and Maria was on Zoom.
-       Per the episode skill this post waits for a photo rather than getting a made-up graphic.
-       Fallback if Nick says so: content/announcements/pain2power-cover.jpg (the show cover).
+image: content/announcements/ep20-cover-maria.jpg (Nick asked for the show cover, 2026-10-23): the
+       original logo with Maria added as a matching cartoon, per content/announcements/README.md.
+       Higgsfield gpt_image_2_5, references: assets/media/podcast-cover.jpg and a Zoom frame of Maria.
 status: DRAFT, not scheduled
 
 > **The link is the Spotify SHOW page, not the episode.** The episode URL does not exist until
