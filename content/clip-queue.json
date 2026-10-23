@@ -521,6 +521,78 @@
       "hook": "Peter Jennings, Walter Cronkite and Barbara Walters. By Dave's count, all their Emmys add ",
       "state": "queued",
       "was_scheduled_at": "2026-10-18T13:00:00+00:00"
+    },
+    {
+      "post_id": "6be9c16e-40d3-4f41-88eb-3b8107ca906a",
+      "guest": "Maria",
+      "media": "d7b11c59-4d94-4e02-8480-397c1cdbe7ac",
+      "hook": "\"I stayed away from Dr. Google.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-11-13T14:00:00+00:00"
+    },
+    {
+      "post_id": "f3d6624a-f169-4822-920b-42c37a09c704",
+      "guest": "Maria",
+      "media": "d82dc6f3-90e1-4580-85e5-585be610e5e8",
+      "hook": "\"It certainly wasn't the Ritz.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-11-11T14:00:00+00:00"
+    },
+    {
+      "post_id": "dd17d9b1-c084-49bf-aa02-46bb10447529",
+      "guest": "Maria",
+      "media": "6ff09db8-9fc6-4742-b543-b81a79de5388",
+      "hook": "She brought her sister and her partner in crime to the oncologist and introduced them as h",
+      "state": "queued",
+      "was_scheduled_at": "2026-11-09T14:00:00+00:00"
+    },
+    {
+      "post_id": "3f911e3a-dfd6-4645-b0b3-c8efa2c753d2",
+      "guest": "Maria",
+      "media": "f71f3429-f5aa-4ddc-b94b-4f018c4dbbb8",
+      "hook": "First day of radiation. Her radiologist walks in: \"You have a little glow to you.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-11-07T14:00:00+00:00"
+    },
+    {
+      "post_id": "fe4cd55e-d8c1-4993-9daa-6fc3093b96fb",
+      "guest": "Maria",
+      "media": "0a823c44-6a77-4c15-a8c2-2192988c9287",
+      "hook": "\"All right, universe. I'm putting it out there. Is everything gonna be okay?\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-11-04T14:00:00+00:00"
+    },
+    {
+      "post_id": "2123809b-2c68-48bd-b854-b488e10cb600",
+      "guest": "Maria",
+      "media": "45877e0c-0f9d-44f8-9ee8-a9fe2105655b",
+      "hook": "\"I can't believe it's me.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-11-02T14:00:00+00:00"
+    },
+    {
+      "post_id": "4e706632-a271-4bfa-bd9f-885c58bb4ac8",
+      "guest": "Maria",
+      "media": "0ebe01dc-7c09-47bf-ad4e-2beeffb87b58",
+      "hook": "She was waiting for one word on the phone. Unfortunately, it was \"Unfortunately.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-30T13:00:00+00:00"
+    },
+    {
+      "post_id": "92da7b9b-8df5-4725-9eff-e53203d3a760",
+      "guest": "Maria",
+      "media": "80b80796-5847-4b12-a847-16c07ae4a37a",
+      "hook": "\"How long do I have to keep having MRIs?\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-28T13:00:00+00:00"
+    },
+    {
+      "post_id": "1a99f037-71ca-40c9-9561-7b825b13ac30",
+      "guest": "Maria",
+      "media": "1716af48-bfdd-4c06-8d01-da961bde700c",
+      "hook": "\"People under 40 are getting breast cancer.\"",
+      "state": "queued",
+      "was_scheduled_at": "2026-10-26T13:00:00+00:00"
     }
   ]
 }
