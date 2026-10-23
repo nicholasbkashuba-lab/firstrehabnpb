@@ -2199,9 +2199,8 @@ def build_conditions():
                  "joint protection technique, targeted strengthening, a supportive splint made here, and "
                  "changing the specific movements that keep aggravating it."),
                 ("Trigger finger treatment for a finger that catches",
-                 "Trigger finger is a routine referral to a hand therapy program rather than to general "
-                 "rehabilitation, and it is treated within ours both conservatively, where that is "
-                 "appropriate, and after surgery, where it has already happened. The usual tools are a "
+                 "Trigger finger is treated in our hand therapy program both conservatively, where that "
+                 "is appropriate, and after surgery, where it has already happened. The usual tools are a "
                  "splint fabricated here for your hand, graded motion, and changes to the grips and "
                  "activities that keep aggravating it. After an operation, the plan follows your "
                  "surgeon\u2019s protocol."),
