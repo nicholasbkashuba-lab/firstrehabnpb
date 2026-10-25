@@ -9,12 +9,13 @@ observations recorded in CLAUDE.md.
 No search-volume numbers appear here on purpose. We do not have a keyword tool wired in, and an
 invented volume is worse than no number.
 
-## FREEZE: no new posts as of 2026-09-09
+## FREEZE: no new posts as of 2026-09-09, lifted for episode RECAPS 2026-10-25
 
-New blog posts are frozen (Nick approved). Do not pick a target from this file for a NEW post.
-The keyword map stays live for re-targeting EXISTING pages, which is the work that replaces
-posting. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom is
-still accurate and still worth reading before touching any page's target.
+New blog posts are frozen (Nick approved), with one exception: on 2026-10-25 Nick lifted it for
+Pain 2 Power episode recaps (Post A) only. Pillar posts (Post B) stay frozen, so do not pick a
+pillar target from this file for a NEW post. The keyword map stays live for re-targeting
+EXISTING pages. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom
+is still accurate and still worth reading before touching any page's target.
 
 ## Two rules that came from real GSC data
 
@@ -213,6 +214,13 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 
 | Post slug | Pillar | Keyword it owns |
 |---|---|---|
+| `pain-2-power-ep20-kendzierski` | Pain 2 Power (Ep 20) | Maria Kendzierski / two time breast cancer survivor / screening every six months |
+| `pain-2-power-ep18-marrone-armstrong` | Pain 2 Power (Ep 18) | Elyse Marrone and Danielle Armstrong / nutrition and Pilates around breast cancer |
+| `pain-2-power-ep17-goodwin` | Pain 2 Power (Ep 17) | Dr. Don Goodwin / radiologist / dense breasts and mammograms at 40 |
+| `pain-2-power-ep14-arlosoroff` | Pain 2 Power (Ep 14) | Dr. Chaim Arlosoroff / trauma surgeon / e-bike injuries in kids |
+| `pain-2-power-ep13-titheradge` | Pain 2 Power (Ep 13) | Captain Kerry Titheradge / Below Deck / rotator cuff program, Mental Health Mondays |
+| `pain-2-power-ep12-leighton` | Pain 2 Power (Ep 12) | Dr. Michael Leighton / total hip replacement / anterior vs posterior |
+| `pain-2-power-ep9-sabesan` | Pain 2 Power (Ep 9) | Dr. Vani Sabesan / shoulder surgeon / why rotator cuff repairs struggle to heal |
 | `personal-training-with-a-therapist-who-knows-your-injury-history` | Wellness | personal training with a therapist who knows your injury history (Ep 19 pillar post) |
 | `pain-2-power-ep19-cake` | Pain 2 Power (Ep 19) | Shannon Cake / Newsmax anchor / working out first thing in the morning |
 | `partial-vs-total-knee-replacement` | Physical Therapy | partial vs total knee replacement |

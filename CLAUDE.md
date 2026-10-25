@@ -1209,8 +1209,11 @@ JobPosting schema per role (validThrough = posted + 60d — bump posted dates to
 
 ## Blog agent
 
-**NEW POSTS ARE FROZEN as of 2026-09-09 (Nick approved).** Do not write, draft or ship a new
-blog post — `/blog` and `/episode-blog` included — until the freeze is lifted. Reason, from the
+**NEW POSTS ARE FROZEN as of 2026-09-09 (Nick approved), EXCEPT episode recaps.** On 2026-10-25
+Nick lifted the freeze for Pain 2 Power recap posts (`/episode-blog` Post A) and asked for one
+per episode that lacked one; pillar posts (Post B) and `/blog` topic posts stay frozen. Episodes
+1 to 5 have no transcript anywhere (not on GitHub, not in Descript), so they still have no
+recap. Otherwise, do not write, draft or ship a new blog post until the freeze is lifted. Reason, from the
 2026-09-09 analysis: the site carries ~12,400 monthly search impressions at average position
 20.1 and converts them at 0.94%. Impressions grew 32% while clicks grew 1%, because every new
 page lands on page two or three and adds impressions nobody clicks, which drags site-wide CTR

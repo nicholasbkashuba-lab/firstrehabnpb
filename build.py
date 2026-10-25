@@ -611,6 +611,7 @@ def footer(depth=0):
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}insurance.html">Insurance &amp; Medicare</a></li>
           <li><a href="{p}glossary.html">Patient Glossary</a></li>
+          <li><a href="{p}things-to-do.html">Things to Do in North County</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}videos.html">Video Episodes</a></li>
@@ -3367,7 +3368,184 @@ def build_exercises():
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
           + nav(0) + body + footer(0))
 
+# ----------------------------------------------------------------------------
+# THINGS TO DO IN NORTH COUNTY (/things-to-do.html)
+# ----------------------------------------------------------------------------
+# Nick, 2026-10-25: a local "what to do" page, kept to North County, West Palm
+# Beach through Jupiter. Every place and every fact below was checked against the
+# place's OFFICIAL page (operator, city, village, county or nonprofit) on
+# 2026-10-25; the URL is the page it was read on. Deliberately left out: hours,
+# prices and anything else that changes often. Left OFF the list: Mounts Botanical
+# Garden, the Palm Beach Lake Trail and Lake Park Harbor Marina (no official page
+# could be opened to confirm them; NEVER link lakeparkmarina.com, a lapsed domain now
+# serving spam), and Blowing Rocks and Jonathan Dickinson (Martin County, outside the
+# brief). Re-check before adding anything, and re-verify the list each spring.
+# Movement keys -> chip labels shown on each card.
+TTD_MOVE = {"walk": "Easy walk", "beach": "Beach", "trail": "Trail", "water": "On the water",
+            "indoor": "Indoors", "climb": "Climb"}
+THINGS_TO_DO = [
+    {"key": "west-palm-beach", "area": "West Palm Beach", "loc": "west-palm-beach",
+     "lede": "The southern end of North County, and the most to do on a rainy day.",
+     "items": [
+        ("Norton Museum of Art", "West Palm Beach", "indoor", "https://www.norton.org/about",
+         "Founded in 1941 by Ralph and Elizabeth Norton, with a permanent collection of more than 8,900 works across European, American, Asian, contemporary and photography departments, plus a sculpture garden."),
+        ("Palm Beach Zoo &amp; Conservation Society", "West Palm Beach", "walk", "https://www.palmbeachzoo.org/",
+         "Four themed areas on Summit Boulevard: the Islands, Asia, the Tropics of the Americas and the Florida Wetlands, with koalas, tigers, jaguars, macaws and otters."),
+        ("Manatee Lagoon, an FPL Eco&#8209;Discovery Center", "West Palm Beach", "walk", "https://www.visitmanateelagoon.com/",
+         "Florida Power &amp; Light&rsquo;s center on North Flagler Drive about manatees and the Lake Worth Lagoon, with exhibits and a live manatee camera."),
+        ("Grassy Waters Preserve", "West Palm Beach", "trail", "https://www.wpb.org/Departments/Grassy-Waters-Preserve",
+         "The city&rsquo;s nature preserve off Northlake Boulevard. Five named trails, including the Cypress Boardwalk Trail through the cypress trees."),
+        ("The downtown waterfront", "West Palm Beach", "walk", "https://www.wpb.org/Residents/Community-Events/Lake-Pavilion",
+         "The Lake Pavilion, the Great Lawn at the foot of Clematis Street, and a waterfront promenade with docks, lawns and shaded trellises along the Intracoastal."),
+        ("Ann Norton Sculpture Gardens", "West Palm Beach", "walk", "https://www.ansg.org/",
+         "The historic home and studio of the artist Ann Norton, with a gallery and a palm and cycad collection that includes rare species."),
+     ]},
+    {"key": "palm-beach", "area": "Palm Beach", "loc": "palm-beach",
+     "lede": "Across the bridge: one long shopping street and one Gilded Age house.",
+     "items": [
+        ("Worth Avenue", "Palm Beach", "walk", "https://worth-avenue.com/",
+         "A landmark shopping street steps from the ocean, with boutiques, cafes and the Vias, the narrow side passages off the avenue."),
+        ("Flagler Museum (Whitehall)", "Palm Beach", "indoor", "https://flaglermuseum.org/exhibits/past-exhibitions/the-story-of-whitehall",
+         "Whitehall has been a private home, a club and a hotel, and is now a National Historic Landmark house museum with a free digital guide."),
+     ]},
+    {"key": "riviera-beach", "area": "Riviera Beach &amp; Singer Island", "loc": "riviera-beach",
+     "lede": "Two very different beach days, one of them only reachable by boat.",
+     "items": [
+        ("Peanut Island Park", "Riviera Beach", "beach", "https://discover.pbc.gov/parks/Locations/Peanut-Island.aspx",
+         "A county park you reach by boat only, by shuttle or water taxi. A snorkeling lagoon, swimming beaches, a paver walking path and an observation deck. There is no food concession, so pack what you need."),
+        ("Ocean Reef Park", "Riviera Beach", "beach", "https://discover.pbc.gov/parks/Locations/Ocean-Reef.aspx",
+         "A county beach park on Singer Island with about 700 feet of guarded beach, a dune overlook, picnic areas, a beach wheelchair and a Mobi Mat."),
+     ]},
+    {"key": "north-palm-beach", "area": "North Palm Beach", "loc": None,
+     "lede": "Our own town, and home to the only state park in the county.",
+     "items": [
+        ("John D. MacArthur Beach State Park", "North Palm Beach", "beach", "https://www.village-npb.org/1117/Parks-Facilities",
+         "The only state park in Palm Beach County, on an Atlantic barrier island. A 1,600 foot boardwalk crosses the estuary to 1.6 miles of beach, and there is a nature center. You can kayak or paddleboard the estuary."),
+        ("Anchorage Park", "North Palm Beach", "walk", "https://www.village-npb.org/533/Anchorage-Park",
+         "A 21.5 acre village park with two fishing piers, a fitness trail, sand volleyball courts, dog parks and a kayak and paddleboard launch."),
+     ]},
+    {"key": "palm-beach-gardens", "area": "Palm Beach Gardens", "loc": "palm-beach-gardens",
+     "lede": "Paved paths, a preserve with marked trail lengths, and somewhere air conditioned.",
+     "items": [
+        ("Frenchman&rsquo;s Forest Natural Area", "Palm Beach Gardens", "trail", "https://discover.pbc.gov/erm/NaturalAreas/Frenchmans-Forest.aspx",
+         "A 172 acre county natural area on Prosperity Farms Road. The Blazing Star trail is paved and 0.4 miles; the sandy Saw Palmetto trail runs 1.3 miles. A boardwalk crosses a cypress swamp."),
+        ("The Gardens North County District Park", "Palm Beach Gardens", "walk", "https://pbgfl.gov/1024/The-Gardens-North-County-District-Park",
+         "An 82 acre city park with lighted fields, two spray pads, two playgrounds, a nature trail and 23.6 acres of preserve."),
+        ("Downtown Palm Beach Gardens", "Palm Beach Gardens", "walk", "https://downtownpalmbeachgardens.com/about/",
+         "Formerly Downtown at the Gardens. Palm shaded lakeside walks, a pop jet fountain and the Downtown Carousel on the waterfront."),
+        ("The Gardens Mall", "Palm Beach Gardens", "indoor", "https://www.thegardensmall.com/visiting/",
+         "More than 150 shops on PGA Boulevard, open since 1988. A long, flat, air conditioned walk on a hot afternoon."),
+     ]},
+    {"key": "juno-beach", "area": "Juno Beach", "loc": "juno-beach",
+     "lede": "Sea turtles, a fishing pier and the highest natural point in the county.",
+     "items": [
+        ("Loggerhead Marinelife Center", "Juno Beach", "walk", "https://marinelife.org/plan-your-visit/",
+         "A sea turtle conservation nonprofit with an outdoor sea turtle hospital. The campus is mostly outdoors, with large shaded sections."),
+        ("Juno Beach Pier", "Juno Beach", "walk", "https://marinelife.org/juno-beach-pier/",
+         "A 990 foot fishing pier in county owned Juno Beach Park, run by Loggerhead Marinelife Center. A phased refurbishment began in June 2026, so check the pier&rsquo;s page for what is open before you go."),
+        ("Juno Dunes Natural Area", "Juno Beach", "trail", "https://discover.pbc.gov/erm/NaturalAreas/Juno-Dunes.aspx",
+         "569 acres from the ocean to the Intracoastal. On the ocean side, a paved, accessible trail climbs to a covered platform on an ancient dune, billed as the highest natural point in Palm Beach County. The west side has sandy trails of 1.8 and 2.1 miles."),
+     ]},
+    {"key": "jupiter", "area": "Jupiter &amp; Tequesta", "loc": "jupiter",
+     "lede": "The northern edge of North County, and the longest list.",
+     "items": [
+        ("Jupiter Inlet Lighthouse &amp; Museum", "Jupiter", "climb", "https://www.jupiterlighthouse.org/directions-hours",
+         "You can climb the 1860 lighthouse, and the site itself calls the climb strenuous; even the tower&rsquo;s base is 34 steps up a hill. The grounds are part of a 120 acre federal Outstanding Natural Area."),
+        ("Riverbend Park", "Jupiter", "trail", "https://discover.pbc.gov/parks/Locations/Riverbend.aspx",
+         "A 644 acre county park on Indiantown Road with nearly 10 miles of shell rock hiking and biking trails, 5 miles of waterways on the Loxahatchee River, and the site of the Loxahatchee Battlefield."),
+        ("Carlin Park", "Jupiter", "beach", "https://discover.pbc.gov/parks/Locations/Carlin.aspx",
+         "A 109 acre county beach park with about 3,000 feet of guarded beach, a 20 station exercise course over 1.25 miles, and the Seabreeze Amphitheater."),
+        ("Jupiter Beach Park", "Jupiter", "beach", "https://discover.pbc.gov/parks/Locations/Jupiter-Beach.aspx",
+         "About 1,700 feet of guarded beach beside the inlet, a jetty for saltwater fishing and a Mobi Mat."),
+        ("DuBois Park", "Jupiter", "water", "https://discover.pbc.gov/parks/Locations/DuBois.aspx",
+         "A county park with a snorkeling lagoon and Intracoastal beach, a canoe and kayak launch, and the DuBois Pioneer Home and Jupiter Inlet Mound, both on the National Register of Historic Places."),
+        ("Coral Cove Park", "Tequesta", "beach", "https://discover.pbc.gov/parks/Locations/Coral-Cove.aspx",
+         "A county beach park on Beach Road with about 600 feet of guarded beach, another 2,010 feet of unguarded beach to the south, and Intracoastal frontage."),
+        ("Harbourside Place", "Jupiter", "walk", "https://www.harboursideplace.com/",
+         "Waterfront shopping and dining along Jupiter&rsquo;s Intracoastal, with an amphitheater for live music."),
+        ("Roger Dean Chevrolet Stadium", "Jupiter", "walk", "https://www.mlb.com/roger-dean-chevrolet-stadium/ballpark",
+         "Spring training home of the Miami Marlins and St. Louis Cardinals since 1998, and home to the Jupiter Hammerheads and Palm Beach Cardinals the rest of the year."),
+     ]},
+]
+
+def build_things_to_do():
+    """North County things to do, West Palm Beach to Jupiter. Data: THINGS_TO_DO."""
+    import json as _json
+    blocks, ld = [], []
+    for g in THINGS_TO_DO:
+        cards = "".join(
+            f'<div class="ex-card reveal"><span class="cond-tag">{TTD_MOVE[mv]}</span><h3>{name}</h3>'
+            f'<p class="ex-how">{blurb}</p>'
+            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">Official site</a></p></div>'
+            for name, town, mv, url, blurb in g["items"])
+        if g["key"] == "jupiter":
+            tail = ('<p class="lede" style="margin-top:var(--space-5);">Live up here? Read about physical therapy for '
+                    '<a href="locations/jupiter.html">Jupiter</a> and <a href="locations/tequesta.html">Tequesta</a> residents.</p>')
+        elif g["loc"]:
+            tail = (f'<p class="lede" style="margin-top:var(--space-5);">Live in {g["area"]}? Read about '
+                    f'<a href="locations/{g["loc"]}.html">physical therapy for {g["area"]} residents</a>.</p>')
+        else:
+            tail = ('<p class="lede" style="margin-top:var(--space-5);">Our clinic is here too, at '
+                    '733 US Highway 1. <a href="first-visit.html">What to expect at your first visit</a>.</p>')
+        blocks.append(
+            f'<section class="section" id="{g["key"]}"><div class="wrap">'
+            f'<div class="section-head reveal"><h2>Things to do in {g["area"]}</h2>'
+            f'<p class="lede">{g["lede"]}</p></div>'
+            f'<div class="ex-grid">{cards}</div>{tail}</div></section>')
+        for name, town, mv, url, blurb in g["items"]:
+            ld.append({"@type": "TouristAttraction", "name": _faq_plain(name), "url": url,
+                       "description": _faq_plain(blurb),
+                       "address": {"@type": "PostalAddress", "addressLocality": town,
+                                   "addressRegion": "FL", "addressCountry": "US"}})
+    url = "https://www.firstrehabnpb.com/things-to-do.html"
+    schema = '<script type="application/ld+json">' + _json.dumps({
+        "@context": "https://schema.org", "@type": "ItemList", "@id": url + "#list",
+        "name": "Things to do in North County, West Palm Beach to Jupiter",
+        "itemListElement": [{"@type": "ListItem", "position": i + 1, "item": node}
+                            for i, node in enumerate(ld)],
+    }, ensure_ascii=False) + '</script>\n'
+    jump = " ".join(f'<a class="faq-chip" href="#{g["key"]}">{g["area"]}</a>' for g in THINGS_TO_DO)
+    crumbs = '<div class="crumbs"><a href="/">Home</a> / Things to Do</div>'
+    body = f"""
+<main>
+{page_hero("North County", "Things to Do, <em class='accent'>West Palm Beach to Jupiter</em>",
+  "Parks, beaches, trails and museums across North County, grouped by town and tagged by how much moving each one asks of you.", crumbs)}
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap">
+    <p class="lede">The point of therapy is getting back to your life, and around here a lot of that life happens outdoors. So here is North County, from West Palm Beach up to Jupiter and Tequesta, one town at a time. Every place carries a tag: an easy walk, a beach, a trail, time on the water, somewhere indoors, or a climb. If you are partway through recovery, pick from the gentler end and ask your therapist before you take on a sandy trail or a lighthouse staircase. That is exactly the kind of goal we like to build a plan around.</p>
+    <div class="ex-jump">{jump}</div>
+    <p class="ex-src">Every place below was checked against its own official site in October 2026. Hours, fees and closures change, so check before you go. We are not affiliated with any of them.</p>
+  </div>
+</section>
+{"".join(blocks)}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <p class="lede">Want the stairs at the lighthouse or the 1.25 mile course at Carlin Park back on your list?
+    Tell us at your evaluation and we will build toward it. Call <strong>{PHONE}</strong> or
+    <a href="contact.html">request an appointment</a>. Between visits, the
+    <a href="exercises.html">home exercise library</a> has the moves Dr. Dave Kashuba talks through on
+    <a href="podcast.html">Pain 2 Power</a>.</p>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("things-to-do.html",
+          head("Things to Do From West Palm Beach to Jupiter | First Rehab",
+               "Parks, beaches, trails and museums from West Palm Beach to Jupiter, grouped by town and tagged by how much walking each takes. From First Rehab, North Palm Beach.",
+               canonical="things-to-do.html",
+               extra_schema=schema + breadcrumb_schema([("Home", ""), ("Things to Do", "things-to-do.html")]))
+          + nav(0) + body + footer(0))
+
+
 EPISODE_POSTS = {
+    "Episode 20": "pain-2-power-ep20-kendzierski",           # Maria Kendzierski
+    "Episode 18": "pain-2-power-ep18-marrone-armstrong",     # Elyse Marrone and Danielle Armstrong
+    "Episode 17": "pain-2-power-ep17-goodwin",               # Dr. Don Goodwin
+    "Episode 14": "pain-2-power-ep14-arlosoroff",            # Dr. Chaim Arlosoroff
+    "Episode 13": "pain-2-power-ep13-titheradge",            # Captain Kerry Titheradge
+    "Episode 12": "pain-2-power-ep12-leighton",              # Dr. Michael Leighton
+    "Episode 9": "pain-2-power-ep9-sabesan",                # Dr. Vani Sabesan
     "Episode 19": "pain-2-power-ep19-cake",                # Shannon Cake
     "Episode 15": "pain-2-power-ep15-mann",                # Susan Mann
     "Episode 11": "pain-2-power-ep11-joyce",                # Paul Joyce
@@ -4009,6 +4187,600 @@ def build_contact():
 # ----------------------------------------------------------------------------
 
 BLOG_POSTS = {
+    "pain-2-power-ep20-kendzierski": {
+        "title": "How Screening Every Six Months Caught Maria Kendzierski&rsquo;s Second Breast Cancer Early",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "Dave&rsquo;s cousin Maria Kendzierski on two breast cancer diagnoses, screening every six months at Roswell Park, chemo, radiation and why she rang the bell twice.",
+        "body": """
+<p>Maria Kendzierski spent years going back to Roswell Park every six months for a mammogram or an MRI, and she did not enjoy the MRIs. So she asked her doctor how long she had to keep doing them. The answer was a question: &ldquo;how long do you not want to have cancer?&rdquo; Maria&rsquo;s reply was &ldquo;fair enough.&rdquo;</p>
+<p>That exchange is the heart of this week&rsquo;s Pain 2 Power. Maria is Dave&rsquo;s cousin, she has been diagnosed with breast cancer twice, and both times it was a scan, not a lump she could feel, that found it.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>A cousin from Buffalo, a survivor sweatshirt, and October</h2>
+<p>Dave grew up in Buffalo in what he called a really tight close family, with 12 or 13 cousins who all hung out and, by his account, all got in trouble together. Maria was the exception, he said, smarter than the rest of them. &ldquo;She was able to talk her way out of everything.&rdquo; The family tie runs double: Maria&rsquo;s mother and Dave&rsquo;s mother are twins.</p>
+<p>Maria joined Dave and Mike McGann over Zoom from Buffalo, where she still lives and still roots for the Bills and the Sabres. (&ldquo;There&rsquo;s always next year,&rdquo; she said.) She opened by pointing at what she was wearing. &ldquo;I have my survivor sweatshirt on, you can&rsquo;t see it, this is what a survivor looks like.&rdquo;</p>
+<p>The timing was deliberate. October is Breast Cancer Awareness Month, and the show had already given two October episodes to it: radiologist Dr. Don Goodwin on screening, then a dietitian and a Pilates studio owner on food and movement. Dave opened with numbers of his own, saying there are over 400,000 cases diagnosed in women in America and 42,000 deaths a year. Then he explained why he had asked Maria on. Watching from far away, he said, the family prayed for her, and through all of it &ldquo;she always had a smile. She always had a good attitude.&rdquo;</p>
+<h2>2015: a yearly mammogram finds something at stage zero</h2>
+<p>Maria&rsquo;s first diagnosis came out of a routine she already had. &ldquo;I go every year for my checkups, my mammograms,&rdquo; she said. In 2015 that yearly mammogram showed a suspicious nodule, more tests followed, and the result was stage zero. She had never heard of stage zero. Neither had Mike.</p>
+<h3>A name that sounded worse than it was</h3>
+<p>The diagnosis was lobular carcinoma in situ, LCIS for short, and Maria was honest about how it landed. &ldquo;And has the word carcinoma right in it. So, of course, I&rsquo;m freaking out.&rdquo; She said her doctor told her it was just the name they give it, and that there had been efforts to change the name that had not gone anywhere. As she described it, the nodule was encapsulated within itself. They took it out, nothing had spread around it, and there was no further treatment except one medication.</p>
+<h3>Five years of tamoxifen</h3>
+<p>That medication was tamoxifen. Maria had come prepared, and she read from her notes: it &ldquo;blocks the effects of estrogen so that it the estrogen doesn&rsquo;t attach to cancer cells.&rdquo; She took it for five years. When the five years ended, she said, she went through a &ldquo;what now&rdquo; moment, because the medication had been her crutch. That feeling comes back later in her story.</p>
+<h2>Every six months at Roswell Park, and the one word on the phone</h2>
+<p>Because of the first diagnosis, Maria was screened every six months, alternating between mammograms and MRIs. She counts herself lucky on this point. Roswell Park, which she described as a world class comprehensive cancer center, is in her backyard in Buffalo. That is where her doctor gave her the line about how long she wanted to not have cancer.</p>
+<p>In June or July of 2024, an MRI found something suspicious. More biopsies followed, and Maria knew what the call would sound like before it came. &ldquo;I waited for one word, unfortunately, and as soon as the radiologist said unfortunately, I didn&rsquo;t hear anything else after that.&rdquo;</p>
+<p>She credits a patient portal with getting her through the next few weeks, since she could read every report as it came in. And she credits the six month schedule with the outcome. &ldquo;Thankfully though because I was going every six months, they caught it early,&rdquo; she said.</p>
+<h3>Her sister, her partner in crime, and a decision already made</h3>
+<p>Maria walked into the treatment conversation with two people. She introduced her sister and her partner in crime to the doctor as &ldquo;my secretary and my treasurer.&rdquo; She had already made up her mind. &ldquo;I said even if they tell me I don&rsquo;t need chemo, I&rsquo;m gonna get chemo because I want this out of me.&rdquo; She was ready for a double mastectomy if that was what it took.</p>
+<p>It wasn&rsquo;t. Her doctors recommended a lumpectomy, not a mastectomy. She described the test result that settled the chemo question as her &ldquo;onco score&rdquo;: she said a score of 25 or higher meant they recommend chemo, and hers was 39. &ldquo;So it wasn&rsquo;t even my choice,&rdquo; she said.</p>
+<h2>A lumpectomy in October, chemo on her birthday in November</h2>
+<p>The order went like this. Lumpectomy in October. Chemotherapy starting in November, on her birthday. (&ldquo;Happy birthday to me.&rdquo;) Eight rounds. Then five weeks of radiation. She lost her long curly hair, which she waved off: it&rsquo;s just hair, and it came back. Now, she told Dave, she looks a lot more like her mom.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Maria Kendzierski's two diagnoses as she described them">
+<table>
+<caption>Maria Kendzierski&rsquo;s two breast cancer diagnoses and treatment, as she described them on Pain 2 Power Episode 20. Dates and details are hers, as stated on air.</caption>
+<thead><tr><th scope="col">When</th><th scope="col">What she said happened</th></tr></thead>
+<tbody>
+<tr><th scope="row">2015</th><td>Yearly mammogram finds a suspicious nodule; diagnosed as lobular carcinoma in situ, stage zero; nodule removed</td></tr>
+<tr><th scope="row">The next five years</th><td>Tamoxifen, with no further treatment</td></tr>
+<tr><th scope="row">After that</th><td>A mammogram or an MRI every six months at Roswell Park in Buffalo</td></tr>
+<tr><th scope="row">June or July 2024</th><td>An MRI finds something suspicious; biopsies follow, and the cancer is caught early</td></tr>
+<tr><th scope="row">October 2024</th><td>Lumpectomy</td></tr>
+<tr><th scope="row">November 2024 onward</th><td>Eight rounds of chemotherapy, starting on her birthday, then five weeks of radiation</td></tr>
+<tr><th scope="row">Today</th><td>Rang the bell after chemo and again after radiation; still screened every six months</td></tr>
+</tbody>
+</table>
+</div>
+<h3>The shots were harder than the chemo</h3>
+<p>Mike asked how the treatment affected her. Beyond being tired all the time (some days she slept 13 hours), Maria said the chemotherapy itself was not as bad as she expected. The worst part was the injections she needed to keep her white blood cell count where it had to be for the next round. For five days after each one, she said, she had muscle aches, joint aches, everything. &ldquo;I would be literally sitting in a chair just moaning. I didn&rsquo;t even realize I was moaning from pain.&rdquo; What she kept telling herself was that the pain meant the drugs were working.</p>
+<p>She had also dreaded the room. She had pictured what she had seen on TV, a big room full of chairs and other people getting chemo at the same time. Her treatment looked nothing like that. She had her own little cubby, staff brought drinks and snacks, she could bring someone with her, and there was a TV. &ldquo;It certainly wasn&rsquo;t the Ritz,&rdquo; she said, but it wasn&rsquo;t as bad as she thought.</p>
+<h3>Forty five minutes in the car, ten minutes on the table</h3>
+<p>Radiation meant going every day for five weeks. The drive to the hospital was 45 minutes, and the treatment itself put her on the table for about 10. &ldquo;I was in the car a lot longer than from literally the time I got to the hospital,&rdquo; she said. She described her side effects as minimal and was quick to add that she knows not everyone gets off that lightly.</p>
+<h2>The waiting room that changed her mind about meeting people</h2>
+<p>Maria did not want to make friends at radiation. &ldquo;I didn&rsquo;t want to tell my story, I didn&rsquo;t want to hear your story,&rdquo; she said. She wanted to get in, get it done and get out. The schedule did not cooperate. Radiation runs at the same time every day, so you sit in the same waiting room with the same people, and sooner or later you talk.</p>
+<p>On her first day she walked into the locker room unsure of what to do, and a woman already there asked if it was her first day. Maria still talks to her. Over those weeks she got to know the woman&rsquo;s mother and husband too, just from sitting in that waiting room. Her verdict on her own first instinct was blunt: &ldquo;bad on me for not wanting to meet people because you need to surround yourself with people.&rdquo;</p>
+<p>Mike picked up on that near the end of the hour. What struck him was the change, from someone who did not want to be part of any of it to someone whose eyes fill up when a stranger rings the bell. In his words, it can &ldquo;bring us closer to humanity if you respond to it.&rdquo;</p>
+<h3>The family that showed up</h3>
+<p>Dave talked about Maria&rsquo;s siblings, who have done cancer research races and fundraising for years, and about how hard it was to be far away with nothing to do but pray. Maria said her siblings each took a turn going with her to chemo, and they pitched in at home because she has two dogs who could not be left alone all day. Both of her sisters told her they would have traded places with her in a heartbeat. &ldquo;And I know they would, but I&rsquo;m thankful they didn&rsquo;t have to.&rdquo;</p>
+<h2>Out of the online groups, and away from Dr. Google</h2>
+<p>Maria had written down a short list of things she learned, and some of it came from her oncologist. One piece of advice was to be careful with online support groups. Her explanation used a restaurant. If a meal is great, most people do not rush online to post a glowing review. If it was horrible, they do. Some cancer groups on Facebook and social media work the same way, she said: &ldquo;misery loves company.&rdquo; She left a lot of them and kept a few that she called really awesome.</p>
+<p>&ldquo;I stayed away from Dr. Google,&rdquo; she said, and she was warned about that right up front. She noted that Dave knows the feeling from his own research, how you can go down so many rabbit holes. Her approach was to avoid it and let her doctors tell her what to expect.</p>
+<p>It fits how we try to work at the clinic, too. If you have a question about your own situation, the best person to ask is the clinician who has actually examined you.</p>
+<h3>Tough mothers, and why not me</h3>
+<p>Maria said both of their mothers had a very high tolerance for pain, and that she and her siblings had no choice but to be tough. She also admitted the &ldquo;why me&rdquo; never fully goes away. Her answer to it was practical. She was working part time at a winery when she was diagnosed, so she had the time to be sick and the time to go to treatment, while her siblings all work full time. &ldquo;So why not me if it had to be one of us, let it be me.&rdquo;</p>
+<p>One night, out in the backyard waiting on a dog who sometimes refuses to go to the bathroom, she looked up and asked the universe if everything was going to be okay. A shooting star crossed the sky. &ldquo;I was like, okay, I think I&rsquo;m gonna be okay.&rdquo; Mike asked how much attitude had to do with it. &ldquo;It&rsquo;s huge,&rdquo; Maria said. Mike went a step further and said he could see it as part of why her side effects were milder. That was his impression, offered as his own, and it is not a medical claim anyone on the show made.</p>
+<h2>Ringing the bell twice, and the radiologist who said too soon</h2>
+<p>Dave asked the question he had saved: how did it feel to ring the bell? People kept asking whether she would do it after chemo or after radiation. She did both, because she went through two different stages of treatment, and her siblings were there each time. At Roswell, she said, hearing someone ring that bell on her way to an ordinary appointment makes her eyes tear up every time. &ldquo;And this time it was me.&rdquo; People in the lobby stopped what they were doing to clap, and strangers came up to congratulate her.</p>
+<p>Then came the same feeling she had after tamoxifen. &ldquo;Oh my gosh, now what?&rdquo; She had gone there every day for five weeks, and that routine had been her crutch. She still goes back every six months.</p>
+<p>She also had a story she said Dave would appreciate. Her radiologist, whom she saw once a week after treatment, walked in on her first day and said, &ldquo;well, you&rsquo;re a little glow, you have a little glow to you.&rdquo; She just looked at him. His follow up was &ldquo;too soon?&rdquo; &ldquo;I get that,&rdquo; she said. Doctors in that job, as she put it, deal with a lot.</p>
+<p>Looking back on the gap between her diagnosis in August and her surgery in October, she said she wanted it out of her right away. Then she reasoned that if it were that bad, they would have fast tracked her into surgery. &ldquo;I kind of put my faith in my doctors and I put my faith in God,&rdquo; she said.</p>
+<h2>Under 40, and why you can&rsquo;t always feel it</h2>
+<p>Two things frustrated Maria along the way, and both are about catching cancer early. The first was age. &ldquo;I met quite a few people under 40 who&rsquo;ve been diagnosed with breast cancer and they don&rsquo;t even want you to have a mammogram until you&rsquo;re 40,&rdquo; she said. &ldquo;Well guess what, people under 40 are getting breast cancer, so something needs to change.&rdquo;</p>
+<p>The second is the one that stays with you. Women have to know their own bodies, she said, but self exams have limits. &ldquo;Even after they told me exactly where on my breast my tumor was, I couldn&rsquo;t feel it.&rdquo;</p>
+<p>When screening should start is a conversation for you and your own doctor, and we are a therapy clinic, so we will not pretend to answer it here. If you want to hear it from a specialist, listen to Episode 17 with Dr. Don Goodwin on <a href="../podcast.html">the podcast page</a>. On that episode he walks through how the US Preventive Services Task Force moved its starting age to 40, why groups like the American College of Radiology say every year from 40, and when ultrasound or MRI gets added to a mammogram. You can also read more about him on <a href="../guests/goodwin.html">his guest page</a>. Episode 18, with dietitian Elyse Marrone and Danielle Armstrong of Pilates Life, picks up the other half: food, movement and recovery during and after treatment.</p>
+<h2>Elmer, the John Deere, and the joke of the week</h2>
+<p>Dave had said earlier that he came in with so many things he wanted to ask, &ldquo;but I&rsquo;m more interested in listening to you.&rdquo; He did keep one tradition. Listeners, he said, mostly send him bad dad jokes instead of questions, so he closed with one.</p>
+<p>He was at the family&rsquo;s small lake house in Alabama when he saw his neighbor Elmer bending down next to a John Deere tractor, holding a box of heart shaped chocolates under one arm and flowers in the other. Elmer explained that his wife had lost the glow in her eyes, and a friend had told him what to do: &ldquo;you got to be more romantic to attract her.&rdquo; Say it out loud if it takes a second.</p>
+<p>Mike said it couldn&rsquo;t be a better way to wrap it up. There were I love yous on both ends of the Zoom, and the show signed off with a reminder to get your mammograms.</p>
+<p>You can read more about Maria on <a href="../guests/kendzierski.html">her guest page</a>, listen to the full episode on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch it in our <a href="../videos.html">video library</a>, or catch the show live Saturdays at 8:30 AM on 100.3 Legends Radio.</p>
+<p>We are a physical, occupational and hand therapy clinic on US-1 in North Palm Beach, and cancer care belongs with your oncology team. If you are getting back to everyday life after treatment and something aches, feels stiff, or just won&rsquo;t cooperate the way it used to, ask your doctor whether therapy makes sense for you, then call us at 561-624-4263. You can read how our <a href="../services/physical-therapy.html">physical therapy</a> works, see how we stay with patients through our <a href="../services/wellness.html">wellness program</a> once therapy ends, or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep18-marrone-armstrong": {
+        "title": "What You Can Control After Breast Cancer: Elyse Marrone and Danielle Armstrong",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "Jupiter dietitian Elyse Marrone and Pilates Life owner Danielle Armstrong join Dave and Mike on food, movement and sleep before, during and after breast cancer.",
+        "body": """
+<p>The week before, radiologist Dr. Don Goodwin had spent an hour on Pain 2 Power talking about breast cancer screening. This week Dave and Mike wanted the other half of the conversation: once you know the risk is real, what can you actually do about it? Dave brought two friends to answer. Elyse Marrone is a registered dietitian who sees patients in Jupiter, and Danielle Armstrong owns Pilates Life on Northlake in Palm Beach Gardens.</p>
+<p>Between them they covered food, movement and sleep before, during and after a diagnosis, plus one of the better stories we have heard on the show, about a dancer, a radical mastectomy and Joseph Pilates himself.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Starting from 400,000 diagnoses a year</h2>
+<p>Dave opened with the number he could not shake from the week before. By his count there are over 400,000 cases of breast cancer diagnosed in women in the United States. Mike called it a horrifying number and admitted it is hard to get your head around.</p>
+<p>What bothered Dave more was the word &ldquo;cure.&rdquo; As he put it on air, a cure rate often means living about five years, and that, in his view, is not a cure. So he steered the hour toward the things people can influence. There are plenty of factors you can&rsquo;t control, he said. But eating well, taking care of yourself, not smoking and not drinking too much all count, and he put the share of risk those habits touch at coming up on 40%.</p>
+<p>Mike had been reading about the same idea that week. We pick up cancer cells all the time, he said, and the immune system finds and clears them in small doses. Dave ran through the cells he had been reading about, the CD4 positive and CD8 positive T cells and the macrophages he called the pig of the blood, because it eats everything. The point of the whole show followed from there. Give the body the right environment and it does a lot of this work on its own.</p>
+<p>Those figures are Dave&rsquo;s, as he said them on the show. If you want the screening side of the story first, it is the episode just before this one on our <a href="../podcast.html">Pain 2 Power podcast page</a>.</p>
+<h2>Elyse Marrone&rsquo;s triple HD plan and the seven pillars</h2>
+<p>Elyse introduced herself as a registered dietitian who is functionally and integratively trained. In practice that means she does not stop at matching your plate to the current food pyramid or whatever diet is in fashion. She looks at all seven parts of your lifestyle and asks how to get each one working. Quality of life, she said, should travel with quantity of life.</p>
+<p>Then she gave the line that became the episode&rsquo;s first clip. &ldquo;So I say I want to be healthy, healthy, healthy, dead.&rdquo; She doesn&rsquo;t want the long slide down. She calls it the triple HD plan. Mike&rsquo;s summary was quick: &ldquo;We&rsquo;d rather thrive than just survive.&rdquo;</p>
+<p>The seven pillars are the backbone of every appointment she runs. She does look at labs. Her view is that the labs move with the pillars, and Dave added that they can move quickly, in either direction.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Elyse Marrone's seven pillars of health and what was said about each">
+<table>
+<caption>The seven pillars of health as Elyse Marrone, RD/LDN, CGP, listed them on Pain 2 Power Episode 18, with what came up about each pillar during the hour. Nothing here is a recommendation for your own care.</caption>
+<thead><tr><th scope="col">Pillar</th><th scope="col">What was said on the show</th></tr></thead>
+<tbody>
+<tr><th scope="row">Food first</th><td>Dave listed high fiber, omega-3 fatty acids, cruciferous vegetables like broccoli and cauliflower, and less alcohol and processed meat</td></tr>
+<tr><th scope="row">Exercise</th><td>Dave: exercise &ldquo;makes what we eat turn into gold&rdquo;; Elyse said it can also increase deep sleep</td></tr>
+<tr><th scope="row">Sleep</th><td>Deep sleep, wearables like the Oura ring and the Whoop band, and blue light blocker glasses from 8 o&rsquo;clock in the evening</td></tr>
+<tr><th scope="row">Stress management</th><td>Elyse: stress raises cortisol, which can set off a cascade of events</td></tr>
+<tr><th scope="row">Supplementation</th><td>Elyse checks vitamin D for the immune system and discussed DIM, an extract of Brussels sprouts</td></tr>
+<tr><th scope="row">Hydration</th><td>Named as one of the seven; not discussed in detail on this episode</td></tr>
+<tr><th scope="row">Community</th><td>Named as one of the seven; Mike admitted he is good at about two of the pillars</td></tr>
+</tbody>
+</table>
+</div>
+<h3>Why the first look is at the gut</h3>
+<p>Dave asked what happens when someone newly diagnosed with breast cancer walks into her office. Her first step is what she calls looking at their terrain, and that usually means the gut. &ldquo;So like you said we all get cancer all the time and our immune system fights it,&rdquo; she said. &ldquo;80, 90% of your immune system is in your gut. I&rsquo;m always looking at the gut.&rdquo;</p>
+<p>From there she works through the rest. What are they eating? Are they sleeping? Are they managing stress? She also makes sure vitamin D levels are where they should be.</p>
+<h3>DIM, hormones and a Polish plate of Brussels sprouts</h3>
+<p>Dave had mentioned cruciferous vegetables, and Elyse picked that up with DIM, short for diindolylmethane. She described it as an extract of Brussels sprouts that helps the body process estrogen down to a less toxic form, and she said she has people taking or making estrogen take it daily. That is her clinical approach as a dietitian. Supplements are a conversation for you and your own provider, so please don&rsquo;t read it as a prescription.</p>
+<p>Dave saw his chance. The way a Polish family makes Brussels sprouts, he said, is fried in bacon grease, with bacon. Elyse was gracious about it (that might be the only way some people will eat them) and then made the practical point. &ldquo;But to get enough DIM you&rsquo;d have to eat many many pounds of Brussels sprouts.&rdquo; Nobody is eating pounds of them, bacon or no bacon.</p>
+<p>On hormones, she was clear about her lane. She does not prescribe them. She works alongside providers who do, and keeps an eye on markers like sex hormone binding globulin so the hormones a patient is making or taking can do their job. A new breast cancer diagnosis changes that appointment, she said, because most of those patients are off hormones by then.</p>
+<h2>Danielle Armstrong and the women she trains through treatment</h2>
+<p>Danielle&rsquo;s path to the microphone ran through our front door. She was seeing Dr. Paula Newmark, a chiropractor in Jupiter, for a shoulder problem, and Paula sent her to Dave, who got her out of a frozen shoulder. She is a former dancer, which explains a lot about how she moves and teaches.</p>
+<p>She described her clients plainly. This is a big retirement area, and people come to Pilates as gentle exercise that helps with ordinary tasks, reaching a shelf, carrying groceries. Then she described this year. &ldquo;I found this year in particular I&rsquo;ve had a lot of women, I&rsquo;d say mid 60s to mid 70s who have been diagnosed with breast cancer,&rdquo; she said. Her studio&rsquo;s job has been keeping them active through diagnosis and treatment: &ldquo;Giving them a positive environment to be able to work in and be able to do movements that are gentle for them. But still keep them strong through their process.&rdquo;</p>
+<h3>Balance before the first scare</h3>
+<p>Mike connected it to the daily things that get harder first. Walking. Taking the garbage out. Getting in and out of the shower or the bathtub. Balance and muscle strength sit under all of them, and so does fall prevention. Danielle&rsquo;s answer was to start early, before balance becomes a problem, and Dave added a story he has told before: President Bush Senior, he said, named balance as the one thing he wished he had worked on and not let slip away.</p>
+<p>If you are in that stage right now, our <a href="strength-training-after-60-fall-prevention.html">guide to strength training after 60 and fall prevention</a> goes deeper on what a balance program involves, and the <a href="../services/wellness.html">wellness program</a> page covers our on-site gym.</p>
+<h2>From M&ouml;nchengladbach to Juno Beach: Danielle&rsquo;s Pilates lineage</h2>
+<p>Dave asked how she got into Pilates, and Danielle started with a fact that surprises a lot of people. Joseph Pilates was a real person. He was born in M&ouml;nchengladbach, Germany, and was a sickly child with rickets. Mike found that the most mind blowing part, because Pilates grew up to be a boxer and a circus performer.</p>
+<p>During the war, Danielle said, he was on the Isle of Man rehabilitating soldiers, and he took springs from the beds to build his own version of what she described as physical therapy. Later he built his own equipment, emigrated to the United States and opened a studio in New York. When he died, his wife Clara, a nurse who also taught, took it over. After Clara, Romana Kryzanowska ran the studio. Romana was a direct disciple of Joe, and she is where Danielle&rsquo;s original training comes from.</p>
+<h3>Lolita San Miguel, 92 and still traveling</h3>
+<p>When Danielle moved to Florida, she met Lolita San Miguel, whom she called the last living elder who trained with Joseph Pilates. Lolita lives in Juno Beach, just up the road from our clinic. Danielle works with her, and at the time of recording Lolita was about to turn 92 on the 9th of October. She still travels. The two of them had just come back from the yearly conference in M&ouml;nchengladbach, which Lolita started.</p>
+<p>Mike wanted to know whether Lolita&rsquo;s energy comes down to how she treats her body. Danielle said yes, definitely.</p>
+<h2>Eve Gentry, a radical mastectomy and the alphabet soup</h2>
+<p>Then Danielle told the story that ties Pilates to this episode&rsquo;s subject. Joseph Pilates had a client named Eve Gentry, a dancer, who was diagnosed with breast cancer in the 1950s (Danielle placed it around 1950 to 1955). She had a radical mastectomy and was told she would never dance or do Pilates again.</p>
+<p>He worked with her anyway. It took a year for her to get full range of motion back through her pectorals. One of the hospitals in New York suggested his work belonged inside the hospital, so he filmed Eve doing her exercises. Someone took the film to the hospital, and they did not believe it. So it was filmed again, this time topless, so nobody could doubt she had had the mastectomy. The hospital still turned him away. In Danielle&rsquo;s retelling, they said: &ldquo;You don&rsquo;t have the alphabet soup behind your name. So we can&rsquo;t take you.&rdquo;</p>
+<p>Mike called him way ahead of his time. Dave thought about all the senior homes and nursing homes that work could have reached.</p>
+<h3>What Dave sees at the clinic after breast surgery</h3>
+<p>Dave sees many women after a mastectomy. Some deal with scar tissue even after a partial mastectomy or a tumor removal, and the work is getting range of motion and strength back, along with the daily activities that go with them. His caution was about jumping straight into a hard group class. &ldquo;It&rsquo;s more important for people to have someone supervised,&rdquo; he said. He loves yoga and he loves Pilates. He wants the first steps watched.</p>
+<p>That supervised start is what therapy after surgery is for. Our <a href="../treatments/post-surgical.html">post-surgical rehab page</a> explains how it works here, and the <a href="../treatments/shoulder-pain.html">shoulder pain page</a> covers stiffness and lost motion in the shoulder. Our hand therapist, Laura Drumm, MS, OTR/L, CHT, CLT, is also a certified lymphedema therapist; if swelling is part of your picture, ask the front desk about it when you call.</p>
+<h2>Deep sleep, an Oura ring and blue light glasses at 8 o&rsquo;clock</h2>
+<p>Mike asked the question that sounds simple: when does cancer occur? Elyse&rsquo;s answer was the shortest line of the hour. &ldquo;When the conditions are exactly right.&rdquo; Then she finished the thought. &ldquo;So we&rsquo;re going to make sure that the conditions are never exactly right.&rdquo;</p>
+<p>That brought Dave to his own weak spot, which is sleep. A neurologist friend he plans to bring on the show told him total hours matter less than deep sleep, so Dave got a ring to track it. He reported nights with an hour and 49 minutes of REM against an hour and 30 minutes of deep sleep and wanted to know how that works. Elyse said she wasn&rsquo;t sure about the REM part. Deep sleep she was sure about: exercise and fasting can increase it, and she called wearables like the Oura ring or the Whoop band a great thing to have.</p>
+<h3>The ring, the watch and Karen</h3>
+<p>Dave&rsquo;s nightly dilemma got a laugh. At 11 o&rsquo;clock his ring tells him to get ready for bed, and his watch tells him to get up and take a brisk half hour walk. Who does he listen to? Karen, his wife. Mike voted for the walk, with some meditation on the way.</p>
+<p>Elyse&rsquo;s easiest habit of the hour was the blue light blocker glasses. Wear them starting at 8 o&rsquo;clock, she said, and they help your body start producing melatonin, so you fall asleep faster and deeper. Danielle tied the whole morning together: exercise, stress and late meals all feed into how you sleep. &ldquo;It all correlates into each other,&rdquo; she said.</p>
+<p>Dave&rsquo;s version was don&rsquo;t create the perfect storm. You can&rsquo;t fix all seven pillars this week. You can pick one.</p>
+<h2>How to reach Elyse, Danielle and the show</h2>
+<p>Both guests gave their details on air, and Mike read them back. Elyse sees patients in Jupiter, working alongside Dr. Paula Newmark at Back to Health; her number is 561-252-7857 and her website is thenutritioninstitute.org. Danielle&rsquo;s studio, Pilates Life, is on Northlake in Palm Beach Gardens, at 561-288-8151 or PilatesLifeFlorida.com. You can read more about each of them on our guest pages for <a href="../guests/marrone.html">Elyse Marrone</a> and <a href="../guests/armstrong.html">Danielle Armstrong</a>. Dave also offered to put any listener in direct contact with either of them through the clinic.</p>
+<p>If you live in <a href="../locations/jupiter.html">Jupiter</a> or <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens</a>, our clinic is at 733 US Highway 1, Suite 2A, in North Palm Beach. Questions about how the gym fits alongside therapy are answered in the <a href="../faq.html#wellness-gym">wellness and gym FAQ</a>.</p>
+<p>Listen to the whole conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch it in our <a href="../videos.html">video library</a>, and catch the show live Saturdays at 8:30 AM on 100.3 Legends Radio. If a stiff shoulder after surgery, a balance worry or a plan to get moving again is what brought you here, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep17-goodwin": {
+        "title": "What Your Mammogram Can Miss: Dr. Don Goodwin on Dense Breasts and Screening at 40",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "Radiologist Dr. Don Goodwin tells Pain 2 Power why he favors yearly mammograms from 40, what dense breasts can hide, and when ultrasound or MRI is added.",
+        "body": """
+<p>Most women hear two different answers about mammograms. Start at 40, or wait until 50. Go every year, or every other year. On the first Saturday of Breast Cancer Awareness Month, Dave brought in someone who has been reading those images for more than half a century to sort it out: radiologist Dr. Donald Goodwin, MD, of TGH Imaging, the practice many people around here still know as Palm Beach Radiology. His answer was clear, and so was his explanation of what a mammogram can and cannot see.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>Fifty years of reading images, and a building Dave and Don put up in 2007</h2>
+<p>Dave and Don go back a long way. Their businesses ran side by side for years, and in 2007 they officially built a building together and rented it out, with Don as one of the owners of Palm Beach Radiology. Dave did the arithmetic on air. Don has been a radiologist for over 50 years, Dave is coming up on 40 in his own field, and &ldquo;Remember when we started, we were the young guys.&rdquo;</p>
+<p>Before handing over the microphone, Dave ran through the things that are in your own hands: keeping your weight down, exercising, and eating more fibrous vegetables like sweet potatoes, carrots, broccoli and leafy greens. Then he got to his real reason for the episode. &ldquo;But big thing is screening,&rdquo; he said, and he asked Don to walk listeners through when women should start, and how often.</p>
+<p>If you only know Don&rsquo;s name from a report in your patient portal, his <a href="../guests/goodwin.html">Pain 2 Power guest page</a> has the background: the practice joined Tampa General and became TGH Imaging at the same North Palm Beach location, and Don stayed on. As he put it near the end of the show, they provide professional services for Tampa General now.</p>
+<h2>Start at 40 or 50? Every year or every other year?</h2>
+<p>Don started by admitting the confusion is real. The recommendation that gets the most press, he said, comes from the US Preventive Services Task Force, and it has often been at odds with what the medical societies say. That mismatch, in his words, &ldquo;always, uh, causes some consternation.&rdquo;</p>
+<h3>What the task force changed last year</h3>
+<p>Until last year, Don explained, the task force recommended starting screening at age 50 and going every other year after that. Last year it moved the start date from 50 to 40. It kept the every other year interval.</p>
+<p>The American College of Radiology, the American College of Surgeons and the American Cancer Society, he said, have recommended starting at 40 with a mammogram every year for years, and they still do. So the two camps now agree on the starting age. They still disagree on how often.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Mammogram screening recommendations as described on the episode">
+<table>
+<caption>Screening recommendations as Dr. Donald Goodwin, MD described them on Pain 2 Power Episode 17. Ask your own doctor which schedule fits you.</caption>
+<thead><tr><th scope="col">Who</th><th scope="col">When to start</th><th scope="col">How often</th></tr></thead>
+<tbody>
+<tr><th scope="row">US Preventive Services Task Force, until last year</th><td>Age 50</td><td>Every other year</td></tr>
+<tr><th scope="row">US Preventive Services Task Force, now</th><td>Age 40</td><td>Every other year</td></tr>
+<tr><th scope="row">American College of Radiology, American College of Surgeons, American Cancer Society</th><td>Age 40</td><td>Every year</td></tr>
+<tr><th scope="row">Dr. Goodwin&rsquo;s own view</th><td>Age 40</td><td>Every year</td></tr>
+</tbody>
+</table>
+</div>
+<h3>Why Dr. Goodwin leans toward every year</h3>
+<p>Don gave two reasons. The first was a trend. Breast cancer incidence, he said, has been rising by close to 1% a year since records began, and in women under 50 it has been rising by about 1.5% a year over the last 10 years. Dave asked whether better testing explains that. &ldquo;Who knows?&rdquo; Don said. &ldquo;You just don&rsquo;t know.&rdquo;</p>
+<p>The second reason is the job itself. &ldquo;Our job is to find it as small and early as possible, because the smaller the lesion, the earlier the stage, the better the prognosis,&rdquo; he said. Then he made the case against waiting in one plain sentence: &ldquo;if you wait two years and, and it&rsquo;s been growing for two years, and you could have picked it up last year, well, maybe you missed an opportunity.&rdquo;</p>
+<p>Mike picked up on the numbers. One and a half percent sounds small, he said, until you remember it is an annual increase. It stacks.</p>
+<h2>How much radiation is in a 3D mammogram?</h2>
+<p>Dave raised the worry a lot of women carry into the appointment: all that radiation, year after year. Don answered with specifics.</p>
+<p>Mammography, he said, is very heavily regulated. His center is inspected every year, and the equipment goes through quality testing on a regular schedule. The expected dose from a 3D mammogram is about 0.4 millisieverts, &ldquo;which is about two months&rsquo; worth of walking around on Earth.&rdquo; He also put it another way: about the same as one transcontinental flight from here to LA.</p>
+<p>He did not pretend it was zero. You cannot avoid radiation entirely, he said. There is radon in basements if you live in the Northeast, and there is radiation from the air. His point was to skip the unnecessary stuff, and he named CAT scans as the bigger exposure, anywhere from 2 to 16 millisieverts. And when Dave asked about MRI, the answer was short. &ldquo;MRs have zero radiation,&rdquo; Don said. &ldquo;It&rsquo;s all magnetic.&rdquo;</p>
+<h2>Dense breasts, and what a mammogram can miss</h2>
+<p>This is the part of the hour the episode title comes from, and it is worth hearing if you have ever been told your breast tissue is dense.</p>
+<p>In an average risk screening population, Don said, a radiologist expects to find four, five or six cancers per thousand women screened with an annual mammogram. In women with dense breasts the mammogram is less sensitive. &ldquo;You can miss up to 60% of the cancers less than 10 millimeters in size,&rdquo; he said. So radiologists add other tools, starting with ultrasound, which he said can increase the sensitivity of cancer detection by about 50%.</p>
+<h3>The BRCA study: 15, then 22, then 42 per thousand</h3>
+<p>Dave asked Don to explain BRCA for listeners. Everybody has the BRCA gene, Don said, but a mutation in it makes you more likely to develop a variety of cancers, breast cancer among them, with what he called basically a 50 to 70% lifetime risk. Then he described a study done years ago on a population of BRCA positive women, screened three ways in turn.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Cancers found per thousand women by screening method in a BRCA positive study">
+<table>
+<caption>The BRCA positive study Dr. Goodwin described on Pain 2 Power Episode 17, cancers found per thousand women. Figures are as stated on air.</caption>
+<thead><tr><th scope="col">Method</th><th scope="col">Cancers found per thousand</th></tr></thead>
+<tbody>
+<tr><th scope="row">Average risk women, annual mammogram (for comparison)</th><td>4 to 6</td></tr>
+<tr><th scope="row">BRCA positive women, mammogram</th><td>15</td></tr>
+<tr><th scope="row">Adding ultrasound</th><td>Another 7, for 22 in total</td></tr>
+<tr><th scope="row">Breast MRI on the same women</th><td>42</td></tr>
+</tbody>
+</table>
+</div>
+<p>That makes MRI, in Don&rsquo;s words, &ldquo;about twice as sensitive for cancer detection as mammogram plus ultrasound.&rdquo;</p>
+<h3>So why doesn&rsquo;t everyone get an MRI?</h3>
+<p>Because it is very expensive, it involves an IV injection, and you have to lie still for 20 or 40 minutes, depending on the protocol. Dave said that was something Mike could never do. Mike agreed.</p>
+<p>Don said MRI is reserved for the high risk population, which is now defined as greater than 20% lifetime risk. That risk can come from family history, a prior biopsy that showed some atypia, or other genetic mutations besides BRCA. He also uses it as a problem solver. Sometimes a finding on the mammogram and the ultrasound still is not clear, and the next step is, as he put it, &ldquo;let&rsquo;s get an MR.&rdquo;</p>
+<h2>After the mammogram: BI-RADS scores, callbacks and core needle biopsy</h2>
+<p>Mike mentioned someone he knows with dense breasts who got the same news almost every year: something questionable, more testing. Don said that is one of the real frustrations for women. You go in for a mammogram and, in his words, &ldquo;Oh, geez, they called me back again.&rdquo;</p>
+<h3>What a BI-RADS score is for</h3>
+<p>Dave brought up the BI-RADS score, which he described as running from zero to six. Don called it a classification of imaging findings that the government mandates, &ldquo;as it should be, because it, it f- it forces the radiologist to make a decision.&rdquo; The decision is whether a finding is benign or needs more evaluation, such as additional imaging or a biopsy. Dave&rsquo;s point was the human one: with a score on the report, the doctor has to commit, and that is why he would rather have someone with Don&rsquo;s 50 years making the call.</p>
+<h3>How 3D mammography cut the callbacks</h3>
+<p>Before the 3D mammogram, Don said, callback rates ran 10 to 12% of initial screenings. With 3D imaging, a lot of what used to trigger a callback can be resolved on the first set of images, and callback rates now run maybe 6 to 8%. That means fewer return visits, less radiation and, his phrase, &ldquo;less aggravation.&rdquo; Dave added less anxiety.</p>
+<p>The money part is less tidy. Supplemental screening is sometimes not covered by insurance, Don said. The mammogram is covered, and then you get hit with additional tests, out of pocket payments and deductibles. He called it &ldquo;a real bummer.&rdquo; If dense tissue is part of your history, it is worth asking your insurer about supplemental imaging before the bill arrives rather than after.</p>
+<h3>Biopsy without the operating room, and what stage 1 means</h3>
+<p>Dave asked whether Don&rsquo;s center does core needle biopsies. It does, and Don explained why that matters with a number from early in his career. In the 1980s and 1990s, he said, about 95% of breast surgeries across the country were for benign disease. You had a lump, it got cut out, and that meant an operating room, general anesthesia and a big bill, for something that turned out not to be cancer.</p>
+<p>He counts the ability to make a benign diagnosis without surgery as one of the great contributions of breast imaging. And when a finding is malignant, the surgeon knows what he is dealing with before going in. Don said the need for re-operations is much less, a sentinel node can be taken at the same time, and the surgical treatment is completed in one go. &ldquo;It&rsquo;s just much more precise and much more efficient,&rdquo; he said.</p>
+<p>When a biopsy does show cancer, the pathologist runs what Don called a breast profile: the estrogen receptor, the progesterone receptor, the HER2 receptor that Dave had asked about, and Ki67, which Don described as a kind of proliferative index. In the old days, he said, everybody got the same chemotherapy. Now the aim is to match treatment to the specific tumor, getting the most effect on the tumor and the least on the rest of the body. He was careful to add that treating breast cancer is &ldquo;way out of my field,&rdquo; but that it has vastly improved over the last 10 to 20 years.</p>
+<p>His example: with a stage 1 lesion, the five year survival is about 98 to 99%. Stage 1, he explained, is based on small size, usually less than two centimeters, with no nodes and no extension outside the breast. Which loops right back to his opening point about finding it small and early.</p>
+<p>Mike also asked about preventive double mastectomy. Don called prophylactic mastectomy a viable alternative for some women, usually in the high risk group: BRCA positive women, people with strong family histories, or women with a cancer on one side who choose to remove the other breast at the same time as reconstruction. He noted that, generally speaking, there is no survival benefit of a mastectomy over a lumpectomy for a malignancy, and that it is probably not recommended for fibrocystic changes. These are decisions for a woman and her own surgeon.</p>
+<h2>Men get breast cancer too</h2>
+<p>Mike wanted the guys listening to hear this part. Breast cancer conversations center on women, he said, but men get it, and he named a few who went public: Montel Williams, the actor Tyler Mane, and Peter Criss, the drummer from Kiss. &ldquo;There&rsquo;s a lot of stigma around that and people don&rsquo;t talk about it,&rdquo; he said.</p>
+<p>Don put numbers on it. Maybe 12% of women will develop breast cancer, he said, and in men it is maybe one out of 1,000. Men have breast tissue, and testosterone makes it shrink, which is part of why it is so much rarer. But men develop lumps. Some come in with a lump in the armpit, which he said means it has spread.</p>
+<p>The most common reason men see him, Don said, is gynecomastia, a growth of breast tissue behind the nipple that usually shows up as tenderness and sometimes as a lump. Imaging can usually sort that out. His advice for men was direct: &ldquo;with those symptoms, you ought to get checked out because every once in a while there&rsquo;s a cancer in there.&rdquo;</p>
+<h2>Hormone therapy, a bad pun, and how to reach Dr. Goodwin</h2>
+<p>Dave turned to hormone replacement. Earlier guests on the show have talked about it, and Dave&rsquo;s view is that women need to watch their bloodwork closely and see someone who really knows what they are doing. Don&rsquo;s answer was measured. &ldquo;There&rsquo;s a lot of conflicting research about that,&rdquo; he said. It used to be thought that hormone replacement raised breast cancer risk, then studies said no, then yes again, then that estrogen alone did not but estrogen plus progesterone did.</p>
+<p>He added that much of that data is old, that today&rsquo;s bioidentical hormones are used at lower doses, and that they have not been around long enough to know for sure. If you need hormone therapy to get along, he said, okay. His one condition: &ldquo;keep up with your screening, that&rsquo;s all.&rdquo; Mike summed up the whole hour the same way, women first and guys with symptoms too. Get screened.</p>
+<p>Then came the dad joke, which Dave warned Don about, since the two of them share many bad dad jokes. A grape sees a farmer coming with a press. What did the grape do? It whined. Mike said the right response was a groan.</p>
+<p>To reach Don, the number he gave on air is 561-841-8588, at TGH Imaging. Dave thanked him for coming in that early instead of going fishing.</p>
+<h2>Where a therapy clinic fits after a breast cancer diagnosis</h2>
+<p>We do not read mammograms at First Rehabilitation, and nothing in this post replaces the conversation you should have with your own doctor about screening. Where we come in is later. Episode 17 opened a run of breast cancer episodes. The week after Don, Dave and Mike talked with dietitian Elyse Marrone and Danielle Armstrong of Pilates Life about food and movement before, during and after a diagnosis, and Dave&rsquo;s advice there was supervised exercise over jumping straight into a hard class. We wrote about why supervision matters in <a href="gym-program-after-physical-therapy-north-palm-beach.html">our post on starting a gym program after physical therapy</a>.</p>
+<p>That supervised work happens in our <a href="../services/wellness.html">on-site wellness gym</a>, with a team that knows your history and what your body has been through. The <a href="../faq.html#wellness-gym">wellness and gym FAQ</a> covers the common questions, and anything about memberships or schedules is a front desk conversation.</p>
+<p>You can hear Don&rsquo;s whole conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch it as &ldquo;What Your Mammogram Can Miss&rdquo; in our <a href="../videos.html">video library</a>, and catch new episodes Saturdays at 8:30 AM on 100.3 Legends Radio. If you are rebuilding strength or range of motion after treatment or surgery and want a plan built around you, call us at 561-624-4263 or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep14-arlosoroff": {
+        "title": "Leave the Governor On: Dr. Chaim Arlosoroff on E-Bike Injuries in Kids",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "St. Mary&rsquo;s trauma surgeon Dr. Chaim Arlosoroff tells Dave and Mike why the e-bike governor matters, and why the average injured rider he treats is 13.",
+        "body": """
+<p>Somewhere along the way, a lot of us filed the e-bike under bicycles. It has pedals, a kickstand and a basket, and a 13-year-old can ride it to school. Dr. Chaim Arlosoroff, M.D., files it somewhere else. He is an orthopedic trauma surgeon at St. Mary&rsquo;s Medical Center, and on this episode of Pain 2 Power he told Dave and Mike what the e-bike boom looks like from the trauma bay.</p>
+<p>The short version is that the bikes coming through his emergency room are often not the bikes that left the store. A small part called the governor is supposed to keep them slow. Kids are taking it off. If you have a child or grandchild who rides one, or who has one on a gift list, this conversation is worth half an hour of your Saturday.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+
+<h2>What a St. Mary&rsquo;s trauma surgeon is seeing in Palm Beach County</h2>
+<p>Dr. Arlosoroff has done orthopedic trauma at St. Mary&rsquo;s for the past 30 years. He explained that his group also covers the pediatric and adult emergency rooms there, and that St. Mary&rsquo;s is a level one trauma center taking referrals from across the region. So when injuries change, he sees it early. Up until a few years ago, he said, the bad ones were motorcycles.</p>
+<p>Dave opened the topic with a national figure: ER visits for e-bike injuries in the United States up more than 400%. Dr. Arlosoroff said he had done a little research of his own on the counties around us. &ldquo;Palm Beach County from &rsquo;23 to &rsquo;24, 130% increase,&rdquo; he said. &ldquo;Broward, 180% increase.&rdquo; Miami-Dade, counting Nicklaus Children&rsquo;s Hospital, came in at more than 500% by his count.</p>
+<p>Then came the two numbers that made Mike groan out loud. About 83% of the injured riders were not wearing a helmet. And the average age of the injured rider was 13.</p>
+<h3>Why the hospital count is only the floor</h3>
+<p>He was careful about what those figures include. &ldquo;And remember, these are serious injuries,&rdquo; he said. They are the cases that reach the emergency room, come in as a trauma alert, or get admitted. In his words, there&rsquo;s a &ldquo;gazillion of people who never make it to the hospital or go to urgent cares,&rdquo; and none of them show up in the statistics. Every sprained wrist that gets iced at home and every road rash cleaned up at an urgent care sits outside the count.</p>
+<p>Dave added a story from his own clinic. A few weekends back, Dr. Arlosoroff came by looking like he was having a bad day. That one weekend, Dave said, he had treated a 14-year-old with a spinal cord injury who was not expected to walk again, and a 13-year-old who did not survive. Dave said the age twice. Thirteen.</p>
+
+<div class="data-table" tabindex="0" role="region" aria-label="E-bike injury figures cited on Pain 2 Power Episode 14">
+<table>
+<caption>E-bike injury figures as Dr. Chaim Arlosoroff and Dr. Dave Kashuba stated them on Pain 2 Power Episode 14. These are their on-air numbers, not figures First Rehabilitation has verified.</caption>
+<thead><tr><th scope="col">Figure</th><th scope="col">What was said on the show</th><th scope="col">Who said it</th></tr></thead>
+<tbody>
+<tr><th scope="row">United States ER visits</th><td>Up more than 400%</td><td>Dr. Kashuba</td></tr>
+<tr><th scope="row">Palm Beach County, 2023 to 2024</th><td>130% increase</td><td>Dr. Arlosoroff</td></tr>
+<tr><th scope="row">Broward County</th><td>180% increase</td><td>Dr. Arlosoroff</td></tr>
+<tr><th scope="row">Miami-Dade, including Nicklaus Children&rsquo;s Hospital</th><td>More than 500% increase</td><td>Dr. Arlosoroff</td></tr>
+<tr><th scope="row">Riders not wearing a helmet</th><td>About 83%</td><td>Dr. Arlosoroff</td></tr>
+<tr><th scope="row">Average age of the injured rider</th><td>13</td><td>Dr. Arlosoroff</td></tr>
+<tr><th scope="row">Head and neck injuries</th><td>32% of all injuries</td><td>Dr. Kashuba</td></tr>
+<tr><th scope="row">Speed with the governor in place</th><td>15 to 20 miles an hour</td><td>Dr. Arlosoroff</td></tr>
+<tr><th scope="row">Speed with the governor removed</th><td>50, 60, or maybe more</td><td>Dr. Arlosoroff</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>The governor, a small part built to hold a bike at 15 or 20 mph</h2>
+<p>The single most useful thing in the hour is a word most parents have never heard. An electric bike ships with a governor, a limiter on the motor that caps its top speed. Dr. Arlosoroff put the factory range at 15 to 20 miles an hour. The trouble starts when someone changes it.</p>
+<p>&ldquo;It&rsquo;s really scary that 13-year-olds can buy or get an electric bike, change something in the engine,&rdquo; he said. With the governor gone, he told Dave, &ldquo;they can fly at 50, 60, or maybe more.&rdquo; That is car speed on a frame built for a bike path, ridden by a kid who usually has a bicycle helmet on, if he has one on at all.</p>
+<h3>Mike&rsquo;s math: 15 versus 50</h3>
+<p>Mike put it in a line that has since become one of the episode&rsquo;s clips. When people hear the word bike, he said, they picture something you can&rsquo;t go too fast on. Plenty of kids ride without helmets, and when he was a kid nobody wore one. &ldquo;Going 15 versus 50 is the difference between a scrape and a cracked skull,&rdquo; he said. In his view people take it very lightly and don&rsquo;t understand the real responsibility of handling that piece of machinery.</p>
+<p>Later he compared it to the golf carts kids drive around some neighborhoods. A 13-year-old on a golf cart is still a worry, he said, but at least it won&rsquo;t be going 50, and there&rsquo;s a little more protection somewhere. On an e-bike there&rsquo;s nothing between your head and the concrete.</p>
+<h3>Sidewalks, wheelies and fire hydrants</h3>
+<p>Speed was only part of it. Dr. Arlosoroff described riders who ignore almost every traffic rule, partly because they are 13. They hop on and off sidewalks, ride against traffic, merge into it without looking. Dave added wheelies to the list. Dr. Arlosoroff said he has treated people who simply hit a utility pole or a fire hydrant, or caught a curb and went over the handlebars. &ldquo;We&rsquo;re talking about major, major injuries,&rdquo; he said.</p>
+<p>Dave raised the other side of the sidewalk problem: the people the riders hit. Pedestrians get hurt too. Dr. Arlosoroff said they see a lot of skull fractures, along with a lot of very serious injuries that carry severe consequences for the kid and for the family.</p>
+
+<h2>Pedal assist in Park City and Sedona, and Dave&rsquo;s case for pedaling</h2>
+<p>None of this made Dr. Arlosoroff anti e-bike. He is an avid cyclist. Here in Florida he rides a road bike and a mountain bike under his own power. He said the e-bike comes out only when he travels to steep country like Park City, Sedona, or Italy, where he rode this past summer, because it lets him reach places he would never get to otherwise. He also noted, with a smile, that he is getting a little older than David.</p>
+<p>The key difference is that his rentals are pedal assist. &ldquo;Even with help, you are working hard and you&rsquo;re getting tremendous amount of exercise,&rdquo; he said. In South Florida, he said, it has become a fad, and for some people it is simply how they get around, because money is tight, they have lost a license, or for a variety of other reasons.</p>
+<h3>Flat land and the hour a day</h3>
+<p>Dave was blunter. He said he doesn&rsquo;t believe a kid in Florida, on flat land, needs an e-bike at all. His reason had nothing to do with crashes. &ldquo;Only 20% of the kids in the United States get enough exercise, get an hour of exercise every day,&rdquo; he said, and he compared that with the early 1970s, when by his figures most kids got that hour in. He tied the change to rising rates of fatty liver disease and type 2 diabetes in children. His suggestion was simple: get the kids on bikes they push themselves.</p>
+<p>Mike told a story from a bike shop. He went in wanting to burn a few calories, and the salesman kept steering him toward an e-bike, pitching how nice it would be to just cruise the trail and take in the scenery. Mike admitted that does sound pleasant. It also seemed to him to be missing part of what makes a bicycle a bicycle.</p>
+<p>If a fall has already happened, our <a href="../services/physical-therapy.html">physical therapy</a> page explains how an evaluation and a plan of care work.</p>
+
+<h2>What a parent can actually do before the next ride</h2>
+<p>Mike closed the e-bike segment by speaking straight to the parents and grandparents listening, especially anyone looking at gifts. An e-bike is a motor vehicle, he said, and it can be modified into something you would never expect. Dr. Arlosoroff added that he believes Florida has a helmet law for bike riders under a certain age, though he wasn&rsquo;t sure of the age and said it is obviously not enforced. Dave said there are efforts to tighten the rules.</p>
+<p>Pulling together what the three of them said on air, the practical list is short:</p>
+<ul>
+<li>Put a helmet on the rider every time. Dave said a parent who skips it is endangering the child.</li>
+<li>Leave the governor in place, and check that it is still there. Mike&rsquo;s words: &ldquo;Make sure that they&rsquo;re not modifying these things.&rdquo;</li>
+<li>Talk about sidewalks and traffic. Riding against traffic and hopping curbs came up again and again.</li>
+<li>Treat the purchase like a motor vehicle, with the rules and supervision you would give one.</li>
+</ul>
+<p>Dave also mentioned that some parents are now suing e-bike makers after their kids were hurt riding too fast without a helmet. He was skeptical. In his view the responsibility starts at home.</p>
+
+<h2>Most fractures never need an operation</h2>
+<p>Dave had a second reason for inviting his friend on. If your kid comes off a bike and you aren&rsquo;t sure whether the elbow is broken, he said, you may not need the ER. Dr. Arlosoroff treats injuries from the foot and ankle up through the knee, back, neck and shoulders, and he takes elective patients as well as the trauma cases at the hospital. Dave asked whether he favors a conservative approach when one is possible.</p>
+<p>&ldquo;Most can be treated non-surgically,&rdquo; Dr. Arlosoroff said of fracture care and musculoskeletal injuries in general. He listed what fills his week: shoulder sprains, rotator cuff injuries, ankle sprains, and falls in older adults that end in a fractured wrist or hip. A lot of them, he said, are not serious. Many still land in the emergency room because injuries happen at all hours and people aren&rsquo;t sure what they are dealing with.</p>
+<h3>From the ER splint to the therapy gym</h3>
+<p>He walked through the usual path. If he sees a patient in the hospital while on call, the first treatment happens there: splinting, crutches, whatever is needed. Then the patient comes to his office for follow up. &ldquo;And eventually, a lot of time in your hands,&rdquo; he told Dave, &ldquo;and you help us look good,&rdquo; by getting people back to their regular activities.</p>
+<p>That last stretch is the part we handle on US-1. Our <a href="../treatments/post-surgical.html">post surgical rehab</a> page covers what happens after an operation, and the same careful progression applies when a fracture heals without one. If the injury is a <a href="../treatments/hand-wrist.html">wrist or hand</a>, a <a href="../treatments/shoulder-pain.html">shoulder</a>, an <a href="../treatments/ankle-pain.html">ankle sprain</a> or a <a href="../treatments/hip-pain.html">hip</a>, those pages explain what therapy involves. Our post on <a href="what-to-expect-first-pt-visit.html">what to expect at your first physical therapy visit</a> answers the questions most people have before day one.</p>
+<h3>Dirt bikes to the west, propellers to the east</h3>
+<p>Dr. Arlosoroff said the variety is what he loves about the work. Think where we live, he said. There are the ordinary car, bicycle and motorcycle crashes. Head west and you get dirt bikes, ATVs and side by sides. To the east is the water, with boating injuries, jet skis, and propeller injuries he called devastating. He even mentioned shark bites, which he said he sees more of now that diving and spearfishing have become so popular. Some of these patients end up in surgery and some do not.</p>
+
+<h2>A combat medic, a world ranking of 283, and a scholarship to Duke</h2>
+<p>Before any of the e-bike talk, Dave made his friend of more than 30 years tell the story of how he got here. It started in 1973, when Dr. Arlosoroff was a high school sophomore in Israel and the Yom Kippur War closed his school for three or four weeks. The men were called to the reserves. His mother, a retired operating room nurse, volunteered at a local community hospital taking war injuries and brought him along to help.</p>
+<p>He worked as a kind of orderly, cleaning operating rooms and wheeling patients in and out. One of the orthopedic surgeons there was the father of a boy he played junior tennis with, and that connection got him into the room to watch surgery. He expected to hate it. Instead he found that blood and guts didn&rsquo;t turn his stomach, and he was amazed watching bones put back together with pins, rods and plates.</p>
+<h3>Three years as a combat medic</h3>
+<p>At 18, like everyone in Israel, he went into the army, and he was selected to be a combat medic. He described an intense course of about six months followed by two and a half more years of service, seeing everything from a head cold to gunshot wounds. Through it all he kept playing tennis seriously. He was always one of the top four juniors in Israel, played on the Israel Junior Davis Cup team, and traveled to Miami to play the Orange Bowl.</p>
+<h3>Sight unseen</h3>
+<p>After his service he played the smaller futures and satellite tournaments for about a year. &ldquo;My highest ranking was 283 in the world in 1981,&rdquo; he said, adding that it sounds great but wasn&rsquo;t going to be his future. American players he met on tour told him about playing for a university, and a connection led to the tennis coach at Duke. &ldquo;I got an offer to get a, a four-year full scholarship, sight unseen. I mean, he&rsquo;s never seen me play,&rdquo; he said. There were no videos or smartphones then. The coach went on his ranking and results and took a chance, and it worked out well for both of them. Dave made sure listeners knew he was later inducted into the Duke Tennis Hall of Fame.</p>
+<p>Mike connected the two halves. The focus it takes to reach that level as an athlete, he said, is the same focus Dr. Arlosoroff now brings to fixing bodies, and he still sounds curious about the human body as a machine.</p>
+
+<h2>Next door on US-1, and a joke with no leg to stand on</h2>
+<p>The practices sit close together in North Palm Beach, and the referrals run both ways every week. Dr. Arlosoroff described an orthopedic group that covers pretty much every subspecialty, with First Rehab &ldquo;literally right next door.&rdquo; &ldquo;It&rsquo;s a great setup.&rdquo; Dave added that the surgeon walks over to check on his own patients, and had done exactly that the day before the taping.</p>
+<p>Dave&rsquo;s joke of the week came dressed as a serious story about an avalanche, a skier, a wrong-site amputation and a lawsuit. It went on long enough that both Mike and Dr. Arlosoroff admitted they were buying it. The skier sued the doctors and lost. &ldquo;He didn&rsquo;t have a leg to stand on,&rdquo; Dave said. Mike said it may be the best one Dave has ever done.</p>
+<p>Listen to the full conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch it in our <a href="../videos.html">video library</a>, or read more about <a href="../guests/arlosoroff.html">Dr. Arlosoroff on his guest page</a>. The show airs live Saturdays at 8:30 AM on 100.3 Legends Radio. If you or your child is recovering from a fall, a fracture or a sprain, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>, and we will help you plan the way back.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep13-titheradge": {
+        "title": "Captain Kerry Titheradge on Following Through, From a Rotator Cuff to Mental Health Mondays",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "Bravo&rsquo;s Captain Kerry Titheradge of Below Deck joins Dave and Mike on the rotator cuff program that traveled with him, Mental Health Mondays and giving back.",
+        "body": """
+<p>Captain Kerry Titheradge left Miami somewhere around 2:00 or 2:30 in the morning to make a Saturday radio show in North Palm Beach. He had a boat job that ran long, a business to run, and a friend who had tried to talk him out of coming. He came anyway, with a couple of minutes to spare.</p>
+<p>That friend is Dr. Dave Kashuba, and the two go back more than twenty years, to a rotator cuff injury and a home program that went north with Kerry when his work did. This week&rsquo;s Pain 2 Power is the two of them and Mike McGann catching up on that shoulder, on the workout that ended up with Kerry&rsquo;s name on it, and on what Kerry does with the attention Bravo&rsquo;s Below Deck gave him.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+<h2>A phone call from a doctor, about twenty years ago</h2>
+<p>Dave opened with the backstory. He studied in Australia, at Curtin University in Perth, and he says the Australians he knew on the west coast took such good care of him that he never forgot it. So when he opened the business here, and a doctor called about a young Australian with a shoulder injury, the answer was easy.</p>
+<p>The catch was paperwork. Dave said he wasn&rsquo;t taking workers&rsquo; comp cases at the time, and the doctor knew it. As Dave remembers the call, the doctor said, &ldquo;Dave I know you&rsquo;re not on this insurance but can you take it?&rdquo; Dave&rsquo;s reply was that he would, &ldquo;without question,&rdquo; because of how he had been treated in Perth. (These days we do treat work injuries, and our <a href="../treatments/workers-comp.html">work injury rehab page</a> explains how that side runs.)</p>
+<p>He also had a warning for listeners. If an Australian friend says he&rsquo;s coming to visit, Dave said, expect him to stay about three months. That happened too.</p>
+<h3>Before he was Captain Kerry</h3>
+<p>Most people know Kerry as the firm captain in charge of the boat on Below Deck. Dave wanted it on the record that he knew him before any of that, and that Kerry was at his 40th birthday. Dave is 60 plus now, he pointed out, so do the math. The reason he gave for the friendship was the drive from Miami that morning. Kerry made a commitment and kept his word.</p>
+<p>Kerry&rsquo;s version was warmer still. &ldquo;Any time I needed some help, you&rsquo;ve always been there, and I genuinely see you as a very close friend of mine,&rdquo; he told Dave. Dave admitted he didn&rsquo;t know how to answer that, except &ldquo;right back at you.&rdquo;</p>
+<h2>The rotator cuff program that went to the Northeast</h2>
+<p>Mike steered the conversation back to the shoulder about twenty minutes in, and Kerry explained why it mattered so much at the time. He was working on deck. &ldquo;It was a rotator cuff. At the time I was working on deck. Full motion is very, very important,&rdquo; he said.</p>
+<p>Dave put together what Kerry called a system. They had a few months together in the clinic to get the shoulder to a certain point, and then the job sent Kerry up to the Northeast before rehab was finished. So the program went with him. Kerry described it on air: &ldquo;you gave me what I needed to do when I was away, with bands and so forth. And I&rsquo;ve got full motion.&rdquo;</p>
+<p>That shoulder has had two surgeries since. Kerry said both times, Dave and his team got him back together. If you&rsquo;re dealing with a rotator cuff of your own, our <a href="../treatments/shoulder-pain.html">shoulder pain treatment page</a> walks through what that rehab involves, and our <a href="../services/physical-therapy.html">physical therapy program</a> page covers how a plan of care gets built.</p>
+<h3>Two to three visits a week, and the hours in between</h3>
+<p>Mike made the point that follow through is the part people are least likely to do. Dave agreed, and said he can tell every single time. He sees people two to three times a week for an hour to an hour and a half. The other hours belong to the patient, and the exercises have to be done correctly and precisely.</p>
+<p>He was just as firm about the other direction. Don&rsquo;t overdo it. Dave described the patient who figures that if ten is good, fifty must be better, and he said some exercises he sets for every other day rather than daily. Consistency was his word. And consistency was the thing he said he could see in Kerry, in rehab and as a dad.</p>
+<p>Kerry had a line of his own about it, looking back: &ldquo;I remember just following everything you said to the tee.&rdquo; We wrote more about what that home program looks like once therapy ends in <a href="gym-program-after-physical-therapy-north-palm-beach.html">your gym program after physical therapy</a>, and the kind of short sets Dave hands out are on our <a href="../exercises.html">home exercises page</a>.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Captain Kerry's shoulder history as told on the episode">
+<table>
+<caption>Captain Kerry&rsquo;s shoulder, as he and Dave Kashuba described it on Pain 2 Power Episode 13. Details are as stated on air.</caption>
+<thead><tr><th scope="col">When</th><th scope="col">What was said on the show</th></tr></thead>
+<tbody>
+<tr><th scope="row">About twenty years ago</th><td>A doctor calls Dave about an Australian patient with a shoulder injury, outside the insurance Dave was taking then</td></tr>
+<tr><th scope="row">The first injury</th><td>A rotator cuff, while Kerry was working on deck, where full motion mattered</td></tr>
+<tr><th scope="row">The first few months</th><td>Clinic visits to get the shoulder to a certain point before work took him away</td></tr>
+<tr><th scope="row">Up in the Northeast</th><td>A home program with bands that Dave sent with him</td></tr>
+<tr><th scope="row">Since then</th><td>Two surgeries on the same shoulder; Kerry says Dave&rsquo;s team got him back both times</td></tr>
+<tr><th scope="row">Today</th><td>Kerry says he has full motion, and he trains on the program people call the Captain Kerry workout</td></tr>
+</tbody>
+</table>
+</div>
+<h2>How Dave&rsquo;s workout ended up with Kerry&rsquo;s name</h2>
+<p>This part of the hour turned into a running joke. Dave said he has put time and effort his whole life into physical training and rehab, and he built a plan using blood flow restriction work so people could train in 20 to 25 minutes, three times a week. People started noticing.</p>
+<p>Shannon Cake did a television story on Dave, then brought Kerry on, and the program came out of it as the Captain Kerry workout. In Dave&rsquo;s telling, twenty years of programming went away in ten seconds. Mike, who has spent a career in broadcasting, said that&rsquo;s branding for you. Shannon tells her side of the same story in <a href="pain-2-power-ep19-cake.html">our Episode 19 recap</a>.</p>
+<h3>&ldquo;What size is that shirt?&rdquo;</h3>
+<p>Dave also told the story from before Kerry started working out with him. At a friend&rsquo;s event, Kerry looked him over and asked what size shirt he was wearing, since it might look a little tight on him. Dave&rsquo;s answer: &ldquo;Kerry, it&rsquo;s the same size as you&rsquo;re wearing, just fits me different.&rdquo; These days, Dave said, Kerry is kicking his butt and taking it seriously. Kerry&rsquo;s reply was short. &ldquo;You still got me mate.&rdquo;</p>
+<p>When Kerry rounded off the shoulder conversation, he said following Dave&rsquo;s protocols in the clinic and out of it was what got him back to health. If you want to keep training after your own rehab, our <a href="../services/wellness.html">wellness program</a> is where patients carry on once therapy ends.</p>
+<h2>Mental Health Mondays, and why he talks about it on camera</h2>
+<p>Most of the episode wasn&rsquo;t about shoulders at all. Dave asked Kerry to explain his own podcast and what he is trying to do with the platform television gave him.</p>
+<p>Kerry said that because he isn&rsquo;t from America, he often has no idea who his famous guests are. Musicians, athletes, people from TV. He gets an honest conversation without any preconceived idea of the person, and only does the research afterward. The goal, he said, is &ldquo;just to humanise these somewhat TV stars or sporting stars, where people think that their life is great because it has to be.&rdquo; His point was that it takes a certain kind of person to get there, and they have the same struggles as everybody else, and maybe more.</p>
+<p>On Mondays he does what he calls Mental Health Mondays, talking about things he&rsquo;s working through himself. The idea is to show people that there is no destination. He said he hasn&rsquo;t worked it all out yet, and that&rsquo;s part of what he shares.</p>
+<h3>&ldquo;It&rsquo;s okay to be in that place&rdquo;</h3>
+<p>Mike offered a line a very bright woman once gave him: you can&rsquo;t control what happens to you, but you can control how you respond. (She was bright enough, he added, to be his first ex wife.) Kerry took it a step further. Something really bad might happen to you, he said, &ldquo;and there is a moment where you are a victim, and it&rsquo;s okay to be in that place. That&rsquo;s part of healing, really. But what is staying there to do for you?&rdquo; A lot of people stay, in his view, because they don&rsquo;t know how to get out.</p>
+<p>Mike asked whether the successful people Kerry has interviewed share anything. Kerry&rsquo;s answer was adversity. Not always trauma, he said, but things they pushed against that made them stronger. Mike called it trial by fire.</p>
+<h3>Why Dave brought up men who don&rsquo;t reach out</h3>
+<p>Dave cited some depression and suicide figures on air, and his point underneath them was about men. &ldquo;Men don&rsquo;t like to talk about it,&rdquo; he said, and that&rsquo;s what he values in Kerry: &ldquo;Someone like Kerry here, who&rsquo;s going out of his way to say hey guys, it&rsquo;s okay to talk about this.&rdquo; Dave added that people contact Kerry to thank him for it.</p>
+<p>Mike thought the reason it lands is simple. &ldquo;People can tell that it&rsquo;s real,&rdquo; he said. Kerry described it in his own terms. The show put a searchlight on him, and he wants to point it everywhere else. If one person who is where he was can see that he found a way out, he said, &ldquo;if I can offer that cheat code to somebody by using this platform,&rdquo; anything less would be a disservice.</p>
+<p>If you or someone close to you is struggling, please talk to your doctor. That conversation is outside what a therapy clinic does, and it matters more than any shoulder.</p>
+<h2>A birthday, and a stage full of Amazon boxes</h2>
+<p>Mike asked what made Kerry want to give back in the first place. Kerry said he&rsquo;d be brutally honest. Years ago, running a yacht and at the top of his game, he had a flash of it: &ldquo;I&rsquo;m just pumping diesel fumes everywhere. I&rsquo;m at service to one of the wealthiest people in the country. What am I doing for anybody else?&rdquo; Then his phone beeped, he said, and he forgot. That was as far as it went.</p>
+<h3>The watch party that changed his mind</h3>
+<p>What really started it came after the show began airing. During his first season he would host watch parties at local restaurants, free to come, where people could say g&rsquo;day and watch the episode with him. Adrienne Gang, from that first season, pointed out that an episode was airing on his birthday and asked if he wanted to do something for charity.</p>
+<p>His first reaction: &ldquo;why would anyone give a damn about me?&rdquo; She asked what was important to him. He said single parents, since it was Christmas. So the plan became bring a present for a kid, celebrate Captain Kerry&rsquo;s birthday, and watch the episode. His fear going in was that only one present would show up and he would have failed.</p>
+<p>He rocked up, he said, and &ldquo;the stage was full of Amazon boxes.&rdquo; People had sent presents in, all from a couple of posts. Asked how it felt, Kerry said, &ldquo;Full of joy, full of warmth. There&rsquo;s nothing like it.&rdquo; His takeaway was to imagine what he could do if he really thought about it.</p>
+<h2>Huskies, veterans and an hour in the car</h2>
+<p>Most of the charities Kerry works with, he said, are ones that aren&rsquo;t well known, and that&rsquo;s deliberate. He wants to bring attention to the ones that need it. He fosters dogs for a husky rescue and uses his following to let people know when a dog needs help or surgery.</p>
+<p>He traced that back to his first rescue dog. He was going through a divorce at the time, and he wanted something constant for his kids. &ldquo;Kind of an anchor,&rdquo; he called it.</p>
+<p>Another group he named works with veterans and first responders up around Port St. Lucie and Fort Pierce, taking them out fishing and diving. He met some of its people at the Miami Boat Show, where they ran into him and Captain Glenn and asked how he could help. His answer was to show up at the next event. &ldquo;It&rsquo;s very little effort for me to get in a car and drive an hour,&rdquo; he said, &ldquo;just to help others out.&rdquo; In his view, him rocking up, having a beer and saying g&rsquo;day can do a lot for people.</p>
+<h2>Remember Me, and early onset dementia</h2>
+<p>Kerry&rsquo;s help reaches into Dave&rsquo;s own work outside the clinic. Dave runs a 501(c)(3) nonprofit for early onset dementia called Remember Me. He said there&rsquo;s a story behind it, and he would save that for another show.</p>
+<p>Here is how he described the work: &ldquo;Early onset dementia, we get people off the streets. You know, they&rsquo;re there, they need help, they need housing, they need nursing care. So we provide that for them. And Kerry offered his time and his money, just to help us out.&rdquo;</p>
+<p>Dave also noted that Kerry is involved with dog rescues. Mike&rsquo;s sign off tied it together: he thanked Dave for what he does for people physically, mentally and emotionally, which he called &ldquo;so deeply intertwined.&rdquo; More on Kerry, with his clips from this episode, is on <a href="../guests/titheradge.html">Captain Kerry&rsquo;s guest page</a>.</p>
+<h2>Jeopardy at 8:01, and the joke of the week</h2>
+<p>The last few minutes were family. Dave said he is lucky to have his son Nick helping him in the business. Dave gave a shout out to his oldest son Brandon, an engineer at United Airlines, who flew them up to Chicago and then over to Buffalo to see Dave&rsquo;s mom. Brandon was thrilled to get them first class. He told his dad he&rsquo;d spent $17 for the seat.</p>
+<p>Then the Jeopardy story. Dave calls his mom every day at 7:30. One day she didn&rsquo;t pick up, so at 7:46 he called again because he was worried. She answered, told him this wasn&rsquo;t his time, and hung up. She called back at 8:01, once championship Jeopardy was over.</p>
+<p>And the joke: a Baptist minister, a priest and a rabbit sit down at a bar. The bartender comes over, looks at the rabbit, and says, &ldquo;hey, you&rsquo;re in the wrong joke.&rdquo;</p>
+<p>Mike, for his part, admitted Dave keeps telling him to come by the clinic, which sits right across the street from the Legends Radio studio on US-1. He says he&rsquo;s going to make it happen one of these days.</p>
+<p>You can hear the whole hour on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch it in our <a href="../videos.html">video library</a>, and catch the show live Saturdays at 8:30 AM on 100.3 Legends Radio. If a rotator cuff or a shoulder that never quite got back to full motion is what brought you here, call us at 561-624-4263 or <a href="../contact.html">request an evaluation</a>. Questions about getting started are answered on our <a href="../faq.html#getting-started">FAQ page</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep12-leighton": {
+        "title": "Your Hip Replacement Starts at the Dentist: Dr. Michael Leighton on Pain 2 Power",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "Orthopedic surgeon Dr. Michael Leighton on anterior versus posterior hip replacement, the infection checks that start at your dentist, and what Medicare pays him.",
+        "body": """
+<p>Most people getting ready for a hip replacement think about the surgeon, the hospital and the weeks of rehab afterward. Very few think about their dentist. Orthopedic surgeon Dr. Michael Leighton, MD, thinks you should, and on Episode 12 of Pain 2 Power he explained why in about ninety seconds.</p>
+<p>That was one stop in a half hour that covered the anterior and posterior approaches, why a belt line can change which operation you are a good candidate for, how hip surgery went from a week in traction to therapy the same day, and the dollar figure Medicare pays a surgeon for the whole thing. Mike guessed high. Very high.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+
+<h2>Why Dave brought in a surgeon he has worked with since 1994</h2>
+<p>Dave introduced his guest as a friend he has been working with since 1994 and one of the best in the county. Then he went straight to his standing advice about picking an orthopedic doctor. Do the research, and choose on quality and nothing else. &ldquo;Don&rsquo;t listen to the lady at the pool,&rdquo; he said, a line Mike picked up later in the hour when he pointed out you&rsquo;re not going to get Dr. Leighton&rsquo;s years of training from the water cooler either.</p>
+<p>Dr. Leighton is an orthopedic surgeon with Palm Beach Orthopedic Institute in Palm Beach Gardens. He is board certified by the American Board of Orthopaedic Surgery with a subspecialty certification in Orthopaedic Sports Medicine, and he performs both anterior and posterior hip replacement as well as robotic-arm assisted (Mako) knee replacement. You can read more about his background on <a href="../guests/leighton.html">his Pain 2 Power guest page</a>.</p>
+<h3>A cup of coffee on the Duke baseball team</h3>
+<p>Dave had heard from another surgeon that Dr. Leighton played Division I baseball at Duke. Dr. Leighton was quick to play it down. &ldquo;I was more like a cup of coffee on the baseball team,&rdquo; he said, and he figured out early that his future was in finishing his pre-medical studies, not in baseball.</p>
+<p>What he did keep from those years was the athlete&rsquo;s view of the body. He counted the training out loud for Mike: four years of college, four years of medical school, five years of orthopedic residency, then a further year of sports medicine fellowship, where he cared for professional teams, college teams and high level athletes. Today his patients are golfing three or four times a week and playing pickleball several times a week, and he described his job as keeping that going.</p>
+<h3>The friend who played Davis Cup</h3>
+<p>The surgeon who had spilled the baseball story was Dr. Chaim Arlosoroff, M.D., the orthopedic trauma surgeon who came on a couple of weeks later to talk about e-bike injuries. Dr. Leighton gave the athletic credit right back. Chaim came from Israel, he said, was a Davis Cup player and played first singles at Duke. &ldquo;He was the real deal.&rdquo; Dr. Arlosoroff has <a href="../guests/arlosoroff.html">his own guest page</a> if you want that half of the story.</p>
+
+<h2>Infection risk is low, and most of what keeps it low happens before surgery</h2>
+<p>Dave opened the clinical part of the show by bragging on his guest&rsquo;s infection record. Dr. Leighton winced. His grandmother, he said, had a word for saying something like that out loud, and it meant bad luck. He would not claim he had never had an infection in his orthopedic life.</p>
+<p>What he would say is reassuring. &ldquo;The good news is that the risk of infection in a total hip or a total knee replacement is actually quite low,&rdquo; he said. He put it at less than 1 or 2% over the course of your life with the implant in place, and said the surgical team does a lot around the operation to keep it there. The bigger lever, in his telling, sits with the patient in the months before.</p>
+<p>Here is the pre-surgery list he walked through, in the order he raised it:</p>
+<ul>
+<li>No active infection anywhere: no pneumonia, no open diabetic foot ulcers, no unhealed wounds such as one left by a skin cancer</li>
+<li>A visit to your dentist or periodontist to rule out an active or low grade infection in your mouth</li>
+<li>Off cigarettes, and off nicotine vapes too</li>
+<li>For diabetics, blood sugar under control, measured by hemoglobin A1C</li>
+<li>For heavier patients, some weight off before an elective operation</li>
+</ul>
+<p>His first piece of advice on that list was plain honesty. If you have something a little weird that hasn&rsquo;t been healing, tell your surgeon. That is something he does not want to go into a hip replacement without addressing.</p>
+<h3>Why your teeth matter to a new hip</h3>
+<p>This was the part that stopped Mike. We all get bacteria in the bloodstream from time to time, Dr. Leighton explained. &ldquo;You brush your teeth, and you will get bacteria temporarily going through your bloodstream.&rdquo; Those same bacteria can settle in a newly implanted joint. So before a joint replacement, he wants patients evaluated by their dentist or periodontist and their dental hygiene up to speed.</p>
+<p>Mike summed up how most of us would react: &ldquo;It&rsquo;s not the most intuitive thing in the world to think, &lsquo;I&rsquo;ve gotta get a hip replacement. I better make sure my mouth is free from infection.&rsquo;&rdquo;</p>
+<h3>Cigarettes, vaping and the A1C number</h3>
+<p>Smoking came next. Dr. Leighton said smokers have an increased risk of infection because smoking narrows the small blood vessels that carry blood to a fresh surgical wound. Dave asked the obvious follow up about vaping. The answer turned on nicotine: a nicotine-free vape isn&rsquo;t really the issue, he said, because it is the narrowing of the vessels you are trying to avoid. Dave, who has been doing this a long time, admitted he had never thought of that. &ldquo;I learn something new every day,&rdquo; he said.</p>
+<p>For diabetics, Dr. Leighton looks at hemoglobin A1C, a score that shows how well blood sugar has been controlled over the past few months. His line was clear. If the A1C is greater than 7.5, he said, elective surgery should not be done on that patient because of the increased risk of infection.</p>
+
+<h2>Anterior or posterior: what Dr. Leighton told us about the two approaches</h2>
+<p>A total hip can be done from the front of the hip (anterior) or the back (posterior). Dr. Leighton does both and said he is &ldquo;more partial to a posterior approach.&rdquo; He was careful about what the comparisons show when they line up like with like. A small group of anterior patients get from a chair to standing faster or better in the first two to four weeks. After six weeks, the two are the same, or are supposed to be.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Anterior and posterior hip replacement as described on the episode">
+<table>
+<caption>Anterior and posterior total hip replacement as Dr. Michael Leighton, MD, described them on Pain 2 Power Episode 12. Paraphrased from the episode transcript; your own surgeon&rsquo;s advice comes first.</caption>
+<thead><tr><th scope="col">Point he raised</th><th scope="col">Anterior approach</th><th scope="col">Posterior approach</th></tr></thead>
+<tbody>
+<tr><th scope="row">First two to four weeks</th><td>A small group of patients do sit to stand faster or better</td><td>No early edge on sit to stand</td></tr>
+<tr><th scope="row">After six weeks</th><td>About the same</td><td>About the same</td></tr>
+<tr><th scope="row">Fracture risk</th><td>Higher</td><td>Lower</td></tr>
+<tr><th scope="row">Dislocation risk</th><td>Slightly lower</td><td>Slightly higher, though still very low</td></tr>
+<tr><th scope="row">Wound complications in a heavier patient</th><td>Much higher</td><td>Lower</td></tr>
+<tr><th scope="row">Who he tends to steer toward it</th><td>Thinner and younger patients can go either way</td><td>Larger patients, and patients 75 and older</td></tr>
+</tbody>
+</table>
+</div>
+<h3>The patient who had one of each</h3>
+<p>Dr. Leighton has operated on plenty of people who had one hip done each way, and most tell him the two were about the same. One patient had both done by Dr. Leighton and liked the posterior side much better, because the recovery felt faster to him. He had chosen anterior first because his brother in another state had an anterior hip that turned out poorly, and he figured he might just have been lucky the first time around. Dave had a name for that: &ldquo;The water cooler effect.&rdquo;</p>
+<h3>Why the belly matters</h3>
+<p>The most practical stretch of the episode was about body size. An anterior incision sits on the front of the thigh. Picture a heavier patient sitting down with the belly resting on the front of the thigh, Dr. Leighton said. That covers the incision and keeps it moist, an environment &ldquo;not really ripe for healing,&rdquo; and wound complications run much higher. Mike added that the same patient may carry a higher diabetes risk, and Dr. Leighton agreed that stacks the risks.</p>
+<p>He did not rule anyone out. A heavier patient who really wants the anterior approach can have it, he said, but he would ask them to improve their odds first. &ldquo;I need you to lose 15 or 20 pounds,&rdquo; he said, and pointed out that &ldquo;total hip replacements, unless it&rsquo;s for a fracture, are not emergency operations.&rdquo; He mentioned the GLP-1 medications as one tool that works, with a side benefit: less weight on a sore hip, and on a sore knee, feels slightly better while you wait. Paul Joyce of New Life HRT covered what those drugs can cost you in muscle on <a href="pain-2-power-ep11-joyce.html">our Episode 11 recap</a>, which is worth reading alongside this.</p>
+
+<h2>Six weeks for bone to grow into the implant</h2>
+<p>When people ask how soon they can get back to the courts, Dr. Leighton&rsquo;s general answer is about six weeks before something more rigorous like pickleball, tennis or golf. Chipping and putting can start early, whichever approach was used.</p>
+<p>The reason is the hardware. Most modern hip components go in without cement, he explained, using what surgeons call ingrowth. The implant has a meshwork or roughened surface that bone actually grows onto and adheres to, which creates a solid fit. That takes about six weeks, &ldquo;and at that point is when I kind of let people and let a little rope out and let them do a little bit more.&rdquo; Cement is still used in some older patients, he said, but it is the exception now.</p>
+<p>Mike&rsquo;s reaction tied it to the people who listen to this show. In years past, he said, rigorous activity after a hip replacement would have seemed finished for good. Done properly, with the steps followed, &ldquo;you&rsquo;re giving people their lives back here, doctor.&rdquo; Dr. Leighton agreed, and said the best patient who can walk into his office is the one whose bad hip is the only thing keeping them from being happy and active.</p>
+
+<h2>From a week in traction to therapy the day of surgery</h2>
+<p>Dave asked whether the old hip precautions still apply: no crossing the legs, no bending past 90 degrees, careful with rotation. He also mentioned what he teaches early on in the clinic, taking little steps to turn instead of pivoting on the new hip.</p>
+<p>Dr. Leighton went back to John Charnley, whom he called the father of joint replacement surgery about 50 years ago. Charnley&rsquo;s approach removed a piece of bone called the greater trochanter and reattached it, which required strict precautions. No flexing the hip past 90 degrees, no bending to touch your toes, no internally rotating the hip, which he likened to sitting in a chair and reaching behind you for something.</p>
+<h3>What changed</h3>
+<p>When he was training, he said, patients stayed in the hospital for a week in balanced traction with the leg up, unable to move. They did fine in the end, though many got blood clots, because the risk of clots was not understood in those days. Since then surgeons have learned it is okay to stand, put weight on the operated leg and move the hip.</p>
+<p>So he does not routinely put people in those restrictions now. Early on he still asks patients to avoid bringing the knee to the chest and the other most provocative positions. The goal is to get motion back gradually over the first few weeks while the wound heals. When Dave asked if that means patients can reach down for their shoes and socks, he said yes.</p>
+<p>He liked where the field has landed. &ldquo;What&rsquo;s going on now in 2026 is an appropriate level of fear,&rdquo; he said. The surgeon names the moves to avoid, and he said the physical therapists tend to add a few more cautionary tales of their own, which he is fine with because patients need to feel comfortable doing the activities. We have written more about those early weeks in <a href="hip-impingement-back-pain-north-palm-beach.html">our hip impingement article</a> and on our <a href="../treatments/post-surgical.html">post-surgical rehabilitation page</a>. Either way, your surgeon&rsquo;s protocol is the one that counts.</p>
+<h3>Why he keeps most patients overnight</h3>
+<p>The operation can be done as an outpatient, Dr. Leighton said, but he generally keeps people in the hospital one night. His reasoning was about the first night home. If you go home the same day, you are looking at your partner and saying, &ldquo;You&rsquo;re gonna be my nurse overnight.&rdquo; If chest tightness or a bad headache shows up at 2 in the morning, neither of you is comfortable. In the hospital there is nursing staff, and patients get physical therapy the day of surgery and again the next day before going home. Dave noted that he sees more and more patients arriving at the clinic for outpatient therapy right after surgery.</p>
+
+<h2>Prehab, Medicare visits, and where we come in</h2>
+<p>Dave asked about prehab, the therapy some surgeons order before an operation to tune a patient up. Dr. Leighton&rsquo;s answer was that he does not prescribe it for everyone. He saves it for people who have been away from activity and are deconditioned, who need some aerobic work and whatever motion they can get back in the low back, the other hip and the knees. Two of our surgeon guests compare notes on that question in <a href="partial-vs-total-knee-replacement.html">our partial versus total knee replacement article</a>.</p>
+<p>His reason was practical. A Medicare patient with hip arthritis, he pointed out to Dave, only gets so many tickets, and prehab visits count against the same yearly therapy benefit as the rehab after surgery. Dave explained that First Rehabilitation is a Medicare-certified Comprehensive Outpatient Rehabilitation Facility (CORF), and said that gives his patients more room to continue care when they hurt themselves or re-hurt themselves. How the Medicare therapy thresholds work in 2026 is laid out in plain terms in <a href="../insurance.html#medicare-guide">our Medicare guide</a>, and the front desk checks your coverage before your first visit.</p>
+<h3>Thirty years of shared patients</h3>
+<p>Mike asked whether any of this comes from the mailman. Dr. Leighton said no, and then talked about Dave. Dave has taken care of his patients for 30 years, he said, and it is not a case of putting someone on a bicycle in the corner and leaving them to pedal. &ldquo;He really does spend time with his patients, and does a great job.&rdquo;</p>
+<p>That is how our <a href="../services/physical-therapy.html">physical therapy program</a> is meant to run for hip patients. Before surgery, the work is mobility, glute strength and walking mechanics, as described on our <a href="../treatments/hip-pain.html">hip pain page</a>. After it, we follow the surgeon&rsquo;s protocol, starting with motion. If you want a feel for the movements, Dave walks through several on our <a href="../exercises.html#hip">hip exercise page</a>, and our <a href="../faq.html#physical-therapy">physical therapy FAQ</a> covers referrals and what a visit looks like.</p>
+
+<h2>The $1,162 question</h2>
+<p>The show was wrapping up when Dr. Leighton asked for one more plug. He wanted listeners to know how a surgeon is paid for what he called the single best operation in orthopedics.</p>
+<p>He set up the scenario: a healthy 66 year old Medicare patient, the operation, the hospital visits, and 90 days of care after surgery, all covered by one payment. Then he asked Mike to guess. Mike, who said he can&rsquo;t even guess ages or weights, went with 136,214. The real answer: &ldquo;$1,162, okay?&rdquo;</p>
+<p>He added that this was before what he described as a recent July announcement of a further 3 to 5% cut. Rent doesn&rsquo;t go down, employees don&rsquo;t ask for less money, and the cost of running an office keeps climbing, he said. His view was that Medicare is great at covering what patients need, and does not pay surgeons a fair number for a total hip. Mike called it a powerful note and a discussion for down the line, and Dave said he hopes to have Dr. Leighton back.</p>
+<p>Before that, Dave had slipped in the joke of the week, about a boy who comes home from biology class with a question about evolution. The punch line belongs to his mom, and it&rsquo;s best heard in Dave&rsquo;s delivery.</p>
+
+<h2>Hear the whole conversation</h2>
+<p>Dr. Leighton practices in Palm Beach Gardens, and on air Mike gave his office line as 561-727-1318. If you live near his office, our page for <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens patients</a> explains how therapy with us works from there.</p>
+<p>Listen to the full episode on <a href="../podcast.html">the Pain 2 Power podcast page</a>, watch it in our <a href="../videos.html">video library</a>, and catch the show live Saturdays at 8:30 AM on 100.3 Legends Radio. If hip pain is starting to decide how often you play, or a hip replacement is on your calendar and you want to go in prepared, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
+    "pain-2-power-ep9-sabesan": {
+        "title": "Why Rotator Cuff Repairs Struggle to Heal: Dr. Vani Sabesan on Pain 2 Power",
+        "date": "October 2026",
+        "iso": "2026-10-25",
+        "tag": "Pain 2 Power",
+        "teaser": "Shoulder surgeon Dr. Vani Sabesan on why rotator cuff repairs struggle to heal after 60, knotless sutures, robots as marketing, and a crushed elbow saved.",
+        "body": """
+<p>Most surgeons, asked about rotator cuff repair on the radio, would talk about how well it goes. Dr. Vani Sabesan, MD, an orthopaedic shoulder surgeon with the Orthopedic Center of Palm Beach County, led with the hard part instead. &ldquo;We&rsquo;re really good at fixing them,&rdquo; she told Dave and Mike on Episode 9 of Pain 2 Power. &ldquo;We&rsquo;re not great at getting them to heal.&rdquo;</p>
+<p>That one sentence explains a lot about shoulder surgery, and about why the months after it matter so much. The rest of the half hour covered how she decides when to change a technique, why she thinks a lot of new technology is marketing, a crushed elbow that came home from Nashville, and why, in her words, nobody is at the end of the line.</p>
+<p><em>By The First Rehabilitation Team &middot; Reviewed by Dr. Dave Kashuba, Ph.D.</em></p>
+
+<h2>Seventeen million rotator cuffs, and one in three over 60</h2>
+<p>Dave brought up patch augmentations and biologics, a part of shoulder surgery he said not every surgeon is into. Dr. Sabesan started with the size of the problem. By her figure, about 17 million people suffer from a rotator cuff problem. Then she made it local. Sit in any retirement community, she said, and among the people over 60 around you, &ldquo;one out of three people are going to have a rotator cuff pathology.&rdquo;</p>
+<p>So tears are common, and repairing them is something surgeons do well. Getting the repaired tendon to knit back to the bone is the part she called the weak spot. If you&rsquo;ve had a cuff repair, or someone has told you that you might need one, that is the window your surgeon and your therapist are both working around.</p>
+<h3>Why age changes the healing math</h3>
+<p>Her explanation was plain biology. &ldquo;I tell people in Palm Beach, 90 is the new 70,&rdquo; she said. People here stay active far longer than they used to. The tissue doesn&rsquo;t get the memo. &ldquo;Our blood cells, our biology isn&rsquo;t as good as when we were 20.&rdquo;</p>
+<p>That is the gap she is trying to close. Someone in their seventies who still plays several mornings a week wants a shoulder that keeps up, but the tendon being repaired is the age it is. Wanting it badly enough doesn&rsquo;t change the tissue.</p>
+<h3>What a scaffold is meant to do</h3>
+<p>Her answer to that gap is a scaffold placed with the repair. She described the goal in her own terms: if you can create something that gives the tendon &ldquo;a better chance to be 20 again, or 40, or maybe even just 60 again, you&rsquo;re going to get better healing of that rotator cuff.&rdquo;</p>
+<p>Mike connected it to something the show comes back to often, that the body is a self healing mechanism if you let it be. The surgeon replaces or reinforces what needs it, and the body handles the rest. Whether a scaffold or patch is right for any particular shoulder is a decision for the surgeon doing the repair. What she made clear is why the idea exists at all.</p>
+
+<h2>Legacy, legends and evidence: how a surgeon decides to change</h2>
+<p>Dave opened the interview with a question he had been waiting to ask. The week before, Dr. Ryan Simovitch had talked about what to do and avoid after a reverse total shoulder. Dave pointed out that Dr. Sabesan has her reverse patients reaching behind them to put a hand in a back pocket within a couple of weeks. What does she do differently?</p>
+<p>Her answer was a framework more than a technique. &ldquo;Sometimes we build techniques based on legacy, sometimes we do legends, and sometimes we do evidence,&rdquo; she said. She trained under some of the legends of shoulder replacement, and she credited one mentor in particular with helping develop the early systems. She also said she lives by his words about evidence.</p>
+<p>That is how her practice ended up testing six weeks in a sling against moving within days, a study we covered in detail in <a href="reverse-shoulder-replacement-explained.html">Total vs. Reverse Shoulder Replacement: How Surgeons Decide</a>. Her summary of the lesson was short: when the evidence shows something, &ldquo;you have to change what you do.&rdquo;</p>
+<h3>Knotless sutures, fourteen years ago</h3>
+<p>Dave asked about knotless rotator cuff repair, which he said makes a huge difference in the healing process. She said she started using knotless sutures about 14 years ago, at the suggestion of her residents and the device reps in her operating room. &ldquo;And at the time, it was a heresy to do it,&rdquo; she said. Mike&rsquo;s reaction was that plenty of ideas in history were called heresy before they were accepted.</p>
+<p>You don&rsquo;t need to know what a knotless anchor looks like to get the point. Repair techniques keep changing, and some of the changes started as a suggestion from someone junior in the room.</p>
+<h3>Taking advice from the youngest people in the room</h3>
+<p>She was candid about where some of her best ideas come from. &ldquo;I have young guys in the OR, reps, students, residents, and they&rsquo;ll sort of say, hey, why don&rsquo;t you try doing it this way? It might be better.&rdquo; She takes it all with a grain of salt, she added, and looks for evidence behind it before anything changes. Then she said something about her own approach to patients: &ldquo;I mean, you listen to your patients and you hear what their needs are and you try to advance what you do, how you do it with that.&rdquo;</p>
+
+<h2>First of many to come</h2>
+<p>Mike made sure the audience knew who was sitting at the table. In the Florida Orthopaedic Society&rsquo;s history (Mike put it at 75 years; she said 73 or 74 while she was still checking the number), the society had never chosen a woman as president until her. Mike called it a huge feather in her cap.</p>
+<p>She passed the credit to her students. &ldquo;Well, you know, I think it&rsquo;s not about my cap,&rdquo; she said. Her research fellows and medical students printed hats that read &ldquo;first of many to come,&rdquo; and that, she said, is the legacy she wants to leave.</p>
+<p>Teaching runs through everything she said. She told the hosts she has trained probably over 100 medical students, and her mentees started a site called YourMedMom with advice for women and anyone who wants to train in orthopaedics. The name came from the way she teaches. She tells it like it is, sometimes things people don&rsquo;t want to hear, the way a mom would, and always in their interest. The reps, she said, call her a spitfire. She also called the operating room her happy place, and said two students had told her that same day it was the most fun they&rsquo;d had.</p>
+<p>Dave had a personal reason to agree. His son Nick, sitting just off camera in the studio, worked as an orthopaedic trauma rep and did a lot of work with Dr. Sabesan. Dave said what stood out was that she was friendly with the reps, which he said is not always the case.</p>
+
+<h2>The hour in numbers</h2>
+<p>Dr. Sabesan used a lot of specific figures, and every one of them is hers, from her own patients and practice. Here they are in one place, with what she attached to each.</p>
+<div class="data-table" tabindex="0" role="region" aria-label="Figures Dr. Vani Sabesan gave on the episode">
+<table>
+<caption>Figures Dr. Vani Sabesan, MD gave on Pain 2 Power Episode 9, as stated on air. They describe her practice and her experience, not First Rehabilitation&rsquo;s.</caption>
+<thead><tr><th scope="col">Figure</th><th scope="col">What she said it refers to</th></tr></thead>
+<tbody>
+<tr><th scope="row">About 17 million</th><td>People who suffer from a rotator cuff problem, by her estimate</td></tr>
+<tr><th scope="row">One in three</th><td>People over 60 who will have a rotator cuff pathology</td></tr>
+<tr><th scope="row">98 percent</th><td>Her shoulder replacement patients who said in a survey that their therapist had a huge impact on their outcome</td></tr>
+<tr><th scope="row">95 percent</th><td>The same patients who said their therapist changed what they did and how they did it</td></tr>
+<tr><th scope="row">14 years</th><td>Roughly how long she has used knotless sutures for rotator cuff repair</td></tr>
+<tr><th scope="row">Six offices</th><td>Her practice&rsquo;s locations around Palm Beach County, by her count on the show</td></tr>
+<tr><th scope="row">28 marathons</th><td>How many she has run herself; she said she won one</td></tr>
+<tr><th scope="row">90 years old</th><td>A patient who came in two days before the taping and still exercises six days a week</td></tr>
+</tbody>
+</table>
+</div>
+<p>The therapy survey is the one we like best, for obvious reasons. Her comparison was a hairdresser: someone who talks to you and listens. It&rsquo;s also why every visit here is one-on-one.</p>
+
+<h2>Tech that solves a problem, and tech that only looks good</h2>
+<p>Dr. Sabesan said she loves new technology and is part of a design team building implants 3D printed to a patient&rsquo;s own anatomy. She is also skeptical of most of it. Her comparison was the iPhone. The phone itself was an incredible device, she said, but &ldquo;do I think the 16 or the 17 version of it maybe is solving a huge unmet problem? Maybe not.&rdquo; Her field is very implant driven, she said, and it can end up making technology for its own sake.</p>
+<p>Her test for anything new is whether it gives the patient less pain, a faster recovery, bone that grows better or a cuff that heals. Robots in shoulder and joint surgery didn&rsquo;t pass it. She said there hasn&rsquo;t been much science showing they are the next panacea, and called them a great marketing tool.</p>
+<h3>What the robot doesn&rsquo;t know</h3>
+<p>Dave added the therapy side. He said he has seen worse outcomes from some robotic procedures, especially in the knee and the hip, than from a surgeon who knows the patient&rsquo;s anatomy. The robot &ldquo;knows exactly what to do, but it doesn&rsquo;t always know what not to do.&rdquo; Mike called that the modern dilemma in medicine. Dr. Sabesan compared it to AI chat tools, which can get you so far but aren&rsquo;t always accurate. &ldquo;The technology is as good as the user,&rdquo; she said.</p>
+<p>If you&rsquo;re choosing a surgeon, that is a fair thing to keep in mind. The tool on the brochure matters less than the person holding it and the plan for afterward.</p>
+
+<h2>Florida plays all year, and the pickleball courts know it</h2>
+<p>Mike pointed out how unusual this part of Florida is, with a population that is active and aging at the same time. Dr. Sabesan agreed, and added the other end of it: lots of young families and young athletes. &ldquo;But the problem is, in Florida, we have the indulgence of being able to play all year round.&rdquo;</p>
+<p>She was generous about Dave here. She said she sends him her difficult athletes, and that he has gotten some of them back to the MLB level and back to being recruited. Her larger point was about rehab itself: &ldquo;We really have to realize that rehab science in these sports is just as critical, probably maybe more critical than even, or as much of our surgical treatments.&rdquo; She listed Tommy John surgery, rotator cuff surgery, tennis players, pickleball players and baseball players.</p>
+<p>Then she described the patients in her own neighborhood who play competitive pickleball six days a week. Some of them come to her with one request. &ldquo;They&rsquo;re like, just shoot me up. Just get anywhere that I can so I can keep going.&rdquo;</p>
+<h3>What Dave listens for at the first visit</h3>
+<p>Dave had a story of his own from 1990, when he was just starting out. One of his first patients told him to do whatever it took, with one condition: &ldquo;don&rsquo;t stop me from golfing.&rdquo; Dave said that was when he realized how much the game meant to people here, and the clinic&rsquo;s golf and throwing programs grew from there.</p>
+<p>The goal isn&rsquo;t always a game, though. Sometimes it&rsquo;s reaching the top shelf again. Whatever you tell your therapist goes into your <a href="../glossary.html#plan-of-care">plan of care</a>, Dave said, because your own description of the problem shapes the whole assessment. He gave a shoulder example. A patient mentions that it really aches at night, and that detail starts pointing the therapist toward something like a bursitis or a tendonitis. So tell us when it hurts, what you were doing, and how you sleep. Dr. Sabesan&rsquo;s word for all of it was personalized: technology, technique and rehab all fitted to the person, which she called the best success.</p>
+
+<h2>A crushed elbow from Nashville, and no one at the end of the line</h2>
+<p>Asked for her most interesting case, Dr. Sabesan told a story she said she thought the patient would be fine with her sharing. A man who runs one of the country clubs up here was on a guys&rsquo; trip in Nashville when a drunk driver hit him. His elbow was destroyed, with severe nerve damage. At Vanderbilt Medical Center he was offered emergency surgery there, or a referral to a friend of the doctor&rsquo;s in Palm Beach, who turned out to be her. He had already looked her up and made an appointment.</p>
+<p>The first surgery didn&rsquo;t heal, and a year later he still had severe nerve damage. She took him back for a revision. Six months after that, she said, he had full function back and the nerve damage had turned around, which he never thought would happen. She gave a lot of the credit to him, calling him the most optimistic guy she had ever met.</p>
+<h3>Why revisions are her favorite work</h3>
+<p>That case sums up how she talked about revisions. She said she probably enjoys the complex cases most, and gets sent a lot of them. &ldquo;No one is at the end of the line to me,&rdquo; she said. &ldquo;We always have a chance of salvaging, making something better.&rdquo; It comes from her own life too. &ldquo;I mean, I&rsquo;ve run 28 marathons,&rdquo; she said, and everyone should at least have a chance to do something active. When Dave asked, she added that she had won one, and that the award was handed to her by a former senior resident of hers who had taken a job in Delaware.</p>
+<p>Her picture of the future was the same idea stretched across a lifetime: young athletes with careers that last, and older athletes who get to keep doing what they love. Her example was the 90-year-old who had come in two days before the taping and still exercises six days a week. If you&rsquo;re past 60 and wondering whether strength work is still worth starting, our piece on <a href="strength-training-after-60-fall-prevention.html">strength training after 60</a> is a good next read.</p>
+
+<h2>What this means if your shoulder is the one talking</h2>
+<p>None of this tells you what your shoulder needs. That takes an evaluation. But the episode does explain a few things we see every week at our clinic on US-1 in North Palm Beach.</p>
+<p>After a repair or a replacement, your surgeon sets the protocol and we follow it. That protocol is built around how the tissue heals, and Dr. Sabesan&rsquo;s point about older biology is exactly why the early weeks are paced the way they are. If you haven&rsquo;t had surgery, our <a href="../treatments/shoulder-pain.html">shoulder pain treatment page</a> covers how we evaluate a sore cuff, and our <a href="../treatments/post-surgical.html">post-surgical rehab page</a> covers recovery after repairs and replacements. Elbow problems fall under our <a href="../treatments/hand-wrist.html">hand, wrist and elbow care</a>, and the wider program is described on our <a href="../services/physical-therapy.html">physical therapy page</a>. The first visit runs about an hour, one-on-one, and treatment usually starts that day. The <a href="../faq.html#getting-started">getting started questions in our FAQ</a> cover the rest.</p>
+<p>You can read more about Dr. Sabesan&rsquo;s background on <a href="../guests/sabesan.html">her guest page</a>, hear the whole conversation on <a href="../podcast.html">the Pain 2 Power podcast page</a>, and watch it in our <a href="../videos.html">video library</a>. The show airs live Saturdays at 8:30 AM on 100.3 Legends Radio.</p>
+<p>If a rotator cuff, a stiff elbow or a recovery that has stalled is what brought you here, call us at <strong>561-624-4263</strong> or <a href="../contact.html">request an evaluation</a>. We see people from all over the north county, including <a href="../locations/palm-beach-gardens.html">Palm Beach Gardens</a> and <a href="../locations/jupiter.html">Jupiter</a>.</p>
+<p><em>This article is general information, not medical advice. Every situation is different, so please consult a qualified professional about yours.</em></p>
+""",
+    },
     "personal-training-with-a-therapist-who-knows-your-injury-history": {
         "title": "Personal Training With a Therapist Who Knows Your Injury History",
         "date": "October 2026",
@@ -5435,6 +6207,13 @@ BLOG_POSTS = {
 # target at least once, so adding a post means adding it to somebody's list too.
 # Unknown or missing slugs fall back to the next posts in BLOG_POSTS order.
 RELATED_POSTS = {
+    "pain-2-power-ep20-kendzierski": ["pain-2-power-ep17-goodwin", "pain-2-power-ep18-marrone-armstrong", "pain-2-power-ep19-cake"],
+    "pain-2-power-ep18-marrone-armstrong": ["pain-2-power-ep20-kendzierski", "pain-2-power-ep17-goodwin", "strength-training-after-60-fall-prevention"],
+    "pain-2-power-ep17-goodwin": ["pain-2-power-ep20-kendzierski", "pain-2-power-ep18-marrone-armstrong", "gym-program-after-physical-therapy-north-palm-beach"],
+    "pain-2-power-ep14-arlosoroff": ["pain-2-power-ep12-leighton", "what-to-expect-first-pt-visit", "pain-2-power-ep10-mcvicker"],
+    "pain-2-power-ep13-titheradge": ["pain-2-power-ep9-sabesan", "pain-2-power-ep19-cake", "reverse-shoulder-replacement-explained"],
+    "pain-2-power-ep12-leighton": ["pain-2-power-ep10-mcvicker", "hip-impingement-back-pain-north-palm-beach", "pain-2-power-ep14-arlosoroff"],
+    "pain-2-power-ep9-sabesan": ["reverse-shoulder-replacement-explained", "pain-2-power-ep13-titheradge", "pain-2-power-ep12-leighton"],
     "personal-training-with-a-therapist-who-knows-your-injury-history": ["gym-program-after-physical-therapy-north-palm-beach", "strength-training-after-60-fall-prevention", "pain-2-power-ep19-cake"],
     "pain-2-power-ep19-cake": ["personal-training-with-a-therapist-who-knows-your-injury-history", "headaches-that-start-in-the-neck", "pain-2-power-ep15-mann"],
     "strength-training-after-60-fall-prevention": ["gym-program-after-physical-therapy-north-palm-beach", "pain-2-power-ep11-joyce", "reverse-shoulder-replacement-explained"],
@@ -5541,6 +6320,13 @@ def build_blog():
         import json as _json
         from datetime import datetime as _dt
         seo_titles = {
+            "pain-2-power-ep20-kendzierski": "Maria Kendzierski: Breast Cancer Survivor on Pain 2 Power",
+            "pain-2-power-ep18-marrone-armstrong": "Elyse Marrone &amp; Danielle Armstrong: Breast Cancer Recovery",
+            "pain-2-power-ep17-goodwin": "Dr. Don Goodwin on Mammograms, Dense Breasts and MRI",
+            "pain-2-power-ep14-arlosoroff": "Dr. Chaim Arlosoroff on E-Bike Injuries in Kids",
+            "pain-2-power-ep13-titheradge": "Captain Kerry Titheradge of Below Deck on Pain 2 Power",
+            "pain-2-power-ep12-leighton": "Dr. Michael Leighton on Total Hip Replacement Surgery",
+            "pain-2-power-ep9-sabesan": "Dr. Vani Sabesan: Why Rotator Cuff Repairs Struggle to Heal",
             "personal-training-with-a-therapist-who-knows-your-injury-history": "Personal Training With a Therapist Who Knows Your Injury",
             "pain-2-power-ep19-cake": "Shannon Cake on Pain 2 Power: Newsmax Anchor Interview",
             # Long-tail title tag so this post stops competing with the homepage for
@@ -6730,7 +7516,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "guests.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "guests.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html", "things-to-do.html"]
     pages += [guest_url(g) for g in GUESTS]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
@@ -6896,6 +7682,7 @@ if __name__ == "__main__":
     build_first_visit()
     build_insurance()
     build_glossary()
+    build_things_to_do()
     build_videos()
     build_guests()
     build_exercises()

@@ -1,0 +1,24 @@
+{
+  "slug": "kendzierski",
+  "name": "Maria Kendzierski",
+  "honorific": "",
+  "credentials": "",
+  "headline": "Two time breast cancer survivor, and Dave&rsquo;s cousin from Buffalo",
+  "affiliation": null,
+  "location": "Buffalo, NY",
+  "category": "community",
+  "episodes": [
+    "Episode 20"
+  ],
+  "on_the_show": "Maria joined Dave and Mike over Zoom from Buffalo for Breast Cancer Awareness Month. A yearly mammogram in 2015 found stage zero lobular carcinoma in situ, followed by five years of tamoxifen. Screening every six months at Roswell Park then caught a stage one cancer on an MRI in 2024. She walked through her lumpectomy, eight rounds of chemotherapy that started on her birthday, five weeks of radiation, and the people she met along the way, and closed by asking listeners to get their mammograms and talk to their own doctor about when to start.",
+  "on_the_show_quote": "This is what a survivor looks like.",
+  "background": [],
+  "links": [],
+  "instagram_handle": "",
+  "phone_on_air": "",
+  "research_notes": "Private individual (Dave's cousin), not a practitioner. Deliberately NO web research and no links: everything here comes from the Episode 20 blurb in build.py and transcript-full.md on media/ep20-clips. Surname spelling from build.py EPISODES; the transcript header names her only as Maria. Personal medical history is published because she told it on air for the episode, but Nick should confirm Maria is comfortable with a standalone profile page. Quote from [04:05] of transcript-full.md ('this is what a survivor looks like', said of her survivor sweatshirt).",
+  "researched": "2026-10-25",
+  "also_known_as": [
+    "Maria"
+  ]
+}
