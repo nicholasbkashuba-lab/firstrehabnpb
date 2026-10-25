@@ -214,6 +214,13 @@ Fill a hole rather than cannibalising. Update this table whenever a post ships.
 
 | Post slug | Pillar | Keyword it owns |
 |---|---|---|
+| `pain-2-power-ep20-kendzierski` | Pain 2 Power (Ep 20) | Maria Kendzierski / two time breast cancer survivor / screening every six months |
+| `pain-2-power-ep18-marrone-armstrong` | Pain 2 Power (Ep 18) | Elyse Marrone and Danielle Armstrong / nutrition and Pilates around breast cancer |
+| `pain-2-power-ep17-goodwin` | Pain 2 Power (Ep 17) | Dr. Don Goodwin / radiologist / dense breasts and mammograms at 40 |
+| `pain-2-power-ep14-arlosoroff` | Pain 2 Power (Ep 14) | Dr. Chaim Arlosoroff / trauma surgeon / e-bike injuries in kids |
+| `pain-2-power-ep13-titheradge` | Pain 2 Power (Ep 13) | Captain Kerry Titheradge / Below Deck / rotator cuff program, Mental Health Mondays |
+| `pain-2-power-ep12-leighton` | Pain 2 Power (Ep 12) | Dr. Michael Leighton / total hip replacement / anterior vs posterior |
+| `pain-2-power-ep9-sabesan` | Pain 2 Power (Ep 9) | Dr. Vani Sabesan / shoulder surgeon / why rotator cuff repairs struggle to heal |
 | `personal-training-with-a-therapist-who-knows-your-injury-history` | Wellness | personal training with a therapist who knows your injury history (Ep 19 pillar post) |
 | `pain-2-power-ep19-cake` | Pain 2 Power (Ep 19) | Shannon Cake / Newsmax anchor / working out first thing in the morning |
 | `partial-vs-total-knee-replacement` | Physical Therapy | partial vs total knee replacement |

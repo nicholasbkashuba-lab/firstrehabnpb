@@ -28,8 +28,8 @@
     "lastmod": "2026-10-24"
   },
   "blog/index.html": {
-    "hash": "7f039031a415ee35",
-    "lastmod": "2026-10-24"
+    "hash": "950b5836c7baa908",
+    "lastmod": "2026-10-25"
   },
   "blog/knee-arthritis-before-surgery.html": {
     "hash": "2d793986177a7e93",
@@ -43,13 +43,41 @@
     "hash": "807f3bd6690628fb",
     "lastmod": "2026-10-24"
   },
+  "blog/pain-2-power-ep12-leighton.html": {
+    "hash": "c8cb27da0f40a3bd",
+    "lastmod": "2026-10-25"
+  },
+  "blog/pain-2-power-ep13-titheradge.html": {
+    "hash": "86303da7c3855360",
+    "lastmod": "2026-10-25"
+  },
+  "blog/pain-2-power-ep14-arlosoroff.html": {
+    "hash": "a1f04e7620d27582",
+    "lastmod": "2026-10-25"
+  },
   "blog/pain-2-power-ep15-mann.html": {
     "hash": "0042cec1d8b7d8d8",
     "lastmod": "2026-10-24"
   },
+  "blog/pain-2-power-ep17-goodwin.html": {
+    "hash": "12371c4b6bfe9995",
+    "lastmod": "2026-10-25"
+  },
+  "blog/pain-2-power-ep18-marrone-armstrong.html": {
+    "hash": "32c02612011886d0",
+    "lastmod": "2026-10-25"
+  },
   "blog/pain-2-power-ep19-cake.html": {
     "hash": "937b745a684fd5b3",
     "lastmod": "2026-10-24"
+  },
+  "blog/pain-2-power-ep20-kendzierski.html": {
+    "hash": "2055bb6a07811aa2",
+    "lastmod": "2026-10-25"
+  },
+  "blog/pain-2-power-ep9-sabesan.html": {
+    "hash": "3c2ae22c3f3e4a96",
+    "lastmod": "2026-10-25"
   },
   "blog/partial-vs-total-knee-replacement.html": {
     "hash": "be73970d5710b5d9",
@@ -116,12 +144,12 @@
     "lastmod": "2026-10-25"
   },
   "guests/arlosoroff.html": {
-    "hash": "bfd5056ef4a8ff55",
-    "lastmod": "2026-10-24"
+    "hash": "9390b733f4d1e137",
+    "lastmod": "2026-10-25"
   },
   "guests/armstrong.html": {
-    "hash": "89af2aa1a417a31b",
-    "lastmod": "2026-10-24"
+    "hash": "da4c89148b3abe36",
+    "lastmod": "2026-10-25"
   },
   "guests/butler.html": {
     "hash": "f0467e21e93d49fa",
@@ -144,7 +172,7 @@
     "lastmod": "2026-10-24"
   },
   "guests/goodwin.html": {
-    "hash": "d8cf2a12e888c549",
+    "hash": "1795b56aa617eea5",
     "lastmod": "2026-10-25"
   },
   "guests/joyce.html": {
@@ -152,19 +180,19 @@
     "lastmod": "2026-10-24"
   },
   "guests/kendzierski.html": {
-    "hash": "ec1669da4dd76457",
+    "hash": "d85cb66b106f9b55",
     "lastmod": "2026-10-25"
   },
   "guests/leighton.html": {
-    "hash": "e735842e56ca4e4b",
-    "lastmod": "2026-10-24"
+    "hash": "f7f49b5ca4fee934",
+    "lastmod": "2026-10-25"
   },
   "guests/mann.html": {
     "hash": "ec4a1df3f86cbdc3",
     "lastmod": "2026-10-24"
   },
   "guests/marrone.html": {
-    "hash": "6ec57798da92d328",
+    "hash": "46fd3e56ba6d459f",
     "lastmod": "2026-10-25"
   },
   "guests/mcvicker.html": {
@@ -172,8 +200,8 @@
     "lastmod": "2026-10-24"
   },
   "guests/sabesan.html": {
-    "hash": "b6e2e0b5e1d14711",
-    "lastmod": "2026-10-24"
+    "hash": "a91d6625a72bfcde",
+    "lastmod": "2026-10-25"
   },
   "guests/saylor.html": {
     "hash": "af6e106f8d844210",
@@ -184,8 +212,8 @@
     "lastmod": "2026-10-24"
   },
   "guests/titheradge.html": {
-    "hash": "fe2c5d34c046576f",
-    "lastmod": "2026-10-24"
+    "hash": "46964986ac14e925",
+    "lastmod": "2026-10-25"
   },
   "guests/urakov.html": {
     "hash": "9a008d89f16942ad",
@@ -236,7 +264,7 @@
     "lastmod": "2026-10-24"
   },
   "podcast.html": {
-    "hash": "cdf0798ee68efe4d",
+    "hash": "7cffc821bcc86e76",
     "lastmod": "2026-10-25"
   },
   "services/hand-therapy.html": {
