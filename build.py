@@ -611,6 +611,7 @@ def footer(depth=0):
           <li><a href="{p}first-visit.html">Your First Visit</a></li>
           <li><a href="{p}insurance.html">Insurance &amp; Medicare</a></li>
           <li><a href="{p}glossary.html">Patient Glossary</a></li>
+          <li><a href="{p}things-to-do.html">Things to Do in North County</a></li>
           <li><a href="{p}blog/index.html">Blog</a></li>
           <li><a href="{p}podcast.html">Pain 2 Power Podcast</a></li>
           <li><a href="{p}videos.html">Video Episodes</a></li>
@@ -3366,6 +3367,176 @@ def build_exercises():
                canonical="exercises.html",
                extra_schema=breadcrumb_schema([("Home", ""), ("Home Exercises", "exercises.html")]))
           + nav(0) + body + footer(0))
+
+# ----------------------------------------------------------------------------
+# THINGS TO DO IN NORTH COUNTY (/things-to-do.html)
+# ----------------------------------------------------------------------------
+# Nick, 2026-10-25: a local "what to do" page, kept to North County, West Palm
+# Beach through Jupiter. Every place and every fact below was checked against the
+# place's OFFICIAL page (operator, city, village, county or nonprofit) on
+# 2026-10-25; the URL is the page it was read on. Deliberately left out: hours,
+# prices and anything else that changes often. Left OFF the list: Mounts Botanical
+# Garden, the Palm Beach Lake Trail and Lake Park Harbor Marina (no official page
+# could be opened to confirm them; NEVER link lakeparkmarina.com, a lapsed domain now
+# serving spam), and Blowing Rocks and Jonathan Dickinson (Martin County, outside the
+# brief). Re-check before adding anything, and re-verify the list each spring.
+# Movement keys -> chip labels shown on each card.
+TTD_MOVE = {"walk": "Easy walk", "beach": "Beach", "trail": "Trail", "water": "On the water",
+            "indoor": "Indoors", "climb": "Climb"}
+THINGS_TO_DO = [
+    {"key": "west-palm-beach", "area": "West Palm Beach", "loc": "west-palm-beach",
+     "lede": "The southern end of North County, and the most to do on a rainy day.",
+     "items": [
+        ("Norton Museum of Art", "West Palm Beach", "indoor", "https://www.norton.org/about",
+         "Founded in 1941 by Ralph and Elizabeth Norton, with a permanent collection of more than 8,900 works across European, American, Asian, contemporary and photography departments, plus a sculpture garden."),
+        ("Palm Beach Zoo &amp; Conservation Society", "West Palm Beach", "walk", "https://www.palmbeachzoo.org/",
+         "Four themed areas on Summit Boulevard: the Islands, Asia, the Tropics of the Americas and the Florida Wetlands, with koalas, tigers, jaguars, macaws and otters."),
+        ("Manatee Lagoon, an FPL Eco&#8209;Discovery Center", "West Palm Beach", "walk", "https://www.visitmanateelagoon.com/",
+         "Florida Power &amp; Light&rsquo;s center on North Flagler Drive about manatees and the Lake Worth Lagoon, with exhibits and a live manatee camera."),
+        ("Grassy Waters Preserve", "West Palm Beach", "trail", "https://www.wpb.org/Departments/Grassy-Waters-Preserve",
+         "The city&rsquo;s nature preserve off Northlake Boulevard. Five named trails, including the Cypress Boardwalk Trail through the cypress trees."),
+        ("The downtown waterfront", "West Palm Beach", "walk", "https://www.wpb.org/Residents/Community-Events/Lake-Pavilion",
+         "The Lake Pavilion, the Great Lawn at the foot of Clematis Street, and a waterfront promenade with docks, lawns and shaded trellises along the Intracoastal."),
+        ("Ann Norton Sculpture Gardens", "West Palm Beach", "walk", "https://www.ansg.org/",
+         "The historic home and studio of the artist Ann Norton, with a gallery and a palm and cycad collection that includes rare species."),
+     ]},
+    {"key": "palm-beach", "area": "Palm Beach", "loc": "palm-beach",
+     "lede": "Across the bridge: one long shopping street and one Gilded Age house.",
+     "items": [
+        ("Worth Avenue", "Palm Beach", "walk", "https://worth-avenue.com/",
+         "A landmark shopping street steps from the ocean, with boutiques, cafes and the Vias, the narrow side passages off the avenue."),
+        ("Flagler Museum (Whitehall)", "Palm Beach", "indoor", "https://flaglermuseum.org/exhibits/past-exhibitions/the-story-of-whitehall",
+         "Whitehall has been a private home, a club and a hotel, and is now a National Historic Landmark house museum with a free digital guide."),
+     ]},
+    {"key": "riviera-beach", "area": "Riviera Beach &amp; Singer Island", "loc": "riviera-beach",
+     "lede": "Two very different beach days, one of them only reachable by boat.",
+     "items": [
+        ("Peanut Island Park", "Riviera Beach", "beach", "https://discover.pbc.gov/parks/Locations/Peanut-Island.aspx",
+         "A county park you reach by boat only, by shuttle or water taxi. A snorkeling lagoon, swimming beaches, a paver walking path and an observation deck. There is no food concession, so pack what you need."),
+        ("Ocean Reef Park", "Riviera Beach", "beach", "https://discover.pbc.gov/parks/Locations/Ocean-Reef.aspx",
+         "A county beach park on Singer Island with about 700 feet of guarded beach, a dune overlook, picnic areas, a beach wheelchair and a Mobi Mat."),
+     ]},
+    {"key": "north-palm-beach", "area": "North Palm Beach", "loc": None,
+     "lede": "Our own town, and home to the only state park in the county.",
+     "items": [
+        ("John D. MacArthur Beach State Park", "North Palm Beach", "beach", "https://www.village-npb.org/1117/Parks-Facilities",
+         "The only state park in Palm Beach County, on an Atlantic barrier island. A 1,600 foot boardwalk crosses the estuary to 1.6 miles of beach, and there is a nature center. You can kayak or paddleboard the estuary."),
+        ("Anchorage Park", "North Palm Beach", "walk", "https://www.village-npb.org/533/Anchorage-Park",
+         "A 21.5 acre village park with two fishing piers, a fitness trail, sand volleyball courts, dog parks and a kayak and paddleboard launch."),
+     ]},
+    {"key": "palm-beach-gardens", "area": "Palm Beach Gardens", "loc": "palm-beach-gardens",
+     "lede": "Paved paths, a preserve with marked trail lengths, and somewhere air conditioned.",
+     "items": [
+        ("Frenchman&rsquo;s Forest Natural Area", "Palm Beach Gardens", "trail", "https://discover.pbc.gov/erm/NaturalAreas/Frenchmans-Forest.aspx",
+         "A 172 acre county natural area on Prosperity Farms Road. The Blazing Star trail is paved and 0.4 miles; the sandy Saw Palmetto trail runs 1.3 miles. A boardwalk crosses a cypress swamp."),
+        ("The Gardens North County District Park", "Palm Beach Gardens", "walk", "https://pbgfl.gov/1024/The-Gardens-North-County-District-Park",
+         "An 82 acre city park with lighted fields, two spray pads, two playgrounds, a nature trail and 23.6 acres of preserve."),
+        ("Downtown Palm Beach Gardens", "Palm Beach Gardens", "walk", "https://downtownpalmbeachgardens.com/about/",
+         "Formerly Downtown at the Gardens. Palm shaded lakeside walks, a pop jet fountain and the Downtown Carousel on the waterfront."),
+        ("The Gardens Mall", "Palm Beach Gardens", "indoor", "https://www.thegardensmall.com/visiting/",
+         "More than 150 shops on PGA Boulevard, open since 1988. A long, flat, air conditioned walk on a hot afternoon."),
+     ]},
+    {"key": "juno-beach", "area": "Juno Beach", "loc": "juno-beach",
+     "lede": "Sea turtles, a fishing pier and the highest natural point in the county.",
+     "items": [
+        ("Loggerhead Marinelife Center", "Juno Beach", "walk", "https://marinelife.org/plan-your-visit/",
+         "A sea turtle conservation nonprofit with an outdoor sea turtle hospital. The campus is mostly outdoors, with large shaded sections."),
+        ("Juno Beach Pier", "Juno Beach", "walk", "https://marinelife.org/juno-beach-pier/",
+         "A 990 foot fishing pier in county owned Juno Beach Park, run by Loggerhead Marinelife Center. A phased refurbishment began in June 2026, so check the pier&rsquo;s page for what is open before you go."),
+        ("Juno Dunes Natural Area", "Juno Beach", "trail", "https://discover.pbc.gov/erm/NaturalAreas/Juno-Dunes.aspx",
+         "569 acres from the ocean to the Intracoastal. On the ocean side, a paved, accessible trail climbs to a covered platform on an ancient dune, billed as the highest natural point in Palm Beach County. The west side has sandy trails of 1.8 and 2.1 miles."),
+     ]},
+    {"key": "jupiter", "area": "Jupiter &amp; Tequesta", "loc": "jupiter",
+     "lede": "The northern edge of North County, and the longest list.",
+     "items": [
+        ("Jupiter Inlet Lighthouse &amp; Museum", "Jupiter", "climb", "https://www.jupiterlighthouse.org/directions-hours",
+         "You can climb the 1860 lighthouse, and the site itself calls the climb strenuous; even the tower&rsquo;s base is 34 steps up a hill. The grounds are part of a 120 acre federal Outstanding Natural Area."),
+        ("Riverbend Park", "Jupiter", "trail", "https://discover.pbc.gov/parks/Locations/Riverbend.aspx",
+         "A 644 acre county park on Indiantown Road with nearly 10 miles of shell rock hiking and biking trails, 5 miles of waterways on the Loxahatchee River, and the site of the Loxahatchee Battlefield."),
+        ("Carlin Park", "Jupiter", "beach", "https://discover.pbc.gov/parks/Locations/Carlin.aspx",
+         "A 109 acre county beach park with about 3,000 feet of guarded beach, a 20 station exercise course over 1.25 miles, and the Seabreeze Amphitheater."),
+        ("Jupiter Beach Park", "Jupiter", "beach", "https://discover.pbc.gov/parks/Locations/Jupiter-Beach.aspx",
+         "About 1,700 feet of guarded beach beside the inlet, a jetty for saltwater fishing and a Mobi Mat."),
+        ("DuBois Park", "Jupiter", "water", "https://discover.pbc.gov/parks/Locations/DuBois.aspx",
+         "A county park with a snorkeling lagoon and Intracoastal beach, a canoe and kayak launch, and the DuBois Pioneer Home and Jupiter Inlet Mound, both on the National Register of Historic Places."),
+        ("Coral Cove Park", "Tequesta", "beach", "https://discover.pbc.gov/parks/Locations/Coral-Cove.aspx",
+         "A county beach park on Beach Road with about 600 feet of guarded beach, another 2,010 feet of unguarded beach to the south, and Intracoastal frontage."),
+        ("Harbourside Place", "Jupiter", "walk", "https://www.harboursideplace.com/",
+         "Waterfront shopping and dining along Jupiter&rsquo;s Intracoastal, with an amphitheater for live music."),
+        ("Roger Dean Chevrolet Stadium", "Jupiter", "walk", "https://www.mlb.com/roger-dean-chevrolet-stadium/ballpark",
+         "Spring training home of the Miami Marlins and St. Louis Cardinals since 1998, and home to the Jupiter Hammerheads and Palm Beach Cardinals the rest of the year."),
+     ]},
+]
+
+def build_things_to_do():
+    """North County things to do, West Palm Beach to Jupiter. Data: THINGS_TO_DO."""
+    import json as _json
+    blocks, ld = [], []
+    for g in THINGS_TO_DO:
+        cards = "".join(
+            f'<div class="ex-card reveal"><span class="cond-tag">{TTD_MOVE[mv]}</span><h3>{name}</h3>'
+            f'<p class="ex-how">{blurb}</p>'
+            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">Official site</a></p></div>'
+            for name, town, mv, url, blurb in g["items"])
+        if g["key"] == "jupiter":
+            tail = ('<p class="lede" style="margin-top:var(--space-5);">Live up here? Read about physical therapy for '
+                    '<a href="locations/jupiter.html">Jupiter</a> and <a href="locations/tequesta.html">Tequesta</a> residents.</p>')
+        elif g["loc"]:
+            tail = (f'<p class="lede" style="margin-top:var(--space-5);">Live in {g["area"]}? Read about '
+                    f'<a href="locations/{g["loc"]}.html">physical therapy for {g["area"]} residents</a>.</p>')
+        else:
+            tail = ('<p class="lede" style="margin-top:var(--space-5);">Our clinic is here too, at '
+                    '733 US Highway 1. <a href="first-visit.html">What to expect at your first visit</a>.</p>')
+        blocks.append(
+            f'<section class="section" id="{g["key"]}"><div class="wrap">'
+            f'<div class="section-head reveal"><h2>Things to do in {g["area"]}</h2>'
+            f'<p class="lede">{g["lede"]}</p></div>'
+            f'<div class="ex-grid">{cards}</div>{tail}</div></section>')
+        for name, town, mv, url, blurb in g["items"]:
+            ld.append({"@type": "TouristAttraction", "name": _faq_plain(name), "url": url,
+                       "description": _faq_plain(blurb),
+                       "address": {"@type": "PostalAddress", "addressLocality": town,
+                                   "addressRegion": "FL", "addressCountry": "US"}})
+    url = "https://www.firstrehabnpb.com/things-to-do.html"
+    schema = '<script type="application/ld+json">' + _json.dumps({
+        "@context": "https://schema.org", "@type": "ItemList", "@id": url + "#list",
+        "name": "Things to do in North County, West Palm Beach to Jupiter",
+        "itemListElement": [{"@type": "ListItem", "position": i + 1, "item": node}
+                            for i, node in enumerate(ld)],
+    }, ensure_ascii=False) + '</script>\n'
+    jump = " ".join(f'<a class="faq-chip" href="#{g["key"]}">{g["area"]}</a>' for g in THINGS_TO_DO)
+    crumbs = '<div class="crumbs"><a href="/">Home</a> / Things to Do</div>'
+    body = f"""
+<main>
+{page_hero("North County", "Things to Do, <em class='accent'>West Palm Beach to Jupiter</em>",
+  "Parks, beaches, trails and museums across North County, grouped by town and tagged by how much moving each one asks of you.", crumbs)}
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap">
+    <p class="lede">The point of therapy is getting back to your life, and around here a lot of that life happens outdoors. So here is North County, from West Palm Beach up to Jupiter and Tequesta, one town at a time. Every place carries a tag: an easy walk, a beach, a trail, time on the water, somewhere indoors, or a climb. If you are partway through recovery, pick from the gentler end and ask your therapist before you take on a sandy trail or a lighthouse staircase. That is exactly the kind of goal we like to build a plan around.</p>
+    <div class="ex-jump">{jump}</div>
+    <p class="ex-src">Every place below was checked against its own official site in October 2026. Hours, fees and closures change, so check before you go. We are not affiliated with any of them.</p>
+  </div>
+</section>
+{"".join(blocks)}
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <p class="lede">Want the stairs at the lighthouse or the 1.25 mile course at Carlin Park back on your list?
+    Tell us at your evaluation and we will build toward it. Call <strong>{PHONE}</strong> or
+    <a href="contact.html">request an appointment</a>. Between visits, the
+    <a href="exercises.html">home exercise library</a> has the moves Dr. Dave Kashuba talks through on
+    <a href="podcast.html">Pain 2 Power</a>.</p>
+  </div>
+</section>
+{cta_band(0)}
+</main>
+"""
+    write("things-to-do.html",
+          head("Things to Do From West Palm Beach to Jupiter | First Rehab",
+               "Parks, beaches, trails and museums from West Palm Beach to Jupiter, grouped by town and tagged by how much walking each takes. From First Rehab, North Palm Beach.",
+               canonical="things-to-do.html",
+               extra_schema=schema + breadcrumb_schema([("Home", ""), ("Things to Do", "things-to-do.html")]))
+          + nav(0) + body + footer(0))
+
 
 EPISODE_POSTS = {
     "Episode 20": "pain-2-power-ep20-kendzierski",           # Maria Kendzierski
@@ -7345,7 +7516,7 @@ def build_meta():
   ]
 }
 ''')
-    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "guests.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html"]
+    pages = ["", "about.html", "contact.html", "careers.html", "faq.html", "first-visit.html", "insurance.html", "podcast.html", "videos.html", "guests.html", "blog/index.html", "treatments/index.html", "exercises.html", "glossary.html", "things-to-do.html"]
     pages += [guest_url(g) for g in GUESTS]
     pages += [f"services/{s}.html" for s in SERVICES]
     pages += [f"locations/{s}.html" for s in LOCATIONS]
@@ -7511,6 +7682,7 @@ if __name__ == "__main__":
     build_first_visit()
     build_insurance()
     build_glossary()
+    build_things_to_do()
     build_videos()
     build_guests()
     build_exercises()
