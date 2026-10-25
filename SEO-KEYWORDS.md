@@ -9,12 +9,13 @@ observations recorded in CLAUDE.md.
 No search-volume numbers appear here on purpose. We do not have a keyword tool wired in, and an
 invented volume is worse than no number.
 
-## FREEZE: no new posts as of 2026-09-09
+## FREEZE: no new posts as of 2026-09-09, lifted for episode RECAPS 2026-10-25
 
-New blog posts are frozen (Nick approved). Do not pick a target from this file for a NEW post.
-The keyword map stays live for re-targeting EXISTING pages, which is the work that replaces
-posting. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom is
-still accurate and still worth reading before touching any page's target.
+New blog posts are frozen (Nick approved), with one exception: on 2026-10-25 Nick lifted it for
+Pain 2 Power episode recaps (Post A) only. Pillar posts (Post B) stay frozen, so do not pick a
+pillar target from this file for a NEW post. The keyword map stays live for re-targeting
+EXISTING pages. Full reasoning in CLAUDE.md under "Blog agent". The coverage table at the bottom
+is still accurate and still worth reading before touching any page's target.
 
 ## Two rules that came from real GSC data
 
