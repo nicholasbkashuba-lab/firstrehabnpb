@@ -356,15 +356,15 @@ GSC_VERIFY_TAG = (
 )
 
 GA_MEASUREMENT_ID = "G-GZKFNKSP6D"
-GA_TAG = """<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', '%s');
-</script>""" % (GA_MEASUREMENT_ID, GA_MEASUREMENT_ID)
+def ga_tag(p):
+    # Consent-gated since 2026-10-26: consent.js defines gtag(), sets Consent Mode
+    # to denied and loads gtag.js only after the visitor clicks Allow. GA used to
+    # start on page load, on the 37 pages that carry the appointment form and every
+    # page with the intake chat. Same pattern as the Legacy Medical site.
+    return (f'<!-- Google Analytics 4, consent-gated (assets/js/consent.js) -->\n'
+            f'<script defer src="{p}assets/js/consent.js?v={asset_v("assets/js/consent.js")}" '
+            f'data-ga="{GA_MEASUREMENT_ID}"></script>')
 
 def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.jpg", page_type="website", extra_schema="", robots="index, follow, max-image-preview:large"):
     p = "../" * depth
@@ -382,7 +382,7 @@ def head(title, desc, depth=0, canonical="", og_image="assets/media/hero-poster.
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
-{GA_TAG}
+{ga_tag(p)}
 <meta charset="UTF-8">{GSC_VERIFY_TAG}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(title)}</title>

@@ -787,6 +787,25 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
   body.nav-locked .mobile-call { display: none; }
 }
 
+/* ---------- Analytics consent bar (assets/js/consent.js) ---------- */
+/* Shown once, until the visitor picks Allow or No thanks. Sits above the chat
+   launcher (z 1200) and the mobile Call pill while it is up; it is gone after
+   one tap, so it never covers them for long. Desktop: bottom-left card that
+   leaves the chat launcher (bottom-right) clear. */
+.consent-bar {
+  position: fixed; left: var(--space-3); bottom: var(--space-3); z-index: 1300;
+  max-width: 26rem; padding: var(--space-3) var(--space-4);
+  background: var(--ink-deep); color: var(--cream);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  font-family: var(--font-body); font-size: var(--step--1); line-height: 1.5;
+}
+.consent-bar p { margin: 0 0 var(--space-3); }
+.consent-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.consent-bar .btn { padding: var(--space-2) var(--space-4); min-height: 44px; }
+@media (max-width: 767px) {
+  .consent-bar { left: var(--space-2); right: var(--space-2); bottom: var(--space-2); max-width: none; }
+}
+
 /* ---------- Reveal choreography ---------- */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.85s cubic-bezier(.2,.8,.2,1), transform 0.85s cubic-bezier(.2,.8,.2,1); }
 .reveal.in { opacity: 1; transform: none; }
