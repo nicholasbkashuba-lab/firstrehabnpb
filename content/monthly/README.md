@@ -38,7 +38,7 @@ month's file instead of re-uploading (uploads are metered).
   another official page states them.
 - **Exact dates as the official page states them.** No "every Saturday" unless the page says
   so. Re-check anything that has been rescheduled or cancelled.
-- **4 to 6 events**, spread across the month and across towns, West Palm Beach to Hobe Sound.
+- **5 to 7 events**, spread across the month and across towns, West Palm Beach to Hobe Sound.
   Favor free, outdoor, active or family events (walks, runs, markets, festivals, tours,
   concerts in a park). Nothing political, nothing with alcohol as the point of it.
 - **Zero dashes** outside 561-624-4263 and 561-624-GAME. Bullets use `•`. Same as every caption.

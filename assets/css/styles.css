@@ -1375,3 +1375,15 @@ body.nav-locked .p2p-mini { display: none; }
   .place-card.is-lead h3 { font-size: var(--step-2); }
 }
 @media (prefers-reduced-motion: reduce) { .place-card, .place-fig img { transition: none; } .place-card:hover, .place-card:hover .place-fig img { transform: none; } }
+/* "Through the year" on /things-to-do.html: the season sits above each recurring event. */
+.ttd-seasons { background: var(--ink-deep); color: var(--cream); }
+.ttd-seasons h2, .ttd-seasons h3 { color: var(--cream); }
+.ttd-seasons .lede, .ttd-seasons p { color: rgb(var(--cream-rgb) / 0.86); }
+.ttd-seasons .eyebrow { color: var(--gold); }
+.ttd-seasons .ex-src { color: rgb(var(--cream-rgb) / 0.72); }
+.ttd-seasons a { color: var(--gold); }
+.season-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: var(--space-4); }
+.season-item { display: grid; grid-template-columns: 1fr; gap: var(--space-2); padding: var(--space-4); border-radius: var(--radius); border: 1px solid rgb(var(--cream-rgb) / 0.14); background: rgb(var(--cream-rgb) / 0.04); }
+.season-when { font-size: var(--step--2); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); line-height: 1.4; }
+.season-item h3 { font-size: var(--step-1); margin: 0 0 var(--space-2); }
+.season-item p { font-size: var(--step--1); margin: 0 0 var(--space-2); }

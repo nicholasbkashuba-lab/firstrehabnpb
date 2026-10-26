@@ -3491,6 +3491,46 @@ THINGS_TO_DO = [
 ]
 
 
+# "Through the year": recurring, seasonal things, each checked 2026-10-26 on its organizer's
+# own page (URL beside it). Seasons only, never a single year's date, so the list does not
+# go stale between checks. Re-verify every spring with THINGS_TO_DO. Nick, 2026-10-26: "do
+# both" (this list, plus the monthly social post in content/monthly/README.md).
+TTD_SEASONS = [
+    ("Year round", "Sunset and moonrise climbs at the lighthouse", "Jupiter",
+     "Jupiter Inlet Lighthouse &amp; Museum runs weekly sunset tours every Wednesday, plus moonrise and seasonal sunrise tours. Small groups; registering ahead is recommended.",
+     "https://www.jupiterlighthouse.org/celestial-tours"),
+    ("October to May", "West Palm Beach GreenMarket", "West Palm Beach",
+     "Saturday mornings on the waterfront at the foot of Clematis Street, run by the city.",
+     "https://www.wpb.org/News-Folder/News-2026/090826-GreenMarket"),
+    ("Sundays from October", "The Gardens GreenMarket", "Palm Beach Gardens",
+     "Sunday mornings on the City Hall campus on Military Trail, with occasional free fitness and yoga classes in the amphitheater.",
+     "https://www.pbgfl.gov/278/GreenMarket"),
+    ("Late November to December", "Holiday in Paradise", "West Palm Beach",
+     "The city&rsquo;s holiday season on the waterfront, home of Sandi, the sand tree.",
+     "https://www.wpb.org/Residents/Community-Events/Events/Holiday-in-Paradise"),
+    ("Early December", "Palm Beach Holiday Boat Parade", "North Palm Beach to Jupiter",
+     "Lit boats run up the Intracoastal from North Palm Beach to the Jupiter Inlet Lighthouse behind a fireworks display, and it doubles as a toy drive.",
+     "https://www.marinepbc.org/boat-parade/"),
+    ("Early December", "Hobe Sound Christmas Parade", "Hobe Sound",
+     "The Hobe Sound Chamber of Commerce parade, now past its 40th year.",
+     "https://www.hobesound.org/christmas-parade.html"),
+    ("February", "TurtleFest", "Juno Beach",
+     "Loggerhead Marinelife Center&rsquo;s free ocean conservation festival in Loggerhead Park, with hands on exhibits.",
+     "https://marinelife.org/turtlefest/"),
+    ("Late February", "Cognizant Classic in The Palm Beaches", "Palm Beach Gardens",
+     "The PGA TOUR stop on the Champion Course at PGA National.",
+     "https://www.pgatour.com/tournaments/2027/cognizant-classic-in-the-palm-beaches/R2027010/overview"),
+    ("Late February to March", "Spring training", "Jupiter",
+     "The Marlins and Cardinals play their Grapefruit League games at Roger Dean Chevrolet Stadium.",
+     "https://www.mlb.com/cardinals/spring-training"),
+    ("March to October", "Sea turtle nesting season", "Juno Beach",
+     "Loggerhead Marinelife Center monitors the nests along the shoreline. Give marked nests room, and keep beach lights off at night.",
+     "https://marinelife.org/loggerhead-marinelife-center-marks-earliest-start-to-2026-sea-turtle-nesting-season/"),
+    ("June and July", "Guided sea turtle walks", "Juno Beach",
+     "Night walks with Loggerhead Marinelife Center, Tuesday to Saturday in peak nesting season. Ages 10 and up, and you walk up to half a mile on sand.",
+     "https://marinelife.org/guided-sea-turtle-walks-in-florida/"),
+]
+
 # Photos for /things-to-do.html, keyed by the place name in THINGS_TO_DO. This is a
 # THIRD photo source beside PHOTOS (the clinic) and the guest headshots, and it is
 # deliberately separate from PHOTOS: none of these are photos of the clinic.
@@ -3632,6 +3672,12 @@ def build_things_to_do():
                             for i, node in enumerate(ld)],
     }, ensure_ascii=False) + '</script>\n'
     jump = " ".join(f'<a class="faq-chip" href="#{g["key"]}">{g["area"]}</a>' for g in THINGS_TO_DO)
+    jump += ' <a class="faq-chip" href="#through-the-year">Through the year</a>'
+    season_items = "".join(
+        f'<li class="season-item reveal"><span class="season-when">{when}</span>'
+        f'<div><h3>{what}</h3><p>{blurb}</p><p class="ex-src">{town} &middot; '
+        f'<a href="{url}" target="_blank" rel="noopener">Organizer&rsquo;s page</a></p></div></li>'
+        for when, what, town, blurb, url in TTD_SEASONS)
     crumbs = '<div class="crumbs"><a href="/">Home</a> / Things to Do</div>'
     body = f"""
 <main>
@@ -3645,6 +3691,14 @@ def build_things_to_do():
   </div>
 </section>
 {"".join(blocks)}
+<section class="section ttd-seasons" id="through-the-year">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Mark the calendar</span>
+      <h2>Through the year in North County</h2>
+      <p class="lede">The things that come around every year. Dates move from year to year, so check the organizer&rsquo;s page before you plan around one.</p></div>
+    <ol class="season-list">{season_items}</ol>
+  </div>
+</section>
 <section class="section" style="padding-top:0;">
   <div class="wrap">
     <p class="lede">Want the stairs at the lighthouse or the 1.25 mile course at Carlin Park back on your list?
