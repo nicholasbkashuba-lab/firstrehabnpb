@@ -793,6 +793,15 @@ def page_hero(eyebrow, title, lede, crumbs_html="", cta_href=None, cta_label="Bo
 P2P_LOOPS = {
     "audio": "p2p-hero-audio",
     "video": "p2p-hero-video",
+    # Not Pain 2 Power: Nick's own drone pass over Juno Beach Pier (Dropbox
+    # /Juno.MP4, 2688x1512), 0.8x slow with a 0.6s crossfade loop. Heads
+    # /things-to-do.html. Same media contract; no trailer button.
+    "juno": "ttd-hero-juno",
+}
+LOOP_LABELS = {
+    "audio": "Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio",
+    "video": "Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio",
+    "juno": "Drone flight along Juno Beach Pier and the beach north of it, Juno Beach, Florida",
 }
 P2P_TRAILER = {
     "mp4": "assets/media/p2p-trailer.mp4",
@@ -811,12 +820,22 @@ def p2p_poster_preload(kind):
 
 def _video_page_hero(eyebrow, title, lede, crumbs_html, kind):
     base = f"assets/media/{P2P_LOOPS[kind]}"
+    trailer_btn = trailer_dlg = ""
+    if kind in ("audio", "video"):
+        trailer_btn = ('<div class="mt-2"><button class="btn btn-coral trailer-open" type="button" aria-haspopup="dialog">\n'
+                       '      <span aria-hidden="true">&#9654;</span> Watch the Trailer</button></div>')
+        trailer_dlg = f"""<dialog class="trailer-modal" aria-label="Pain 2 Power trailer">
+  <button class="trailer-close" type="button" aria-label="Close trailer">&times;</button>
+  <video controls playsinline preload="none" poster="{_m(P2P_TRAILER['poster'])}"
+    data-src="{_m(P2P_TRAILER['mp4'])}"></video>
+</dialog>
+"""
     return f"""
-<section class="page-hero has-video">
+<section class="page-hero has-video hero-loop-{kind}">
   <div class="hero-media">
     <div class="hero-fallback"></div>
     <video autoplay muted loop playsinline preload="none" poster="{_m(base + '-poster.jpg')}"
-      aria-label="Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio"
+      aria-label="{LOOP_LABELS[kind]}"
       data-mp4-full="{_m(base + '-hd.mp4')}"
       data-webm-full="{_m(base + '-hd.webm')}"
       data-mp4-mobile="{_m(base + '-mobile.mp4')}"
@@ -829,16 +848,10 @@ def _video_page_hero(eyebrow, title, lede, crumbs_html, kind):
     <span class="eyebrow">{eyebrow}</span>
     <h1>{title}</h1>
     <p class="lede">{lede}</p>
-    <div class="mt-2"><button class="btn btn-coral trailer-open" type="button" aria-haspopup="dialog">
-      <span aria-hidden="true">&#9654;</span> Watch the Trailer</button></div>
+    {trailer_btn}
   </div>
 </section>
-<dialog class="trailer-modal" aria-label="Pain 2 Power trailer">
-  <button class="trailer-close" type="button" aria-label="Close trailer">&times;</button>
-  <video controls playsinline preload="none" poster="{_m(P2P_TRAILER['poster'])}"
-    data-src="{_m(P2P_TRAILER['mp4'])}"></video>
-</dialog>
-"""
+{trailer_dlg}"""
 
 def _trailer_schema():
     """VideoObject for the self-hosted Pain 2 Power trailer, tied to the org."""
@@ -3468,16 +3481,47 @@ THINGS_TO_DO = [
      ]},
 ]
 
+# Photos for /things-to-do.html, keyed by the place name in THINGS_TO_DO. This is a
+# THIRD photo source beside PHOTOS (the clinic) and the guest headshots, and it is
+# deliberately separate from PHOTOS: none of these are photos of the clinic.
+# Order of preference (Nick, 2026-10-26: "both"): a still from Nick's OWN footage
+# (credit None), else a Wikimedia Commons photo under CC BY / CC BY-SA / CC0 / public
+# domain, credited on the image with its author, licence and a link to its Commons
+# page. Never an operator's own marketing photo (copyright), never generated art.
+# Files: assets/places/<key>-{800,1600}.{webp,jpg}, made by tools/place-photo.py.
+PLACE_PHOTOS = {}
+
+def place_img(name, lead=False):
+    ph = PLACE_PHOTOS.get(name)
+    if not ph:
+        return ""
+    k, w, h = ph["key"], ph["w"], ph["h"]
+    sizes = "(min-width: 900px) 760px, 92vw" if lead else "(min-width: 900px) 380px, 92vw"
+    return (f'<picture><source type="image/webp" srcset="assets/places/{k}-800.webp 800w, assets/places/{k}-1600.webp 1600w" sizes="{sizes}">'
+            f'<img src="assets/places/{k}-800.jpg" srcset="assets/places/{k}-800.jpg 800w, assets/places/{k}-1600.jpg 1600w" sizes="{sizes}" '
+            f'width="{w}" height="{h}" alt="{ph["alt"]}" style="object-position:{ph.get("focal", "50% 50%")}" loading="lazy" decoding="async"></picture>')
+
+def place_credit(name):
+    ph = PLACE_PHOTOS.get(name)
+    if not ph:
+        return ""
+    if not ph.get("author"):
+        return '<span class="place-credit">Our own footage</span>'
+    return (f'<span class="place-credit">Photo: {ph["author"]}, <a href="{ph["page"]}" target="_blank" rel="noopener">'
+            f'{ph["license"]}</a></span>')
+
 def build_things_to_do():
     """North County things to do, West Palm Beach to Jupiter. Data: THINGS_TO_DO."""
     import json as _json
     blocks, ld = [], []
     for g in THINGS_TO_DO:
         cards = "".join(
-            f'<div class="ex-card reveal"><span class="cond-tag">{TTD_MOVE[mv]}</span><h3>{name}</h3>'
-            f'<p class="ex-how">{blurb}</p>'
-            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">Official site</a></p></div>'
-            for name, town, mv, url, blurb in g["items"])
+            f'<article class="place-card reveal{" is-lead" if i == 0 else ""}">'
+            f'<figure class="place-fig">{place_img(name, lead=(i == 0))}<span class="place-tag">{TTD_MOVE[mv]}</span>'
+            f'{place_credit(name)}</figure>'
+            f'<div class="place-body"><h3>{name}</h3><p class="ex-how">{blurb}</p>'
+            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">Official site</a></p></div></article>'
+            for i, (name, town, mv, url, blurb) in enumerate(g["items"]))
         if g["key"] == "jupiter":
             tail = ('<p class="lede" style="margin-top:var(--space-5);">Live up here? Read about physical therapy for '
                     '<a href="locations/jupiter.html">Jupiter</a> and <a href="locations/tequesta.html">Tequesta</a> residents.</p>')
@@ -3488,10 +3532,11 @@ def build_things_to_do():
             tail = ('<p class="lede" style="margin-top:var(--space-5);">Our clinic is here too, at '
                     '733 US Highway 1. <a href="first-visit.html">What to expect at your first visit</a>.</p>')
         blocks.append(
-            f'<section class="section" id="{g["key"]}"><div class="wrap">'
-            f'<div class="section-head reveal"><h2>Things to do in {g["area"]}</h2>'
+            f'<section class="section ttd-town" id="{g["key"]}"><div class="wrap">'
+            f'<div class="section-head reveal"><span class="eyebrow">{g.get("county", "Palm Beach County")}</span>'
+            f'<h2>Things to do in {g["area"]}</h2>'
             f'<p class="lede">{g["lede"]}</p></div>'
-            f'<div class="ex-grid">{cards}</div>{tail}</div></section>')
+            f'<div class="place-grid">{cards}</div>{tail}</div></section>')
         for name, town, mv, url, blurb in g["items"]:
             ld.append({"@type": "TouristAttraction", "name": _faq_plain(name), "url": url,
                        "description": _faq_plain(blurb),
@@ -3508,11 +3553,11 @@ def build_things_to_do():
     crumbs = '<div class="crumbs"><a href="/">Home</a> / Things to Do</div>'
     body = f"""
 <main>
-{page_hero("North County", "Things to Do, <em class='accent'>West Palm Beach to Jupiter</em>",
-  "Parks, beaches, trails and museums across North County, grouped by town and tagged by how much moving each one asks of you.", crumbs)}
+{page_hero("North County &amp; Hobe Sound", "Things to Do, <em class='accent'>West Palm Beach to Hobe Sound</em>",
+  "Parks, beaches, trails and museums from West Palm Beach up to Hobe Sound, grouped by town and tagged by how much moving each one asks of you.", crumbs, loop="juno")}
 <section class="section" style="padding-bottom:0;">
   <div class="wrap">
-    <p class="lede">The point of therapy is getting back to your life, and around here a lot of that life happens outdoors. So here is North County, from West Palm Beach up to Jupiter and Tequesta, one town at a time. Every place carries a tag: an easy walk, a beach, a trail, time on the water, somewhere indoors, or a climb. If you are partway through recovery, pick from the gentler end and ask your therapist before you take on a sandy trail or a lighthouse staircase. That is exactly the kind of goal we like to build a plan around.</p>
+    <p class="lede">The point of therapy is getting back to your life, and around here a lot of that life happens outdoors. So here is North County, from West Palm Beach up to Jupiter and Tequesta, plus two favorites just over the Martin County line, one town at a time. Every place carries a tag: an easy walk, a beach, a trail, time on the water, somewhere indoors, or a climb. If you are partway through recovery, pick from the gentler end and ask your therapist before you take on a sandy trail or a lighthouse staircase. That is exactly the kind of goal we like to build a plan around.</p>
     <div class="ex-jump">{jump}</div>
     <p class="ex-src">Every place below was checked against its own official site in October 2026. Hours, fees and closures change, so check before you go. We are not affiliated with any of them.</p>
   </div>
@@ -3534,7 +3579,7 @@ def build_things_to_do():
           head("Things to Do From West Palm Beach to Jupiter | First Rehab",
                "Parks, beaches, trails and museums from West Palm Beach to Jupiter, grouped by town and tagged by how much walking each takes. From First Rehab, North Palm Beach.",
                canonical="things-to-do.html",
-               extra_schema=schema + breadcrumb_schema([("Home", ""), ("Things to Do", "things-to-do.html")]))
+               extra_schema=p2p_poster_preload("juno") + schema + breadcrumb_schema([("Home", ""), ("Things to Do", "things-to-do.html")]))
           + nav(0) + body + footer(0))
 
 

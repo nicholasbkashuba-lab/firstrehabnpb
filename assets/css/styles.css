@@ -1337,3 +1337,41 @@ body.nav-locked .p2p-mini { display: none; }
    The contact page places .appt-form-card inside .contact-grid; everywhere else
    it stands alone, so cap its measure rather than letting it run the full wrap. */
 .appt-form-solo { max-width: 680px; }
+
+/* ---------- Things to do (/things-to-do.html) ----------
+   Juno Beach drone loop: full bleed at every width above phones (the P2P heroes shift
+   right to clear the hosts; a beach has no subject to clear). Photo cards: every place
+   shows a photo, our own footage first, else a credited Wikimedia Commons photo whose
+   credit sits on the image. The first card of each town spans two columns. */
+@media (min-width: 1100px) {
+  .page-hero.hero-loop-juno .hero-media { left: 0; -webkit-mask-image: none; mask-image: none; }
+  .page-hero.hero-loop-juno .hero-scrim {
+    background:
+      linear-gradient(90deg, rgb(var(--ink-deep-rgb) / 0.86) 0%, rgb(var(--ink-deep-rgb) / 0.62) 34%, rgb(var(--ink-deep-rgb) / 0.12) 64%, rgb(var(--ink-deep-rgb) / 0) 100%),
+      linear-gradient(180deg, rgb(var(--ink-deep-rgb) / 0.5) 0%, rgb(var(--ink-deep-rgb) / 0) 22%, rgb(var(--ink-deep-rgb) / 0) 70%, rgb(var(--ink-deep-rgb) / 0.45) 100%); }
+}
+.ttd-town { scroll-margin-top: 120px; }
+.ttd-town:nth-of-type(even) { background: var(--cream-soft); }
+.ttd-town .section-head .eyebrow { color: var(--coral-text); }
+.place-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--space-4); }
+.place-card { background: var(--paper); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: var(--shadow-md); transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.place-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+.place-fig { position: relative; margin: 0; aspect-ratio: 3 / 2; overflow: hidden; background: var(--ink); }
+.place-fig picture, .place-fig img { display: block; width: 100%; height: 100%; }
+.place-fig img { object-fit: cover; transition: transform var(--dur-slow) var(--ease-out); }
+.place-card:hover .place-fig img { transform: scale(1.04); }
+.place-tag { position: absolute; left: var(--space-3); top: var(--space-3); background: var(--cream); color: var(--coral-text);
+  font-size: var(--step--2); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: var(--space-1) var(--space-2); border-radius: 999px; box-shadow: var(--shadow-sm); }
+.place-credit { position: absolute; right: 0; bottom: 0; max-width: 100%; background: rgb(var(--ink-deep-rgb) / 0.78); color: var(--cream);
+  font-size: var(--step--2); line-height: 1.3; padding: var(--space-1) var(--space-2); border-top-left-radius: var(--space-2); }
+.place-credit a { color: var(--cream); text-decoration: underline; text-underline-offset: 2px; }
+.place-body { padding: var(--space-4); display: flex; flex-direction: column; flex: 1; }
+.place-body h3 { font-size: var(--step-1); margin: 0 0 var(--space-2); }
+.place-body .ex-how { flex: 1; }
+@media (min-width: 900px) {
+  .place-card.is-lead { grid-column: span 2; }
+  .place-card.is-lead .place-fig { aspect-ratio: 16 / 9; }
+  .place-card.is-lead h3 { font-size: var(--step-2); }
+}
+@media (prefers-reduced-motion: reduce) { .place-card, .place-fig img { transition: none; } .place-card:hover, .place-card:hover .place-fig img { transform: none; } }
