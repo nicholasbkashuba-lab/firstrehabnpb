@@ -3391,8 +3391,9 @@ def build_exercises():
 # prices and anything else that changes often. Left OFF the list: Mounts Botanical
 # Garden, the Palm Beach Lake Trail and Lake Park Harbor Marina (no official page
 # could be opened to confirm them; NEVER link lakeparkmarina.com, a lapsed domain now
-# serving spam), and Blowing Rocks and Jonathan Dickinson (Martin County, outside the
-# brief). Re-check before adding anything, and re-verify the list each spring.
+# serving spam), Blowing Rocks and Jonathan Dickinson were added 2026-10-26 at Nick's request as a
+# Martin County group ("Hobe Sound"); JDSP's facts come from the Friends of JDSP page because
+# floridastateparks.org refuses automated reads (403). Re-check before adding anything, and re-verify the list each spring.
 # Movement keys -> chip labels shown on each card.
 TTD_MOVE = {"walk": "Easy walk", "beach": "Beach", "trail": "Trail", "water": "On the water",
             "indoor": "Indoors", "climb": "Climb"}
@@ -3479,7 +3480,16 @@ THINGS_TO_DO = [
         ("Roger Dean Chevrolet Stadium", "Jupiter", "walk", "https://www.mlb.com/roger-dean-chevrolet-stadium/ballpark",
          "Spring training home of the Miami Marlins and St. Louis Cardinals since 1998, and home to the Jupiter Hammerheads and Palm Beach Cardinals the rest of the year."),
      ]},
+    {"key": "hobe-sound", "area": "Hobe Sound", "loc": None, "county": "Just over the line in Martin County",
+     "lede": "Just north of Tequesta: limestone that throws the sea in the air, and the largest state park in Southeast Florida.",
+     "items": [
+        ("Blowing Rocks Preserve", "Hobe Sound", "beach", "https://www.nature.org/en-us/get-involved/how-to-help/places-we-protect/blowing-rocks-preserve/",
+         "A Nature Conservancy preserve on Jupiter Island with the largest Anastasia limestone shoreline on the Atlantic coast. At high tide in rough seas, waves force plumes of saltwater up to 50 feet in the air. Short trails, a 300 foot boardwalk through mangroves, and a beach with no lifeguard. In October 2026 the preserve posted a hurricane closure notice, so check before you go."),
+        ("Jonathan Dickinson State Park", "Hobe Sound", "trail", "https://www.friendsofjdsp.org/pages/our-park",
+         "The largest state park in Southeast Florida, over 10,500 acres along the Loxahatchee, Florida&rsquo;s first federally designated Wild and Scenic River. Paddle the river, ride the paved multi&#8209;use trail or the Camp Murphy bike loops, or take the boat only trip to the 1930s Trapper Nelson homestead. The Hobe Mountain tower is closed for restoration."),
+     ]},
 ]
+
 
 # Photos for /things-to-do.html, keyed by the place name in THINGS_TO_DO. This is a
 # THIRD photo source beside PHOTOS (the clinic) and the guest headshots, and it is
@@ -3489,7 +3499,74 @@ THINGS_TO_DO = [
 # domain, credited on the image with its author, licence and a link to its Commons
 # page. Never an operator's own marketing photo (copyright), never generated art.
 # Files: assets/places/<key>-{800,1600}.{webp,jpg}, made by tools/place-photo.py.
-PLACE_PHOTOS = {}
+PLACE_PHOTOS = {
+    "Norton Museum of Art": {"key": "norton", "w": 800, "h": 600,
+        "alt": "The Norton Museum of Art in West Palm Beach, its entrance banner framed by palms",
+        "author": "Ebyabe", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:West_PB_FL_Norton_MoA01.jpg"},
+    "Palm Beach Zoo &amp; Conservation Society": {"key": "zoo", "w": 800, "h": 600,
+        "alt": "An Indian roller perched on a branch at the Palm Beach Zoo in West Palm Beach",
+        "author": "airwaves1", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:Coracias_benghalensis_-Palm_Beach_Zoo_-USA-8a.jpg"},
+    "Manatee Lagoon, an FPL Eco&#8209;Discovery Center": {"key": "manatee-lagoon", "w": 800, "h": 600,
+        "alt": "Manatee Lagoon on the Lake Worth Lagoon in West Palm Beach under a clear blue sky",
+        "author": "FunctioningMemberOfSociety", "license": "CC BY 4.0", "page": "https://commons.wikimedia.org/wiki/File:Manatee_Lagoon,_West_Palm_Beach.jpg"},
+    "Grassy Waters Preserve": {"key": "grassy-waters", "w": 800, "h": 600,
+        "alt": "Marsh grass along open water at Grassy Waters Preserve, West Palm Beach",
+        "author": "P. Vald&eacute;s", "license": "CC BY 3.0", "page": "https://commons.wikimedia.org/wiki/File:Habitat_of_Semiardistomis_viridis_(Say)_at_Grassy_Waters_Preserve,_West_Palm_Beach,_Florida,_USA_-_ZooKeys-210-019-g018.jpeg"},
+    "The downtown waterfront": {"key": "wpb-waterfront", "w": 800, "h": 297,
+        "alt": "The West Palm Beach skyline seen across the Intracoastal Waterway",
+        "author": "Jared", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:West_Palm_Beach_-_Waterfront_-_Intracoastal_Waterway_%26_Downtown_Skyline_-_Panorama_(15300572403).jpg"},
+    "Ann Norton Sculpture Gardens": {"key": "ann-norton", "w": 800, "h": 600,
+        "alt": "Ann Norton&rsquo;s historic house in the El Cid district of West Palm Beach, with palms and cycads in front",
+        "author": "Ebyabe", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:West_PB_FL_El_Cid_HD_Norton_House02.jpg"},
+    "Worth Avenue": {"key": "worth-avenue", "w": 800, "h": 535,
+        "alt": "An arched arcade of shop windows on Worth Avenue, Palm Beach",
+        "author": "Elisa.rolle", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:I_Worth_Avenue_Gallery,_Palm_Beach,_FL.jpg"},
+    "Flagler Museum (Whitehall)": {"key": "whitehall", "w": 800, "h": 531,
+        "alt": "The white columned front of Whitehall, the Flagler Museum, in Palm Beach",
+        "author": "Roger Wollstadt", "license": "CC BY-SA 2.0", "page": "https://commons.wikimedia.org/wiki/File:Henry_Flagler_House.jpg"},
+    "Peanut Island Park": {"key": "peanut-island", "w": 800, "h": 533,
+        "alt": "A beach umbrella on white sand at Peanut Island, with boats moored offshore",
+        "author": "Florida Guidebook", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:Peanut-Island-Web-3766_(49369642831).jpg"},
+    "John D. MacArthur Beach State Park": {"key": "macarthur", "w": 800, "h": 600,
+        "alt": "The long boardwalk across the estuary at John D. MacArthur Beach State Park",
+        "author": "Dougtone", "license": "CC BY-SA 2.0", "page": "https://commons.wikimedia.org/wiki/File:John_D._MacArthur_Beach_State_Park_-_Riviera_Beach,_Florida_-_7020831037.jpg"},
+    "Frenchman&rsquo;s Forest Natural Area": {"key": "frenchmans", "w": 800, "h": 600,
+        "alt": "A wooden boardwalk through palms and cypress at Frenchman&rsquo;s Forest Natural Area, Palm Beach Gardens",
+        "author": "supercraigtalbert", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:Frenchman%27s_Forest_Natural_Area_-_50666290803.jpg"},
+    "The Gardens Mall": {"key": "gardens-mall", "w": 800, "h": 600,
+        "alt": "The two level atrium inside The Gardens Mall, Palm Beach Gardens",
+        "author": "*angys*", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:The_Gardens_Mall_(220709)_02.jpg"},
+    "Loggerhead Marinelife Center": {"key": "loggerhead", "w": 800, "h": 600,
+        "alt": "The front of Loggerhead Marinelife Center in Juno Beach",
+        "author": "Ebyabe", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:Juno_Beach_FL_Loggerhead_Marinelife_Center01.jpg"},
+    "Juno Beach Pier": {"key": "juno-pier", "w": 800, "h": 450,
+        "alt": "Juno Beach Pier from the air, reaching out over turquoise water beside the beach",
+        "author": "", "license": "", "page": ""},
+    "Juno Dunes Natural Area": {"key": "juno-dunes", "w": 800, "h": 800,
+        "alt": "A pink largeflower rose gentian in bloom at Juno Dunes Natural Area",
+        "author": "Bob Peterson", "license": "CC BY-SA 2.0", "page": "https://commons.wikimedia.org/wiki/File:Largeflower_Rose_Gentian_(Juno_Dunes)_(5745874652).jpg"},
+    "Jupiter Inlet Lighthouse &amp; Museum": {"key": "lighthouse", "w": 800, "h": 450,
+        "alt": "The red Jupiter Inlet Lighthouse from the air, above the inlet and the trees around it",
+        "author": "", "license": "", "page": ""},
+    "Riverbend Park": {"key": "riverbend", "w": 800, "h": 533,
+        "alt": "A shell rock trail curving through oaks and palms at Riverbend Park, Jupiter",
+        "author": "JupiterFlorida", "license": "CC BY 3.0", "page": "https://commons.wikimedia.org/wiki/File:Riverbend_Park_-_panoramio.jpg"},
+    "DuBois Park": {"key": "dubois", "w": 800, "h": 600,
+        "alt": "Jupiter Inlet seen from the rocks at DuBois Park, looking west",
+        "author": "Dough4872", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:Jupiter_Inlet_from_Dubois_Park_looking_west.jpeg"},
+    "Coral Cove Park": {"key": "coral-cove", "w": 800, "h": 600,
+        "alt": "Waves breaking over the limestone rocks on the beach at Coral Cove Park, Tequesta",
+        "author": "Anonymouskc", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:CCPbeach.jpg"},
+    "Roger Dean Chevrolet Stadium": {"key": "roger-dean", "w": 800, "h": 600,
+        "alt": "The arched brick entrance of the stadium in Jupiter, under its earlier Roger Dean Stadium sign",
+        "author": "Jtesla16", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:Roger_Dean_Stadium.JPG"},
+    "Blowing Rocks Preserve": {"key": "blowing-rocks", "w": 800, "h": 392,
+        "alt": "Atlantic waves washing over the Anastasia limestone rocks at Blowing Rocks Preserve at dawn",
+        "author": "LTreadwell", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:Blowing_Rocks_Preserve_Jupiter_Island_Florida.jpg"},
+    "Jonathan Dickinson State Park": {"key": "jdsp", "w": 800, "h": 600,
+        "alt": "Kayakers paddling the Loxahatchee River past mangroves in Jonathan Dickinson State Park",
+        "author": "Stephen B Calvert", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:Jonathan_Dickinson_State_Park_027.JPG"},
+}
 
 def place_img(name, lead=False):
     ph = PLACE_PHOTOS.get(name)
@@ -3517,14 +3594,19 @@ def build_things_to_do():
     for g in THINGS_TO_DO:
         cards = "".join(
             f'<article class="place-card reveal{" is-lead" if i == 0 else ""}">'
-            f'<figure class="place-fig">{place_img(name, lead=(i == 0))}<span class="place-tag">{TTD_MOVE[mv]}</span>'
-            f'{place_credit(name)}</figure>'
-            f'<div class="place-body"><h3>{name}</h3><p class="ex-how">{blurb}</p>'
-            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">Official site</a></p></div></article>'
+            + (f'<figure class="place-fig">{place_img(name, lead=(i == 0))}<span class="place-tag">{TTD_MOVE[mv]}</span>'
+               f'{place_credit(name)}</figure><div class="place-body">' if name in PLACE_PHOTOS else
+               f'<div class="place-body"><span class="cond-tag">{TTD_MOVE[mv]}</span>')
+            + f'<h3>{name}</h3><p class="ex-how">{blurb}</p>'
+            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">'
+            f'{"Friends of the park" if "friendsofjdsp" in url else "Official site"}</a></p></div></article>'
             for i, (name, town, mv, url, blurb) in enumerate(g["items"]))
         if g["key"] == "jupiter":
             tail = ('<p class="lede" style="margin-top:var(--space-5);">Live up here? Read about physical therapy for '
                     '<a href="locations/jupiter.html">Jupiter</a> and <a href="locations/tequesta.html">Tequesta</a> residents.</p>')
+        elif g["key"] == "hobe-sound":
+            tail = ('<p class="lede" style="margin-top:var(--space-5);">Coming down from Hobe Sound or Tequesta? '
+                    'Read about <a href="locations/tequesta.html">physical therapy for Tequesta residents</a>.</p>')
         elif g["loc"]:
             tail = (f'<p class="lede" style="margin-top:var(--space-5);">Live in {g["area"]}? Read about '
                     f'<a href="locations/{g["loc"]}.html">physical therapy for {g["area"]} residents</a>.</p>')

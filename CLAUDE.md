@@ -539,6 +539,22 @@ to `JOKES` and schedule it for the next open Friday. Instagram audio: a licensed
 (Nick wanted "Beat It") can only be added in the Instagram app; the API cannot attach
 platform music, so a Reel that needs it is posted by hand from the `-nomusic` file.
 
+## Things to do page — /things-to-do.html (photos and hero added 2026-10-26)
+`THINGS_TO_DO` in build.py: 29 places by town, West Palm Beach to Hobe Sound. Blowing Rocks and
+Jonathan Dickinson were added 2026-10-26 as a Martin County "Hobe Sound" group at Nick's request
+(JDSP facts from friendsofjdsp.org, because floridastateparks.org 403s every automated read).
+- **Hero** is Nick's own drone pass over Juno Beach Pier (Dropbox `/Juno.MP4`), cut to a seamless
+  loop as `assets/media/ttd-hero-juno-*` and played through `page_hero(..., loop="juno")`, same
+  media contract as the homepage and P2P heroes.
+- **Photos are a third source** beside PHOTOS and the guest headshots: `PLACE_PHOTOS` in build.py,
+  files in `assets/places/` from `tools/place-photo.py`. Nick chose "both": his own footage first
+  (credited "Our own footage"), else a Wikimedia Commons photo under CC BY / BY-SA / CC0 / PD,
+  credited ON the image with author, licence and a link to its Commons page. Never an operator's
+  marketing photo, never generated art. Seven places have no photo that actually shows them and
+  render as text cards; a photo of somewhere else is not a substitute.
+- Wikimedia rate-limits this sandbox (429). Candidates were pulled by a GitHub Actions relay
+  (`tmp/ttd-photos` -> `tmp/ttd-photos-out`); reuse that pattern to add more.
+
 ## Location pages
 LOCATIONS dict in build.py → /locations/{palm-beach-gardens,jupiter,tequesta,juno-beach,
 lake-park,palm-beach,west-palm-beach,riviera-beach}.html. Honest served-from-NPB content
