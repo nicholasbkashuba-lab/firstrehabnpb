@@ -281,6 +281,16 @@
       "statusCode": 301
     },
     {
+      "source": "/:p([Aa][Bb][Oo][Uu][Tt]-5-[12])",
+      "destination": "/about.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Ss][Ee][Rr][Vv][Ii][Cc][Ee][Ss])",
+      "destination": "/services/physical-therapy.html",
+      "statusCode": 301
+    },
+    {
       "source": "/:p([Hh][Ee][Aa][Dd][Aa][Cc][Hh][Ee])",
       "destination": "/treatments/headache-relief.html",
       "statusCode": 301
@@ -322,6 +332,11 @@
     },
     {
       "source": "/:p([Ff][Oo][Oo][Tt]-[Pp][Aa][Ii][Nn])",
+      "destination": "/treatments/foot-pain.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/:p([Cc][Oo][Pp][Yy]-[Oo][Ff]-[Ff][Oo][Oo][Tt]-[Pp][Aa][Ii][Nn])",
       "destination": "/treatments/foot-pain.html",
       "statusCode": 301
     },
