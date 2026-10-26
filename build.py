@@ -793,6 +793,15 @@ def page_hero(eyebrow, title, lede, crumbs_html="", cta_href=None, cta_label="Bo
 P2P_LOOPS = {
     "audio": "p2p-hero-audio",
     "video": "p2p-hero-video",
+    # Not Pain 2 Power: Nick's own drone pass over Juno Beach Pier (Dropbox
+    # /Juno.MP4, 2688x1512), 0.8x slow with a 0.6s crossfade loop. Heads
+    # /things-to-do.html. Same media contract; no trailer button.
+    "juno": "ttd-hero-juno",
+}
+LOOP_LABELS = {
+    "audio": "Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio",
+    "video": "Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio",
+    "juno": "Drone flight along Juno Beach Pier and the beach north of it, Juno Beach, Florida",
 }
 P2P_TRAILER = {
     "mp4": "assets/media/p2p-trailer.mp4",
@@ -811,12 +820,22 @@ def p2p_poster_preload(kind):
 
 def _video_page_hero(eyebrow, title, lede, crumbs_html, kind):
     base = f"assets/media/{P2P_LOOPS[kind]}"
+    trailer_btn = trailer_dlg = ""
+    if kind in ("audio", "video"):
+        trailer_btn = ('<div class="mt-2"><button class="btn btn-coral trailer-open" type="button" aria-haspopup="dialog">\n'
+                       '      <span aria-hidden="true">&#9654;</span> Watch the Trailer</button></div>')
+        trailer_dlg = f"""<dialog class="trailer-modal" aria-label="Pain 2 Power trailer">
+  <button class="trailer-close" type="button" aria-label="Close trailer">&times;</button>
+  <video controls playsinline preload="none" poster="{_m(P2P_TRAILER['poster'])}"
+    data-src="{_m(P2P_TRAILER['mp4'])}"></video>
+</dialog>
+"""
     return f"""
-<section class="page-hero has-video">
+<section class="page-hero has-video hero-loop-{kind}">
   <div class="hero-media">
     <div class="hero-fallback"></div>
     <video autoplay muted loop playsinline preload="none" poster="{_m(base + '-poster.jpg')}"
-      aria-label="Dr. Dave Kashuba and Mike McGann on air in the Pain 2 Power studio at 100.3 Legends Radio"
+      aria-label="{LOOP_LABELS[kind]}"
       data-mp4-full="{_m(base + '-hd.mp4')}"
       data-webm-full="{_m(base + '-hd.webm')}"
       data-mp4-mobile="{_m(base + '-mobile.mp4')}"
@@ -829,16 +848,10 @@ def _video_page_hero(eyebrow, title, lede, crumbs_html, kind):
     <span class="eyebrow">{eyebrow}</span>
     <h1>{title}</h1>
     <p class="lede">{lede}</p>
-    <div class="mt-2"><button class="btn btn-coral trailer-open" type="button" aria-haspopup="dialog">
-      <span aria-hidden="true">&#9654;</span> Watch the Trailer</button></div>
+    {trailer_btn}
   </div>
 </section>
-<dialog class="trailer-modal" aria-label="Pain 2 Power trailer">
-  <button class="trailer-close" type="button" aria-label="Close trailer">&times;</button>
-  <video controls playsinline preload="none" poster="{_m(P2P_TRAILER['poster'])}"
-    data-src="{_m(P2P_TRAILER['mp4'])}"></video>
-</dialog>
-"""
+{trailer_dlg}"""
 
 def _trailer_schema():
     """VideoObject for the self-hosted Pain 2 Power trailer, tied to the org."""
@@ -3378,8 +3391,9 @@ def build_exercises():
 # prices and anything else that changes often. Left OFF the list: Mounts Botanical
 # Garden, the Palm Beach Lake Trail and Lake Park Harbor Marina (no official page
 # could be opened to confirm them; NEVER link lakeparkmarina.com, a lapsed domain now
-# serving spam), and Blowing Rocks and Jonathan Dickinson (Martin County, outside the
-# brief). Re-check before adding anything, and re-verify the list each spring.
+# serving spam), Blowing Rocks and Jonathan Dickinson were added 2026-10-26 at Nick's request as a
+# Martin County group ("Hobe Sound"); JDSP's facts come from the Friends of JDSP page because
+# floridastateparks.org refuses automated reads (403). Re-check before adding anything, and re-verify the list each spring.
 # Movement keys -> chip labels shown on each card.
 TTD_MOVE = {"walk": "Easy walk", "beach": "Beach", "trail": "Trail", "water": "On the water",
             "indoor": "Indoors", "climb": "Climb"}
@@ -3466,7 +3480,112 @@ THINGS_TO_DO = [
         ("Roger Dean Chevrolet Stadium", "Jupiter", "walk", "https://www.mlb.com/roger-dean-chevrolet-stadium/ballpark",
          "Spring training home of the Miami Marlins and St. Louis Cardinals since 1998, and home to the Jupiter Hammerheads and Palm Beach Cardinals the rest of the year."),
      ]},
+    {"key": "hobe-sound", "area": "Hobe Sound", "loc": None, "county": "Just over the line in Martin County",
+     "lede": "Just north of Tequesta: limestone that throws the sea in the air, and the largest state park in Southeast Florida.",
+     "items": [
+        ("Blowing Rocks Preserve", "Hobe Sound", "beach", "https://www.nature.org/en-us/get-involved/how-to-help/places-we-protect/blowing-rocks-preserve/",
+         "A Nature Conservancy preserve on Jupiter Island with the largest Anastasia limestone shoreline on the Atlantic coast. At high tide in rough seas, waves force plumes of saltwater up to 50 feet in the air. Short trails, a 300 foot boardwalk through mangroves, and a beach with no lifeguard. In October 2026 the preserve posted a hurricane closure notice, so check before you go."),
+        ("Jonathan Dickinson State Park", "Hobe Sound", "trail", "https://www.friendsofjdsp.org/pages/our-park",
+         "The largest state park in Southeast Florida, over 10,500 acres along the Loxahatchee, Florida&rsquo;s first federally designated Wild and Scenic River. Paddle the river, ride the paved multi&#8209;use trail or the Camp Murphy bike loops, or take the boat only trip to the 1930s Trapper Nelson homestead. The Hobe Mountain tower is closed for restoration."),
+     ]},
 ]
+
+
+# Photos for /things-to-do.html, keyed by the place name in THINGS_TO_DO. This is a
+# THIRD photo source beside PHOTOS (the clinic) and the guest headshots, and it is
+# deliberately separate from PHOTOS: none of these are photos of the clinic.
+# Order of preference (Nick, 2026-10-26: "both"): a still from Nick's OWN footage
+# (credit None), else a Wikimedia Commons photo under CC BY / CC BY-SA / CC0 / public
+# domain, credited on the image with its author, licence and a link to its Commons
+# page. Never an operator's own marketing photo (copyright), never generated art.
+# Files: assets/places/<key>-{800,1600}.{webp,jpg}, made by tools/place-photo.py.
+PLACE_PHOTOS = {
+    "Norton Museum of Art": {"key": "norton", "w": 800, "h": 600,
+        "alt": "The Norton Museum of Art in West Palm Beach, its entrance banner framed by palms",
+        "author": "Ebyabe", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:West_PB_FL_Norton_MoA01.jpg"},
+    "Palm Beach Zoo &amp; Conservation Society": {"key": "zoo", "w": 800, "h": 600,
+        "alt": "An Indian roller perched on a branch at the Palm Beach Zoo in West Palm Beach",
+        "author": "airwaves1", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:Coracias_benghalensis_-Palm_Beach_Zoo_-USA-8a.jpg"},
+    "Manatee Lagoon, an FPL Eco&#8209;Discovery Center": {"key": "manatee-lagoon", "w": 800, "h": 600,
+        "alt": "Manatee Lagoon on the Lake Worth Lagoon in West Palm Beach under a clear blue sky",
+        "author": "FunctioningMemberOfSociety", "license": "CC BY 4.0", "page": "https://commons.wikimedia.org/wiki/File:Manatee_Lagoon,_West_Palm_Beach.jpg"},
+    "Grassy Waters Preserve": {"key": "grassy-waters", "w": 800, "h": 600,
+        "alt": "Marsh grass along open water at Grassy Waters Preserve, West Palm Beach",
+        "author": "P. Vald&eacute;s", "license": "CC BY 3.0", "page": "https://commons.wikimedia.org/wiki/File:Habitat_of_Semiardistomis_viridis_(Say)_at_Grassy_Waters_Preserve,_West_Palm_Beach,_Florida,_USA_-_ZooKeys-210-019-g018.jpeg"},
+    "The downtown waterfront": {"key": "wpb-waterfront", "w": 800, "h": 297,
+        "alt": "The West Palm Beach skyline seen across the Intracoastal Waterway",
+        "author": "Jared", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:West_Palm_Beach_-_Waterfront_-_Intracoastal_Waterway_%26_Downtown_Skyline_-_Panorama_(15300572403).jpg"},
+    "Ann Norton Sculpture Gardens": {"key": "ann-norton", "w": 800, "h": 600,
+        "alt": "Ann Norton&rsquo;s historic house in the El Cid district of West Palm Beach, with palms and cycads in front",
+        "author": "Ebyabe", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:West_PB_FL_El_Cid_HD_Norton_House02.jpg"},
+    "Worth Avenue": {"key": "worth-avenue", "w": 800, "h": 535,
+        "alt": "An arched arcade of shop windows on Worth Avenue, Palm Beach",
+        "author": "Elisa.rolle", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:I_Worth_Avenue_Gallery,_Palm_Beach,_FL.jpg"},
+    "Flagler Museum (Whitehall)": {"key": "whitehall", "w": 800, "h": 531,
+        "alt": "The white columned front of Whitehall, the Flagler Museum, in Palm Beach",
+        "author": "Roger Wollstadt", "license": "CC BY-SA 2.0", "page": "https://commons.wikimedia.org/wiki/File:Henry_Flagler_House.jpg"},
+    "Peanut Island Park": {"key": "peanut-island", "w": 800, "h": 533,
+        "alt": "A beach umbrella on white sand at Peanut Island, with boats moored offshore",
+        "author": "Florida Guidebook", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:Peanut-Island-Web-3766_(49369642831).jpg"},
+    "John D. MacArthur Beach State Park": {"key": "macarthur", "w": 800, "h": 600,
+        "alt": "The long boardwalk across the estuary at John D. MacArthur Beach State Park",
+        "author": "Dougtone", "license": "CC BY-SA 2.0", "page": "https://commons.wikimedia.org/wiki/File:John_D._MacArthur_Beach_State_Park_-_Riviera_Beach,_Florida_-_7020831037.jpg"},
+    "Frenchman&rsquo;s Forest Natural Area": {"key": "frenchmans", "w": 800, "h": 600,
+        "alt": "A wooden boardwalk through palms and cypress at Frenchman&rsquo;s Forest Natural Area, Palm Beach Gardens",
+        "author": "supercraigtalbert", "license": "CC BY 2.0", "page": "https://commons.wikimedia.org/wiki/File:Frenchman%27s_Forest_Natural_Area_-_50666290803.jpg"},
+    "The Gardens Mall": {"key": "gardens-mall", "w": 800, "h": 600,
+        "alt": "The two level atrium inside The Gardens Mall, Palm Beach Gardens",
+        "author": "*angys*", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:The_Gardens_Mall_(220709)_02.jpg"},
+    "Loggerhead Marinelife Center": {"key": "loggerhead", "w": 800, "h": 600,
+        "alt": "The front of Loggerhead Marinelife Center in Juno Beach",
+        "author": "Ebyabe", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:Juno_Beach_FL_Loggerhead_Marinelife_Center01.jpg"},
+    "Juno Beach Pier": {"key": "juno-pier", "w": 800, "h": 450,
+        "alt": "Juno Beach Pier from the air, reaching out over turquoise water beside the beach",
+        "author": "", "license": "", "page": ""},
+    "Juno Dunes Natural Area": {"key": "juno-dunes", "w": 800, "h": 800,
+        "alt": "A pink largeflower rose gentian in bloom at Juno Dunes Natural Area",
+        "author": "Bob Peterson", "license": "CC BY-SA 2.0", "page": "https://commons.wikimedia.org/wiki/File:Largeflower_Rose_Gentian_(Juno_Dunes)_(5745874652).jpg"},
+    "Jupiter Inlet Lighthouse &amp; Museum": {"key": "lighthouse", "w": 800, "h": 450,
+        "alt": "The red Jupiter Inlet Lighthouse from the air, above the inlet and the trees around it",
+        "author": "", "license": "", "page": ""},
+    "Riverbend Park": {"key": "riverbend", "w": 800, "h": 533,
+        "alt": "A shell rock trail curving through oaks and palms at Riverbend Park, Jupiter",
+        "author": "JupiterFlorida", "license": "CC BY 3.0", "page": "https://commons.wikimedia.org/wiki/File:Riverbend_Park_-_panoramio.jpg"},
+    "DuBois Park": {"key": "dubois", "w": 800, "h": 600,
+        "alt": "Jupiter Inlet seen from the rocks at DuBois Park, looking west",
+        "author": "Dough4872", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:Jupiter_Inlet_from_Dubois_Park_looking_west.jpeg"},
+    "Coral Cove Park": {"key": "coral-cove", "w": 800, "h": 600,
+        "alt": "Waves breaking over the limestone rocks on the beach at Coral Cove Park, Tequesta",
+        "author": "Anonymouskc", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:CCPbeach.jpg"},
+    "Roger Dean Chevrolet Stadium": {"key": "roger-dean", "w": 800, "h": 600,
+        "alt": "The arched brick entrance of the stadium in Jupiter, under its earlier Roger Dean Stadium sign",
+        "author": "Jtesla16", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:Roger_Dean_Stadium.JPG"},
+    "Blowing Rocks Preserve": {"key": "blowing-rocks", "w": 800, "h": 392,
+        "alt": "Atlantic waves washing over the Anastasia limestone rocks at Blowing Rocks Preserve at dawn",
+        "author": "LTreadwell", "license": "CC BY-SA 4.0", "page": "https://commons.wikimedia.org/wiki/File:Blowing_Rocks_Preserve_Jupiter_Island_Florida.jpg"},
+    "Jonathan Dickinson State Park": {"key": "jdsp", "w": 800, "h": 600,
+        "alt": "Kayakers paddling the Loxahatchee River past mangroves in Jonathan Dickinson State Park",
+        "author": "Stephen B Calvert", "license": "CC BY-SA 3.0", "page": "https://commons.wikimedia.org/wiki/File:Jonathan_Dickinson_State_Park_027.JPG"},
+}
+
+def place_img(name, lead=False):
+    ph = PLACE_PHOTOS.get(name)
+    if not ph:
+        return ""
+    k, w, h = ph["key"], ph["w"], ph["h"]
+    sizes = "(min-width: 900px) 760px, 92vw" if lead else "(min-width: 900px) 380px, 92vw"
+    return (f'<picture><source type="image/webp" srcset="assets/places/{k}-800.webp 800w, assets/places/{k}-1600.webp 1600w" sizes="{sizes}">'
+            f'<img src="assets/places/{k}-800.jpg" srcset="assets/places/{k}-800.jpg 800w, assets/places/{k}-1600.jpg 1600w" sizes="{sizes}" '
+            f'width="{w}" height="{h}" alt="{ph["alt"]}" style="object-position:{ph.get("focal", "50% 50%")}" loading="lazy" decoding="async"></picture>')
+
+def place_credit(name):
+    ph = PLACE_PHOTOS.get(name)
+    if not ph:
+        return ""
+    if not ph.get("author"):
+        return '<span class="place-credit">Our own footage</span>'
+    return (f'<span class="place-credit">Photo: {ph["author"]}, <a href="{ph["page"]}" target="_blank" rel="noopener">'
+            f'{ph["license"]}</a></span>')
 
 def build_things_to_do():
     """North County things to do, West Palm Beach to Jupiter. Data: THINGS_TO_DO."""
@@ -3474,13 +3593,20 @@ def build_things_to_do():
     blocks, ld = [], []
     for g in THINGS_TO_DO:
         cards = "".join(
-            f'<div class="ex-card reveal"><span class="cond-tag">{TTD_MOVE[mv]}</span><h3>{name}</h3>'
-            f'<p class="ex-how">{blurb}</p>'
-            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">Official site</a></p></div>'
-            for name, town, mv, url, blurb in g["items"])
+            f'<article class="place-card reveal{" is-lead" if i == 0 else ""}">'
+            + (f'<figure class="place-fig">{place_img(name, lead=(i == 0))}<span class="place-tag">{TTD_MOVE[mv]}</span>'
+               f'{place_credit(name)}</figure><div class="place-body">' if name in PLACE_PHOTOS else
+               f'<div class="place-body"><span class="cond-tag">{TTD_MOVE[mv]}</span>')
+            + f'<h3>{name}</h3><p class="ex-how">{blurb}</p>'
+            f'<p class="ex-src">{town} &middot; <a href="{url}" target="_blank" rel="noopener">'
+            f'{"Friends of the park" if "friendsofjdsp" in url else "Official site"}</a></p></div></article>'
+            for i, (name, town, mv, url, blurb) in enumerate(g["items"]))
         if g["key"] == "jupiter":
             tail = ('<p class="lede" style="margin-top:var(--space-5);">Live up here? Read about physical therapy for '
                     '<a href="locations/jupiter.html">Jupiter</a> and <a href="locations/tequesta.html">Tequesta</a> residents.</p>')
+        elif g["key"] == "hobe-sound":
+            tail = ('<p class="lede" style="margin-top:var(--space-5);">Coming down from Hobe Sound or Tequesta? '
+                    'Read about <a href="locations/tequesta.html">physical therapy for Tequesta residents</a>.</p>')
         elif g["loc"]:
             tail = (f'<p class="lede" style="margin-top:var(--space-5);">Live in {g["area"]}? Read about '
                     f'<a href="locations/{g["loc"]}.html">physical therapy for {g["area"]} residents</a>.</p>')
@@ -3488,10 +3614,11 @@ def build_things_to_do():
             tail = ('<p class="lede" style="margin-top:var(--space-5);">Our clinic is here too, at '
                     '733 US Highway 1. <a href="first-visit.html">What to expect at your first visit</a>.</p>')
         blocks.append(
-            f'<section class="section" id="{g["key"]}"><div class="wrap">'
-            f'<div class="section-head reveal"><h2>Things to do in {g["area"]}</h2>'
+            f'<section class="section ttd-town" id="{g["key"]}"><div class="wrap">'
+            f'<div class="section-head reveal"><span class="eyebrow">{g.get("county", "Palm Beach County")}</span>'
+            f'<h2>Things to do in {g["area"]}</h2>'
             f'<p class="lede">{g["lede"]}</p></div>'
-            f'<div class="ex-grid">{cards}</div>{tail}</div></section>')
+            f'<div class="place-grid">{cards}</div>{tail}</div></section>')
         for name, town, mv, url, blurb in g["items"]:
             ld.append({"@type": "TouristAttraction", "name": _faq_plain(name), "url": url,
                        "description": _faq_plain(blurb),
@@ -3508,11 +3635,11 @@ def build_things_to_do():
     crumbs = '<div class="crumbs"><a href="/">Home</a> / Things to Do</div>'
     body = f"""
 <main>
-{page_hero("North County", "Things to Do, <em class='accent'>West Palm Beach to Jupiter</em>",
-  "Parks, beaches, trails and museums across North County, grouped by town and tagged by how much moving each one asks of you.", crumbs)}
+{page_hero("North County &amp; Hobe Sound", "Things to Do, <em class='accent'>West Palm Beach to Hobe Sound</em>",
+  "Parks, beaches, trails and museums from West Palm Beach up to Hobe Sound, grouped by town and tagged by how much moving each one asks of you.", crumbs, loop="juno")}
 <section class="section" style="padding-bottom:0;">
   <div class="wrap">
-    <p class="lede">The point of therapy is getting back to your life, and around here a lot of that life happens outdoors. So here is North County, from West Palm Beach up to Jupiter and Tequesta, one town at a time. Every place carries a tag: an easy walk, a beach, a trail, time on the water, somewhere indoors, or a climb. If you are partway through recovery, pick from the gentler end and ask your therapist before you take on a sandy trail or a lighthouse staircase. That is exactly the kind of goal we like to build a plan around.</p>
+    <p class="lede">The point of therapy is getting back to your life, and around here a lot of that life happens outdoors. So here is North County, from West Palm Beach up to Jupiter and Tequesta, plus two favorites just over the Martin County line, one town at a time. Every place carries a tag: an easy walk, a beach, a trail, time on the water, somewhere indoors, or a climb. If you are partway through recovery, pick from the gentler end and ask your therapist before you take on a sandy trail or a lighthouse staircase. That is exactly the kind of goal we like to build a plan around.</p>
     <div class="ex-jump">{jump}</div>
     <p class="ex-src">Every place below was checked against its own official site in October 2026. Hours, fees and closures change, so check before you go. We are not affiliated with any of them.</p>
   </div>
@@ -3534,7 +3661,7 @@ def build_things_to_do():
           head("Things to Do From West Palm Beach to Jupiter | First Rehab",
                "Parks, beaches, trails and museums from West Palm Beach to Jupiter, grouped by town and tagged by how much walking each takes. From First Rehab, North Palm Beach.",
                canonical="things-to-do.html",
-               extra_schema=schema + breadcrumb_schema([("Home", ""), ("Things to Do", "things-to-do.html")]))
+               extra_schema=p2p_poster_preload("juno") + schema + breadcrumb_schema([("Home", ""), ("Things to Do", "things-to-do.html")]))
           + nav(0) + body + footer(0))
 
 
