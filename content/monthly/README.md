@@ -26,8 +26,8 @@ Instagram collaborators: none. This is not a Pain 2 Power post.
 One still from Nick's OWN footage, never a Commons photo (those need a credit line a social
 image cannot carry cleanly) and never an operator's photo. Rotate through
 `assets/places/juno-pier-1600.jpg`, `assets/places/lighthouse-1600.jpg` and
-`assets/media/ttd-hero-juno-poster.jpg`. Reuse the Post Bridge media id recorded in the last
-month's file instead of re-uploading (uploads are metered).
+`assets/media/ttd-hero-juno-poster.jpg`. Upload it fresh each month: Post Bridge deletes a media id once
+the last post using it publishes, so last month's id is gone by then.
 
 ## Rules
 

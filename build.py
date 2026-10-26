@@ -3699,13 +3699,18 @@ def build_things_to_do():
     <ol class="season-list">{season_items}</ol>
   </div>
 </section>
-<section class="section" style="padding-top:0;">
+<section class="section ttd-goal">
   <div class="wrap">
-    <p class="lede">Want the stairs at the lighthouse or the 1.25 mile course at Carlin Park back on your list?
-    Tell us at your evaluation and we will build toward it. Call <strong>{PHONE}</strong> or
-    <a href="contact.html">request an appointment</a>. Between visits, the
-    <a href="exercises.html">home exercise library</a> has the moves Dr. Dave Kashuba talks through on
-    <a href="podcast.html">Pain 2 Power</a>.</p>
+    <div class="goal-card reveal">
+      <figure class="goal-fig">{place_img("Jupiter Inlet Lighthouse &amp; Museum", lead=True)}<span class="place-credit">Our own footage</span></figure>
+      <div class="goal-body">
+        <span class="eyebrow">Make it a goal</span>
+        <h2>Want the lighthouse stairs back on your list?</h2>
+        <p>Or the 1.25 mile course at Carlin Park, or the boardwalk at MacArthur. Tell us at your evaluation and we will build your plan toward it. Between visits, the <a href="exercises.html">home exercise library</a> has the moves Dr. Dave Kashuba talks through on <a href="podcast.html">Pain 2 Power</a>.</p>
+        <div class="goal-cta"><a class="btn btn-coral" href="contact.html">Request an Appointment <span class="arr">&rarr;</span></a>
+          <a class="goal-call" href="tel:5616244263">Call {PHONE}</a></div>
+      </div>
+    </div>
   </div>
 </section>
 {cta_band(0)}

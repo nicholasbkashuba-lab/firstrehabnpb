@@ -1382,8 +1382,20 @@ body.nav-locked .p2p-mini { display: none; }
 .ttd-seasons .eyebrow { color: var(--gold); }
 .ttd-seasons .ex-src { color: rgb(var(--cream-rgb) / 0.72); }
 .ttd-seasons a { color: var(--gold); }
-.season-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: var(--space-4); }
-.season-item { display: grid; grid-template-columns: 1fr; gap: var(--space-2); padding: var(--space-4); border-radius: var(--radius); border: 1px solid rgb(var(--cream-rgb) / 0.14); background: rgb(var(--cream-rgb) / 0.04); }
+.season-list { list-style: none; margin: 0; padding: 0; columns: 2 26rem; column-gap: var(--space-7); }
+.season-item { break-inside: avoid; display: grid; grid-template-columns: 9rem 1fr; gap: var(--space-4); padding: var(--space-4) 0; border-top: 1px solid rgb(var(--cream-rgb) / 0.16); }
 .season-when { font-size: var(--step--2); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); line-height: 1.4; }
 .season-item h3 { font-size: var(--step-1); margin: 0 0 var(--space-2); }
 .season-item p { font-size: var(--step--1); margin: 0 0 var(--space-2); }
+.season-when { padding-top: var(--space-1); }
+@media (max-width: 560px) { .season-item { grid-template-columns: 1fr; gap: var(--space-2); } }
+/* Closing goal card: our own lighthouse still beside the call to action. */
+.goal-card { display: grid; grid-template-columns: 1.1fr 1fr; background: var(--paper); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
+.goal-fig { position: relative; margin: 0; min-height: 22rem; background: var(--ink); }
+.goal-fig picture, .goal-fig img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.goal-body { padding: var(--space-6) var(--space-6); display: flex; flex-direction: column; justify-content: center; }
+.goal-body h2 { font-size: var(--step-3); margin: var(--space-2) 0 var(--space-3); }
+.goal-body p { color: var(--muted); }
+.goal-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); margin-top: var(--space-4); }
+.goal-call { font-weight: 600; color: var(--ink); }
+@media (max-width: 860px) { .goal-card { grid-template-columns: 1fr; } .goal-fig { min-height: 0; aspect-ratio: 16 / 9; } .goal-body { padding: var(--space-5) var(--space-4); } }
