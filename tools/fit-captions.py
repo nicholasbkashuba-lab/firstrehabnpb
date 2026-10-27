@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Rescue an already rendered 9:16 clip whose burned-in captions sit too low.
+"""RETIRED 2026-10-27. Do not use: Nick rejected the shrunk picture ("Looks horrible"). Every clip
+fills the frame. Use tools/refit-clip/ instead. Kept only as a record of what not to ship.
+
+Rescue an already rendered 9:16 clip whose burned-in captions sit too low.
 
 Instagram's feed crops a Reel to 4:5 (keeps y 285..1635 of 1920) and Reels/TikTok/Shorts
 lay their own text over the bottom ~420 px, so captions placed below ~y 1500 get cut off.
@@ -13,7 +16,8 @@ audio and framing are untouched; nothing is re-typed.
 --caption-bottom is the lowest pixel row any caption reaches (measure it on frames; the
 2026-10-20 batch ranged 1590 to 1843). Used on 2026-10-20 for 24 queued clips.
 """
-import argparse, subprocess
+import argparse, subprocess, sys
+sys.exit("fit-captions.py is retired: it shrinks the picture. Use tools/refit-clip/ (full frame).")
 ap = argparse.ArgumentParser()
 ap.add_argument("src"); ap.add_argument("dst")
 ap.add_argument("--caption-bottom", type=int, required=True)
