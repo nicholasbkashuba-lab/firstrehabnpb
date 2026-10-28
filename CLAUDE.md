@@ -989,10 +989,14 @@ Standing preferences for a one off post, unless told otherwise:
     Ep 19 CENTCOM clip: "you can't even see the captions"). Reels, TikTok and Shorts also
     lay their caption text and buttons over roughly the bottom 420 px (y > 1500). 75 clears
     both. Never go below about 60. Check a frame with both zones drawn on before shipping.
-    **Clips already rendered too low** (24 queued clips, fixed 2026-10-20): `tools/fit-captions.py`
-    shrinks the picture so the existing captions land at y~1450 over a blurred copy of the frame,
-    then swap the file into the scheduled post (upload_media, update_post with platform_configurations
-    in full). The noon dad-joke reels from tools/sizzle already sit at y~1420 and need nothing.
+    **Clips already rendered too low: re-cut them FULL FRAME, never shrink them** (Nick, 2026-10-27,
+    on a shrunk clip in his feed: "Why is it not filling up the whole screen? Looks horrible").
+    The 2026-10-20 rescue, `tools/fit-captions.py`, shrank the picture over a blurred copy of itself so
+    the old captions rose into the safe zone. That is RETIRED: every clip fills the 9:16 frame, no blur
+    bars, no letterbox, ever. The fix is `tools/refit-clip/` (README there): crop the picture above the
+    old caption band, follow the speaker's face shot by shot, scale to fill 1080x1920, and burn fresh
+    captions in the house style from the reviewed `transcripts.md`, timed by word level ASR. The 21
+    shrunk clips still queued on 2026-10-27 were rebuilt this way and swapped into their posts.
   - **Timing: never ahead of the speaker.** Episode 18's first cut used two line cues of up
     to ~12 words, so each cue appeared the instant its FIRST word was spoken and the reader
     saw the rest of the sentence seconds early. ASR timing was not the problem (median
