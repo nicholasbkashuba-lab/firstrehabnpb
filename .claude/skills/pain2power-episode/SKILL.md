@@ -85,9 +85,14 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 - **Captions:** one line, at most 4 words per cue, MarginV=75 (low, inside the Instagram 4:5 feed crop and above the Reels/TikTok UI; 12 got cut off, 2026-10-20), solid
   black box, each cue starting on its first word's own timestamp. Two line cues showed the
   rest of the sentence before it was said; he caught it on Episode 18.
-- **Framing:** the subject is CENTRED in every shot of every video (Nick, 2026-10-14). Vertical
-  crops are centred on the face measured in that camera over that clip; run
-  `tools/sizzle/qa_center.py` on every clip and reel and ship only on PASS.
+- **Framing:** the subject is CENTRED in every shot of every video (Nick, 2026-10-14), and the
+  camera does NOT chase their head (Nick, 2026-10-28: "i dont like how much the camera move
+  with their head"). Vertical crops HOLD still and only reframe when the person really shifts:
+  a smoothed face beyond 7.5% of the crop width glides over in 0.9 s, a lean past 12% in 0.5 s
+  (`DZ, GLIDE, BIG` in `tools/relay-work/ep21-stone/clips21.py`; Episode 21's 35 s clip 01
+  reframes 6 times). A crop that follows the face every frame passed QA and was rejected.
+  Check with `tools/sizzle/qa_center.py <clip> --min-run 1.0`: one frame head turns are ignored,
+  any off centre stretch of a second or more fails. Ship only on PASS.
 - **Caption speed and place, in one line:** clips use the house box style above (one line, at
   most four words, MarginV=75, each cue on its own first word, held until the next cue). The
   sizzle reel uses the engine's word pop captions, which sit at y=1420 of 1920, the same

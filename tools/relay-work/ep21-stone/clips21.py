@@ -54,15 +54,38 @@ def face_track(cam,cam_t0,dur):
     sm=np.convolve(np.pad(a,(k//2,k//2),mode="edge"),np.ones(k)/k,mode="valid")
     return [(i/8,float(v)) for i,v in enumerate(sm)]
 _NCMD=[0]
+# Camera path (Nick, 2026-10-28: "i dont like how much the camera move with their head").
+# The crop HOLDS still. It only moves when the face (smoothed over ~1.4 s, so head turns and
+# nods are ignored) drifts more than DZ of the crop width from where the crop is aimed, and
+# then it glides to the new spot over GLIDE seconds with an ease in and out.
+DZ, GLIDE, BIG = 0.075, 0.9, 0.12
 def x_cmds(track,cw,W,nf):
-    """Per frame crop x, linearly interpolated from the face track and clamped to the frame,
-    written as a sendcmd file (an inline expression this long overflows ffmpeg's parser)."""
-    ts=np.array([t for t,_ in track]); xs=np.array([min(max(cx-cw/2,0),W-cw) for _,cx in track])
+    ts=np.array([t for t,_ in track]); raw=np.array([cx for _,cx in track])
+    k=11; tgt=np.convolve(np.pad(raw,(k//2,k//2),mode="edge"),np.ones(k)/k,mode="valid")
+    clamp=lambda cx: min(max(cx-cw/2,0),W-cw)
+    fast=np.convolve(np.pad(raw,(1,1),mode="edge"),np.ones(3)/3,mode="valid")
+    keys=[(0.0,clamp(float(np.median(raw[:min(len(raw),8)]))))]   # (start time, x) of each hold
+    moves=[]                                                      # (start, from x, to x, glide)
+    for t,c,cf in zip(ts,tgt,fast):
+        x=keys[-1][1]
+        if moves and t<moves[-1][0]+moves[-1][3]: continue
+        if abs((x+cw/2)-cf)>BIG*cw and clamp(cf)!=x:      # a real lean: catch it quickly
+            moves.append((t,x,clamp(cf),0.5)); keys.append((t,clamp(cf)))
+        elif abs((x+cw/2)-c)>DZ*cw and clamp(c)!=x:      # a slow drift: glide over
+            moves.append((t,x,clamp(c),GLIDE)); keys.append((t,clamp(c)))
+    def at(t):
+        x=keys[0][1]
+        for t0,xa,xb,gl in moves:
+            if t<t0: break
+            u=min(1.0,(t-t0)/gl); x=xa+(xb-xa)*(u*u*(3-2*u))
+        return x
     _NCMD[0]+=1; path=f"/tmp/claude-0/cmd_{os.getpid()}_{_NCMD[0]}.txt"
     with open(path,"w") as f:
-        for k in range(nf+2):
-            f.write(f"{k/30:.4f} crop@c x {int(round(np.interp(k/30,ts,xs)))};\n")
-    return path,int(round(xs[0]))
+        for k2 in range(nf+2):
+            f.write(f"{k2/30:.4f} crop@c x {int(round(at(k2/30)))};\n")
+    MOVES.append(len(moves))
+    return path,int(round(keys[0][1]))
+MOVES=[]
 def vf_for(cam,cam_t0,dur):
     tr=face_track(cam,cam_t0,dur); nf=int(round(dur*30))
     cw,W,tail=(1215,3840,"scale=1080:1920:flags=lanczos") if cam=="M" else (405,1280,f"scale=1080:1920:flags=lanczos,{SH}")
@@ -198,5 +221,5 @@ for name,pa,na,pb,nb,exc in SPEC:
         "-color_primaries","bt709","-color_trc","bt709","-colorspace","bt709","-c:a","aac","-b:a","192k","-movflags","+faststart",
         "-t",f"{dur:.3f}",f"clips/{name}.mp4"],check=True)
     report[name]={"keep":keep,"dur":round(dur,1),"shots":shots_rep,"text":" ".join(x for _,_,x in cues)}
-    print(name,round(dur,1),"s",shots_rep,flush=True)
+    print(name,round(dur,1),"s",shots_rep,"reframes",MOVES,flush=True); MOVES.clear()
     rp="clips_report.json"; R=json.load(open(rp)) if os.path.exists(rp) else {}; R.update({name:report[name]}); json.dump(R,open(rp,"w"),indent=1)

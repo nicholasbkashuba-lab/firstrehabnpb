@@ -22,7 +22,8 @@ OFF = {"s21d": lambda t: 107.8726 - 0.0000318 * t,
 
 def cam(src, raw_t, d, **kw):
     """A lip-synced shot: raw mp3 time -> that camera's own time."""
-    return dict(src=src, t=raw_t + OFF[src](raw_t), d=d, fx=0.5, fy=0.3, z=1.0, _raw=raw_t, **kw)
+    return dict(src=src, t=raw_t + OFF[src](raw_t), d=d, fx=0.5, fy=0.3, z=1.0, push=0.0, hold=True,
+                _raw=raw_t, **kw)
 
 
 WORDS = {

@@ -388,11 +388,45 @@ def face_track(key, shot, region):
     if not pts or len(pts) < 2:
         return None
     a = np.array(pts)
+    if shot.get("hold"):
+        return _hold_path(a, shot, region)
     k = 3 if len(a) >= 5 else 1                    # light smoothing: no jitter, no lag
     if k > 1:
         pad = np.pad(a[:, 1:], ((1, 1), (0, 0)), mode="edge")
         a[:, 1:] = (pad[:-2] + pad[1:-1] + pad[2:]) / 3
     return a.tolist()
+
+
+def _hold_path(a, shot, region, dz=0.075, big=0.12):
+    """shot["hold"]: a camera that HOLDS still instead of panning with every head turn (Nick,
+    2026-10-28). The crop stays put; when the smoothed face drifts past dz of the crop width it
+    glides over in 0.9 s, past big in 0.5 s. Height is held at the shot's median face."""
+    rx0, ry0, rx1, ry1 = region
+    rw, rh = rx1 - rx0, ry1 - ry0
+    cw = min(rw, rh * 9 / 16) / shot.get("z", 1.0)
+    d = shot["d"]
+    t = a[:, 0] * d
+    k = min(len(a), 5)
+    slow = np.convolve(np.pad(a[:, 1], (k // 2, k // 2), mode="edge"), np.ones(k) / k, mode="valid")[:len(a)]
+    pos, moves = float(np.median(a[:min(len(a), 4), 1])), []
+    for ti, s_, f_ in zip(t, slow, a[:, 1]):
+        if moves and ti < moves[-1][0] + moves[-1][3]:
+            continue
+        if abs(f_ - pos) > big * cw:
+            moves.append((ti, pos, f_, 0.5)); pos = f_
+        elif abs(s_ - pos) > dz * cw:
+            moves.append((ti, pos, s_, 0.9)); pos = s_
+    y = float(np.median(a[:, 2]))
+    out = []
+    for ti in np.linspace(0, d, max(3, int(d * 15) + 1)):
+        x = moves[0][1] if moves else pos
+        for t0, xa, xb, gl in moves:
+            if ti < t0:
+                break
+            u = min(1.0, (ti - t0) / gl)
+            x = xa + (xb - xa) * (u * u * (3 - 2 * u))
+        out.append([ti / d, x, y])
+    return out
 
 
 def _track_at(shot, prog):

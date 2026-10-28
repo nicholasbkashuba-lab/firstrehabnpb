@@ -1,6 +1,6 @@
 """Centering QA: every video edited for Nick gets this before it ships (his rule, 2026-10-14).
 
-    python3 qa_center.py out/show-9x16.mp4 [more.mp4 ...] [--tol 0.10] [--sheet]
+    python3 qa_center.py out/show-9x16.mp4 [more.mp4 ...] [--tol 0.10] [--sheet] [--min-run 1.0]
 
 Samples 2 frames a second, finds faces with YuNet, takes the largest face in each frame
 and measures how far its centre sits from the frame's centre, as a fraction of the frame
@@ -38,7 +38,7 @@ def frames(path, fps=2, width=480):
         i += 1
 
 
-def check(path, tol=0.10, sheet=False):
+def check(path, tol=0.10, sheet=False, min_run=0.0):
     import cv2
     det = None
     flagged, measured = [], 0
@@ -72,6 +72,13 @@ def check(path, tol=0.10, sheet=False):
         else:
             runs.append([t, t, [off], [fr]])
     name = os.path.basename(path)
+    # --min-run: ignore stretches shorter than this many seconds. A held camera (Nick,
+    # 2026-10-28: no following every head turn) sees one frame head turns and the half second
+    # a glide takes to catch a lean; framing is judged on sustained offsets.
+    brief = [r for r in runs if r[1] - r[0] + 0.5 < min_run]
+    runs = [r for r in runs if r[1] - r[0] + 0.5 >= min_run]
+    if brief:
+        print(f"      ignored {len(brief)} stretch(es) under {min_run:.1f}s (head turns)")
     if not runs:
         print(f"PASS  {name}: {measured} face frames, all within {tol:.0%} of centre")
         return True
@@ -96,5 +103,10 @@ if __name__ == "__main__":
     if "--tol" in sys.argv:
         tol = float(sys.argv[sys.argv.index("--tol") + 1])
         args = [a for a in args if a != str(tol) and a != sys.argv[sys.argv.index("--tol") + 1]]
-    ok = all([check(p, tol, "--sheet" in sys.argv) for p in args])
+    min_run = 0.0
+    if "--min-run" in sys.argv:
+        v = sys.argv[sys.argv.index("--min-run") + 1]
+        min_run = float(v)
+        args = [a for a in args if a != v]
+    ok = all([check(p, tol, "--sheet" in sys.argv, min_run) for p in args])
     sys.exit(0 if ok else 1)
