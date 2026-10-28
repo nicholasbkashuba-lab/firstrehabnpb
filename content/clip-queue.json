@@ -19,10 +19,11 @@
     {
       "post_id": "050f4dae-caa5-4d1b-ae52-e757aa5c3502",
       "guest": "Captain Kerry",
-      "media": "452d77ab-02ec-4505-ab72-e61e796f384a",
+      "media": "e555f7f1-8230-4719-9db5-7900a71376a5",
       "hook": "They need help, they need housing, they need nursing care. The name of our foundation is R",
       "state": "scheduled",
-      "scheduled_at": "2026-11-03T14:00:00Z"
+      "scheduled_at": "2026-11-03T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "cfabb46f-76f3-47ca-8892-9ce26f30011d",
@@ -35,10 +36,11 @@
     {
       "post_id": "74d29874-ecb2-4e41-99e6-d68458cd2bb6",
       "guest": "Captain Kerry",
-      "media": "c9015b5b-0cd4-4083-bb97-28d15121a056",
+      "media": "311c379e-c053-48b1-9408-7bb15a0ffccd",
       "hook": "The searchlight is pointed on me. I want to point it everywhere else.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-05T14:00:00Z"
+      "scheduled_at": "2026-11-05T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "4bd6845e-3c25-472b-9867-dd9c33b030d9",
@@ -51,18 +53,20 @@
     {
       "post_id": "e75ed5fb-e6f6-4bf6-a0c6-0bab2295a5fd",
       "guest": "Dave and Mike",
-      "media": "91f452e3-da73-4b5f-8f44-9f2dbdc416d0",
+      "media": "69ab91ea-124e-47d5-a2fc-f5bc855accf5",
       "hook": "You can't control what happens to you, but you can control how you respond.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-11T14:00:00Z"
+      "scheduled_at": "2026-11-11T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "2c2aaefd-ac08-429d-a951-a314c58796cd",
       "guest": "Dave and Mike",
-      "media": "c8bf81a4-3132-4b59-b83f-d9e126718bed",
+      "media": "d52de84a-5a28-4124-b9de-cd585cd57219",
       "hook": "Twenty to twenty five minutes, three times a week. And people started noticing.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-01T13:00:00Z"
+      "scheduled_at": "2026-11-01T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "71b5eb5f-cc78-46a8-a79a-693f06b65466",
@@ -75,10 +79,11 @@
     {
       "post_id": "a73146e7-8707-4439-846b-0781a0489010",
       "guest": "Dave and Mike",
-      "media": "9df3a1ef-4070-409e-a1a3-d2507ecc6674",
+      "media": "f4bfa404-63ef-4cf5-8b96-0073c4c46473",
       "hook": "The bartender looks at the rabbit and says, hey, you're in the wrong joke.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-08T14:00:00Z"
+      "scheduled_at": "2026-11-08T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "1f06c121-e01b-4666-b207-5b0b0fafe3e8",
@@ -99,10 +104,11 @@
     {
       "post_id": "862a88ab-4cf2-4ab1-af33-ae4e69bccf1a",
       "guest": "Dave and Mike",
-      "media": "608dec74-4c10-4734-900d-fa68a7c0b8d9",
+      "media": "c6e5425e-e0ea-45fd-9295-5d8c6b8d3672",
       "hook": "Dave, this isn't your time. Jeopardy's on. Click.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-04T14:00:00Z"
+      "scheduled_at": "2026-11-04T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "97ad4877-495d-423d-9e8d-0adec0e9fdb0",
@@ -147,18 +153,20 @@
     {
       "post_id": "fe6948ac-18c0-4009-9a53-36656a2e1276",
       "guest": "Susan Mann",
-      "media": "628dea16-306f-433d-8c04-95f153a11a5f",
+      "media": "9cc4dbf2-35ef-4d03-a7f2-f3147ac5a70d",
       "hook": "380%.",
       "state": "scheduled",
-      "scheduled_at": "2026-10-29T13:00:00Z"
+      "scheduled_at": "2026-10-29T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "b30e8f41-a5d4-4f01-960d-1f9c632b2d79",
       "guest": "Susan Mann",
-      "media": "6c022623-5d55-4bb4-a627-9d420b777c5e",
+      "media": "91b67817-ff08-4aea-ae9f-b6cc03910206",
       "hook": "It is easily fixable. And it takes 16 weeks.",
       "state": "scheduled",
-      "scheduled_at": "2026-10-25T13:00:00Z"
+      "scheduled_at": "2026-10-25T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "fdfdf8d8-210e-4958-aa6a-3a06c233c49d",
@@ -179,10 +187,11 @@
     {
       "post_id": "79eda6c6-1de7-4bfd-bbd1-962ddf00bd42",
       "guest": "Captain Kerry",
-      "media": "d4f61c01-954c-413c-95e9-4ff6cd0b351c",
+      "media": "c8cf2ed0-deeb-47bb-9ee4-65a7bd2858c6",
       "hook": "Every successful person I have spoken to had adversities they pushed against.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-07T14:00:00Z"
+      "scheduled_at": "2026-11-07T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "8b847a92-36de-43a4-8a54-6be917b0afff",
@@ -203,10 +212,11 @@
     {
       "post_id": "f019d37e-43d8-402d-b266-855adf01efda",
       "guest": "Captain Kerry",
-      "media": "9b22c4e4-ef57-4e74-95e4-175e4d6a7889",
+      "media": "7da61c75-1520-4538-a5da-bdbf4f717ac3",
       "hook": "He will just stop, look at me and smile. That is a legacy.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-09T14:00:00Z"
+      "scheduled_at": "2026-11-09T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "b7b91412-6ef4-48ed-9631-ad1dacc7010a",
@@ -219,10 +229,11 @@
     {
       "post_id": "56130b52-d1ce-4e3b-a56d-81be7bc959ad",
       "guest": "Dr. Chaim Arlosoroff",
-      "media": "aafd2b9d-3e51-4cdc-b2e8-8e4c00d8e931",
+      "media": "d113671e-927a-4a7c-9ea5-fe5ca5304f12",
       "hook": "He rides e bikes himself, in Sedona, Park City and Italy.",
       "state": "scheduled",
-      "scheduled_at": "2026-10-27T13:00:00Z"
+      "scheduled_at": "2026-10-27T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "4b0c12b4-7e14-406a-8a0c-06ca3bae4f25",
@@ -235,10 +246,11 @@
     {
       "post_id": "2fb83784-744e-4868-9f65-41ed756ac93e",
       "guest": "Dr. Chaim Arlosoroff",
-      "media": "69fa00e1-6e9b-4617-8209-908b40a5d2bf",
+      "media": "f6de3247-ca53-4fb7-b08f-ab7d0669df5b",
       "hook": "Miami Dade is up over 500%.",
       "state": "scheduled",
-      "scheduled_at": "2026-10-31T13:00:00Z"
+      "scheduled_at": "2026-10-31T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "0c4610d4-448e-47b7-b622-bbc5560a158b",
@@ -251,34 +263,38 @@
     {
       "post_id": "c0690931-4e6f-45c6-b942-16de7dc37979",
       "guest": "Dr. Chaim Arlosoroff",
-      "media": "c280c55d-e5c7-4dea-b4df-0aa73574718c",
+      "media": "fa6eb1d6-7ed5-4387-a64a-8dd65963d4ff",
       "hook": "Going 15 versus 50 is the difference between a scrape and a cracked skull.",
       "state": "scheduled",
-      "scheduled_at": "2026-10-23T13:00:00Z"
+      "scheduled_at": "2026-10-23T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "8dcf9719-c027-4d0f-bc2c-fbb1bfbd1bfd",
       "guest": "Paul Joyce",
-      "media": "5eb6c507-2c29-42a1-8ff7-cd7aa120f69d",
+      "media": "e45ffff1-fb78-4dff-b100-6ea0eb4de21b",
       "hook": "About 100 patients have tried it. The results have not been that great.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-02T14:00:00Z"
+      "scheduled_at": "2026-11-02T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "8db34351-b495-49e2-b4b1-02a348555b04",
       "guest": "Paul Joyce",
-      "media": "6ffcd4de-3271-4b50-b358-2b7204140d42",
+      "media": "c1237521-53fc-41b9-adb4-ef76e16bbea8",
       "hook": "She said she'd never take human growth hormone because it could cause cancer. Then she too",
       "state": "scheduled",
-      "scheduled_at": "2026-11-10T14:00:00Z"
+      "scheduled_at": "2026-11-10T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "6b698dc3-44f6-4ab2-ac40-37dae2fd52c6",
       "guest": "Paul Joyce",
-      "media": "832b1f49-5c0e-464f-aa06-9b4948e26e09",
+      "media": "7120d97f-889a-4d75-abcd-ec18ba5ce272",
       "hook": "They call it the Wolverine stack.",
       "state": "scheduled",
-      "scheduled_at": "2026-11-06T14:00:00Z"
+      "scheduled_at": "2026-11-06T14:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "8f5d26d4-2626-4576-b9de-7065d1ea6430",
@@ -347,46 +363,51 @@
     {
       "post_id": "fa6c48ec-24aa-471a-9357-c9c2b7dfb2e8",
       "guest": "Dr. Don Goodwin",
-      "media": "f2734997-d856-48c0-939c-61c67f7d94cc",
+      "media": "b2a778b1-0e43-4617-a89c-644f8b29ea38",
       "hook": "What did the grape do when it saw the farmer with the press?",
       "state": "scheduled",
-      "scheduled_at": "2026-10-21T13:00:00Z"
+      "scheduled_at": "2026-10-21T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "5216d5c0-135c-437c-b80d-3f943c391a47",
       "guest": "Elyse Marrone and Danielle Armstrong",
-      "media": "175c1816-791b-4539-90b3-1dc46fe64354",
+      "media": "bf77a931-ed10-4560-a4f9-8a7bc25b12c3",
       "hook": "One easy habit for better sleep, starting at 8 o'clock tonight.",
       "state": "queued",
       "was_scheduled_at": "2026-10-30T13:00:00+00:00",
-      "scheduled_at": "2026-10-30T13:00:00Z"
+      "scheduled_at": "2026-10-30T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "629cfd3e-44a4-49d2-ba85-5765667202ae",
       "guest": "Elyse Marrone and Danielle Armstrong",
-      "media": "3699808b-0843-4c6e-8e16-6990620d0e48",
+      "media": "dfca3db5-58ea-4a31-b0f7-49621dcba990",
       "hook": "Fry them in bacon grease. With bacon.",
       "state": "queued",
       "was_scheduled_at": "2026-10-28T13:00:00+00:00",
-      "scheduled_at": "2026-10-28T13:00:00Z"
+      "scheduled_at": "2026-10-28T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "1ff7b215-908f-48ad-9f05-4053447a585d",
       "guest": "Elyse Marrone and Danielle Armstrong",
-      "media": "8f063121-9f19-42bf-97af-5687741757dd",
+      "media": "2b822e31-83bc-46d3-b296-8b4b0975bb77",
       "hook": "\"When does cancer occur?\"",
       "state": "queued",
       "was_scheduled_at": "2026-10-26T13:00:00+00:00",
-      "scheduled_at": "2026-10-26T13:00:00Z"
+      "scheduled_at": "2026-10-26T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "8c3b1295-eaf2-499e-9c84-aec515942602",
       "guest": "Elyse Marrone and Danielle Armstrong",
-      "media": "c02955e6-f608-495d-bfb5-1a03ef4c8773",
+      "media": "aaf4e833-2536-4491-b656-2291a55e6677",
       "hook": "A lot of people don't know Joseph Pilates was a real person.",
       "state": "queued",
       "was_scheduled_at": "2026-10-24T13:00:00+00:00",
-      "scheduled_at": "2026-10-24T13:00:00Z"
+      "scheduled_at": "2026-10-24T13:00:00Z",
+      "note": "re-cut from the raw cameras 2026-10-28 (tools/recut-clip.py): first-generation framing, centred, clip-qa PASS"
     },
     {
       "post_id": "cdc5495a-fbf8-4ea1-90db-be251333840c",
@@ -445,10 +466,11 @@
     {
       "post_id": "60be4e41-f9f3-4487-8ac1-440827b9947d",
       "guest": "Shannon Cake",
-      "media": "31f8f7f9-edfa-405a-bd87-9feb07e83163",
+      "media": "4e8b65f8-88d4-481e-a760-823d097133e5",
       "hook": "Captain Kerry does Dave's workout.",
       "state": "queued",
-      "was_scheduled_at": "2026-11-14T14:00:00+00:00"
+      "was_scheduled_at": "2026-11-14T14:00:00+00:00",
+      "note": "host shots re-centred from the raw cameras 2026-10-28 (tools/reframe-clip.py), clip-qa PASS"
     },
     {
       "post_id": "d83766a3-7737-486f-818c-96d7b0627516",
@@ -469,10 +491,11 @@
     {
       "post_id": "9f84527e-6989-4e11-a0e9-ba61b1bb6185",
       "guest": "Dave and Mike",
-      "media": "70395d67-8fa6-4dfc-8659-921dc6d8f29d",
+      "media": "648c8c9b-df14-4fd1-ac28-dc0adcd6796c",
       "hook": "If you go vote, you cancel her vote out. Get two people to vote and you're ahead.",
       "state": "queued",
-      "was_scheduled_at": "2026-10-29T13:00:00+00:00"
+      "was_scheduled_at": "2026-10-29T13:00:00+00:00",
+      "note": "host shots re-centred from the raw cameras 2026-10-28 (tools/reframe-clip.py), clip-qa PASS"
     },
     {
       "post_id": "2d084c6c-7836-4771-91c8-f9e67cf3b8dc",
@@ -541,18 +564,20 @@
     {
       "post_id": "dd17d9b1-c084-49bf-aa02-46bb10447529",
       "guest": "Maria",
-      "media": "6ff09db8-9fc6-4742-b543-b81a79de5388",
+      "media": "8d59095f-cd20-4e93-ba2d-b7e954b5005f",
       "hook": "She brought her sister and her partner in crime to the oncologist and introduced them as h",
       "state": "queued",
-      "was_scheduled_at": "2026-11-09T14:00:00+00:00"
+      "was_scheduled_at": "2026-11-09T14:00:00+00:00",
+      "note": "host shots re-centred from the raw cameras 2026-10-28 (tools/reframe-clip.py), clip-qa PASS"
     },
     {
       "post_id": "3f911e3a-dfd6-4645-b0b3-c8efa2c753d2",
       "guest": "Maria",
-      "media": "f71f3429-f5aa-4ddc-b94b-4f018c4dbbb8",
+      "media": "e750cd1b-f99d-4249-b0d2-1168c0428c32",
       "hook": "First day of radiation. Her radiologist walks in: \"You have a little glow to you.\"",
       "state": "queued",
-      "was_scheduled_at": "2026-11-07T14:00:00+00:00"
+      "was_scheduled_at": "2026-11-07T14:00:00+00:00",
+      "note": "host shots re-centred from the raw cameras 2026-10-28 (tools/reframe-clip.py), clip-qa PASS"
     },
     {
       "post_id": "fe4cd55e-d8c1-4993-9daa-6fc3093b96fb",
@@ -565,18 +590,20 @@
     {
       "post_id": "2123809b-2c68-48bd-b854-b488e10cb600",
       "guest": "Maria",
-      "media": "45877e0c-0f9d-44f8-9ee8-a9fe2105655b",
+      "media": "0954a2e2-813f-4e27-944e-72b9b8c24ee0",
       "hook": "\"I can't believe it's me.\"",
       "state": "queued",
-      "was_scheduled_at": "2026-11-02T14:00:00+00:00"
+      "was_scheduled_at": "2026-11-02T14:00:00+00:00",
+      "note": "host shots re-centred from the raw cameras 2026-10-28 (tools/reframe-clip.py), clip-qa PASS"
     },
     {
       "post_id": "4e706632-a271-4bfa-bd9f-885c58bb4ac8",
       "guest": "Maria",
-      "media": "0ebe01dc-7c09-47bf-ad4e-2beeffb87b58",
+      "media": "5190c00e-e612-483c-b4a9-5b31d7d1acd5",
       "hook": "She was waiting for one word on the phone. Unfortunately, it was \"Unfortunately.\"",
       "state": "queued",
-      "was_scheduled_at": "2026-10-30T13:00:00+00:00"
+      "was_scheduled_at": "2026-10-30T13:00:00+00:00",
+      "note": "host shots re-centred from the raw cameras 2026-10-28 (tools/reframe-clip.py), clip-qa PASS"
     },
     {
       "post_id": "92da7b9b-8df5-4725-9eff-e53203d3a760",

@@ -64,12 +64,16 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    most, across five episodes; Arlosoroff's sat undelivered for a week. He uploads to YouTube
    himself, so this is the handoff. Never hand him chunks to reassemble or a PowerShell paste.
 8. **Clips.** Hook-first, 15 to 45 s, cut from the RAW cameras, captions in the house style
-   (below). Stage with `tools/stage-episode.py` (add the guest to NAME_FIXES first,
-   pass `--full-transcript`).
+   (below, built by `tools/clip_captions.py`). Every crop follows the speaker's face per shot (YuNet, as tools/recut-clip.py
+   does), never a fixed x: Ep 19 and 20 used `crop=405:720:440:0` and seven clips drifted to
+   the frame edge. Render each clip TWICE: clean (no captions) and captioned, plus its .ass.
+   `tools/clip-qa.py` must print PASS for every clip. Stage with `tools/stage-episode.py`
+   (add the guest to NAME_FIXES first, pass `--full-transcript` and `--clean <dir>`); it runs
+   the same gate and refuses to push a failing clip.
 8b. **Sizzle reel.** Every episode, no asking: copy `tools/sizzle/reel_ep21.py` to
    `reel_ep{NN}.py`, pick the moments from the transcript, `run.py reel_ep{NN} 9x16`, PASS on
-   `qa_center.py`. It goes to Nick in the same pass as the clips.
-9. **Show Nick every clip in the chat** with SendUserFile, each with its caption and
+   `qa_center.py --min-run 1.0` (and `clip-qa.py --style pop`). It goes to Nick with the clips.
+9. **Show Nick every clip in the chat** (only clips that passed the gate) with SendUserFile, each with its caption and
    proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,
     woven into the mixed queue with `tools/clip-queue.py`, never the same guest on
@@ -82,9 +86,13 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 
 ## House style that Nick has had to correct more than once
 
-- **Captions:** one line, at most 4 words per cue, MarginV=75 (low, inside the Instagram 4:5 feed crop and above the Reels/TikTok UI; 12 got cut off, 2026-10-20), solid
-  black box, each cue starting on its first word's own timestamp. Two line cues showed the
-  rest of the sentence before it was said; he caught it on Episode 18.
+- **Captions: build them with `tools/clip_captions.py`, never by hand** (Nick, 2026-10-28,
+  "remember this ALWAYS for every clip"). Words force-aligned to the clip audio (Whisper alone
+  ran 0.4 s late), one line, at most 3 words per cue, new cue at every pause, MarginV=49 (box
+  bottom y ~1590, inside the Instagram 4:5 feed crop; 12 got cut off on 2026-10-20), solid
+  black box. Two line cues showed the rest of the sentence before it was said (Episode 18).
+  stage-episode.py refuses a clip without a stamped clip_captions .ass in `--clean`, and
+  clip-qa.py fails captions at the old height, so there is no way around it.
 - **Framing:** the subject is CENTRED in every shot of every video (Nick, 2026-10-14), and the
   camera does NOT chase their head (Nick, 2026-10-28: "i dont like how much the camera move
   with their head"). Vertical crops HOLD still and only reframe when the person really moves:
@@ -95,12 +103,8 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   head between the hosts will show 11 to 17% face box offsets for a second at a time in
   profile; with his body centred that is correct framing, not a reason to move the camera.
   The 16:9 master uses a FIXED crop per shot centred on that shot's median face, never motion.
-  Check with `tools/sizzle/qa_center.py <clip> --min-run 1.0`: one frame head turns are ignored,
-  any off centre stretch of a second or more fails. Ship only on PASS.
-- **Caption speed and place, in one line:** clips use the house box style above (one line, at
-  most four words, MarginV=75, each cue on its own first word, held until the next cue). The
-  sizzle reel uses the engine's word pop captions, which sit at y=1420 of 1920, the same
-  safe height.
+  `tools/clip-qa.py` is the gate (a stretch over 1 s more than 10% off centre fails); one frame
+  head turns pass. Ship only on PASS.
 - **Zero dashes** in captions, titles and descriptions. Only 561-624-4263 and 561-624-GAME
   keep theirs. Bullets are •.
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
@@ -112,6 +116,10 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   fails takes the whole post down on every platform.
 - **Never put a punch-in crop on screen unchecked**: look at a frame from every shot that
   uses it (Elyse's chin left the frame at 5:54).
+- **Never fix a finished clip by post-processing its pixels** (shrinking it over a blur,
+  cropping off old captions and enlarging). Each rescue fixed one rule and broke another
+  (Oct 2026: "they keep messing up"). Re-burn from the clean render, or re-cut from the raw
+  cameras with `tools/recut-clip.py` / `tools/reframe-clip.py`.
 - **Never invent** a credential, statistic or clinical claim. Attribute numbers to whoever
   said them on air. Clinical topics carry the "talk to your own doctor" line.
 - **Updates are short.** One screen on a phone: what is done, what is waiting on him.

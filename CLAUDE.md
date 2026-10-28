@@ -952,6 +952,8 @@ When Nick says post something, the only two things that ever block it are:
 
        python3 tools/stage-media.py clip.mov
 
+   Pass `--clip` for a captioned episode clip: it then refuses to push unless
+   `tools/clip-qa.py` passes. Any other video still gets the check printed as a warning.
    Converts .mov to .mp4, pushes to a `media/<slug>` branch, prints the Vercel branch URL
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
@@ -971,28 +973,93 @@ Standing preferences for a one off post, unless told otherwise:
 - Finish with `list_post_results` per platform. "processing" is not proof.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
+**`tools/clip-qa.py` is the gate. Nothing goes to Nick or Post Bridge until it prints PASS**
+(added 2026-10-28, after Nick: "for whatever reason they keep messing up"). The reason they kept
+messing up: every fix below was made by post-processing an already captioned clip, one rule at a
+time, by a different session. Captions too low -> shrink over a blur (broke "fill the frame") ->
+crop and zoom 1.3x (heads touching the top, softer picture). Each passed "it encoded". The gate
+checks the WHOLE spec on the actual file at once: format, faststart, -14 LUFS, fills the frame,
+house caption box present and inside y 285..1500, one line, one caption layer, subject centred
+(YuNet, 2 fps, a stretch over 1 s more than 10% off centre fails), head not cut off.
+
+    python3 tools/clip-qa.py clips/*.mp4 --sheet qa/          # --style pop for the sizzle dad jokes
+    curl -sSL -o models/yunet.onnx https://media.githubusercontent.com/media/opencv/opencv_zoo/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx
+
+It also reads the files Post Bridge actually holds: `list_media` gives a signed URL per upload,
+curl them all and run the gate over the queue. Do that after any batch change to scheduled posts.
+
+**Off-centre host shots: re-cut them, don't zoom them.** Episodes 19 and 20 cut Dave and Mike from
+720p phones with a FIXED crop window (`crop=405:720:440:0`), so a lean put them at the frame edge.
+`tools/reframe-clip.py` finds each shot's camera and crop by template match, re-cuts it at the same
+crop size with the window following the face, and carries the burned-in caption box and the audio
+across untouched (the box is opaque, so copying its pixels copies the caption exactly). Seven
+scheduled Ep 19/20 clips were fixed this way on 2026-10-28. Any new clip pipeline: track the face
+per shot from the start, never a fixed x.
+
+**Clips with no clean render: re-cut from the raw cameras.** `tools/cam-sync.py` lines each raw
+camera up with the RAW radio mp3 (audio pulled straight off a Dropbox temporary link, ~4 min for
+12 GB, no download), and `tools/recut-clip.py` re-cuts a scheduled clip shot by shot at the
+framing of its first-generation clip, centred on the face, HLG tonemapped, carrying the
+captions and audio over. The 21 crop-and-enlarged clips of 2026-10-27 were re-cut this way.
+Camera sync lines measured 2026-10-28 (camera_time = rate * mp3_time + offset):
+Ep 11 paul 0.9999751/201.99, mike 0.9999808/58.38 · Ep 13 Kerry IMG_5081 0.9999694/77.46,
+Mike "Video Sep 01" 0.9999752/169.44, Dave IMG_1835 0.9999824/160.83 · Ep 14 Dave.mov
+0.9999843/91.09, Mike.mov 0.9999722/257.77, Arlosoroff.MP4 0.9999708/3.43 · Ep 15 IMG_0006
+0.9999819/7.69, IMG_5142 0.9999712/13.30, IMG_1852 0.9999821/7.30 · Ep 16 "Video Sep 24"
+0.9999768/26.80, IMG_1918 0.9999840/40.73, IMG_4077 0.9999650/31.57 · Ep 18 Mike.mov
+0.9999754/212.98, IMG_5434 0.9999619/186.04, dave.mov 0.9999687/195.14 · Ep 19 and 20 in
+their relay-work READMEs.
+
+**Keep the clean render.** Store every clip's uncaptioned render and its cue file (.ass) next to
+the captioned mp4 on the `media/ep{NN}-clips` branch. Then a caption change is a re-burn, not a
+salvage job on pixels. The 21 refits of 2026-10-27 had no clean source, which is the only reason
+they had to be cropped and blown up.
+
+- **CAPTIONS COME FROM `tools/clip_captions.py`, FOR EVERY PODCAST CLIP, ALWAYS** (Nick, 2026-10-28:
+  "a little slow and late and they need to be a little lower ... you need to remember this ALWAYS
+  for every clip from a podcast we do"). Never hand-roll cue timing in a clip script again; call
+  `build_ass(words, clip_audio, out.ass, dur)` with the REVIEWED transcript words. It does three
+  things no earlier pipeline did together:
+  - **On time:** every word is FORCE-ALIGNED to the clip's own audio (wav2vec2, torchaudio
+    `MMS_FA`, ~20 ms; `pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu`).
+    Whisper word times were 0.2 to 0.7 s off: per-clip Whisper ran a median 0.42 s LATE (the 21
+    refits), full-episode Whisper ran up to 0.38 s EARLY (Ep 20). Whisper only locates the clip.
+  - **Fast:** at most 3 words per cue, a new cue at every comma, sentence end and pause over
+    0.35 s, so no word is ever on screen before it is said, and word ends trimmed to the last
+    voiced frame so no cue sits through a silence.
+  - **Lower:** MarginV 49, box bottom at y ~1590 of 1920, the height Nick picked on a frame.
+    Still inside the 4:5 feed crop (y 1635). `tools/clip-qa.py` allows the box down to y 1610.
+  Before/after examples Nick approved ("this is so much better"): Ep 20 "one word" and "ringing the bell".
+  **Enforced, so it stays the same on every clip:** build_ass() stamps each .ass; `python3
+  tools/clip_captions.py --check *.ass` verifies stamp, MarginV 49 and <= 3 words per cue;
+  `stage-episode.py` refuses to push any clip whose .ass (in `--clean`) fails it; and
+  `clip-qa.py` FAILS a burned-in caption sitting at the old height (text bottom above y 1550).
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
-  ONE line, at most four words per cue (Nick, 2026-10-09; see "Timing" below).
+  ONE line, at most THREE words per cue (was four until 2026-10-28; see above).
 - **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
   White text on a SOLID BLACK box, sitting LOW in the frame. The reference he pointed at is
   the Episode 11 Paul Joyce clip `05-top-of-the-range.mp4` on `media/joyce-recut` (the
   testosterone one) — pull a frame off it if there is ever any doubt. Exact style:
 
       FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H00000000,
-      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=75
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=49
 
   Three things he corrected, so do not let them drift back:
-  - **Low, but inside the platform safe zone: MarginV=75.** That puts the box's bottom edge
+  - **Low, but inside the platform safe zone: MarginV=49 since 2026-10-28 (was 75).** 75 put the box's bottom edge
     at y~1420 of 1920. The old value, 12 ("the very bottom", 2026-10-09), was CUT OFF on
     Instagram: the feed shows a Reel cropped to 4:5, which keeps only y 285 to 1635, so a
     caption at the bottom edge loses its lower half (Nick, 2026-10-20, screenshot of the
     Ep 19 CENTCOM clip: "you can't even see the captions"). Reels, TikTok and Shorts also
     lay their caption text and buttons over roughly the bottom 420 px (y > 1500). 75 clears
     both. Never go below about 60. Check a frame with both zones drawn on before shipping.
-    **Clips already rendered too low** (24 queued clips, fixed 2026-10-20): `tools/fit-captions.py`
-    shrinks the picture so the existing captions land at y~1450 over a blurred copy of the frame,
-    then swap the file into the scheduled post (upload_media, update_post with platform_configurations
-    in full). The noon dad-joke reels from tools/sizzle already sit at y~1420 and need nothing.
+    **Clips already rendered too low: re-cut them FULL FRAME, never shrink them** (Nick, 2026-10-27,
+    on a shrunk clip in his feed: "Why is it not filling up the whole screen? Looks horrible").
+    The 2026-10-20 rescue, `tools/fit-captions.py`, shrank the picture over a blurred copy of itself so
+    the old captions rose into the safe zone. That is RETIRED: every clip fills the 9:16 frame, no blur
+    bars, no letterbox, ever. The fix is `tools/refit-clip/` (README there): crop the picture above the
+    old caption band, follow the speaker's face shot by shot, scale to fill 1080x1920, and burn fresh
+    captions in the house style from the reviewed `transcripts.md`, timed by word level ASR. The 21
+    shrunk clips still queued on 2026-10-27 were rebuilt this way and swapped into their posts.
   - **Timing: never ahead of the speaker.** Episode 18's first cut used two line cues of up
     to ~12 words, so each cue appeared the instant its FIRST word was spoken and the reader
     saw the rest of the sentence seconds early. ASR timing was not the problem (median
