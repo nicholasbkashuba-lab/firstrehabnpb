@@ -162,11 +162,17 @@ def face_path(path, t0, nfr, cw, ch, y0, x_old, det):
             if faces is not None:
                 # also hold the subject's HEIGHT in frame: Ep 19's Mike shot has a poster face behind
                 # him, level with his ear, and the crop followed it whenever he turned to profile
-                cand = [(abs((x[0] + x[2] / 2) / scale - target), (x[0] + x[2] / 2) / scale, (x[1] + x[3] / 2) / scale)
+                cand = [(abs((x[0] + x[2] / 2) / scale - target), (x[0] + x[2] / 2) / scale, (x[1] + x[3] / 2) / scale, x[2])
                         for x in faces if x[2] / scale > 0.12 * cw
                         and (ty is None or abs((x[1] + x[3] / 2) / scale - ty) < 0.12 * ch)]
                 if cand:
-                    d, cx, cy = min(cand)
+                    if ty is None:
+                        # first lock: the biggest face near the old framing. The subject sits closer to
+                        # the lens than any face on the wall (Ep 20's Sinatra print won the nearest test)
+                        near = [c for c in cand if c[0] < 0.45 * cw] or cand
+                        d, cx, cy, _ = max(near, key=lambda c: c[3])
+                    else:
+                        d, cx, cy, _ = min(cand)
                     if d > 0.45 * cw and keys:     # a different person entered: keep the subject
                         cx = None
                     elif ty is None:
