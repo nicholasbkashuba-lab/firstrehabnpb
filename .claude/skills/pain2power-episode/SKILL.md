@@ -87,10 +87,14 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   rest of the sentence before it was said; he caught it on Episode 18.
 - **Framing:** the subject is CENTRED in every shot of every video (Nick, 2026-10-14), and the
   camera does NOT chase their head (Nick, 2026-10-28: "i dont like how much the camera move
-  with their head"). Vertical crops HOLD still and only reframe when the person really shifts:
-  a smoothed face beyond 7.5% of the crop width glides over in 0.9 s, a lean past 12% in 0.5 s
-  (`DZ, GLIDE, BIG` in `tools/relay-work/ep21-stone/clips21.py`; Episode 21's 35 s clip 01
-  reframes 6 times). A crop that follows the face every frame passed QA and was rejected.
+  with their head"). Vertical crops HOLD still and only reframe when the person really moves:
+  the face averaged over 3 s drifts past 10% of the crop width (1 s glide), or a lean past 18%
+  holds for a full second (`DZ, GLIDE, BIG, PERSIST` in `tools/relay-work/ep21-stone/clips21.py`;
+  Episode 21 clips reframe about once each). Two tighter versions (following every frame, then
+  a 0.5 s trigger) both passed QA and both read as chasing heads. A guest who keeps turning his
+  head between the hosts will show 11 to 17% face box offsets for a second at a time in
+  profile; with his body centred that is correct framing, not a reason to move the camera.
+  The 16:9 master uses a FIXED crop per shot centred on that shot's median face, never motion.
   Check with `tools/sizzle/qa_center.py <clip> --min-run 1.0`: one frame head turns are ignored,
   any off centre stretch of a second or more fails. Ship only on PASS.
 - **Caption speed and place, in one line:** clips use the house box style above (one line, at
