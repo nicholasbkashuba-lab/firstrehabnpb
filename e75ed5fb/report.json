@@ -1,0 +1,22 @@
+{
+ "clip": "2026-11-21_e75ed5fb_full-e75ed5fb.mp4",
+ "mp3_start": 411.99,
+ "orig": "10-control-your-response.mp4",
+ "shots": [
+  {
+   "shot": [
+    0.0,
+    21.466666666666665
+   ],
+   "cam": "MIKE",
+   "crop": [
+    1216,
+    2160
+   ],
+   "x0": 1493,
+   "y0": 0,
+   "y": 0,
+   "match": 0.995
+  }
+ ]
+}
