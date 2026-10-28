@@ -212,17 +212,20 @@ def merge_text(asr_words, reviewed):
     R = reviewed.split()
     n = lambda t: re.sub(r"[^a-z0-9%]", "", t.lower())
     wn, rn = [n(w["w"]) for w in W], [n(t) for t in R]
+    RS = [j == 0 or bool(re.search(r"[.?!][\"”')]*$", R[j - 1])) for j in range(len(R))]   # sentence starts
     out = []
     for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, wn, rn, autojunk=False).get_opcodes():
-        block = [dict(w) for w in W[i1:i2]]
+        block = [dict(w, heard=w["w"]) for w in W[i1:i2]]
         if tag == "equal":
             for k, w in enumerate(block):
                 w["w"] = R[j1 + k]
+                w["refstart"] = RS[j1 + k]
         elif tag == "replace" and i2 - i1 == j2 - j1:
             for k, w in enumerate(block):
                 r = R[j1 + k]
                 if difflib.SequenceMatcher(None, wn[i1 + k], rn[j1 + k]).ratio() >= 0.5 or r[:1].isupper() or r[:1].isdigit():
                     w["w"] = r
+                    w["refstart"] = RS[j1 + k]
         elif tag == "replace" and difflib.SequenceMatcher(None, "".join(wn[i1:i2]), "".join(rn[j1:j2])).ratio() >= 0.65:
             # same letters, split differently ("public who" / "publicly"): reviewed words, ASR span
             s0, e0, m = W[i1]["s"], W[i2 - 1]["e"], j2 - j1
@@ -232,11 +235,15 @@ def merge_text(asr_words, reviewed):
         w["w"] = re.sub(r"(?<=\w)[-–—](?=\w)", " ", w["w"]).replace(" -", " ")
     # sentence case after spoken words were inserted: "sprouts. and No matter" -> "sprouts. And no matter"
     for k, w in enumerate(out):
-        after_stop = k == 0 or re.search(r"[.?!]$", out[k - 1]["w"])
+        after_stop = k == 0 or re.search(r"[.?!][\"”')]*$", out[k - 1]["w"])
         if after_stop and w["w"][:1].islower():
             w["w"] = w["w"][:1].upper() + w["w"][1:]
-        elif not after_stop and w["w"] in STARTERS:
-            w["w"] = w["w"].lower()
+        elif not after_stop and (w["w"] in STARTERS or (w.get("refstart") and w["w"][:1].isupper()
+                                                         and w.get("heard", "")[:1].islower()
+                                                         and not re.match(r"I\b|I'", w["w"]))):
+            # a reviewed sentence start that now sits mid-sentence; Whisper's own casing says whether
+            # it is really a name ("Kerry", "Park City" stay capitalised, "That's" does not)
+            w["w"] = w["w"][:1].lower() + w["w"][1:]
     return out
 
 
