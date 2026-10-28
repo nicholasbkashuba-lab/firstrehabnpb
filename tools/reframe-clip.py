@@ -3,7 +3,7 @@
 
     python3 tools/reframe-clip.py old.mp4 new.mp4 --mp3 raw.mp3 \
         --cam D=dave.mp4:0.9999586:425.8706 --cam M=mike.mov:0.9999671:512.4313 \
-        [--cam A=zoom.mp4:1:326.564] [--work DIR]
+        [--cam A=zoom.mp4:1:326.564] [--work DIR] [--ass captions.ass]
 
 Each --cam is NAME=path:rate:offset, the episode's sync line: camera_time = rate * mp3_time
 + offset (the relay-work README for the episode has them). Run tools/clip-qa.py on the
@@ -22,6 +22,11 @@ about the clip exactly as shipped:
      matches no camera (a stacked two-shot, a title card) is copied over untouched;
   4. copies the burned-in caption box across pixel for pixel (it is opaque, so the box is
      the whole caption) and the clip's audio stream bit for bit.
+
+With --ass (2026-10-28, Nick: captions "slow and late" and "a little lower") step 4 is replaced:
+the old caption pixels are NOT carried; the clean re-cut gets the given caption file (built by
+tools/clip_captions.py) burned in instead. Every shot must then match a camera, since an
+unmatched shot copied from the old clip would bring its old captions with it.
 
 Needs opencv-python-headless and models/yunet.onnx (see tools/clip-qa.py).
 """
@@ -229,7 +234,7 @@ def main():
     import cv2
     args = sys.argv[1:]
     old, new = args[0], args[1]
-    cams, mp3, work = {}, None, None
+    cams, mp3, work, ass = {}, None, None, None
     i = 2
     while i < len(args):
         if args[i] == "--cam":
@@ -240,6 +245,8 @@ def main():
             mp3 = args[i + 1]
         elif args[i] == "--work":
             work = args[i + 1]
+        elif args[i] == "--ass":
+            ass = args[i + 1]
         i += 2
     work = work or tempfile.mkdtemp(prefix="reframe-")
     os.makedirs(work, exist_ok=True)
@@ -266,6 +273,11 @@ def main():
         print(f"  shot {a / FPS:6.2f}-{b / FPS:6.2f}s  " +
               (f"{m[0]} crop {m[3]}x{m[4]}+{m[1]}+{m[2]} match {m[5]:.2f}" if m else "no camera"))
 
+    if ass:
+        bad = [(a / FPS, b / FPS) for a, b, m in plan if not (m and m[5] >= 0.6)]
+        if bad:
+            sys.exit("--ass needs every shot re-cut from a camera; no match for " +
+                     ", ".join(f"{a:.2f}-{b:.2f}s" for a, b in bad) + " (their old captions would show)")
     pieces = []
     for k, (a, b, m) in enumerate(plan):
         out = os.path.join(work, f"p{k:02d}.mp4")
@@ -288,6 +300,14 @@ def main():
     open(lst, "w").write("".join(f"file '{os.path.abspath(p)}'\nduration {n / FPS:.6f}\n" for p, n in pieces))
     body = os.path.join(work, "body.mp4")
     sh(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", body])
+
+    if ass:
+        sh(["ffmpeg", "-v", "error", "-y", "-i", body, "-i", old, "-map", "0:v", "-map", "1:a",
+            "-vf", f"subtitles={ass},format=yuv420p", "-c:v", "libx264", "-preset", "medium", "-crf", "20",
+            "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-c:a", "copy",
+            "-movflags", "+faststart", "-shortest", new])
+        print(f"  wrote {new}: {nfr} frames, new captions from {os.path.basename(ass)} (clean body kept at {body})")
+        return
 
     # transplant the caption boxes and mux the original audio
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",

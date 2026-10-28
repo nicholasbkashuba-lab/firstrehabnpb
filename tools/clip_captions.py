@@ -190,6 +190,61 @@ def cues(words, audio, dur):
     return out
 
 
+def _tidy_asr(words):
+    """Whisper splits '130%' into '130', '%' and 'one-fifth' into 'one', '-fifth'; glue them back."""
+    out = []
+    for w in words:
+        t = w["w"].strip()
+        if out and re.match(r"^[%'’.,?!]|^-", t):
+            out[-1] = {**out[-1], "w": out[-1]["w"] + t, "e": w["e"]}
+        elif t:
+            out.append({**w, "w": t})
+    return out
+
+
+def merge_text(asr_words, reviewed):
+    """Caption words = what is SAID (Whisper's word list, so no filler the speaker said is dropped
+    and the aligner never has to stretch tidied text over extra speech), spelled the way the
+    REVIEWED transcript spells it wherever the two agree or nearly agree (names, numbers, case,
+    punctuation: "Miklas" -> "Nicklaus"). Hyphens become spaces (zero dashes in captions)."""
+    import difflib
+    W = _tidy_asr(asr_words)
+    R = reviewed.split()
+    n = lambda t: re.sub(r"[^a-z0-9%]", "", t.lower())
+    wn, rn = [n(w["w"]) for w in W], [n(t) for t in R]
+    out = []
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, wn, rn, autojunk=False).get_opcodes():
+        block = [dict(w) for w in W[i1:i2]]
+        if tag == "equal":
+            for k, w in enumerate(block):
+                w["w"] = R[j1 + k]
+        elif tag == "replace" and i2 - i1 == j2 - j1:
+            for k, w in enumerate(block):
+                r = R[j1 + k]
+                if difflib.SequenceMatcher(None, wn[i1 + k], rn[j1 + k]).ratio() >= 0.5 or r[:1].isupper() or r[:1].isdigit():
+                    w["w"] = r
+        elif tag == "replace" and difflib.SequenceMatcher(None, "".join(wn[i1:i2]), "".join(rn[j1:j2])).ratio() >= 0.65:
+            # same letters, split differently ("public who" / "publicly"): reviewed words, ASR span
+            s0, e0, m = W[i1]["s"], W[i2 - 1]["e"], j2 - j1
+            block = [{"w": R[j1 + k], "s": s0 + (e0 - s0) * k / m, "e": s0 + (e0 - s0) * (k + 1) / m} for k in range(m)]
+        out.extend(block)
+    for w in out:
+        w["w"] = re.sub(r"(?<=\w)[-–—](?=\w)", " ", w["w"]).replace(" -", " ")
+    # sentence case after spoken words were inserted: "sprouts. and No matter" -> "sprouts. And no matter"
+    for k, w in enumerate(out):
+        after_stop = k == 0 or re.search(r"[.?!]$", out[k - 1]["w"])
+        if after_stop and w["w"][:1].islower():
+            w["w"] = w["w"][:1].upper() + w["w"][1:]
+        elif not after_stop and w["w"] in STARTERS:
+            w["w"] = w["w"].lower()
+    return out
+
+
+STARTERS = {"No", "And", "So", "But", "The", "That", "This", "It", "Well", "Yeah", "Okay", "Right", "Oh",
+            "You", "We", "They", "He", "She", "If", "What", "When", "How", "Then", "There", "Now", "Just",
+            "Like", "A", "An", "Is", "Was", "Or", "Because", "Not", "Thus", "Everything", "Every"}
+
+
 def build_ass(words, audio, path, dur):
     cs = cues(words, audio, dur)
     open(path, "w").write(HEAD + "".join(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{t}\n" for a, b, t in cs))
