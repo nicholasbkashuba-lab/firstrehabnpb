@@ -62,7 +62,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    most, across five episodes; Arlosoroff's sat undelivered for a week. He uploads to YouTube
    himself, so this is the handoff. Never hand him chunks to reassemble or a PowerShell paste.
 8. **Clips.** Hook-first, 15 to 45 s, cut from the RAW cameras, captions in the house style
-   (below). Every crop follows the speaker's face per shot (YuNet, as tools/recut-clip.py
+   (below, built by `tools/clip_captions.py`). Every crop follows the speaker's face per shot (YuNet, as tools/recut-clip.py
    does), never a fixed x: Ep 19 and 20 used `crop=405:720:440:0` and seven clips drifted to
    the frame edge. Render each clip TWICE: clean (no captions) and captioned, plus its .ass.
    `tools/clip-qa.py` must print PASS for every clip. Stage with `tools/stage-episode.py`
@@ -81,9 +81,13 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 
 ## House style that Nick has had to correct more than once
 
-- **Captions:** one line, at most 4 words per cue, MarginV=75 (low, inside the Instagram 4:5 feed crop and above the Reels/TikTok UI; 12 got cut off, 2026-10-20), solid
-  black box, each cue starting on its first word's own timestamp. Two line cues showed the
-  rest of the sentence before it was said; he caught it on Episode 18.
+- **Captions: build them with `tools/clip_captions.py`, never by hand** (Nick, 2026-10-28,
+  "remember this ALWAYS for every clip"). Words force-aligned to the clip audio (Whisper alone
+  ran 0.4 s late), one line, at most 3 words per cue, new cue at every pause, MarginV=49 (box
+  bottom y ~1590, inside the Instagram 4:5 feed crop; 12 got cut off on 2026-10-20), solid
+  black box. Two line cues showed the rest of the sentence before it was said (Episode 18).
+  stage-episode.py refuses a clip without a stamped clip_captions .ass in `--clean`, and
+  clip-qa.py fails captions at the old height, so there is no way around it.
 - **Zero dashes** in captions, titles and descriptions. Only 561-624-4263 and 561-624-GAME
   keep theirs. Bullets are •.
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
