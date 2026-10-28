@@ -14,7 +14,8 @@ SPEC=[("01-put-the-mri-down","when a patient comes in with an mri",1077,"it's al
       [("and kennedy's disease is only in",658,"and because of his diagnosis",668)]),
  ("08-the-kneeler","and my mother's charcot",1322,"it was a starting point",1349,[]),
  ("09-put-the-prescription-down","so when i see a patient",595,"adequate history and physical",625,[]),
- ("10-i-was-the-mri","in 1987 there was no mris",916,"do i need to do surgery",950,[])]
+ ("10-i-was-the-mri","in 1987 there was no mris",916,"do i need to do surgery",931,
+      [("or are they good guys",926,"or can we rehab it",929)])]
 if len(sys.argv)>1: SPEC=[s for s in SPEC if s[0] in sys.argv[1:]]
 W=json.load(open("words.json"))
 def norm(x): return x.strip().lower().strip(".,?!").replace(" ","")
@@ -80,7 +81,7 @@ def shots_in(s,e):
         else: res.append(x)
     if len(res)>1 and res[0][1]-res[0][0]<1.2: res[1][0]=res[0][0]; res=res[1:]
     return res
-FIXSEQ=[("dropped my wife nuts","drove my wife nuts"),("you work with me","your work with me"),
+FIXSEQ=[("dropped my wife nuts,","drove my wife nuts,"),("you work with me","your work with me"),
         ("pain to power","Pain 2 Power"),("charcot","Charcot"),("charcot,","Charcot,"),
         ("87.","'87."),("mris,","MRIs,"),("mri","MRI"),("mri,","MRI,"),("mri?","MRI?"),("mri.","MRI."),
         ("reed,","Reed,"),("dr.","Dr."),("i'm like, reed,","I'm like, Reed,")]
