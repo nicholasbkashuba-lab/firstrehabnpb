@@ -19,6 +19,8 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 | Spotify copy | `content/spotify/ep{NN}-spotify.md`: "Episode NN: <Guest>", plain description, no chapters |
 | Clips | branch `media/ep{NN}-clips` (name is load bearing), scheduled in Post Bridge after Nick approves |
 | Clip captions | `content/clips/ep{NN}-clip-captions.md` with the post id and date of every clip |
+| **Sizzle reel** | EVERY episode (Nick, 2026-10-28: "do this every time we do pods"). `tools/sizzle/reel_ep{NN}.py`, about 25 s, 9:16: guest hook with name card, a title card, two or three more lines (Mike and Dave each with a name card), tune in end card. Cut from the RAW cameras like `reel_ep21.py`; `run.py` writes it and runs `qa_center.py`, which must PASS. Shown to Nick with the clips, then scheduled 12:00 PM ET on air day (the noon reel lane, outside the daily clip queue). Ep 18 is on `media/ep18-sizzle`, Ep 19's moments are `tools/sizzle/episodes/ep19.json` |
+| Cover | the original logo with the guest as a matching cartoon (`content/announcements/README.md`), two variants, Nick picks; used Friday AND Saturday |
 | Saturday post | LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-saturday-episode-post.md` |
 | Friday announcement | only if Nick says yes this week (he skipped Episode 18's) |
 | Website | EPISODES[0] once Spotify has it, VIDEOS once YouTube has it (the watcher routine does this) |
@@ -64,6 +66,9 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 8. **Clips.** Hook-first, 15 to 45 s, cut from the RAW cameras, captions in the house style
    (below). Stage with `tools/stage-episode.py` (add the guest to NAME_FIXES first,
    pass `--full-transcript`).
+8b. **Sizzle reel.** Every episode, no asking: copy `tools/sizzle/reel_ep21.py` to
+   `reel_ep{NN}.py`, pick the moments from the transcript, `run.py reel_ep{NN} 9x16`, PASS on
+   `qa_center.py`. It goes to Nick in the same pass as the clips.
 9. **Show Nick every clip in the chat** with SendUserFile, each with its caption and
    proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,
@@ -80,6 +85,13 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 - **Captions:** one line, at most 4 words per cue, MarginV=75 (low, inside the Instagram 4:5 feed crop and above the Reels/TikTok UI; 12 got cut off, 2026-10-20), solid
   black box, each cue starting on its first word's own timestamp. Two line cues showed the
   rest of the sentence before it was said; he caught it on Episode 18.
+- **Framing:** the subject is CENTRED in every shot of every video (Nick, 2026-10-14). Vertical
+  crops are centred on the face measured in that camera over that clip; run
+  `tools/sizzle/qa_center.py` on every clip and reel and ship only on PASS.
+- **Caption speed and place, in one line:** clips use the house box style above (one line, at
+  most four words, MarginV=75, each cue on its own first word, held until the next cue). The
+  sizzle reel uses the engine's word pop captions, which sit at y=1420 of 1920, the same
+  safe height.
 - **Zero dashes** in captions, titles and descriptions. Only 561-624-4263 and 561-624-GAME
   keep theirs. Bullets are •.
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
