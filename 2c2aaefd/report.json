@@ -1,0 +1,22 @@
+{
+ "clip": "2026-11-10_2c2aaefd_full-2c2aaefd.mp4",
+ "mp3_start": 1117.276625,
+ "orig": "18-blood-flow-restriction.mp4",
+ "shots": [
+  {
+   "shot": [
+    0.0,
+    28.966666666666665
+   ],
+   "cam": "DAVE",
+   "crop": [
+    404,
+    720
+   ],
+   "x0": 497,
+   "y0": 0,
+   "y": 0,
+   "match": 0.986
+  }
+ ]
+}
