@@ -18,7 +18,7 @@ Per clip, in a work folder holding `orig/<id>.mp4` (the full-frame original, e.g
 5. `refit.py orig/<id>.mp4 out/<id>.mp4 <y0> <y1> asr-<id>.json cues-<id>.json --track=track-<id>.json
    --ref=ref-<id>.txt`: crops y0..y1 (y1 = old caption top minus ~12 px) at 9:16 around the tracked
    face, scales to 1080x1920, burns captions in the house style (Arial 10, white on a solid black box,
-   MarginV=75, one line, <= 4 words, balanced within each sentence, each cue starting on its first
+   MarginV=49, one line, <= 4 words, balanced within each sentence, each cue starting on its first
    word). `--ref` is the clip's section of the reviewed `transcripts.md` on `media/ep{NN}-clips`; its
    words win, timed by the ASR words they align to. NAME_FIXES from stage-episode.py apply.
 

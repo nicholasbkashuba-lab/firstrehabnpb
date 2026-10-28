@@ -6,7 +6,7 @@ Rescue an already rendered 9:16 clip whose burned-in captions sit too low.
 
 Instagram's feed crops a Reel to 4:5 (keeps y 285..1635 of 1920) and Reels/TikTok/Shorts
 lay their own text over the bottom ~420 px, so captions placed below ~y 1500 get cut off.
-New clips fix this at render time (MarginV=75, see CLAUDE.md). This is for clips already
+New clips fix this at render time (MarginV=49, see CLAUDE.md). This is for clips already
 rendered: it shrinks the picture, top-anchored and horizontally centred, just enough that
 the lowest caption row lands at --target, over a blurred copy of the same frame. Captions,
 audio and framing are untouched; nothing is re-typed.

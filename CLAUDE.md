@@ -979,7 +979,7 @@ messing up: every fix below was made by post-processing an already captioned cli
 time, by a different session. Captions too low -> shrink over a blur (broke "fill the frame") ->
 crop and zoom 1.3x (heads touching the top, softer picture). Each passed "it encoded". The gate
 checks the WHOLE spec on the actual file at once: format, faststart, -14 LUFS, fills the frame,
-house caption box present and inside y 285..1500, one line, one caption layer, subject centred
+house caption box present with its bottom edge at ~1590 (MarginV=49), one line, one caption layer, subject centred
 (YuNet, 2 fps, a stretch over 1 s more than 10% off centre fails), head not cut off.
 
     python3 tools/clip-qa.py clips/*.mp4 --sheet qa/          # --style pop for the sizzle dad jokes
@@ -1045,13 +1045,16 @@ they had to be cropped and blown up.
       BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=49
 
   Three things he corrected, so do not let them drift back:
-  - **Low, but inside the platform safe zone: MarginV=49 since 2026-10-28 (was 75).** 75 put the box's bottom edge
-    at y~1420 of 1920. The old value, 12 ("the very bottom", 2026-10-09), was CUT OFF on
-    Instagram: the feed shows a Reel cropped to 4:5, which keeps only y 285 to 1635, so a
-    caption at the bottom edge loses its lower half (Nick, 2026-10-20, screenshot of the
-    Ep 19 CENTCOM clip: "you can't even see the captions"). Reels, TikTok and Shorts also
-    lay their caption text and buttons over roughly the bottom 420 px (y > 1500). 75 clears
-    both. Never go below about 60. Check a frame with both zones drawn on before shipping.
+  - **Low: MarginV=49, the box's bottom edge at y~1590 of 1920** (Nick, 2026-10-28, "i still
+    need the captions to be lowered down", shown four heights on a real frame and picked this
+    one). It is the lowest position the Instagram feed still shows in full: the feed crops a
+    Reel to 4:5, keeping only y 285 to 1635. History, so it does not swing again: 12 ("the very
+    bottom", 2026-10-09) was CUT OFF in that crop (Nick, 2026-10-20: "you can't even see the
+    captions"); 75 (y~1420) cleared everything but read as too high. At 49 the box sits a little
+    inside the band where Reels/TikTok/Shorts lay their own caption text (y > 1500); Nick chose
+    that knowingly. Never go below 45 (the box would touch the 4:5 crop line).
+    Build captions with `tools/clip_captions.py` (see above). `tools/clip-qa.py` fails a box bottom past 1610; `tools/move-captions.py` moves the captions
+    of a clip onto its clean render, and the re-cut tools take `--caption-bottom 1590`.
     **Clips already rendered too low: re-cut them FULL FRAME, never shrink them** (Nick, 2026-10-27,
     on a shrunk clip in his feed: "Why is it not filling up the whole screen? Looks horrible").
     The 2026-10-20 rescue, `tools/fit-captions.py`, shrank the picture over a blurred copy of itself so

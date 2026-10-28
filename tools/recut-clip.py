@@ -2,7 +2,7 @@
 """Re-cut a finished vertical clip from the episode's RAW cameras, centred, at its original framing.
 
     python3 tools/recut-clip.py captioned.mp4 out.mp4 --mp3 raw.mp3 --orig-dir DIR \
-        --cam NAME=src:rate:offset [--cam ...] [--work DIR]
+        --cam NAME=src:rate:offset [--cam ...] [--work DIR] [--caption-bottom 1590]
 
   captioned.mp4  the clip as scheduled: its burned-in house caption box and its audio are
                  carried over untouched (the box is opaque, so its pixels ARE the caption)
@@ -195,7 +195,7 @@ def main():
     import cv2
     a = sys.argv[1:]
     src_clip, out = a[0], a[1]
-    cams, mp3, orig_dir, work = [], None, None, None
+    cams, mp3, orig_dir, work, bottom = [], None, None, None, None
     i = 2
     while i < len(a):
         if a[i] == "--cam":
@@ -208,6 +208,8 @@ def main():
             orig_dir = a[i + 1]
         elif a[i] == "--work":
             work = a[i + 1]
+        elif a[i] == "--caption-bottom":
+            bottom = int(a[i + 1])
         i += 2
     work = work or tempfile.mkdtemp(prefix="recut-")
     os.makedirs(work, exist_ok=True)
@@ -303,26 +305,9 @@ def main():
     body = os.path.join(work, "body.mp4")
     sh(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", body])
 
-    band = rf.caption_band([f for k, f in enumerate(rf.clip_frames(src_clip)) if k % 15 == 0])
-    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
-                            "-r", str(FPS), "-i", "-", "-i", src_clip, "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
-                            "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p", "-color_primaries", "bt709",
-                            "-color_trc", "bt709", "-colorspace", "bt709", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
-                            "-movflags", "+faststart", "-shortest", out], stdin=subprocess.PIPE)
-    copied = 0
-    for fo, fn in zip(rf.clip_frames(src_clip), rf.clip_frames(body)):
-        fn = fn.copy()
-        r = rf.caption_rect(fo, band) if band else None
-        if r:
-            y0, y1, x0, x1 = r
-            fn[y0:y1 + 1, x0:x1 + 1] = fo[y0:y1 + 1, x0:x1 + 1]
-            copied += 1
-        enc.stdin.write(fn.tobytes())
-    enc.stdin.close()
-    enc.wait()
+    rf.transplant(src_clip, body, out, bottom, audio="aac")
     json.dump({"clip": name, "mp3_start": s, "orig": best[1], "shots": report},
               open(os.path.join(work, "report.json"), "w"), indent=1)
-    print(f"  wrote {out}: captions carried on {copied}/{nfr} frames")
 
 
 if __name__ == "__main__":

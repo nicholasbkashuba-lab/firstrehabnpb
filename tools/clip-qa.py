@@ -40,6 +40,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 W, H = 1080, 1920
 SAFE_TOP, SAFE_BOTTOM = 285, 1610       # 4:5 feed crop keeps 285..1635; Nick set the box at ~1590 (2026-10-28)
+OVERLAY = 1500                          # Reels/TikTok/Shorts lay their own caption and buttons below here
 FEED_BOTTOM = 1635                      # 4:5 feed crop bottom
 MODEL_PATHS = [os.path.join(HERE, "..", "models", "yunet.onnx"),
                os.path.join(os.environ.get("SIZZLE_WORK", os.path.expanduser("~/sizzle-work")), "models", "yunet.onnx")]
@@ -236,7 +237,7 @@ def check(path, style="box", sheet=None, det=None):
         if not bands or cover < 0.5:
             fails.append(f"house captions (white on a solid black box) on screen in only {cover:.0%} of frames: missing, or another style")
         for top, bot, share in bands:
-            pad_bot = bot + 12                         # the box pads the text by ~12 px
+            pad_bot = bot + 12                         # margin for the box padding below the text
             if pad_bot > SAFE_BOTTOM:
                 where = "cut off by Instagram's 4:5 crop" if pad_bot > FEED_BOTTOM else "under the Reels/TikTok/Shorts buttons and caption"
                 fails.append(f"caption text at y {top}..{bot} ({share:.0%} of frames) is {where}; keep the box above {SAFE_BOTTOM} (MarginV=49, tools/clip_captions.py)")
@@ -304,7 +305,7 @@ def _tile(fr, t, flagged):
     import cv2
     tw, th = 270, 480
     s = cv2.resize(fr, (tw, th), interpolation=cv2.INTER_AREA)
-    for y, c in ((SAFE_TOP, (0, 220, 255)), (FEED_BOTTOM, (0, 220, 255)), (SAFE_BOTTOM, (0, 0, 255))):
+    for y, c in ((SAFE_TOP, (0, 220, 255)), (FEED_BOTTOM, (0, 220, 255)), (OVERLAY, (0, 0, 255))):
         yy = int(y * th / H)
         cv2.line(s, (0, yy), (tw, yy), c, 1)
     cv2.putText(s, f"{t:.1f}s", (6, 18), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
