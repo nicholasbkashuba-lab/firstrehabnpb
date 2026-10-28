@@ -81,7 +81,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 
 ## House style that Nick has had to correct more than once
 
-- **Captions:** one line, at most 4 words per cue, MarginV=75 (low, inside the Instagram 4:5 feed crop and above the Reels/TikTok UI; 12 got cut off, 2026-10-20), solid
+- **Captions:** one line, at most 4 words per cue, MarginV=49 (box bottom at y~1590, the lowest the Instagram 4:5 feed crop still shows in full; Nick's pick 2026-10-28; 12 got cut off 2026-10-20, 75 read as too high), solid
   black box, each cue starting on its first word's own timestamp. Two line cues showed the
   rest of the sentence before it was said; he caught it on Episode 18.
 - **Zero dashes** in captions, titles and descriptions. Only 561-624-4263 and 561-624-GAME

@@ -35,7 +35,7 @@ Each of these cost a session real time. The fuller write-ups live in CLAUDE.md
 ## Clips
 - Platform safe zone: Instagram's feed crops a 9:16 Reel to 4:5 (keeps y 285 to 1635 of 1920)
   and Reels/TikTok/Shorts overlay the bottom ~420 px. A caption at MarginV=12 is cut in half
-  (Ep 19, 2026-10-20). Use MarginV=75 and draw both zones on a test frame.
+  (Ep 19, 2026-10-20). Use MarginV=49 (box bottom y~1590, Nick 2026-10-28) and draw the 4:5 crop on a test frame.
 - Caption MarginV is in ASS script units (PlayResY 288), not pixels. A pixel value renders
   NO captions and still encodes cleanly; look at a frame.
 - Post Bridge stores an uploaded copy. After any re-cut, re-upload and update_post every

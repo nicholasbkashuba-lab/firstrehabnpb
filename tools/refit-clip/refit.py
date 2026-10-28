@@ -1,5 +1,5 @@
 # Rebuild a clip FULL FRAME: crop the picture above the old burned-in captions, scale it to fill
-# 1080x1920, and burn fresh one-line captions (<= 4 words, house style, MarginV=75) timed from
+# 1080x1920, and burn fresh one-line captions (<= 4 words, house style, MarginV=49) timed from
 # word-level ASR, with spellings taken from the old reviewed captions (OCR) where they match.
 # usage: refit.py src.mp4 out.mp4 y0 y1 asr.json [cues.json] [--cx 540]
 import sys, json, re, subprocess, difflib, os, importlib.util
@@ -100,7 +100,7 @@ WrapStyle: 2
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,75,1
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
