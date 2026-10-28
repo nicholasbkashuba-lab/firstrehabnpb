@@ -269,6 +269,10 @@ def main():
             if cand:
                 m = max(cand, key=lambda z: z[1][4])
         piece = os.path.join(work, f"p{j:02d}.mp4")
+        if m and m[1][3] < 480:
+            # more than 4x enlargement: not how any first-generation clip was framed, so this is
+            # a false match (Ep 11 Dave, whose camera file is damaged, matched a 7x crop of Paul)
+            m = (m[0], m[1][:4] + (0.0,))
         if m and m[1][4] >= 0.55:
             cam, (x0, y0, cw, ch, sc) = m
             ts, xs, y = aim(cam, s + a_ / FPS, n, x0, y0, cw, ch, det)
