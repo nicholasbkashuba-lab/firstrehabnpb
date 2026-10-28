@@ -3,7 +3,7 @@
 
     python3 tools/reframe-clip.py old.mp4 new.mp4 --mp3 raw.mp3 \
         --cam D=dave.mp4:0.9999586:425.8706 --cam M=mike.mov:0.9999671:512.4313 \
-        [--cam A=zoom.mp4:1:326.564] [--work DIR]
+        [--cam A=zoom.mp4:1:326.564] [--work DIR] [--caption-bottom 1590]
 
 Each --cam is NAME=path:rate:offset, the episode's sync line: camera_time = rate * mp3_time
 + offset (the relay-work README for the episode has them). Run tools/clip-qa.py on the
@@ -21,7 +21,8 @@ about the clip exactly as shipped:
      the window following the subject's face (YuNet, smoothed, 2 fps keyframes). A shot that
      matches no camera (a stacked two-shot, a title card) is copied over untouched;
   4. copies the burned-in caption box across pixel for pixel (it is opaque, so the box is
-     the whole caption) and the clip's audio stream bit for bit.
+     the whole caption) and the clip's audio stream bit for bit. --caption-bottom moves the
+     box so its bottom edge sits at that y (house style: 1590).
 
 Needs opencv-python-headless and models/yunet.onnx (see tools/clip-qa.py).
 """
@@ -225,11 +226,42 @@ def caption_rect(old, band):
     return y0, y1, max(L, L + wh.min() - 10), min(R, L + wh.max() + 10)
 
 
+CAPTION_BOTTOM = 1590    # house caption box bottom edge, y of 1920 (MarginV=49; Nick, 2026-10-28)
+
+
+def transplant(old, body, new, bottom=None, audio="copy"):
+    """Write `new`: the frames of `body` (the clean picture) with each frame's opaque caption box
+    from `old` pasted on, moved so its bottom edge sits at `bottom` (None keeps it where it was),
+    and the audio of `old`. The box is opaque, so its pixels are the whole caption."""
+    band = caption_band([f for k, f in enumerate(clip_frames(old)) if k % 15 == 0])
+    dy = (bottom - band[1]) if (band and bottom) else 0
+    print(f"  caption box rows: {band}" + (f", moved {dy:+d} px to bottom y {bottom}" if dy else ""))
+    a = ["-c:a", "copy"] if audio == "copy" else ["-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
+    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
+                            "-r", str(FPS), "-i", "-", "-i", old, "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
+                            "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p", "-color_primaries", "bt709",
+                            "-color_trc", "bt709", "-colorspace", "bt709"] + a + ["-movflags", "+faststart",
+                            "-shortest", new], stdin=subprocess.PIPE)
+    copied = n = 0
+    for fo, fn in zip(clip_frames(old), clip_frames(body)):
+        fn = fn.copy()
+        n += 1
+        r = caption_rect(fo, band) if band else None
+        if r:
+            y0, y1, x0, x1 = r
+            fn[y0 + dy:y1 + 1 + dy, x0:x1 + 1] = fo[y0:y1 + 1, x0:x1 + 1]
+            copied += 1
+        enc.stdin.write(fn.tobytes())
+    enc.stdin.close()
+    enc.wait()
+    print(f"  wrote {new}: {n} frames, captions carried over on {copied}")
+
+
 def main():
     import cv2
     args = sys.argv[1:]
     old, new = args[0], args[1]
-    cams, mp3, work = {}, None, None
+    cams, mp3, work, bottom = {}, None, None, None
     i = 2
     while i < len(args):
         if args[i] == "--cam":
@@ -240,6 +272,8 @@ def main():
             mp3 = args[i + 1]
         elif args[i] == "--work":
             work = args[i + 1]
+        elif args[i] == "--caption-bottom":
+            bottom = int(args[i + 1])
         i += 2
     work = work or tempfile.mkdtemp(prefix="reframe-")
     os.makedirs(work, exist_ok=True)
@@ -289,26 +323,7 @@ def main():
     body = os.path.join(work, "body.mp4")
     sh(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", body])
 
-    # transplant the caption boxes and mux the original audio
-    enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
-                            "-r", str(FPS), "-i", "-", "-i", old, "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
-                            "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-color_primaries", "bt709",
-                            "-color_trc", "bt709", "-colorspace", "bt709", "-c:a", "copy", "-movflags", "+faststart",
-                            "-shortest", new], stdin=subprocess.PIPE)
-    band = caption_band([f for k, f in enumerate(clip_frames(old)) if k % 15 == 0])
-    print(f"  caption box rows: {band}")
-    copied = 0
-    for fo, fn in zip(clip_frames(old), clip_frames(body)):
-        fn = fn.copy()
-        r = caption_rect(fo, band) if band else None
-        if r:
-            y0, y1, x0, x1 = r
-            fn[y0:y1 + 1, x0:x1 + 1] = fo[y0:y1 + 1, x0:x1 + 1]
-            copied += 1
-        enc.stdin.write(fn.tobytes())
-    enc.stdin.close()
-    enc.wait()
-    print(f"  wrote {new}: {nfr} frames, captions carried over on {copied}")
+    transplant(old, body, new, bottom)
 
 
 if __name__ == "__main__":

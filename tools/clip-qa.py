@@ -19,8 +19,8 @@ Checks, per clip:
   fill      the picture fills the frame: no black bars, no inset picture over a blurred copy
             of itself (the retired fit-captions.py look).
   captions  --style box (default, the house style): a solid black box with white text,
-            present through the clip, one line tall, entirely inside y 285..1500 (Instagram's
-            4:5 feed crop keeps 285..1635; Reels/TikTok/Shorts cover the bottom ~420 px).
+            present through the clip, one line tall, its bottom edge at ~1590 (MarginV=49, Nick's
+            pick 2026-10-28) and never past 1615: Instagram's 4:5 feed crop keeps y 285..1635.
             --style pop: the tools/sizzle word-pop captions; only presence is not checked.
             --style none: no caption checks at all (a one-off post with no burned-in text).
   framing   YuNet face per frame at 2 fps: the subject (or a two-shot pair) within 10% of
@@ -39,7 +39,9 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 W, H = 1080, 1920
-SAFE_TOP, SAFE_BOTTOM = 285, 1500       # 4:5 feed crop top; Reels/TikTok/Shorts overlay line
+SAFE_TOP, SAFE_BOTTOM = 285, 1615       # 4:5 feed crop top; lowest box bottom still clear of its bottom
+HOUSE_BOTTOM = 1590                     # where the house caption box's bottom edge sits (MarginV=49)
+OVERLAY = 1500                          # Reels/TikTok/Shorts lay their own caption and buttons below here
 FEED_BOTTOM = 1635                      # 4:5 feed crop bottom
 MODEL_PATHS = [os.path.join(HERE, "..", "models", "yunet.onnx"),
                os.path.join(os.environ.get("SIZZLE_WORK", os.path.expanduser("~/sizzle-work")), "models", "yunet.onnx")]
@@ -236,18 +238,18 @@ def check(path, style="box", sheet=None, det=None):
         if not bands or cover < 0.5:
             fails.append(f"house captions (white on a solid black box) on screen in only {cover:.0%} of frames: missing, or another style")
         for top, bot, share in bands:
-            pad_bot = bot + 12                         # the box pads the text by ~12 px
+            pad_bot = bot + 12                         # margin for the box padding below the text
             if pad_bot > SAFE_BOTTOM:
-                where = "cut off by Instagram's 4:5 crop" if pad_bot > FEED_BOTTOM else "under the Reels/TikTok/Shorts buttons and caption"
-                fails.append(f"caption text at y {top}..{bot} ({share:.0%} of frames) is {where}; keep the box above {SAFE_BOTTOM} (MarginV=75)")
+                where = "cut off by Instagram's 4:5 crop" if pad_bot > FEED_BOTTOM else "touching Instagram's 4:5 crop line"
+                fails.append(f"caption text at y {top}..{bot} ({share:.0%} of frames) is {where}; the box bottom belongs at ~{HOUSE_BOTTOM} (MarginV=49)")
             if top - 12 < SAFE_TOP:
                 fails.append(f"caption text at y {top}..{bot} is above Instagram's 4:5 crop line {SAFE_TOP}")
             if bot - top > 95:
                 fails.append(f"caption text {bot - top} px tall at y {top}: two lines; the house style is ONE line, at most four words")
         if len(bands) > 1:
             fails.append("two caption layers burned in: " + ", ".join(f"y {t}..{b} ({s:.0%})" for t, b, s in bands))
-        elif bands and bands[0][1] < 1250:
-            warns.append(f"captions sit high (text bottom y {bands[0][1]}); house style puts it at ~1406 (MarginV=75)")
+        elif bands and bands[0][1] < HOUSE_BOTTOM - 60:
+            warns.append(f"captions sit high (box bottom y {bands[0][1]}); house style puts it at ~{HOUSE_BOTTOM} (MarginV=49)")
 
     # framing
     def off_of(fs):
@@ -302,7 +304,7 @@ def _tile(fr, t, flagged):
     import cv2
     tw, th = 270, 480
     s = cv2.resize(fr, (tw, th), interpolation=cv2.INTER_AREA)
-    for y, c in ((SAFE_TOP, (0, 220, 255)), (FEED_BOTTOM, (0, 220, 255)), (SAFE_BOTTOM, (0, 0, 255))):
+    for y, c in ((SAFE_TOP, (0, 220, 255)), (FEED_BOTTOM, (0, 220, 255)), (OVERLAY, (0, 0, 255))):
         yy = int(y * th / H)
         cv2.line(s, (0, yy), (tw, yy), c, 1)
     cv2.putText(s, f"{t:.1f}s", (6, 18), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
