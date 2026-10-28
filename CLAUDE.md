@@ -1015,8 +1015,27 @@ the captioned mp4 on the `media/ep{NN}-clips` branch. Then a caption change is a
 salvage job on pixels. The 21 refits of 2026-10-27 had no clean source, which is the only reason
 they had to be cropped and blown up.
 
+- **CAPTIONS COME FROM `tools/clip_captions.py`, FOR EVERY PODCAST CLIP, ALWAYS** (Nick, 2026-10-28:
+  "a little slow and late and they need to be a little lower ... you need to remember this ALWAYS
+  for every clip from a podcast we do"). Never hand-roll cue timing in a clip script again; call
+  `build_ass(words, clip_audio, out.ass, dur)` with the REVIEWED transcript words. It does three
+  things no earlier pipeline did together:
+  - **On time:** every word is FORCE-ALIGNED to the clip's own audio (wav2vec2, torchaudio
+    `MMS_FA`, ~20 ms; `pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu`).
+    Whisper word times were 0.2 to 0.7 s off: per-clip Whisper ran a median 0.42 s LATE (the 21
+    refits), full-episode Whisper ran up to 0.38 s EARLY (Ep 20). Whisper only locates the clip.
+  - **Fast:** at most 3 words per cue, a new cue at every comma, sentence end and pause over
+    0.35 s, so no word is ever on screen before it is said, and word ends trimmed to the last
+    voiced frame so no cue sits through a silence.
+  - **Lower:** MarginV 49, box bottom at y ~1590 of 1920, the height Nick picked on a frame.
+    Still inside the 4:5 feed crop (y 1635). `tools/clip-qa.py` allows the box down to y 1610.
+  Before/after examples Nick approved ("this is so much better"): Ep 20 "one word" and "ringing the bell".
+  **Enforced, so it stays the same on every clip:** build_ass() stamps each .ass; `python3
+  tools/clip_captions.py --check *.ass` verifies stamp, MarginV 49 and <= 3 words per cue;
+  `stage-episode.py` refuses to push any clip whose .ass (in `--clean`) fails it; and
+  `clip-qa.py` FAILS a burned-in caption sitting at the old height (text bottom above y 1550).
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
-  ONE line, at most four words per cue (Nick, 2026-10-09; see "Timing" below).
+  ONE line, at most THREE words per cue (was four until 2026-10-28; see above).
 - **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
   White text on a SOLID BLACK box, sitting LOW in the frame. The reference he pointed at is
   the Episode 11 Paul Joyce clip `05-top-of-the-range.mp4` on `media/joyce-recut` (the
@@ -1034,7 +1053,7 @@ they had to be cropped and blown up.
     captions"); 75 (y~1420) cleared everything but read as too high. At 49 the box sits a little
     inside the band where Reels/TikTok/Shorts lay their own caption text (y > 1500); Nick chose
     that knowingly. Never go below 45 (the box would touch the 4:5 crop line).
-    `tools/clip-qa.py` fails a box bottom past 1615; `tools/move-captions.py` moves the captions
+    Build captions with `tools/clip_captions.py` (see above). `tools/clip-qa.py` fails a box bottom past 1610; `tools/move-captions.py` moves the captions
     of a clip onto its clean render, and the re-cut tools take `--caption-bottom 1590`.
     **Clips already rendered too low: re-cut them FULL FRAME, never shrink them** (Nick, 2026-10-27,
     on a shrunk clip in his feed: "Why is it not filling up the whole screen? Looks horrible").
