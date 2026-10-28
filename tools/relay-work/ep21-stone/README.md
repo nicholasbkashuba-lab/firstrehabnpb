@@ -37,7 +37,10 @@ One cut: RAW 359.2 to 381.367, Dave's retake of the question about Dr. Stone's s
 
 Dave cx 709/1280 (full frame), Dr. Stone cx 543/1280 (master crops 1152x648 at 0,0 so he sits
 at 47%), Mike cx 2126/3840 (master crops 2880x1620 at 686,0). Vertical clips crop 405x720
-(720p) or 1215x2160 (4K) centred on that camera's median face over the clip.
+(720p) or 1215x2160 (4K) and FOLLOW the face: YuNet at 8 fps through each piece, 0.375 s
+smoothing, the crop x set every frame by a sendcmd file (an inline if() chain that long
+overflows ffmpeg's expression parser). A fixed per shot crop failed qa_center at 23% when Dave
+leaned; the tracked crop passes.
 
 ## Clips and reel
 

@@ -25,15 +25,48 @@ def find(phrase,near):
     if best is None or abs(W[best]["s"]-near)>15: sys.exit(f"phrase not found: {phrase}")
     return best
 SH="unsharp=5:5:0.6:5:5:0"
-FACE=json.load(open("faces.json"))
-def face_x(cam,a,b):
-    xs=sorted(r[1] for r in FACE[cam] if r[1] is not None and a-10<=r[0]<=b+10) or sorted(r[1] for r in FACE[cam] if r[1])
-    return xs[len(xs)//2]
-def vf_for(cam,a,b):
-    cx=face_x(cam,a,b)
-    if cam=="M":                       # 4K: 1215x2160 window, downscale, crisp
-        x0=int(min(max(cx-607,0),3840-1215)); return f"crop=1215:2160:{x0}:0,scale=1080:1920:flags=lanczos"
-    x0=int(min(max(cx-202,0),1280-405)); return f"crop=405:720:{x0}:0,scale=1080:1920:flags=lanczos,{SH}"
+import cv2, numpy as np
+_DET={}
+def _det(w,h):
+    if (w,h) not in _DET: _DET[(w,h)]=cv2.FaceDetectorYN.create("/root/sizzle-work/models/yunet.onnx","",(w,h),0.6)
+    return _DET[(w,h)]
+SRCW={"D":1280,"G":1280,"M":3840}
+DEFX={"D":709,"G":543,"M":2126}
+def face_track(cam,cam_t0,dur):
+    """Face centre x (source px) every 0.125 s through the piece, decoded once at 640 wide,
+    filled and smoothed over 1.25 s so the crop follows the person without jitter."""
+    path=CAM[cam][0]; W=SRCW[cam]; h=360; fb=640*h*3
+    p=subprocess.run(["ffmpeg","-v","error","-ss",f"{cam_t0:.3f}","-i",path,"-t",f"{dur+0.3:.3f}","-vf","fps=8,scale=640:360",
+                      "-f","rawvideo","-pix_fmt","bgr24","-"],capture_output=True)
+    xs=[]
+    for i in range(len(p.stdout)//fb):
+        fr=np.frombuffer(p.stdout[i*fb:(i+1)*fb],np.uint8).reshape(h,640,3)
+        _,f=_det(640,h).detect(fr)
+        if f is None: xs.append(None); continue
+        bb=max(f,key=lambda x:x[2]*x[3]); xs.append(float((bb[0]+bb[2]/2)*W/640))
+    good=[x for x in xs if x is not None]
+    if not good: return [(0.0,float(DEFX[cam]))]
+    last=good[0]; fill=[]
+    for x in xs:
+        last=x if x is not None else last; fill.append(last)
+    a=np.array(fill); k=3
+    sm=np.convolve(np.pad(a,(k//2,k//2),mode="edge"),np.ones(k)/k,mode="valid")
+    return [(i/8,float(v)) for i,v in enumerate(sm)]
+_NCMD=[0]
+def x_cmds(track,cw,W,nf):
+    """Per frame crop x, linearly interpolated from the face track and clamped to the frame,
+    written as a sendcmd file (an inline expression this long overflows ffmpeg's parser)."""
+    ts=np.array([t for t,_ in track]); xs=np.array([min(max(cx-cw/2,0),W-cw) for _,cx in track])
+    _NCMD[0]+=1; path=f"/tmp/claude-0/cmd_{os.getpid()}_{_NCMD[0]}.txt"
+    with open(path,"w") as f:
+        for k in range(nf+2):
+            f.write(f"{k/30:.4f} crop@c x {int(round(np.interp(k/30,ts,xs)))};\n")
+    return path,int(round(xs[0]))
+def vf_for(cam,cam_t0,dur):
+    tr=face_track(cam,cam_t0,dur); nf=int(round(dur*30))
+    cw,W,tail=(1215,3840,"scale=1080:1920:flags=lanczos") if cam=="M" else (405,1280,f"scale=1080:1920:flags=lanczos,{SH}")
+    cf,x0=x_cmds(tr,cw,W,nf); ch=2160 if cam=="M" else 720
+    return f"sendcmd=f={cf},crop@c={cw}:{ch}:{x0}:0,{tail}"
 CAM={"D":("src/IMG_2010.MP4",lambda t:107.8726-0.0000318*t),
      "G":("src/IMG_5523.MP4",lambda t:94.5896-0.0000410*t),
      "M":("main.mov",lambda t:90.2318-0.0000275*t)}
@@ -131,7 +164,7 @@ for name,pa,na,pb,nb,exc in SPEC:
             nf=edges[k+1]-edges[k]
             if nf<=0: continue
             ms=a+edges[k]/FPS; path,off=CAM[nm]; out=f"{wd}/p{pk:02d}.mp4"; pk+=1
-            c=["ffmpeg","-v","error","-y","-ss",f"{ms+off(ms):.3f}","-i",path,"-an","-vf",f"fps=30,{vf_for(nm,x,y)},setsar=1,format=yuv420p",
+            c=["ffmpeg","-v","error","-y","-ss",f"{ms+off(ms):.3f}","-i",path,"-an","-vf",f"fps=30,{vf_for(nm,ms+off(ms),nf/FPS)},setsar=1,format=yuv420p",
                "-frames:v",str(nf),"-c:v","libx264","-preset","medium","-crf","17","-pix_fmt","yuv420p",out]
             subprocess.run(c,check=True); lst.append((out,nf)); shots_rep.append([round(tout+(ms-a),2),nm])
         amaps.append((a,b,tout)); tout+=nfs/FPS

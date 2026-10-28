@@ -75,6 +75,15 @@ hits = [card_at, starts["doc"], end_at]
 flashes = hits
 
 
+def card(fmt, t0, t1, name, sub):
+    """Name card above the word pop captions: the stock name_card sits at y 1290, which
+    collides with captions at the 1420 safe height on 9:16."""
+    g = fmt_geom(fmt)
+    img = E.text_img([(name, E.INTER_BLACK, g["name"], E.CREAM), (sub, E.INTER_XB, g["sub"], E.GOLD)], g["W"],
+                     track=0.015, stroke=max(3, int(g["name"]) // 20))
+    return E.Txt(t0, t1, img, (g["cx"], 1150 if fmt == "9x16" else g["over"]), "rise")
+
+
 def tl(k):
     a = SEG[[s[0] for s in SEG].index(k)][2]
     return [(x - a + starts[k], y - a + starts[k], w) for x, y, w in WORDS[k]]
@@ -85,11 +94,11 @@ def texts(fmt):
     T = [kicker(fmt, 0.1, end_at, "PAIN 2 POWER  ·  EPISODE 21")]
     for k in starts:
         T += captions(fmt, tl(k))
-    T.append(name_card(fmt, 0.6, card_at - 0.2, "DR. REED STONE", "NEUROLOGIST, PALM BEACH NEUROLOGY"))
+    T.append(card(fmt, 0.6, card_at - 0.2, "DR. REED STONE", "NEUROLOGIST, PALM BEACH NEUROLOGY"))
     T.append(slam(fmt, card_at, card_at + CARD, "THE NERVE DOCTOR", where="card", size=g["slam"] * 0.8))
     T.append(kicker(fmt, card_at + 0.15, card_at + CARD, "40 YEARS OF NEUROLOGY", where=g["card"] + 110, color=GOLD))
-    T.append(name_card(fmt, starts["doc"] + 0.2, starts["god"] - 0.1, "MIKE McGANN", "CO HOST, PAIN 2 POWER"))
-    T.append(name_card(fmt, starts["god"] + 0.3, starts["god"] + 4.2, "DR. DAVE KASHUBA", "FIRST REHABILITATION"))
+    T.append(card(fmt, starts["doc"] + 0.2, starts["god"] - 0.1, "MIKE McGANN", "CO HOST, PAIN 2 POWER"))
+    T.append(card(fmt, starts["god"] + 0.3, starts["god"] + 4.2, "DR. DAVE KASHUBA", "FIRST REHABILITATION"))
     T.append(image_card(fmt, end_at, DUR, f"{REPO}/assets/media/podcast-cover.jpg", 0.3, y=820, on="glow"))
     T.append(slam(fmt, end_at + 0.2, DUR, "NEW EPISODE  ·  SATURDAY 8:30 AM", where=1290, size=g["slam"] * 0.42,
                   anim="rise"))
