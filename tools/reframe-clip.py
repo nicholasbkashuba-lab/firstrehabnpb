@@ -140,6 +140,7 @@ def face_path(path, t0, nfr, cw, ch, y0, x_old, det):
     step = FPS // 2
     keys = []
     target = x_old + cw / 2
+    ty = None
     proc = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", f"{max(t0, 0):.3f}", "-i", path, "-frames:v", str(nfr),
                              "-vf", "fps=30", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"], stdout=subprocess.PIPE)
     fh = fr.shape[0]
@@ -159,12 +160,17 @@ def face_path(path, t0, nfr, cw, ch, y0, x_old, det):
             _, faces = det.detect(small)
             cx = None
             if faces is not None:
-                cand = [(abs((x[0] + x[2] / 2) / scale - target), (x[0] + x[2] / 2) / scale, x[2] / scale) for x in faces
-                        if x[2] / scale > 0.12 * cw]
+                # also hold the subject's HEIGHT in frame: Ep 19's Mike shot has a poster face behind
+                # him, level with his ear, and the crop followed it whenever he turned to profile
+                cand = [(abs((x[0] + x[2] / 2) / scale - target), (x[0] + x[2] / 2) / scale, (x[1] + x[3] / 2) / scale)
+                        for x in faces if x[2] / scale > 0.12 * cw
+                        and (ty is None or abs((x[1] + x[3] / 2) / scale - ty) < 0.12 * ch)]
                 if cand:
-                    d, cx, fw = min(cand)
+                    d, cx, cy = min(cand)
                     if d > 0.45 * cw and keys:     # a different person entered: keep the subject
                         cx = None
+                    elif ty is None:
+                        ty = cy
             if cx is not None:
                 target = cx
             keys.append((i / FPS, target))
