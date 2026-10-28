@@ -1,8 +1,11 @@
-# Episode 21 vertical clips from the RAW cameras, house caption style: one line, at most four
-# words, MarginV=75, solid black box, each cue on its first word's own time.
+# Episode 21 vertical clips from the RAW cameras. Writes clean/<name>.mp4 (no captions),
+# clean/<name>.ass (tools/clip_captions.py: force aligned, <= 3 words, MarginV 49) and
+# clips/<name>.mp4 (captions burned). The crop HOLDS still and glides only when the person moves.
 # SPEC: (name, start phrase, near, end phrase, near, [excise (from phrase, near, to phrase, near)])
 # An excise removes from the first word of `from` up to (not including) the first word of `to`.
 import json, os, re, subprocess, sys
+sys.path.insert(0, "/home/user/firstrehabnpb/tools")
+from clip_captions import build_ass, verify_ass
 from PIL import ImageFont
 SPEC=[("01-put-the-mri-down","when a patient comes in with an mri",1077,"it's all rehabable",1110,[]),
  ("02-surgery-wont-fix-it","i'm seeing complicated patients who",865,"before they do the surgery",888,[]),
@@ -203,25 +206,29 @@ for name,pa,na,pb,nb,exc in SPEC:
     ws=[w for w in words_for(idx) if m2o(w["s"]) is not None]
     for w in ws:
         so=m2o(w["s"]); eo=m2o(w["e"]); w["s"]=so; w["e"]=eo if eo is not None else so+0.2
-    C=chunks(ws); cues=[]
-    for k,c in enumerate(C):
-        a=c[0]["s"]; nxt=C[k+1][0]["s"] if k+1<len(C) else dur
-        b=min(nxt,c[-1]["e"]+0.5,dur); txt=" ".join(x["w"] for x in c)
-        if k==0: txt=txt[:1].upper()+txt[1:]
-        cues.append((max(a,0),max(b,a+0.25),txt))
-    for k in range(len(cues)-1):
-        if cues[k][1]>cues[k+1][0]: cues[k]=(cues[k][0],cues[k+1][0],cues[k][2])
-    open(f"{wd}/cap.ass","w").write(HEAD+"".join(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{x}\n" for a,b,x in cues))
-    # audio: each keep segment from the RAW mp3, 15 ms fades at the joins, then loudness
+    if ws: ws[0]["w"]=ws[0]["w"][:1].upper()+ws[0]["w"][1:]
+    # audio: each keep segment from the RAW mp3, 15 ms fades at the joins, then loudness.
+    # 1) the CLEAN clip (picture + audio, no captions), kept for staging (CLAUDE.md "Keep the clean render")
     ain=[]; fl=[]
     for q,(a,b,o) in enumerate(amaps):
         ain+=["-ss",f"{a:.3f}","-t",f"{b-a:.3f}","-i","src/raw.mp3"]
         fl.append(f"[{q+1}:a]afade=t=in:d=0.015,afade=t=out:st={max(0,b-a-0.015):.3f}:d=0.015[a{q}]")
-    fc=";".join(fl)+";"+"".join(f"[a{q}]" for q in range(len(amaps)))+f"concat=n={len(amaps)}:v=0:a=1[ac];[ac]loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=in:d=0.08,afade=t=out:st={dur-0.25:.2f}:d=0.25,aresample=48000[a];[0:v]subtitles={wd}/cap.ass,format=yuv420p[v]"
+    fc=";".join(fl)+";"+"".join(f"[a{q}]" for q in range(len(amaps)))+f"concat=n={len(amaps)}:v=0:a=1[ac];[ac]loudnorm=I=-14:TP=-1.5:LRA=11,afade=t=in:d=0.08,afade=t=out:st={dur-0.25:.2f}:d=0.25,aresample=48000[a];[0:v]format=yuv420p[v]"
+    os.makedirs("clean",exist_ok=True)
     subprocess.run(["ffmpeg","-v","error","-y","-f","concat","-safe","0","-i",f"{wd}/l.txt",*ain,"-filter_complex",fc,
-        "-map","[v]","-map","[a]","-c:v","libx264","-preset","medium","-crf","20","-r","30","-pix_fmt","yuv420p",
+        "-map","[v]","-map","[a]","-c:v","libx264","-preset","medium","-crf","17","-r","30","-pix_fmt","yuv420p",
         "-color_primaries","bt709","-color_trc","bt709","-colorspace","bt709","-c:a","aac","-b:a","192k","-movflags","+faststart",
-        "-t",f"{dur:.3f}",f"clips/{name}.mp4"],check=True)
+        "-t",f"{dur:.3f}",f"clean/{name}.mp4"],check=True)
+    # 2) house captions from the ONE shared builder: reviewed words force-aligned to this clip's audio
+    build_ass([{"w":w["w"],"s":w["s"],"e":w["e"]} for w in ws], f"clean/{name}.mp4", f"clean/{name}.ass", dur)
+    bad=verify_ass(f"clean/{name}.ass")
+    if bad: sys.exit(f"{name}: caption file not house style: {bad}")
+    # 3) burn them onto the clean clip
+    subprocess.run(["ffmpeg","-v","error","-y","-i",f"clean/{name}.mp4","-vf",f"subtitles=clean/{name}.ass,format=yuv420p",
+        "-c:v","libx264","-preset","medium","-crf","20","-pix_fmt","yuv420p",
+        "-color_primaries","bt709","-color_trc","bt709","-colorspace","bt709","-c:a","copy","-movflags","+faststart",
+        f"clips/{name}.mp4"],check=True)
+    cues=[(0,0,l.split(",,",1)[1].strip()) for l in open(f"clean/{name}.ass") if l.startswith("Dialogue:")]
     report[name]={"keep":keep,"dur":round(dur,1),"shots":shots_rep,"text":" ".join(x for _,_,x in cues)}
     print(name,round(dur,1),"s",shots_rep,"reframes",MOVES,flush=True); MOVES.clear()
     rp="clips_report.json"; R=json.load(open(rp)) if os.path.exists(rp) else {}; R.update({name:report[name]}); json.dump(R,open(rp,"w"),indent=1)

@@ -43,8 +43,9 @@ leaned; the tracked crop passes.
 
 ## Clips and reel
 
-clips21.py: house caption style (one line, max four words, MarginV=75, solid black box, each
-cue on its own first word). Clip 07 excises Dave's "not life threatening" aside.
+clips21.py renders each clip clean (clean/<name>.mp4), builds its captions with the shared
+tools/clip_captions.py (force aligned to the clip audio, <= 3 words, MarginV 49) into
+clean/<name>.ass, then burns them (clips/<name>.mp4). Gate: tools/clip-qa.py. Clip 07 excises Dave's "not life threatening" aside.
 Sizzle reel: tools/sizzle/reel_ep21.py, cut from the RAW cameras.
 
 ## The master
