@@ -1015,18 +1015,33 @@ the captioned mp4 on the `media/ep{NN}-clips` branch. Then a caption change is a
 salvage job on pixels. The 21 refits of 2026-10-27 had no clean source, which is the only reason
 they had to be cropped and blown up.
 
+- **CAPTIONS COME FROM `tools/clip_captions.py`, FOR EVERY PODCAST CLIP, ALWAYS** (Nick, 2026-10-28:
+  "a little slow and late and they need to be a little lower ... you need to remember this ALWAYS
+  for every clip from a podcast we do"). Never hand-roll cue timing in a clip script again; call
+  `build_ass(words, clip_audio, out.ass, dur)` with the REVIEWED transcript words. It does three
+  things no earlier pipeline did together:
+  - **On time:** every word is FORCE-ALIGNED to the clip's own audio (wav2vec2, torchaudio
+    `MMS_FA`, ~20 ms; `pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu`).
+    Whisper word times were 0.2 to 0.7 s off: per-clip Whisper ran a median 0.42 s LATE (the 21
+    refits), full-episode Whisper ran up to 0.38 s EARLY (Ep 20). Whisper only locates the clip.
+  - **Fast:** at most 3 words per cue, a new cue at every comma, sentence end and pause over
+    0.35 s, so no word is ever on screen before it is said, and word ends trimmed to the last
+    voiced frame so no cue sits through a silence.
+  - **Lower:** MarginV 49, box bottom at y ~1590 of 1920, the height Nick picked on a frame.
+    Still inside the 4:5 feed crop (y 1635). `tools/clip-qa.py` allows the box down to y 1610.
+  Before/after examples Nick approved the direction from: Ep 20 "one word" and "ringing the bell".
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
-  ONE line, at most four words per cue (Nick, 2026-10-09; see "Timing" below).
+  ONE line, at most THREE words per cue (was four until 2026-10-28; see above).
 - **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
   White text on a SOLID BLACK box, sitting LOW in the frame. The reference he pointed at is
   the Episode 11 Paul Joyce clip `05-top-of-the-range.mp4` on `media/joyce-recut` (the
   testosterone one) — pull a frame off it if there is ever any doubt. Exact style:
 
       FontName=Arial,FontSize=10,PrimaryColour=&H00FFFFFF,BackColour=&H00000000,
-      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=75
+      BorderStyle=4,Outline=0,Shadow=0,Bold=1,Alignment=2,MarginV=49
 
   Three things he corrected, so do not let them drift back:
-  - **Low, but inside the platform safe zone: MarginV=75.** That puts the box's bottom edge
+  - **Low, but inside the platform safe zone: MarginV=49 since 2026-10-28 (was 75).** 75 put the box's bottom edge
     at y~1420 of 1920. The old value, 12 ("the very bottom", 2026-10-09), was CUT OFF on
     Instagram: the feed shows a Reel cropped to 4:5, which keeps only y 285 to 1635, so a
     caption at the bottom edge loses its lower half (Nick, 2026-10-20, screenshot of the
