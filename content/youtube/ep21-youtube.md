@@ -2,7 +2,7 @@
 
 air_date: 2026-10-31 (Saturday, 8:30 AM ET on 100.3 Legends Radio)
 file: Dropbox /Pain2Power/Stone/Final/Pain to Power - Stone - multicam.mp4
-length: 26:40.7, 1920x1080 30fps, edited from the RAW radio mp3 (one retake removed)
+length: 26:40.6, 1920x1080 30fps, edited from the RAW radio mp3 (one retake removed)
 upload: Nick uploads by hand in YouTube Studio (CLAUDE.md, "Full episode to YouTube")
 
 > Episode number is 21 on the assumption Spotify continues from "Episode 20: Maria Kendzierski".

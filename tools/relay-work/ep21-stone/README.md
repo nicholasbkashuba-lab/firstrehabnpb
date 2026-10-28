@@ -1,8 +1,7 @@
 # Episode 21 (Dr. Reed Stone, neurologist): the scripts that built it
 
 Dropbox `/Pain2Power/Stone/`. Run in a folder holding `src/` (raw.mp3, IMG_2010.MP4,
-IMG_5523.MP4) and `main.mov` (the 17.5 GB 4K camera). Work in progress; finished numbers
-are added when the master ships.
+IMG_5523.MP4) and `main.mov` (the 17.5 GB 4K camera). 
 
 ## Sources
 
@@ -47,3 +46,13 @@ leaned; the tracked crop passes.
 clips21.py: house caption style (one line, max four words, MarginV=75, solid black box, each
 cue on its own first word). Clip 07 excises Dave's "not life threatening" aside.
 Sizzle reel: tools/sizzle/reel_ep21.py, cut from the RAW cameras.
+
+## The master
+
+`Pain to Power - Stone - multicam.mp4` in Dropbox `/Pain2Power/Stone/Final/`, content_hash
+verified. 26:40.6, 1920x1080 30 fps, H.264 crf 19, AAC 192k, 1,167,692,704 bytes, sha256
+`66f7f825ad4a1554f2fb045d21e75098d58df98c9f4df8a30bbf7857e1cb5d25`. Join with `join21.sh`
+(concat list states each piece's exact duration). 17 shots re-rendered with a FIXED per shot
+crop (`crops.json`) where the shot's median face sat over 6% off centre (Dave sat ~7% right in
+his full frame); qa_center over the whole master: one single frame flag (Mike laughing).
+Spot checks of 8 timestamps against the shot list, including both sides of the edit, all match.
