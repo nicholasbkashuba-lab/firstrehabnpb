@@ -23,3 +23,6 @@ out/
 credentials.json
 *credentials*.json
 dropbox-key*.json
+
+# YuNet face model for tools/clip-qa.py and tools/reframe-clip.py (downloaded, not committed)
+models/

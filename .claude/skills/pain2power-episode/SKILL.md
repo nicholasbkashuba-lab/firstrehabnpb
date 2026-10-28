@@ -62,9 +62,13 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    most, across five episodes; Arlosoroff's sat undelivered for a week. He uploads to YouTube
    himself, so this is the handoff. Never hand him chunks to reassemble or a PowerShell paste.
 8. **Clips.** Hook-first, 15 to 45 s, cut from the RAW cameras, captions in the house style
-   (below). Stage with `tools/stage-episode.py` (add the guest to NAME_FIXES first,
-   pass `--full-transcript`).
-9. **Show Nick every clip in the chat** with SendUserFile, each with its caption and
+   (below). Every crop follows the speaker's face per shot (YuNet, as tools/recut-clip.py
+   does), never a fixed x: Ep 19 and 20 used `crop=405:720:440:0` and seven clips drifted to
+   the frame edge. Render each clip TWICE: clean (no captions) and captioned, plus its .ass.
+   `tools/clip-qa.py` must print PASS for every clip. Stage with `tools/stage-episode.py`
+   (add the guest to NAME_FIXES first, pass `--full-transcript` and `--clean <dir>`); it runs
+   the same gate and refuses to push a failing clip.
+9. **Show Nick every clip in the chat** (only clips that passed the gate) with SendUserFile, each with its caption and
    proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,
     woven into the mixed queue with `tools/clip-queue.py`, never the same guest on
@@ -91,6 +95,10 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   fails takes the whole post down on every platform.
 - **Never put a punch-in crop on screen unchecked**: look at a frame from every shot that
   uses it (Elyse's chin left the frame at 5:54).
+- **Never fix a finished clip by post-processing its pixels** (shrinking it over a blur,
+  cropping off old captions and enlarging). Each rescue fixed one rule and broke another
+  (Oct 2026: "they keep messing up"). Re-burn from the clean render, or re-cut from the raw
+  cameras with `tools/recut-clip.py` / `tools/reframe-clip.py`.
 - **Never invent** a credential, statistic or clinical claim. Attribute numbers to whoever
   said them on air. Clinical topics carry the "talk to your own doctor" line.
 - **Updates are short.** One screen on a phone: what is done, what is waiting on him.

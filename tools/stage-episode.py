@@ -18,6 +18,17 @@ What it produces on the branch:
 
 It pushes in batches. A single push of ~200MB gets reset by the git proxy.
 
+Every clip must PASS tools/clip-qa.py (format, loudness, fills the frame, house
+captions in the safe zone, subject centred) before anything is pushed. That gate
+exists because clips kept shipping with one rule fixed and another broken
+(2026-10-28). --allow-qa-fail "<reason>" overrides it and writes the reason into
+the branch README, so the exception is visible to whoever opens the branch next.
+
+--clean DIR stages each clip's uncaptioned render (<name>.mp4) and its caption
+file (<name>.ass) under clean/. Keep them: with no clean render, a caption fix
+means salvaging pixels (crop and enlarge), which is how 21 clips went soft and
+lost the tops of heads in October 2026. With one, it is a re-burn.
+
 It does NOT write captions, choose a running order intelligently, or touch
 build.py. Order is seeded numerically and a human should reorder it; the
 strongest clip is rarely the first one rendered.
@@ -152,6 +163,9 @@ def main():
     ap.add_argument("--guest", default="", help='e.g. "Dr. Vani Sabesan, MD"')
     ap.add_argument("--credential", default="", help="credential exactly as stated on air")
     ap.add_argument("--batch", type=int, default=2, help="clips per push (default 2)")
+    ap.add_argument("--clean", help="folder of uncaptioned renders (<name>.mp4) and caption files (<name>.ass)")
+    ap.add_argument("--allow-qa-fail", dest="allow_qa_fail", default="",
+                    help="stage even though clip-qa.py fails; the reason is written into the README")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
@@ -161,10 +175,30 @@ def main():
     if not clips:
         sys.exit(f"no .mp4 files in {a.clips_dir}")
 
+    # the gate: nothing reaches the branch the routine posts from unless it passes
+    qa = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "clip-qa.py")]
+                        + [os.path.join(a.clips_dir, c) for c in clips], capture_output=True, text=True)
+    print(qa.stdout.rstrip())
+    if qa.returncode != 0:
+        if not a.allow_qa_fail:
+            sys.exit("\nclip-qa.py FAILED. Fix the clips (tools/reframe-clip.py for off-centre shots, a re-burn "
+                     "from the clean render for caption problems) and run again. Nothing was pushed.")
+        print(f"\n  QA FAILURES OVERRIDDEN: {a.allow_qa_fail}")
+
     work = f"/tmp/stage-ep{nn}"
-    sh(f"rm -rf {work} && mkdir -p {work}/clips")
+    sh(f"rm -rf {work} && mkdir -p {work}/clips {work}/clean")
     for c in clips:
         sh(["cp", os.path.join(a.clips_dir, c), f"{work}/clips/{c}"])
+    clean = []
+    for c in clips:
+        for ext in (".mp4", ".ass"):
+            p = os.path.join(a.clean, c[:-4] + ext) if a.clean else None
+            if p and os.path.exists(p):
+                sh(["cp", p, f"{work}/clean/{os.path.basename(p)}"])
+                clean.append(f"clean/{os.path.basename(p)}")
+    if len([x for x in clean if x.endswith(".mp4")]) < len(clips):
+        print(f"  WARNING: clean renders for {len([x for x in clean if x.endswith('.mp4')])}/{len(clips)} clips. "
+              "Without them a caption fix means cropping and enlarging the finished clip.")
 
     # playlist, numeric order, for a human to reorder
     playlist = [
@@ -222,9 +256,13 @@ def main():
         transcript-full.md, when present, is the whole episode with [mm:ss]
         stamps. /episode-blog reads it to draft the two blog posts.
 
+        clean/ holds each clip's uncaptioned render and its .ass caption file.
+        Change captions by re-burning those, never by editing the captioned mp4.
+
         Branch name matters: the daily routine builds its URLs from the episode
         number, so it must be media/ep{nn}-clips and nothing else.
-        """))
+        """) + (f"\nclip-qa.py failures were overridden when staging: {a.allow_qa_fail}\n"
+                if a.allow_qa_fail else ""))
 
     print(f"episode {nn}: {len(clips)} clips -> {branch}")
     if missing:
@@ -238,7 +276,7 @@ def main():
 
     sh("git init -q . && git config http.postBuffer 524288000", cwd=work)
     sh(f"git remote add origin {REPO}", cwd=work)
-    sh(["git", "add"] + text_files, cwd=work)
+    sh(["git", "add"] + text_files + [x for x in clean if x.endswith(".ass")], cwd=work)
     sh(['git', '-c', 'user.email=noreply@anthropic.com', '-c', 'user.name=Claude',
         'commit', '-q', '-m', f'Episode {nn} clips: playlist, transcripts, README'], cwd=work)
     sh(f"git push -q -f origin HEAD:refs/heads/{branch}", cwd=work)
@@ -246,7 +284,8 @@ def main():
 
     for i in range(0, len(clips), a.batch):
         batch = clips[i:i + a.batch]
-        sh(["git", "add"] + [f"clips/{c}" for c in batch], cwd=work)
+        sh(["git", "add"] + [f"clips/{c}" for c in batch]
+           + [x for x in clean if x.endswith(".mp4") and os.path.basename(x) in batch], cwd=work)
         sh(['git', '-c', 'user.email=noreply@anthropic.com', '-c', 'user.name=Claude',
             'commit', '-q', '-m', f'clips {i+1}-{i+len(batch)}'], cwd=work)
         for attempt in range(4):
