@@ -7,6 +7,8 @@ CAM={'D':('src/IMG_2010.MP4',lambda t:107.8726-0.0000318*t,f"scale=1920:1080:fla
      'G':('src/IMG_5523.MP4',lambda t:94.5896-0.0000410*t,f"crop=1152:648:0:0,scale=1920:1080:flags=lanczos,{SH}"),
      'M':('main.mov',        lambda t:90.2318-0.0000275*t,os.environ.get('MIKE_VF',"crop=2880:1620:640:0,scale=1920:1080:flags=lanczos"))}
 J=json.load(open('shots.json')); shots=J['shots']
+# per shot fixed re-centring crops (static within the shot, never a moving camera)
+CROPS={int(k):v for k,v in json.load(open('crops.json')).items()} if os.path.exists('crops.json') else {}
 only=set(int(x) for x in sys.argv[1:]) if len(sys.argv)>1 else None
 os.makedirs('seg',exist_ok=True)
 jobs=[]
@@ -17,6 +19,7 @@ with open('seg/list.txt','w') as lst:
         if only is not None and i not in only: continue
         if only is None and os.path.exists(out): continue
         path,off,vf=CAM[s]
+        vf=CROPS.get(i,vf)
         cmd=['ffmpeg','-v','error','-y','-ss',f'{a+off(a):.4f}','-i',path,'-an','-vf',f"fps={FPS},{vf},setsar=1,format=yuv420p",
              '-frames:v',str(n),'-c:v','libx264','-preset','medium','-crf','19','-r',str(FPS),'-threads','2',
              '-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709',out+'.tmp.mp4']

@@ -58,19 +58,21 @@ _NCMD=[0]
 # The crop HOLDS still. It only moves when the face (smoothed over ~1.4 s, so head turns and
 # nods are ignored) drifts more than DZ of the crop width from where the crop is aimed, and
 # then it glides to the new spot over GLIDE seconds with an ease in and out.
-DZ, GLIDE, BIG = 0.075, 0.9, 0.12
+DZ, GLIDE, BIG, PERSIST = 0.10, 1.0, 0.18, 8
 def x_cmds(track,cw,W,nf):
     ts=np.array([t for t,_ in track]); raw=np.array([cx for _,cx in track])
-    k=11; tgt=np.convolve(np.pad(raw,(k//2,k//2),mode="edge"),np.ones(k)/k,mode="valid")
+    k=25; tgt=np.convolve(np.pad(raw,(k//2,k//2),mode="edge"),np.ones(k)/k,mode="valid")
     clamp=lambda cx: min(max(cx-cw/2,0),W-cw)
     fast=np.convolve(np.pad(raw,(1,1),mode="edge"),np.ones(3)/3,mode="valid")
     keys=[(0.0,clamp(float(np.median(raw[:min(len(raw),8)]))))]   # (start time, x) of each hold
     moves=[]                                                      # (start, from x, to x, glide)
-    for t,c,cf in zip(ts,tgt,fast):
+    out_n=0                                                       # samples the face has sat past BIG
+    for i,(t,c,cf) in enumerate(zip(ts,tgt,fast)):
         x=keys[-1][1]
+        out_n=out_n+1 if abs((x+cw/2)-cf)>BIG*cw else 0
         if moves and t<moves[-1][0]+moves[-1][3]: continue
-        if abs((x+cw/2)-cf)>BIG*cw and clamp(cf)!=x:      # a real lean: catch it quickly
-            moves.append((t,x,clamp(cf),0.5)); keys.append((t,clamp(cf)))
+        if out_n>=PERSIST and clamp(cf)!=x:              # a real lean held for 0.5 s: catch it
+            moves.append((t,x,clamp(cf),0.6)); keys.append((t,clamp(cf))); out_n=0
         elif abs((x+cw/2)-c)>DZ*cw and clamp(c)!=x:      # a slow drift: glide over
             moves.append((t,x,clamp(c),GLIDE)); keys.append((t,clamp(c)))
     def at(t):
