@@ -185,7 +185,20 @@ def main():
                      "from the clean render for caption problems) and run again. Nothing was pushed.")
         print(f"\n  QA FAILURES OVERRIDDEN: {a.allow_qa_fail}")
 
-    work = f"/tmp/stage-ep{nn}"
+    # captions: every clip's .ass must come from tools/clip_captions.py (Nick, 2026-10-28: "how can
+    # we ensure this always stays the same across all clips"), so old or hand-timed cues never ship
+    asses = [os.path.join(a.clean, c[:-4] + ".ass") if a.clean else c[:-4] + ".ass" for c in clips]
+    cap = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "clip_captions.py"),
+                          "--check"] + asses, capture_output=True, text=True)
+    print(cap.stdout.rstrip())
+    if cap.returncode != 0:
+        if not a.allow_qa_fail:
+            sys.exit("\nCaption files are missing or not house style. Build every clip's captions with "
+                     "tools/clip_captions.py build_ass(), pass the folder holding <clip>.ass as --clean, "
+                     "and run again. Nothing was pushed.")
+        print(f"\n  CAPTION CHECK OVERRIDDEN: {a.allow_qa_fail}")
+
+    work =f"/tmp/stage-ep{nn}"
     sh(f"rm -rf {work} && mkdir -p {work}/clips {work}/clean")
     for c in clips:
         sh(["cp", os.path.join(a.clips_dir, c), f"{work}/clips/{c}"])

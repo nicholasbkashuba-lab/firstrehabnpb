@@ -1029,7 +1029,11 @@ they had to be cropped and blown up.
     voiced frame so no cue sits through a silence.
   - **Lower:** MarginV 49, box bottom at y ~1590 of 1920, the height Nick picked on a frame.
     Still inside the 4:5 feed crop (y 1635). `tools/clip-qa.py` allows the box down to y 1610.
-  Before/after examples Nick approved the direction from: Ep 20 "one word" and "ringing the bell".
+  Before/after examples Nick approved ("this is so much better"): Ep 20 "one word" and "ringing the bell".
+  **Enforced, so it stays the same on every clip:** build_ass() stamps each .ass; `python3
+  tools/clip_captions.py --check *.ass` verifies stamp, MarginV 49 and <= 3 words per cue;
+  `stage-episode.py` refuses to push any clip whose .ass (in `--clean`) fails it; and
+  `clip-qa.py` FAILS a burned-in caption sitting at the old height (text bottom above y 1550).
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
   ONE line, at most THREE words per cue (was four until 2026-10-28; see above).
 - **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**

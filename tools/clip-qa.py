@@ -246,8 +246,10 @@ def check(path, style="box", sheet=None, det=None):
                 fails.append(f"caption text {bot - top} px tall at y {top}: two lines; the house style is ONE line, at most three words")
         if len(bands) > 1:
             fails.append("two caption layers burned in: " + ", ".join(f"y {t}..{b} ({s:.0%})" for t, b, s in bands))
-        elif bands and bands[0][1] < 1250:
-            warns.append(f"captions sit high (text bottom y {bands[0][1]}); house style puts it at ~1590 (MarginV=49)")
+        elif bands and bands[0][1] < 1550:
+            # text bottom ~1591 at MarginV 49; ~1406 is the old MarginV 75 burn (Nick, 2026-10-28: same on every clip)
+            fails.append(f"captions sit high (text bottom y {bands[0][1]}); house style puts it at ~1590 "
+                         "(MarginV=49): build them with tools/clip_captions.py")
 
     # framing
     def off_of(fs):

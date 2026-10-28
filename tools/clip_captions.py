@@ -22,6 +22,7 @@ BackColour &H00000000), one line, centred.
     build_ass(words, audio_path_or_array, "cap.ass", dur)    # words: [{"w","s","e"}] in clip time
 
     python3 tools/clip_captions.py words.json clip_audio.(mp4|wav) out.ass
+    python3 tools/clip_captions.py --check clean/*.ass        # house style? (stage-episode runs this)
 """
 import json
 import math
@@ -38,7 +39,10 @@ MAX_LINE_PX = 900
 PAUSE = 0.35         # a real pause always ends a cue: no word is ever shown before it is said    # at 1080 wide; a longer chunk is split further
 SR = 16000
 
+STAMP = "; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)"
+
 HEAD = f"""[Script Info]
+{STAMP}
 ScriptType: v4.00+
 PlayResX: 384
 PlayResY: 288
@@ -191,6 +195,36 @@ def build_ass(words, audio, path, dur):
     open(path, "w").write(HEAD + "".join(f"Dialogue: 0,{ts(a)},{ts(b)},Default,,0,0,0,,{t}\n" for a, b, t in cs))
     return cs
 
+
+def verify_ass(path):
+    """Problems with a caption file, [] when it is house style. stage-episode.py refuses a clip
+    whose .ass fails this, so a hand-rolled or old-style caption file can never be staged."""
+    try:
+        t = open(path).read()
+    except OSError as e:
+        return [f"cannot read {path}: {e}"]
+    errs = []
+    if STAMP.split(" v")[0] not in t:
+        errs.append("not built by tools/clip_captions.py (no stamp): rebuild it with build_ass()")
+    m = re.search(r"^Style: Default,.*,(\d+),\d+$", t, re.M)
+    if not m or int(m.group(1)) != MARGIN_V:
+        errs.append(f"MarginV is {m.group(1) if m else '?'}, house style is {MARGIN_V}")
+    cues = re.findall(r"^Dialogue: [^,]*,([^,]*),([^,]*),(?:[^,]*,){6}(.*)$", t, re.M)
+    if not cues:
+        errs.append("no cues")
+    long = [x for _, _, x in cues if len(x.split()) > MAXWORDS]
+    if long:
+        errs.append(f"{len(long)} cue(s) over {MAXWORDS} words, e.g. {long[0]!r}")
+    return errs
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["--check"]:
+    bad = 0
+    for f in sys.argv[2:]:
+        e = verify_ass(f)
+        print(("PASS  " if not e else "FAIL  ") + f + "".join("\n      " + x for x in e))
+        bad += bool(e)
+    sys.exit(1 if bad else 0)
 
 if __name__ == "__main__":
     words, audio, out = json.load(open(sys.argv[1])), sys.argv[2], sys.argv[3]

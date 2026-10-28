@@ -86,6 +86,8 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   ran 0.4 s late), one line, at most 3 words per cue, new cue at every pause, MarginV=49 (box
   bottom y ~1590, inside the Instagram 4:5 feed crop; 12 got cut off on 2026-10-20), solid
   black box. Two line cues showed the rest of the sentence before it was said (Episode 18).
+  stage-episode.py refuses a clip without a stamped clip_captions .ass in `--clean`, and
+  clip-qa.py fails captions at the old height, so there is no way around it.
 - **Zero dashes** in captions, titles and descriptions. Only 561-624-4263 and 561-624-GAME
   keep theirs. Bullets are •.
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
