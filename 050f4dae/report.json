@@ -1,0 +1,22 @@
+{
+ "clip": "2026-11-12_050f4dae_full-050f4dae.mp4",
+ "mp3_start": 767.036625,
+ "orig": "14-remember-me-foundation.mp4",
+ "shots": [
+  {
+   "shot": [
+    0.0,
+    35.5
+   ],
+   "cam": "DAVE",
+   "crop": [
+    404,
+    720
+   ],
+   "x0": 498,
+   "y0": 0,
+   "y": 0,
+   "match": 0.966
+  }
+ ]
+}
