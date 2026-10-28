@@ -22,6 +22,7 @@ Checks, per clip:
             present through the clip, one line tall, entirely inside y 285..1500 (Instagram's
             4:5 feed crop keeps 285..1635; Reels/TikTok/Shorts cover the bottom ~420 px).
             --style pop: the tools/sizzle word-pop captions; only presence is not checked.
+            --style none: no caption checks at all (a one-off post with no burned-in text).
   framing   YuNet face per frame at 2 fps: the subject (or a two-shot pair) within 10% of
             centre, the top of the head not cut off, no long stretch with no clear subject.
 

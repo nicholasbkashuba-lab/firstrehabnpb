@@ -952,6 +952,8 @@ When Nick says post something, the only two things that ever block it are:
 
        python3 tools/stage-media.py clip.mov
 
+   Pass `--clip` for a captioned episode clip: it then refuses to push unless
+   `tools/clip-qa.py` passes. Any other video still gets the check printed as a warning.
    Converts .mov to .mp4, pushes to a `media/<slug>` branch, prints the Vercel branch URL
    (any size) and the jsDelivr URL (under 20MB), and warns if the video is landscape,
    which letterboxes on Reels, TikTok and Shorts.
@@ -993,6 +995,20 @@ crop size with the window following the face, and carries the burned-in caption 
 across untouched (the box is opaque, so copying its pixels copies the caption exactly). Seven
 scheduled Ep 19/20 clips were fixed this way on 2026-10-28. Any new clip pipeline: track the face
 per shot from the start, never a fixed x.
+
+**Clips with no clean render: re-cut from the raw cameras.** `tools/cam-sync.py` lines each raw
+camera up with the RAW radio mp3 (audio pulled straight off a Dropbox temporary link, ~4 min for
+12 GB, no download), and `tools/recut-clip.py` re-cuts a scheduled clip shot by shot at the
+framing of its first-generation clip, centred on the face, HLG tonemapped, carrying the
+captions and audio over. The 21 crop-and-enlarged clips of 2026-10-27 were re-cut this way.
+Camera sync lines measured 2026-10-28 (camera_time = rate * mp3_time + offset):
+Ep 11 paul 0.9999751/201.99, mike 0.9999808/58.38 · Ep 13 Kerry IMG_5081 0.9999694/77.46,
+Mike "Video Sep 01" 0.9999752/169.44, Dave IMG_1835 0.9999824/160.83 · Ep 14 Dave.mov
+0.9999843/91.09, Mike.mov 0.9999722/257.77, Arlosoroff.MP4 0.9999708/3.43 · Ep 15 IMG_0006
+0.9999819/7.69, IMG_5142 0.9999712/13.30, IMG_1852 0.9999821/7.30 · Ep 16 "Video Sep 24"
+0.9999768/26.80, IMG_1918 0.9999840/40.73, IMG_4077 0.9999650/31.57 · Ep 18 Mike.mov
+0.9999754/212.98, IMG_5434 0.9999619/186.04, dave.mov 0.9999687/195.14 · Ep 19 and 20 in
+their relay-work READMEs.
 
 **Keep the clean render.** Store every clip's uncaptioned render and its cue file (.ass) next to
 the captioned mp4 on the `media/ep{NN}-clips` branch. Then a caption change is a re-burn, not a

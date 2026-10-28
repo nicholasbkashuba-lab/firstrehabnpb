@@ -59,6 +59,8 @@ def main():
     ap.add_argument("files", nargs="+", help="local image or video files")
     ap.add_argument("--slug", help="branch suffix, default derived from the first filename")
     ap.add_argument("--keep-mov", action="store_true", help="do not convert .mov to .mp4")
+    ap.add_argument("--clip", action="store_true",
+                    help="this is a captioned episode clip: refuse to stage it unless tools/clip-qa.py passes")
     a = ap.parse_args()
 
     for f in a.files:
@@ -108,6 +110,16 @@ def main():
             w, h = (int(x) for x in dims.split(",")[:2])
             if w > h:
                 print("    NOTE: landscape. Reels, TikTok and Shorts will letterbox this.")
+
+    # the clip gate (tools/clip-qa.py). A one-off post is checked without the caption rules
+    # and only warned about; a captioned episode clip (--clip) must pass or nothing is pushed.
+    vids = [os.path.join(work, n) for n in staged if n.lower().endswith((".mp4", ".mov"))]
+    if vids:
+        qa = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "clip-qa.py")]
+                            + vids + ([] if a.clip else ["--style", "none"]), capture_output=True, text=True)
+        print(qa.stdout.rstrip())
+        if qa.returncode != 0 and a.clip:
+            sys.exit("clip-qa.py FAILED on a clip. Nothing was pushed.")
 
     sh("git init -q . && git config http.postBuffer 524288000", cwd=work)
     sh(f"git remote add origin {REPO}", cwd=work)
