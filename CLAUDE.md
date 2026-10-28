@@ -971,6 +971,34 @@ Standing preferences for a one off post, unless told otherwise:
 - Finish with `list_post_results` per platform. "processing" is not proof.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
+**`tools/clip-qa.py` is the gate. Nothing goes to Nick or Post Bridge until it prints PASS**
+(added 2026-10-28, after Nick: "for whatever reason they keep messing up"). The reason they kept
+messing up: every fix below was made by post-processing an already captioned clip, one rule at a
+time, by a different session. Captions too low -> shrink over a blur (broke "fill the frame") ->
+crop and zoom 1.3x (heads touching the top, softer picture). Each passed "it encoded". The gate
+checks the WHOLE spec on the actual file at once: format, faststart, -14 LUFS, fills the frame,
+house caption box present and inside y 285..1500, one line, one caption layer, subject centred
+(YuNet, 2 fps, a stretch over 1 s more than 10% off centre fails), head not cut off.
+
+    python3 tools/clip-qa.py clips/*.mp4 --sheet qa/          # --style pop for the sizzle dad jokes
+    curl -sSL -o models/yunet.onnx https://media.githubusercontent.com/media/opencv/opencv_zoo/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx
+
+It also reads the files Post Bridge actually holds: `list_media` gives a signed URL per upload,
+curl them all and run the gate over the queue. Do that after any batch change to scheduled posts.
+
+**Off-centre host shots: re-cut them, don't zoom them.** Episodes 19 and 20 cut Dave and Mike from
+720p phones with a FIXED crop window (`crop=405:720:440:0`), so a lean put them at the frame edge.
+`tools/reframe-clip.py` finds each shot's camera and crop by template match, re-cuts it at the same
+crop size with the window following the face, and carries the burned-in caption box and the audio
+across untouched (the box is opaque, so copying its pixels copies the caption exactly). Seven
+scheduled Ep 19/20 clips were fixed this way on 2026-10-28. Any new clip pipeline: track the face
+per shot from the start, never a fixed x.
+
+**Keep the clean render.** Store every clip's uncaptioned render and its cue file (.ass) next to
+the captioned mp4 on the `media/ep{NN}-clips` branch. Then a caption change is a re-burn, not a
+salvage job on pixels. The 21 refits of 2026-10-27 had no clean source, which is the only reason
+they had to be cropped and blown up.
+
 - **1080x1920 vertical, 30fps, h264 crf 20, AAC.** Captions burned in: white bold, centred,
   ONE line, at most four words per cue (Nick, 2026-10-09; see "Timing" below).
 - **CAPTION STYLE — Nick specified this as the standard for EVERY episode, not just one.**
