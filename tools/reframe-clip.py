@@ -3,7 +3,7 @@
 
     python3 tools/reframe-clip.py old.mp4 new.mp4 --mp3 raw.mp3 \
         --cam D=dave.mp4:0.9999586:425.8706 --cam M=mike.mov:0.9999671:512.4313 \
-        [--cam A=zoom.mp4:1:326.564] [--work DIR] [--caption-bottom 1590]
+        [--cam A=zoom.mp4:1:326.564] [--work DIR] [--caption-bottom 1590] [--keep-framing]
 
 Each --cam is NAME=path:rate:offset, the episode's sync line: camera_time = rate * mp3_time
 + offset (the relay-work README for the episode has them). Run tools/clip-qa.py on the
@@ -22,7 +22,9 @@ about the clip exactly as shipped:
      matches no camera (a stacked two-shot, a title card) is copied over untouched;
   4. copies the burned-in caption box across pixel for pixel (it is opaque, so the box is
      the whole caption) and the clip's audio stream bit for bit. --caption-bottom moves the
-     box so its bottom edge sits at that y (house style: 1590).
+     box so its bottom edge sits at that y (house style: 1590). --keep-framing re-cuts each
+     shot at the crop it already had (no face following): a way to move captions on a clip
+     whose framing already passes clip-qa but that has no clean render.
 
 Needs opencv-python-headless and models/yunet.onnx (see tools/clip-qa.py).
 """
@@ -91,10 +93,13 @@ def shots_of(small):
     cuts = [0] + [i for i in range(1, len(g)) if np.abs(g[i] - g[i - 1]).mean() > 22] + [len(g)]
     out = []
     for a, b in zip(cuts[:-1], cuts[1:]):
-        if out and b - a < 6:                 # a flash of a few frames belongs to its neighbour
+        if out and b - a <= 6:                # a flash of a few frames belongs to its neighbour
             out[-1][1] = b
         else:
             out.append([a, b])
+    if len(out) > 1 and out[0][1] - out[0][0] <= 6:   # ...including one that opens the clip
+        out[1][0] = out[0][0]
+        out = out[1:]
     return out
 
 
@@ -262,6 +267,8 @@ def main():
     args = sys.argv[1:]
     old, new = args[0], args[1]
     cams, mp3, work, bottom = {}, None, None, None
+    keep = "--keep-framing" in args
+    args = [x for x in args if x != "--keep-framing"]
     i = 2
     while i < len(args):
         if args[i] == "--cam":
@@ -308,7 +315,10 @@ def main():
             name, x_old, y0, cw, ch, _ = m
             path, rate, off = cams[name]
             t0 = rate * (s + a / FPS) + off
-            ts, xs = face_path(path, t0, n, cw, ch, y0, x_old, det)
+            if keep:                                     # same framing, e.g. to move captions only
+                ts, xs = np.array([0.0]), np.array([float(x_old)])
+            else:
+                ts, xs = face_path(path, t0, n, cw, ch, y0, x_old, det)
             print(f"  shot {k}: {name} x {x_old} -> {', '.join(str(int(v)) for v in xs[:: max(1, len(xs) // 6)])}")
             vf = f"fps=30,crop={cw}:{ch}:'{x_expr(ts, xs)}':{y0},scale={W}:{H}:flags=lanczos,{SHARP},setsar=1,format=yuv420p"
             sh(["ffmpeg", "-v", "error", "-y", "-ss", f"{t0:.3f}", "-i", path, "-an", "-vf", vf, "-frames:v", str(n),
