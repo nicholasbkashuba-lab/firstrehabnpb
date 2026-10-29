@@ -57,3 +57,11 @@ verified. 26:40.6, 1920x1080 30 fps, H.264 crf 19, AAC 192k, 1,167,692,704 bytes
 crop (`crops.json`) where the shot's median face sat over 6% off centre (Dave sat ~7% right in
 his full frame); qa_center over the whole master: one single frame flag (Mike laughing).
 Spot checks of 8 timestamps against the shot list, including both sides of the edit, all match.
+
+## Clip QA (tools/clip-qa.py, 2026-10-29)
+
+All ten PASS. 03 and 09 failed at first: Dr. Stone holds head turns toward Dave or Mike for 1
+to 1.5 s, and a held camera shows those as 11 to 16% off centre. Following the turns is what
+Nick rejected, so `clip_overrides.json` cuts to a listener (Dave or Mike) over those stretches,
+an ordinary multicam reaction cut. Remaining warns: the top of his head touches the frame edge
+in his own camera's framing (the crop already uses the full 720 px height).
