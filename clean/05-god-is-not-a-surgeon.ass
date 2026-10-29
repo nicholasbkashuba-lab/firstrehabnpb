@@ -1,0 +1,36 @@
+[Script Info]
+; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)
+ScriptType: v4.00+
+PlayResX: 384
+PlayResY: 288
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.06,0:00:01.56,Default,,0,0,0,,A good therapist
+Dialogue: 0,0:00:01.76,0:00:02.38,Default,,0,0,0,,knows what they
+Dialogue: 0,0:00:02.38,0:00:03.26,Default,,0,0,0,,don't know,
+Dialogue: 0,0:00:03.82,0:00:04.34,Default,,0,0,0,,you know?
+Dialogue: 0,0:00:04.34,0:00:04.84,Default,,0,0,0,,And that's the
+Dialogue: 0,0:00:04.84,0:00:05.90,Default,,0,0,0,,important part.
+Dialogue: 0,0:00:05.90,0:00:06.96,Default,,0,0,0,,And sometimes people
+Dialogue: 0,0:00:06.96,0:00:07.93,Default,,0,0,0,,feel like
+Dialogue: 0,0:00:08.01,0:00:09.15,Default,,0,0,0,,they can do
+Dialogue: 0,0:00:09.83,0:00:10.35,Default,,0,0,0,,whatever they're going
+Dialogue: 0,0:00:10.35,0:00:10.43,Default,,0,0,0,,to do,
+Dialogue: 0,0:00:10.43,0:00:10.77,Default,,0,0,0,,they're going to
+Dialogue: 0,0:00:10.77,0:00:11.65,Default,,0,0,0,,get better.
+Dialogue: 0,0:00:12.07,0:00:12.43,Default,,0,0,0,,I always say
+Dialogue: 0,0:00:12.43,0:00:13.25,Default,,0,0,0,,the difference between
+Dialogue: 0,0:00:13.25,0:00:13.97,Default,,0,0,0,,a surgeon and
+Dialogue: 0,0:00:13.97,0:00:14.71,Default,,0,0,0,,God is God
+Dialogue: 0,0:00:14.71,0:00:15.27,Default,,0,0,0,,knows he's not
+Dialogue: 0,0:00:15.27,0:00:16.21,Default,,0,0,0,,a surgeon,
+Dialogue: 0,0:00:16.57,0:00:17.25,Default,,0,0,0,,you know?
+Dialogue: 0,0:00:17.37,0:00:17.93,Default,,0,0,0,,Oh,
+Dialogue: 0,0:00:17.93,0:00:19.29,Default,,0,0,0,,that's really good.

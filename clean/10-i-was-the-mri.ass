@@ -1,0 +1,31 @@
+[Script Info]
+; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)
+ScriptType: v4.00+
+PlayResX: 384
+PlayResY: 288
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:01.48,Default,,0,0,0,,In 1987 there
+Dialogue: 0,0:00:01.48,0:00:02.70,Default,,0,0,0,,was no MRIs,
+Dialogue: 0,0:00:03.22,0:00:03.70,Default,,0,0,0,,and I was
+Dialogue: 0,0:00:03.70,0:00:04.41,Default,,0,0,0,,the MRI,
+Dialogue: 0,0:00:04.41,0:00:05.05,Default,,0,0,0,,and I would
+Dialogue: 0,0:00:05.05,0:00:06.23,Default,,0,0,0,,look at somebody
+Dialogue: 0,0:00:06.93,0:00:07.69,Default,,0,0,0,,and tell them
+Dialogue: 0,0:00:07.69,0:00:07.99,Default,,0,0,0,,what their
+Dialogue: 0,0:00:07.99,0:00:08.63,Default,,0,0,0,,problem was,
+Dialogue: 0,0:00:08.63,0:00:09.03,Default,,0,0,0,,and the
+Dialogue: 0,0:00:09.03,0:00:09.59,Default,,0,0,0,,doctor's like,
+Dialogue: 0,0:00:09.59,0:00:10.47,Default,,0,0,0,,is it rehabable,
+Dialogue: 0,0:00:10.47,0:00:11.57,Default,,0,0,0,,or can we
+Dialogue: 0,0:00:11.75,0:00:12.15,Default,,0,0,0,,rehab it,
+Dialogue: 0,0:00:12.15,0:00:12.59,Default,,0,0,0,,or do I
+Dialogue: 0,0:00:12.59,0:00:12.83,Default,,0,0,0,,need to
+Dialogue: 0,0:00:12.83,0:00:13.94,Default,,0,0,0,,do surgery,

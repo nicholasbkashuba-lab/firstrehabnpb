@@ -1,0 +1,41 @@
+[Script Info]
+; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)
+ScriptType: v4.00+
+PlayResX: 384
+PlayResY: 288
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.86,0:00:01.68,Default,,0,0,0,,We had somebody
+Dialogue: 0,0:00:01.68,0:00:02.02,Default,,0,0,0,,that we knew
+Dialogue: 0,0:00:02.02,0:00:02.58,Default,,0,0,0,,very close,
+Dialogue: 0,0:00:02.58,0:00:03.62,Default,,0,0,0,,and he was
+Dialogue: 0,0:00:03.62,0:00:05.60,Default,,0,0,0,,diagnosed with ALS.
+Dialogue: 0,0:00:06.20,0:00:07.12,Default,,0,0,0,,And I'm pretty
+Dialogue: 0,0:00:07.12,0:00:08.07,Default,,0,0,0,,sure he went
+Dialogue: 0,0:00:08.07,0:00:08.75,Default,,0,0,0,,to you,
+Dialogue: 0,0:00:08.75,0:00:09.15,Default,,0,0,0,,and after
+Dialogue: 0,0:00:09.15,0:00:10.31,Default,,0,0,0,,the testing,
+Dialogue: 0,0:00:10.35,0:00:10.97,Default,,0,0,0,,there was something
+Dialogue: 0,0:00:10.97,0:00:12.37,Default,,0,0,0,,called Kennedy's disease
+Dialogue: 0,0:00:12.37,0:00:12.87,Default,,0,0,0,,that he ended
+Dialogue: 0,0:00:12.87,0:00:13.55,Default,,0,0,0,,up having.
+Dialogue: 0,0:00:13.55,0:00:14.78,Default,,0,0,0,,Kennedy's disease?
+Dialogue: 0,0:00:14.85,0:00:15.49,Default,,0,0,0,,And
+Dialogue: 0,0:00:15.49,0:00:16.01,Default,,0,0,0,,because of
+Dialogue: 0,0:00:16.01,0:00:17.57,Default,,0,0,0,,his diagnosis,
+Dialogue: 0,0:00:18.17,0:00:18.87,Default,,0,0,0,,they stopped the
+Dialogue: 0,0:00:18.87,0:00:19.37,Default,,0,0,0,,treatment for
+Dialogue: 0,0:00:19.37,0:00:20.37,Default,,0,0,0,,the ALS.
+Dialogue: 0,0:00:20.59,0:00:20.89,Default,,0,0,0,,He was
+Dialogue: 0,0:00:20.89,0:00:22.17,Default,,0,0,0,,literally planning
+Dialogue: 0,0:00:22.81,0:00:23.39,Default,,0,0,0,,his death,
+Dialogue: 0,0:00:23.39,0:00:23.57,Default,,0,0,0,,and he
+Dialogue: 0,0:00:23.57,0:00:24.56,Default,,0,0,0,,was planning
+Dialogue: 0,0:00:24.70,0:00:25.57,Default,,0,0,0,,everything.

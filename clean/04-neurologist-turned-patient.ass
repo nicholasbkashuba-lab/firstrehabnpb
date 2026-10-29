@@ -1,0 +1,54 @@
+[Script Info]
+; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)
+ScriptType: v4.00+
+PlayResX: 384
+PlayResY: 288
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.52,Default,,0,0,0,,But
+Dialogue: 0,0:00:01.12,0:00:01.36,Default,,0,0,0,,I had a
+Dialogue: 0,0:00:01.36,0:00:02.18,Default,,0,0,0,,lot of pain,
+Dialogue: 0,0:00:02.18,0:00:02.90,Default,,0,0,0,,shoulder pain.
+Dialogue: 0,0:00:02.90,0:00:03.44,Default,,0,0,0,,I was
+Dialogue: 0,0:00:03.44,0:00:04.56,Default,,0,0,0,,really agonizing.
+Dialogue: 0,0:00:04.56,0:00:05.66,Default,,0,0,0,,Couldn't sleep.
+Dialogue: 0,0:00:06.78,0:00:07.14,Default,,0,0,0,,Drove my
+Dialogue: 0,0:00:07.14,0:00:07.86,Default,,0,0,0,,wife nuts,
+Dialogue: 0,0:00:07.86,0:00:09.28,Default,,0,0,0,,my staff crazy.
+Dialogue: 0,0:00:10.30,0:00:10.65,Default,,0,0,0,,And I didn't
+Dialogue: 0,0:00:10.65,0:00:10.89,Default,,0,0,0,,know what
+Dialogue: 0,0:00:10.89,0:00:11.29,Default,,0,0,0,,to do.
+Dialogue: 0,0:00:11.29,0:00:12.17,Default,,0,0,0,,And it took
+Dialogue: 0,0:00:12.17,0:00:12.45,Default,,0,0,0,,me out of
+Dialogue: 0,0:00:12.45,0:00:12.93,Default,,0,0,0,,the gym for
+Dialogue: 0,0:00:12.93,0:00:14.09,Default,,0,0,0,,a long time.
+Dialogue: 0,0:00:14.19,0:00:15.19,Default,,0,0,0,,But through your
+Dialogue: 0,0:00:15.19,0:00:16.07,Default,,0,0,0,,expertise and your
+Dialogue: 0,0:00:16.07,0:00:16.67,Default,,0,0,0,,work with me
+Dialogue: 0,0:00:16.67,0:00:17.71,Default,,0,0,0,,and your staff,
+Dialogue: 0,0:00:17.97,0:00:19.31,Default,,0,0,0,,I'm free.
+Dialogue: 0,0:00:19.67,0:00:20.41,Default,,0,0,0,,No pain,
+Dialogue: 0,0:00:20.41,0:00:21.53,Default,,0,0,0,,no surgery,
+Dialogue: 0,0:00:21.53,0:00:22.27,Default,,0,0,0,,nothing.
+Dialogue: 0,0:00:22.27,0:00:22.75,Default,,0,0,0,,I'm back in
+Dialogue: 0,0:00:22.75,0:00:23.57,Default,,0,0,0,,the gym.
+Dialogue: 0,0:00:24.05,0:00:24.41,Default,,0,0,0,,I train with
+Dialogue: 0,0:00:24.41,0:00:25.25,Default,,0,0,0,,my son who's
+Dialogue: 0,0:00:25.25,0:00:25.85,Default,,0,0,0,,an athlete,
+Dialogue: 0,0:00:25.85,0:00:26.55,Default,,0,0,0,,but
+Dialogue: 0,0:00:26.81,0:00:27.15,Default,,0,0,0,,I don't do
+Dialogue: 0,0:00:27.15,0:00:27.79,Default,,0,0,0,,what I
+Dialogue: 0,0:00:27.79,0:00:28.65,Default,,0,0,0,,do anymore.
+Dialogue: 0,0:00:28.65,0:00:29.23,Default,,0,0,0,,But
+Dialogue: 0,0:00:29.23,0:00:30.03,Default,,0,0,0,,I follow the
+Dialogue: 0,0:00:30.03,0:00:31.82,Default,,0,0,0,,exercises and your
+Dialogue: 0,0:00:33.04,0:00:34.08,Default,,0,0,0,,program.
+Dialogue: 0,0:00:34.12,0:00:34.56,Default,,0,0,0,,And now
+Dialogue: 0,0:00:34.56,0:00:35.95,Default,,0,0,0,,I'm asymptomatic.

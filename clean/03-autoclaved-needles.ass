@@ -1,0 +1,44 @@
+[Script Info]
+; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)
+ScriptType: v4.00+
+PlayResX: 384
+PlayResY: 288
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.50,Default,,0,0,0,,The original needles
+Dialogue: 0,0:00:02.24,0:00:03.69,Default,,0,0,0,,were autoclaved.
+Dialogue: 0,0:00:04.14,0:00:04.60,Default,,0,0,0,,And then
+Dialogue: 0,0:00:04.60,0:00:04.98,Default,,0,0,0,,I say,
+Dialogue: 0,0:00:04.98,0:00:05.20,Default,,0,0,0,,what is
+Dialogue: 0,0:00:05.20,0:00:06.20,Default,,0,0,0,,an autoclave?
+Dialogue: 0,0:00:06.20,0:00:06.56,Default,,0,0,0,,And they look
+Dialogue: 0,0:00:06.56,0:00:07.60,Default,,0,0,0,,at me like
+Dialogue: 0,0:00:07.72,0:00:08.12,Default,,0,0,0,,deer caught in
+Dialogue: 0,0:00:08.12,0:00:09.16,Default,,0,0,0,,the headlights.
+Dialogue: 0,0:00:10.12,0:00:10.42,Default,,0,0,0,,I told them
+Dialogue: 0,0:00:10.42,0:00:11.00,Default,,0,0,0,,it was a
+Dialogue: 0,0:00:11.00,0:00:11.68,Default,,0,0,0,,technique to
+Dialogue: 0,0:00:11.68,0:00:12.66,Default,,0,0,0,,sterilize needles.
+Dialogue: 0,0:00:12.66,0:00:13.14,Default,,0,0,0,,So we used
+Dialogue: 0,0:00:13.14,0:00:14.04,Default,,0,0,0,,them over.
+Dialogue: 0,0:00:14.52,0:00:14.74,Default,,0,0,0,,And that
+Dialogue: 0,0:00:14.74,0:00:15.65,Default,,0,0,0,,was painful.
+Dialogue: 0,0:00:15.96,0:00:16.56,Default,,0,0,0,,So
+Dialogue: 0,0:00:16.80,0:00:17.93,Default,,0,0,0,,that technology
+Dialogue: 0,0:00:17.93,0:00:18.51,Default,,0,0,0,,has improved
+Dialogue: 0,0:00:18.51,0:00:19.49,Default,,0,0,0,,dramatically over
+Dialogue: 0,0:00:19.49,0:00:19.97,Default,,0,0,0,,the years.
+Dialogue: 0,0:00:19.97,0:00:21.38,Default,,0,0,0,,So it's
+Dialogue: 0,0:00:21.43,0:00:22.11,Default,,0,0,0,,literally almost
+Dialogue: 0,0:00:22.11,0:00:23.47,Default,,0,0,0,,like acupuncture.
+Dialogue: 0,0:00:24.49,0:00:24.81,Default,,0,0,0,,We use these
+Dialogue: 0,0:00:24.81,0:00:25.43,Default,,0,0,0,,special needles.
+Dialogue: 0,0:00:25.43,0:00:26.75,Default,,0,0,0,,They're microphones,
+Dialogue: 0,0:00:26.75,0:00:27.67,Default,,0,0,0,,essentially.

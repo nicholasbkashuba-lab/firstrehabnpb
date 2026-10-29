@@ -1,0 +1,59 @@
+[Script Info]
+; built by tools/clip_captions.py v1 (aligned, <=3 words, MarginV 49)
+ScriptType: v4.00+
+PlayResX: 384
+PlayResY: 288
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,10,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,4,0,0,2,10,10,49,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.04,0:00:00.48,Default,,0,0,0,,When a patient
+Dialogue: 0,0:00:00.48,0:00:00.92,Default,,0,0,0,,comes in with
+Dialogue: 0,0:00:00.92,0:00:01.36,Default,,0,0,0,,an MRI,
+Dialogue: 0,0:00:01.36,0:00:02.40,Default,,0,0,0,,put it down,
+Dialogue: 0,0:00:02.68,0:00:03.10,Default,,0,0,0,,and they look
+Dialogue: 0,0:00:03.10,0:00:03.38,Default,,0,0,0,,at me,
+Dialogue: 0,0:00:03.38,0:00:03.78,Default,,0,0,0,,aren't you going
+Dialogue: 0,0:00:03.78,0:00:04.02,Default,,0,0,0,,to look at
+Dialogue: 0,0:00:04.02,0:00:04.96,Default,,0,0,0,,the MRI?
+Dialogue: 0,0:00:04.96,0:00:05.28,Default,,0,0,0,,That's the
+Dialogue: 0,0:00:05.28,0:00:05.70,Default,,0,0,0,,last thing.
+Dialogue: 0,0:00:05.70,0:00:06.40,Default,,0,0,0,,I'm not concerned
+Dialogue: 0,0:00:06.40,0:00:06.92,Default,,0,0,0,,with the MRI
+Dialogue: 0,0:00:06.92,0:00:07.93,Default,,0,0,0,,scan shows
+Dialogue: 0,0:00:08.04,0:00:08.56,Default,,0,0,0,,at this point
+Dialogue: 0,0:00:08.56,0:00:09.36,Default,,0,0,0,,in time.
+Dialogue: 0,0:00:09.80,0:00:10.40,Default,,0,0,0,,I tell people
+Dialogue: 0,0:00:10.40,0:00:10.86,Default,,0,0,0,,all the time,
+Dialogue: 0,0:00:10.86,0:00:11.22,Default,,0,0,0,,and I've
+Dialogue: 0,0:00:11.22,0:00:12.22,Default,,0,0,0,,repeated this,
+Dialogue: 0,0:00:12.84,0:00:13.16,Default,,0,0,0,,I do the
+Dialogue: 0,0:00:13.16,0:00:13.80,Default,,0,0,0,,same thing.
+Dialogue: 0,0:00:13.80,0:00:14.08,Default,,0,0,0,,I do
+Dialogue: 0,0:00:14.08,0:00:15.02,Default,,0,0,0,,not do
+Dialogue: 0,0:00:15.30,0:00:16.20,Default,,0,0,0,,treatment on
+Dialogue: 0,0:00:16.20,0:00:16.71,Default,,0,0,0,,an MRI.
+Dialogue: 0,0:00:16.71,0:00:17.17,Default,,0,0,0,,They do not
+Dialogue: 0,0:00:17.17,0:00:17.97,Default,,0,0,0,,do surgery on
+Dialogue: 0,0:00:17.97,0:00:18.97,Default,,0,0,0,,an MRI.
+Dialogue: 0,0:00:19.15,0:00:19.87,Default,,0,0,0,,Sometimes you see
+Dialogue: 0,0:00:19.87,0:00:20.27,Default,,0,0,0,,a person,
+Dialogue: 0,0:00:20.27,0:00:20.81,Default,,0,0,0,,they have full
+Dialogue: 0,0:00:20.81,0:00:21.59,Default,,0,0,0,,thickness tears of
+Dialogue: 0,0:00:21.59,0:00:22.87,Default,,0,0,0,,the rotator cuff,
+Dialogue: 0,0:00:22.95,0:00:23.65,Default,,0,0,0,,and they lift
+Dialogue: 0,0:00:23.65,0:00:24.19,Default,,0,0,0,,their arm,
+Dialogue: 0,0:00:24.19,0:00:26.57,Default,,0,0,0,,and they're fine.
+Dialogue: 0,0:00:26.57,0:00:27.49,Default,,0,0,0,,They have pain
+Dialogue: 0,0:00:27.49,0:00:28.51,Default,,0,0,0,,and some instability,
+Dialogue: 0,0:00:28.51,0:00:29.05,Default,,0,0,0,,and other people
+Dialogue: 0,0:00:29.05,0:00:29.63,Default,,0,0,0,,have that small
+Dialogue: 0,0:00:29.63,0:00:30.15,Default,,0,0,0,,little tear,
+Dialogue: 0,0:00:30.15,0:00:32.19,Default,,0,0,0,,and they can't.
+Dialogue: 0,0:00:32.67,0:00:33.49,Default,,0,0,0,,It's all
+Dialogue: 0,0:00:34.01,0:00:35.01,Default,,0,0,0,,rehabable.
