@@ -127,6 +127,17 @@ for _i in range(1, 11):
         "focal": "center 45%",
         "alt": f"First Rehabilitation of North Palm Beach on social media, photo {_i}",
     }
+# Halloween 2026 staff photo. The owner's original phone shot (2576px), kept at
+# 1440px so it gets a real srcset. Landscape group photo: a square tile would cut
+# off the people at both ends, so the gallery gives it a wide card (WIDE_SOCIAL).
+PHOTOS["social-11"] = {
+    "src": "assets/social/post-11.jpg",
+    "focal": "center 45%",
+    "alt": "The First Rehabilitation team in Halloween costumes at the North Palm Beach clinic",
+}
+# Gallery order, newest first. Landscape tiles render at their own ratio.
+SOCIAL_ORDER = [11] + list(range(1, 11))
+WIDE_SOCIAL = {11}
 
 # SERVICE_MEDIA — what photograph each service page leads with.
 #
@@ -1062,9 +1073,9 @@ def build_home():
 ''' if NEWS else ""
 
     social_cards = "".join(
-        f'''<a class="sm-card" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
-          {photo(f"social-{i}", sizes="(max-width:768px) 45vw, 220px", alt="")}
-        </a>''' for i in range(1, 11)
+        f'''<a class="sm-card{" sm-card--wide" if i in WIDE_SOCIAL else ""}" href="{INSTAGRAM}" target="_blank" rel="noopener" aria-label="First Rehabilitation on Instagram — photo {i}">
+          {photo(f"social-{i}", sizes="(max-width:768px) 62vw, 360px" if i in WIDE_SOCIAL else "(max-width:768px) 45vw, 220px", alt="")}
+        </a>''' for i in SOCIAL_ORDER
         if f"social-{i}" in PHOTOS and os.path.exists(os.path.join(ROOT, PHOTOS[f"social-{i}"]["src"]))
     )
 

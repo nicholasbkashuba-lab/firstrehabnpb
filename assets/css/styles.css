@@ -523,6 +523,7 @@ em.accent { font-style: italic; color: var(--coral-text); font-weight: 500; }
 .marquee .sm-card.tilt-b { transform: rotate(1.2deg) translateY(8px); }
 .sm-card:hover { transform: rotate(0) translateY(-6px) scale(1.03) !important; box-shadow: var(--shadow-card); z-index: 2; }
 .sm-card img { width: 100%; height: 100%; object-fit: cover; }
+.sm-card--wide { width: 357px; aspect-ratio: 1440 / 1048; }
 .sm-card .sm-note { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink-soft); font-size: 0.8rem; text-align: center; padding: 1rem; }
 @media (prefers-reduced-motion: reduce) { .marquee, .ticker { animation: none; flex-wrap: wrap; width: auto; } }
 

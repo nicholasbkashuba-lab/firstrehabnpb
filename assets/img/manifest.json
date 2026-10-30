@@ -80,6 +80,24 @@
       520
     ]
   },
+  "social-11": {
+    "alt": "The First Rehabilitation team in Halloween costumes at the North Palm Beach clinic",
+    "aspect": 1.374,
+    "focal": "center 45%",
+    "max_width": 1440,
+    "name": "social-11",
+    "native": [
+      1440,
+      1048
+    ],
+    "source": "assets/social/post-11.jpg",
+    "widths": [
+      480,
+      768,
+      1024,
+      1440
+    ]
+  },
   "social-2": {
     "alt": "First Rehabilitation of North Palm Beach on social media, photo 2",
     "aspect": 1.0,
@@ -209,7 +227,7 @@
     ]
   },
   "team-david": {
-    "alt": "Dr. David Kashuba, Ph.D., founder and CEO of First Rehabilitation",
+    "alt": "David Kashuba, Ph.D., OTR, founder and CEO of First Rehabilitation",
     "aspect": 0.7505,
     "focal": "45% 24%",
     "max_width": 397,
@@ -224,7 +242,7 @@
     ]
   },
   "team-joni": {
-    "alt": "Joni Janik, Occupational Therapist at First Rehabilitation",
+    "alt": "Joan (Joni) Janik, OTD, Occupational Therapist at First Rehabilitation",
     "aspect": 1.3968,
     "focal": "50% 27%",
     "max_width": 880,
@@ -241,7 +259,7 @@
     ]
   },
   "team-kayla": {
-    "alt": "Kayla Dorsey, DPT, Physical Therapist at First Rehabilitation",
+    "alt": "Kayla Dorsey, PT, DPT, Physical Therapist at First Rehabilitation",
     "aspect": 0.75,
     "focal": "56% 20%",
     "max_width": 780,
@@ -258,7 +276,7 @@
     ]
   },
   "team-laura": {
-    "alt": "Laura Drumm, Certified Hand Therapist at First Rehabilitation",
+    "alt": "Laura Drumm, MS, OTR/L, CHT, Certified Hand Therapist at First Rehabilitation",
     "aspect": 1.5068,
     "focal": "47% 25%",
     "max_width": 880,
@@ -275,7 +293,7 @@
     ]
   },
   "team-logan": {
-    "alt": "Logan Van Sant, Physical Therapist at First Rehabilitation",
+    "alt": "Logan Van Sant, PT, DPT, Physical Therapist at First Rehabilitation",
     "aspect": 1.1848,
     "focal": "44% 26%",
     "max_width": 1000,
