@@ -1294,6 +1294,14 @@ orientation.
   load without a login). Still: delete old shim projects (firstrehab-site, firstrehabnpb,
   firstrehab, firstrehab-live).
 
+## Podcast page forms (Ask Dave, dad jokes)
+`assets/js/podcast-extras.js` inserts into `ask_dave_questions` / `dad_jokes` (anon INSERT-only;
+jokes forced `approved = false` and shown only once approved). Since 2026-10-30 each successful
+insert also emails a heads-up through FormSubmit to firstrehabnpb@gmail.com, CC
+nick@firstrehabnpb.com and hello@designofman.com: before that nobody was told, and the only joke
+ever sent (2026-08-03) sat unapproved for three months. The email is fire-and-forget; the thank-you
+depends on the insert alone.
+
 ## Careers & applications
 /careers.html driven by OPEN_POSITIONS in build.py (currently COTA only; empty list =
 no-openings message). Applications: assets/js/careers.js → Supabase table
