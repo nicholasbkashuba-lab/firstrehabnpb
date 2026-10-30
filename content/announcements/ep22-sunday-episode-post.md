@@ -4,9 +4,9 @@ air_date: 2026-11-07 (moved from Oct 31 by Nick on 2026-10-30)
 post_at: 2026-11-08 10:00 AM ET (15:00 UTC). Nick, 2026-10-30: the episode-is-live post and the sizzle
          reel go out SUNDAY 10 AM, every episode.
 platforms: linkedin-business, facebook, plus a separate google-business call
-image: the photo of Dr. Stone standing outside the studio (Nick, 2026-10-30). Not in the Dropbox folder yet;
-       the post carries cover v2 as a placeholder until Nick sends it, then the media is swapped.
-status: SCHEDULED with cover v2. Post 5b862336-dc54-4a20-84c3-0932efb17566 (LinkedIn business, FB);
+image: content/announcements/ep22-studio-stone.jpg, Dave, Dr. Stone and Mike at the Legends 100.3 sign (Nick sent it
+       2026-10-30). Post Bridge media 80954cf6, swapped in for the cover v2 placeholder.
+status: SCHEDULED with the studio photo. Post 5b862336-dc54-4a20-84c3-0932efb17566 (LinkedIn business, FB);
         Google Business c92b936f-0d18-4412-bb10-0484bc86fdf3.
 
 > **The link is the Spotify SHOW page, not the episode.** The episode URL does not exist until
