@@ -618,9 +618,20 @@
 
   // ---------- open / close ----------
   var started = false;
-  function openPanel(auto) {
+  var chatOpenSent = false;
+  // `via` is set only when the VISITOR opened the panel ('launcher' or 'teaser');
+  // the desktop auto-invite passes auto=true and no via, so it is never counted.
+  // main.js turns the event into chat_open through its track() helper, at most
+  // once per page view, and only on a real closed -> open change. No payload
+  // beyond which control was used: nothing typed in the chat goes to analytics.
+  function openPanel(auto, via) {
+    var wasOpen = root.classList.contains('open');
     hideTeaser();
     root.classList.add('open');
+    if (!auto && via && !wasOpen && !chatOpenSent && typeof CustomEvent === 'function') {
+      chatOpenSent = true;
+      document.dispatchEvent(new CustomEvent('fri:chat-open', { detail: { source: via } }));
+    }
     if (!started) {
       started = true;
       var draft = get(KEYS.draft);
@@ -751,9 +762,9 @@
     input = root.querySelector('.fri-input');
     sendBtn = root.querySelector('.fri-send');
 
-    launcher.addEventListener('click', function () { openPanel(false); });
+    launcher.addEventListener('click', function () { openPanel(false, 'launcher'); });
     root.querySelector('.fri-x').addEventListener('click', closePanel);
-    root.querySelector('.fri-teaser-open').addEventListener('click', function () { openPanel(false); });
+    root.querySelector('.fri-teaser-open').addEventListener('click', function () { openPanel(false, 'teaser'); });
     root.querySelector('.fri-teaser-x').addEventListener('click', hideTeaser);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && root.classList.contains('open')) closePanel();

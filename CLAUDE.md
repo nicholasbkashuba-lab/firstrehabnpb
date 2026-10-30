@@ -288,6 +288,27 @@ domain switch (July 2027). Removing them early throws away that equity.
   conversions against 79 real leads. Owner action, one time: GA4 Admin -> Events -> mark
   `call_tap`, `book_click` and `generate_lead` as key events. Payloads carry source, page
   path and intent only, never contact details, messages or conditions (HIPAA).
+- **Every on-page event, and the names nothing may rename** (2026-10-30). All of them go
+  through `track()` in main.js (Vercel `va` + GA4 `gtag`), except the lead pair, which
+  intake.js sends itself. Payload is `source` (GA4: `link_source`) + `page` (GA4:
+  `page_path`) only, plus `intent` on leads; never a field value, a message, a reason or a
+  condition.
+
+  | Event | Fires when | `source` values |
+  |---|---|---|
+  | `call_tap` | any `tel:` link is clicked | `sticky-call`, `header`, `footer`, `team-profile`, `side-card`, `cta-band`, `intake`, `in-page` |
+  | `book_click` | a link to /contact(.html) is clicked | same as above |
+  | `email_click` | any `mailto:` link is clicked | same as above |
+  | `directions_click` | a map link is clicked (Google/Apple Maps, goo.gl/maps, Waze; today the 7 Google listing links) | same as above |
+  | `chat_open` | the VISITOR opens the intake chat, from the launcher or the mobile teaser. Never on the auto-invite, at most once per page view. intake.js dispatches `fri:chat-open`; main.js tracks it | `launcher`, `teaser` |
+  | `lead_submit` (Vercel) / `generate_lead` (GA4) | a lead was delivered (chat, appointment form, or a queued retry) | `intake`, `contact-form` |
+
+  **Do NOT rename `call_tap`, `book_click`, `lead_submit` or `generate_lead`.** GA4 key
+  events, Google Ads conversions and the agency portal (`vercel_lead_event = 'lead_submit'`)
+  depend on those exact strings; a rename silently zeroes every one of them. The click
+  listener runs in the CAPTURE phase so it records a tap that navigates away at once, and
+  covers links rendered later; extend that one listener rather than adding another.
+  `/staff/leads.html` loads none of this (no main.js, no Vercel tag, no GA4): keep it so.
 - **Lead/application data**: query Supabase directly (intake_leads, job_applications).
   Test rows are tagged status='test' and MUST be excluded from every report
   (`where coalesce(status,'new') <> 'test'`). "Run my analytics" = pull real leads/apps.

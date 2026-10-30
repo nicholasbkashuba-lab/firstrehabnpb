@@ -472,14 +472,32 @@
     if (el.closest('.fri-root')) return 'intake';
     return 'in-page';
   }
+  // Map links are the Google listing (maps.google.com/?cid=...) today, but match any
+  // map host so a directions link added later is counted without touching this.
+  const MAP_RE = /google\.[a-z.]+\/maps|maps\.google\.|goo\.gl\/maps|maps\.app\.goo\.gl|maps\.apple\.com|waze\.com/i;
+  // One delegated listener, in the CAPTURE phase (2026-10-30): it sees the click
+  // before the browser follows a tel:, mailto: or maps link away from the page,
+  // and it covers links rendered later (the intake panel's own tel: link) with
+  // no per-page wiring. Bubble phase until then.
+  // NEVER rename call_tap, book_click (or intake.js's lead_submit / generate_lead):
+  // GA4 key events, Google Ads conversions and the agency portal key off them.
   document.addEventListener('click', function (e) {
     const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
     if (!a) return;
     const href = a.getAttribute('href') || '';
     let name = null;
     if (href.indexOf('tel:') === 0) name = 'call_tap';
+    else if (href.indexOf('mailto:') === 0) name = 'email_click';
+    else if (MAP_RE.test(href)) name = 'directions_click';
     else if (/(^|\/)contact(\.html)?($|[#?])/.test(href)) name = 'book_click';
     if (!name) return;
     track(name, { source: source(a), page: location.pathname });
-  }, { passive: true });
+  }, { capture: true, passive: true });
+  // The visitor opened the intake chat (launcher or teaser; never the auto-invite).
+  // intake.js decides that and sends it at most once per page view; source says
+  // which control, nothing else.
+  document.addEventListener('fri:chat-open', function (e) {
+    const via = e.detail && e.detail.source === 'teaser' ? 'teaser' : 'launcher';
+    track('chat_open', { source: via, page: location.pathname });
+  });
 })();
