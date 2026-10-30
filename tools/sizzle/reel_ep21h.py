@@ -15,7 +15,7 @@ play each other, so Mike carries about half the reel:
 
 Speakers are confirmed by voice ID (ECAPA, spk_emb.npz), not by the camera. Halloween comes from the
 type and the cards, never a colour grade (engine owner rule, 2026-10-14): orange caption highlight,
-pumpkins either side of the kicker, bats and ghosts drawn from Noto Color Emoji, lightning flashes.
+the thin PAIN 2 POWER · HALLOWEEN EDITION banner across the top (Dave), bats and ghosts drawn from Noto Color Emoji, lightning flashes.
 
 Cut straight from the RAW cameras. Times are RAW mp3 seconds; each camera's time comes from its audio
 sync line (tools/relay-work/ep21h-halloween/README.md). Put the files in $SIZZLE_WORK/src/ep21h/:
@@ -159,6 +159,27 @@ def still(t0, t1, ch, x, y, px, bob=8.0, phase=0.0):
 
 
 # ---------------------------------------------------------------- type
+def banner(W):
+    """The thin top banner Dave asked for on every Halloween clip (2026-10-30), so the reel matches them:
+    "PAIN 2 POWER · HALLOWEEN EDITION" in orange on ink, a pumpkin each side, an orange rule under it.
+    It sits at the very top edge, above everyone's head; the same image is burned into the ten clips."""
+    H, fs = 84, 36
+    im = Image.new("RGBA", (W, H), (7, 30, 39, 225))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, H - 4, W, H], fill=ORANGE + (255,))
+    f = ImageFont.truetype(E.INTER_BLACK, fs)
+    txt, tr = "PAIN 2 POWER  ·  HALLOWEEN EDITION", fs * 0.1
+    w = sum(f.getlength(c) for c in txt) + tr * (len(txt) - 1)
+    x, y = (W - w) / 2, (H - 4 - fs) / 2 - fs * 0.14
+    for c in txt:
+        d.text((x, y), c, font=f, fill=ORANGE + (255,))
+        x += f.getlength(c) + tr
+    p = emoji("🎃", 44)
+    im.alpha_composite(p, (int((W - w) / 2 - 20 - p.width), int((H - 4 - p.height) / 2)))
+    im.alpha_composite(p, (int((W + w) / 2 + 20), int((H - 4 - p.height) / 2)))
+    return im
+
+
 def card(fmt, t0, t1, name, sub, color=ORANGE):
     """Name card above the word pop captions (the stock name_card collides with captions at 1420 on 9:16)."""
     g = fmt_geom(fmt)
@@ -174,11 +195,8 @@ def tl(k):
 
 def texts(fmt):
     g = fmt_geom(fmt)
-    kick = kicker(fmt, 0.1, end_at, "PAIN 2 POWER  ·  HALLOWEEN", color=ORANGE)
-    half = kick.img.width / 2
-    T = [kick,
-         still(0.1, end_at, "🎃", g["cx"] - half - 50, g["top"], 64),
-         still(0.1, end_at, "🎃", g["cx"] + half + 50, g["top"], 64, phase=1.6)]
+    bn = banner(g["W"])
+    T = [E.Txt(0.0, DUR, bn, (g["cx"], bn.height / 2), "none")]
     for k in starts:
         T += captions(fmt, tl(k))
     T.append(card(fmt, 0.3, starts["as_dave"] - 0.1, "DR. DAVE KASHUBA", "DRESSED AS MIKE"))
