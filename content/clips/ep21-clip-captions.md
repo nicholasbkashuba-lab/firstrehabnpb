@@ -62,7 +62,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 04 the cells that eat cancer (RAW 7:07 to 7:56, one aside removed)
-post: PENDING re-cut (Dave drifts 10% right at 32 s) · 2026-12-16 9:00 AM ET
+post: ffe21f1f-a0b3-4d4f-922c-62a8c3478a30 · 2026-12-16 9:00 AM ET
 
 "Literally will eat cancer cells."
 
