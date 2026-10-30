@@ -28,17 +28,16 @@
   // joke ever sent (2026-08-03) sat unapproved for three months because no one
   // knew it existed. Supabase stays the system of record; this is a heads-up.
   // Fire and forget: the visitor's "thanks" depends on the insert alone, never
-  // on the email. FormSubmit honours _cc on the /ajax/ endpoint (verified
-  // against delivered copies from jupiterlaser.com and regenorthopb.com), and
-  // firstrehabnpb@gmail.com is already activated for intake.js.
-  var NOTIFY_TO = 'firstrehabnpb@gmail.com';
-  var NOTIFY_CC = 'nick@firstrehabnpb.com,hello@designofman.com';
-  function notify(subject, fields) {
+  // on the email. It goes through the site's own /api/lead endpoint (Resend;
+  // recipients are server-side config), which replaced FormSubmit on 2026-10-30
+  // after FormSubmit's outage. /api/lead lets these two sources through without
+  // a phone or email, since both forms leave contact details optional.
+  function notify(source, subject, fields) {
     try {
-      var body = { _subject: subject, _cc: NOTIFY_CC, _template: 'table', _captcha: 'false' };
+      var body = { source: source, _subject: subject };
       for (var k in fields) { if (fields.hasOwnProperty(k)) body[k] = fields[k] || '—'; }
       body['Approve or reply'] = 'Supabase → First Rehabilitation App → Table Editor';
-      var sending = fetch('https://formsubmit.co/ajax/' + NOTIFY_TO, {
+      var sending = fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(body)
@@ -107,7 +106,7 @@
       };
     },
     notify: function (row) {
-      notify('New Ask Dave question (Pain 2 Power)', { Question: row.question, Name: row.name, Email: row.email, Table: 'ask_dave_questions' });
+      notify('ask-dave', 'New Ask Dave question (Pain 2 Power)', { Question: row.question, Name: row.name, Email: row.email, Table: 'ask_dave_questions' });
     }
   });
 
@@ -124,7 +123,7 @@
       };
     },
     notify: function (row) {
-      notify('New dad joke for Pain 2 Power', { Joke: row.joke, 'From (first name)': row.first_name, Table: 'dad_jokes (set approved = true to show it on the podcast page)' });
+      notify('dad-joke', 'New dad joke for Pain 2 Power', { Joke: row.joke, Name: row.first_name, Table: 'dad_jokes (set approved = true to show it on the podcast page)' });
     }
   });
 

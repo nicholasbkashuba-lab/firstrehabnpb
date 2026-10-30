@@ -25,7 +25,9 @@ preferred call time, and insurance — then delivers the lead two ways at once:
 
 1. **Supabase** — table `intake_leads` in the "First Rehabilitation App" project
    (supabase.com dashboard → Table Editor). This is the permanent record.
-2. **Email** — a formatted copy to firstrehabnpb@gmail.com via FormSubmit.
+2. **Email** — a formatted copy to the clinic inbox through the site's own `/api/lead`
+   function (Resend; recipients in the Vercel env vars `LEAD_TO` / `LEAD_CC`). FormSubmit
+   did this until its outage forced the switch on 2026-10-30.
 
 No lead can be lost: every answer is saved on the visitor's device as they type, and if
 their connection drops at the moment of submission, the lead is stored locally and re-sent
