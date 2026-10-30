@@ -88,7 +88,7 @@ SEG = [("open", "h21d", 4.64, 9.40),          # D "Good morning, this is Mike Mc
        ("reversal", "h21m", 113.05, 116.21),  # M "That's it, we decided to do a little role reversal today."
        ("confused", "h21d", 133.40, 137.35),  # D "And the funny thing is, is Mike or Dave? Now I'm confused."
        ("who", "h21m", 137.35, 140.18),       # M "I'm confused as to who. I never know who I am anyway."
-       ("survive", "h21d", 864.95, 873.21),   # D "The only way we could survive this ... they can't recognize us." M "Gotcha."
+       ("survive", "h21d", 858.80, 873.21),   # D "They're all coming down. So all the spirits ... they can't recognize us." M "Gotcha."
        ("skin", "h21d", 1555.86, 1566.30),    # D "And what is a skeleton gonna do for you ... nothing gets under his skin."
        ("love", "h21m", 1567.40, 1570.72)]    # M "Oh, wow. I love that."
 CARD = 2.3
