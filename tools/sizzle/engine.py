@@ -389,7 +389,7 @@ def face_track(key, shot, region):
         return None
     a = np.array(pts)
     if shot.get("hold"):
-        return _hold_path(a, shot, region, dz=shot.get("hold_dz", 0.075))
+        return _hold_path(a, shot, region)
     k = 3 if len(a) >= 5 else 1                    # light smoothing: no jitter, no lag
     if k > 1:
         pad = np.pad(a[:, 1:], ((1, 1), (0, 0)), mode="edge")
@@ -400,7 +400,9 @@ def face_track(key, shot, region):
 def _hold_path(a, shot, region, dz=0.075, big=0.12):
     """shot["hold"]: a camera that HOLDS still instead of panning with every head turn (Nick,
     2026-10-28). The crop stays put; when the smoothed face drifts past dz of the crop width it
-    glides over in 0.9 s, past big in 0.5 s. Height is held at the shot's median face."""
+    glides over in 0.9 s, past big in 0.5 s. Height is held at the shot's median face.
+    shot["hold_bias"] shifts the held framing by that fraction of the crop width (negative = left),
+    for a subject who spends the shot turned one way (a profile toward a host)."""
     rx0, ry0, rx1, ry1 = region
     rw, rh = rx1 - rx0, ry1 - ry0
     cw = min(rw, rh * 9 / 16) / shot.get("z", 1.0)
@@ -425,7 +427,7 @@ def _hold_path(a, shot, region, dz=0.075, big=0.12):
                 break
             u = min(1.0, (ti - t0) / gl)
             x = xa + (xb - xa) * (u * u * (3 - 2 * u))
-        out.append([ti / d, x, y])
+        out.append([ti / d, x + shot.get("hold_bias", 0.0) * cw, y])
     return out
 
 

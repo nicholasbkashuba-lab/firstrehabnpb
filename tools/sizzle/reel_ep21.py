@@ -63,8 +63,8 @@ shots, starts = [], {}
 t = 0.0
 for i, (k, src, a, b) in enumerate(SEG):
     starts[k] = t
-    # the gym line: he leans left at 8 s in the reel; a tighter hold threshold reframes for it
-    shots.append(cam(src, a, b - a, **({"hold_dz": 0.05} if k == "gym" else {})))
+    # the gym line: he turns to Dave in profile at 8 s; frame the held shot 6% left so the turn stays centred
+    shots.append(cam(src, a, b - a, **({"hold_bias": -0.06} if k == "gym" else {})))
     t += b - a
     if i == 0:
         shots.append(black(CARD))
