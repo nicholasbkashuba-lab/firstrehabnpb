@@ -1,12 +1,7 @@
-Episode 21 social clips. Vertical 9:16, captioned.
+# media/ep21-clips: reserved for Episode 21, the Dave and Mike Halloween episode (aired 2026-10-31)
 
-playlist.txt sets the posting order and is meant to be edited by hand.
-transcripts.md is what the routine reads before writing any caption.
-transcript-full.md, when present, is the whole episode with [mm:ss]
-stamps. /episode-blog reads it to draft the two blog posts.
-
-clean/ holds each clip's uncaptioned render and its .ass caption file.
-Change captions by re-burning those, never by editing the captioned mp4.
-
-Branch name matters: the daily routine builds its URLs from the episode
-number, so it must be media/ep21-clips and nothing else.
+Dr. Reed Stone was staged here first, then moved to Sat Nov 7 as Episode 22 (Nick, 2026-10-30).
+His clips, clean renders, transcripts and playlist are on `media/ep22-clips`, unchanged
+(this branch's previous commit holds the same files). This branch was emptied so that the daily
+routine, which reads `transcript-full.md` from `media/ep{NN}-clips`, cannot write the Halloween
+episode's blurb from Dr. Stone's transcript. Stage the Halloween clips here.
