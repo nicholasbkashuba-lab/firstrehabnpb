@@ -389,7 +389,7 @@ def face_track(key, shot, region):
         return None
     a = np.array(pts)
     if shot.get("hold"):
-        return _hold_path(a, shot, region)
+        return _hold_path(a, shot, region, dz=shot.get("hold_dz", 0.075))
     k = 3 if len(a) >= 5 else 1                    # light smoothing: no jitter, no lag
     if k > 1:
         pad = np.pad(a[:, 1:], ((1, 1), (0, 0)), mode="edge")

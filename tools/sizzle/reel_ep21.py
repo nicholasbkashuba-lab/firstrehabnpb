@@ -1,4 +1,4 @@
-"""Episode 21 sizzle reel (~26s, 9:16) for the noon slot on air day. Dr. Reed Stone puts
+"""Episode 22 (Dr. Reed Stone; first staged as 21) sizzle reel (~26s, 9:16), posted Sunday 10 AM ET after air day. Dr. Reed Stone puts
 the MRI down, a title card, his own comeback ("No pain, no surgery"), Mike's "who helps the
 doctors out? Well, these guys", Dave's surgeon and God line, then the tune in card.
 
@@ -22,8 +22,8 @@ OFF = {"s21d": lambda t: 107.8726 - 0.0000318 * t,
 
 def cam(src, raw_t, d, **kw):
     """A lip-synced shot: raw mp3 time -> that camera's own time."""
-    return dict(src=src, t=raw_t + OFF[src](raw_t), d=d, fx=0.5, fy=0.3, z=1.0, push=0.0, hold=True,
-                _raw=raw_t, **kw)
+    return dict(dict(src=src, t=raw_t + OFF[src](raw_t), d=d, fx=0.5, fy=0.3, z=1.0, push=0.0, hold=True,
+                _raw=raw_t), **kw)
 
 
 WORDS = {
@@ -63,7 +63,8 @@ shots, starts = [], {}
 t = 0.0
 for i, (k, src, a, b) in enumerate(SEG):
     starts[k] = t
-    shots.append(cam(src, a, b - a))
+    # the gym line: he leans left at 8 s in the reel; a tighter hold threshold reframes for it
+    shots.append(cam(src, a, b - a, **({"hold_dz": 0.05} if k == "gym" else {})))
     t += b - a
     if i == 0:
         shots.append(black(CARD))
@@ -92,7 +93,7 @@ def tl(k):
 
 def texts(fmt):
     g = fmt_geom(fmt)
-    T = [kicker(fmt, 0.1, end_at, "PAIN 2 POWER  ·  EPISODE 21")]
+    T = [kicker(fmt, 0.1, end_at, "PAIN 2 POWER  ·  EPISODE 22")]
     for k in starts:
         T += captions(fmt, tl(k))
     T.append(card(fmt, 0.6, card_at - 0.2, "DR. REED STONE", "NEUROLOGIST, PALM BEACH NEUROLOGY"))
@@ -101,7 +102,7 @@ def texts(fmt):
     T.append(card(fmt, starts["doc"] + 0.2, starts["god"] - 0.1, "MIKE McGANN", "CO HOST, PAIN 2 POWER"))
     T.append(card(fmt, starts["god"] + 0.3, starts["god"] + 4.2, "DR. DAVE KASHUBA", "FIRST REHABILITATION"))
     T.append(image_card(fmt, end_at, DUR, f"{REPO}/assets/media/podcast-cover.jpg", 0.3, y=820, on="glow"))
-    T.append(slam(fmt, end_at + 0.2, DUR, "NEW EPISODE  ·  SATURDAY 8:30 AM", where=1290, size=g["slam"] * 0.42,
+    T.append(slam(fmt, end_at + 0.2, DUR, "NEW EPISODE  ·  OUT NOW", where=1290, size=g["slam"] * 0.42,
                   anim="rise"))
     T.append(kicker(fmt, end_at + 0.4, DUR, "100.3 LEGENDS RADIO  ·  SPOTIFY  ·  YOUTUBE", where=1380, color=GOLD))
     return T
