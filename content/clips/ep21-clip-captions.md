@@ -5,6 +5,12 @@ platforms per clip: instagram, facebook, youtube (Shorts), tiktok, x
 status: SCHEDULED 2026-10-30 (Nick: "schedule them with the banner"). Every clip carries Dave's thin
         "PAIN 2 POWER · HALLOWEEN EDITION" banner across the top edge (burned in from the clean render,
         clear of everyone's head). Accounts IG, FB, YT, TikTok, X; IG collaborators legendsradio100.3 + mic_mcgann.
+recut 2026-10-30 (Nick: "cuts off sentences too quickly"): every clip re-cut on force-aligned word times so it
+        ends 0.13 s into the pause after the last word, and 04 and 10 reframed where Dave leans. 06 now runs on to
+        "...we're all becoming cyborgs because of it." because Dave never pauses after "bottled water". All 10 PASS
+        tools/clip-qa.py (ending check included) and were swapped into their posts (media *-banner-v2.mp4):
+        01 fb8dca8e · 02 9e86076f · 03 75da2ca6 · 04 19f110db · 05 e0a8a6d5 · 06 8f57d434 · 07 dd49e1ea ·
+        08 03672167 · 09 269d0adc · 10 06f53f71. #FYP / #ForYou removed from six TikTok captions.
 instagram collaborators: legendsradio100.3 + mic_mcgann on every clip (Mike is on every one of these, on
        camera or on the mic). No guest.
 slots: 9:00 AM ET (14:00 UTC). The Halloween three run while it is still timely (Nov 3, 5, 7, between the even
