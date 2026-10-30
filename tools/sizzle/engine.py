@@ -410,7 +410,10 @@ def _hold_path(a, shot, region, dz=0.075, big=0.12):
     t = a[:, 0] * d
     k = min(len(a), 5)
     slow = np.convolve(np.pad(a[:, 1], (k // 2, k // 2), mode="edge"), np.ones(k) / k, mode="valid")[:len(a)]
-    pos, moves = float(np.median(a[:min(len(a), 4), 1])), []
+    # aim at where the person sits on average through the shot, not where the first frames catch them:
+    # someone turning in toward the mic at the cut otherwise pulls the whole hold off centre (Mike, Halloween
+    # sizzle 2026-10-30; clips.py made the same change for Dave leaning in)
+    pos, moves = float(np.median(a[:, 1])), []
     for ti, s_, f_ in zip(t, slow, a[:, 1]):
         if moves and ti < moves[-1][0] + moves[-1][3]:
             continue

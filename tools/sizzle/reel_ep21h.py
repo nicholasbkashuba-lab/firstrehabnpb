@@ -214,8 +214,11 @@ def texts(fmt):
     g = fmt_geom(fmt)
     bn = banner(g["W"])
     T = [E.Txt(0.0, DUR, bn, (g["cx"], bn.height / 2), "none")]
-    for k in starts:
-        T += captions(fmt, tl(k))
+    for k, src, a, b in SEG:
+        caps = captions(fmt, tl(k))
+        for tx in caps:                     # a line's last caption may not hang into the next line's shot
+            tx.t1 = min(tx.t1, starts[k] + (b - a))
+        T += [tx for tx in caps if tx.t1 > tx.t0 + 0.04]
     T.append(card(fmt, 0.3, starts["as_dave"] - 0.1, "DR. DAVE KASHUBA", "DRESSED AS MIKE"))
     T.append(card(fmt, starts["as_dave"] + 0.1, starts["how"] - 0.1, "MIKE McGANN", "DRESSED AS DAVE", PURPLE))
     T += bats(0.0, 2.4, 4, 380, 900, seed=3)                          # the open
