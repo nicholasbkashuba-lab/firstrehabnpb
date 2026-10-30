@@ -718,9 +718,14 @@ Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each
   does carry the guest's story. Treat the no-spoiler rule as the default and his instruction
   for a given week as the exception, rather than quietly picking one.
   Drafts live in `content/announcements/ep{NN}-announcement.md`; rules in that folder's README.
-- **Saturday 9:00 AM ET** — the episode-is-live post carrying the Spotify link (LinkedIn,
-  Facebook, Google Business) + the full episode video on YouTube. The show "airs" 8:30 AM
-  Sat on 100.3 Legends Radio; episodes are prerecorded but Saturday is the public moment.
+- **Saturday 8:30 AM ET** — the show airs on 100.3 Legends Radio (episodes are prerecorded but
+  Saturday is the public moment); Nick puts the full episode on YouTube himself. NO social post.
+- **Sunday 10:00 AM ET (Nick, 2026-10-30, every episode)** — the episode-is-live post carrying the
+  Spotify link (LinkedIn business, Facebook, plus its own Google Business call), image = the photo of
+  the guest STANDING OUTSIDE THE STUDIO, written as already out ("New on Pain 2 Power"). The SIZZLE
+  REEL goes out at the same time (Instagram, Facebook, YouTube, TikTok). Drafts:
+  `content/announcements/ep{NN}-sunday-episode-post.md`. This replaced the Saturday 9 AM post and
+  the Saturday noon sizzle slot.
 - **Every day, 9:00 AM ET** — ONE clip from the mixed queue (Instagram, Facebook, YouTube
   Shorts, TikTok).
 
@@ -757,12 +762,13 @@ and a different angle per post.
 
 **When Nick sends raw footage for a new episode: build everything, then SCHEDULE it — don't
 ask first, and don't publish immediately.** He reviews scheduled posts in Post Bridge before
-they go live. Target the next Saturday 9:00 AM ET for the episode + full video, then the
-clips one per day after it. Scheduling IS the deliverable; waiting for approval is not.
+they go live. Target the Friday 5 PM announcement and the Sunday 10 AM episode-is-live post and sizzle reel,
+then the clips one per day after the episode airs, never before. Scheduling IS the deliverable; waiting for approval is not.
 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
 `trig_01R5iPGmt45aWsNkwNoX5zDc` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
-(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode-is-live post,
+(9:00 AM ET daily). It branches on the ET day of week: Friday → announcement check, Sunday → episode-is-live post
+and sizzle check (its prompt backup is `docs/routines/daily-poster.md`, rewritten 2026-10-30),
 every other day → the next clip off the mixed queue, and it checks whether an announcement
 is owed for tomorrow. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.

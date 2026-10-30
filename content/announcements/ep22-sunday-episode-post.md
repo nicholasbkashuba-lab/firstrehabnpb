@@ -1,7 +1,8 @@
-# Episode 21 · Saturday episode post
+# Episode 22 · Sunday episode-is-live post
 
 air_date: 2026-11-07 (moved from Oct 31 by Nick on 2026-10-30)
-post_at: 2026-11-07 09:00 ET (14:00 UTC)
+post_at: 2026-11-08 10:00 AM ET (15:00 UTC). Nick, 2026-10-30: the episode-is-live post and the sizzle
+         reel go out SUNDAY 10 AM, every episode.
 platforms: linkedin-business, facebook, plus a separate google-business call
 image: the photo of Dr. Stone standing outside the studio (Nick, 2026-10-30). Not in the Dropbox folder yet;
        the post carries cover v2 as a placeholder until Nick sends it, then the media is swapped.
@@ -9,7 +10,7 @@ status: SCHEDULED with cover v2. Post 5b862336-dc54-4a20-84c3-0932efb17566 (Link
         Google Business c92b936f-0d18-4412-bb10-0484bc86fdf3.
 
 > **The link is the Spotify SHOW page, not the episode.** The episode URL does not exist until
-> it publishes Saturday morning; the show page opens on the newest episode.
+> it publishes; the show page opens on the newest episode.
 >
 > Every fact is from the episode, RAW mp3 timestamps: worked with Dave since 1990, 1:20;
 > one of the owners of Palm Beach Neurology, 2:15; "over 40 years", 4:47; shoulder pain from

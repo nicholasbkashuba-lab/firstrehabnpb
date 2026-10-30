@@ -19,9 +19,9 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 | Spotify copy | `content/spotify/ep{NN}-spotify.md`: "Episode NN: <Guest>", plain description, no chapters |
 | Clips | branch `media/ep{NN}-clips` (name is load bearing), scheduled in Post Bridge after Nick approves |
 | Clip captions | `content/clips/ep{NN}-clip-captions.md` with the post id and date of every clip |
-| **Sizzle reel** | EVERY episode (Nick, 2026-10-28: "do this every time we do pods"). `tools/sizzle/reel_ep{NN}.py`, about 25 s, 9:16: guest hook with name card, a title card, two or three more lines (Mike and Dave each with a name card), tune in end card. Cut from the RAW cameras like `reel_ep21.py`; `run.py` writes it and runs `qa_center.py`, which must PASS. Shown to Nick with the clips, then scheduled 12:00 PM ET on air day (the noon reel lane, outside the daily clip queue). Ep 18 is on `media/ep18-sizzle`, Ep 19's moments are `tools/sizzle/episodes/ep19.json` |
+| **Sizzle reel** | EVERY episode (Nick, 2026-10-28: "do this every time we do pods"). `tools/sizzle/reel_ep{NN}.py`, about 25 s, 9:16: guest hook with name card, a title card, two or three more lines (Mike and Dave each with a name card), tune in end card. Cut from the RAW cameras like `reel_ep21.py`; `run.py` writes it and runs `qa_center.py`, which must PASS. Shown to Nick with the clips, then scheduled SUNDAY 10:00 AM ET, the day after air day, with the episode-is-live post (Nick, 2026-10-30), outside the daily clip queue. Ep 18 is on `media/ep18-sizzle`, Ep 19's moments are `tools/sizzle/episodes/ep19.json` |
 | Cover | the original logo with the guest as a matching cartoon (`content/announcements/README.md`), two variants, Nick picks; the FRIDAY announcement image only |
-| Saturday post | LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-saturday-episode-post.md`. Image: the photo of the guest STANDING OUTSIDE THE STUDIO (Nick, 2026-10-30), never the cartoon |
+| Sunday episode-is-live post | SUNDAY 10:00 AM ET (Nick, 2026-10-30). LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-sunday-episode-post.md`. Image: the photo of the guest STANDING OUTSIDE THE STUDIO (Nick, 2026-10-30), never the cartoon |
 | Friday announcement | only if Nick says yes this week (he skipped Episode 18's) |
 | Website | EPISODES[0] once Spotify has it, VIDEOS once YouTube has it (the watcher routine does this) |
 | Guest profile | `content/guests/<slug>.json` on /guests.html, via the `podcast-guest` skill (the watcher routine does this once the episode is in EPISODES) |
@@ -47,7 +47,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    and the watcher routine adds it to the site within three hours of it appearing.
 4. **Ask everything at once, early** (one short message, he is on his phone):
    the guest's Instagram handle, whether he wants a Friday announcement this week, and
-   the photo of the guest standing outside the studio for the Saturday post if the folder has none. Asking at the
+   the photo of the guest standing outside the studio for the Sunday episode-is-live post if the folder has none. Asking at the
    moment each one blocks costs him three interruptions. Then work to the end without
    further approvals: "I don't want it to ask for any approvals, I just want it to finish
    fully." Give one ETA when the render starts; do not send progress pings ("stop
@@ -79,7 +79,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
     woven into the mixed queue with `tools/clip-queue.py`, never the same guest on
     consecutive days. Upload media first; MEDIA IS MANDATORY. Pass platform_configurations
     back IN FULL on every update_post. Finish with `clip-queue.py audit` showing 0 problems.
-11. **Copy.** YouTube and Spotify files above, the Saturday post, and (only if he said yes)
+11. **Copy.** YouTube and Spotify files above, the Sunday episode-is-live post, and (only if he said yes)
     the Friday announcement. Every fact checked against the transcript with a timestamp.
 12. **Branch, commit, push, draft PR.** Merge when Nick says "merge it"; he usually does
     right after reviewing, so expect it rather than asking.
@@ -128,7 +128,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 
 ## When something is missing
 
-- No outside-the-studio photo: the Saturday post waits for it; never use the cartoon or make a graphic in its place.
+- No outside-the-studio photo: the Sunday post waits for it; never use the cartoon or make a graphic in its place.
 - No IG handle: schedule without collaborators and say so; a guessed handle fails the post.
 - Post Bridge tools missing: the connector is off for this chat (CLAUDE.md "Connectors").
   Finish everything else and say that scheduling is blocked on that toggle.

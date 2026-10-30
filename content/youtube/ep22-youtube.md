@@ -1,4 +1,4 @@
-# Episode 21 · YouTube title, description, chapters
+# Episode 22 · YouTube title, description, chapters
 
 air_date: 2026-11-07 (moved from Oct 31) (Saturday, 8:30 AM ET on 100.3 Legends Radio)
 file: Dropbox /Pain2Power/Stone/Final/Pain to Power - Stone - multicam.mp4
@@ -6,7 +6,8 @@ length: 26:40.6, 1920x1080 30fps, edited from the RAW radio mp3 (one retake remo
 upload: Nick uploads by hand in YouTube Studio (CLAUDE.md, "Full episode to YouTube")
 
 > This is now EPISODE 22: the Dave and Mike Halloween episode airs Oct 31 as Episode 21.
-> Files keep the ep21 name because the media branch and scripts already use it.
+> Content files are ep22; the scripts in tools/relay-work/ep21-stone and tools/sizzle/reel_ep21.py keep
+> their first names, and media/ep22-clips is a copy of media/ep21-clips.
 >
 > The guest is introduced on air as "a neurologist, Reed Stone" of Palm Beach Neurology. His
 > practice bio reads "Dr. Reed Stone MD, FAAN"; the copy below uses only "Dr. Reed Stone, MD"

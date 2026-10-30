@@ -1,6 +1,6 @@
-# Episode 21 · clip captions (Dr. Reed Stone, neurologist)
+# Episode 22 · clip captions (Dr. Reed Stone, neurologist)
 
-clips: branch media/ep21-clips, clips/*.mp4 (1080x1920, 30fps, captions burned in, -14 LUFS)
+clips: branch media/ep22-clips (copied from media/ep21-clips when Stone became Episode 22), clips/*.mp4 (1080x1920, 30fps, captions burned in, -14 LUFS)
 platforms per clip: instagram, facebook, youtube (Shorts), tiktok, x
 credit line "From Pain 2 Power with neurologist Dr. Reed Stone of Palm Beach Neurology." added to
 clips 05, 07, 08 and 10 at scheduling, so each caption names the guest.
@@ -165,7 +165,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 #PhysicalTherapy #MRI #Pain2Power
 
 ---
-## Sizzle reel (noon lane, Sat Nov 7 12:00 PM ET)
+## Sizzle reel (Sun Nov 8 10:00 AM ET, with the episode-is-live post)
 post: 51846966-507f-402b-928d-bf70440fe11a · IG, FB, YouTube, TikTok
 
 

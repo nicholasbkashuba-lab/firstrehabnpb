@@ -10,7 +10,7 @@ LinkedIn business, X. The podcast cover art is the image.
 ## The image: our logo with the guest drawn in (Nick, 2026-10-14, EVERY Friday)
 
 **Which image goes where (Nick, 2026-10-30, every episode):** the cartoon cover below is the FRIDAY
-announcement image. The SATURDAY episode-is-live post uses the photo of the guest standing outside the
+announcement image. The SUNDAY 10 AM episode-is-live post uses the photo of the guest standing outside the
 studio, never the cartoon.
 
 Every Friday announcement uses the ORIGINAL Pain 2 Power logo, `assets/media/podcast-cover.jpg`
