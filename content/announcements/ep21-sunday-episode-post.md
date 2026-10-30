@@ -4,9 +4,10 @@ air_date: 2026-10-31 (Saturday, 8:30 AM ET on 100.3 Legends Radio)
 post_at: 2026-11-01 10:00 AM ET (15:00 UTC; daylight time ends at 2 AM that morning). Same slot as the
          Halloween sizzle reel.
 platforms: linkedin-business, facebook, plus a separate google-business call
-image: the photo of Dave and Mike standing outside the studio (Nick, 2026-10-30: "ill get u the pic of them").
-       Not scheduled until it arrives; this post never carries the cartoon.
-status: DRAFT, waiting on the photo.
+image: content/announcements/ep21-studio-halloween.jpg, Dave (sequin jacket) and Mike (First Rehab shirt) at the
+       Legends 100.3 sign (Nick sent it 2026-10-30). Post Bridge media 10483a96.
+status: SCHEDULED. Post 43523655-406d-4281-8d61-631869a95b80 (LinkedIn business, FB);
+        Google Business 5c18c821-66b0-4652-b979-a582da250a98.
 
 > **The link is the Spotify SHOW page, not the episode.** The show page opens on the newest episode.
 >
