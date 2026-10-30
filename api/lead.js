@@ -34,6 +34,8 @@
 const SITE = "firstrehabnpb.com";
 const PHONE = "561-624-4263";
 const PRACTICE = "First Rehabilitation of North Palm Beach";
+const { officeEmail, confirmEmail } = require("./_email.js");
+const BRAND = { name: PRACTICE, color: "#0E3A47", accent: "#F4A261", accentInk: "#0E3A47", kicker: "#F4A261" };
 
 const TIMEOUT_MS = 8000;
 
@@ -146,6 +148,12 @@ module.exports = async function handler(req, res) {
       from: process.env.LEAD_FROM,
       to,
       subject,
+      html: officeEmail({
+        brand: BRAND,
+        title: titleFor(body, source),
+        fields: Object.entries(body).filter(([k]) => !k.startsWith("_") && k !== "source"),
+        meta: { site: SITE, source: source === "intake" ? "website chat or contact form" : source.replace(/-/g, " ") },
+      }),
       text: fields.map(([k, v]) => `${k}: ${v}`).join("\n") +
         `\n\n-- Sent from ${SITE} (${source}). The website also saves this to Supabase (First Rehabilitation App).`,
     };
@@ -170,6 +178,11 @@ module.exports = async function handler(req, res) {
         to: [email],
         reply_to: to[0],
         subject: `We received your request: ${PRACTICE}`,
+        html: confirmEmail({
+          brand: BRAND, first, phone: PHONE, site: SITE,
+          ref: refOf(body),
+          promise: "Your request came through and our team will contact you within one business day.",
+        }),
         text: [
           `Hi ${first},`,
           "",
@@ -191,4 +204,21 @@ module.exports = async function handler(req, res) {
 
 function subjectHasName(subject, name) {
   return typeof subject === "string" && name && subject.includes(name);
+}
+
+// The heading on the clinic's email: what kind of request this is.
+function titleFor(body, source) {
+  if (source === "careers") return "New job application";
+  if (source === "dad-joke") return "New dad joke for Pain 2 Power";
+  if (source === "ask-dave") return "New Ask Dave question";
+  if (source === "recovered") return "Recovered appointment request";
+  const type = String(body.Type || body.type || body.intent || "").toLowerCase();
+  if (type.indexOf("question") > -1) return "New website question";
+  return "New appointment request";
+}
+
+// The chat's reference number ("Reference" from intake.js), when well formed.
+function refOf(body) {
+  const r = field(body, "reference", 20) || field(body, "ref", 20) || "";
+  return /^[A-Z]{2}-[A-Z0-9]{5}$/.test(r) ? r : "";
 }
