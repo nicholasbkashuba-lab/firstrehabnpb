@@ -91,6 +91,9 @@ SEG = [("open", "h21d", 4.64, 9.40),          # D "Good morning, this is Mike Mc
        ("survive", "h21d", 858.80, 873.21),   # D "They're all coming down. So all the spirits ... they can't recognize us." M "Gotcha."
        ("skin", "h21d", 1555.86, 1566.30),    # D "And what is a skeleton gonna do for you ... nothing gets under his skin."
        ("love", "h21m", 1567.40, 1570.72)]    # M "Oh, wow. I love that."
+# Mike leans in toward the mic as his "I'm confused as to who" line starts: frame him 7% right so he stays within
+# 10% of centre through the lean and after it (qa_center, 2026-10-30)
+BIAS = {"who": {"hold_bias": 0.07}}
 CARD = 2.3
 END = 4.6
 
@@ -98,7 +101,7 @@ shots, starts = [], {}
 t = 0.0
 for k, src, a, b in SEG:
     starts[k] = t
-    shots.append(cam(src, a, b - a))
+    shots.append(cam(src, a, b - a, **BIAS.get(k, {})))
     t += b - a
     if k == "who":
         shots.append(black(CARD))
