@@ -16,8 +16,8 @@ Checks, per clip:
   format    1080x1920, h264, yuv420p, 30 fps, AAC audio, moov atom before mdat (faststart),
             under 3 minutes (YouTube Shorts eligibility is decided by the file).
   loudness  integrated -14 LUFS for social (FAIL outside -20..-10, WARN outside -16..-12).
-  ending    the clip does not end mid-word: its last voiced frame is at least 0.12 s before the end
-            (tools/cut_check.py; Nick, 2026-10-30, "cuts off sentences too quickly").
+  ending    the clip does not end through a word: the audio just ahead of the fade-out is below speech
+            level (tools/cut_check.py; Nick, 2026-10-30, "cuts off sentences too quickly").
   fill      the picture fills the frame: no black bars, no inset picture over a blurred copy
             of itself (the retired fit-captions.py look).
   captions  --style box (default, the house style): a solid black box with white text,
@@ -181,13 +181,18 @@ def check(path, style="box", sheet=None, det=None):
             # quickly"). Clips carry the episode's own audio, no music, so the last voiced 20 ms frame must sit
             # MIN_TAIL before the end. tools/cut_check.py has the reasoning; a --style pop sizzle ends on music
             # and an end card, so tools/sizzle/run.py checks its dialogue cuts before rendering instead.
+            # This studio has crosstalk (the other host laughs or starts over the last word), so silence is not
+            # the test: speech LEVEL just ahead of the fade-out is. A word cut through reads within 6 dB of the
+            # clip's speech level there; a laugh or a breath reads lower.
             import cut_check
             x = cut_check.load(path)
-            quiet, level = cut_check.tail_check(x)
-            if level > 0 and quiet < cut_check.MIN_TAIL:
-                fails.append(f"ends while someone is still talking: only {quiet:.2f} s of quiet before the end "
-                             f"(need {cut_check.MIN_TAIL:.2f}); the last word is clipped")
-            if level > 0 and cut_check.head_check(x) < 0.02:
+            end_db = cut_check.end_level(x)
+            if end_db > -6:
+                fails.append(f"ends through a word: speech level ({end_db:.0f} dB) just before the fade-out; "
+                             f"move the out point to the gap after the last word (cut_check.first_gap)")
+            elif end_db > -12:
+                warns.append(f"ends on sound at {end_db:.0f} dB (crosstalk or a laugh?): listen to the last second")
+            if cut_check.head_check(x) < 0.02:
                 warns.append("starts on a voiced frame: the first word may be clipped")
         if a["codec_name"] != "aac":
             fails.append(f"audio codec {a['codec_name']}, want aac")

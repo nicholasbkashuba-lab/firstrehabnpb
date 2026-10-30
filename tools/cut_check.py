@@ -79,6 +79,34 @@ def tail_check(x, end_trim=0.0):
     return (len(r) - 1 - voiced[-1]) * FRAME, level
 
 
+def end_level(x, before=0.12, span=0.06):
+    """dB, against the clip's speech level, of the 60 ms that end `before` s before the file ends (just ahead of
+    a short fade-out). Speech level there means the cut went through a word; laughter or a breath reads lower."""
+    r = frames_rms(x)
+    if len(r) < 10:
+        return -99.0
+    lvl = float(np.percentile(r, 90))
+    k1 = len(r) - int(round(before / FRAME))
+    k0 = max(0, k1 - int(round(span / FRAME)))
+    return float(20 * np.log10(np.mean(r[k0:k1]) / lvl)) if k1 > k0 else -99.0
+
+
+def first_gap(path, lo, hi, ref_level, depth=-18.0, hold=3):
+    """Start time of the first stretch of `hold` 20 ms frames below `depth` dB (against ref_level) in [lo, hi],
+    or the quietest frame when there is none. The place to cut after a speaker's last word: the earliest real
+    gap, before the other host's laugh or next word fills the room."""
+    r = frames_rms(load(path, lo, hi - lo))
+    if not len(r):
+        return hi
+    db = 20 * np.log10(r / ref_level)
+    run = 0
+    for i, v in enumerate(db):
+        run = run + 1 if v < depth else 0
+        if run >= hold:
+            return lo + (i - hold + 1) * FRAME + FRAME
+    return lo + float(np.argmin(db)) * FRAME + FRAME / 2
+
+
 def head_check(x):
     """Seconds of quiet at the start of the slice."""
     r = frames_rms(x)
