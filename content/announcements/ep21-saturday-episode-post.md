@@ -1,7 +1,7 @@
 # Episode 21 · Saturday episode post
 
-air_date: 2026-10-31
-post_at: 2026-10-31 09:00 ET (13:00 UTC)
+air_date: 2026-11-07 (moved from Oct 31 by Nick on 2026-10-30)
+post_at: 2026-11-07 09:00 ET (14:00 UTC)
 platforms: linkedin-business, facebook, plus a separate google-business call
 image: the same cover Nick picks for Friday (Nick, 2026-10-28: "create one like we do the cartoon"):
        content/announcements/ep21-cover-stone-v1.jpg or -v2.jpg.

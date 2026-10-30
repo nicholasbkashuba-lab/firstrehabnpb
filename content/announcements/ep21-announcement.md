@@ -1,7 +1,7 @@
 # Episode 21 · Dr. Reed Stone
 
-air_date: 2026-10-31
-post_at: 2026-10-30 17:00 ET (21:00 UTC)
+air_date: 2026-11-07 (moved from Oct 31 by Nick on 2026-10-30)
+post_at: 2026-11-06 17:00 ET (22:00 UTC)
 platforms: instagram, facebook, linkedin-business, x, plus a separate google-business call
 excluded: youtube and tiktok (a still, not a video), linkedin-personal (never posted to)
 image: the ORIGINAL logo (assets/media/podcast-cover.jpg) with a cartoon Dr. Stone added in the middle,
@@ -25,8 +25,6 @@ Dr. Reed Stone, MD, neurologist at Palm Beach Neurology, joins Dr. Dave Kashuba 
 
 • 8:30 AM Saturday on 100.3 Legends Radio
 • Streaming right after on Spotify and YouTube
-
-Happy Halloween. No tricks, just good information.
 
 First Rehabilitation of North Palm Beach
 733 US Highway 1, Suite 2A

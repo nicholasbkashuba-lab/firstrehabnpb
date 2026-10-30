@@ -1,4 +1,4 @@
-# Episode 21 · Spotify title and description
+# Episode 22 (files named ep21) · Spotify title and description
 
 Title follows the show's existing pattern for doctors ("Episode 8: Dr. Ryan Simovitch, MD").
 No chapter list here on purpose: if the RAW radio mp3 is what goes to Spotify, it still carries
@@ -7,7 +7,7 @@ would be off after that point.
 
 ## Title
 
-Episode 21: Dr. Reed Stone, MD
+Episode 22: Dr. Reed Stone, MD
 
 ## Description
 
