@@ -159,3 +159,19 @@ Full episode on Spotify and YouTube. Search Pain 2 Power.
 First Rehabilitation of North Palm Beach · 561-624-4263
 
 #WristPain #HandTherapy #Pain2Power
+
+---
+## Sizzle reel (Sun Nov 1 10:00 AM ET, with the episode-is-live post)
+post: 05e9c1a3-edcd-4804-8cb0-c0f9a6627104 · IG, FB, YouTube, TikTok · 2026-11-01 15:00 UTC
+file: tools/sizzle/reel_ep21h.py, second cut (more Mike, more Halloween, Dave's banner across the top), 47 s
+
+"Good morning, this is Mike McGann at Legends Radio, 100.3."
+
+Except it's Dave. Happy Halloween from Pain 2 Power: Dr. Dave Kashuba and Mike McGann swapped places, sequin
+jacket and all. Then they get to life after breast cancer, alkaline water and where Halloween costumes came from.
+
+Full episode on Spotify and YouTube. Search Pain 2 Power.
+
+First Rehabilitation of North Palm Beach · 561-624-4263
+
+#Pain2Power #Halloween #LegendsRadio #NorthPalmBeach
