@@ -79,9 +79,9 @@ def tail_check(x, end_trim=0.0):
     return (len(r) - 1 - voiced[-1]) * FRAME, level
 
 
-def end_level(x, before=0.12, span=0.06):
+def end_level(x, before=0.06, span=0.06):
     """dB, against the clip's speech level, of the 60 ms that end `before` s before the file ends (just ahead of
-    a short fade-out). Speech level there means the cut went through a word; laughter or a breath reads lower."""
+    the 0.06 s fade-out clips.py applies). Speech level there means the cut went through a word; laughter or a breath reads lower."""
     r = frames_rms(x)
     if len(r) < 10:
         return -99.0
