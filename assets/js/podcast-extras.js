@@ -23,6 +23,30 @@
     }).then(function (r) { if (!r.ok) throw new Error(table + ' ' + r.status); return true; });
   }
 
+  // Email a copy of each submission so someone actually sees it. Until
+  // 2026-10-30 these forms only wrote to Supabase and emailed nobody: the one
+  // joke ever sent (2026-08-03) sat unapproved for three months because no one
+  // knew it existed. Supabase stays the system of record; this is a heads-up.
+  // Fire and forget: the visitor's "thanks" depends on the insert alone, never
+  // on the email. FormSubmit honours _cc on the /ajax/ endpoint (verified
+  // against delivered copies from jupiterlaser.com and regenorthopb.com), and
+  // firstrehabnpb@gmail.com is already activated for intake.js.
+  var NOTIFY_TO = 'firstrehabnpb@gmail.com';
+  var NOTIFY_CC = 'nick@firstrehabnpb.com,hello@designofman.com';
+  function notify(subject, fields) {
+    try {
+      var body = { _subject: subject, _cc: NOTIFY_CC, _template: 'table', _captcha: 'false' };
+      for (var k in fields) { if (fields.hasOwnProperty(k)) body[k] = fields[k] || '—'; }
+      body['Approve or reply'] = 'Supabase → First Rehabilitation App → Table Editor';
+      var sending = fetch('https://formsubmit.co/ajax/' + NOTIFY_TO, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (sending && typeof sending.catch === 'function') sending.catch(function () {});
+    } catch (e) { /* the submission is already saved; a failed email must not surface */ }
+  }
+
   // Simple client-side rate gate: one submission per form per minute.
   function gated(key) {
     var last = +(localStorage.getItem(key) || 0);
@@ -57,6 +81,7 @@
       btn.textContent = 'Sending…';
       insertRow(opts.table, row).then(function () {
         stamp('fr-gate-' + formId);
+        if (opts.notify) opts.notify(row);
         form.hidden = true;
         doneEl.hidden = false;
       }).catch(function () {
@@ -80,6 +105,9 @@
         email: f.email.value.trim() || null,
         question: f.question.value.trim()
       };
+    },
+    notify: function (row) {
+      notify('New Ask Dave question (Pain 2 Power)', { Question: row.question, Name: row.name, Email: row.email, Table: 'ask_dave_questions' });
     }
   });
 
@@ -94,6 +122,9 @@
         first_name: f.first_name.value.trim() || null,
         joke: f.joke.value.trim()
       };
+    },
+    notify: function (row) {
+      notify('New dad joke for Pain 2 Power', { Joke: row.joke, 'From (first name)': row.first_name, Table: 'dad_jokes (set approved = true to show it on the podcast page)' });
     }
   });
 
