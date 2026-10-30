@@ -701,7 +701,11 @@ Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each
 - **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. IMAGE (Nick, 2026-10-14, every
   week): the ORIGINAL logo `assets/media/podcast-cover.jpg` with the guest added as a matching cartoon
   in the middle; never `content/announcements/pain2power-cover.jpg` (that is the Arlosoroff variant).
-  Recipe in content/announcements/README.md. A studio photo, the
+  Recipe in content/announcements/README.md. **Two images, two jobs (Nick, 2026-10-30, every
+  episode): the CARTOON cover is the Friday announcement image, and the PHOTO OF THE GUEST STANDING
+  OUTSIDE THE STUDIO is the Saturday episode-is-live image.** Never swap them, never use the cartoon
+  on Saturday, and never make a graphic in place of the outside photo: if it is not in the guest's
+  Dropbox folder, ask Nick for it up front with the other questions. The
   guest's background, and "tomorrow 8:30 AM on 100.3 Legends Radio". Instagram, Facebook,
   LinkedIn business, X, plus its own text-and-one-image Google Business call.
   The slot has moved twice: PR #78 set it at 4:00 PM ET, Episode 14's actually ran at
