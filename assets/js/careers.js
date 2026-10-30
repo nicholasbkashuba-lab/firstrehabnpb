@@ -2,13 +2,15 @@
 // Delivery mirrors the proven intake-assistant pattern (see intake.js):
 // the application goes two ways at once — INSERT into the dedicated Supabase
 // job_applications table (publishable key, INSERT-only via RLS) and an email
-// to the clinic inbox via FormSubmit. Either channel succeeding counts.
+// to the clinic through the site's own /api/lead endpoint (Resend; recipients
+// are server-side config). Either channel succeeding counts. FormSubmit did
+// the email until its outage (2026-10-28) forced the move on 2026-10-30.
 (function () {
   var CFG = {
     supabaseUrl: 'https://pclqpthqigsfteyluwqj.supabase.co',
     supabaseKey: 'sb_publishable_ERdB1Hn8B5cZ74Lq8otSKg_3bSwv5_K', // safe by design: INSERT-only
     table: 'job_applications',
-    notifyEmail: 'firstrehabnpb@gmail.com'
+    leadEndpoint: '/api/lead'
   };
 
   var form = document.getElementById('careers-form');
@@ -43,17 +45,12 @@
   }
 
   function sendEmail(app) {
-    return fetch('https://formsubmit.co/ajax/' + CFG.notifyEmail, {
+    return fetch(CFG.leadEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
+        source: 'careers',
         _subject: 'New Job Application: ' + app.position + ' — ' + app.name,
-        _cc: 'nick@firstrehabnpb.com',
-        _template: 'table',
-        _autoresponse: 'Thank you for applying to First Rehabilitation of North Palm Beach for the ' +
-          app.position + ' role. Your application has been received and our team will review it. ' +
-          'Questions? Call 561-624-4263 (Mon-Fri 8:00 AM-5:30 PM, Sat 8:00 AM-12:30 PM). ' +
-          '- First Rehabilitation of North Palm Beach, 733 US Highway 1, Suite 2A, North Palm Beach, FL 33408',
         Type: 'Job application (careers page)',
         Position: app.position,
         Name: app.name,
@@ -62,7 +59,8 @@
         'Resume link': app.resume_url || '—',
         Message: app.message || '—'
       })
-    }).then(function (r) { if (!r.ok) throw new Error('email ' + r.status); return r.json(); });
+    }).then(function (r) { if (!r.ok) throw new Error('email ' + r.status); return r.json(); })
+      .then(function (d) { if (!d || String(d.success) !== 'true') throw new Error('email not sent'); return true; });
   }
 
   form.addEventListener('submit', function (e) {

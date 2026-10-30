@@ -25,13 +25,16 @@ Static site for firstrehabnpb.com. 26+ pages, generated — do not edit HTML fil
   contact info conversationally; answers are drafted to localStorage at every step;
   submissions deliver two ways at once (deliverLead): insert into the Supabase project
   "First Rehabilitation App" (table `intake_leads`, anon key is INSERT-only via RLS) AND
-  email firstrehabnpb@gmail.com via FormSubmit — either channel succeeding counts; if both
-  fail the lead queues locally + auto-retries. A THIRD, fire-and-forget copy goes to
-  nick@firstrehabnpb.com (CFG.notifyEmailCc) as its own FormSubmit POST — deliberately not
-  FormSubmit's _cc (undocumented on the /ajax/ endpoint) and deliberately not counted by
-  deliverLead, so it can never block or fail the clinic notification. Both emails share one
-  emailFields() body builder so the two inboxes can never drift apart. View leads in the Supabase dashboard →
-  Table Editor → intake_leads.
+  email the clinic through the site's own `/api/lead` serverless function — either channel
+  succeeding counts; if both fail the lead queues locally + auto-retries. **`api/lead.js`
+  sends through Resend** (Vercel env `RESEND_API_KEY`, `LEAD_TO`, `LEAD_CC`, `LEAD_FROM`,
+  optional `CONFIRM_FROM` for a visitor confirmation, sent for `source: 'intake'` only).
+  Recipients live in those env vars, not in the JS: `LEAD_TO` carries firstrehabnpb@gmail.com
+  AND nick@firstrehabnpb.com, so the old separate owner-copy POST is gone. It does NOT store
+  anything (the browser already writes Supabase); it only emails. emailFields() builds the
+  body. **FormSubmit was removed 2026-10-30** after its outage (Cloudflare 521 from
+  2026-10-28) silently stopped every email notification; do not put it back. View leads in
+  the Supabase dashboard → Table Editor → intake_leads.
 - `assets/media/` — logo.png/logo-dark.png (full-size, schema/OG), logo-nav.png/
   logo-dark-nav.png (333px, header+footer). Favicons = the FULL wordmark logo on cream
   (owner insists; no monograms), regenerate via Pillow from logo.png, bump ?v= (now v5).
@@ -1273,7 +1276,8 @@ orientation.
   impressions. The Wix redirects are doing their job; legacy URLs still carry ~4,800
   impressions. Still worth confirming: sitemap.xml submitted in Search Console, and the
   Google Business Profile website link pointing at the new site.
-- ~~Click the FormSubmit activation email~~ DONE — owner confirmed leads are arriving by email.
+- ~~Click the FormSubmit activation email~~ DONE, and moot: FormSubmit was replaced by `/api/lead`
+  (Resend) on 2026-10-30.
 - ~~Send Google Business Profile share URL → add to sameAs~~ DONE — GBP already in the org
   schema via its canonical CID link (maps.google.com/?cid=3809434844265673488); owner's
   share.google link resolves to the same listing. No further action.
@@ -1297,16 +1301,19 @@ orientation.
 ## Podcast page forms (Ask Dave, dad jokes)
 `assets/js/podcast-extras.js` inserts into `ask_dave_questions` / `dad_jokes` (anon INSERT-only;
 jokes forced `approved = false` and shown only once approved). Since 2026-10-30 each successful
-insert also emails a heads-up through FormSubmit to firstrehabnpb@gmail.com, CC
-nick@firstrehabnpb.com and hello@designofman.com: before that nobody was told, and the only joke
+insert also emails a heads-up through `/api/lead` (Resend, `source` `ask-dave` / `dad-joke`,
+recipients from the LEAD_TO / LEAD_CC env vars; FormSubmit until its outage forced the move the
+same day). Those two sources may arrive with no phone or email. Before that nobody was told, and the only joke
 ever sent (2026-08-03) sat unapproved for three months. The email is fire-and-forget; the thank-you
 depends on the insert alone.
 
 ## Careers & applications
 /careers.html driven by OPEN_POSITIONS in build.py (currently COTA only; empty list =
 no-openings message). Applications: assets/js/careers.js → Supabase table
-job_applications (INSERT-only RLS, same project as intake_leads) + FormSubmit email to
-firstrehabnpb@gmail.com CC nick@firstrehabnpb.com, subject "New Job Application: …".
+job_applications (INSERT-only RLS, same project as intake_leads) + an email through `/api/lead`
+(`source: 'careers'`, Resend, recipients from LEAD_TO / LEAD_CC, no applicant confirmation),
+subject "New Job Application: …". The resume is a pasted link, not a file upload.
+FormSubmit did this email until 2026-10-30.
 JobPosting schema per role (validThrough = posted + 60d — bump posted dates to refresh).
 
 ## Blog agent
