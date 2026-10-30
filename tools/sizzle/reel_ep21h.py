@@ -35,7 +35,15 @@ _W = json.load(open(f"{D21}/words.json"))
 
 
 def words(a, b):
-    return [(w["s"], w["e"], w["w"].strip()) for w in _W if a <= w["s"] < b - 0.05]
+    out = []
+    for w in _W:
+        if a <= w["s"] < b - 0.05:
+            tok = w["w"].strip()
+            if out and tok.startswith(","):  # ASR splits "10,000" into "10" + ",000"
+                out[-1] = (out[-1][0], w["e"], out[-1][2] + tok)
+            else:
+                out.append((w["s"], w["e"], tok))
+    return out
 
 
 # (key, camera, raw in, raw out) in reel order; the card sits after the second line
