@@ -9,6 +9,19 @@ LinkedIn business, X. The podcast cover art is the image.
 
 ## The image: our logo with the guest drawn in (Nick, 2026-10-14, EVERY Friday)
 
+**Which image goes where (Nick, 2026-10-30, every episode):** the cartoon cover below is the FRIDAY
+announcement image. The SUNDAY 10 AM episode-is-live post uses the photo of the guest standing outside the
+studio, never the cartoon.
+
+**Email every new cartoon (Nick, 2026-10-30, every episode):** from nick@firstrehabnpb.com to Mike McGann
+`mmcgann@legendsradio.com`, Tim Reever `treever@legendsradio.com` and Dave `k1rehab@aol.com`, as soon as the
+cartoon exists (both variants if he has not picked yet). The Microsoft 365 connector IS that mailbox
+(`get_me` returns nick@firstrehabnpb.com) and has Mail.Send, but `outlook_send_mail` cannot attach files and
+strips `<img>`, so commit the cover to `content/announcements/` first and send its raw.githubusercontent.com
+link (`https://raw.githubusercontent.com/nicholasbkashuba-lab/firstrehabnpb/<branch>/content/announcements/<file>`).
+The Gmail connector is Nick's PERSONAL address; never send these from it. Check Sent Items first: on
+2026-10-30 Nick had already emailed the Halloween cartoon himself, and a second copy is spam.
+
 Every Friday announcement uses the ORIGINAL Pain 2 Power logo, `assets/media/podcast-cover.jpg`
 (Mike left, Dave right, "WITH MIKE AND DAVE" banner), with that week's guest added as a matching
 cartoon caricature standing in the MIDDLE between them. Nothing else on the logo changes.

@@ -1,0 +1,19 @@
+{
+"8": "crop=2880:1620:947:0,scale=1920:1080:flags=lanczos",
+"29": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"31": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"32": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"36": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"42": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"45": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"51": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"55": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"94": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"96": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"108": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"114": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"116": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"118": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"120": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0",
+"126": "crop=1152:648:128:24,scale=1920:1080:flags=lanczos,unsharp=5:5:0.5:5:5:0"
+}

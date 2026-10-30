@@ -76,6 +76,7 @@ GUEST_PATTERNS = [
     ("Elyse Marrone and Danielle Armstrong",
      r"Elyse Marrone|Danielle Armstrong|Pilates|dietitian|cruciferous"),
     ("Paul Joyce", r"Paul Joyce|New Life HRT|peptide|Wolverine stack|BPC-157"),
+    ("Dr. Reed Stone", r"Reed Stone|Palm Beach Neurology"),
     ("Dave and Mike", r"Dave Kashuba|Mike McGann|Pain 2 Power"),
 ]
 

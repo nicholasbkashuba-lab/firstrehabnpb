@@ -418,6 +418,15 @@ domain switch (July 2027). Removing them early throws away that equity.
   not moved in the rebuild. Both figures come from the truncated query table, so treat them
   as directional, not exact.
 
+## Hashtags: researched every week (Nick, 2026-10-30)
+"For every post i need u to research popular hashtags for that week." Rules, limits and sources:
+`content/social/hashtags/README.md`; one research file per week beside it (`2026-W45.md` is the first). The daily
+routine researches the coming week every SATURDAY and re-tags every post scheduled in it, and checks tomorrow's
+posts every day. **Instagram caps posts and Reels at 5 hashtags** (since 2025-12-18): count the shared caption and
+any `instagram.caption` override; two scheduled posts were over it when this started. Five = one or two timely tags
+that fit the clip (this week's observance or season), two topic tags, `#Pain2Power`, one local tag. Never an
+unrelated trending tag, never #FYP / #ForYou.
+
 ## Social link tracking (UTM) — added 2026-10-07
 Every link from our social accounts to the site carries UTM tags. Before this, social looked like
 ~40 visitors in 11 weeks against ~200k post views. In-app browsers (Instagram, TikTok) usually drop
@@ -725,7 +734,13 @@ Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each
 - **Friday 5:00 PM ET** — the announcement post for tomorrow's guest. IMAGE (Nick, 2026-10-14, every
   week): the ORIGINAL logo `assets/media/podcast-cover.jpg` with the guest added as a matching cartoon
   in the middle; never `content/announcements/pain2power-cover.jpg` (that is the Arlosoroff variant).
-  Recipe in content/announcements/README.md. A studio photo, the
+  Recipe in content/announcements/README.md. **Two images, two jobs (Nick, 2026-10-30, every
+  episode): the CARTOON cover is the Friday announcement image, and the PHOTO OF THE GUEST STANDING
+  OUTSIDE THE STUDIO is the Saturday episode-is-live image.** Never swap them, never use the cartoon
+  on Saturday, and never make a graphic in place of the outside photo: if it is not in the guest's
+  Dropbox folder, ask Nick for it up front with the other questions. **Every new cartoon is EMAILED
+  from nick@firstrehabnpb.com to mmcgann@legendsradio.com, treever@legendsradio.com and k1rehab@aol.com
+  (Nick, 2026-10-30)**: Microsoft 365 connector, link not attachment; details in content/announcements/README.md. The
   guest's background, and "tomorrow 8:30 AM on 100.3 Legends Radio". Instagram, Facebook,
   LinkedIn business, X, plus its own text-and-one-image Google Business call.
   The slot has moved twice: PR #78 set it at 4:00 PM ET, Episode 14's actually ran at
@@ -738,9 +753,14 @@ Nick approved this flow 2026-08-02 and revised it 2026-09-18; do not re-ask each
   does carry the guest's story. Treat the no-spoiler rule as the default and his instruction
   for a given week as the exception, rather than quietly picking one.
   Drafts live in `content/announcements/ep{NN}-announcement.md`; rules in that folder's README.
-- **Saturday 9:00 AM ET** — the episode-is-live post carrying the Spotify link (LinkedIn,
-  Facebook, Google Business) + the full episode video on YouTube. The show "airs" 8:30 AM
-  Sat on 100.3 Legends Radio; episodes are prerecorded but Saturday is the public moment.
+- **Saturday 8:30 AM ET** — the show airs on 100.3 Legends Radio (episodes are prerecorded but
+  Saturday is the public moment); Nick puts the full episode on YouTube himself. NO social post.
+- **Sunday 10:00 AM ET (Nick, 2026-10-30, every episode)** — the episode-is-live post carrying the
+  Spotify link (LinkedIn business, Facebook, plus its own Google Business call), image = the photo of
+  the guest STANDING OUTSIDE THE STUDIO, written as already out ("New on Pain 2 Power"). The SIZZLE
+  REEL goes out at the same time (Instagram, Facebook, YouTube, TikTok). Drafts:
+  `content/announcements/ep{NN}-sunday-episode-post.md`. This replaced the Saturday 9 AM post and
+  the Saturday noon sizzle slot.
 - **Every day, 9:00 AM ET** — ONE clip from the mixed queue (Instagram, Facebook, YouTube
   Shorts, TikTok).
 
@@ -777,12 +797,13 @@ and a different angle per post.
 
 **When Nick sends raw footage for a new episode: build everything, then SCHEDULE it — don't
 ask first, and don't publish immediately.** He reviews scheduled posts in Post Bridge before
-they go live. Target the next Saturday 9:00 AM ET for the episode + full video, then the
-clips one per day after it. Scheduling IS the deliverable; waiting for approval is not.
+they go live. Target the Friday 5 PM announcement and the Sunday 10 AM episode-is-live post and sizzle reel,
+then the clips one per day after the episode airs, never before. Scheduling IS the deliverable; waiting for approval is not.
 
 ONE master routine handles all of it (claude.ai Routines, fresh session per fire):
 `trig_01R5iPGmt45aWsNkwNoX5zDc` — "Pain 2 Power — daily social poster", cron `0 13 * * *`
-(9:00 AM ET daily). It branches on the ET day of week: Saturday → episode-is-live post,
+(9:00 AM ET daily). It branches on the ET day of week: Friday → announcement check, Sunday → episode-is-live post
+and sizzle check (its prompt backup is `docs/routines/daily-poster.md`, rewritten 2026-10-30),
 every other day → the next clip off the mixed queue, and it checks whether an announcement
 is owed for tomorrow. Consolidated 2026-08-02 from two separate routines
 because the Routines tab was unreadable and each one needed its connectors wired separately.
@@ -995,6 +1016,27 @@ Standing preferences for a one off post, unless told otherwise:
 - Google Business takes text or ONE image, never video, and gets its own text only call.
 - LinkedIn personal (81320) is never posted to.
 - Finish with `list_post_results` per platform. "processing" is not proof.
+
+## No line may end mid-word: the cut gate (Nick, 2026-10-30)
+"The sizzle reel cuts off sentences too quickly ... ensure this does not keep happening with every clip." Measured:
+9 of the Halloween sizzle's 11 lines ended 0.03 to 0.45 s before the last word finished, and the clips' 0.25 s
+fade-out ate the last word of 4 of 10. The cause both times: cut points taken from Whisper word times, which ran
+0.3 to 0.4 s EARLY on that episode. Rules now enforced in code:
+- **Cut points come from force-aligned words** (`tools/cut_check.py`, the wav2vec2 aligner the captions use, ~20 ms),
+  never from raw Whisper times. In 0.10 s before the first word; out at the quietest point after the last word
+  + 0.08 s (clips: + 0.25 s), before the next word. `cut_check.suggest()` gives both.
+- **`tools/sizzle/run.py` refuses to render** if any dialogue slice clips a word (`engine.load_audio` records every
+  slice; `--force` overrides, and should not be used). Lines should start and end on whole sentences; the check warns
+  when they do not.
+- **`tools/clip-qa.py` FAILS a clip that ends through a word**: speech level in the 60 ms just ahead of the fade-out.
+  Not silence: this studio has crosstalk (the other host laughs or starts over the last word), so a "quiet after
+  the last word" rule failed good clips. `clips.py` ends each clip on `cut_check.first_gap`: the earliest 60 ms under
+  -18 dB after the last word, before the room fills again.
+- **Hold the camera still**: a quicker lean catch (0.6 s) made the camera chase short leans on most clips; use it
+  only on a clip whose subject holds a long lean (Halloween 07).
+- **Sizzle captions are force-aligned too** (`engine.aligned()`); "make sure the captions are perfect too with the
+  speed". Numbers ("100.3") align badly, so the cut check judges a number-only last word by the audio level.
+- The daily routine runs `tools/media-qa.py` on the copies Post Bridge will publish tomorrow and reports a FAIL.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
 **`tools/clip-qa.py` is the gate. Nothing goes to Nick or Post Bridge until it prints PASS**

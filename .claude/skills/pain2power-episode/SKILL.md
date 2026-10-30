@@ -19,7 +19,9 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 | Spotify copy | `content/spotify/ep{NN}-spotify.md`: "Episode NN: <Guest>", plain description, no chapters |
 | Clips | branch `media/ep{NN}-clips` (name is load bearing), scheduled in Post Bridge after Nick approves |
 | Clip captions | `content/clips/ep{NN}-clip-captions.md` with the post id and date of every clip |
-| Saturday post | LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-saturday-episode-post.md` |
+| **Sizzle reel** | EVERY episode (Nick, 2026-10-28: "do this every time we do pods"). `tools/sizzle/reel_ep{NN}.py`, about 25 s, 9:16: guest hook with name card, a title card, two or three more lines (Mike and Dave each with a name card), tune in end card. Cut from the RAW cameras like `reel_ep21.py`; `run.py` writes it and runs `qa_center.py`, which must PASS. Shown to Nick with the clips, then scheduled SUNDAY 10:00 AM ET, the day after air day, with the episode-is-live post (Nick, 2026-10-30), outside the daily clip queue. Ep 18 is on `media/ep18-sizzle`, Ep 19's moments are `tools/sizzle/episodes/ep19.json` |
+| Cover | the original logo with the guest as a matching cartoon (`content/announcements/README.md`), two variants, Nick picks; the FRIDAY announcement image only. EMAIL it the moment it exists from nick@firstrehabnpb.com (Microsoft 365 connector) to mmcgann@legendsradio.com, treever@legendsradio.com and k1rehab@aol.com (Nick, 2026-10-30); see content/announcements/README.md |
+| Sunday episode-is-live post | SUNDAY 10:00 AM ET (Nick, 2026-10-30). LinkedIn business + Facebook, and a separate Google Business call, `content/announcements/ep{NN}-sunday-episode-post.md`. Image: the photo of the guest STANDING OUTSIDE THE STUDIO (Nick, 2026-10-30), never the cartoon |
 | Friday announcement | only if Nick says yes this week (he skipped Episode 18's) |
 | Website | EPISODES[0] once Spotify has it, VIDEOS once YouTube has it (the watcher routine does this) |
 | Guest profile | `content/guests/<slug>.json` on /guests.html, via the `podcast-guest` skill (the watcher routine does this once the episode is in EPISODES) |
@@ -45,7 +47,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    and the watcher routine adds it to the site within three hours of it appearing.
 4. **Ask everything at once, early** (one short message, he is on his phone):
    the guest's Instagram handle, whether he wants a Friday announcement this week, and
-   the studio or group photo for the Saturday post if the folder has none. Asking at the
+   the photo of the guest standing outside the studio for the Sunday episode-is-live post if the folder has none. Asking at the
    moment each one blocks costs him three interruptions. Then work to the end without
    further approvals: "I don't want it to ask for any approvals, I just want it to finish
    fully." Give one ETA when the render starts; do not send progress pings ("stop
@@ -68,13 +70,16 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
    `tools/clip-qa.py` must print PASS for every clip. Stage with `tools/stage-episode.py`
    (add the guest to NAME_FIXES first, pass `--full-transcript` and `--clean <dir>`); it runs
    the same gate and refuses to push a failing clip.
+8b. **Sizzle reel.** Every episode, no asking: copy `tools/sizzle/reel_ep21.py` to
+   `reel_ep{NN}.py`, pick the moments from the transcript, `run.py reel_ep{NN} 9x16`, PASS on
+   `qa_center.py --min-run 1.0` (and `clip-qa.py --style pop`). It goes to Nick with the clips.
 9. **Show Nick every clip in the chat** (only clips that passed the gate) with SendUserFile, each with its caption and
    proposed date, in one pass. Wait for his OK. Nothing is scheduled before that.
 10. **Schedule** per CLAUDE.md "Episode release cycle": one clip a day at 9:00 AM ET,
     woven into the mixed queue with `tools/clip-queue.py`, never the same guest on
     consecutive days. Upload media first; MEDIA IS MANDATORY. Pass platform_configurations
     back IN FULL on every update_post. Finish with `clip-queue.py audit` showing 0 problems.
-11. **Copy.** YouTube and Spotify files above, the Saturday post, and (only if he said yes)
+11. **Copy.** YouTube and Spotify files above, the Sunday episode-is-live post, and (only if he said yes)
     the Friday announcement. Every fact checked against the transcript with a timestamp.
 12. **Branch, commit, push, draft PR.** Merge when Nick says "merge it"; he usually does
     right after reviewing, so expect it rather than asking.
@@ -88,6 +93,18 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
   black box. Two line cues showed the rest of the sentence before it was said (Episode 18).
   stage-episode.py refuses a clip without a stamped clip_captions .ass in `--clean`, and
   clip-qa.py fails captions at the old height, so there is no way around it.
+- **Framing:** the subject is CENTRED in every shot of every video (Nick, 2026-10-14), and the
+  camera does NOT chase their head (Nick, 2026-10-28: "i dont like how much the camera move
+  with their head"). Vertical crops HOLD still and only reframe when the person really moves:
+  the face averaged over 3 s drifts past 10% of the crop width (1 s glide), or a lean past 18%
+  holds for a full second (`DZ, GLIDE, BIG, PERSIST` in `tools/relay-work/ep21-stone/clips21.py`;
+  Episode 21 clips reframe about once each). Two tighter versions (following every frame, then
+  a 0.5 s trigger) both passed QA and both read as chasing heads. A guest who keeps turning his
+  head between the hosts will show 11 to 17% face box offsets for a second at a time in
+  profile; with his body centred that is correct framing, not a reason to move the camera.
+  The 16:9 master uses a FIXED crop per shot centred on that shot's median face, never motion.
+  `tools/clip-qa.py` is the gate (a stretch over 1 s more than 10% off centre fails); one frame
+  head turns pass. Ship only on PASS.
 - **Zero dashes** in captions, titles and descriptions. Only 561-624-4263 and 561-624-GAME
   keep theirs. Bullets are •.
 - **Guest names come from the guest's own site**, never ASR or the Dropbox folder name
@@ -111,7 +128,7 @@ already cost him time. The newest worked example is `tools/relay-work/ep18-pilat
 
 ## When something is missing
 
-- No studio photo: the Saturday post waits; never make a graphic in its place.
+- No outside-the-studio photo: the Sunday post waits for it; never use the cartoon or make a graphic in its place.
 - No IG handle: schedule without collaborators and say so; a guessed handle fails the post.
 - Post Bridge tools missing: the connector is off for this chat (CLAUDE.md "Connectors").
   Finish everything else and say that scheduling is blocked on that toggle.

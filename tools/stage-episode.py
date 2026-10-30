@@ -72,6 +72,9 @@ NAME_FIXES = [
     # Episode 19. Shannon Cake joined on Zoom as "Shannon Giaimo"; ASR heard "Shannon Kay".
     # Her neurologist is Dr. Paul Winner (Palm Beach Neurology), not "Winter".
     (r"\bShannon Kay\b", "Shannon Cake"), (r"\b(?:Kishuba|Kashubon)\b", "Kashuba"),
+    # Episode 22 (Dr. Reed Stone; staged as 21 before the Halloween episode took that number). Dr. Urakov is content/guests/urakov.json.
+    (r"\bYurakov\b", "Urakov"), (r"\bPregnisone\b", "prednisone"),
+    (r"\bFirst Rehab NPV\b", "First Rehab NPB"),
     (r"\bCaptain Carr?(?:ey|ie)\b", "Captain Kerry"), (r"\bCarey\b", "Kerry"), (r"\bDr\. Winter\b", "Dr. Winner"),
     (r"\bPaul Winter\b", "Paul Winner"), (r"\bDave Ehrenberg\b", "Dave Aronberg"),
     (r"\bspinal thalamic track\b", "spinothalamic tract"), (r"\bTick tock\b", "TikTok"),
