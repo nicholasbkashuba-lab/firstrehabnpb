@@ -6,10 +6,12 @@ platforms: instagram, facebook, linkedin-business, x, plus a separate google-bus
 excluded: youtube and tiktok (a still, not a video), linkedin-personal (never posted to)
 image: the CARTOON (Nick, 2026-10-30): the original logo made into a Halloween edition, Mike in the maroon
        First Rehabilitation T-shirt and Dave in the red sequin jacket, teal shirt and black sunglasses he
-       wore on camera. content/announcements/ep21-cover-halloween-1.jpg or -2.jpg, Nick picks.
+       wore on camera. content/announcements/ep21-cover-halloween-1.jpg (picked) and -2.jpg.
        Higgsfield gpt_image_2_5, references: the logo, a frame of Mike's 4K camera, a frame of Dave's phone.
 tags: instagram collaborators legendsradio100.3 + mic_mcgann.
-status: DRAFT, schedules once Nick picks the cover.
+status: SCHEDULED 2026-10-30 with cover v1 (Nick emailed v1 to Mike, Tim and Dave himself at 9:04 AM, which is
+        his pick). Post 548d12d8-7fcb-49d0-ba82-e888eeb236eb (IG, FB, LinkedIn business, X);
+        Google Business 3ef542b3-d2ed-4fab-87d9-314924d48248.
 
 > No spoilers, per the default rule: who is on and when it airs. No guest this week; it is the two hosts.
 > Who is who on camera: Mike is the curly haired one (the 4K camera, same as Episode 22), Dave is the
