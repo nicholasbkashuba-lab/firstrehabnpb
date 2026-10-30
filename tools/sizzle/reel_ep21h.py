@@ -1,4 +1,8 @@
-"""Episode 21, the Dave and Mike HALLOWEEN special: sizzle reel (~46 s, 9:16). Posted Sunday 10 AM ET.
+"""Episode 21, the Dave and Mike HALLOWEEN special: sizzle reel (~62 s, 9:16). Posted Sunday 10 AM ET.
+
+Third cut (Nick, 2026-10-30: "the sizzle reel cuts off sentences too quickly" and "make sure the captions are
+perfect too with the speed"): every line is a whole sentence with its in/out set from force-aligned word times,
+the skeleton joke keeps its setup, Mike's lines run on into his reply, and the captions are force-aligned too.
 
 Second cut (Nick, 2026-10-30, on the first: "not halloween enough and not enough mike its too much dave").
 The first cut gave Mike 5 s of 27. This one is built on the in-character open, where the two of them
@@ -48,32 +52,45 @@ def cam(src, raw_t, d, **kw):
 
 
 _W = json.load(open(f"{D21}/words.json"))
+E.WORDS["h21a"] = _W            # run.py's cut check reads these
 
 
-def words(a, b):
+def _merged(ws):
+    """Whisper splits "100.3" into "100" + ".3." and "10,000" into "10" + ",000": glue them for the captions."""
     out = []
-    for w in _W:
-        if a <= w["s"] < b - 0.05:
-            tok = w["w"].strip()
-            if out and tok[:1] in ",." and tok[1:2].isdigit():  # ASR splits "10,000" / "100.3" in two
-                out[-1] = (out[-1][0], w["e"], out[-1][2] + tok)
-            else:
-                out.append((w["s"], w["e"], tok))
+    for w in ws:
+        tok = w["w"].strip()
+        if out and tok[:1] in ",." and tok[1:2].isdigit():
+            out[-1] = dict(out[-1], w=out[-1]["w"] + tok, e=w["e"])
+        else:
+            out.append(dict(w, w=tok))
     return out
 
 
-# (key, camera, raw in, raw out) in reel order. Speaker of each, by voice ID: D = Dave, M = Mike.
-SEG = [("open", "h21d", 4.92, 8.62),          # D "Good morning, this is Mike McGann at Legends Radio, 100.3."
-       ("as_dave", "h21m", 48.66, 56.35),     # M "as Dave, I help people deal with their pain ... physical therapy."
-       ("how", "h21d", 85.30, 86.20),         # D "How did you get that?"
-       ("cash", "h21m", 86.25, 91.40),        # M "Well, some cash had to change hands, but ... legal and above board."
-       ("reveal", "h21d", 110.30, 112.88),    # D "I'm dressed up as Mike, and Mike's dressed up as Dave."
-       ("reversal", "h21m", 112.95, 115.55),  # M "That's it, we decided to do a little role reversal today."
-       ("confused", "h21d", 135.32, 136.98),  # D "is Mike or Dave? Now I'm confused."
-       ("who", "h21m", 138.36, 139.78),       # M "I never know who I am anyway."
-       ("survive", "h21d", 865.10, 872.40),   # D "The only way we could survive this ... they can't recognize us."
-       ("skin", "h21d", 1561.05, 1565.95),    # D "...my counselor because nothing gets under his skin."
-       ("love", "h21m", 1567.75, 1570.35)]    # M "Oh, wow. I love that."
+_WM = _merged(_W)
+
+
+def words(a, b):
+    """Caption words for RAW [a, b], force-aligned to the audio (engine.aligned): on time to ~20 ms."""
+    return E.aligned("h21a", a, b, _WM)
+
+
+# (key, camera, raw in, raw out) in reel order. Speaker by voice ID: D = Dave, M = Mike.
+# Every in/out comes from the words force-aligned to the RAW audio (tools/cut_check.py), not from Whisper,
+# whose word times ran 0.3 to 0.4 s early here and clipped the end of 9 of the first cut's 11 lines.
+# Pairs that share a time (how/cash, reveal/reversal, confused/who) are one continuous stretch of audio
+# with a camera change inside it, so nothing is cut at that point.
+SEG = [("open", "h21d", 4.64, 9.40),          # D "Good morning, this is Mike McGann at Legends Radio, 100.3."
+       ("as_dave", "h21m", 47.74, 57.03),     # M "Absolutely, as Dave, I help people ... through physical therapy."
+       ("how", "h21d", 85.49, 86.40),         # D "How did you get that?"
+       ("cash", "h21m", 86.40, 91.68),        # M "Well, some cash had to change hands, but ... legal and above board."
+       ("reveal", "h21d", 110.26, 113.05),    # D "I'm dressed up as Mike, and Mike's dressed up as Dave."
+       ("reversal", "h21m", 113.05, 116.21),  # M "That's it, we decided to do a little role reversal today."
+       ("confused", "h21d", 133.48, 137.35),  # D "And the funny thing is, is Mike or Dave? Now I'm confused."
+       ("who", "h21m", 137.35, 140.18),       # M "I'm confused as to who. I never know who I am anyway."
+       ("survive", "h21d", 865.13, 873.21),   # D "The only way we could survive this ... they can't recognize us." M "Gotcha."
+       ("skin", "h21d", 1555.86, 1566.30),    # D "And what is a skeleton gonna do for you ... nothing gets under his skin."
+       ("love", "h21m", 1567.40, 1570.72)]    # M "Oh, wow. I love that."
 CARD = 2.3
 END = 4.6
 
@@ -190,7 +207,7 @@ def card(fmt, t0, t1, name, sub, color=ORANGE):
 
 def tl(k):
     a, b = next((x[2], x[3]) for x in SEG if x[0] == k)
-    return [(x - a + starts[k], y - a + starts[k], w) for x, y, w in words(a, b)]
+    return [(x - a + starts[k], min(y, b) - a + starts[k], w) for x, y, w in words(a, b) if x < b - 0.05]
 
 
 def texts(fmt):

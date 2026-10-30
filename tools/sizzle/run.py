@@ -17,6 +17,20 @@ wav = dry = None
 if any(f != "hero" for f in fmts) and hasattr(mod, "score"):
     t = time.time()
     sc = mod.score()
+    # no line may end while someone is still talking (Nick, 2026-10-30): check every dialogue cut first
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+    import cut_check
+    bad = 0
+    for (k, a, b), fails, warns, q in cut_check.check_cuts(E.AUDIO_CUTS, E.SRC, E.WORDS):
+        for m in fails:
+            print(f"CUT FAIL  {k} {a:.2f}-{b:.2f}: {m}", flush=True)
+        for m in warns:
+            print(f"cut warn  {k} {a:.2f}-{b:.2f}: {m}", flush=True)
+        if fails and E.WORDS.get(k):
+            print(f"          suggest {cut_check.suggest(E.WORDS[k], a, b, E.SRC[k])}", flush=True)
+        bad += bool(fails)
+    if bad and "--force" not in sys.argv:
+        sys.exit(f"{bad} dialogue cut(s) clip a word; fix the in/out times (or pass --force to render anyway)")
     n = int(mod.DUR * 48000)
     wav = E.write_wav(os.path.join(out_dir, f"{name}.wav"), sc.mix()[:, :n])
     dry = E.write_wav(os.path.join(out_dir, f"{name}-nomusic.wav"), sc.mix(music=False)[:, :n])

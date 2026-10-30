@@ -16,6 +16,8 @@ Checks, per clip:
   format    1080x1920, h264, yuv420p, 30 fps, AAC audio, moov atom before mdat (faststart),
             under 3 minutes (YouTube Shorts eligibility is decided by the file).
   loudness  integrated -14 LUFS for social (FAIL outside -20..-10, WARN outside -16..-12).
+  ending    the clip does not end mid-word: its last voiced frame is at least 0.12 s before the end
+            (tools/cut_check.py; Nick, 2026-10-30, "cuts off sentences too quickly").
   fill      the picture fills the frame: no black bars, no inset picture over a blurred copy
             of itself (the retired fit-captions.py look).
   captions  --style box (default, the house style): a solid black box with white text,
@@ -38,6 +40,7 @@ import sys
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 W, H = 1080, 1920
 SAFE_TOP, SAFE_BOTTOM = 285, 1610       # 4:5 feed crop keeps 285..1635; Nick set the box at ~1590 (2026-10-28)
 FEED_BOTTOM = 1635                      # 4:5 feed crop bottom
@@ -173,6 +176,17 @@ def check(path, style="box", sheet=None, det=None):
     if not a:
         fails.append("no audio")
     else:
+        # the clip may not end while someone is still talking (Nick, 2026-10-30: "cuts off sentences too
+        # quickly"). Clips carry the episode's own audio, no music, so the last voiced 20 ms frame must sit
+        # MIN_TAIL before the end. tools/cut_check.py has the reasoning and the sizzle-side check.
+        import cut_check
+        x = cut_check.load(path)
+        quiet, level = cut_check.tail_check(x)
+        if level > 0 and quiet < cut_check.MIN_TAIL:
+            fails.append(f"ends while someone is still talking: only {quiet:.2f} s of quiet before the end "
+                         f"(need {cut_check.MIN_TAIL:.2f}); the last word is clipped")
+        if level > 0 and cut_check.head_check(x) < 0.02:
+            warns.append("starts on a voiced frame: the first word may be clipped")
         if a["codec_name"] != "aac":
             fails.append(f"audio codec {a['codec_name']}, want aac")
         if a.get("sample_rate") != "48000":

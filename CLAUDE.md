@@ -394,6 +394,15 @@ domain switch (July 2027). Removing them early throws away that equity.
   not moved in the rebuild. Both figures come from the truncated query table, so treat them
   as directional, not exact.
 
+## Hashtags: researched every week (Nick, 2026-10-30)
+"For every post i need u to research popular hashtags for that week." Rules, limits and sources:
+`content/social/hashtags/README.md`; one research file per week beside it (`2026-W45.md` is the first). The daily
+routine researches the coming week every SATURDAY and re-tags every post scheduled in it, and checks tomorrow's
+posts every day. **Instagram caps posts and Reels at 5 hashtags** (since 2025-12-18): count the shared caption and
+any `instagram.caption` override; two scheduled posts were over it when this started. Five = one or two timely tags
+that fit the clip (this week's observance or season), two topic tags, `#Pain2Power`, one local tag. Never an
+unrelated trending tag, never #FYP / #ForYou.
+
 ## Social link tracking (UTM) — added 2026-10-07
 Every link from our social accounts to the site carries UTM tags. Before this, social looked like
 ~40 visitors in 11 weeks against ~200k post views. In-app browsers (Instagram, TikTok) usually drop
@@ -983,6 +992,22 @@ Standing preferences for a one off post, unless told otherwise:
 - Google Business takes text or ONE image, never video, and gets its own text only call.
 - LinkedIn personal (81320) is never posted to.
 - Finish with `list_post_results` per platform. "processing" is not proof.
+
+## No line may end mid-word: the cut gate (Nick, 2026-10-30)
+"The sizzle reel cuts off sentences too quickly ... ensure this does not keep happening with every clip." Measured:
+9 of the Halloween sizzle's 11 lines ended 0.03 to 0.45 s before the last word finished, and the clips' 0.25 s
+fade-out ate the last word of 4 of 10. The cause both times: cut points taken from Whisper word times, which ran
+0.3 to 0.4 s EARLY on that episode. Rules now enforced in code:
+- **Cut points come from force-aligned words** (`tools/cut_check.py`, the wav2vec2 aligner the captions use, ~20 ms),
+  never from raw Whisper times. In 0.10 s before the first word; out at the quietest point after the last word
+  + 0.08 s (clips: + 0.25 s), before the next word. `cut_check.suggest()` gives both.
+- **`tools/sizzle/run.py` refuses to render** if any dialogue slice clips a word (`engine.load_audio` records every
+  slice; `--force` overrides, and should not be used). Lines should start and end on whole sentences; the check warns
+  when they do not.
+- **`tools/clip-qa.py` FAILS a clip that ends while someone is still talking** (0.12 s of quiet required).
+- **Sizzle captions are force-aligned too** (`engine.aligned()`); "make sure the captions are perfect too with the
+  speed". Numbers ("100.3") align badly, so the cut check judges a number-only last word by the audio level.
+- The daily routine runs `tools/media-qa.py` on the copies Post Bridge will publish tomorrow and reports a FAIL.
 
 ## How the clips are cut (observed spec, Episode 9 pipeline)
 **`tools/clip-qa.py` is the gate. Nothing goes to Nick or Post Bridge until it prints PASS**

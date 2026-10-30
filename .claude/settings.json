@@ -42,7 +42,11 @@
       "WebFetch",
       "Write(content/guests/**)",
       "Edit(content/guests/**)",
-      "Bash(python3 tools/guest-photo.py:*)"
+      "Bash(python3 tools/guest-photo.py:*)",
+      "Bash(python3 tools/media-qa.py:*)",
+      "Bash(python3 tools/clip-qa.py:*)",
+      "Write(content/social/hashtags/**)",
+      "Edit(content/social/hashtags/**)"
     ],
     "ask": [
       "mcp__post_bridge_-_social_media_scheduler__delete_post",

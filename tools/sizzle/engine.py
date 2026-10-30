@@ -639,8 +639,13 @@ def render(reel, fmt, out_path, crf=18, audio=None, preset="medium"):
 
 
 # ------------------------------------------------------------------ audio helpers
+AUDIO_CUTS = []     # every dialogue slice a reel pulls: run.py checks each with tools/cut_check.py before rendering
+WORDS = {}          # key -> transcript words [{"w","s","e"}] for that audio, so the cut check can read them
+
+
 def load_audio(key, t0, t1, fade=0.012):
     """Stereo float32 slice of an episode's mixed audio."""
+    AUDIO_CUTS.append((key, t0, t1))
     p = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t0:.3f}", "-i", SRC[key], "-t", f"{t1 - t0:.3f}",
                         "-vn", "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True)
     a = np.frombuffer(p.stdout, np.float32).reshape(-1, 2).T.astype(np.float64)
@@ -670,3 +675,41 @@ def write_wav(path, stereo, target_lufs=-14.0):
                    check=True)
     os.remove(raw)
     return path
+
+
+_ALIGN = None
+
+
+def aligned(key, a, b, words):
+    """Caption words for the slice [a, b] of SRC[key], each pinned to the audio by the same wav2vec2 forced
+    aligner the clips use (tools/clip_captions.align, ~20 ms). Whisper word times run 0.2 to 0.7 s off,
+    which is what made sizzle captions lag or jump ahead (Nick, 2026-10-30: "make sure the captions are
+    perfect too with the speed"). Returns [(start, end, text)] in source seconds. Cached per slice."""
+    global _ALIGN
+    path = os.path.join(SCR, "aud", "align_cache.json")
+    if _ALIGN is None:
+        try:
+            _ALIGN = json.load(open(path))
+        except Exception:
+            _ALIGN = {}
+    ck = f"{key}|{a:.3f}|{b:.3f}"
+    if ck not in _ALIGN:
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+        import clip_captions as CC
+        # Whisper's own times are off by up to ~0.7 s, so take a wide net, align, then keep what falls inside.
+        # The audio runs 1.2 s past the last word taken, or the aligner squeezes it in early.
+        w0 = [dict(w=w["w"].strip(), s=w["s"], e=w["e"]) for w in words if a - 0.8 <= w["s"] < b + 0.6]
+        pad = 1.0
+        x = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{max(0, a - pad):.3f}", "-i", SRC[key], "-t",
+                            f"{b - a + pad + 1.8:.3f}", "-vn", "-ac", "1", "-ar", "16000", "-f", "f32le", "-"],
+                           capture_output=True).stdout
+        audio = np.frombuffer(x, np.float32).copy()
+        off = max(0, a - pad)
+        rel = [dict(w, s=w["s"] - off, e=w["e"] - off) for w in w0]
+        al = CC.align(rel, audio) if rel else []
+        _ALIGN[ck] = [(round(w["s"] + off, 3), round(w["e"] + off, 3), w["w"]) for w in al
+                      if w["e"] + off > a + 0.03 and w["s"] + off < b - 0.03]
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        json.dump(_ALIGN, open(path, "w"))
+    return [tuple(x) for x in _ALIGN[ck]]

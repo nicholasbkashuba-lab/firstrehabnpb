@@ -5,7 +5,9 @@ Routine id: `trig_01R5iPGmt45aWsNkwNoX5zDc`, cron `0 13 * * *` (13:00 UTC: 9:00 
 attached by hand in the Routines UI. `get_trigger` returns the live prompt; this file is the
 backup and must match it. Last rewritten 2026-10-30 for Nick's new weekly layout: Friday 5 PM
 cartoon announcement, Sunday 10 AM episode-is-live post with the outside-the-studio photo and the
-sizzle reel. Saturday no longer carries an episode post.
+sizzle reel. Saturday no longer carries an episode post. Same day, later: Saturday weekly hashtag research
+for the coming week, a daily hashtag guard, and a daily QA of the media tomorrow's posts will publish
+(Nick: "research popular hashtags for that week" and "the sizzle reel cuts off sentences too quickly").
 
 ---
 
@@ -45,6 +47,21 @@ Then: `python3 build.py`, confirm it prints NO warnings, commit, and push to `ma
 - ONE clip a day, never two, and never two clips from the same guest on consecutive days. The queue tool enforces this; do not hand-schedule around it.
 - An episode's clips never publish before that episode airs.
 
+=== EVERY DAY: check tomorrow's posts before they go out ===
+Nick, 2026-10-30: "the sizzle reel cuts off sentences too quickly, how can we ... ensure this does not keep happening with every clip". Post Bridge publishes the COPY it holds, so check that copy, not a file on disk. (tools/media-qa.py, tools/cut_check.py and content/social/hashtags/ arrive on main with PR #142; if they are missing, say so in one line of the report and skip this section rather than improvising.)
+- From `list_posts` (status=scheduled), take every post due in the next 24 hours that carries a VIDEO.
+- `list_media` gives a signed URL for each. Run `python3 tools/media-qa.py <url> [<url> ...]` for clips, and `python3 tools/media-qa.py --style pop <url>` for a sizzle reel or a dad joke. It runs tools/clip-qa.py, which FAILS a clip that ends while someone is still talking (tools/cut_check.py), is off centre, has its captions out of the safe zone, or misses loudness.
+- A FAIL is not yours to fix in this run and never a reason to delete: report the post id, the date and the exact failure to Nick at the top of your report so a session can re-cut it before it publishes.
+- HASHTAG GUARD on the same posts: the Instagram caption (shared caption, or `platform_configurations.instagram.caption` when set) carries 5 hashtags at most, because Instagram caps posts and Reels at 5. If one is over, trim it to this week's set from `content/social/hashtags/` with update_post (pass every platform_configurations key back). Pain 2 Power Instagram posts invite `legendsradio100.3` and `mic_mcgann` (max 3 collaborators).
+
+=== IF TODAY IS SATURDAY: hashtag research for the coming week ===
+Nick, 2026-10-30: "for every post i need u to research popular hashtags for that week that will make the post go viral or give it a higher chance to do so." Rules, limits and sources are in `content/social/hashtags/README.md`; read it first, and read last week's file for what worked.
+- Research the seven days from tomorrow (Sunday) through next Saturday: TikTok Creative Center US trending hashtags (last 7 days, Health and Sports & Outdoor), that week's health observances and their OFFICIAL tags from the organization running each, and seasonal or local dates. Use WebSearch / WebFetch. Note what each source showed, including "nothing relevant".
+- Write `content/social/hashtags/YYYY-Www.md` (the ISO week of the Monday in that window) in the same layout as the last one: findings, a table of every post in the window with its Instagram line and TikTok line, sources.
+- Re-tag every post scheduled in the window with update_post: the last line of the shared caption (and of an Instagram caption override), the end of `tiktok.caption`, and `youtube.tags`. Five tags at most on Instagram, 3 to 5 on TikTok. Pass every platform_configurations key back unchanged except the tags, or titles and collaborators are dropped.
+- Only tags that genuinely fit the clip. Never an unrelated trending tag, never #FYP or #ForYou, never political, never one implying a medical claim the clip does not make.
+- Commit the file and push to main (it is content only).
+
 === IF TODAY IS FRIDAY: the announcement (5:00 PM ET) ===
 - Only if a new episode airs tomorrow. Otherwise skip silently.
 - BEFORE writing anything, check whether it is already done: look for `content/announcements/ep{NN}-announcement.md` (NN = TOMORROW's episode number) with recorded post ids, and look in `list_posts` for a post scheduled today at 5:00 PM ET naming tomorrow's guest. If it is already scheduled, verify it still carries its media and stop. Never create a second announcement.
@@ -69,7 +86,8 @@ HOUSE RULES on every post:
 - Lead with the hook. Details after.
 - LinkedIn personal (81320) is NEVER posted to.
 - Google Business takes text or ONE image, never video.
-- Instagram collaborators: `legendsradio100.3` on every Pain 2 Power post and `mic_mcgann` where Mike features; add a guest only with a handle Nick confirmed; a wrong handle fails the whole post.
+- Instagram collaborators: `legendsradio100.3` and `mic_mcgann` on every Pain 2 Power post (Nick, 2026-10-14); add a guest only with a handle Nick confirmed; a wrong handle fails the whole post. Max 3.
+- HASHTAGS: 5 at most on Instagram (its hard cap), from this week's `content/social/hashtags/` file.
 - Never invent statistics, credentials, testimonials or clinical claims.
 - TRACKED LINKS (added 2026-10-07, see "Social link tracking" in CLAUDE.md). Any link to our site goes in the clickable slot with UTM tags, never bare: Facebook first_comment `Full episode + info: https://www.firstrehabnpb.com/?utm_source=facebook&utm_medium=social&utm_campaign=clip`, X first_comment with utm_source=x, LinkedIn with utm_source=linkedin. Use utm_campaign=clip for daily clips and utm_campaign=episode for the Friday and Sunday episode posts. Google Business CTAs use utm_source=google&utm_medium=gbp. Instagram and TikTok captions are not clickable, so leave the plain firstrehabnpb.com there. When update_post touches a post, pass its whole platform_configurations back (titles, tags, captions, collaborators) so nothing is dropped.
 
