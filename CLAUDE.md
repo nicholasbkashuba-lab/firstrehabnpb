@@ -1004,7 +1004,12 @@ fade-out ate the last word of 4 of 10. The cause both times: cut points taken fr
 - **`tools/sizzle/run.py` refuses to render** if any dialogue slice clips a word (`engine.load_audio` records every
   slice; `--force` overrides, and should not be used). Lines should start and end on whole sentences; the check warns
   when they do not.
-- **`tools/clip-qa.py` FAILS a clip that ends while someone is still talking** (0.12 s of quiet required).
+- **`tools/clip-qa.py` FAILS a clip that ends through a word**: speech level in the 60 ms just ahead of the fade-out.
+  Not silence: this studio has crosstalk (the other host laughs or starts over the last word), so a "quiet after
+  the last word" rule failed good clips. `clips.py` ends each clip on `cut_check.first_gap`: the earliest 60 ms under
+  -18 dB after the last word, before the room fills again.
+- **Hold the camera still**: a quicker lean catch (0.6 s) made the camera chase short leans on most clips; use it
+  only on a clip whose subject holds a long lean (Halloween 07).
 - **Sizzle captions are force-aligned too** (`engine.aligned()`); "make sure the captions are perfect too with the
   speed". Numbers ("100.3") align badly, so the cut check judges a number-only last word by the audio level.
 - The daily routine runs `tools/media-qa.py` on the copies Post Bridge will publish tomorrow and reports a FAIL.
