@@ -9,7 +9,8 @@ image: the ORIGINAL logo (assets/media/podcast-cover.jpg) with a cartoon Dr. Sto
        gpt_image_2_5, references: the logo and a frame of his own camera (RAW 7:05).
 tags: instagram collaborators legendsradio100.3 + mic_mcgann. No guest handle: Palm Beach
       Neurology's own site links no Instagram, and none could be found (checked 2026-10-28).
-status: DRAFT, schedules once Nick picks the cover (Nick said yes to an announcement this week).
+status: SCHEDULED 2026-10-30 with cover v2 (ep21-cover-stone-v2.jpg). Post 090382bd-afaa-410d-9782-6d83583e1c63
+        (IG, FB, LinkedIn business, X); Google Business 50c26dda-2749-4eb1-b311-3169f6f7f427.
 
 > No spoilers, per the default rule: name, credential and airing details only. Credential is how
 > the show introduces him (RAW 1:27 to 2:20): a neurologist, Reed Stone, one of the owners of Palm
