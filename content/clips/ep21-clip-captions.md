@@ -2,11 +2,14 @@
 
 clips: branch media/ep21-clips, clips/*.mp4 (1080x1920, 30fps, captions burned in, -14 LUFS)
 platforms per clip: instagram, facebook, youtube (Shorts), tiktok, x
-status: DRAFT. Shown to Nick 2026-10-30; nothing is scheduled until he approves.
+status: SCHEDULED 2026-10-30 (Nick: "schedule them with the banner"). Every clip carries Dave's thin
+        "PAIN 2 POWER · HALLOWEEN EDITION" banner across the top edge (burned in from the clean render,
+        clear of everyone's head). Accounts IG, FB, YT, TikTok, X; IG collaborators legendsradio100.3 + mic_mcgann.
 instagram collaborators: legendsradio100.3 + mic_mcgann on every clip (Mike is on every one of these, on
        camera or on the mic). No guest.
-slots: 9:00 AM ET. Nov 1, 3, 5 and 7 are open (the day after this episode airs, between the even day clips
-       already queued); the rest go where Nick says.
+slots: 9:00 AM ET (14:00 UTC). The Halloween three run while it is still timely (Nov 3, 5, 7, between the even
+       day clips already queued); the other seven start Dec 16, every other day, after the queue ends Dec 14
+       (Dec 14 is a Dave clip, so Dec 15 would put Dave on consecutive days).
 source note: Dave's camera this week is a 640x360 phone file, so his shots are softer than Mike's 4K.
 
 Rules applied: zero dashes outside phone numbers, • bullets, hook first, quotes verbatim from the RAW mp3
@@ -15,10 +18,11 @@ Who is who: Mike is in Dave's maroon First Rehab shirt, Dave is in Mike's red se
 
 ---
 ## 01 costume swap (RAW 0:18 to 1:55, one stretch removed)
+post: 489bc344-4e4f-4174-816b-de7b6965b0d7 · 2026-11-03 9:00 AM ET
 
 "I'm dressed up as Mike, and Mike's dressed up as Dave."
 
-Happy Halloween from Pain 2 Power. This week Dave and Mike swapped places, sequin jacket and all.
+Halloween on Pain 2 Power: Dave and Mike swapped places, sequin jacket and all.
 
 Full episode on Spotify and YouTube. Search Pain 2 Power.
 
@@ -28,6 +32,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 02 thirty minutes a day (RAW 4:31 to 5:12)
+post: 4a77a0b9-46c2-455a-9bc6-e37fa1d9e6b0 · 2026-12-22 9:00 AM ET
 
 "150 to 300 minutes per week. It seems like a lot, but if you break it down, that's 30 minutes a day."
 
@@ -43,6 +48,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 03 pool table laps (RAW 5:18 to 5:39)
+post: cca2f3df-4e48-43a5-9a32-314c754130a5 · 2026-11-07 9:00 AM ET
 
 "If I'm not at 10,000 steps every day, I'm running around my pool table."
 
@@ -56,6 +62,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 04 the cells that eat cancer (RAW 7:07 to 7:56, one aside removed)
+post: PENDING re-cut (Dave drifts 10% right at 32 s) · 2026-12-16 9:00 AM ET
 
 "Literally will eat cancer cells."
 
@@ -71,6 +78,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 05 alkaline water (RAW 10:52 to 11:21)
+post: df7e51b6-711d-4e60-8b71-0126a434ae8e · 2026-12-18 9:00 AM ET
 
 "No, you can't do it through what you eat or what you drink."
 
@@ -84,6 +92,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 06 tap water (RAW 11:27 to 11:41)
+post: ed3fcf1c-b1f0-4fc6-aea4-3bd467ee0a5e · 2026-12-24 9:00 AM ET
 
 "You get a better hydration through just tap water, which is free."
 
@@ -97,6 +106,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 07 laughter is medicine (RAW 16:21 to 17:15, one stretch removed)
+post: 57af9e1b-ba84-4bc8-8986-5a8a37e6721a · 2026-12-28 9:00 AM ET
 
 "Laughter is legitimately a good medicine."
 
@@ -110,6 +120,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 08 the Halloween candy (RAW 18:02 to 18:24)
+post: f2a3f602-4ba9-4ace-bb85-9413b21cc88d · 2026-11-05 9:00 AM ET
 
 "I would take the Snickers bars and the Reese's, and think those are really bad for you, because those are my favorites."
 
@@ -123,6 +134,7 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 09 anything beats zero (RAW 22:05 to 22:24)
+post: 8e26f6bc-d5cc-4d20-a001-c526b840dfcd · 2026-12-26 9:00 AM ET
 
 "0.0001 is an infinite increase over flat zero."
 
@@ -136,10 +148,11 @@ First Rehabilitation of North Palm Beach · 561-624-4263
 
 ---
 ## 10 Mike's wrist (RAW 22:53 to 23:43, one stretch removed)
+post: 28a13cca-dca5-45f0-9a94-d52b3385db22 · 2026-12-20 9:00 AM ET
 
 "I have not had even a twinge of that. And that was months ago."
 
-Mike hurt his wrist holding a Kindle. Dave fixed it in one visit, after a networking night.
+Mike hurt his wrist holding a Kindle, and it kept him up at night. One visit with Dave, and within a couple of days the pain was gone. Everyone's injury is different, so talk to your own doctor or therapist about yours.
 
 Full episode on Spotify and YouTube. Search Pain 2 Power.
 
