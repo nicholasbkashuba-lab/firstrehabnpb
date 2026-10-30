@@ -215,7 +215,11 @@ def check_cuts(cuts, src, words=None):
         ws = (words or {}).get(key)
         if ws:
             f2, w2 = word_problems(aligned_window(src[key], ws, t0, t1), t0, t1, tail_cont, head_cont)
-            fails += f2
+            head_db = float(20 * np.log10(np.mean(r[:2]) / np.percentile(r, 90))) if len(r) > 5 else 0.0
+            for f in f2:
+                if f.startswith("starts at") and head_db < -15:
+                    continue        # the aligner put the word early, but the audio there is quiet: not clipped
+                fails.append(f)
             warns += w2
         out.append(((key, t0, t1), fails, warns, end_db))
     return out

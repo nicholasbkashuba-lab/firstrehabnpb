@@ -176,17 +176,19 @@ def check(path, style="box", sheet=None, det=None):
     if not a:
         fails.append("no audio")
     else:
-        # the clip may not end while someone is still talking (Nick, 2026-10-30: "cuts off sentences too
-        # quickly"). Clips carry the episode's own audio, no music, so the last voiced 20 ms frame must sit
-        # MIN_TAIL before the end. tools/cut_check.py has the reasoning and the sizzle-side check.
-        import cut_check
-        x = cut_check.load(path)
-        quiet, level = cut_check.tail_check(x)
-        if level > 0 and quiet < cut_check.MIN_TAIL:
-            fails.append(f"ends while someone is still talking: only {quiet:.2f} s of quiet before the end "
-                         f"(need {cut_check.MIN_TAIL:.2f}); the last word is clipped")
-        if level > 0 and cut_check.head_check(x) < 0.02:
-            warns.append("starts on a voiced frame: the first word may be clipped")
+        if style != "pop":
+            # the clip may not end while someone is still talking (Nick, 2026-10-30: "cuts off sentences too
+            # quickly"). Clips carry the episode's own audio, no music, so the last voiced 20 ms frame must sit
+            # MIN_TAIL before the end. tools/cut_check.py has the reasoning; a --style pop sizzle ends on music
+            # and an end card, so tools/sizzle/run.py checks its dialogue cuts before rendering instead.
+            import cut_check
+            x = cut_check.load(path)
+            quiet, level = cut_check.tail_check(x)
+            if level > 0 and quiet < cut_check.MIN_TAIL:
+                fails.append(f"ends while someone is still talking: only {quiet:.2f} s of quiet before the end "
+                             f"(need {cut_check.MIN_TAIL:.2f}); the last word is clipped")
+            if level > 0 and cut_check.head_check(x) < 0.02:
+                warns.append("starts on a voiced frame: the first word may be clipped")
         if a["codec_name"] != "aac":
             fails.append(f"audio codec {a['codec_name']}, want aac")
         if a.get("sample_rate") != "48000":

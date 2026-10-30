@@ -81,14 +81,14 @@ def words(a, b):
 # Pairs that share a time (how/cash, reveal/reversal, confused/who) are one continuous stretch of audio
 # with a camera change inside it, so nothing is cut at that point.
 SEG = [("open", "h21d", 4.64, 9.40),          # D "Good morning, this is Mike McGann at Legends Radio, 100.3."
-       ("as_dave", "h21m", 47.74, 57.03),     # M "Absolutely, as Dave, I help people ... through physical therapy."
+       ("as_dave", "h21m", 47.74, 57.24),     # M "Absolutely, as Dave, I help people ... through physical therapy."
        ("how", "h21d", 85.49, 86.40),         # D "How did you get that?"
        ("cash", "h21m", 86.40, 91.68),        # M "Well, some cash had to change hands, but ... legal and above board."
        ("reveal", "h21d", 110.26, 113.05),    # D "I'm dressed up as Mike, and Mike's dressed up as Dave."
        ("reversal", "h21m", 113.05, 116.21),  # M "That's it, we decided to do a little role reversal today."
-       ("confused", "h21d", 133.48, 137.35),  # D "And the funny thing is, is Mike or Dave? Now I'm confused."
+       ("confused", "h21d", 133.40, 137.35),  # D "And the funny thing is, is Mike or Dave? Now I'm confused."
        ("who", "h21m", 137.35, 140.18),       # M "I'm confused as to who. I never know who I am anyway."
-       ("survive", "h21d", 865.13, 873.21),   # D "The only way we could survive this ... they can't recognize us." M "Gotcha."
+       ("survive", "h21d", 864.95, 873.21),   # D "The only way we could survive this ... they can't recognize us." M "Gotcha."
        ("skin", "h21d", 1555.86, 1566.30),    # D "And what is a skeleton gonna do for you ... nothing gets under his skin."
        ("love", "h21m", 1567.40, 1570.72)]    # M "Oh, wow. I love that."
 CARD = 2.3
